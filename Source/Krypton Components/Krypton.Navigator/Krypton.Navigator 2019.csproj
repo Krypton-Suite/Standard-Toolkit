@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>Krypton.Navigator</PackageId>
-    <Description>A update to Component factory's krypton toolkit to support .NET Core and the latest .NET 4.x framework. This is the navigator module.</Description>
+    <PackageId>Krypton.Navigator.Test</PackageId>
+    <Description>A update to Component factory's krypton toolkit to support .NET Core and the latest .NET 3.5/4.x framework. This is the navigator module.</Description>
   </PropertyGroup>
 
   <PropertyGroup>
