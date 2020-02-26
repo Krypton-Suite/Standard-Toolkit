@@ -11,14 +11,14 @@
   <PropertyGroup>
     <!-- common package data -->
     <PackageProjectUrl>https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core</PackageProjectUrl>
-	  <PackageIcon>Square Design 64 x 64 New Green.png</PackageIcon>
-	  <Authors>Peter William Wagner &amp; Simon Coghlan</Authors>
+	  <PackageIcon>Main Icon 64 x 64.png</PackageIcon>
+	  <Authors>Peter William Wagner &amp; Simon Coghlan &amp; Thomas Bolon</Authors>
 	  <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 	  <PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core</PackageTags>
 	  <PackageReleaseNotes>Get updates here: https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
-	  <None Include="../../../Assets/PNG/Square Design/Main Icon/64 x 64/Square Design 64 x 64 New Green.png" Link="Icon.png" Pack="true" PackagePath="" />
+	  <None Include="../../../Assets/PNG/Main Icon/64 x 64/Main Icon 64 x 64.png" Link="Icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
