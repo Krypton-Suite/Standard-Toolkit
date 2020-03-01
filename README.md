@@ -25,8 +25,8 @@
 
 =======
 
-<!--
 ## 2020-03-01 - Build 2003 - March 2020
+* New [repository](https://github.com/Krypton-Suite/Standard-Toolkit) to reduce codebase and total file size
 * Fix for [#39](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/39), System.ArgumentException: 'Parameter is not valid.'
 * Fix for [#30](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/30), `AutoHiddenGroup elements do not properly process AppearanceChanged events`. Credit to [MGRussell](https://github.com/MGRussell)
 * Fix for `SerializationException: Type 'System.Windows.Forms.Cursor' in Assembly 'System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' is not marked as serializable.`, credit to [Carko](https://github.com/Carko)
@@ -34,7 +34,6 @@
 * Updated minor version number from `490` to `500` in code files
 
 =======
--->
 
 ## 2020-02-07 - Build 2002.1 - February 2020 (Patch 1)
 * Fix [#28](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/28), KryptonForm crashing Visual Studio
