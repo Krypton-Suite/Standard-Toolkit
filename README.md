@@ -50,7 +50,6 @@ If your project targets a specific framework between .NET 3.5 to .NET Core, then
 
 =======
 
-<!--
 ## 2020-03-01 - Build 2003 - March 2020
 * Fix for [#39](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/39), System.ArgumentException: 'Parameter is not valid.'
 * Fix for [#30](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/30), `AutoHiddenGroup elements do not properly process AppearanceChanged events`. Credit to [MGRussell](https://github.com/MGRussell)
@@ -59,7 +58,6 @@ If your project targets a specific framework between .NET 3.5 to .NET Core, then
 * Updated minor version number from `490` to `500` in code files
 
 =======
--->
 
 ## 2020-02-07 - Build 2002.1 - February 2020 (Patch 1)
 * Fix [#28](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/28), KryptonForm crashing Visual Studio
