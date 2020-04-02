@@ -1,12 +1,17 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
+    [ToolboxBitmap(typeof(StatusStrip)), Description("A Krypton based status strip."), ToolboxItem(true)]
     public class KryptonStatusStrip : StatusStrip
     {
         #region Variables
         private ToolStripProgressBar[] _progressBars;
+
+        private Color[] _progressbarColours;
         #endregion
 
         #region Properties
@@ -16,7 +21,8 @@ namespace Krypton.Toolkit
         #region Constructor
         public KryptonStatusStrip()
         {
-
+            // Use Krypton
+            RenderMode = ToolStripRenderMode.ManagerRenderMode;
         }
         #endregion
 
