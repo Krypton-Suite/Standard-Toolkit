@@ -73,8 +73,8 @@
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
     <PrimaryVersionType>AssemblyVersionAttribute</PrimaryVersionType>
-    <AssemblyVersion>5.500.2002.1</AssemblyVersion>
-    <FileVersion>5.500.2002.1</FileVersion>
+    <AssemblyVersion>5.500.2005</AssemblyVersion>
+    <FileVersion>5.500.2005</FileVersion>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
