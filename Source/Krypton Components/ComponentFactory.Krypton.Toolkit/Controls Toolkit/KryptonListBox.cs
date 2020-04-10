@@ -498,6 +498,13 @@ namespace ComponentFactory.Krypton.Toolkit
         [Category("Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseLeave;
+
+        /// <summary>
+        /// Occurs when [draw item].
+        /// </summary>
+        [Category("Behavior")]
+        [Description("Occurs when an item needs to be Drawn.")]
+        public event DrawItemEventHandler DrawItem;
         #endregion
 
         #region Identity
