@@ -90,6 +90,10 @@ namespace Krypton.Toolkit
         /// </summary>
         public override Type ValueType => base.ValueType ?? _defaultValueType;
 
+        /// <summary>Gets the items in the combobox.</summary>
+        /// <value>The items.</value>
+        public ComboBox.ObjectCollection Items => _paintingComboBox.ComboBox.Items;
+
         /// <summary>
         /// Clones a DataGridViewComboBoxCell cell, copies all the custom properties.
         /// </summary>
