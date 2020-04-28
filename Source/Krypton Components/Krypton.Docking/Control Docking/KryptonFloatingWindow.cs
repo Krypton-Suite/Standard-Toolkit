@@ -54,7 +54,8 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="owner">Reference to form that will own all the floating window.</param>
         /// <param name="floatspace">Reference to owning floatspace instance.</param>
-        public KryptonFloatingWindow(Form owner, KryptonFloatspace floatspace)
+        /// <param name="useMinimiseBox">Allow window to be minimised.</param>
+        public KryptonFloatingWindow(Form owner, KryptonFloatspace floatspace, bool useMinimiseBox = false)
         {
             // Set the owner of the window so that minimizing the owner will do the same to this
             Owner = owner;
@@ -63,7 +64,7 @@ namespace Krypton.Docking
             TopLevel = true;
             ShowIcon = false;
             ShowInTaskbar = false;
-            MinimizeBox = false;
+            MinimizeBox = useMinimiseBox;
             StartPosition = FormStartPosition.Manual;
             ButtonSpecMin.ImageStates.ImageDisabled = EMPTY_IMAGE;
 

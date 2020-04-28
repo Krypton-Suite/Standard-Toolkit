@@ -41,7 +41,8 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the element.</param>
         /// <param name="owner">Reference to form that owns the floating windows.</param>
         /// <param name="floatspace">Reference to form that will own all the floating window.</param>
-        public KryptonDockingFloatingWindow(string name, Form owner, KryptonDockingFloatspace floatspace)
+        /// <param name="useMinimiseBox">Allow window to be minimised.</param>
+        public KryptonDockingFloatingWindow(string name, Form owner, KryptonDockingFloatspace floatspace, bool useMinimiseBox)
             : base(name)
         {
             if (owner == null)
@@ -53,7 +54,7 @@ namespace Krypton.Docking
             FloatspaceElement.Disposed += OnDockingFloatspaceDisposed;
 
             // Create the actual window control and hook into events
-            FloatingWindow = new KryptonFloatingWindow(owner, floatspace.FloatspaceControl);
+            FloatingWindow = new KryptonFloatingWindow(owner, floatspace.FloatspaceControl, useMinimiseBox);
             FloatingWindow.WindowCloseClicked += OnFloatingWindowCloseClicked;
             FloatingWindow.WindowCaptionDragging += OnFloatingWindowCaptionDragging;
             FloatingWindow.Disposed += OnFloatingWindowDisposed;

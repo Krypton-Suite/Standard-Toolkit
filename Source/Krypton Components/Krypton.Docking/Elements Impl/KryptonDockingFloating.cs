@@ -102,6 +102,8 @@ namespace Krypton.Docking
 
             return null;
         }
+
+        public bool UseMinimiseBox { get; set; }
         #endregion
 
         #region Protected
@@ -138,7 +140,7 @@ namespace Krypton.Docking
         {
             // Create a floatspace and floating window for hosting the floatspace
             KryptonDockingFloatspace floatSpaceElement = new KryptonDockingFloatspace("Floatspace");
-            KryptonDockingFloatingWindow floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement);
+            KryptonDockingFloatingWindow floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
             floatingWindowElement.Disposed += OnDockingFloatingWindowDisposed;
             InternalAdd(floatingWindowElement);
 
