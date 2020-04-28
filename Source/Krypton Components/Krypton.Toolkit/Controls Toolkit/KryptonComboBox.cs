@@ -1263,6 +1263,11 @@ namespace Krypton.Toolkit
             set => _comboBox.TabStop = value;
         }
 
+        /// <summary>Gets or sets the draw mode of the combobox.</summary>
+        /// <value>The draw mode of the combobox.</value>
+        [Description("Gets or sets the draw mode of the combobox.")]
+        public DrawMode DrawMode { get => _comboBox.DrawMode; set { _comboBox.DrawMode = value; Invalidate(); } }
+
         /// <summary>
         /// Gets and sets if the control is in the ribbon design mode.
         /// </summary>
