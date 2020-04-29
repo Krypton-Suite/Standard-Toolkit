@@ -50,6 +50,7 @@
 * Implemented [#4](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4), `KryptonDataGridViewComboBoxCell` does not contain property for `Items`
 * Implemented [#5](https://github.com/Krypton-Suite/Standard-Toolkit/issues/5), Progressbar
 * Implemented `DrawItem` event for `KryptonListBox`
+* **Known Bug:** `KryptonStatusStrip` does not work, to be fixed in next release
 
 =======
 
