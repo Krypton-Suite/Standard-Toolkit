@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
     <PropertyGroup>
-        <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
+        <TargetFrameworks>net45;netcoreapp3.1;netcoreapp5.0</TargetFrameworks>
         <TargetFrameworks Condition="'$(TFMs)' == 'all'">net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;netcoreapp5.0</TargetFrameworks>
         <LangVersion>8.0</LangVersion>
         <OutputType>Library</OutputType>
@@ -352,8 +352,8 @@
       <UpdatePackageVersion>False</UpdatePackageVersion>
       <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
       <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
-      <AssemblyVersion>5.500.2006</AssemblyVersion>
-      <FileVersion>5.500.2006</FileVersion>
+      <AssemblyVersion>6.0.2006</AssemblyVersion>
+      <FileVersion>6.0.2006</FileVersion>
     </PropertyGroup>
     <ProjectExtensions>
         <VisualStudio>
