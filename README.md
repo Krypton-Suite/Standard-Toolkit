@@ -44,7 +44,6 @@
 
 =======
 
-<!--
 ## 2020-05-01 - Build 2005 - May 2020
 * We now have Canary builds
 * Implemented [#4](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4), `KryptonDataGridViewComboBoxCell` does not contain property for `Items`
@@ -53,8 +52,6 @@
 * **Known Bug:** `KryptonStatusStrip` does not work, to be fixed in next release
 
 =======
-
--->
 
 ## 2020-03-01 - Build 2003 - March 2020
 * New [repository](https://github.com/Krypton-Suite/Standard-Toolkit) to reduce codebase and total file size
