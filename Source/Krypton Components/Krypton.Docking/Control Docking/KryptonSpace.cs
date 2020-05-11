@@ -455,6 +455,7 @@ namespace Krypton.Docking
                 cell.Header.HeaderVisibleSecondary = false;
                 cell.Header.HeaderValuesPrimary.MapImage = MapKryptonPageImage.None;
                 cell.ToolTips.AllowButtonSpecToolTips = true;
+				cell.ToolTips.AllowButtonSpecToolTipPriority = false;
             }
 
             // Hook into cell specific events

@@ -488,6 +488,18 @@ namespace Krypton.Ribbon
             get => DomainUpDown.AllowButtonSpecToolTips;
             set => DomainUpDown.AllowButtonSpecToolTips = value;
         }
+		
+		/// <summary>
+        /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [DefaultValue(false)]
+        public bool AllowButtonSpecToolTipPriority
+        {
+            get => DomainUpDown.AllowButtonSpecToolTipPriority;
+            set => DomainUpDown.AllowButtonSpecToolTipPriority = value;
+        }
 
         /// <summary>
         /// Selects a range of text in the control.

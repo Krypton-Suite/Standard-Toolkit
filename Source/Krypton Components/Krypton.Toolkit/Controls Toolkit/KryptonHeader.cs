@@ -73,6 +73,7 @@ namespace Krypton.Toolkit
             _style = HeaderStyle.Primary;
             _orientation = VisualOrientation.Top;
             AllowButtonSpecToolTips = false;
+			AllowButtonSpecToolTipPriority = false;
 
             // Create storage objects
             Values = new HeaderValues(NeedPaintDelegate);
@@ -257,6 +258,14 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
+		
+		/// <summary>
+        /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [DefaultValue(false)]
+        public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets and sets the header style.
@@ -580,6 +589,11 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
+						
+						if (AllowButtonSpecToolTipPriority)
+                        {
+                            _visualBasePopupToolTip?.Dispose();
+                        }
 
                         // Create the actual tooltip popup object
                         _visualPopupToolTip = new VisualPopupToolTip(Redirector,

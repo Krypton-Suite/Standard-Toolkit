@@ -662,6 +662,18 @@ namespace Krypton.Ribbon
             get => RichTextBox.AllowButtonSpecToolTips;
             set => RichTextBox.AllowButtonSpecToolTips = value;
         }
+		
+		/// <summary>
+        /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [DefaultValue(false)]
+        public bool AllowButtonSpecToolTipPriority
+        {
+            get => RichTextBox.AllowButtonSpecToolTipPriority;
+            set => RichTextBox.AllowButtonSpecToolTipPriority = value;
+        }
 
         /// <summary>
         /// Gets the collection of button specifications.

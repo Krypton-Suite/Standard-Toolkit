@@ -46,6 +46,7 @@ namespace Krypton.Navigator
             // Default values
             AllowPageToolTips = false;
             AllowButtonSpecToolTips = false;
+			AllowButtonSpecToolTipPriority = false;
             _mapImage = MapKryptonPageImage.ToolTip;
             MapText = MapKryptonPageText.ToolTipTitle;
             MapExtraText = MapKryptonPageText.ToolTipBody;
@@ -59,6 +60,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         public override bool IsDefault => (!AllowPageToolTips &&
                                            !AllowButtonSpecToolTips &&
+										   !AllowButtonSpecToolTipPriority &&
                                            (MapImage == MapKryptonPageImage.ToolTip) &&
                                            (MapText == MapKryptonPageText.ToolTipTitle) &&
                                            (MapExtraText == MapKryptonPageText.ToolTipBody));
@@ -84,7 +86,14 @@ namespace Krypton.Navigator
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-
+		
+		 /// <summary>
+        /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [DefaultValue(false)]
+        public bool AllowButtonSpecToolTipPriority { get; set; }
         #endregion
 
         #region MapImage
