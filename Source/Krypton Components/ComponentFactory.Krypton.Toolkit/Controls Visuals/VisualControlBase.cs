@@ -48,7 +48,7 @@ namespace ComponentFactory.Krypton.Toolkit
         private readonly SimpleCall _refreshCall;
         private readonly SimpleCall _layoutCall;
         private KryptonContextMenu _kryptonContextMenu;
-        private VisualPopupToolTip _visualPopupToolTip;
+        protected VisualPopupToolTip _visualBasePopupToolTip;
         private ToolTipManager _toolTipManager;
         #endregion
 
@@ -1367,25 +1367,25 @@ namespace ComponentFactory.Krypton.Toolkit
                     return;
                 }
 
-                // Never show tooltips are design time
+                // Never show tooltips at design time
                 if (!DesignMode
                     && ToolTipValues.EnableToolTips
                     )
                 {
                     // Remove any currently showing tooltip
-                    _visualPopupToolTip?.Dispose();
+                    _visualBasePopupToolTip?.Dispose();
 
                     // Create the actual tooltip popup object
                     // ReSharper disable once UseObjectOrCollectionInitializer
-                    _visualPopupToolTip = new VisualPopupToolTip(Redirector,
+                    _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
                         ToolTipValues,
                         Renderer,
                         PaletteBackStyle.ControlToolTip,
                         PaletteBorderStyle.ControlToolTip,
                         CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle));
 
-                    _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
-                    _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
+                    _visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                    _visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
                 }
             }
         }
@@ -1393,7 +1393,7 @@ namespace ComponentFactory.Krypton.Toolkit
         private void OnCancelToolTip(object sender, EventArgs e)
         {
             // Remove any currently showing tooltip
-            _visualPopupToolTip?.Dispose();
+            _visualBasePopupToolTip?.Dispose();
         }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
@@ -1403,7 +1403,7 @@ namespace ComponentFactory.Krypton.Toolkit
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
-            _visualPopupToolTip = null;
+            _visualBasePopupToolTip = null;
         }
 
         protected override void OnHandleCreated(EventArgs e)

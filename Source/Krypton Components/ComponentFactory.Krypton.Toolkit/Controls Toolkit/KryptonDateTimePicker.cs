@@ -187,6 +187,7 @@ namespace ComponentFactory.Krypton.Toolkit
             IsDropped = false;
             IsMouseOver = false;
             AllowButtonSpecToolTips = false;
+            AllowButtonSpecToolTipPriority = false;
             CalendarShowToday = true;
             CalendarShowTodayCircle = true;
             CalendarCloseOnTodayClick = false;
@@ -1301,6 +1302,14 @@ namespace ComponentFactory.Krypton.Toolkit
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
+        /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [DefaultValue(false)]
+        public bool AllowButtonSpecToolTipPriority { get; set; }
+
+        /// <summary>
         /// Gets access to the common date time picker appearance entries that other states can override.
         /// </summary>
         [Category("Visuals - DateTimePicker")]
@@ -2199,7 +2208,7 @@ namespace ComponentFactory.Krypton.Toolkit
                     return;
                 }
 
-                // Never show tooltips are design time
+                // Never show tooltips at design time
                 if (!DesignMode)
                 {
                     IContentValues sourceContent = null;
@@ -2230,6 +2239,11 @@ namespace ComponentFactory.Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
+
+                        if (AllowButtonSpecToolTipPriority)
+                        {
+                            _visualBasePopupToolTip?.Dispose();
+                        }
 
                         // Create the actual tooltip popup object
                         _visualPopupToolTip = new VisualPopupToolTip(Redirector,

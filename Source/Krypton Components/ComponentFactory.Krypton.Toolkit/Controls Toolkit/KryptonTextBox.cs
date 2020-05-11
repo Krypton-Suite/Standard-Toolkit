@@ -318,15 +318,15 @@ namespace ComponentFactory.Krypton.Toolkit
             }
         }
 
-#endregion
+        #endregion
 
-#region Type Definitions
+        #region Type Definitions
         /// <summary>
         /// Collection for managing ButtonSpecAny instances.
         /// </summary>
         public class TextBoxButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
         {
-#region Identity
+            #region Identity
             /// <summary>
             /// Initialize a new instance of the TextBoxButtonSpecCollection class.
             /// </summary>
@@ -335,11 +335,11 @@ namespace ComponentFactory.Krypton.Toolkit
                 : base(owner)
             {
             }
-#endregion
+            #endregion
         }
-#endregion
+        #endregion
 
-#region Instance Fields
+        #region Instance Fields
 
         private VisualPopupToolTip _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
@@ -357,9 +357,9 @@ namespace ComponentFactory.Krypton.Toolkit
         private int _cachedHeight;
         private bool _multilineStringEditor;
         private ButtonSpecAny _editorButton;
-#endregion
+        #endregion
 
-#region Events
+        #region Events
         /// <summary>
         /// Occurs when the value of the AcceptsTab property changes.
         /// </summary>
@@ -445,9 +445,9 @@ namespace ComponentFactory.Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new event EventHandler ForeColorChanged;
-#endregion
+        #endregion
 
-#region Identity
+        #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonTextBox class.
         /// </summary>
@@ -468,6 +468,7 @@ namespace ComponentFactory.Krypton.Toolkit
             _cachedHeight = -1;
             _alwaysActive = true;
             AllowButtonSpecToolTips = false;
+            AllowButtonSpecToolTipPriority = false;
 
             // Create storage properties
             ButtonSpecs = new TextBoxButtonSpecCollection(this);
@@ -569,9 +570,9 @@ namespace ComponentFactory.Krypton.Toolkit
 
             base.Dispose(disposing);
         }
-#endregion
+        #endregion
 
-#region Public
+        #region Public
         /// <summary>
         /// Gets and sets control watermark.
         /// </summary>
@@ -1402,9 +1403,17 @@ namespace ComponentFactory.Krypton.Toolkit
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
         }
-#endregion
 
-#region Protected
+        /// <summary>
+        /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [DefaultValue(false)]
+        public bool AllowButtonSpecToolTipPriority { get; set; }
+        #endregion
+
+        #region Protected
         /// <summary>
         /// Force the layout logic to size and position the controls.
         /// </summary>
@@ -1443,9 +1452,9 @@ namespace ComponentFactory.Krypton.Toolkit
                 }
             }
         }
-#endregion
+        #endregion
 
-#region Protected Virtual
+        #region Protected Virtual
         // ReSharper disable VirtualMemberNeverOverridden.Global
         /// <summary>
         /// Raises the AcceptsTabChanged event.
@@ -1497,9 +1506,9 @@ namespace ComponentFactory.Krypton.Toolkit
         [Description("Raises the TrackMouseLeave event.")]
         protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
         // ReSharper restore VirtualMemberNeverOverridden.Global
-#endregion
+        #endregion
 
-#region Protected Overrides
+        #region Protected Overrides
         /// <summary>
         /// Creates a new instance of the control collection for the KryptonTextBox.
         /// </summary>
@@ -1790,14 +1799,14 @@ namespace ComponentFactory.Krypton.Toolkit
             }
         }
 
-#endregion
+        #endregion
 
-#region Internal
+        #region Internal
         internal bool InTransparentDesignMode => InRibbonDesignMode;
 
-#endregion
+        #endregion
 
-#region Implementation
+        #region Implementation
         private void UpdateStateAndPalettes()
         {
             // Get the correct palette settings to use
@@ -1888,7 +1897,7 @@ namespace ComponentFactory.Krypton.Toolkit
                     return;
                 }
 
-                // Never show tooltips are design time
+                // Never show tooltips at design time
                 if (!DesignMode)
                 {
                     IContentValues sourceContent = null;
@@ -1919,6 +1928,11 @@ namespace ComponentFactory.Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
+
+                        if (AllowButtonSpecToolTipPriority)
+                        {
+                            _visualBasePopupToolTip?.Dispose();
+                        }
 
                         // Create the actual tooltip popup object
                         _visualPopupToolTip = new VisualPopupToolTip(Redirector,
@@ -1973,6 +1987,6 @@ namespace ComponentFactory.Krypton.Toolkit
         {
             new MultilineStringEditor(this).ShowEditor();
         }
-#endregion
+        #endregion
     }
 }

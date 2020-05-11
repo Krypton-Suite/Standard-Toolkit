@@ -793,7 +793,7 @@ namespace ComponentFactory.Krypton.Ribbon
                     return;
                 }
 
-                // Never show tooltips are design time
+                // Never show tooltips at design time
                 if (!_ribbon.InDesignMode)
                 {
                     IContentValues sourceContent = null;

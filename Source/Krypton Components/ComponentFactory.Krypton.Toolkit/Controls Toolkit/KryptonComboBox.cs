@@ -9,14 +9,13 @@
 //  Version 5.500.0.0  www.ComponentFactory.com
 // *****************************************************************************
 
+using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-
-using Microsoft.Win32;
 
 namespace ComponentFactory.Krypton.Toolkit
 {
@@ -1063,6 +1062,7 @@ namespace ComponentFactory.Krypton.Toolkit
             // Default values
             _alwaysActive = true;
             AllowButtonSpecToolTips = false;
+            AllowButtonSpecToolTipPriority = false;
             _cachedHeight = -1;
             _inputControlStyle = InputControlStyle.Standalone;
             _dropButtonStyle = ButtonStyle.InputControl;
@@ -1794,6 +1794,14 @@ namespace ComponentFactory.Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
+
+        /// <summary>
+        /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [DefaultValue(false)]
+        public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets the collection of button specifications.
@@ -3075,7 +3083,7 @@ namespace ComponentFactory.Krypton.Toolkit
                     return;
                 }
 
-                // Never show tooltips are design time
+                // Never show tooltips at design time
                 if (!DesignMode)
                 {
                     IContentValues sourceContent = null;
@@ -3106,6 +3114,11 @@ namespace ComponentFactory.Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
+
+                        if (AllowButtonSpecToolTipPriority)
+                        {
+                            _visualBasePopupToolTip?.Dispose();
+                        }
 
                         // Create the actual tooltip popup object
                         _visualPopupToolTip = new VisualPopupToolTip(Redirector,

@@ -9,13 +9,13 @@
 //  Version 5.500.0.0  www.ComponentFactory.com
 // *****************************************************************************
 
+using ComponentFactory.Krypton.Toolkit;
 using System;
-using System.IO;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using System.ComponentModel;
+using System.IO;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
 
 namespace ComponentFactory.Krypton.Ribbon
 {
@@ -252,8 +252,8 @@ namespace ComponentFactory.Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override KryptonRibbon Ribbon
         {
-            set 
-            { 
+            set
+            {
                 base.Ribbon = value;
 
                 if (value != null)
@@ -379,7 +379,7 @@ namespace ComponentFactory.Krypton.Ribbon
                 }
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the minimum size of the control.
         /// </summary>
@@ -661,6 +661,18 @@ namespace ComponentFactory.Krypton.Ribbon
         {
             get => RichTextBox.AllowButtonSpecToolTips;
             set => RichTextBox.AllowButtonSpecToolTips = value;
+        }
+
+        /// <summary>
+        /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [DefaultValue(false)]
+        public bool AllowButtonSpecToolTipPriority
+        {
+            get => RichTextBox.AllowButtonSpecToolTipPriority;
+            set => RichTextBox.AllowButtonSpecToolTipPriority = value;
         }
 
         /// <summary>
@@ -1280,7 +1292,7 @@ namespace ComponentFactory.Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
+        public override ViewBase CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint)
         {
             return new ViewDrawRibbonGroupRichTextBox(ribbon, this, needPaint);

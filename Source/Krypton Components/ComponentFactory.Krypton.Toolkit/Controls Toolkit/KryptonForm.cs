@@ -1593,7 +1593,7 @@ namespace ComponentFactory.Krypton.Toolkit
                     return;
                 }
 
-                // Never show tooltips are design time
+                // Never show tooltips at design time
                 if (!DesignMode)
                 {
                     IContentValues sourceContent = null;

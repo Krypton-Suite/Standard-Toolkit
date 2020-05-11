@@ -3000,7 +3000,7 @@ namespace ComponentFactory.Krypton.Navigator
                     return;
                 }
 
-                // Never show tooltips are design time
+                // Never show tooltips at design time
                 if (!DesignMode)
                 {
                     IContentValues sourceContent = null;
