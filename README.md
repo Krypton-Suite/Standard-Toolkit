@@ -43,6 +43,17 @@
 <a href="https://discord.gg/CRjF6fY" alt="Join our Krypton Toolkit community Discord server"><img src="https://img.shields.io/badge/Discord-Join%20our%20server-7289DA" /></a>
 
 =======
+
+# Which set of packages should I use?
+
+## Non-Lite
+**Only** use these packages if you require to target a specific framework version between .NET 3.5 *and* .NET Core 3.1. Please note that these packages **are** larger than the *lite* packages.
+
+## Lite
+These packages supports only .NET Framework >= 4.5 and .NET Core 3.1.
+
+
+=======
 <!--
 ## 2020-06-01 - Build 2006 - June 2020
 * Implemented [#8](https://github.com/Krypton-Suite/Standard-Toolkit/issues/8), Is it possible to only minimize FloatingWindow in DockingManager?
