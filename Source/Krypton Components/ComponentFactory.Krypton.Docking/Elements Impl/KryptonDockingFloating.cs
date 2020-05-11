@@ -9,12 +9,12 @@
 //  Version 5.500.0.0  www.ComponentFactory.com
 // *****************************************************************************
 
-using System;
-using System.Xml;
-using System.Windows.Forms;
-using System.ComponentModel;
-using ComponentFactory.Krypton.Toolkit;
 using ComponentFactory.Krypton.Navigator;
+using ComponentFactory.Krypton.Toolkit;
+using System;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace ComponentFactory.Krypton.Docking
 {
@@ -102,6 +102,11 @@ namespace ComponentFactory.Krypton.Docking
 
             return null;
         }
+
+        /// <summary>Gets or sets a value indicating whether [use minimise box].</summary>
+        /// <value>
+        ///   <c>true</c> if [use minimise box]; otherwise, <c>false</c>.</value>
+        public bool UseMinimiseBox { get; set; }
         #endregion
 
         #region Protected
@@ -138,7 +143,7 @@ namespace ComponentFactory.Krypton.Docking
         {
             // Create a floatspace and floating window for hosting the floatspace
             KryptonDockingFloatspace floatSpaceElement = new KryptonDockingFloatspace("Floatspace");
-            KryptonDockingFloatingWindow floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement);
+            KryptonDockingFloatingWindow floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
             floatingWindowElement.Disposed += OnDockingFloatingWindowDisposed;
             InternalAdd(floatingWindowElement);
 

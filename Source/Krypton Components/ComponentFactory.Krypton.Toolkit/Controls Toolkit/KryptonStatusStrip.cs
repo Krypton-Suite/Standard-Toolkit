@@ -13,7 +13,7 @@ namespace ComponentFactory.Krypton.Toolkit
         #endregion
 
         #region Properties
-        public ToolStripProgressBar[] ProgressBars { get => _progressBars; set => _progressBars = value; }
+        //public ToolStripProgressBar[] ProgressBars { get => _progressBars; set => _progressBars = value; }
         #endregion
 
         #region Constructor
@@ -27,13 +27,16 @@ namespace ComponentFactory.Krypton.Toolkit
         #region Overrides
         protected override void OnRendererChanged(EventArgs e)
         {
-            if (ToolStripManager.Renderer is KryptonProfessionalRenderer renderer)
-            {
-                foreach (ToolStripProgressBar progressBar in ProgressBars)
-                {
-                    progressBar.BackColor = renderer.KCT.StatusStripGradientEnd;
-                }
-            }
+            // TODO: Needs looking at
+            /*
+              if (ToolStripManager.Renderer is KryptonProfessionalRenderer renderer)
+              {
+                  foreach (ToolStripProgressBar progressBar in ProgressBars)
+                  {
+                      progressBar.BackColor = renderer.KCT.StatusStripGradientEnd;
+                  }
+              }
+              */
 
             base.OnRendererChanged(e);
         }

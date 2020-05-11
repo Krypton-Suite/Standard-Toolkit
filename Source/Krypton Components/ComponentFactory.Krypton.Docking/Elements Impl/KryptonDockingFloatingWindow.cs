@@ -9,14 +9,14 @@
 //  Version 5.500.0.0  www.ComponentFactory.com
 // *****************************************************************************
 
-using System;
-using System.Xml;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
+using ComponentFactory.Krypton.Navigator;
 using ComponentFactory.Krypton.Toolkit;
 using ComponentFactory.Krypton.Workspace;
-using ComponentFactory.Krypton.Navigator;
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace ComponentFactory.Krypton.Docking
 {
@@ -41,7 +41,8 @@ namespace ComponentFactory.Krypton.Docking
         /// <param name="name">Initial name of the element.</param>
         /// <param name="owner">Reference to form that owns the floating windows.</param>
         /// <param name="floatspace">Reference to form that will own all the floating window.</param>
-        public KryptonDockingFloatingWindow(string name, Form owner, KryptonDockingFloatspace floatspace)
+        /// <param name="useMinimiseBox">Allow window to be minimised.</param>
+        public KryptonDockingFloatingWindow(string name, Form owner, KryptonDockingFloatspace floatspace, bool useMinimiseBox)
             : base(name)
         {
             if (owner == null)
@@ -53,7 +54,7 @@ namespace ComponentFactory.Krypton.Docking
             FloatspaceElement.Disposed += OnDockingFloatspaceDisposed;
 
             // Create the actual window control and hook into events
-            FloatingWindow = new KryptonFloatingWindow(owner, floatspace.FloatspaceControl);
+            FloatingWindow = new KryptonFloatingWindow(owner, floatspace.FloatspaceControl, useMinimiseBox);
             FloatingWindow.WindowCloseClicked += OnFloatingWindowCloseClicked;
             FloatingWindow.WindowCaptionDragging += OnFloatingWindowCaptionDragging;
             FloatingWindow.Disposed += OnFloatingWindowDisposed;
@@ -202,7 +203,7 @@ namespace ComponentFactory.Krypton.Docking
 
             // Terminate the workspace element
             xmlWriter.WriteFullEndElement();
-        }        
+        }
         #endregion
 
         #region Protected

@@ -9,14 +9,14 @@
 //  Version 5.500.0.0  www.ComponentFactory.com
 // *****************************************************************************
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
 using ComponentFactory.Krypton.Navigator;
+using ComponentFactory.Krypton.Toolkit;
 using ComponentFactory.Krypton.Workspace;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace ComponentFactory.Krypton.Docking
 {
@@ -47,14 +47,15 @@ namespace ComponentFactory.Krypton.Docking
         /// </summary>
         public event EventHandler<ScreenAndOffsetEventArgs> WindowCaptionDragging;
         #endregion
-        
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonFloatingWindow class.
         /// </summary>
         /// <param name="owner">Reference to form that will own all the floating window.</param>
         /// <param name="floatspace">Reference to owning floatspace instance.</param>
-        public KryptonFloatingWindow(Form owner, KryptonFloatspace floatspace)
+        /// <param name="useMinimiseBox">Allow window to be minimised.</param>
+        public KryptonFloatingWindow(Form owner, KryptonFloatspace floatspace, bool useMinimiseBox = false)
         {
             // Set the owner of the window so that minimizing the owner will do the same to this
             Owner = owner;
@@ -63,7 +64,7 @@ namespace ComponentFactory.Krypton.Docking
             TopLevel = true;
             ShowIcon = false;
             ShowInTaskbar = false;
-            MinimizeBox = false;
+            MinimizeBox = useMinimiseBox;
             StartPosition = FormStartPosition.Manual;
             ButtonSpecMin.ImageStates.ImageDisabled = EMPTY_IMAGE;
 
