@@ -73,8 +73,8 @@
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
     <PrimaryVersionType>AssemblyVersionAttribute</PrimaryVersionType>
-    <AssemblyVersion>6.0.2006</AssemblyVersion>
-    <FileVersion>6.0.2006</FileVersion>
+    <AssemblyVersion>6.0.2006.1</AssemblyVersion>
+    <FileVersion>6.0.2006.1</FileVersion>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
