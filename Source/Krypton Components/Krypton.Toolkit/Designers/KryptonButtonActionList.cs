@@ -6,11 +6,11 @@
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
 //  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 5.500.0.0  
+//  Version 6.0.0  
 // *****************************************************************************
 
-using System.Drawing;
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonButtonActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonButtonActionList(KryptonButtonDesigner owner) 
+        public KryptonButtonActionList(KryptonButtonDesigner owner)
             : base(owner.Component)
         {
             // Remember the button instance
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the button style.
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         {
             get => _button.Orientation;
 
-            set 
+            set
             {
                 if (_button.Orientation != value)
                 {
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         {
             get => _button.Values.Text;
 
-            set 
+            set
             {
                 if (_button.Values.Text != value)
                 {
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
         {
             get => _button.Values.ExtraText;
 
-            set 
+            set
             {
                 if (_button.Values.ExtraText != value)
                 {
@@ -130,12 +130,29 @@ namespace Krypton.Toolkit
         {
             get => _button.PaletteMode;
 
-            set 
+            set
             {
                 if (_button.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.PaletteMode, value);
                     _button.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font Font
+        {
+            get => _button.StateCommon.Content.ShortText.Font;
+
+            set
+            {
+                if (_button.StateCommon.Content.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_button, null, _button.StateCommon.Content.ShortText.Font, value);
+
+                    _button.StateCommon.Content.ShortText.Font = value;
                 }
             }
         }
@@ -165,7 +182,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

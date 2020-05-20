@@ -6,7 +6,7 @@
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
 //  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 5.500.0.0  
+//  Version 6.0.0  
 // *****************************************************************************
 
 using System;
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
     //[DefaultEvent("PalettePaint")]
     //[DefaultProperty("BasePaletteMode")]
     //[DesignerCategory("code")]
-    //[Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Design, Version=5.500.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
+    //[Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Design, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
     //[Description("Customisable palette component.")]
     //[ClassInterface(ClassInterfaceType.AutoDispatch)]
     //[ComVisible(true)]
@@ -6107,7 +6107,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("PalettePaint")]
     [DefaultProperty("BasePaletteMode")]
     [DesignerCategory("code")]
-    [Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Toolkit, Version=5.500.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
+    //[Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Toolkit, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
+    [Designer("Krypton.Toolkit.KryptonPaletteDesigner, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
     [Description("Customisable palette component.")]
     public class KryptonPalette : Component, IPalette
     {
@@ -6156,7 +6157,7 @@ namespace Krypton.Toolkit
         private string _customisedKryptonPaletteFilePath;
 
         #region Property Grid Variables
-       
+
         #endregion
 
         #endregion
@@ -9390,9 +9391,9 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public KryptonColorTable ColorTable => _toolMenuStatus.InternalKCT;
 
-#endregion
+        #endregion
 
-#region Protected
+        #region Protected
         /// <summary>
         /// Gets access to the need paint delegate.
         /// </summary>
@@ -9482,9 +9483,9 @@ namespace Krypton.Toolkit
                 }
             }
         }
-#endregion
+        #endregion
 
-#region Internal
+        #region Internal
         internal bool HasCircularReference()
         {
             // Use a dictionary as a set to check for existence
@@ -9537,9 +9538,9 @@ namespace Krypton.Toolkit
             // No circular reference encountered
             return false;
         }
-#endregion
+        #endregion
 
-#region Implementation Persistence
+        #region Implementation Persistence
         private object ResetOperation(object parameter)
         {
             // Use reflection to reset the palette hierarchy
@@ -10429,9 +10430,9 @@ namespace Krypton.Toolkit
                     throw new ApplicationException("Unrecognised type '" + s + "' for import.");
             }
         }
-#endregion
+        #endregion
 
-#region Implementation GetPalette
+        #region Implementation GetPalette
         private PaletteElementColor GetTrackBar(PaletteElement element, PaletteState state)
         {
             switch (element)
@@ -12395,9 +12396,9 @@ namespace Krypton.Toolkit
                     return null;
             }
         }
-#endregion
+        #endregion
 
-#region Implementation
+        #region Implementation
         private void OnMenuToolStatusPaint(object sender, NeedLayoutEventArgs e)
         {
             // Only raise the need to paint if painting has not been suspended
@@ -12454,9 +12455,9 @@ namespace Krypton.Toolkit
             }
         }
 
-#endregion
+        #endregion
 
-#region Setters and Getters
+        #region Setters and Getters
         /// <summary>
         /// Sets the CustomisedKryptonPaletteFilePath to the value of customisedKryptonPaletteFilePathValue.
         /// </summary>
@@ -12474,7 +12475,7 @@ namespace Krypton.Toolkit
         {
             return CustomisedKryptonPaletteFilePath;
         }
-#endregion
+        #endregion
     }
-#endregion
+    #endregion
 }

@@ -6,11 +6,11 @@
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
 //  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 5.500.0.0  
+//  Version 6.0.0  
 // *****************************************************************************
 
-using System.Drawing;
 using System.ComponentModel.Design;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Krypton.Toolkit
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets a value indicating if the check box is checked.
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         {
             get => _checkBox.LabelStyle;
 
-            set 
+            set
             {
                 if (_checkBox.LabelStyle != value)
                 {
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
         {
             get => _checkBox.Values.Text;
 
-            set 
+            set
             {
                 if (_checkBox.Values.Text != value)
                 {
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
         {
             get => _checkBox.Values.ExtraText;
 
-            set 
+            set
             {
                 if (_checkBox.Values.ExtraText != value)
                 {
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
         {
             get => _checkBox.Values.Image;
 
-            set 
+            set
             {
                 if (_checkBox.Values.Image != value)
                 {
@@ -199,12 +199,29 @@ namespace Krypton.Toolkit
         {
             get => _checkBox.PaletteMode;
 
-            set 
+            set
             {
                 if (_checkBox.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_checkBox, null, _checkBox.PaletteMode, value);
                     _checkBox.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font Font
+        {
+            get => _checkBox.StateCommon.ShortText.Font;
+
+            set
+            {
+                if (_checkBox.StateCommon.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Font, value);
+
+                    _checkBox.StateCommon.ShortText.Font = value;
                 }
             }
         }
@@ -238,7 +255,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

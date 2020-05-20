@@ -6,12 +6,13 @@
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
 //  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 5.500.0.0  
+//  Version 6.0.0  
 // *****************************************************************************
 
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -28,7 +29,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonCheckButtonActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonCheckButtonActionList(KryptonCheckButtonDesigner owner) 
+        public KryptonCheckButtonActionList(KryptonCheckButtonDesigner owner)
             : base(owner)
         {
             // Remember the button instance
@@ -44,7 +45,7 @@ namespace Krypton.Toolkit
                 if (checkedProp != null)
                 {
                     // Decide on the next action to take given the current setting
-                    _action = (bool) checkedProp.GetValue(_checkButton) ? "Uncheck the button" : "Check the button";
+                    _action = (bool)checkedProp.GetValue(_checkButton) ? "Uncheck the button" : "Check the button";
                 }
             }
 
@@ -52,7 +53,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the checked state.
@@ -97,8 +98,25 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font Font
+        {
+            get => _checkButton.StateCommon.Content.ShortText.Font;
+
+            set
+            {
+                if (_checkButton.StateCommon.Content.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_checkButton, null, _checkButton.StateCommon.Content.ShortText.Font, value);
+
+                    _checkButton.StateCommon.Content.ShortText.Font = value;
+                }
+            }
         }
         #endregion
 

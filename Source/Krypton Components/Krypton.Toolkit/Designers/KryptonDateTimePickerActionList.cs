@@ -6,10 +6,11 @@
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
 //  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 5.500.0.0  
+//  Version 6.0.0  
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Krypton.Toolkit
@@ -36,7 +37,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the display format.
@@ -113,12 +114,27 @@ namespace Krypton.Toolkit
         {
             get => _dateTimePicker.PaletteMode;
 
-            set 
+            set
             {
                 if (_dateTimePicker.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.PaletteMode, value);
                     _dateTimePicker.PaletteMode = value;
+                }
+            }
+        }
+
+        public Font Font
+        {
+            get => _dateTimePicker.StateCommon.Content.Font;
+
+            set
+            {
+                if (_dateTimePicker.StateCommon.Content.Font != value)
+                {
+                    _service.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.StateCommon.Content.Font, value);
+
+                    _dateTimePicker.StateCommon.Content.Font = value;
                 }
             }
         }
@@ -146,7 +162,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

@@ -352,8 +352,8 @@
       <UpdatePackageVersion>False</UpdatePackageVersion>
       <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
       <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
-      <AssemblyVersion>6.0.2006.1</AssemblyVersion>
-      <FileVersion>6.0.2006.1</FileVersion>
+      <AssemblyVersion>6.0.2006.2</AssemblyVersion>
+      <FileVersion>6.0.2006.2</FileVersion>
     </PropertyGroup>
     <ProjectExtensions>
         <VisualStudio>

@@ -6,7 +6,7 @@
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
 //  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 5.500.0.0  
+//  Version 6.0.0  
 // *****************************************************************************
 
 using System;
@@ -14,8 +14,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 using System.Security.Principal;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -222,18 +222,10 @@ namespace Krypton.Toolkit
                 UseDropShadow = false;
             }
 
-            AdministratorText = "Administrator";
-
-            BracketType = BracketType.CURVEDBRACKET;
-
             //DisableCloseButton = false;
 
             // Set the CornerRoundingRadius to '-1', default value
             CornerRoundingRadius = -1;
-
-            //IsInAdministratorMode = GetHasCurrentInstanceGotAdministrativeRights();
-
-            //UpdateTitle(IsInAdministratorMode, BracketType);
         }
 
         /// <summary>
@@ -432,25 +424,6 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets or sets the administrator text.
-        /// </summary>
-        /// <value>
-        /// The administrator text.
-        /// </value>
-        [Category("Appearance"), Description("Sets the window title in accordance to the current user elevation."), DefaultValue("Administrator")]
-        public string AdministratorText
-        {
-            get => _administratorText;
-
-            set
-            {
-                _administratorText = value;
-
-                PerformNeedPaint(false);
-            }
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether this instance is in administrator mode.
         /// </summary>
         /// <value>
@@ -458,25 +431,6 @@ namespace Krypton.Toolkit
         /// </value>
         [Category("Appearance"), Description("Is the user currently an administrator.")]
         public bool IsInAdministratorMode { get => _isInAdministratorMode; private set => _isInAdministratorMode = value; }
-
-        public bool AppendAdministratorText
-        {
-            get => _appendAdministratorText;
-
-            set
-            {
-                _appendAdministratorText = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the type of the bracket.
-        /// </summary>
-        /// <value>
-        /// The type of the bracket.
-        /// </value>
-        [Category("Appearance"), Description("For use in conjunction with administrator features."), DefaultValue(BracketType.CURVEDBRACKET)]
-        public BracketType BracketType { get => _bracketType; set => _bracketType = value; }
 
         /// <summary>
         /// Gets access to the common form appearance entries that other states can override.
@@ -1852,39 +1806,6 @@ namespace Krypton.Toolkit
             KryptonForm form = new KryptonForm();
 
             return form.IsInAdministratorMode;
-        }
-
-        /// <summary>
-        /// Updates the title.
-        /// </summary>
-        /// <param name="hasAdministrativeRights">if set to <c>true</c> [has administrative rights].</param>
-        /// <param name="bracketType">The type of bracket that will encapsulate the administrator text.</param>
-        public void UpdateTitle(bool hasAdministrativeRights, BracketType bracketType = BracketType.CURVEDBRACKET)
-        {
-            if (hasAdministrativeRights)
-            {
-                switch (bracketType)
-                {
-                    case BracketType.CURVEDBRACKET:
-                        Text = $@"{ Text } - ({ AdministratorText })";
-                        break;
-                    case BracketType.CURLYBRACKET:
-                        Text = $@"{ Text } - {{{ AdministratorText}}}";
-                        break;
-                    case BracketType.SQUAREBRACKET:
-                        Text = $@"{ Text } - [{ AdministratorText }]";
-                        break;
-                    case BracketType.NOBRACKET:
-                        Text = $@"{ Text } - { AdministratorText }";
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                Text = Text;
-            }
         }
         #endregion
     }

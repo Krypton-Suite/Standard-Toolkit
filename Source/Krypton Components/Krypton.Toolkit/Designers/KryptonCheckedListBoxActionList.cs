@@ -6,10 +6,11 @@
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
 //  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 5.500.0.0  
+//  Version 6.0.0  
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -35,7 +36,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the syle used for list items.
@@ -146,12 +147,29 @@ namespace Krypton.Toolkit
         {
             get => _checkedListBox.PaletteMode;
 
-            set 
+            set
             {
                 if (_checkedListBox.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.PaletteMode, value);
                     _checkedListBox.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font Font
+        {
+            get => _checkedListBox.StateCommon.Item.Content.ShortText.Font;
+
+            set
+            {
+                if (_checkedListBox.StateCommon.Item.Content.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Item.Content.ShortText.Font, value);
+
+                    _checkedListBox.StateCommon.Item.Content.ShortText.Font = value;
                 }
             }
         }
@@ -182,7 +200,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion
