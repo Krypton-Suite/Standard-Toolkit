@@ -121,6 +121,23 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the hint.</summary>
+        /// <value>The hint.</value>
+        public string Hint
+        {
+            get => _textBox.Hint;
+
+            set
+            {
+                if (_textBox.Hint != value)
+                {
+                    _service.OnComponentChanged(_textBox, null, _textBox.Hint, value);
+
+                    _textBox.Hint = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
