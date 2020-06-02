@@ -6,7 +6,7 @@
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Toolkit</RootNamespace>
         <AssemblyName>Krypton.Toolkit</AssemblyName>
-        <SignAssembly>true</SignAssembly>
+        <SignAssembly>false</SignAssembly>
         <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <DelaySign>false</DelaySign>
@@ -352,8 +352,8 @@
       <UpdatePackageVersion>False</UpdatePackageVersion>
       <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
       <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
-      <AssemblyVersion>6.0.2006.2</AssemblyVersion>
-      <FileVersion>6.0.2006.2</FileVersion>
+      <AssemblyVersion>6.0.2006.3</AssemblyVersion>
+      <FileVersion>6.0.2006.3</FileVersion>
     </PropertyGroup>
     <ProjectExtensions>
         <VisualStudio>

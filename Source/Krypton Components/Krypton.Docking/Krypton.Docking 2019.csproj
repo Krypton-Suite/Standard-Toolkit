@@ -7,7 +7,7 @@
     <RootNamespace>Krypton.Docking</RootNamespace>
     <AssemblyName>Krypton.Docking</AssemblyName>
     <StartupObject></StartupObject>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
     <ApplicationIcon>Krypton.ico</ApplicationIcon>
     <UseWindowsForms>true</UseWindowsForms>
@@ -73,8 +73,8 @@
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
     <PrimaryVersionType>AssemblyVersionAttribute</PrimaryVersionType>
-    <AssemblyVersion>6.0.2006.2</AssemblyVersion>
-    <FileVersion>6.0.2006.2</FileVersion>
+    <AssemblyVersion>6.0.2006.3</AssemblyVersion>
+    <FileVersion>6.0.2006.3</FileVersion>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
