@@ -84,7 +84,9 @@ namespace ComponentFactory.Krypton.Navigator
                 if (_solidRect != value)
                 {
                     _solidRect = value;
-                    DesktopBounds = _solidRect;
+                    var area = Screen.GetWorkingArea(this);
+                    var bounds = new Rectangle(value.Location - (Size) area.Location, value.Size);
+                    DesktopBounds = bounds;
                     Refresh();
                 }
             }
