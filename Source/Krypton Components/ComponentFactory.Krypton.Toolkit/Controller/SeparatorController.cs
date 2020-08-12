@@ -1387,7 +1387,10 @@ namespace ComponentFactory.Krypton.Toolkit
                 splitRectangle = new Rectangle(_separatorBox.X, pt.Y, Target.ClientWidth, length);
             }
 
-            return _source.SeparatorControl.RectangleToScreen(splitRectangle);
+            var rect = _source.SeparatorControl.RectangleToScreen(splitRectangle);
+            var area = Screen.GetWorkingArea(rect);
+            rect = new Rectangle(rect.Location - (Size) area.Location, rect.Size);
+            return rect;
         }
 
         private void RegisterFilter()
