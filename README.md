@@ -44,6 +44,11 @@
 
 =======
 
+## 2020-08-12 - Build 2008 - August 2020
+* Fix for [#16](https://github.com/Krypton-Suite/Standard-Toolkit/issues/16), Taskbar Width is offset in Docking operations. Fix courtesy of [sneusse](https://github.com/sneusse).
+
+=======
+
 ## 2020-06-01 - Build 2006 - June 2020
 * Implemented [#8](https://github.com/Krypton-Suite/Standard-Toolkit/issues/8), Is it possible to only minimize FloatingWindow in DockingManager?
 * Fix for [#9](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9), Cannot place `KryptonStatusStrip` on a Form
