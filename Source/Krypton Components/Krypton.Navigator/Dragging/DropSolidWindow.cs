@@ -9,10 +9,10 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
+using Krypton.Toolkit;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -37,7 +37,7 @@ namespace Krypton.Navigator
         {
             _paletteDragDrop = paletteDragDrop;
             _renderer = renderer;
-            
+
             FormBorderStyle = FormBorderStyle.None;
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.Manual;
@@ -84,7 +84,13 @@ namespace Krypton.Navigator
                 if (_solidRect != value)
                 {
                     _solidRect = value;
-                    DesktopBounds = _solidRect;
+
+                    var area = Screen.GetWorkingArea(this);
+
+                    var bounds = new Rectangle(value.Location - (Size)area.Location, value.Size);
+
+                    DesktopBounds = bounds;
+
                     Refresh();
                 }
             }
@@ -104,7 +110,7 @@ namespace Krypton.Navigator
             // If we have a solid rectangle to draw
             if (!SolidRect.IsEmpty)
             {
-                using(RenderContext context = new RenderContext(this, e.Graphics, e.ClipRectangle, _renderer))
+                using (RenderContext context = new RenderContext(this, e.Graphics, e.ClipRectangle, _renderer))
                 {
                     _renderer.RenderGlyph.DrawDragDropSolidGlyph(context, ClientRectangle, _paletteDragDrop);
                 }
