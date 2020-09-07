@@ -576,6 +576,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets control watermark.
         /// </summary>
+        [Description("Set a watermark/prompt message for the user.")]
         public string Hint
         {
             get => _textBox.Hint;
