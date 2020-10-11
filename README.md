@@ -44,9 +44,11 @@
 
 =======
 
-# Which packages should I use?
+Non-Lite
+Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 5. Please note that these packages are larger than the lite packages.
 
-If your project targets a specific framework between .NET 3.5 to .NET Core, then use the non lite packages. However, if you are targeting either .NET 4.5 **or** .NET Core 3.1/.NET 5, then please use the `lite` packages.
+Lite
+These packages supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
 
