@@ -5,7 +5,7 @@
     //  proprietary information of Component Factory Pty Ltd, 13 Swallows Close, 
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
-//  Version 6.0.0     
+//  Version 5.550.0     
 // *****************************************************************************
 
 using System.Drawing;

@@ -6,7 +6,7 @@
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
 //  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 6.0.0  
+//  Version 5.550.0  
 // *****************************************************************************
 
 using System;
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
     //[DefaultEvent("PalettePaint")]
     //[DefaultProperty("BasePaletteMode")]
     //[DesignerCategory("code")]
-    //[Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Design, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
+    //[Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Design, Version=5.550.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
     //[Description("Customisable palette component.")]
     //[ClassInterface(ClassInterfaceType.AutoDispatch)]
     //[ComVisible(true)]
@@ -6107,8 +6107,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("PalettePaint")]
     [DefaultProperty("BasePaletteMode")]
     [DesignerCategory("code")]
-    //[Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Toolkit, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
-    [Designer("Krypton.Toolkit.KryptonPaletteDesigner, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
+    //[Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Toolkit, Version=5.550.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
+    [Designer("Krypton.Toolkit.KryptonPaletteDesigner, Version=5.550.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
     [Description("Customisable palette component.")]
     public class KryptonPalette : Component, IPalette
     {
