@@ -46,7 +46,28 @@
 
 # Which packages should I use?
 
-If your project targets a specific framework between .NET 3.5 to .NET Core, then use the non lite packages. However, if you are targeting either .NET 4.5 **or** .NET Core 3.1, then please use the `lite` packages.
+If your project targets a specific framework between .NET 3.5 to .NET Core, then use the non lite packages. However, if you are targeting either .NET 4.5 **or** .NET Core 3.1/.NET 5, then please use the `lite` packages.
+
+=======
+
+## 2020-11-01 - Build 2011 - November 2020
+* Shortened namespaces, the toolkit will now use namespaces such as `Krypton.Ribbon` instead of the older `ComponentFactory.Krypton.Ribbon` to align with package names
+* Support for .NET 5
+* Versions now begin with `5.550`
+* Long term support (LTS) packages are available for developers who need extra time to migrate their projects over to the new namespace format or .NET 5
+
+=======
+
+## 2020-08-12 - Build 2008 - August 2020
+* Fix for [#16](https://github.com/Krypton-Suite/Standard-Toolkit/issues/16), Taskbar Width is offset in Docking operations. Fix courtesy of [sneusse](https://github.com/sneusse).
+
+=======
+
+## 2020-06-01 - Build 2006 - June 2020
+* Implemented [#8](https://github.com/Krypton-Suite/Standard-Toolkit/issues/8), Is it possible to only minimize FloatingWindow in DockingManager?
+* Fix for [#9](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9), Cannot place `KryptonStatusStrip` on a Form
+* Fix for [#12](https://github.com/Krypton-Suite/Standard-Toolkit/issues/12), AllowButtonSpecToolTipPriority 
+  * If the parent Item has tooltips, and the button spec has tooltips, then the default is show both when hovering over the button spec. This can be disabled by setting AllowButtonSpecTooltipPriority to true, so that only 1 tooltip is displayed when hovering over any part of the control.
 
 =======
 
