@@ -9,14 +9,13 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
+using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
@@ -139,7 +138,7 @@ namespace Krypton.Toolkit
                 // Remove from view until size for the first time by the Krypton control
                 ItemHeight = 15;
                 DropDownHeight = 200;
-                DrawMode = DrawMode.OwnerDrawVariable;
+                DrawMode = DrawMode.OwnerDrawFixed; // DrawMode = DrawMode.OwnerDrawVariable;
             }
             #endregion
 
@@ -1063,7 +1062,7 @@ namespace Krypton.Toolkit
             // Default values
             _alwaysActive = true;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
             _cachedHeight = -1;
             _inputControlStyle = InputControlStyle.Standalone;
             _dropButtonStyle = ButtonStyle.InputControl;
@@ -1800,8 +1799,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -3120,8 +3119,8 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						 if (AllowButtonSpecToolTipPriority)
+
+                        if (AllowButtonSpecToolTipPriority)
                         {
                             _visualBasePopupToolTip?.Dispose();
                         }
