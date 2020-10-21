@@ -59,6 +59,7 @@ These packages supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 * Support for .NET 5
 * Versions now begin with `5.550`
 * Long term support (LTS) packages are available for developers who need extra time to migrate their projects over to the new namespace format or .NET 5
+* ***Important! If you're upgrading from a older legacy version, please uninstall your currently installed packages BEFORE intalling these packages. Please also follow [this](https://github.com/Krypton-Suite/Standard-Toolkit-Online-Help/blob/master/Source/Documentation/Standard%20Toolkit%20Migration%20Guide.md) guidence, as the toolkit now uses different namespaces!***
 
 =======
 
