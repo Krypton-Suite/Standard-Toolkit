@@ -45,6 +45,7 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private readonly KryptonRichTextBox _kryptonRichTextBox;
             private bool _mouseOver;
+            private string _hint;
             #endregion
 
             #region Events
@@ -77,6 +78,27 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Public
+            public string Hint
+            {
+                get => _hint;
+
+                set
+                {
+                    _hint = value;
+
+#if NET35
+					if (string.IsNullOrEmpty(Text) && !string.IsNullOrEmpty(Hint) && Hint.Trim != string.Empty)
+#else
+                    if (string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Hint))
+#endif
+                    {
+                        PI.SendMessage(Handle, PI.EM_SETCUEBANNER, (IntPtr)1, Hint);
+                    }
+
+                    Refresh();
+                }
+            }
+
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
@@ -289,6 +311,7 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
         private bool _firstPaint;
+        private string _hint;
         #endregion
 
         #region Events
@@ -423,7 +446,7 @@ namespace Krypton.Toolkit
             _autoSize = false;
             _alwaysActive = true;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
             _firstPaint = true;
             _inputControlStyle = InputControlStyle.Standalone;
 
@@ -1280,8 +1303,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -1834,6 +1857,26 @@ namespace Krypton.Toolkit
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
         }
+
+        /// <summary>
+        /// Gets and sets control watermark.
+        /// </summary>
+        [Description("Set a watermark/prompt message for the user.")]
+        public string Hint { get => _richTextBox.Hint; set => _richTextBox.Hint = value; }
+
+        private bool ShouldSerializeHint()
+        {
+#if NET35
+            return !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty;
+#else
+            return !string.IsNullOrWhiteSpace(Hint);
+#endif
+        }
+
+
+        /// <summary>
+        /// </summary>
+        public void ResetHint() => Hint = string.Empty;
         #endregion
 
         #region Protected
@@ -2426,8 +2469,8 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						if (AllowButtonSpecToolTipPriority)
+
+                        if (AllowButtonSpecToolTipPriority)
                         {
                             _visualBasePopupToolTip?.Dispose();
                         }
