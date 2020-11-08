@@ -36,6 +36,10 @@
 
 =======
 
+# IMPORTANT: Do not merge this branch with master!
+
+=======
+
 # <img src="https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/blob/master/Assets/PNG/Help/Help_1_48_x_48.png" /><a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html">Online Help</a>
 
 =======
