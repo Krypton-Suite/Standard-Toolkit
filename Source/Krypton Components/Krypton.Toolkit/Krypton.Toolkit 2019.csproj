@@ -6,8 +6,8 @@
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Toolkit</RootNamespace>
         <AssemblyName>Krypton.Toolkit</AssemblyName>
-        <SignAssembly>false</SignAssembly>
-        <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>KryptonToolkit.pfx</AssemblyOriginatorKeyFile>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>

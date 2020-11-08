@@ -7,8 +7,8 @@
     <RootNamespace>Krypton.Workspace</RootNamespace>
     <AssemblyName>Krypton.Workspace</AssemblyName>
     <ApplicationIcon>Krypton.ico</ApplicationIcon>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>KryptonToolkit.pfx</AssemblyOriginatorKeyFile>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
