@@ -4,7 +4,7 @@
   <PropertyGroup>
     <!-- common project data -->
 	  <Version>$(LibraryVersion)</Version>
-    <!-- two flavors of TFM are supported : 'all' where the nuget package include all supported tfms. 'lite' with only .net core and .net 4.5 support -->
+    <!-- two flavors of TFM are supported : 'all' where the NuGet package include all supported tfms. 'lite' with only .net core and .net 4.5 support -->
     <TFMs Condition="'$(TFMs)' == ''">lite</TFMs>
   </PropertyGroup>
   
