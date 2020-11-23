@@ -6,7 +6,7 @@
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
 //  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 6.0.0  
+//  Version 6.0.0
 // *****************************************************************************
 
 using System;
@@ -45,7 +45,6 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private readonly KryptonRichTextBox _kryptonRichTextBox;
             private bool _mouseOver;
-            private string _hint;
             #endregion
 
             #region Events
@@ -78,27 +77,6 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Public
-            public string Hint
-            {
-                get => _hint;
-
-                set
-                {
-                    _hint = value;
-
-#if NET35
-					if (string.IsNullOrEmpty(Text) && !string.IsNullOrEmpty(Hint) && Hint.Trim != string.Empty)
-#else
-                    if (string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Hint))
-#endif
-                    {
-                        PI.SendMessage(Handle, PI.EM_SETCUEBANNER, (IntPtr)1, Hint);
-                    }
-
-                    Refresh();
-                }
-            }
-
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
             /// </summary>
@@ -311,7 +289,6 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
         private bool _firstPaint;
-        private string _hint;
         #endregion
 
         #region Events
@@ -1857,26 +1834,6 @@ namespace Krypton.Toolkit
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
         }
-
-        /// <summary>
-        /// Gets and sets control watermark.
-        /// </summary>
-        [Description("Set a watermark/prompt message for the user.")]
-        public string Hint { get => _richTextBox.Hint; set => _richTextBox.Hint = value; }
-
-        private bool ShouldSerializeHint()
-        {
-#if NET35
-            return !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty;
-#else
-            return !string.IsNullOrWhiteSpace(Hint);
-#endif
-        }
-
-
-        /// <summary>
-        /// </summary>
-        public void ResetHint() => Hint = string.Empty;
         #endregion
 
         #region Protected
