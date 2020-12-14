@@ -56,6 +56,7 @@ These packages supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 ## 2021-03-01 - Build 2103 - March 2021
 * Add support for .NET Core 1.0 to 3.0
+* Fix for [#35](https://github.com/Krypton-Suite/Standard-Toolkit/issues/35), It is still not possible to create a `KryptonStatusStrip` on a form at design time.
 
 =======
 

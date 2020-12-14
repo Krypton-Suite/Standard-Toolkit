@@ -42,8 +42,8 @@ namespace Krypton.Toolkit
 			catch (Exception exc)
 			{
 			}
-			
-            base.OnRendererChanged(e);
+			 
+			 base.OnRendererChanged(e);
         }
         #endregion
     }
