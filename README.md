@@ -54,7 +54,7 @@ These packages supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
 
-## 2021-01-0x - Build 2101 - January 2021
+## 2021-01-03 - Build 2101 - January 2021
 * Updated year references from `2020` to `2021`
 * Fix for [#19](https://github.com/Krypton-Suite/Standard-Toolkit/issues/19), "Office 365 Silver" theme `StatusBar` drag glyph, is not visible
 * Fix for [#20](https://github.com/Krypton-Suite/Standard-Toolkit/issues/20), Selected text in ComboBox is drawn in a different font
