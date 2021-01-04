@@ -2,12 +2,12 @@
     <PropertyGroup>
         <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows</TargetFrameworks>
         <TargetFrameworks Condition="'$(TFMs)' == 'all'">net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows</TargetFrameworks>
-        <LangVersion>8.0</LangVersion>
+        <LangVersion>latest</LangVersion>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Toolkit</RootNamespace>
         <AssemblyName>Krypton.Toolkit</AssemblyName>
         <SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>KryptonToolkit.pfx</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>
@@ -352,8 +352,8 @@
       <UpdatePackageVersion>False</UpdatePackageVersion>
       <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
       <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
-      <AssemblyVersion>5.550.2011</AssemblyVersion>
-      <FileVersion>5.550.2011</FileVersion>
+      <AssemblyVersion>5.550.2101</AssemblyVersion>
+      <FileVersion>5.550.2101</FileVersion>
     </PropertyGroup>
     <ProjectExtensions>
         <VisualStudio>

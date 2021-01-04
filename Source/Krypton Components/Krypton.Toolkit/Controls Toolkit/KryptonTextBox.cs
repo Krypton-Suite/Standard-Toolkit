@@ -5,8 +5,8 @@
 //  proprietary information of Component Factory Pty Ltd, 13 Swallows Close, 
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
-//  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 5.550.0  
+//  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
+//  Version 6.0.0  
 // *****************************************************************************
 
 using System;
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
                 {
                     _hint = value;
 #if NET35
-                    if (string.IsNullOrEmpty(Text) && !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty)
+					if (string.IsNullOrEmpty(Text) && !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty)
 #else
                     if (string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Hint))
 #endif
@@ -318,15 +318,15 @@ namespace Krypton.Toolkit
             }
         }
 
-#endregion
+        #endregion
 
-#region Type Definitions
+        #region Type Definitions
         /// <summary>
         /// Collection for managing ButtonSpecAny instances.
         /// </summary>
         public class TextBoxButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
         {
-#region Identity
+            #region Identity
             /// <summary>
             /// Initialize a new instance of the TextBoxButtonSpecCollection class.
             /// </summary>
@@ -335,11 +335,11 @@ namespace Krypton.Toolkit
                 : base(owner)
             {
             }
-#endregion
+            #endregion
         }
-#endregion
+        #endregion
 
-#region Instance Fields
+        #region Instance Fields
 
         private VisualPopupToolTip _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
@@ -357,9 +357,9 @@ namespace Krypton.Toolkit
         private int _cachedHeight;
         private bool _multilineStringEditor;
         private ButtonSpecAny _editorButton;
-#endregion
+        #endregion
 
-#region Events
+        #region Events
         /// <summary>
         /// Occurs when the value of the AcceptsTab property changes.
         /// </summary>
@@ -445,9 +445,9 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new event EventHandler ForeColorChanged;
-#endregion
+        #endregion
 
-#region Identity
+        #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonTextBox class.
         /// </summary>
@@ -468,7 +468,7 @@ namespace Krypton.Toolkit
             _cachedHeight = -1;
             _alwaysActive = true;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
 
             // Create storage properties
             ButtonSpecs = new TextBoxButtonSpecCollection(this);
@@ -570,9 +570,9 @@ namespace Krypton.Toolkit
 
             base.Dispose(disposing);
         }
-#endregion
+        #endregion
 
-#region Public
+        #region Public
         /// <summary>
         /// Gets and sets control watermark.
         /// </summary>
@@ -586,7 +586,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeHint()
         {
 #if NET35
-            return !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty;
+			return !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty;
 #else
             return !string.IsNullOrWhiteSpace(Hint);
 #endif
@@ -1110,8 +1110,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -1412,9 +1412,9 @@ namespace Krypton.Toolkit
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
         }
-#endregion
+        #endregion
 
-#region Protected
+        #region Protected
         /// <summary>
         /// Force the layout logic to size and position the controls.
         /// </summary>
@@ -1453,9 +1453,9 @@ namespace Krypton.Toolkit
                 }
             }
         }
-#endregion
+        #endregion
 
-#region Protected Virtual
+        #region Protected Virtual
         // ReSharper disable VirtualMemberNeverOverridden.Global
         /// <summary>
         /// Raises the AcceptsTabChanged event.
@@ -1507,9 +1507,9 @@ namespace Krypton.Toolkit
         [Description("Raises the TrackMouseLeave event.")]
         protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
         // ReSharper restore VirtualMemberNeverOverridden.Global
-#endregion
+        #endregion
 
-#region Protected Overrides
+        #region Protected Overrides
         /// <summary>
         /// Creates a new instance of the control collection for the KryptonTextBox.
         /// </summary>
@@ -1800,14 +1800,14 @@ namespace Krypton.Toolkit
             }
         }
 
-#endregion
+        #endregion
 
-#region Internal
+        #region Internal
         internal bool InTransparentDesignMode => InRibbonDesignMode;
 
-#endregion
+        #endregion
 
-#region Implementation
+        #region Implementation
         private void UpdateStateAndPalettes()
         {
             // Get the correct palette settings to use
@@ -1929,8 +1929,8 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						if (AllowButtonSpecToolTipPriority)
+
+                        if (AllowButtonSpecToolTipPriority)
                         {
                             _visualBasePopupToolTip?.Dispose();
                         }
@@ -1988,6 +1988,6 @@ namespace Krypton.Toolkit
         {
             new MultilineStringEditor(this).ShowEditor();
         }
-#endregion
+        #endregion
     }
 }

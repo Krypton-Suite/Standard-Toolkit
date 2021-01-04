@@ -812,8 +812,8 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
         protected override void OnRenderStatusStripSizingGrip(ToolStripRenderEventArgs e)
         {
-            using (SolidBrush darkBrush = new SolidBrush(KCT.GripDark),
-                              lightBrush = new SolidBrush(KCT.GripLight))
+            using (SolidBrush darkBrush = new SolidBrush(KCT.SeparatorDark),
+                              lightBrush = new SolidBrush(KCT.GripLight)) // GripDark, issue #19
             {
                 // Do we need to invert the drawing edge?
                 bool rtl = (e.ToolStrip.RightToLeft == RightToLeft.Yes);
