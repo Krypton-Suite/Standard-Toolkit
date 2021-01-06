@@ -9790,7 +9790,7 @@ namespace Krypton.Toolkit
 
                 // Add a comment about the source of the document
                 doc.AppendChild(doc.CreateComment("Created by exporting the settings of a KryptonPalette instance."));
-                doc.AppendChild(doc.CreateComment("For more information about Krypton visit "));
+                doc.AppendChild(doc.CreateComment("For more information about Krypton visit https://github.com/Krypton-Suite/Standard-Toolkit"));
                 doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
 
                 // Create a root node with version and the date information, by 
