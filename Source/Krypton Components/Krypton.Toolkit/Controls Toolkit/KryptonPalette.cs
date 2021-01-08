@@ -25,7 +25,6 @@ using System.Xml;
 
 namespace Krypton.Toolkit
 {
-    #region Stable Code
     /// <summary>
     /// Define and modify a palette for styling Krypton controls.
     /// </summary>
@@ -6404,5 +6403,4 @@ namespace Krypton.Toolkit
         }
         #endregion
     }
-    #endregion
 }
