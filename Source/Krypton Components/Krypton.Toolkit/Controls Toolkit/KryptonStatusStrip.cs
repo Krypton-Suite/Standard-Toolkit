@@ -25,19 +25,25 @@ namespace Krypton.Toolkit
             RenderMode = ToolStripRenderMode.ManagerRenderMode;
         }
         #endregion
-
+		
         #region Overrides
         protected override void OnRendererChanged(EventArgs e)
         {
-            if (ToolStripManager.Renderer is KryptonProfessionalRenderer kpr)
+			try
             {
-                foreach (ToolStripProgressBar progressBar in ProgressBars)
-                {
-                    progressBar.BackColor = kpr.KCT.StatusStripGradientEnd;
-                }
-            }
-
-            base.OnRendererChanged(e);
+				if (ToolStripManager.Renderer is KryptonProfessionalRenderer kpr)
+				{
+					foreach (ToolStripProgressBar progressBar in ProgressBars)
+					{
+						progressBar.BackColor = kpr.KCT.StatusStripGradientEnd;
+					}
+				}
+			}
+			catch (Exception exc)
+			{
+			}
+			 
+			 base.OnRendererChanged(e);
         }
         #endregion
     }
