@@ -10,6 +10,7 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -35,7 +36,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the palette mode.
@@ -44,7 +45,7 @@ namespace Krypton.Toolkit
         {
             get => _textBox.PaletteMode;
 
-            set 
+            set
             {
                 if (_textBox.PaletteMode != value)
                 {
@@ -138,6 +139,23 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        // <summary>Gets or sets the text box font.</summary>
+        /// <value>The text box font.</value>
+        public Font TextBoxFont
+        {
+            get => _textBox.StateCommon.Content.Font;
+
+            set
+            {
+                if (_textBox.StateCommon.Content.Font != value)
+                {
+                    _service.OnComponentChanged(_textBox, null, _textBox.StateCommon.Content.Font, value);
+
+                    _textBox.StateCommon.Content.Font = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -163,7 +181,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion
