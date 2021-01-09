@@ -9,8 +9,8 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -38,6 +38,7 @@ namespace Krypton.Toolkit
             public Image ContentTextImage;
             public PaletteImageStyle ContentTextImageStyle;
             public PaletteRectangleAlign ContentTextImageAlign;
+            //public Thickness TextPadding;
 
             /// <summary>
             /// Initialize a new instance of the InternalStorage structure.
@@ -276,7 +277,7 @@ namespace Krypton.Toolkit
             }
         }
         #endregion
-        
+
         #region TextH
         /// <summary>
         /// Gets the horizontal relative alignment of the text.
