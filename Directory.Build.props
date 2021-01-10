@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
 	<!-- Version number used for the assemblies and the NuGet packages -->
-	<LibraryVersion>6.0.2103</LibraryVersion>
+	<LibraryVersion>6.0.2103.3</LibraryVersion>
   </PropertyGroup>
 </Project>
