@@ -6,7 +6,7 @@
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
 //  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 6.0.0  
+//  Version 6.0.0
 // *****************************************************************************
 
 using System;
@@ -45,7 +45,6 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private readonly KryptonRichTextBox _kryptonRichTextBox;
             private bool _mouseOver;
-            private string _hint;
             #endregion
 
             #region Events
@@ -290,7 +289,6 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
         private bool _firstPaint;
-        private string _hint;
         #endregion
 
         #region Events

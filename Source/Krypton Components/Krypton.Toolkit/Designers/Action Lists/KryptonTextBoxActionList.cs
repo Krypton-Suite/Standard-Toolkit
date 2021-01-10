@@ -10,46 +10,47 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonRichTextBoxActionList : DesignerActionList
+    internal class KryptonTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonRichTextBox _richTextBox;
+        private readonly KryptonTextBox _textBox;
         private readonly IComponentChangeService _service;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonRichTextBoxActionList class.
+        /// Initialize a new instance of the KryptonTextBoxActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonRichTextBoxActionList(KryptonRichTextBoxDesigner owner)
+        public KryptonTextBoxActionList(KryptonTextBoxDesigner owner)
             : base(owner.Component)
         {
             // Remember the text box instance
-            _richTextBox = owner.Component as KryptonRichTextBox;
+            _textBox = owner.Component as KryptonTextBox;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _richTextBox.PaletteMode;
+            get => _textBox.PaletteMode;
 
-            set 
+            set
             {
-                if (_richTextBox.PaletteMode != value)
+                if (_textBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.PaletteMode, value);
-                    _richTextBox.PaletteMode = value;
+                    _service.OnComponentChanged(_textBox, null, _textBox.PaletteMode, value);
+                    _textBox.PaletteMode = value;
                 }
             }
         }
@@ -59,14 +60,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _richTextBox.InputControlStyle;
+            get => _textBox.InputControlStyle;
 
             set
             {
-                if (_richTextBox.InputControlStyle != value)
+                if (_textBox.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.InputControlStyle, value);
-                    _richTextBox.InputControlStyle = value;
+                    _service.OnComponentChanged(_textBox, null, _textBox.InputControlStyle, value);
+                    _textBox.InputControlStyle = value;
                 }
             }
         }
@@ -76,14 +77,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Multiline
         {
-            get => _richTextBox.Multiline;
+            get => _textBox.Multiline;
 
             set
             {
-                if (_richTextBox.Multiline != value)
+                if (_textBox.Multiline != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.Multiline, value);
-                    _richTextBox.Multiline = value;
+                    _service.OnComponentChanged(_textBox, null, _textBox.Multiline, value);
+                    _textBox.Multiline = value;
                 }
             }
         }
@@ -93,14 +94,65 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool WordWrap
         {
-            get => _richTextBox.WordWrap;
+            get => _textBox.WordWrap;
 
             set
             {
-                if (_richTextBox.WordWrap != value)
+                if (_textBox.WordWrap != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.WordWrap, value);
-                    _richTextBox.WordWrap = value;
+                    _service.OnComponentChanged(_textBox, null, _textBox.WordWrap, value);
+                    _textBox.WordWrap = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the UseSystemPasswordChar mode.
+        /// </summary>
+        public bool UseSystemPasswordChar
+        {
+            get => _textBox.UseSystemPasswordChar;
+
+            set
+            {
+                if (_textBox.UseSystemPasswordChar != value)
+                {
+                    _service.OnComponentChanged(_textBox, null, _textBox.UseSystemPasswordChar, value);
+                    _textBox.UseSystemPasswordChar = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the hint.</summary>
+        /// <value>The hint.</value>
+        public string Hint
+        {
+            get => _textBox.Hint;
+
+            set
+            {
+                if (_textBox.Hint != value)
+                {
+                    _service.OnComponentChanged(_textBox, null, _textBox.Hint, value);
+
+                    _textBox.Hint = value;
+                }
+            }
+        }
+
+        // <summary>Gets or sets the text box font.</summary>
+        /// <value>The text box font.</value>
+        public Font TextBoxFont
+        {
+            get => _textBox.StateCommon.Content.Font;
+
+            set
+            {
+                if (_textBox.StateCommon.Content.Font != value)
+                {
+                    _service.OnComponentChanged(_textBox, null, _textBox.StateCommon.Content.Font, value);
+
+                    _textBox.StateCommon.Content.Font = value;
                 }
             }
         }
@@ -117,18 +169,21 @@ namespace Krypton.Toolkit
             DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
-            if (_richTextBox != null)
+            if (_textBox != null)
             {
-                // Add the list of rich text box specific actions
+                // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
                 actions.Add(new DesignerActionHeaderItem("TextBox"));
                 actions.Add(new DesignerActionPropertyItem("Multiline", "Multiline", "TextBox", "Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem("WordWrap", "WordWrap", "TextBox", "Should words be wrapped over multiple lines."));
+                actions.Add(new DesignerActionPropertyItem("UseSystemPasswordChar", "UseSystemPasswordChar", "TextBox", "Should characters be displayed in password characters."));
+                actions.Add(new DesignerActionPropertyItem("Hint", "Hint", "TextBox", "Sets the hint string for the textbox."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem("TextBoxFont", "Font", "Visuals", "Modifies the font of the control."));
             }
-            
+
             return actions;
         }
         #endregion
