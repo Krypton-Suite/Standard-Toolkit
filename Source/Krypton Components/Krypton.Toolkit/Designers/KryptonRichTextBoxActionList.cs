@@ -10,6 +10,7 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -35,7 +36,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the palette mode.
@@ -44,7 +45,7 @@ namespace Krypton.Toolkit
         {
             get => _richTextBox.PaletteMode;
 
-            set 
+            set
             {
                 if (_richTextBox.PaletteMode != value)
                 {
@@ -104,6 +105,23 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        // <summary>Gets or sets the rich text box font.</summary>
+        /// <value>The rich text box font.</value>
+        public Font RichTextBoxFont
+        {
+            get => _richTextBox.StateCommon.Content.Font;
+
+            set
+            {
+                if (_richTextBox.StateCommon.Content.Font != value)
+                {
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.StateCommon.Content.Font, value);
+
+                    _richTextBox.StateCommon.Content.Font = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -126,9 +144,10 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("Multiline", "Multiline", "TextBox", "Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem("WordWrap", "WordWrap", "TextBox", "Should words be wrapped over multiple lines."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing."));
+                actions.Add(new DesignerActionPropertyItem("RichTextBoxFont", "Font", "Visuals", "Modifies the font of the control."));
             }
-            
+
             return actions;
         }
         #endregion
