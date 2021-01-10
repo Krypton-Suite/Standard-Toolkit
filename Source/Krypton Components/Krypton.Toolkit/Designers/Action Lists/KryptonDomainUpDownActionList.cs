@@ -10,6 +10,7 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -35,7 +36,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the palette mode.
@@ -44,7 +45,7 @@ namespace Krypton.Toolkit
         {
             get => _domainUpDown.PaletteMode;
 
-            set 
+            set
             {
                 if (_domainUpDown.PaletteMode != value)
                 {
@@ -70,6 +71,21 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        public Font Font
+        {
+            get => _domainUpDown.StateCommon.Content.Font;
+
+            set
+            {
+                if (_domainUpDown.StateCommon.Content.Font != value)
+                {
+                    _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.StateCommon.Content.Font, value);
+
+                    _domainUpDown.StateCommon.Content.Font = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -88,10 +104,11 @@ namespace Krypton.Toolkit
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "DomainUpDown display style."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The font for the domain up down."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

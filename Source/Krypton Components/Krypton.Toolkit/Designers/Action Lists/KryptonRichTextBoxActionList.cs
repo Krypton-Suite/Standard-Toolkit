@@ -10,46 +10,47 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonMaskedTextBoxActionList : DesignerActionList
+    internal class KryptonRichTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonMaskedTextBox _maskedTextBox;
+        private readonly KryptonRichTextBox _richTextBox;
         private readonly IComponentChangeService _service;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonMaskedTextBoxActionList class.
+        /// Initialize a new instance of the KryptonRichTextBoxActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonMaskedTextBoxActionList(KryptonMaskedTextBoxDesigner owner)
+        public KryptonRichTextBoxActionList(KryptonRichTextBoxDesigner owner)
             : base(owner.Component)
         {
             // Remember the text box instance
-            _maskedTextBox = owner.Component as KryptonMaskedTextBox;
+            _richTextBox = owner.Component as KryptonRichTextBox;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _maskedTextBox.PaletteMode;
+            get => _richTextBox.PaletteMode;
 
-            set 
+            set
             {
-                if (_maskedTextBox.PaletteMode != value)
+                if (_richTextBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.PaletteMode, value);
-                    _maskedTextBox.PaletteMode = value;
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.PaletteMode, value);
+                    _richTextBox.PaletteMode = value;
                 }
             }
         }
@@ -59,31 +60,65 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _maskedTextBox.InputControlStyle;
+            get => _richTextBox.InputControlStyle;
 
             set
             {
-                if (_maskedTextBox.InputControlStyle != value)
+                if (_richTextBox.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.InputControlStyle, value);
-                    _maskedTextBox.InputControlStyle = value;
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.InputControlStyle, value);
+                    _richTextBox.InputControlStyle = value;
                 }
             }
         }
 
         /// <summary>
-        /// Gets and sets the input mask.
+        /// Gets and sets the Multiline mode.
         /// </summary>
-        public string Mask
+        public bool Multiline
         {
-            get => _maskedTextBox.Mask;
+            get => _richTextBox.Multiline;
 
             set
             {
-                if (_maskedTextBox.Mask != value)
+                if (_richTextBox.Multiline != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.Mask, value);
-                    _maskedTextBox.Mask = value;
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.Multiline, value);
+                    _richTextBox.Multiline = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the WordWrap mode.
+        /// </summary>
+        public bool WordWrap
+        {
+            get => _richTextBox.WordWrap;
+
+            set
+            {
+                if (_richTextBox.WordWrap != value)
+                {
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.WordWrap, value);
+                    _richTextBox.WordWrap = value;
+                }
+            }
+        }
+
+        // <summary>Gets or sets the rich text box font.</summary>
+        /// <value>The rich text box font.</value>
+        public Font Font
+        {
+            get => _richTextBox.StateCommon.Content.Font;
+
+            set
+            {
+                if (_richTextBox.StateCommon.Content.Font != value)
+                {
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.StateCommon.Content.Font, value);
+
+                    _richTextBox.StateCommon.Content.Font = value;
                 }
             }
         }
@@ -100,17 +135,19 @@ namespace Krypton.Toolkit
             DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
-            if (_maskedTextBox != null)
+            if (_richTextBox != null)
             {
-                // Add the list of label specific actions
+                // Add the list of rich text box specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
-                actions.Add(new DesignerActionHeaderItem("MaskedTextBox"));
-                actions.Add(new DesignerActionPropertyItem("Mask", "Mask", "MaskedTextBox", "Input mask."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "Modifies the font of the control."));
+                actions.Add(new DesignerActionHeaderItem("TextBox"));
+                actions.Add(new DesignerActionPropertyItem("Multiline", "Multiline", "TextBox", "Should text span multiple lines."));
+                actions.Add(new DesignerActionPropertyItem("WordWrap", "WordWrap", "TextBox", "Should words be wrapped over multiple lines."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing."));
             }
-            
+
             return actions;
         }
         #endregion

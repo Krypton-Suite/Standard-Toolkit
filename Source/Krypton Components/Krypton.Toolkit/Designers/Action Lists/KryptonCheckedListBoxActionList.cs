@@ -10,47 +10,47 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
-using System.Windows.Forms;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonListBoxActionList : DesignerActionList
+    internal class KryptonCheckedListBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonListBox _listBox;
+        private readonly KryptonCheckedListBox _checkedListBox;
         private readonly IComponentChangeService _service;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonListBoxActionList class.
+        /// Initialize a new instance of the KryptonCheckedListBoxActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonListBoxActionList(KryptonListBoxDesigner owner)
+        public KryptonCheckedListBoxActionList(KryptonCheckedListBoxDesigner owner)
             : base(owner.Component)
         {
             // Remember the list box instance
-            _listBox = owner.Component as KryptonListBox;
+            _checkedListBox = owner.Component as KryptonCheckedListBox;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the syle used for list items.
         /// </summary>
         public ButtonStyle ItemStyle
         {
-            get => _listBox.ItemStyle;
+            get => _checkedListBox.ItemStyle;
 
             set
             {
-                if (_listBox.ItemStyle != value)
+                if (_checkedListBox.ItemStyle != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.ItemStyle, value);
-                    _listBox.ItemStyle = value;
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.ItemStyle, value);
+                    _checkedListBox.ItemStyle = value;
                 }
             }
         }
@@ -60,14 +60,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle BackStyle
         {
-            get => _listBox.BackStyle;
+            get => _checkedListBox.BackStyle;
 
             set
             {
-                if (_listBox.BackStyle != value)
+                if (_checkedListBox.BackStyle != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.BackStyle, value);
-                    _listBox.BackStyle = value;
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.BackStyle, value);
+                    _checkedListBox.BackStyle = value;
                 }
             }
         }
@@ -77,14 +77,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle BorderStyle
         {
-            get => _listBox.BorderStyle;
+            get => _checkedListBox.BorderStyle;
 
             set
             {
-                if (_listBox.BorderStyle != value)
+                if (_checkedListBox.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.BorderStyle, value);
-                    _listBox.BorderStyle = value;
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.BorderStyle, value);
+                    _checkedListBox.BorderStyle = value;
                 }
             }
         }
@@ -92,16 +92,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the selection mode.
         /// </summary>
-        public SelectionMode SelectionMode
+        public CheckedSelectionMode SelectionMode
         {
-            get => _listBox.SelectionMode;
+            get => _checkedListBox.SelectionMode;
 
             set
             {
-                if (_listBox.SelectionMode != value)
+                if (_checkedListBox.SelectionMode != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.SelectionMode, value);
-                    _listBox.SelectionMode = value;
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.SelectionMode, value);
+                    _checkedListBox.SelectionMode = value;
                 }
             }
         }
@@ -111,14 +111,31 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Sorted
         {
-            get => _listBox.Sorted;
+            get => _checkedListBox.Sorted;
 
             set
             {
-                if (_listBox.Sorted != value)
+                if (_checkedListBox.Sorted != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.Sorted, value);
-                    _listBox.Sorted = value;
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.Sorted, value);
+                    _checkedListBox.Sorted = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the check on click setting.
+        /// </summary>
+        public bool CheckOnClick
+        {
+            get => _checkedListBox.CheckOnClick;
+
+            set
+            {
+                if (_checkedListBox.CheckOnClick != value)
+                {
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.CheckOnClick, value);
+                    _checkedListBox.CheckOnClick = value;
                 }
             }
         }
@@ -128,14 +145,48 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _listBox.PaletteMode;
+            get => _checkedListBox.PaletteMode;
 
-            set 
+            set
             {
-                if (_listBox.PaletteMode != value)
+                if (_checkedListBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_listBox, null, _listBox.PaletteMode, value);
-                    _listBox.PaletteMode = value;
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.PaletteMode, value);
+                    _checkedListBox.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font ShortTextFont
+        {
+            get => _checkedListBox.StateCommon.Item.Content.ShortText.Font;
+
+            set
+            {
+                if (_checkedListBox.StateCommon.Item.Content.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Item.Content.ShortText.Font, value);
+
+                    _checkedListBox.StateCommon.Item.Content.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _checkedListBox.StateCommon.Item.Content.LongText.Font;
+
+            set
+            {
+                if (_checkedListBox.StateCommon.Item.Content.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Item.Content.LongText.Font, value);
+
+                    _checkedListBox.StateCommon.Item.Content.LongText.Font = value;
                 }
             }
         }
@@ -152,20 +203,23 @@ namespace Krypton.Toolkit
             DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
-            if (_listBox != null)
+            if (_checkedListBox != null)
             {
                 // Add the list of list box specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("BackStyle", "Back Style", "Appearance", "Style used to draw background."));
                 actions.Add(new DesignerActionPropertyItem("BorderStyle", "Border Style", "Appearance", "Style used to draw the border."));
                 actions.Add(new DesignerActionPropertyItem("ItemStyle", "Item Style", "Appearance", "How to display list items."));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Behavior"));
                 actions.Add(new DesignerActionPropertyItem("SelectionMode", "Selection Mode", "Behavior", "Determines the selection mode."));
                 actions.Add(new DesignerActionPropertyItem("Sorted", "Sorted", "Behavior", "Should items be sorted according to string."));
+                actions.Add(new DesignerActionPropertyItem("CheckOnClick", "CheckOnClick", "Behavior", "Should clicking an item toggle its checked state."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

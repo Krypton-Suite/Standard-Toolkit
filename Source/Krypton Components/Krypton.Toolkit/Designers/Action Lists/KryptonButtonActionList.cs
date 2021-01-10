@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font Font
+        public Font ShortTextFont
         {
             get => _button.StateCommon.Content.ShortText.Font;
 
@@ -153,6 +153,23 @@ namespace Krypton.Toolkit
                     _service.OnComponentChanged(_button, null, _button.StateCommon.Content.ShortText.Font, value);
 
                     _button.StateCommon.Content.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _button.StateCommon.Content.LongText.Font;
+
+            set
+            {
+                if (_button.StateCommon.Content.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_button, null, _button.StateCommon.Content.LongText.Font, value);
+
+                    _button.StateCommon.Content.LongText.Font = value;
                 }
             }
         }
@@ -175,6 +192,8 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("ButtonStyle", "Style", "Appearance", "Button style"));
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Button orientation"));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Button text"));
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Button extra text"));

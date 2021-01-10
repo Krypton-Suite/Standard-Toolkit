@@ -9,8 +9,8 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System.Drawing;
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the label style.
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         {
             get => _label.LabelStyle;
 
-            set 
+            set
             {
                 if (_label.LabelStyle != value)
                 {
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         {
             get => _label.Values.Text;
 
-            set 
+            set
             {
                 if (_label.Values.Text != value)
                 {
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
         {
             get => _label.Values.ExtraText;
 
-            set 
+            set
             {
                 if (_label.Values.ExtraText != value)
                 {
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
         {
             get => _label.Values.Image;
 
-            set 
+            set
             {
                 if (_label.Values.Image != value)
                 {
@@ -130,12 +130,46 @@ namespace Krypton.Toolkit
         {
             get => _label.PaletteMode;
 
-            set 
+            set
             {
                 if (_label.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_label, null, _label.PaletteMode, value);
                     _label.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font ShortTextFont
+        {
+            get => _label.StateCommon.ShortText.Font;
+
+            set
+            {
+                if (_label.StateCommon.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_label, null, _label.StateCommon.ShortText.Font, value);
+
+                    _label.StateCommon.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _label.StateCommon.LongText.Font;
+
+            set
+            {
+                if (_label.StateCommon.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_label, null, _label.StateCommon.LongText.Font, value);
+
+                    _label.StateCommon.LongText.Font = value;
                 }
             }
         }
@@ -158,6 +192,8 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("LabelStyle", "Style", "Appearance", "Label style"));
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Visual orientation"));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Label text"));
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Label extra text"));
@@ -165,7 +201,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

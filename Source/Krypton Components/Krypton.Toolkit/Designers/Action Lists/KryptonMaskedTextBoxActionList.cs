@@ -10,46 +10,47 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonNumericUpDownActionList : DesignerActionList
+    internal class KryptonMaskedTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonNumericUpDown _numericUpDown;
+        private readonly KryptonMaskedTextBox _maskedTextBox;
         private readonly IComponentChangeService _service;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonNumericUpDownActionList class.
+        /// Initialize a new instance of the KryptonMaskedTextBoxActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonNumericUpDownActionList(KryptonNumericUpDownDesigner owner)
+        public KryptonMaskedTextBoxActionList(KryptonMaskedTextBoxDesigner owner)
             : base(owner.Component)
         {
             // Remember the text box instance
-            _numericUpDown = owner.Component as KryptonNumericUpDown;
+            _maskedTextBox = owner.Component as KryptonMaskedTextBox;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _numericUpDown.PaletteMode;
+            get => _maskedTextBox.PaletteMode;
 
-            set 
+            set
             {
-                if (_numericUpDown.PaletteMode != value)
+                if (_maskedTextBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.PaletteMode, value);
-                    _numericUpDown.PaletteMode = value;
+                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.PaletteMode, value);
+                    _maskedTextBox.PaletteMode = value;
                 }
             }
         }
@@ -59,65 +60,48 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _numericUpDown.InputControlStyle;
+            get => _maskedTextBox.InputControlStyle;
 
             set
             {
-                if (_numericUpDown.InputControlStyle != value)
+                if (_maskedTextBox.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.InputControlStyle, value);
-                    _numericUpDown.InputControlStyle = value;
+                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.InputControlStyle, value);
+                    _maskedTextBox.InputControlStyle = value;
                 }
             }
         }
 
         /// <summary>
-        /// Gets and sets the increment value of the control.
+        /// Gets and sets the input mask.
         /// </summary>
-        public decimal Increment
+        public string Mask
         {
-            get => _numericUpDown.Increment;
+            get => _maskedTextBox.Mask;
 
             set
             {
-                if (_numericUpDown.Increment != value)
+                if (_maskedTextBox.Mask != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.Increment, value);
-                    _numericUpDown.Increment = value;
+                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.Mask, value);
+                    _maskedTextBox.Mask = value;
                 }
             }
         }
 
-        /// <summary>
-        /// Gets and sets the increment value of the control.
-        /// </summary>
-        public decimal Maximum
+        // <summary>Gets or sets the text box font.</summary>
+        /// <value>The text box font.</value>
+        public Font Font
         {
-            get => _numericUpDown.Maximum;
+            get => _maskedTextBox.StateCommon.Content.Font;
 
             set
             {
-                if (_numericUpDown.Maximum != value)
+                if (_maskedTextBox.StateCommon.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.Maximum, value);
-                    _numericUpDown.Maximum = value;
-                }
-            }
-        }
+                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.StateCommon.Content.Font, value);
 
-        /// <summary>
-        /// Gets and sets the increment value of the control.
-        /// </summary>
-        public decimal Minimum
-        {
-            get => _numericUpDown.Minimum;
-
-            set
-            {
-                if (_numericUpDown.Minimum != value)
-                {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.Minimum, value);
-                    _numericUpDown.Minimum = value;
+                    _maskedTextBox.StateCommon.Content.Font = value;
                 }
             }
         }
@@ -134,19 +118,18 @@ namespace Krypton.Toolkit
             DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
-            if (_numericUpDown != null)
+            if (_maskedTextBox != null)
             {
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "NumericUpDown display style."));
-                actions.Add(new DesignerActionHeaderItem("Data"));
-                actions.Add(new DesignerActionPropertyItem("Increment", "Increment", "Data", "NumericUpDown increment value."));
-                actions.Add(new DesignerActionPropertyItem("Maximum", "Maximum", "Data", "NumericUpDown maximum value."));
-                actions.Add(new DesignerActionPropertyItem("Minimum", "Minimum", "Data", "NumericUpDown minimum value."));
+                actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "Modifies the font of the control."));
+                actions.Add(new DesignerActionHeaderItem("MaskedTextBox"));
+                actions.Add(new DesignerActionPropertyItem("Mask", "Mask", "MaskedTextBox", "Input mask."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion
