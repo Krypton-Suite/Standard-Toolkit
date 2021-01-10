@@ -9,8 +9,8 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System.Drawing;
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonColorButtonActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonColorButtonActionList(KryptonColorButtonDesigner owner) 
+        public KryptonColorButtonActionList(KryptonColorButtonDesigner owner)
             : base(owner.Component)
         {
             // Remember the button instance
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the button style.
@@ -62,12 +62,29 @@ namespace Krypton.Toolkit
         {
             get => _colorButton.ButtonOrientation;
 
-            set 
+            set
             {
                 if (_colorButton.ButtonOrientation != value)
                 {
                     _service.OnComponentChanged(_colorButton, null, _colorButton.ButtonOrientation, value);
                     _colorButton.ButtonOrientation = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the selected colour.</summary>
+        /// <value>The selected colour.</value>
+        public Color SelectedColour
+        {
+            get => _colorButton.SelectedColor;
+
+            set
+            {
+                if (_colorButton.SelectedColor != value)
+                {
+                    _service.OnComponentChanged(_colorButton, null, _colorButton.SelectedColor, value);
+
+                    _colorButton.SelectedColor = value;
                 }
             }
         }
@@ -130,7 +147,7 @@ namespace Krypton.Toolkit
         {
             get => _colorButton.Values.Text;
 
-            set 
+            set
             {
                 if (_colorButton.Values.Text != value)
                 {
@@ -147,7 +164,7 @@ namespace Krypton.Toolkit
         {
             get => _colorButton.Values.ExtraText;
 
-            set 
+            set
             {
                 if (_colorButton.Values.ExtraText != value)
                 {
@@ -181,12 +198,46 @@ namespace Krypton.Toolkit
         {
             get => _colorButton.PaletteMode;
 
-            set 
+            set
             {
                 if (_colorButton.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_colorButton, null, _colorButton.PaletteMode, value);
                     _colorButton.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font ShortTextFont
+        {
+            get => _colorButton.StateCommon.Content.ShortText.Font;
+
+            set
+            {
+                if (_colorButton.StateCommon.Content.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_colorButton, null, _colorButton.StateCommon.Content.ShortText.Font, value);
+
+                    _colorButton.StateCommon.Content.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _colorButton.StateCommon.Content.LongText.Font;
+
+            set
+            {
+                if (_colorButton.StateCommon.Content.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_colorButton, null, _colorButton.StateCommon.Content.LongText.Font, value);
+
+                    _colorButton.StateCommon.Content.LongText.Font = value;
                 }
             }
         }
@@ -212,14 +263,17 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("ButtonOrientation", "ButtonOrientation", "Appearance", "Button orientation"));
                 actions.Add(new DesignerActionPropertyItem("DropDownPosition", "DropDownPosition", "Appearance", "DropDown position"));
                 actions.Add(new DesignerActionPropertyItem("DropDownOrientation", "DropDownOrientation", "Appearance", "DropDown orientation"));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Button text"));
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Button extra text"));
                 actions.Add(new DesignerActionPropertyItem("Image", "Image", "Values", "Button image"));
+                actions.Add(new DesignerActionPropertyItem("SelectedColour", "Selected Colour", "Values", "The selected colour."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

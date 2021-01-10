@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
 
         // <summary>Gets or sets the text box font.</summary>
         /// <value>The text box font.</value>
-        public Font TextBoxFont
+        public Font Font
         {
             get => _textBox.StateCommon.Content.Font;
 
@@ -174,6 +174,7 @@ namespace Krypton.Toolkit
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Apperarance", "Modifies the font of the control."));
                 actions.Add(new DesignerActionHeaderItem("TextBox"));
                 actions.Add(new DesignerActionPropertyItem("Multiline", "Multiline", "TextBox", "Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem("WordWrap", "WordWrap", "TextBox", "Should words be wrapped over multiple lines."));
@@ -181,7 +182,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("Hint", "Hint", "TextBox", "Sets the hint string for the textbox."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
-                actions.Add(new DesignerActionPropertyItem("TextBoxFont", "Font", "Visuals", "Modifies the font of the control."));
             }
 
             return actions;

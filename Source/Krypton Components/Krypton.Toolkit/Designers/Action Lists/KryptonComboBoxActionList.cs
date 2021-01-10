@@ -76,15 +76,15 @@ namespace Krypton.Toolkit
         /// <value>The font.</value>
         public Font Font
         {
-            get => _comboBox.StateCommon.Item.Content.ShortText.Font;
+            get => _comboBox.StateCommon.ComboBox.Content.Font;
 
             set
             {
-                if (_comboBox.StateCommon.Item.Content.ShortText.Font != value)
+                if (_comboBox.StateCommon.ComboBox.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_comboBox, null, _comboBox.StateCommon.Item.Content.ShortText.Font, value);
+                    _service.OnComponentChanged(_comboBox, null, _comboBox.StateCommon.ComboBox.Content.Font, value);
 
-                    _comboBox.StateCommon.Item.Content.ShortText.Font = value;
+                    _comboBox.StateCommon.ComboBox.Content.Font = value;
                 }
             }
         }
@@ -106,6 +106,7 @@ namespace Krypton.Toolkit
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "ComboBox display style."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The font for the combobox."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }

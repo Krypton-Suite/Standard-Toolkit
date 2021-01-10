@@ -10,8 +10,8 @@
 // *****************************************************************************
 
 using System;
-using System.Drawing;
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the link label style.
@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         {
             get => _linkLabel.LabelStyle;
 
-            set 
+            set
             {
                 if (_linkLabel.LabelStyle != value)
                 {
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         {
             get => _linkLabel.Values.Text;
 
-            set 
+            set
             {
                 if (_linkLabel.Values.Text != value)
                 {
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         {
             get => _linkLabel.Values.ExtraText;
 
-            set 
+            set
             {
                 if (_linkLabel.Values.ExtraText != value)
                 {
@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
         {
             get => _linkLabel.Values.Image;
 
-            set 
+            set
             {
                 if (_linkLabel.Values.Image != value)
                 {
@@ -173,12 +173,46 @@ namespace Krypton.Toolkit
         {
             get => _linkLabel.PaletteMode;
 
-            set 
+            set
             {
                 if (_linkLabel.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_linkLabel, null, _linkLabel.PaletteMode, value);
                     _linkLabel.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font ShortTextFont
+        {
+            get => _linkLabel.StateCommon.ShortText.Font;
+
+            set
+            {
+                if (_linkLabel.StateCommon.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.StateCommon.ShortText.Font, value);
+
+                    _linkLabel.StateCommon.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _linkLabel.StateCommon.LongText.Font;
+
+            set
+            {
+                if (_linkLabel.StateCommon.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_linkLabel, null, _linkLabel.StateCommon.LongText.Font, value);
+
+                    _linkLabel.StateCommon.LongText.Font = value;
                 }
             }
         }
@@ -203,6 +237,8 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Visual orientation"));
                 actions.Add(new DesignerActionPropertyItem("LinkBehavior", "Link Behavior", "Appearance", "Underline behavior"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnLinkVisitedClick), "Appearance"));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Label text"));
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Label extra text"));
@@ -210,7 +246,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

@@ -24,15 +24,50 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonCheckSetActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonCheckSetActionList(KryptonCheckSetDesigner owner) 
+        public KryptonCheckSetActionList(KryptonCheckSetDesigner owner)
             : base(owner.Component)
         {
             // Remember the check set component instance
             _set = owner.Component as KryptonCheckSet;
         }
         #endregion
-        
+
         #region Public
+        /*
+         /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font ShortTextFont
+        {
+            get => _set..StateCommon.Content.ShortText.Font;
+
+            set
+            {
+                if (_button.StateCommon.Content.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_button, null, _button.StateCommon.Content.ShortText.Font, value);
+
+                    _button.StateCommon.Content.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _button.StateCommon.Content.LongText.Font;
+
+            set
+            {
+                if (_button.StateCommon.Content.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_button, null, _button.StateCommon.Content.LongText.Font, value);
+
+                    _button.StateCommon.Content.LongText.Font = value;
+                }
+            }
+        }
+        */
         #endregion
 
         #region Public Override
@@ -50,7 +85,7 @@ namespace Krypton.Toolkit
             {
                 // Add the list of check set specific actions
             }
-            
+
             return actions;
         }
         #endregion

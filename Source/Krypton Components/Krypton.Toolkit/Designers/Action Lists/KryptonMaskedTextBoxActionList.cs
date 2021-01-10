@@ -10,6 +10,7 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -35,7 +36,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the palette mode.
@@ -44,7 +45,7 @@ namespace Krypton.Toolkit
         {
             get => _maskedTextBox.PaletteMode;
 
-            set 
+            set
             {
                 if (_maskedTextBox.PaletteMode != value)
                 {
@@ -87,6 +88,23 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        // <summary>Gets or sets the text box font.</summary>
+        /// <value>The text box font.</value>
+        public Font Font
+        {
+            get => _maskedTextBox.StateCommon.Content.Font;
+
+            set
+            {
+                if (_maskedTextBox.StateCommon.Content.Font != value)
+                {
+                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.StateCommon.Content.Font, value);
+
+                    _maskedTextBox.StateCommon.Content.Font = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -105,12 +123,13 @@ namespace Krypton.Toolkit
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "Modifies the font of the control."));
                 actions.Add(new DesignerActionHeaderItem("MaskedTextBox"));
                 actions.Add(new DesignerActionPropertyItem("Mask", "Mask", "MaskedTextBox", "Input mask."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

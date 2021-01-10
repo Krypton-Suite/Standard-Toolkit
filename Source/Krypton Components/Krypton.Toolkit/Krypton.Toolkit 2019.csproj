@@ -37,7 +37,7 @@
         <Compile Update="ButtonSpec\ButtonSpecCalendar.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Designers\PaletteDrawBordersSelector.cs">
+        <Compile Update="Designers\Other\PaletteDrawBordersSelector.cs">
             <SubType>UserControl</SubType>
         </Compile>
         <Compile Update="Controls Toolkit\KryptonByteViewer.cs" />
