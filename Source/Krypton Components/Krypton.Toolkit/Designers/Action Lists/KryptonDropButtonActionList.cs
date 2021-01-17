@@ -11,6 +11,7 @@
 
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -68,6 +69,23 @@ namespace Krypton.Toolkit
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.ButtonOrientation, value);
                     _dropButton.ButtonOrientation = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _dropButton.ContextMenuStrip;
+
+            set
+            {
+                if (_dropButton.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_dropButton, null, _dropButton.ContextMenuStrip, value);
+
+                    _dropButton.ContextMenuStrip = value;
                 }
             }
         }
@@ -244,6 +262,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("Splitter", "Splitter", "Appearance", "Splitter of DropDown"));
                 actions.Add(new DesignerActionPropertyItem("ButtonStyle", "ButtonStyle", "Appearance", "Button style"));
                 actions.Add(new DesignerActionPropertyItem("ButtonOrientation", "ButtonOrientation", "Appearance", "Button orientation"));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("DropDownPosition", "DropDownPosition", "Appearance", "DropDown position"));
                 actions.Add(new DesignerActionPropertyItem("DropDownOrientation", "DropDownOrientation", "Appearance", "DropDown orientation"));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));

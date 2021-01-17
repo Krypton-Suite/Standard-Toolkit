@@ -11,6 +11,7 @@
 
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -51,6 +52,23 @@ namespace Krypton.Toolkit
                 {
                     _service.OnComponentChanged(_button, null, _button.ButtonStyle, value);
                     _button.ButtonStyle = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _button.ContextMenuStrip;
+
+            set
+            {
+                if (_button.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_button, null, _button.ContextMenuStrip, value);
+
+                    _button.ContextMenuStrip = value;
                 }
             }
         }
@@ -191,6 +209,7 @@ namespace Krypton.Toolkit
                 // Add the list of button specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("ButtonStyle", "Style", "Appearance", "Button style"));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Button orientation"));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));

@@ -90,6 +90,23 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _listBox.ContextMenuStrip;
+
+            set
+            {
+                if (_listBox.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_listBox, null, _listBox.ContextMenuStrip, value);
+
+                    _listBox.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the selection mode.
         /// </summary>
@@ -193,6 +210,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("BackStyle", "Back Style", "Appearance", "Style used to draw background."));
                 actions.Add(new DesignerActionPropertyItem("BorderStyle", "Border Style", "Appearance", "Style used to draw the border."));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("ItemStyle", "Item Style", "Appearance", "How to display list items."));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));

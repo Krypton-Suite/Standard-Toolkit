@@ -13,6 +13,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -72,6 +73,23 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _checkButton.ContextMenuStrip;
+
+            set
+            {
+                if (_checkButton.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_checkButton, null, _checkButton.ContextMenuStrip, value);
+
+                    _checkButton.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
         public Font ShortTextFont
@@ -125,6 +143,7 @@ namespace Krypton.Toolkit
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnCheckedClick), "Appearance"));
                 actions.Add(new DesignerActionPropertyItem("ButtonStyle", "Style", "Appearance", "Button style"));
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Button orientation"));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Values"));

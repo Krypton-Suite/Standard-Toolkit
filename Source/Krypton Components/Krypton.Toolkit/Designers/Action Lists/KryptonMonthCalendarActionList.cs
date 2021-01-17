@@ -11,6 +11,7 @@
 
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -38,6 +39,23 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _monthCalendar.ContextMenuStrip;
+
+            set
+            {
+                if (_monthCalendar.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.ContextMenuStrip, value);
+
+                    _monthCalendar.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
@@ -173,6 +191,7 @@ namespace Krypton.Toolkit
             {
                 // Add the list of bread crumb specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("DayShortTextFont", "Day Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("DayLongTextFont", "Day Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Behavior"));
