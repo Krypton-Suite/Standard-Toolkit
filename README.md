@@ -68,6 +68,7 @@ These packages supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 * Added properties to action lists such as `ShortFont`, `LongFont`, `Font`, `SelectedColour` etc. More to come.
 * Fixed bug where the `KryptonTextBox` does not repaint after altering the `Hint` property
 * Implemented [#14](https://github.com/Krypton-Suite/Standard-Toolkit/issues/14), Access Fonts via Action Lists
+* Removed `KryptonStatusStrip` & `KryptonToolStrip` (these are now part of the `Krypton.Toolkit.Suite.Extended.Tool.Strip.Items` module, as of build **2104**)
 
 =======
 
