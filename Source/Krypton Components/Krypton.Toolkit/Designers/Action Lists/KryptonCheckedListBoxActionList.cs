@@ -11,6 +11,7 @@
 
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -85,6 +86,23 @@ namespace Krypton.Toolkit
                 {
                     _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.BorderStyle, value);
                     _checkedListBox.BorderStyle = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _checkedListBox.ContextMenuStrip;
+
+            set
+            {
+                if (_checkedListBox.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.ContextMenuStrip, value);
+
+                    _checkedListBox.ContextMenuStrip = value;
                 }
             }
         }
@@ -209,6 +227,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("BackStyle", "Back Style", "Appearance", "Style used to draw background."));
                 actions.Add(new DesignerActionPropertyItem("BorderStyle", "Border Style", "Appearance", "Style used to draw the border."));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("ItemStyle", "Item Style", "Appearance", "How to display list items."));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));

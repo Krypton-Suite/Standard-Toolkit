@@ -40,7 +40,15 @@
 
 =======
 
+# Discord Server
+
 <a href="https://discord.gg/CRjF6fY" alt="Join our Krypton Toolkit community Discord server"><img src="https://img.shields.io/badge/Discord-Join%20our%20server-7289DA?logo=discord" /></a>
+
+=======
+
+# Project & item templates
+
+<a href="https://tinyurl.com/StandardToolkitTemplates" alt="Download project & item templates"><img src="https://img.shields.io/badge/Templates-Download%20project%20%26%20item%20templates-blueviolet" /></a>
 
 =======
 
@@ -58,6 +66,9 @@ These packages supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 * Fix for [#35](https://github.com/Krypton-Suite/Standard-Toolkit/issues/35), It is still not possible to create a `KryptonStatusStrip` on a form at design time.
 * Fix for `KryptonPalette` component, courtesy of 'gwni'
 * Added properties to action lists such as `ShortFont`, `LongFont`, `Font`, `SelectedColour` etc. More to come.
+* Fixed bug where the `KryptonTextBox` does not repaint after altering the `Hint` property
+* Implemented [#14](https://github.com/Krypton-Suite/Standard-Toolkit/issues/14), Access Fonts via Action Lists
+* Removed `KryptonStatusStrip` & `KryptonToolStrip` (these are now part of the `Krypton.Toolkit.Suite.Extended.Tool.Strip.Items` module, as of build **2104**)
 
 =======
 

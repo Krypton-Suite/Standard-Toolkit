@@ -11,6 +11,7 @@
 
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -38,6 +39,23 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _comboBox.ContextMenuStrip;
+
+            set
+            {
+                if (_comboBox.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_comboBox, null, _comboBox.ContextMenuStrip, value);
+
+                    _comboBox.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
@@ -105,6 +123,7 @@ namespace Krypton.Toolkit
             {
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "ComboBox display style."));
                 actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The font for the combobox."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
