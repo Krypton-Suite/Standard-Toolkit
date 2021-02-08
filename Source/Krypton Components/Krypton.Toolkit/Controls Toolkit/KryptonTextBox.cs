@@ -584,7 +584,7 @@ namespace Krypton.Toolkit
             {
                 _textBox.Hint = value;
 
-                // Repaint
+                // Force a repaint
                 Invalidate();
             }
         }

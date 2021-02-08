@@ -33,9 +33,9 @@ namespace Krypton.Toolkit
     [DefaultEvent("PalettePaint")]
     [DefaultProperty("BasePaletteMode")]
     [DesignerCategory("code")]
-    //[Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Toolkit, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
     [Designer(typeof(KryptonPaletteDesigner))]
     [Description("A customisable palette component.")]
+    [Description("Customisable palette component.")]
     public class KryptonPalette : Component, IPalette
     {
         #region Type Definitions
