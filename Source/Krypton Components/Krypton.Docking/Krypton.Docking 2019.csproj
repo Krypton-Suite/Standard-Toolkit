@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>Krypton.Docking.Canary</PackageId>
+    <PackageId>Krypton.Docking</PackageId>
     <Description>A update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the docking module.</Description>
   </PropertyGroup>
 
@@ -73,8 +73,8 @@
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
     <PrimaryVersionType>AssemblyVersionAttribute</PrimaryVersionType>
-    <AssemblyVersion>6.0.2103</AssemblyVersion>
-    <FileVersion>6.0.2103</FileVersion>
+    <AssemblyVersion>5.550.2103</AssemblyVersion>
+    <FileVersion>5.550.2103</FileVersion>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
