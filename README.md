@@ -2,6 +2,10 @@
 
 =======
 
+- Skip to [Version History](#version-history)
+
+=======
+
 # NuGet Information
 
 ## Canary
@@ -91,6 +95,8 @@ Only use these packages if you require to target a specific framework version be
 These packages supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
+
+## Version History
 
 ## 2021-03-01 - Build 2103 - March 2021
 * Fix for [#35](https://github.com/Krypton-Suite/Standard-Toolkit/issues/35), It is still not possible to create a `KryptonStatusStrip` on a form at design time.
