@@ -7,8 +7,7 @@
     <RootNamespace>Krypton.Ribbon</RootNamespace>
     <AssemblyName>Krypton.Ribbon</AssemblyName>
     <ApplicationIcon>Krypton.ico</ApplicationIcon>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
