@@ -111,8 +111,8 @@
     <UpdatePackageVersion>False</UpdatePackageVersion>
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
-    <AssemblyVersion>5.550.2103</AssemblyVersion>
-    <FileVersion>5.550.2103</FileVersion>
+    <AssemblyVersion>6.0.2103.5</AssemblyVersion>
+    <FileVersion>6.0.2103.5</FileVersion>
    </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
