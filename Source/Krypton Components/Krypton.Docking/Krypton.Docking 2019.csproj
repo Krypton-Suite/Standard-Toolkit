@@ -7,8 +7,7 @@
     <RootNamespace>Krypton.Docking</RootNamespace>
     <AssemblyName>Krypton.Docking</AssemblyName>
     <StartupObject></StartupObject>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
     <ApplicationIcon>Krypton.ico</ApplicationIcon>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>

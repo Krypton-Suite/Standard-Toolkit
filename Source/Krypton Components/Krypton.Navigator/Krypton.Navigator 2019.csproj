@@ -7,8 +7,7 @@
     <RootNamespace>Krypton.Navigator</RootNamespace>
     <AssemblyName>Krypton.Navigator</AssemblyName>
     <ApplicationIcon>Krypton.ico</ApplicationIcon>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
     <DelaySign>false</DelaySign>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
