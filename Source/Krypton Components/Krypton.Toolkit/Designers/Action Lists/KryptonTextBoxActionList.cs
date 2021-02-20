@@ -9,6 +9,7 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
@@ -174,6 +175,24 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the corner radius.</summary>
+        /// <value>The corner radius.</value>
+        [DefaultValue(-1)]
+        public int CornerRadius
+        {
+            get => _textBox.StateCommon.Border.Rounding;
+
+            set
+            {
+                if (_textBox.StateCommon.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_textBox, null, _textBox.StateCommon.Border.Rounding, value);
+
+                    _textBox.StateCommon.Border.Rounding = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -193,7 +212,8 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
-                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Apperarance", "Modifies the font of the control."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "Modifies the font of the control."));
+                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem("TextBox"));
                 actions.Add(new DesignerActionPropertyItem("Multiline", "Multiline", "TextBox", "Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem("WordWrap", "WordWrap", "TextBox", "Should words be wrapped over multiple lines."));

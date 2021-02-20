@@ -9,6 +9,7 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
@@ -106,6 +107,24 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the corner radius.</summary>
+        /// <value>The corner radius.</value>
+        [DefaultValue(-1)]
+        public int CornerRadius
+        {
+            get => _comboBox.StateCommon.ComboBox.Border.Rounding;
+
+            set
+            {
+                if (_comboBox.StateCommon.ComboBox.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_comboBox, null, _comboBox.StateCommon.ComboBox.Border.Rounding, value);
+
+                    _comboBox.StateCommon.ComboBox.Border.Rounding = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -126,6 +145,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "ComboBox display style."));
                 actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The font for the combobox."));
+                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }

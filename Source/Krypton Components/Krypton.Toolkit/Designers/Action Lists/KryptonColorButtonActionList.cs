@@ -9,6 +9,7 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 
@@ -241,6 +242,24 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the corner radius.</summary>
+        /// <value>The corner radius.</value>
+        [DefaultValue(-1)]
+        public int CornerRadius
+        {
+            get => _colorButton.StateCommon.Border.Rounding;
+
+            set
+            {
+                if (_colorButton.StateCommon.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_colorButton, null, _colorButton.StateCommon.Border.Rounding, value);
+
+                    _colorButton.StateCommon.Border.Rounding = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -265,6 +284,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("DropDownOrientation", "DropDownOrientation", "Appearance", "DropDown orientation"));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
+                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Button text"));
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Button extra text"));
