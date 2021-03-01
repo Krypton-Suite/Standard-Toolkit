@@ -14,23 +14,23 @@ using System.Drawing;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonButtonActionList : DesignerActionList
+    internal class KryptonLabelActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonButton _button;
+        private readonly KryptonLabel _label;
         private readonly IComponentChangeService _service;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonButtonActionList class.
+        /// Initialize a new instance of the KryptonLabelActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonButtonActionList(KryptonButtonDesigner owner)
+        public KryptonLabelActionList(KryptonLabelDesigner owner)
             : base(owner.Component)
         {
-            // Remember the button instance
-            _button = owner.Component as KryptonButton;
+            // Remember the label instance
+            _label = owner.Component as KryptonLabel;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
@@ -39,18 +39,18 @@ namespace Krypton.Toolkit
 
         #region Public
         /// <summary>
-        /// Gets and sets the button style.
+        /// Gets and sets the label style.
         /// </summary>
-        public ButtonStyle ButtonStyle
+        public LabelStyle LabelStyle
         {
-            get => _button.ButtonStyle;
+            get => _label.LabelStyle;
 
             set
             {
-                if (_button.ButtonStyle != value)
+                if (_label.LabelStyle != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.ButtonStyle, value);
-                    _button.ButtonStyle = value;
+                    _service.OnComponentChanged(_label, null, _label.LabelStyle, value);
+                    _label.LabelStyle = value;
                 }
             }
         }
@@ -60,65 +60,65 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation Orientation
         {
-            get => _button.Orientation;
+            get => _label.Orientation;
 
             set
             {
-                if (_button.Orientation != value)
+                if (_label.Orientation != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.Orientation, value);
-                    _button.Orientation = value;
+                    _service.OnComponentChanged(_label, null, _label.Orientation, value);
+                    _label.Orientation = value;
                 }
             }
         }
 
         /// <summary>
-        /// Gets and sets the button text.
+        /// Gets and sets the label text.
         /// </summary>
         public string Text
         {
-            get => _button.Values.Text;
+            get => _label.Values.Text;
 
             set
             {
-                if (_button.Values.Text != value)
+                if (_label.Values.Text != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.Values.Text, value);
-                    _button.Values.Text = value;
+                    _service.OnComponentChanged(_label, null, _label.Values.Text, value);
+                    _label.Values.Text = value;
                 }
             }
         }
 
         /// <summary>
-        /// Gets and sets the extra button text.
+        /// Gets and sets the extra label text.
         /// </summary>
         public string ExtraText
         {
-            get => _button.Values.ExtraText;
+            get => _label.Values.ExtraText;
 
             set
             {
-                if (_button.Values.ExtraText != value)
+                if (_label.Values.ExtraText != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.Values.ExtraText, value);
-                    _button.Values.ExtraText = value;
+                    _service.OnComponentChanged(_label, null, _label.Values.ExtraText, value);
+                    _label.Values.ExtraText = value;
                 }
             }
         }
 
         /// <summary>
-        /// Gets and sets the button image.
+        /// Gets and sets the label image.
         /// </summary>
         public Image Image
         {
-            get => _button.Values.Image;
+            get => _label.Values.Image;
 
             set
             {
-                if (_button.Values.Image != value)
+                if (_label.Values.Image != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.Values.Image, value);
-                    _button.Values.Image = value;
+                    _service.OnComponentChanged(_label, null, _label.Values.Image, value);
+                    _label.Values.Image = value;
                 }
             }
         }
@@ -128,31 +128,48 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _button.PaletteMode;
+            get => _label.PaletteMode;
 
             set
             {
-                if (_button.PaletteMode != value)
+                if (_label.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.PaletteMode, value);
-                    _button.PaletteMode = value;
+                    _service.OnComponentChanged(_label, null, _label.PaletteMode, value);
+                    _label.PaletteMode = value;
                 }
             }
         }
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font Font
+        public Font ShortTextFont
         {
-            get => _button.StateCommon.Content.ShortText.Font;
+            get => _label.StateCommon.ShortText.Font;
 
             set
             {
-                if (_button.StateCommon.Content.ShortText.Font != value)
+                if (_label.StateCommon.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.StateCommon.Content.ShortText.Font, value);
+                    _service.OnComponentChanged(_label, null, _label.StateCommon.ShortText.Font, value);
 
-                    _button.StateCommon.Content.ShortText.Font = value;
+                    _label.StateCommon.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _label.StateCommon.LongText.Font;
+
+            set
+            {
+                if (_label.StateCommon.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_label, null, _label.StateCommon.LongText.Font, value);
+
+                    _label.StateCommon.LongText.Font = value;
                 }
             }
         }
@@ -169,16 +186,18 @@ namespace Krypton.Toolkit
             DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
-            if (_button != null)
+            if (_label != null)
             {
-                // Add the list of button specific actions
+                // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("ButtonStyle", "Style", "Appearance", "Button style"));
-                actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Button orientation"));
+                actions.Add(new DesignerActionPropertyItem("LabelStyle", "Style", "Appearance", "Label style"));
+                actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Visual orientation"));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
-                actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Button text"));
-                actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Button extra text"));
-                actions.Add(new DesignerActionPropertyItem("Image", "Image", "Values", "Button image"));
+                actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Label text"));
+                actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Label extra text"));
+                actions.Add(new DesignerActionPropertyItem("Image", "Image", "Values", "Label image"));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }

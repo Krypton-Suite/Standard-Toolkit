@@ -580,7 +580,13 @@ namespace Krypton.Toolkit
         public string Hint
         {
             get => _textBox.Hint;
-            set => _textBox.Hint = value;
+            set
+            {
+                _textBox.Hint = value;
+
+                // Force a repaint
+                Invalidate();
+            }
         }
 
         private bool ShouldSerializeHint()

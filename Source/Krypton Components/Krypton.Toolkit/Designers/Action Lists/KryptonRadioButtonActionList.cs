@@ -9,8 +9,8 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System.Drawing;
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets a value indicating if the radio button is checked.
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         {
             get => _radioButton.LabelStyle;
 
-            set 
+            set
             {
                 if (_radioButton.LabelStyle != value)
                 {
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
         {
             get => _radioButton.Values.Text;
 
-            set 
+            set
             {
                 if (_radioButton.Values.Text != value)
                 {
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         {
             get => _radioButton.Values.ExtraText;
 
-            set 
+            set
             {
                 if (_radioButton.Values.ExtraText != value)
                 {
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         {
             get => _radioButton.Values.Image;
 
-            set 
+            set
             {
                 if (_radioButton.Values.Image != value)
                 {
@@ -164,12 +164,46 @@ namespace Krypton.Toolkit
         {
             get => _radioButton.PaletteMode;
 
-            set 
+            set
             {
                 if (_radioButton.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_radioButton, null, _radioButton.PaletteMode, value);
                     _radioButton.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font ShortTextFont
+        {
+            get => _radioButton.StateCommon.ShortText.Font;
+
+            set
+            {
+                if (_radioButton.StateCommon.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_radioButton, null, _radioButton.StateCommon.ShortText.Font, value);
+
+                    _radioButton.StateCommon.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _radioButton.StateCommon.LongText.Font;
+
+            set
+            {
+                if (_radioButton.StateCommon.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_radioButton, null, _radioButton.StateCommon.LongText.Font, value);
+
+                    _radioButton.StateCommon.LongText.Font = value;
                 }
             }
         }
@@ -195,6 +229,8 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("LabelStyle", "Style", "Appearance", "Label style"));
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Visual orientation"));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Radio button text"));
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Radio button extra text"));
@@ -202,7 +238,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

@@ -37,7 +37,7 @@
         <Compile Update="ButtonSpec\ButtonSpecCalendar.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Designers\PaletteDrawBordersSelector.cs">
+        <Compile Update="Designers\Other\PaletteDrawBordersSelector.cs">
             <SubType>UserControl</SubType>
         </Compile>
         <Compile Update="Controls Toolkit\KryptonByteViewer.cs" />
@@ -352,8 +352,8 @@
       <UpdatePackageVersion>False</UpdatePackageVersion>
       <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
       <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
-      <AssemblyVersion>5.550.2101</AssemblyVersion>
-      <FileVersion>5.550.2101</FileVersion>
+      <AssemblyVersion>5.550.2103</AssemblyVersion>
+      <FileVersion>5.550.2103</FileVersion>
     </PropertyGroup>
     <ProjectExtensions>
         <VisualStudio>

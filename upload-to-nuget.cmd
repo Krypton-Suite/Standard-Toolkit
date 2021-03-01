@@ -21,25 +21,25 @@ if /I "%INPUT%"=="y" goto publish
 if /I "%INPUT%"=="n" goto no
 
 :publish
-dotnet nuget push Krypton.Docking.5.550.2011.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
+dotnet nuget push Krypton.Docking.Canary.6.0.2008.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
 
-dotnet nuget push Krypton.Docking.Lite.5.550.2011.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
+dotnet nuget push Krypton.Docking.Canary.Lite.6.0.2008.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
 
-dotnet nuget push Krypton.Navigator.5.550.2011.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
+dotnet nuget push Krypton.Navigator.Canary.6.0.2008.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
 
-dotnet nuget push Krypton.Navigator.Lite.5.550.2011.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
+dotnet nuget push Krypton.Navigator.Canary.Lite.6.0.2008.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
 
-dotnet nuget push Krypton.Ribbon.5.550.2011.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
+dotnet nuget push Krypton.Ribbon.Canary.6.0.2008.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
 
-dotnet nuget push Krypton.Ribbon.Lite.5.550.2011.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
+dotnet nuget push Krypton.Ribbon.Canary.Lite.6.0.2008.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
 
-dotnet nuget push Krypton.Toolkit.5.550.2011.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
+dotnet nuget push Krypton.Toolkit.Canary.6.0.2008.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
 
-dotnet nuget push Krypton.Toolkit.Lite.5.550.2011.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
+dotnet nuget push Krypton.Toolkit.Canary.Lite.6.0.2008.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
 
-dotnet nuget push Krypton.Workspace.5.550.2011.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
+dotnet nuget push Krypton.Workspace.Canary.6.0.2008.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
 
-dotnet nuget push Krypton.Workspace.Lite.5.550.2011.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
+dotnet nuget push Krypton.Workspace.Canary.Lite.6.0.2008.nupkg -k <#API-KEY#> -s https://api.nuget.org/v3/index.json
 
 echo All NuGet packages have now been published!
 

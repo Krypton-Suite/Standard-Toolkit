@@ -10,46 +10,65 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonRichTextBoxActionList : DesignerActionList
+    internal class KryptonComboBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonRichTextBox _richTextBox;
+        private readonly KryptonComboBox _comboBox;
         private readonly IComponentChangeService _service;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonRichTextBoxActionList class.
+        /// Initialize a new instance of the KryptonComboBoxActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonRichTextBoxActionList(KryptonRichTextBoxDesigner owner)
+        public KryptonComboBoxActionList(KryptonComboBoxDesigner owner)
             : base(owner.Component)
         {
-            // Remember the text box instance
-            _richTextBox = owner.Component as KryptonRichTextBox;
+            // Remember the combo box instance
+            _comboBox = owner.Component as KryptonComboBox;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _comboBox.ContextMenuStrip;
+
+            set
+            {
+                if (_comboBox.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_comboBox, null, _comboBox.ContextMenuStrip, value);
+
+                    _comboBox.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _richTextBox.PaletteMode;
+            get => _comboBox.PaletteMode;
 
-            set 
+            set
             {
-                if (_richTextBox.PaletteMode != value)
+                if (_comboBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.PaletteMode, value);
-                    _richTextBox.PaletteMode = value;
+                    _service.OnComponentChanged(_comboBox, null, _comboBox.PaletteMode, value);
+                    _comboBox.PaletteMode = value;
                 }
             }
         }
@@ -59,48 +78,31 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _richTextBox.InputControlStyle;
+            get => _comboBox.InputControlStyle;
 
             set
             {
-                if (_richTextBox.InputControlStyle != value)
+                if (_comboBox.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.InputControlStyle, value);
-                    _richTextBox.InputControlStyle = value;
+                    _service.OnComponentChanged(_comboBox, null, _comboBox.InputControlStyle, value);
+                    _comboBox.InputControlStyle = value;
                 }
             }
         }
 
-        /// <summary>
-        /// Gets and sets the Multiline mode.
-        /// </summary>
-        public bool Multiline
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font Font
         {
-            get => _richTextBox.Multiline;
+            get => _comboBox.StateCommon.ComboBox.Content.Font;
 
             set
             {
-                if (_richTextBox.Multiline != value)
+                if (_comboBox.StateCommon.ComboBox.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.Multiline, value);
-                    _richTextBox.Multiline = value;
-                }
-            }
-        }
+                    _service.OnComponentChanged(_comboBox, null, _comboBox.StateCommon.ComboBox.Content.Font, value);
 
-        /// <summary>
-        /// Gets and sets the WordWrap mode.
-        /// </summary>
-        public bool WordWrap
-        {
-            get => _richTextBox.WordWrap;
-
-            set
-            {
-                if (_richTextBox.WordWrap != value)
-                {
-                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.WordWrap, value);
-                    _richTextBox.WordWrap = value;
+                    _comboBox.StateCommon.ComboBox.Content.Font = value;
                 }
             }
         }
@@ -117,18 +119,17 @@ namespace Krypton.Toolkit
             DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
-            if (_richTextBox != null)
+            if (_comboBox != null)
             {
-                // Add the list of rich text box specific actions
+                // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
-                actions.Add(new DesignerActionHeaderItem("TextBox"));
-                actions.Add(new DesignerActionPropertyItem("Multiline", "Multiline", "TextBox", "Should text span multiple lines."));
-                actions.Add(new DesignerActionPropertyItem("WordWrap", "WordWrap", "TextBox", "Should words be wrapped over multiple lines."));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "ComboBox display style."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The font for the combobox."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

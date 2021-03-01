@@ -11,26 +11,27 @@
 
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonCheckedListBoxActionList : DesignerActionList
+    internal class KryptonTreeViewActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonCheckedListBox _checkedListBox;
+        private readonly KryptonTreeView _treeView;
         private readonly IComponentChangeService _service;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonCheckedListBoxActionList class.
+        /// Initialize a new instance of the KryptonTreeViewActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonCheckedListBoxActionList(KryptonCheckedListBoxDesigner owner)
+        public KryptonTreeViewActionList(KryptonTreeViewDesigner owner)
             : base(owner.Component)
         {
-            // Remember the list box instance
-            _checkedListBox = owner.Component as KryptonCheckedListBox;
+            // Remember the tree view instance
+            _treeView = owner.Component as KryptonTreeView;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
@@ -38,19 +39,36 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>
-        /// Gets and sets the syle used for list items.
-        /// </summary>
-        public ButtonStyle ItemStyle
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
         {
-            get => _checkedListBox.ItemStyle;
+            get => _treeView.ContextMenuStrip;
 
             set
             {
-                if (_checkedListBox.ItemStyle != value)
+                if (_treeView.ContextMenuStrip != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.ItemStyle, value);
-                    _checkedListBox.ItemStyle = value;
+                    _service.OnComponentChanged(_treeView, null, _treeView.ContextMenuStrip, value);
+
+                    _treeView.ContextMenuStrip = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the syle used for tree items.
+        /// </summary>
+        public ButtonStyle ItemStyle
+        {
+            get => _treeView.ItemStyle;
+
+            set
+            {
+                if (_treeView.ItemStyle != value)
+                {
+                    _service.OnComponentChanged(_treeView, null, _treeView.ItemStyle, value);
+                    _treeView.ItemStyle = value;
                 }
             }
         }
@@ -60,14 +78,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle BackStyle
         {
-            get => _checkedListBox.BackStyle;
+            get => _treeView.BackStyle;
 
             set
             {
-                if (_checkedListBox.BackStyle != value)
+                if (_treeView.BackStyle != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.BackStyle, value);
-                    _checkedListBox.BackStyle = value;
+                    _service.OnComponentChanged(_treeView, null, _treeView.BackStyle, value);
+                    _treeView.BackStyle = value;
                 }
             }
         }
@@ -77,31 +95,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle BorderStyle
         {
-            get => _checkedListBox.BorderStyle;
+            get => _treeView.BorderStyle;
 
             set
             {
-                if (_checkedListBox.BorderStyle != value)
+                if (_treeView.BorderStyle != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.BorderStyle, value);
-                    _checkedListBox.BorderStyle = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets and sets the selection mode.
-        /// </summary>
-        public CheckedSelectionMode SelectionMode
-        {
-            get => _checkedListBox.SelectionMode;
-
-            set
-            {
-                if (_checkedListBox.SelectionMode != value)
-                {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.SelectionMode, value);
-                    _checkedListBox.SelectionMode = value;
+                    _service.OnComponentChanged(_treeView, null, _treeView.BorderStyle, value);
+                    _treeView.BorderStyle = value;
                 }
             }
         }
@@ -111,31 +112,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Sorted
         {
-            get => _checkedListBox.Sorted;
+            get => _treeView.Sorted;
 
             set
             {
-                if (_checkedListBox.Sorted != value)
+                if (_treeView.Sorted != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.Sorted, value);
-                    _checkedListBox.Sorted = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets and sets the check on click setting.
-        /// </summary>
-        public bool CheckOnClick
-        {
-            get => _checkedListBox.CheckOnClick;
-
-            set
-            {
-                if (_checkedListBox.CheckOnClick != value)
-                {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.CheckOnClick, value);
-                    _checkedListBox.CheckOnClick = value;
+                    _service.OnComponentChanged(_treeView, null, _treeView.Sorted, value);
+                    _treeView.Sorted = value;
                 }
             }
         }
@@ -145,31 +129,48 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _checkedListBox.PaletteMode;
+            get => _treeView.PaletteMode;
 
             set
             {
-                if (_checkedListBox.PaletteMode != value)
+                if (_treeView.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.PaletteMode, value);
-                    _checkedListBox.PaletteMode = value;
+                    _service.OnComponentChanged(_treeView, null, _treeView.PaletteMode, value);
+                    _treeView.PaletteMode = value;
                 }
             }
         }
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font Font
+        public Font ShortTextFont
         {
-            get => _checkedListBox.StateCommon.Item.Content.ShortText.Font;
+            get => _treeView.StateCommon.Node.Content.ShortText.Font;
 
             set
             {
-                if (_checkedListBox.StateCommon.Item.Content.ShortText.Font != value)
+                if (_treeView.StateCommon.Node.Content.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_checkedListBox, null, _checkedListBox.StateCommon.Item.Content.ShortText.Font, value);
+                    _service.OnComponentChanged(_treeView, null, _treeView.StateCommon.Node.Content.ShortText.Font, value);
 
-                    _checkedListBox.StateCommon.Item.Content.ShortText.Font = value;
+                    _treeView.StateCommon.Node.Content.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _treeView.StateCommon.Node.Content.LongText.Font;
+
+            set
+            {
+                if (_treeView.StateCommon.Node.Content.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_treeView, null, _treeView.StateCommon.Node.Content.LongText.Font, value);
+
+                    _treeView.StateCommon.Node.Content.LongText.Font = value;
                 }
             }
         }
@@ -186,17 +187,18 @@ namespace Krypton.Toolkit
             DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
-            if (_checkedListBox != null)
+            if (_treeView != null)
             {
-                // Add the list of list box specific actions
+                // Add the list of tree view specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("BackStyle", "Back Style", "Appearance", "Style used to draw background."));
                 actions.Add(new DesignerActionPropertyItem("BorderStyle", "Border Style", "Appearance", "Style used to draw the border."));
-                actions.Add(new DesignerActionPropertyItem("ItemStyle", "Item Style", "Appearance", "How to display list items."));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem("ItemStyle", "Item Style", "Appearance", "How to display tree items."));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Behavior"));
-                actions.Add(new DesignerActionPropertyItem("SelectionMode", "Selection Mode", "Behavior", "Determines the selection mode."));
                 actions.Add(new DesignerActionPropertyItem("Sorted", "Sorted", "Behavior", "Should items be sorted according to string."));
-                actions.Add(new DesignerActionPropertyItem("CheckOnClick", "CheckOnClick", "Behavior", "Should clicking an item toggle its checked state."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }

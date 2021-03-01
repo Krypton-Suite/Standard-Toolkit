@@ -10,46 +10,65 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonMaskedTextBoxActionList : DesignerActionList
+    internal class KryptonDomainUpDownActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonMaskedTextBox _maskedTextBox;
+        private readonly KryptonDomainUpDown _domainUpDown;
         private readonly IComponentChangeService _service;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonMaskedTextBoxActionList class.
+        /// Initialize a new instance of the KryptonDomainUpDownActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonMaskedTextBoxActionList(KryptonMaskedTextBoxDesigner owner)
+        public KryptonDomainUpDownActionList(KryptonDomainUpDownDesigner owner)
             : base(owner.Component)
         {
             // Remember the text box instance
-            _maskedTextBox = owner.Component as KryptonMaskedTextBox;
+            _domainUpDown = owner.Component as KryptonDomainUpDown;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _domainUpDown.ContextMenuStrip;
+
+            set
+            {
+                if (_domainUpDown.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.ContextMenuStrip, value);
+
+                    _domainUpDown.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _maskedTextBox.PaletteMode;
+            get => _domainUpDown.PaletteMode;
 
-            set 
+            set
             {
-                if (_maskedTextBox.PaletteMode != value)
+                if (_domainUpDown.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.PaletteMode, value);
-                    _maskedTextBox.PaletteMode = value;
+                    _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.PaletteMode, value);
+                    _domainUpDown.PaletteMode = value;
                 }
             }
         }
@@ -59,31 +78,29 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _maskedTextBox.InputControlStyle;
+            get => _domainUpDown.InputControlStyle;
 
             set
             {
-                if (_maskedTextBox.InputControlStyle != value)
+                if (_domainUpDown.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.InputControlStyle, value);
-                    _maskedTextBox.InputControlStyle = value;
+                    _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.InputControlStyle, value);
+                    _domainUpDown.InputControlStyle = value;
                 }
             }
         }
 
-        /// <summary>
-        /// Gets and sets the input mask.
-        /// </summary>
-        public string Mask
+        public Font Font
         {
-            get => _maskedTextBox.Mask;
+            get => _domainUpDown.StateCommon.Content.Font;
 
             set
             {
-                if (_maskedTextBox.Mask != value)
+                if (_domainUpDown.StateCommon.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.Mask, value);
-                    _maskedTextBox.Mask = value;
+                    _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.StateCommon.Content.Font, value);
+
+                    _domainUpDown.StateCommon.Content.Font = value;
                 }
             }
         }
@@ -100,17 +117,17 @@ namespace Krypton.Toolkit
             DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
-            if (_maskedTextBox != null)
+            if (_domainUpDown != null)
             {
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
-                actions.Add(new DesignerActionHeaderItem("MaskedTextBox"));
-                actions.Add(new DesignerActionPropertyItem("Mask", "Mask", "MaskedTextBox", "Input mask."));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "DomainUpDown display style."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The font for the domain up down."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

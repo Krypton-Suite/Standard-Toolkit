@@ -10,6 +10,8 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -35,8 +37,25 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _numericUpDown.ContextMenuStrip;
+
+            set
+            {
+                if (_numericUpDown.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.ContextMenuStrip, value);
+
+                    _numericUpDown.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
@@ -44,7 +63,7 @@ namespace Krypton.Toolkit
         {
             get => _numericUpDown.PaletteMode;
 
-            set 
+            set
             {
                 if (_numericUpDown.PaletteMode != value)
                 {
@@ -121,6 +140,23 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font Font
+        {
+            get => _numericUpDown.StateCommon.Content.Font;
+
+            set
+            {
+                if (_numericUpDown.StateCommon.Content.Font != value)
+                {
+                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.StateCommon.Content.Font, value);
+
+                    _numericUpDown.StateCommon.Content.Font = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -138,7 +174,9 @@ namespace Krypton.Toolkit
             {
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "NumericUpDown display style."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The numeric up down font."));
                 actions.Add(new DesignerActionHeaderItem("Data"));
                 actions.Add(new DesignerActionPropertyItem("Increment", "Increment", "Data", "NumericUpDown increment value."));
                 actions.Add(new DesignerActionPropertyItem("Maximum", "Maximum", "Data", "NumericUpDown maximum value."));
@@ -146,7 +184,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion
