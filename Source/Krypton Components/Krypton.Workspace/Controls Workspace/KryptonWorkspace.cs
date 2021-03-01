@@ -429,10 +429,9 @@ namespace Krypton.Workspace
         }
 
         /// <summary>
-        /// Gets and the active page.
+        /// Gets and sets the active page.
         /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [Browsable(true), Description("Gets and sets the active page."), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public KryptonPage ActivePage { get; set; }
 
         /// <summary>
