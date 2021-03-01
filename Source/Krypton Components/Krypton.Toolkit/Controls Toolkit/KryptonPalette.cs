@@ -33,9 +33,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("PalettePaint")]
     [DefaultProperty("BasePaletteMode")]
     [DesignerCategory("code")]
-    //[Designer("Krypton.Toolkit.KryptonPaletteDesigner, Krypton.Toolkit, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
-    [Designer("Krypton.Toolkit.KryptonPaletteDesigner, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
-    [Description("Customisable palette component.")]
+    [Designer(typeof(KryptonPaletteDesigner))]
+    [Description("A customisable palette component.")]
     public class KryptonPalette : Component, IPalette
     {
         #region Type Definitions
@@ -3716,7 +3715,7 @@ namespace Krypton.Toolkit
 
                 // Add a comment about the source of the document
                 doc.AppendChild(doc.CreateComment("Created by exporting the settings of a KryptonPalette instance."));
-                doc.AppendChild(doc.CreateComment("For more information about Krypton visit "));
+                doc.AppendChild(doc.CreateComment("For more information about Krypton visit https://github.com/Krypton-Suite/Standard-Toolkit"));
                 doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
 
                 // Create a root node with version and the date information, by 
@@ -6394,7 +6393,7 @@ namespace Krypton.Toolkit
         /// Gets the CustomisedKryptonPaletteFilePath value.
         /// </summary>
         /// <returns>The value of customisedKryptonPaletteFilePathValue.</returns>
-        public string GetCustomisedKryptonPaletteFilePath() => _customisedKryptonPaletteFilePath;
+        public string GetCustomisedKryptonPaletteFilePath() => CustomisedKryptonPaletteFilePath;
         #endregion
     }
 }

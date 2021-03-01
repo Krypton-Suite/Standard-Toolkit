@@ -39,6 +39,23 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _dateTimePicker.ContextMenuStrip;
+
+            set
+            {
+                if (_dateTimePicker.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.ContextMenuStrip, value);
+
+                    _dateTimePicker.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the display format.
         /// </summary>
@@ -155,10 +172,12 @@ namespace Krypton.Toolkit
             {
                 // Add the list of bread crumb specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("Format", "Format", "Appearance", "Decide what to display in the edit portion of the control"));
                 actions.Add(new DesignerActionPropertyItem("ShowUpDown", "ShowUpDown", "Appearance", "Display up and down buttons for modifying dates and times"));
                 actions.Add(new DesignerActionPropertyItem("ShowCheckBox", "ShowCheckBox", "Appearance", "Display a check box allowing the user to set the value is null"));
                 actions.Add(new DesignerActionPropertyItem("Checked", "Checked", "Appearance", "Is the current value null"));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The font for the date time picker."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }

@@ -10,6 +10,8 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -35,8 +37,25 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _monthCalendar.ContextMenuStrip;
+
+            set
+            {
+                if (_monthCalendar.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.ContextMenuStrip, value);
+
+                    _monthCalendar.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
@@ -44,7 +63,7 @@ namespace Krypton.Toolkit
         {
             get => _monthCalendar.PaletteMode;
 
-            set 
+            set
             {
                 if (_monthCalendar.PaletteMode != value)
                 {
@@ -61,7 +80,7 @@ namespace Krypton.Toolkit
         {
             get => _monthCalendar.MaxSelectionCount;
 
-            set 
+            set
             {
                 if (_monthCalendar.MaxSelectionCount != value)
                 {
@@ -121,6 +140,40 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font DayShortTextFont
+        {
+            get => _monthCalendar.StateCommon.Day.Content.ShortText.Font;
+
+            set
+            {
+                if (_monthCalendar.StateCommon.Day.Content.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.StateCommon.Day.Content.ShortText.Font, value);
+
+                    _monthCalendar.StateCommon.Day.Content.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font DayLongTextFont
+        {
+            get => _monthCalendar.StateCommon.Day.Content.LongText.Font;
+
+            set
+            {
+                if (_monthCalendar.StateCommon.Day.Content.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.StateCommon.Day.Content.LongText.Font, value);
+
+                    _monthCalendar.StateCommon.Day.Content.LongText.Font = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -137,6 +190,10 @@ namespace Krypton.Toolkit
             if (_monthCalendar != null)
             {
                 // Add the list of bread crumb specific actions
+                actions.Add(new DesignerActionHeaderItem("Appearance"));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem("DayShortTextFont", "Day Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("DayLongTextFont", "Day Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Behavior"));
                 actions.Add(new DesignerActionPropertyItem("MaxSelectionCount", "MaxSelectionCount", "Behavior", "Maximum number of selected days"));
                 actions.Add(new DesignerActionPropertyItem("ShowToday", "ShowToday", "Behavior", "Show the today button"));
@@ -145,7 +202,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

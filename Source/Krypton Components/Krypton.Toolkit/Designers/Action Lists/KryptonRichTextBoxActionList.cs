@@ -10,46 +10,65 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonTextBoxActionList : DesignerActionList
+    internal class KryptonRichTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonTextBox _textBox;
+        private readonly KryptonRichTextBox _richTextBox;
         private readonly IComponentChangeService _service;
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonTextBoxActionList class.
+        /// Initialize a new instance of the KryptonRichTextBoxActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonTextBoxActionList(KryptonTextBoxDesigner owner)
+        public KryptonRichTextBoxActionList(KryptonRichTextBoxDesigner owner)
             : base(owner.Component)
         {
             // Remember the text box instance
-            _textBox = owner.Component as KryptonTextBox;
+            _richTextBox = owner.Component as KryptonRichTextBox;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _richTextBox.ContextMenuStrip;
+
+            set
+            {
+                if (_richTextBox.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.ContextMenuStrip, value);
+
+                    _richTextBox.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _textBox.PaletteMode;
+            get => _richTextBox.PaletteMode;
 
-            set 
+            set
             {
-                if (_textBox.PaletteMode != value)
+                if (_richTextBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.PaletteMode, value);
-                    _textBox.PaletteMode = value;
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.PaletteMode, value);
+                    _richTextBox.PaletteMode = value;
                 }
             }
         }
@@ -59,14 +78,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _textBox.InputControlStyle;
+            get => _richTextBox.InputControlStyle;
 
             set
             {
-                if (_textBox.InputControlStyle != value)
+                if (_richTextBox.InputControlStyle != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.InputControlStyle, value);
-                    _textBox.InputControlStyle = value;
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.InputControlStyle, value);
+                    _richTextBox.InputControlStyle = value;
                 }
             }
         }
@@ -76,14 +95,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Multiline
         {
-            get => _textBox.Multiline;
+            get => _richTextBox.Multiline;
 
             set
             {
-                if (_textBox.Multiline != value)
+                if (_richTextBox.Multiline != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.Multiline, value);
-                    _textBox.Multiline = value;
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.Multiline, value);
+                    _richTextBox.Multiline = value;
                 }
             }
         }
@@ -93,48 +112,31 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool WordWrap
         {
-            get => _textBox.WordWrap;
+            get => _richTextBox.WordWrap;
 
             set
             {
-                if (_textBox.WordWrap != value)
+                if (_richTextBox.WordWrap != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.WordWrap, value);
-                    _textBox.WordWrap = value;
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.WordWrap, value);
+                    _richTextBox.WordWrap = value;
                 }
             }
         }
 
-        /// <summary>
-        /// Gets and sets the UseSystemPasswordChar mode.
-        /// </summary>
-        public bool UseSystemPasswordChar
+        // <summary>Gets or sets the rich text box font.</summary>
+        /// <value>The rich text box font.</value>
+        public Font Font
         {
-            get => _textBox.UseSystemPasswordChar;
+            get => _richTextBox.StateCommon.Content.Font;
 
             set
             {
-                if (_textBox.UseSystemPasswordChar != value)
+                if (_richTextBox.StateCommon.Content.Font != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.UseSystemPasswordChar, value);
-                    _textBox.UseSystemPasswordChar = value;
-                }
-            }
-        }
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.StateCommon.Content.Font, value);
 
-        /// <summary>Gets or sets the hint.</summary>
-        /// <value>The hint.</value>
-        public string Hint
-        {
-            get => _textBox.Hint;
-
-            set
-            {
-                if (_textBox.Hint != value)
-                {
-                    _service.OnComponentChanged(_textBox, null, _textBox.Hint, value);
-
-                    _textBox.Hint = value;
+                    _richTextBox.StateCommon.Content.Font = value;
                 }
             }
         }
@@ -151,19 +153,20 @@ namespace Krypton.Toolkit
             DesignerActionItemCollection actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
-            if (_textBox != null)
+            if (_richTextBox != null)
             {
-                // Add the list of label specific actions
+                // Add the list of rich text box specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "Modifies the font of the control."));
                 actions.Add(new DesignerActionHeaderItem("TextBox"));
                 actions.Add(new DesignerActionPropertyItem("Multiline", "Multiline", "TextBox", "Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem("WordWrap", "WordWrap", "TextBox", "Should words be wrapped over multiple lines."));
-                actions.Add(new DesignerActionPropertyItem("UseSystemPasswordChar", "UseSystemPasswordChar", "TextBox", "Should characters be displayed in password characters."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing."));
             }
-            
+
             return actions;
         }
         #endregion

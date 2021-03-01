@@ -10,6 +10,7 @@
 // *****************************************************************************
 
 using System.ComponentModel.Design;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -35,7 +36,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the label style.
@@ -70,6 +71,23 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font Font
+        {
+            get => _wrapLabel.StateCommon.Font;
+
+            set
+            {
+                if (_wrapLabel.StateCommon.Font != value)
+                {
+                    _service.OnComponentChanged(_wrapLabel, null, _wrapLabel.StateCommon.Font, value);
+
+                    _wrapLabel.StateCommon.Font = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -87,10 +105,11 @@ namespace Krypton.Toolkit
             {
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("LabelStyle", "Style", "Appearance", "Label style"));
+                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The wrap label font."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

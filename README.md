@@ -40,7 +40,15 @@
 
 =======
 
+# Discord Server
+
 <a href="https://discord.gg/CRjF6fY" alt="Join our Krypton Toolkit community Discord server"><img src="https://img.shields.io/badge/Discord-Join%20our%20server-7289DA?logo=discord" /></a>
+
+=======
+
+# Project & item templates
+
+<a href="https://tinyurl.com/StandardToolkitTemplates" alt="Download project & item templates"><img src="https://img.shields.io/badge/Templates-Download%20project%20%26%20item%20templates-blueviolet" /></a>
 
 =======
 
@@ -53,8 +61,18 @@ Only use these packages if you require to target a specific framework version be
 These packages supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
+## 2021-03-01 - Build 2103 - March 2021
+* Fix for [#35](https://github.com/Krypton-Suite/Standard-Toolkit/issues/35), It is still not possible to create a `KryptonStatusStrip` on a form at design time.
+* Fix for `KryptonPalette` component, courtesy of 'gwni'
+* Added properties to action lists such as `ShortFont`, `LongFont`, `Font`, `SelectedColour` etc. More to come.
+* Fixed bug where the `KryptonTextBox` does not repaint after altering the `Hint` property
+* Implemented [#14](https://github.com/Krypton-Suite/Standard-Toolkit/issues/14), Access Fonts via Action Lists
+* Removed `KryptonStatusStrip` & `KryptonToolStrip` (these are now part of the `Krypton.Toolkit.Suite.Extended.Tool.Strip.Items` module, as of build **2104**)
 
-## 2021-01-03 - Build 2101 - January 2021
+=======
+
+## 2021-01-05 - Build 2101 - January 2021
+
 * Updated year references from `2020` to `2021`
 * Fix for [#19](https://github.com/Krypton-Suite/Standard-Toolkit/issues/19), "Office 365 Silver" theme `StatusBar` drag glyph, is not visible
 * Fix for [#20](https://github.com/Krypton-Suite/Standard-Toolkit/issues/20), Selected text in ComboBox is drawn in a different font

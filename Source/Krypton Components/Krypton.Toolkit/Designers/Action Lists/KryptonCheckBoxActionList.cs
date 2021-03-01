@@ -107,6 +107,23 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _checkBox.ContextMenuStrip;
+
+            set
+            {
+                if (_checkBox.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_checkBox, null, _checkBox.ContextMenuStrip, value);
+
+                    _checkBox.ContextMenuStrip = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the label style.
         /// </summary>
@@ -211,7 +228,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font Font
+        public Font ShortTextFont
         {
             get => _checkBox.StateCommon.ShortText.Font;
 
@@ -222,6 +239,23 @@ namespace Krypton.Toolkit
                     _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Font, value);
 
                     _checkBox.StateCommon.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _checkBox.StateCommon.LongText.Font;
+
+            set
+            {
+                if (_checkBox.StateCommon.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Font, value);
+
+                    _checkBox.StateCommon.LongText.Font = value;
                 }
             }
         }
@@ -248,6 +282,9 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("LabelStyle", "Style", "Appearance", "Label style"));
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Visual orientation"));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Checkbox text"));
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Checkbox extra text"));

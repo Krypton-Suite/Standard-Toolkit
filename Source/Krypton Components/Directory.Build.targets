@@ -6,9 +6,6 @@
     <PropertyGroup>
         <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Lite</PackageId>
         <Description Condition="'$(TFMs)' == 'lite'">
-            $(Description)
-            This package supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
-            If you require .NET 4.0 support or want to use library fully build against your specific framework version use non-lite package.
         </Description>
         <Description Condition="'$(TFMs)' == 'all'">
           $(Description)

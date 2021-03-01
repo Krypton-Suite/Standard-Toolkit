@@ -9,8 +9,9 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System.Drawing;
 using System.ComponentModel.Design;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -26,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonDropButtonActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonDropButtonActionList(KryptonDropButtonDesigner owner) 
+        public KryptonDropButtonActionList(KryptonDropButtonDesigner owner)
             : base(owner.Component)
         {
             // Remember the button instance
@@ -36,7 +37,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the button style.
@@ -62,12 +63,29 @@ namespace Krypton.Toolkit
         {
             get => _dropButton.ButtonOrientation;
 
-            set 
+            set
             {
                 if (_dropButton.ButtonOrientation != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.ButtonOrientation, value);
                     _dropButton.ButtonOrientation = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the context menu strip.</summary>
+        /// <value>The context menu strip.</value>
+        public ContextMenuStrip ContextMenuStrip
+        {
+            get => _dropButton.ContextMenuStrip;
+
+            set
+            {
+                if (_dropButton.ContextMenuStrip != value)
+                {
+                    _service.OnComponentChanged(_dropButton, null, _dropButton.ContextMenuStrip, value);
+
+                    _dropButton.ContextMenuStrip = value;
                 }
             }
         }
@@ -130,7 +148,7 @@ namespace Krypton.Toolkit
         {
             get => _dropButton.Values.Text;
 
-            set 
+            set
             {
                 if (_dropButton.Values.Text != value)
                 {
@@ -147,7 +165,7 @@ namespace Krypton.Toolkit
         {
             get => _dropButton.Values.ExtraText;
 
-            set 
+            set
             {
                 if (_dropButton.Values.ExtraText != value)
                 {
@@ -181,12 +199,46 @@ namespace Krypton.Toolkit
         {
             get => _dropButton.PaletteMode;
 
-            set 
+            set
             {
                 if (_dropButton.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.PaletteMode, value);
                     _dropButton.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font ShortTextFont
+        {
+            get => _dropButton.StateCommon.Content.ShortText.Font;
+
+            set
+            {
+                if (_dropButton.StateCommon.Content.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_dropButton, null, _dropButton.StateCommon.Content.ShortText.Font, value);
+
+                    _dropButton.StateCommon.Content.ShortText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the font.</summary>
+        /// <value>The font.</value>
+        public Font LongTextFont
+        {
+            get => _dropButton.StateCommon.Content.LongText.Font;
+
+            set
+            {
+                if (_dropButton.StateCommon.Content.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_dropButton, null, _dropButton.StateCommon.Content.LongText.Font, value);
+
+                    _dropButton.StateCommon.Content.LongText.Font = value;
                 }
             }
         }
@@ -210,8 +262,11 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("Splitter", "Splitter", "Appearance", "Splitter of DropDown"));
                 actions.Add(new DesignerActionPropertyItem("ButtonStyle", "ButtonStyle", "Appearance", "Button style"));
                 actions.Add(new DesignerActionPropertyItem("ButtonOrientation", "ButtonOrientation", "Appearance", "Button orientation"));
+                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("DropDownPosition", "DropDownPosition", "Appearance", "DropDown position"));
                 actions.Add(new DesignerActionPropertyItem("DropDownOrientation", "DropDownOrientation", "Appearance", "DropDown orientation"));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Button text"));
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Button extra text"));
@@ -219,7 +274,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion
