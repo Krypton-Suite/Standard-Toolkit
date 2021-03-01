@@ -4,16 +4,14 @@
     -->
 
     <PropertyGroup>
-        <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Lite.Signed</PackageId>
+        <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Lite</PackageId>
         <Description Condition="'$(TFMs)' == 'lite'">
         </Description>
-		<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Signed</PackageId>
         <Description Condition="'$(TFMs)' == 'all'">
           $(Description)
           This package supports all .NET Framework versions starting .NET 3.5 and .NET Core 3.1/.NET 5.
           Also, all libraries are included targeting each specific framework version for performance purposes.
           If you target only .NET Framework >= 3.5 and are not interested in specific framework version, consider using the lite package.
-		      These assemblies have been signed.
         </Description>
     </PropertyGroup>
 </Project>
