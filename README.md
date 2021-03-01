@@ -98,6 +98,12 @@ These packages supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 ## Version History
 
+## 2021-06-01 - Build 2106 - June 2021
+* Allow the user to set a `ActivePage` on the `KryptonWorkspace` control
+* Implemented [#43](https://github.com/Krypton-Suite/Standard-Toolkit/issues/43), Access corner rounding features via Action Lists
+
+=======
+
 ## 2021-03-01 - Build 2103 - March 2021
 * Fix for [#35](https://github.com/Krypton-Suite/Standard-Toolkit/issues/35), It is still not possible to create a `KryptonStatusStrip` on a form at design time.
 * Fix for `KryptonPalette` component, courtesy of 'gwni'
