@@ -35,7 +35,6 @@ namespace Krypton.Toolkit
     [DesignerCategory("code")]
     [Designer(typeof(KryptonPaletteDesigner))]
     [Description("A customisable palette component.")]
-    [Description("Customisable palette component.")]
     public class KryptonPalette : Component, IPalette
     {
         #region Type Definitions
