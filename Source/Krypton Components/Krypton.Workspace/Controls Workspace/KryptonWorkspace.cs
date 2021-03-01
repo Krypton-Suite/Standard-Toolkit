@@ -432,8 +432,8 @@ namespace Krypton.Workspace
         /// Gets and the active page.
         /// </summary>
         [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonPage ActivePage { get; private set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public KryptonPage ActivePage { get; set; }
 
         /// <summary>
         /// Gets and sets the compacting options to be applied.
