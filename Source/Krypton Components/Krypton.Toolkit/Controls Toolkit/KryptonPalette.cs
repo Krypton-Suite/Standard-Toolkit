@@ -6387,19 +6387,13 @@ namespace Krypton.Toolkit
         /// Sets the CustomisedKryptonPaletteFilePath to the value of customisedKryptonPaletteFilePathValue.
         /// </summary>
         /// <param name="customisedKryptonPaletteFilePathValue">The value of customisedKryptonPaletteFilePathValue.</param>
-        public void SetCustomisedKryptonPaletteFilePath(string customisedKryptonPaletteFilePathValue)
-        {
-            CustomisedKryptonPaletteFilePath = customisedKryptonPaletteFilePathValue;
-        }
+        public void SetCustomisedKryptonPaletteFilePath(string customisedKryptonPaletteFilePathValue) => CustomisedKryptonPaletteFilePath = customisedKryptonPaletteFilePathValue;
 
         /// <summary>
         /// Gets the CustomisedKryptonPaletteFilePath value.
         /// </summary>
         /// <returns>The value of customisedKryptonPaletteFilePathValue.</returns>
-        public string GetCustomisedKryptonPaletteFilePath()
-        {
-            return CustomisedKryptonPaletteFilePath;
-        }
+        public string GetCustomisedKryptonPaletteFilePath() => CustomisedKryptonPaletteFilePath;
         #endregion
     }
 }
