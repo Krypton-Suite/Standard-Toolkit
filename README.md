@@ -76,13 +76,13 @@
 
 # Discord Server
 
-<a href="https://discord.gg/CRjF6fY" alt="Join our Krypton Toolkit community Discord server"><img src="https://img.shields.io/badge/Discord-Join%20our%20server-7289DA?logo=discord" /></a>
+<a href="https://discord.gg/CRjF6fY" alt="Join our Krypton Toolkit community Discord server"><img src="https://img.shields.io/badge/Discord-Join%20our%20server-7289DA?logo=discord&style=flat-square" /></a>
 
 =======
 
 # Project & item templates
 
-<a href="https://tinyurl.com/StandardToolkitTemplates" alt="Download project & item templates"><img src="https://img.shields.io/badge/Templates-Download%20project%20%26%20item%20templates-blueviolet" /></a>
+<a href="https://tinyurl.com/StandardToolkitTemplates" alt="Download project & item templates"><img src="https://img.shields.io/badge/Templates-Download%20project%20%26%20item%20templates-blueviolet?style=flat-square" /></a>
 
 =======
 
