@@ -1,6 +1,6 @@
-﻿using Krypton.Toolkit.Properties;
-using System;
+﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -9,11 +9,15 @@ using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    [Description(""), ToolboxBitmap(typeof(ListView))]
+    /// <summary>
+    /// A Kryptonised listview (experimental).
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.ListView" />
+    [Description("A Kryptonised listview (experimental)."), ToolboxBitmap(typeof(ListView)), ToolboxItem(true)]
     public class KryptonListView : ListView
     {
         #region Designer Code
-        //private ImageList ilCheckBoxes;
+        private ImageList ilCheckBoxes;
         private System.ComponentModel.IContainer components;
         private ImageList ilHeight;
 
@@ -27,12 +31,12 @@ namespace Krypton.Toolkit
             // 
             // ilCheckBoxes
             // 
-            /*this.ilCheckBoxes.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilCheckBoxes.ImageStream")));
+            this.ilCheckBoxes.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilCheckBoxes.ImageStream")));
             this.ilCheckBoxes.TransparentColor = System.Drawing.Color.Transparent;
             this.ilCheckBoxes.Images.SetKeyName(0, "XpNotChecked.gif");
             this.ilCheckBoxes.Images.SetKeyName(1, "XpChecked.gif");
             this.ilCheckBoxes.Images.SetKeyName(2, "VistaNotChecked.png");
-            this.ilCheckBoxes.Images.SetKeyName(3, "VistaChecked.png");*/
+            this.ilCheckBoxes.Images.SetKeyName(3, "VistaChecked.png");
             // 
             // ilHeight
             // 
@@ -328,7 +332,7 @@ namespace Krypton.Toolkit
 
             InitializeComponent();
 
-            //_designMode = (Process.GetCurrentProcess().ProcessName == "devenv");
+            _designMode = (Process.GetCurrentProcess().ProcessName == "devenv");
 
             if (SmallImageList == null)
             {
@@ -338,6 +342,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region DrawItem and SubItem
+        /// <summary>Raises the <see cref="E:System.Windows.Forms.ListView.DrawItem">DrawItem</see> event.</summary>
+        /// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewItemEventArgs">DrawListViewItemEventArgs</see> that contains the event data.</param>
         protected override void OnDrawItem(DrawListViewItemEventArgs e)
         {
             //set font 
@@ -412,6 +418,8 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Raises the <see cref="E:System.Windows.Forms.ListView.DrawSubItem">DrawSubItem</see> event.</summary>
+        /// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewSubItemEventArgs">DrawListViewSubItemEventArgs</see> that contains the event data.</param>
         protected override void OnDrawSubItem(DrawListViewSubItemEventArgs e)
         {
             //set font 
@@ -467,11 +475,15 @@ namespace Krypton.Toolkit
                                 //CheckState = "V";
                                 if (_enableVistaCheckBoxes == true)
                                 {
-                                    Check = Properties.Resources.VistaChecked;
+                                    Check = ilCheckBoxes.Images[3];
+
+                                    //Check = Properties.Resources.VistaChecked;
                                 }
                                 else
                                 {
-                                    Check = Resources.XPChecked;
+                                    Check = ilCheckBoxes.Images[1];
+
+                                    //Check = Resources.XPChecked;
                                 }
                             }
                             else
@@ -479,11 +491,15 @@ namespace Krypton.Toolkit
                                 //CheckState = "O";
                                 if (_enableVistaCheckBoxes == true)
                                 {
-                                    Check = Resources.VistaNotChecked;
+                                    Check = ilCheckBoxes.Images[2];
+
+                                    //Check = Resources.VistaNotChecked;
                                 }
                                 else
                                 {
-                                    Check = Resources.XPNotChecked;
+                                    Check = ilCheckBoxes.Images[0];
+
+                                    //Check = Resources.XPNotChecked;
                                 }
                             }
 
@@ -739,6 +755,11 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Internal renderer header.</summary>
+        /// <param name="g">The g.</param>
+        /// <param name="rect">The rect.</param>
+        /// <param name="bHot">if set to <c>true</c> [b hot].</param>
+        /// <param name="e">The <see cref="DrawListViewColumnHeaderEventArgs" /> instance containing the event data.</param>
         private void InternalRendererHeader(ref Graphics g, ref Rectangle rect, bool bHot, ref DrawListViewColumnHeaderEventArgs e)
         {
             //set colors
@@ -775,7 +796,7 @@ namespace Krypton.Toolkit
                 if (!_enableHeaderGlow)
                     g.FillRectangle(brush, rect);
                 else
-                    DrawingMethods.DrawListViewHeader(g, rect, gradStartColor, gradMiddleColor, 90F);
+                    ListViewDrawingMethods.DrawListViewHeader(g, rect, gradStartColor, gradMiddleColor, 90F);
             }
 
             //DrawBorder
@@ -793,6 +814,9 @@ namespace Krypton.Toolkit
         }
 
 
+        /// <summary>Headers the pressed offset.</summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="State">The state.</param>
         private void HeaderPressedOffset(ref Rectangle rect, ListViewItemStates State)
         {
             //min rect height for SystemColors (Theme disabled)
@@ -816,6 +840,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Draw Header
+        /// <summary>Raises the <see cref="E:System.Windows.Forms.ListView.DrawColumnHeader">DrawColumnHeader</see> event.</summary>
+        /// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewColumnHeaderEventArgs">DrawListViewColumnHeaderEventArgs</see> that contains the event data.</param>
         protected override void OnDrawColumnHeader(DrawListViewColumnHeaderEventArgs e)
         {
             if (!DesignMode)
@@ -930,6 +956,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Helper Subs
+        /// <summary>Converts the horizontal alignment to string alignment.</summary>
+        /// <param name="input">The input.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         public StringAlignment ConvertHorizontalAlignmentToStringAlignment(HorizontalAlignment input)
         {
 
