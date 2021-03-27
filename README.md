@@ -61,6 +61,13 @@ Only use these packages if you require to target a specific framework version be
 These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
+
+## 2021-03-27 - Build 2103.1 - March 2021 (Update 1)
+* Remove the Auto Versioning on Each build
+* Fix [#52](https://github.com/Krypton-Suite/Standard-Toolkit/issues/52), NuGet Package descriptions need to be consistent (And published!)
+
+=======
+
 ## 2021-03-01 - Build 2103 - March 2021
 * Fix for [#35](https://github.com/Krypton-Suite/Standard-Toolkit/issues/35), It is still not possible to create a `KryptonStatusStrip` on a form at design time.
 * Fix for `KryptonPalette` component, courtesy of 'gwni'
