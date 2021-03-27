@@ -17,7 +17,7 @@
         <PackageId>Krypton.Toolkit.Canary</PackageId>
         <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the core module.</Description>
     </PropertyGroup>
-  
+
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
@@ -337,10 +337,10 @@
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
     </PropertyGroup>
     <PropertyGroup>
-      <NoWarn>1701;1702</NoWarn>
+        <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
     <PropertyGroup>
-      <AssemblyVersion>6.1.2106</AssemblyVersion>
-      <FileVersion>6.1.2106</FileVersion>
+        <AssemblyVersion>6.1.2106</AssemblyVersion>
+        <FileVersion>6.1.2106</FileVersion>
     </PropertyGroup>
 </Project>
