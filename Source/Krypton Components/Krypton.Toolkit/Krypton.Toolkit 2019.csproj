@@ -15,7 +15,7 @@
 
     <PropertyGroup>
         <PackageId>Krypton.Toolkit.Canary</PackageId>
-        <Description>A update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the core module.</Description>
+        <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the core module.</Description>
     </PropertyGroup>
   
     <PropertyGroup>
@@ -340,24 +340,7 @@
       <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
     <PropertyGroup>
-      <PrimaryVersionType>AssemblyVersionAttribute</PrimaryVersionType>
-      <ShouldCreateLogs>True</ShouldCreateLogs>
-      <AdvancedSettingsExpanded>True</AdvancedSettingsExpanded>
-      <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
-      <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
-      <UpdateAssemblyInfoVersion>True</UpdateAssemblyInfoVersion>
-      <AssemblyVersionSettings>None.None.Increment.None</AssemblyVersionSettings>
-      <AssemblyFileVersionSettings>None.None.Increment.None</AssemblyFileVersionSettings>
-      <AssemblyInfoVersionSettings>None.None.Increment.None</AssemblyInfoVersionSettings>
-      <UpdatePackageVersion>False</UpdatePackageVersion>
-      <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
-      <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
       <AssemblyVersion>6.1.2106</AssemblyVersion>
       <FileVersion>6.1.2106</FileVersion>
     </PropertyGroup>
-    <ProjectExtensions>
-        <VisualStudio>
-            <UserProperties DocumentXCommentEditorState="&lt;HtmlEditState&gt;&#xA;  &lt;Attributes /&gt;&#xA;&lt;/HtmlEditState&gt;" BuildVersion_StartDate="2000/1/1" />
-        </VisualStudio>
-    </ProjectExtensions>
 </Project>

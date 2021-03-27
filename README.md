@@ -92,7 +92,7 @@
 Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 5. Please note that these packages are larger than the lite packages.
 
 ## Lite
-These packages supports only .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
+These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
 
