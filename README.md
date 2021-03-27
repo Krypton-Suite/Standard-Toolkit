@@ -98,9 +98,17 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 ## Version History
 
+=======
+
 ## 2021-06-01 - Build 2106 - June 2021
 * Allow the user to set a `ActivePage` on the `KryptonWorkspace` control
 * Implemented [#43](https://github.com/Krypton-Suite/Standard-Toolkit/issues/43), Access corner rounding features via Action Lists
+
+=======
+
+## 2021-03-27 - Build 2103.1 - March 2021 (Update 1)
+* Remove the Auto Versioning on Each build
+* Fix [#52](https://github.com/Krypton-Suite/Standard-Toolkit/issues/52), Nuget Package descriptions need to be consistent (And published!)
 
 =======
 
