@@ -163,7 +163,7 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
 
-## 2020-02-07 - Build 2002.1 - February 2020 (Patch 1)
+## 2020-02-07 - Build 2002.1 - February 2020 (Update 1)
 * Fix [#28](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/28), KryptonForm crashing Visual Studio
 * Added support for `KryptonInputBox` textbox text alignment
 
