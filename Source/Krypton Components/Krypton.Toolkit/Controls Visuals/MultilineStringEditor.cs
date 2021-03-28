@@ -24,11 +24,11 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Multiline String Editor Window.
     /// </summary>
-    // TODO: Convert this into a KryptonForm
-    internal sealed class MultilineStringEditor : Form
+    internal sealed class MultilineStringEditor : KryptonForm //Form
     {
         #region Instance Members
         private bool _saveChanges = true;
+        private readonly KryptonPanel _panel;
         private readonly KryptonTextBox _textBox;
         private readonly KryptonTextBox _owner;
         private VisualStyleRenderer _sizeGripRenderer;
