@@ -1,10 +1,4 @@
-﻿// *****************************************************************************
-// BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
-//  Created by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 6.0.0  
-// *****************************************************************************
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -180,7 +174,7 @@ namespace Krypton.Toolkit.General
                 | PI.SWP_.NOREDRAW
                 | PI.SWP_.SHOWWINDOW
                 | PI.SWP_.NOCOPYBITS
-                //| PI.SWP_.NOOWNERZORDER
+            //| PI.SWP_.NOOWNERZORDER
             );
             _detectIsActiveTimer.Enabled = true;
 

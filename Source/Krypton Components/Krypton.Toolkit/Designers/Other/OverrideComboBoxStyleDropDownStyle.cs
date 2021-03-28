@@ -1,10 +1,4 @@
-﻿// *****************************************************************************
-// BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
-//  Created by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 6.0.0  
-// *****************************************************************************
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
@@ -36,7 +30,7 @@ namespace Krypton.Toolkit
                 ListBox clb = new ListBox { Dock = DockStyle.Fill };
                 clb.Items.Add(ComboBoxStyle.DropDown);
                 clb.Items.Add(ComboBoxStyle.DropDownList);
-                clb.SelectedIndexChanged += delegate 
+                clb.SelectedIndexChanged += delegate
                     {
                         value = Enum.Parse(typeof(ComboBoxStyle), clb.SelectedItem.ToString());
                         svc.CloseDropDown();

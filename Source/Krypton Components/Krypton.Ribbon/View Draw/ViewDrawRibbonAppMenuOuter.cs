@@ -1,15 +1,5 @@
-﻿// *****************************************************************************
-// 
-//  © Component Factory Pty Ltd, modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV) 2010 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//    The software and associated documentation supplied hereunder are the 
-    //  proprietary information of Component Factory Pty Ltd, 13 Swallows Close, 
-//  Mornington, Vic 3931, Australia and are supplied subject to license terms.
-// 
-//  Version 6.0.0     
-// *****************************************************************************
-
+﻿using Krypton.Toolkit;
 using System;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -72,7 +62,7 @@ namespace Krypton.Ribbon
             base.RenderBefore(context);
 
             // Draw the application menu outer background
-            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle, State, 
+            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle, State,
                                                                     _ribbon.StateCommon.RibbonAppMenuOuter,
                                                                     VisualOrientation.Top, false, _memento);
 

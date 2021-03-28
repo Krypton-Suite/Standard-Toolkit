@@ -1,15 +1,4 @@
-﻿// *****************************************************************************
-// BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
-//  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
-// The software and associated documentation supplied hereunder are the 
-//  proprietary information of Component Factory Pty Ltd, 13 Swallows Close, 
-//  Mornington, Vic 3931, Australia and are supplied subject to license terms.
-// 
-//  Modifications by Megakraken & Simon Coghlan(aka Smurf-IV) 2017 - 2021. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 6.0.0  
-// *****************************************************************************
-
-#if NETFRAMEWORK //https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks
+﻿#if NETFRAMEWORK //https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks
 
 using System;
 using System.ComponentModel;
@@ -24,12 +13,12 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ByteViewerForm : KryptonForm
     {
-#region Instance Members
+        #region Instance Members
         KryptonByteViewer _byteViewer;
         IContainer components;
-#endregion
+        #endregion
 
-#region Identity
+        #region Identity
         /// <summary>
         /// Initializes a new instance of the ByteViewerForm class.
         /// </summary>
@@ -37,9 +26,9 @@ namespace Krypton.Toolkit
         {
             InitializeComponent();
         }
-#endregion
+        #endregion
 
-#region Protected Overrides
+        #region Protected Overrides
         /// <summary>
         /// Raises the Load event.
         /// </summary>
@@ -68,9 +57,9 @@ namespace Krypton.Toolkit
             }
             base.Dispose(disposing);
         }
-#endregion
+        #endregion
 
-#region Private
+        #region Private
         private void OnCheckedButtonChanged(object sender, EventArgs e)
         {
             KryptonCheckSet checkset = (KryptonCheckSet)sender;
@@ -250,7 +239,7 @@ namespace Krypton.Toolkit
             ResumeLayout(false);
             PerformLayout();
         }
-#endregion
+        #endregion
     }
 }
 #endif // NETFRAMEWORK

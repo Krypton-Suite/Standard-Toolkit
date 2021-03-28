@@ -2,5 +2,6 @@
 {
     class PlacementModeConverter
     {
+        // TODO: What is this for?
     }
 }
