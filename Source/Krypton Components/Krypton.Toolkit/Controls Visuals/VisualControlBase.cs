@@ -19,8 +19,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-using Krypton.Toolkit.Values;
-
 using Microsoft.Win32;
 
 namespace Krypton.Toolkit
