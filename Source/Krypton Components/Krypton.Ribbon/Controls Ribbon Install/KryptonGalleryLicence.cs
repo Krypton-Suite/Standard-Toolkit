@@ -18,6 +18,7 @@ using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
+	// TODO: What is this file for?
     internal static class KryptonGalleryLicence
     {
         #region Static Methods
