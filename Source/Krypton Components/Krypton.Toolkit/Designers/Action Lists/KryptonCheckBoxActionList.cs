@@ -7,7 +7,7 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
+ *  Modified: Sunday 18th April, 2021 @ 14:00 GMT
  *
  */
 #endregion
@@ -262,6 +262,40 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the long text trim.</summary>
+        /// <value>The long text trim.</value>
+        public PaletteTextTrim LongTextTrim
+        {
+            get => _checkBox.StateCommon.LongText.Trim;
+
+            set
+            {
+                if (_checkBox.StateCommon.LongText.Trim != value)
+                {
+                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.LongText.Trim, value);
+
+                    _checkBox.StateCommon.LongText.Trim = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the short text trim.</summary>
+        /// <value>The short text trim.</value>
+        public PaletteTextTrim ShortTextTrim
+        {
+            get => _checkBox.StateCommon.ShortText.Trim;
+
+            set
+            {
+                if (_checkBox.StateCommon.ShortText.Trim != value)
+                {
+                    _service.OnComponentChanged(_checkBox, null, _checkBox.StateCommon.ShortText.Trim, value);
+
+                    _checkBox.StateCommon.ShortText.Trim = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -286,7 +320,9 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("LabelStyle", "Style", "Appearance", "Label style"));
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Visual orientation"));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("ShortTextTrim", "Short Text Trim", "Appearance", "The trim mode of the short text."));
                 actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextTrim", "Long Text Trim", "Appearance", "The trim mode of the long text."));
                 actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Checkbox text"));
