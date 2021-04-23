@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         private void SetPromptTextAlignment(HorizontalAlignment alignment) => ktxtInput.TextAlign = alignment;
         #endregion
 
-        private void ktxtInput_TextChanged(object sender, EventArgs e) => EnableOkButton(ktxtInput.Text != "");
+        private void ktxtInput_TextChanged(object sender, EventArgs e) => EnableOkButton(string.IsNullOrEmpty(ktxtInput.Text));
 
         private void ktxtInput_KeyDown(object sender, KeyEventArgs e)
         {
