@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
             this.kbtnOk.Name = "kbtnOk";
             this.kbtnOk.Size = new System.Drawing.Size(90, 25);
             this.kbtnOk.TabIndex = 1;
-            this.kbtnOk.Values.Text = "&OK";
+            this.kbtnOk.Values.Text = "O&k";
             this.kbtnOk.Click += new System.EventHandler(this.kbtnOk_Click);
             // 
             // kbtnCancel
