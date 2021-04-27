@@ -101,6 +101,7 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 =======
 
 ## 2021-06-01 - Build 2106 - June 2021
+* Fixed [#60](https://github.com/Krypton-Suite/Standard-Toolkit/issues/60), As this project is now a long way from the original "ComponentFactory" - The BSD3 License Header needs to change
 * Allow the user to set a `ActivePage` on the `KryptonWorkspace` control
 * Implemented [#43](https://github.com/Krypton-Suite/Standard-Toolkit/issues/43), Access corner rounding features via Action Lists
 * Implemented [#60](https://github.com/Krypton-Suite/Standard-Toolkit/issues/60), As this project is now a long way from the original "ComponentFactory" - The BSD-3 License Header needs to change
