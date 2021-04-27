@@ -114,7 +114,6 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 * Fix [#52](https://github.com/Krypton-Suite/Standard-Toolkit/issues/52), Nuget Package descriptions need to be consistent (And published!)
 
 =======
-
 ## 2021-03-01 - Build 2103 - March 2021
 * Fix for [#35](https://github.com/Krypton-Suite/Standard-Toolkit/issues/35), It is still not possible to create a `KryptonStatusStrip` on a form at design time.
 * Fix for `KryptonPalette` component, courtesy of 'gwni'
@@ -126,6 +125,7 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 =======
 
 ## 2021-01-05 - Build 2101 - January 2021
+
 * Updated year references from `2020` to `2021`
 * Fix for [#19](https://github.com/Krypton-Suite/Standard-Toolkit/issues/19), "Office 365 Silver" theme `StatusBar` drag glyph, is not visible
 * Fix for [#20](https://github.com/Krypton-Suite/Standard-Toolkit/issues/20), Selected text in ComboBox is drawn in a different font
