@@ -102,6 +102,7 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
 * Implemented [#81](https://github.com/Krypton-Suite/Standard-Toolkit/issues/81), Can the "6.x.Lite" version only support .net48;net5.0-windows;net6.0-windows
+* [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
 
 =======
 
