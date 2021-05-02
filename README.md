@@ -74,6 +74,11 @@
 
 =======
 
+## Toolkit Example images
+Follow the links to see the different objects and layouts that this framework allows you to do: https://github.com/Krypton-Suite/Standard-Toolkit-Demos
+
+=======
+
 # Discord Server
 
 <a href="https://discord.gg/CRjF6fY" alt="Join our Krypton Toolkit community Discord server"><img src="https://img.shields.io/badge/Discord-Join%20our%20server-7289DA?logo=discord&style=flat-square" /></a>
