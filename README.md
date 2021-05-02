@@ -38,6 +38,8 @@
 
 # <img src="https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/blob/master/Assets/PNG/Help/Help_1_48_x_48.png" /><a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html">Online Help</a>
 
+=======
+
 ## Toolkit Example images
 Follow the links to see the different objects and layouts that this framework allows you to do: https://github.com/Krypton-Suite/Standard-Toolkit-Demos
 
