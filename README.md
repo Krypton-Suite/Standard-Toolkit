@@ -94,10 +94,10 @@ Follow the links to see the different objects and layouts that this framework al
 # Which packages should I use?
 
 ## Non-Lite
-Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 5. Please note that these packages are larger than the lite packages.
+Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 5/6. Please note that these packages are larger than the lite packages.
 
 ## Lite
-These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
+These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5/6.
 
 =======
 
@@ -106,8 +106,10 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
+* Fixed [#84](https://github.com/Krypton-Suite/Standard-Toolkit/issues/84), Multi-Line Text Box does not support Hint
 * Implemented [#81](https://github.com/Krypton-Suite/Standard-Toolkit/issues/81), Can the "6.x.Lite" version only support .net48;net5.0-windows;net6.0-windows
-* [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
+* Implemented [#79](https://github.com/Krypton-Suite/Standard-Toolkit/issues/79), Customise 'Hint' Font
+* Fixed [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
 
 =======
 
