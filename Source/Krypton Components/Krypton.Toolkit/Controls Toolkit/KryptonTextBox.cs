@@ -15,6 +15,8 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms;
 
+using Krypton.Toolkit.Utilities;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -37,7 +39,6 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private readonly KryptonTextBox _kryptonTextBox;
             private bool _mouseOver;
-            private string _hint;
             #endregion
 
             #region Events
@@ -143,27 +144,37 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            PI.PAINTSTRUCT ps = new();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             // Paint the entire area in the background color
-                            using (Graphics g = Graphics.FromHdc(hdc))
+                            using Graphics g = Graphics.FromHdc(hdc);
+                            // Grab the client area of the control
+                            PI.GetClientRect(Handle, out PI.RECT rect);
+
+                            // Draw entire client area in the background color
+                            using (SolidBrush backBrush = new(BackColor))
                             {
-                                // Grab the client area of the control
-                                PI.GetClientRect(Handle, out PI.RECT rect);
+                                g.FillRectangle(backBrush,
+                                    new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                                        rect.bottom - rect.top));
+                            }
 
-                                // Drawn entire client area in the background color
-                                using (SolidBrush backBrush = new SolidBrush(BackColor))
-                                {
-                                    g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
-                                }
+                            // Create rect for the text area
+                            Size borderSize = SystemInformation.BorderSize;
+                            rect.left -= (borderSize.Width + 1);
 
-                                // Create rect for the text area
-                                Size borderSize = SystemInformation.BorderSize;
-                                rect.left -= (borderSize.Width + 1);
-
+                            if (!_kryptonTextBox.CueHint.IsDefault
+                                && string.IsNullOrEmpty(_kryptonTextBox.Text)
+                            )
+                            {
+                                // Go perform the drawing of the CueHint
+                                _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, rect);
+                            }
+                            else
+                            {
                                 // If enabled then let the combo draw the text area
                                 if (_kryptonTextBox.Enabled)
                                 {
@@ -184,7 +195,10 @@ namespace Krypton.Toolkit
                                     // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
                                     // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
                                     // it from the device context. Resulting in blurred text.
-                                    g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(_kryptonTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(PaletteState.Disabled));
+                                    g.TextRenderingHint =
+                                        CommonHelper.PaletteTextHintToRenderingHint(
+                                            _kryptonTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(
+                                                PaletteState.Disabled));
 
                                     // Define the string formatting requirements
                                     StringFormat stringFormat = new StringFormat
@@ -229,21 +243,21 @@ namespace Krypton.Toolkit
                                     // Draw using a solid brush
                                     try
                                     {
-                                        using (SolidBrush foreBrush = new SolidBrush(ForeColor))
-                                        {
-                                            g.DrawString(drawString, Font, foreBrush,
-                                                         new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new SolidBrush(ForeColor);
+                                        g.DrawString(drawString, Font, foreBrush,
+                                            new RectangleF(rect.left, rect.top, rect.right - rect.left,
+                                                rect.bottom - rect.top),
+                                            stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using (SolidBrush foreBrush = new SolidBrush(ForeColor))
-                                        {
-                                            g.DrawString(drawString, _kryptonTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
-                                                         new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new SolidBrush(ForeColor);
+                                        g.DrawString(drawString,
+                                            _kryptonTextBox.GetTripleState().PaletteContent
+                                                .GetContentShortTextFont(PaletteState.Disabled), foreBrush,
+                                            new RectangleF(rect.left, rect.top, rect.right - rect.left,
+                                                rect.bottom - rect.top),
+                                            stringFormat);
                                     }
                                 }
 
@@ -297,25 +311,6 @@ namespace Krypton.Toolkit
             /// <param name="e">An EventArgs containing the event data.</param>
             protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
             #endregion
-
-            // Cue, Tip , Watermark
-            public string Hint
-            {
-                get => _hint;
-                set
-                {
-                    _hint = value;
-#if NET35
-					if (string.IsNullOrEmpty(Text) && !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty)
-#else
-                    if (string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Hint))
-#endif
-                    {
-                        PI.SendMessage(Handle, PI.EM_SETCUEBANNER, (IntPtr)1, Hint);
-                    }
-                    Refresh();
-                }
-            }
         }
 
         #endregion
@@ -478,6 +473,7 @@ namespace Krypton.Toolkit
             StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
+            CueHint = new PaletteCueHintText(Redirector, NeedPaintDelegate);
 
             // Create the internal text box used for containing content
             _textBox = new InternalTextBox(this);
@@ -574,37 +570,37 @@ namespace Krypton.Toolkit
 
         #region Public
         /// <summary>
+        /// Gets access to the common textbox appearance entries that other states can override.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Set a watermark/prompt message for the user.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteCueHintText CueHint { get; }
+
+        /// <summary>
         /// Gets and sets control watermark.
         /// </summary>
-        [Description("Set a watermark/prompt message for the user.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
+        [Obsolete("Deprecated - Use CueHint")]
         public string Hint
         {
-            get => _textBox.Hint;
+            get => CueHint.CueHintText;
             set
             {
-                _textBox.Hint = value;
+                CueHint.CueHintText = value;
 
                 // Repaint
                 Invalidate();
             }
         }
 
-        private bool ShouldSerializeHint()
+        private bool ShouldSerializeCueHint()
         {
-#if NET35
-			return !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty;
-#else
-            return !string.IsNullOrWhiteSpace(Hint);
-#endif
+            return !CueHint.IsDefault;
         }
 
-
-        /// <summary>
-        /// </summary>
-        public void ResetHint()
-        {
-            Hint = string.Empty;
-        }
 
         /// <summary>
         /// Gets and sets if the control is in the tab chain.

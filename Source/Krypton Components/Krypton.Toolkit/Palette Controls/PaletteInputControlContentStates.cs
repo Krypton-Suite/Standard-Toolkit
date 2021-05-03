@@ -9,10 +9,10 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
+using System.Diagnostics;
 using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Font for drawing the content text.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Font Font
         {
             get => _font;
@@ -199,12 +199,7 @@ namespace Krypton.Toolkit
         /// <returns>Font value.</returns>
         public virtual Font GetContentShortTextFont(PaletteState state)
         {
-            if (_font != null)
-            {
-                return _font;
-            }
-
-            return Inherit.GetContentShortTextFont(state);
+            return _font ?? Inherit.GetContentShortTextFont(state);
         }
 
         /// <summary>
@@ -214,14 +209,7 @@ namespace Krypton.Toolkit
         /// <returns>Font value.</returns>
         public virtual Font GetContentShortTextNewFont(PaletteState state)
         {
-            if (_font != null)
-            {
-                return _font;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextNewFont(state);
-            }
+            return _font ?? Inherit.GetContentShortTextNewFont(state);
         }
 
         /// <summary>
@@ -255,12 +243,12 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the color for the text.
+        /// Gets and sets the horizontal Content text alignment for the text.
         /// </summary>
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Relative horizontal Content text alignment\nIn order to get this into the designer.cs you must also modify another value in this area!")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextH
         {
             get => _shortTextH;
@@ -283,12 +271,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state)
         {
-            if (_shortTextH != PaletteRelativeAlign.Inherit)
-            {
-                return _shortTextH;
-            }
-
-            return Inherit.GetContentShortTextH(state);
+            return _shortTextH != PaletteRelativeAlign.Inherit ? _shortTextH : Inherit.GetContentShortTextH(state);
         }
 
         /// <summary>
@@ -327,8 +310,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Main color for the text.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color1
         {
             get => _color1;
@@ -350,14 +333,9 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public Color GetContentShortTextColor1(PaletteState state)
         {
-            if (_color1 != Color.Empty)
-            {
-                return _color1;
-            }
-
-            return Inherit.GetContentShortTextColor1(state);
+            return _color1 != Color.Empty ? _color1 : Inherit.GetContentShortTextColor1(state);
         }
-        
+
         /// <summary>
         /// Gets the second back color for the short text.
         /// </summary>
@@ -609,7 +587,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding between the border and content drawing.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding Padding
         {
             get => _padding;
@@ -631,12 +609,7 @@ namespace Krypton.Toolkit
         /// <returns>Padding value.</returns>
         public virtual Padding GetContentPadding(PaletteState state)
         {
-            if (!_padding.Equals(CommonHelper.InheritPadding))
-            {
-                return _padding;
-            }
-
-            return Inherit.GetContentPadding(state);
+            return !_padding.Equals(CommonHelper.InheritPadding) ? _padding : Inherit.GetContentPadding(state);
         }
         #endregion
 

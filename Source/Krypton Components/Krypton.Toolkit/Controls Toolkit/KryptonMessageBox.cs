@@ -9,7 +9,6 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using Krypton.Toolkit.Properties;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -17,6 +16,10 @@ using System.Media;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+
+using Krypton.Toolkit.Properties;
+using Krypton.Toolkit.Utilities;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMethodReturnValue.Global
@@ -48,11 +51,7 @@ namespace Krypton.Toolkit
             /// <param name="helpFilePath">Value for HelpFilePath.</param>
             /// <param name="keyword">Value for Keyword</param>
             public HelpInfo(string helpFilePath = null, string keyword = null)
-#if NET35
-            : this(helpFilePath, keyword, (!string.IsNullOrEmpty(keyword) && keyword.Trim() != string.Empty) ? HelpNavigator.Topic : HelpNavigator.TableOfContents, null)
-#else
-            : this(helpFilePath, keyword, !string.IsNullOrWhiteSpace(keyword) ? HelpNavigator.Topic : HelpNavigator.TableOfContents, null)
-#endif
+            : this(helpFilePath, keyword, !MissingFrameWorkAPIs.IsNullOrWhiteSpace(keyword) ? HelpNavigator.Topic : HelpNavigator.TableOfContents, null)
             {
 
             }
@@ -774,20 +773,12 @@ namespace Krypton.Toolkit
                 {
                     mInfoMethod.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
                 }
-#if NET35
-                        if (string.IsNullOrEmpty(_helpInfo.HelpFilePath) || _helpInfo.HelpFilePath.Trim() == string.Empty)
-#else
-                if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
-#endif
+                if (MissingFrameWorkAPIs.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
                 {
                     return;
                 }
 
-#if NET35
-                        if (string.IsNullOrEmpty(_helpInfo.Keyword) || _helpInfo.Keyword.Trim() == string.Empty)
-#else
-                if (!string.IsNullOrWhiteSpace(_helpInfo.Keyword))
-#endif
+                if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_helpInfo.Keyword))
                 {
                     Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Keyword);
                 }

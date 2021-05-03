@@ -16,6 +16,8 @@ using System.Drawing.Design;
 using System.Globalization;
 using System.Windows.Forms;
 
+using Krypton.Toolkit.Utilities;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -50,11 +52,7 @@ namespace Krypton.Toolkit
                 {
                     _hint = value;
 
-#if NET35
-                    if (string.IsNullOrEmpty(Text) && Hint.Trim() != string.Empty)
-#else
-                    if (string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Hint))
-#endif
+                    if (string.IsNullOrEmpty(Text) && !MissingFrameWorkAPIs.IsNullOrWhiteSpace(Hint))
                     {
                         PI.SendMessage(Handle, PI.EM_SETCUEBANNER, (IntPtr)1, Hint);
                     }
@@ -476,7 +474,7 @@ namespace Krypton.Toolkit
             _cachedHeight = -1;
             _alwaysActive = true;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
 
             // Create storage properties
             ButtonSpecs = new MaskedTextBoxButtonSpecCollection(this);
@@ -570,11 +568,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeHint()
         {
-#if NET35
-            return !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty;
-#else
-            return !string.IsNullOrWhiteSpace(Hint);
-#endif
+            return !MissingFrameWorkAPIs.IsNullOrWhiteSpace(Hint);
         }
 
 
@@ -1158,8 +1152,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+        
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -2075,8 +2069,8 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						if (AllowButtonSpecToolTipPriority)
+                        
+                        if (AllowButtonSpecToolTipPriority)
                         {
                             _visualBasePopupToolTip?.Dispose();
                         }

@@ -23,6 +23,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 
+using Krypton.Toolkit.Utilities;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -3070,11 +3072,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeCustomisedKryptonPaletteFilePath()
         {
-#if NET35
-            return !string.IsNullOrEmpty(_customisedKryptonPaletteFilePath) &&  _customisedKryptonPaletteFilePath.Trim() != string.Empty;
-#else
-            return !string.IsNullOrWhiteSpace(_customisedKryptonPaletteFilePath);
-#endif
+            return !MissingFrameWorkAPIs.IsNullOrWhiteSpace(_customisedKryptonPaletteFilePath);
         }
 
         /// <summary>
