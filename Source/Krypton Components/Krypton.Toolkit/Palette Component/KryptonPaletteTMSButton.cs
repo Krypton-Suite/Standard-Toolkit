@@ -12,8 +12,8 @@
  */
 #endregion
 
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -328,7 +328,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
-        [Description("Middle olor of the gradient used when the button is pressed.")]
+        [Description("Middle color of the gradient used when the button is pressed.")]
         [KryptonDefaultColorAttribute()]
         public Color ButtonPressedGradientMiddle
         {
@@ -496,7 +496,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
-        [Description("Middle olor of the gradient used when the button is selected.")]
+        [Description("Middle color of the gradient used when the button is selected.")]
         [KryptonDefaultColorAttribute()]
         public Color ButtonSelectedGradientMiddle
         {

@@ -416,8 +416,8 @@ namespace Krypton.Toolkit
             // By default, the base implementation converts the Decimal 1234.5 into the string "1234.5"
             object formattedValue = base.GetFormattedValue(value, rowIndex, ref cellStyle, valueTypeConverter, formattedValueTypeConverter, context);
             string formattedNumber = formattedValue as string;
-            if (!string.IsNullOrEmpty(formattedNumber) 
-                && (value != null) 
+            if (!string.IsNullOrEmpty(formattedNumber)
+                && (value != null)
                 && (value != DBNull.Value)
                 )
             {
@@ -649,18 +649,12 @@ namespace Krypton.Toolkit
 
         internal static HorizontalAlignment TranslateAlignment(DataGridViewContentAlignment align)
         {
-            if ((align & ANY_RIGHT) != 0)
+            return align switch
             {
-                return HorizontalAlignment.Right;
-            }
-            else if ((align & ANY_CENTER) != 0)
-            {
-                return HorizontalAlignment.Center;
-            }
-            else
-            {
-                return HorizontalAlignment.Left;
-            }
+                ANY_RIGHT => HorizontalAlignment.Right,
+                ANY_CENTER => HorizontalAlignment.Center,
+                _ => HorizontalAlignment.Left
+            };
         }
         #endregion
     }

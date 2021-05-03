@@ -12,8 +12,8 @@
  */
 #endregion
 
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -48,8 +48,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (_font == null) && 
-                                          (_textColor == Color.Empty) && 
+        public override bool IsDefault => (_font == null) &&
+                                          (_textColor == Color.Empty) &&
                                           (_hint == PaletteTextHint.Inherit);
 
         #endregion
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
 
         #region TextColor
         /// <summary>
-        /// Gets and sets the olor for the text.
+        /// Gets and sets the color for the text.
         /// </summary>
         [KryptonPersist(false)]
         [Category("Visuals")]

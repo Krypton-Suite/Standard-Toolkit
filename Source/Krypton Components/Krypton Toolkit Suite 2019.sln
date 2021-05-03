@@ -4,6 +4,7 @@ VisualStudioVersion = 16.0.28809.33
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{942DAEF7-509F-4BB7-B1DD-CBC28949CCF6}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		..\..\Directory.Build.props = ..\..\Directory.Build.props
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
@@ -60,7 +61,7 @@ Global
 		{F379A7A0-66CC-4295-90E6-2471433D12B8} = {7639F185-EAEE-4483-BE71-7EC62EDDBEA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_StartDate = 2000/1/1
 		SolutionGuid = {ECEA7A85-0CA8-47A4-93BE-6AA896E9749D}
+		BuildVersion_StartDate = 2000/1/1
 	EndGlobalSection
 EndGlobal
