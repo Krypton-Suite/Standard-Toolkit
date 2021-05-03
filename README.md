@@ -74,6 +74,11 @@
 
 =======
 
+## Toolkit Example images
+Follow the links to see the different objects and layouts that this framework allows you to do: https://github.com/Krypton-Suite/Standard-Toolkit-Demos
+
+=======
+
 # Discord Server
 
 <a href="https://discord.gg/CRjF6fY" alt="Join our Krypton Toolkit community Discord server"><img src="https://img.shields.io/badge/Discord-Join%20our%20server-7289DA?logo=discord&style=flat-square" /></a>
@@ -98,12 +103,28 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 ## Version History
 
-## 2021-06-01 - Build 2106 - June 2021
-* Allow the user to set a `ActivePage` on the `KryptonWorkspace` control
-* Implemented [#43](https://github.com/Krypton-Suite/Standard-Toolkit/issues/43), Access corner rounding features via Action Lists
+=======
+
+## 2021-08-01 Build 2108 - August 2021 (Canary)
+* Implemented [#81](https://github.com/Krypton-Suite/Standard-Toolkit/issues/81), Can the "6.x.Lite" version only support .net48;net5.0-windows;net6.0-windows
+* [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
 
 =======
 
+## 2021-06-01 - Build 2106 - June 2021
+* Allow the user to set a `ActivePage` on the `KryptonWorkspace` control
+* Implemented [#43](https://github.com/Krypton-Suite/Standard-Toolkit/issues/43), Access corner rounding features via Action Lists
+* Implemented [#60](https://github.com/Krypton-Suite/Standard-Toolkit/issues/60), As this project is now a long way from the original "ComponentFactory" - The BSD-3 License Header needs to change
+* Removed `Krypton.Toolkit.Values` namespace to comply with the general namespace. ***NOTE: This is likely to cause errors in your projects. To solve, please do a find/replace with `Krypton.Toolkit.Values` to `Krypton.Toolkit` in your source code.***
+* The `MultilineStringEditor` now inherits a `KryptonForm`
+
+=======
+
+## 2021-03-27 - Build 2103.1 - March 2021 (Update 1)
+* Remove the Auto Versioning on Each build
+* Fix [#52](https://github.com/Krypton-Suite/Standard-Toolkit/issues/52), Nuget Package descriptions need to be consistent (And published!)
+
+=======
 ## 2021-03-01 - Build 2103 - March 2021
 * Fix for [#35](https://github.com/Krypton-Suite/Standard-Toolkit/issues/35), It is still not possible to create a `KryptonStatusStrip` on a form at design time.
 * Fix for `KryptonPalette` component, courtesy of 'gwni'
@@ -115,6 +136,7 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 =======
 
 ## 2021-01-05 - Build 2101 - January 2021
+
 * Updated year references from `2020` to `2021`
 * Fix for [#19](https://github.com/Krypton-Suite/Standard-Toolkit/issues/19), "Office 365 Silver" theme `StatusBar` drag glyph, is not visible
 * Fix for [#20](https://github.com/Krypton-Suite/Standard-Toolkit/issues/20), Selected text in ComboBox is drawn in a different font
@@ -152,7 +174,7 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
 
-## 2020-02-07 - Build 2002.1 - February 2020 (Patch 1)
+## 2020-02-07 - Build 2002.1 - February 2020 (Update 1)
 * Fix [#28](https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/issues/28), KryptonForm crashing Visual Studio
 * Added support for `KryptonInputBox` textbox text alignment
 

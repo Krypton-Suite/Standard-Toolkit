@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+   
     <PropertyGroup>
-        <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+        <TargetFrameworks>net48;net5.0-windows;net6.0-windows</TargetFrameworks>
         <TargetFrameworks Condition="'$(TFMs)' == 'all'">net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <OutputType>Library</OutputType>
@@ -77,4 +78,5 @@
         <AssemblyVersion>6.1.2106</AssemblyVersion>
         <FileVersion>6.1.2106</FileVersion>
     </PropertyGroup>
+
 </Project>
