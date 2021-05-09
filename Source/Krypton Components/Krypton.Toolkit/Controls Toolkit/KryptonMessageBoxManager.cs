@@ -17,6 +17,7 @@ using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
+    // TODO: Add descriptions & documentation
     public class KryptonMessageBoxManager : Component
     {
         #region Variables
