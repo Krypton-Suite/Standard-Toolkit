@@ -255,6 +255,8 @@ namespace Krypton.Toolkit
                 }
                 else if (_parentWindow != null)
                 {
+                    showOwner = parentWindow;
+
                     _parentWindow.BlurValues.EnableBlur = _useBlur;
 
                     _parentWindow.BlurValues.BlurWhenFocusLost = _useBlur;
