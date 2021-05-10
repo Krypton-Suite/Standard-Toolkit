@@ -13,11 +13,12 @@
 #endregion
 
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    // TODO: Add descriptions & documentation
+    [ToolboxBitmap(typeof(KryptonMessageBox)), Description("Displays a new KryptonMessageBox, configurable through the designer.")]
     public class KryptonMessageBoxManager : Component
     {
         #region Variables
@@ -45,22 +46,31 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Properties
+        [DefaultValue(false), Description("Use the blur feature on the parent form when the KryptonMessageBox is shown.")]
         public bool UseBlur { get => _useBlur; set => _useBlur = value; }
 
+        [DefaultValue(false), Description("Use the 'control + copy' KryptonMessageBox feature.")]
         public bool ShowControlCopy { get => _showControlCopy; set => _showControlCopy = value; }
 
+        [DefaultValue(""), Description("Sets the caption of the KryptonMessageBox.")]
         public string Caption { get => _caption; set => _caption = value; }
 
+        [DefaultValue(""), Description("Sets the message text of the KryptonMessageBox.")]
         public string Text { get => _text; set => _text = value; }
 
+        [DefaultValue(""), Description("Sets the help file path for the KryptonMessageBox help navigator.")]
         public string HelpFilePath { get => _helpFilePath; set => _helpFilePath = value; }
 
+        [DefaultValue(typeof(MessageBoxButtons), "MessageBoxButtons.OK"), Description("Defines the KryptonMessageBox buttons.")]
         public MessageBoxButtons MessageBoxButtons { get => _buttons; set => _buttons = value; }
 
+        [DefaultValue(typeof(MessageBoxDefaultButton), "MessageBoxDefaultButton.Button1"), Description("Defines the KryptonMessageBox default button.")]
         public MessageBoxDefaultButton MessageBoxDefaultButton { get => _defaultButton; set => _defaultButton = value; }
 
+        [DefaultValue(typeof(MessageBoxIcon), "MessageBoxIcon.None"), Description("Defines the KryptonMessageBox icon.")]
         public MessageBoxIcon MessageBoxIcon { get => _icon; set => _icon = value; }
 
+        [DefaultValue(typeof(MessageBoxOptions), "MessageBoxOptions.DefaultDesktopOnly"), Description("Defines the KryptonMessageBox options.")]
         public MessageBoxOptions MessageBoxOptions { get => _options; set => _options = value; }
 
         public HelpNavigator HelpNavigator { get => _navigator; set => _navigator = value; }
