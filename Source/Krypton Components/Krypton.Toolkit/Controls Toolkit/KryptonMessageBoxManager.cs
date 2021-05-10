@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
     public class KryptonMessageBoxManager : Component
     {
         #region Variables
-        private bool _useBlur, _showControlCopy;
+        private bool _useBlur, _useControlCopy;
 
         private string _caption, _text, _helpFilePath;
 
@@ -52,10 +52,10 @@ namespace Krypton.Toolkit
         [DefaultValue(false), Description("Use the blur feature on the parent form when the KryptonMessageBox is shown.")]
         public bool UseBlur { get => _useBlur; set => _useBlur = value; }
 
-        /// <summary>Use the 'control + copy' KryptonMessageBox feature.</summary>
-        /// <value><c>true</c> if [show control copy]; otherwise, <c>false</c>.</value>
-        [DefaultValue(false), Description("Use the 'control + copy' KryptonMessageBox feature.")]
-        public bool ShowControlCopy { get => _showControlCopy; set => _showControlCopy = value; }
+        /// <summary>Use the 'Ctrl + C' KryptonMessageBox feature.</summary>
+        /// <value><c>true</c> if [use Ctrl + C]; otherwise, <c>false</c>.</value>
+        [DefaultValue(false), Description("Use the 'Ctrl + C' KryptonMessageBox feature.")]
+        public bool UseControlCopy { get => _useControlCopy; set => _useControlCopy = value; }
 
         /// <summary>Gets or sets the caption of the KryptonMessageBox.</summary>
         /// <value>The caption of the KryptonMessageBox.</value>
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
         {
             _useBlur = false;
 
-            _showControlCopy = false;
+            _useControlCopy = false;
 
             _text = "";
 
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
         public DialogResult DisplayKryptonMessageBox()
         {
             DialogResult result = KryptonMessageBox.Show(_owner, _text, _caption, _buttons, _icon, _defaultButton, _options, _helpFilePath, _navigator, _param,
-                                                         _showControlCopy, _cornerRadius, _useBlur, _blurRadius, _parentWindow);
+                                                         _useControlCopy, _cornerRadius, _useBlur, _blurRadius, _parentWindow);
 
             return result;
         }
