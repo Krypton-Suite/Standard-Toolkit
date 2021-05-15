@@ -7,7 +7,7 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Sunday 9th May, 2021 @ 14:00 GMT
+ *  Modified: Monday 10th May, 2021 @ 10:00 GMT
  *
  */
 #endregion
@@ -398,9 +398,6 @@ namespace Krypton.Toolkit
         /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
-        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
-        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
-        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
@@ -663,6 +660,23 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.MessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         private static DialogResult InternalShow(IWin32Window owner,
                                                  string text, string caption,
                                                  MessageBoxButtons buttons,
