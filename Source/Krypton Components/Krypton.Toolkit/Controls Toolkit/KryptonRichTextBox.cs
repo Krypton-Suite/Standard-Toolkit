@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
                 fmtRange.rc = rectToPrint;
                 fmtRange.rcPage = rectPage;
 
-                IntPtr wparam = new IntPtr(1);
+                IntPtr wparam = new(1);
 
                 //Get the pointer to the FORMATRANGE structure in memory
                 IntPtr lparam = Marshal.AllocCoTaskMem(Marshal.SizeOf(fmtRange));
@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
                         if (_kryptonRichTextBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)((long)m.LParam)) == -1)
@@ -2141,7 +2141,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(100, 96);
+        protected override Size DefaultSize => new(100, 96);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -2411,7 +2411,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2429,7 +2429,7 @@ namespace Krypton.Toolkit
 
                         if (AllowButtonSpecToolTipPriority)
                         {
-                            _visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip?.Dispose();
                         }
 
                         // Create the actual tooltip popup object

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         IDataGridViewEditingControl
     {
         #region Static Fields
-        private static readonly DateTimeConverter _dtc = new DateTimeConverter();
+        private static readonly DateTimeConverter _dtc = new();
         #endregion
 
         #region Instance Fields

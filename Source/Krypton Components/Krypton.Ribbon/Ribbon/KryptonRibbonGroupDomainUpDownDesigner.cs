@@ -11,11 +11,12 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -60,34 +61,31 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonDomainUpDown = (KryptonRibbonGroupDomainUpDown)component;
-            _ribbonDomainUpDown.DomainUpDownDesigner = this;
+            _ribbonDomainUpDown = component as KryptonRibbonGroupDomainUpDown;
+            if (_ribbonDomainUpDown != null)
+            {
+                _ribbonDomainUpDown.DomainUpDownDesigner = this;
 
-            // Update designer properties with actual starting values
-            Visible = _ribbonDomainUpDown.Visible;
-            Enabled = _ribbonDomainUpDown.Enabled;
+                // Update designer properties with actual starting values
+                Visible = _ribbonDomainUpDown.Visible;
+                Enabled = _ribbonDomainUpDown.Enabled;
 
-            // Update visible/enabled to always be showing/enabled at design time
-            _ribbonDomainUpDown.Visible = true;
-            _ribbonDomainUpDown.Enabled = true;
+                // Update visible/enabled to always be showing/enabled at design time
+                _ribbonDomainUpDown.Visible = true;
+                _ribbonDomainUpDown.Enabled = true;
 
-            // Tell the embedded domain up-down control it is in design mode
-            _ribbonDomainUpDown.DomainUpDown.InRibbonDesignMode = true;
+                // Tell the embedded domain up-down control it is in design mode
+                _ribbonDomainUpDown.DomainUpDown.InRibbonDesignMode = true;
 
-            // Hook into events
-            _ribbonDomainUpDown.DesignTimeContextMenu += OnContextMenu;
+                // Hook into events
+                _ribbonDomainUpDown.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -112,8 +110,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is enabled.
         /// </summary>
-        public bool DesignEnabled 
-        { 
+        public bool DesignEnabled
+        {
             get => Enabled;
             set => Enabled = value;
         }
@@ -121,7 +119,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is visible.
         /// </summary>
-        public bool DesignVisible 
+        public bool DesignVisible
         {
             get => Visible;
             set => Visible = value;
@@ -215,7 +213,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move DomainUpDown Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move DomainUpDown Last", OnMoveLast);
                 _deleteDomainUpDownVerb = new DesignerVerb("Delete DomainUpDown", OnDeleteDomainUpDown);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteDomainUpDownVerb });
             }
 

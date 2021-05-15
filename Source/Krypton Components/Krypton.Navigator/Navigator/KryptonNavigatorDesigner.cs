@@ -11,11 +11,13 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Navigator
@@ -47,32 +49,37 @@ namespace Krypton.Navigator
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // The resizing handles around the control need to change depending on the
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
             // do not get the resizing handles, otherwise you do.
             AutoResizeHandles = true;
 
             // Cast to correct type
-            Navigator = (KryptonNavigator)component;
-
-            // Must enable the child panel so that copy and paste of navigator
-            // correctly copies across copies of the child pages. Also allows the
-            // child panel to be viewed in the document outline and modified.
-            EnableDesignMode(Navigator.ChildPanel, "PageContainer");
-
-            // Make sure that all the pages in control can be designed
-            foreach (KryptonPage page in Navigator.Pages)
+            Navigator = component as KryptonNavigator;
+            if (Navigator != null)
             {
-                EnableDesignMode(page, page.Name);
-            }
 
-            // Monitor navigator events
-            Navigator.GetViewManager().MouseDownProcessed += OnNavigatorMouseUp;
-            Navigator.GetViewManager().DoubleClickProcessed += OnNavigatorDoubleClick;
-            Navigator.Pages.Inserted += OnPageInserted;
-            Navigator.Pages.Removed += OnPageRemoved;
-            Navigator.Pages.Cleared += OnPagesCleared;
-            Navigator.SelectedPageChanged += OnSelectedPageChanged;
+                // Must enable the child panel so that copy and paste of navigator
+                // correctly copies across copies of the child pages. Also allows the
+                // child panel to be viewed in the document outline and modified.
+                EnableDesignMode(Navigator.ChildPanel, "PageContainer");
+
+                // Make sure that all the pages in control can be designed
+                foreach (KryptonPage page in Navigator.Pages)
+                {
+                    EnableDesignMode(page, page.Name);
+                }
+
+                // Monitor navigator events
+                Navigator.GetViewManager().MouseDownProcessed += OnNavigatorMouseUp;
+                Navigator.GetViewManager().DoubleClickProcessed += OnNavigatorDoubleClick;
+                Navigator.Pages.Inserted += OnPageInserted;
+                Navigator.Pages.Removed += OnPageRemoved;
+                Navigator.Pages.Cleared += OnPagesCleared;
+                Navigator.SelectedPageChanged += OnSelectedPageChanged;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -90,7 +97,7 @@ namespace Krypton.Navigator
         public override void InitializeNewComponent(IDictionary defaultValues)
         {
             // Let base class set the initial position and parent
-             base.InitializeNewComponent(defaultValues);
+            base.InitializeNewComponent(defaultValues);
 
             // Add a couple of pages
             _ignoreOnAddPage = true;
@@ -225,7 +232,7 @@ namespace Krypton.Navigator
         public void ClearPages()
         {
             OnClearPages(this, EventArgs.Empty);
-        }        
+        }
         #endregion
 
         #region Protected Overrides
@@ -429,7 +436,7 @@ namespace Krypton.Navigator
 
                 // Remove the selected page from the navigator
                 RaiseComponentChanging(propertyPages);
-                
+
                 // Get the page we are going to remove
                 KryptonPage removePage = Navigator.SelectedPage;
 
@@ -464,7 +471,7 @@ namespace Krypton.Navigator
                     RaiseComponentChanging(propertyPages);
 
                     // Get the designer to destroy each page in turn
-                    for(int i=Navigator.Pages.Count; i>0; i--)
+                    for (int i = Navigator.Pages.Count; i > 0; i--)
                     {
                         _designerHost.DestroyComponent(Navigator.Pages[0]);
                     }

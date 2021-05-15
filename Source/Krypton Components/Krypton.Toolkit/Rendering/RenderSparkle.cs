@@ -165,8 +165,8 @@ namespace Krypton.Toolkit
             Color lightColor = (state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledLight(state) :
                                                                  paletteGeneral.GetRibbonGroupDialogLight(state));
 
-            using (Pen darkPen = new Pen(darkColor),
-                       lightPen = new Pen(lightColor))
+            using (Pen darkPen = new(darkColor),
+                       lightPen = new(lightColor))
             {
                 context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2, displayRect.Top + 3);
                 context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3, displayRect.Left + 4, displayRect.Top + 1);
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
             int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using (Pen darkPen = new Pen(c1))
+            using (Pen darkPen = new(c1))
             {
                 context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
                 context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
             int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using (Pen darkPen = new Pen(c1))
+            using (Pen darkPen = new(c1))
             {
                 context.Graphics.DrawLine(darkPen, xStart, yStart + 3, xStart + 4, yStart + 3);
                 context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 2, xStart + 3, yStart + 2);
@@ -295,7 +295,7 @@ namespace Krypton.Toolkit
             int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using (Pen darkPen = new Pen(c1))
+            using (Pen darkPen = new(c1))
             {
                 context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
                 context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
@@ -322,7 +322,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            KryptonSparkleRenderer renderer = new KryptonSparkleRenderer(colorPalette.ColorTable)
+            KryptonSparkleRenderer renderer = new(colorPalette.ColorTable)
             {
 
                 // Seup the need to use rounded corners
@@ -371,16 +371,16 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    Rectangle borderRect = new Rectangle(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+                    Rectangle borderRect = new(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
                     cache.fillRect = new Rectangle(rect.X + 1, rect.Y, rect.Width - 2, rect.Height - 1);
 
-                    LinearGradientBrush borderBrush = new LinearGradientBrush(borderRect, c1, Color.Transparent, 270f)
+                    LinearGradientBrush borderBrush = new(borderRect, c1, Color.Transparent, 270f)
                     {
                         Blend = _ribbonGroup5Blend
                     };
                     cache.borderPen = new Pen(borderBrush);
 
-                    LinearGradientBrush underlineBrush = new LinearGradientBrush(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
+                    LinearGradientBrush underlineBrush = new(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
                     {
                         Blend = _ribbonGroup7Blend
                     };

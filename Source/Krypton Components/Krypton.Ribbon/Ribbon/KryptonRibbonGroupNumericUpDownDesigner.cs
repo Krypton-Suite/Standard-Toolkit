@@ -11,11 +11,12 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -60,34 +61,31 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonNumericUpDown = (KryptonRibbonGroupNumericUpDown)component;
-            _ribbonNumericUpDown.NumericUpDownDesigner = this;
+            _ribbonNumericUpDown = component as KryptonRibbonGroupNumericUpDown;
+            if (_ribbonNumericUpDown != null)
+            {
+                _ribbonNumericUpDown.NumericUpDownDesigner = this;
 
-            // Update designer properties with actual starting values
-            Visible = _ribbonNumericUpDown.Visible;
-            Enabled = _ribbonNumericUpDown.Enabled;
+                // Update designer properties with actual starting values
+                Visible = _ribbonNumericUpDown.Visible;
+                Enabled = _ribbonNumericUpDown.Enabled;
 
-            // Update visible/enabled to always be showing/enabled at design time
-            _ribbonNumericUpDown.Visible = true;
-            _ribbonNumericUpDown.Enabled = true;
+                // Update visible/enabled to always be showing/enabled at design time
+                _ribbonNumericUpDown.Visible = true;
+                _ribbonNumericUpDown.Enabled = true;
 
-            // Tell the embedded numeric up-down control it is in design mode
-            _ribbonNumericUpDown.NumericUpDown.InRibbonDesignMode = true;
+                // Tell the embedded numeric up-down control it is in design mode
+                _ribbonNumericUpDown.NumericUpDown.InRibbonDesignMode = true;
 
-            // Hook into events
-            _ribbonNumericUpDown.DesignTimeContextMenu += OnContextMenu;
+                // Hook into events
+                _ribbonNumericUpDown.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -112,8 +110,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is enabled.
         /// </summary>
-        public bool DesignEnabled 
-        { 
+        public bool DesignEnabled
+        {
             get => Enabled;
             set => Enabled = value;
         }
@@ -121,7 +119,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is visible.
         /// </summary>
-        public bool DesignVisible 
+        public bool DesignVisible
         {
             get => Visible;
             set => Visible = value;
@@ -215,7 +213,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move NumericUpDown Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move NumericUpDown Last", OnMoveLast);
                 _deleteNumericUpDownVerb = new DesignerVerb("Delete NumericUpDown", OnDeleteNumericUpDown);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteNumericUpDownVerb });
             }
 

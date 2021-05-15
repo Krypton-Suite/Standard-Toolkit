@@ -75,6 +75,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the context menu strip.</summary>
         /// <value>The context menu strip.</value>
+        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/99
         public ContextMenuStrip ContextMenuStrip
         {
             get => _checkButton.ContextMenuStrip;
@@ -92,6 +93,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
+        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/99
         public Font ShortTextFont
         {
             get => _checkButton.StateCommon.Content.ShortText.Font;
@@ -109,6 +111,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
+        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/99
         public Font LongTextFont
         {
             get => _checkButton.StateCommon.Content.LongText.Font;
@@ -127,6 +130,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(-1)]
+        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/99
         public int CornerRadius
         {
             get => _checkButton.StateCommon.Border.Rounding;
@@ -151,7 +155,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            DesignerActionItemCollection actions = new();
 
             // This can be null when deleting a control instance at design time
             if (_checkButton != null)

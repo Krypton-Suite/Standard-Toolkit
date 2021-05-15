@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <Choose>
         <When Condition="'$(TFMs)' == 'all'">
             <PropertyGroup>
@@ -12,7 +12,6 @@
         </Otherwise>
     </Choose>
     <PropertyGroup>
-        <LangVersion>latest</LangVersion>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Toolkit</RootNamespace>
         <AssemblyName>Krypton.Toolkit</AssemblyName>
@@ -21,7 +20,28 @@
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>
+        <LangVersion>9.0</LangVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>4.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>5.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>6.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'" />
+        <!--TODO: Need to specify version here-->
+    </ItemGroup>
 
     <PropertyGroup>
         <PackageId>Krypton.Toolkit.Canary</PackageId>
@@ -349,9 +369,6 @@
         <EmbeddedResource Remove="Toolkit\KryptonCheckButtonCollectionForm.resx" />
         <EmbeddedResource Remove="Toolkit\PaletteDrawBordersSelector.resx" />
     </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.1'">
-        <Reference Include="System.Design" />
-    </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
@@ -362,5 +379,11 @@
     <PropertyGroup>
         <AssemblyVersion>6.1.2106</AssemblyVersion>
         <FileVersion>6.1.2106</FileVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <WarningLevel>5</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <WarningLevel>5</WarningLevel>
     </PropertyGroup>
 </Project>

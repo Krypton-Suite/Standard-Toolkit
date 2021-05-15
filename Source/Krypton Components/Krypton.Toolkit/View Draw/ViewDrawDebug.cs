@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
             }
 
             // Ignore renderer, we just draw using solid color for debugging purposes
-            using (SolidBrush brush = new SolidBrush(_color))
+            using (SolidBrush brush = new(_color))
             {
                 context.Graphics.FillRectangle(brush, ClientRectangle);
             }

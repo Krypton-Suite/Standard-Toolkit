@@ -10,9 +10,10 @@
 // *****************************************************************************
 
 using System;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -22,7 +23,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupDateTimePicker), "ToolboxBitmaps.KryptonRibbonGroupDateTimePicker.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupDateTimePickerDesigner))]
+    [Designer(typeof(KryptonRibbonGroupDateTimePickerDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("ValueChanged")]
@@ -386,8 +387,8 @@ namespace Krypton.Ribbon
             get => DateTimePicker.AllowButtonSpecToolTips;
             set => DateTimePicker.AllowButtonSpecToolTips = value;
         }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]

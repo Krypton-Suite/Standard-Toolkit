@@ -17,24 +17,24 @@ namespace Krypton.Toolkit
     internal class PaletteModeConverter : StringLookupConverter
     {
         #region Static Fields
-        private Pair[] _pairs = new Pair[] { new Pair(PaletteMode.ProfessionalSystem,    "Professional - System"),
-                                             new Pair(PaletteMode.ProfessionalOffice2003,"Professional - Office 2003"),
-                                             new Pair(PaletteMode.Office2007Blue,        "Office 2007 - Blue"),
-                                             new Pair(PaletteMode.Office2007Silver,      "Office 2007 - Silver"),
-                                             new Pair(PaletteMode.Office2007White,       "Office 2007 - White"),
-                                             new Pair(PaletteMode.Office2007Black,       "Office 2007 - Black"),
-                                             new Pair(PaletteMode.Office2010Blue,        "Office 2010 - Blue"),
-                                             new Pair(PaletteMode.Office2010Silver,      "Office 2010 - Silver"),
-                                             new Pair(PaletteMode.Office2010White,       "Office 2010 - White"),
-                                             new Pair(PaletteMode.Office2010Black,       "Office 2010 - Black"),
-                                             new Pair(PaletteMode.Office2013White,       "Office 2013 - White"),
-                                             new Pair(PaletteMode.Office365Black,        "Office 365 - Black"),
-                                             new Pair(PaletteMode.Office365Blue,         "Office 365 - Blue"),
-                                             new Pair(PaletteMode.Office365Silver,       "Office 365 - Silver"),
-                                             new Pair(PaletteMode.Office365White,        "Office 365 - White"),
-                                             new Pair(PaletteMode.SparkleBlue,           "Sparkle - Blue"),
-                                             new Pair(PaletteMode.SparkleOrange,         "Sparkle - Orange"),
-                                             new Pair(PaletteMode.SparklePurple,         "Sparkle - Purple") };
+        private Pair[] _pairs = new Pair[] { new(PaletteMode.ProfessionalSystem,    "Professional - System"),
+                                             new(PaletteMode.ProfessionalOffice2003,"Professional - Office 2003"),
+                                             new(PaletteMode.Office2007Blue,        "Office 2007 - Blue"),
+                                             new(PaletteMode.Office2007Silver,      "Office 2007 - Silver"),
+                                             new(PaletteMode.Office2007White,       "Office 2007 - White"),
+                                             new(PaletteMode.Office2007Black,       "Office 2007 - Black"),
+                                             new(PaletteMode.Office2010Blue,        "Office 2010 - Blue"),
+                                             new(PaletteMode.Office2010Silver,      "Office 2010 - Silver"),
+                                             new(PaletteMode.Office2010White,       "Office 2010 - White"),
+                                             new(PaletteMode.Office2010Black,       "Office 2010 - Black"),
+                                             new(PaletteMode.Office2013White,       "Office 2013 - White"),
+                                             new(PaletteMode.Office365Black,        "Office 365 - Black"),
+                                             new(PaletteMode.Office365Blue,         "Office 365 - Blue"),
+                                             new(PaletteMode.Office365Silver,       "Office 365 - Silver"),
+                                             new(PaletteMode.Office365White,        "Office 365 - White"),
+                                             new(PaletteMode.SparkleBlue,           "Sparkle - Blue"),
+                                             new(PaletteMode.SparkleOrange,         "Sparkle - Orange"),
+                                             new(PaletteMode.SparklePurple,         "Sparkle - Purple") };
         #endregion
 
         #region Identity

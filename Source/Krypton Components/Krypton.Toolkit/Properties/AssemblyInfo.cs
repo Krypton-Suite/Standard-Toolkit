@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Security;
 
 [assembly: AssemblyCopyright("© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.")]
@@ -25,6 +26,9 @@ using System.Security;
 [assembly: AllowPartiallyTrustedCallers()]
 #if !NET35
 [assembly: SecurityRules(SecurityRuleSet.Level1)]
+#endif
+#if NET5_0_OR_GREATER
+// [assembly: SupportedOSPlatform("windows")] // TODO: Currently defaults to Window7 or greater.. Need to have test done on other platforms as well !
 #endif
 [assembly: Dependency("System", LoadHint.Always)]
 [assembly: Dependency("System.Drawing", LoadHint.Always)]

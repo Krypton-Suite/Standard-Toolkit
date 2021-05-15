@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
                                                          GraphicsPath path,
                                                          IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoDouble cache;
 
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
                                                         GraphicsPath path,
                                                         IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 // Cannot draw a zero length rectangle
                 if ((rect.Width > 0) && (rect.Height > 0))
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
                         cache.brush3 = new SolidBrush(backColor1);
                     }
 
-                    using (AntiAlias aa = new AntiAlias(context.Graphics))
+                    using (AntiAlias aa = new(context.Graphics))
                     {
                         context.Graphics.FillRectangle(cache.brush3, rect);
                         context.Graphics.FillPath(cache.brush1, cache.path1);
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
                                                         GraphicsPath path,
                                                         IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 // Draw the expert background which is gradient with highlight at bottom
                 return DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, true, false);
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
                                                                 GraphicsPath path,
                                                                 IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoDouble cache;
 
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
                                                                 IDisposable memento,
                                                                 bool light)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 // Cannot draw a zero length rectangle
                 if ((rect.Width > 0) && (rect.Height > 0))
@@ -436,7 +436,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Create rectangle that covers the enter area
-                    RectangleF gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 2);
+                    RectangleF gradientRect = new(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
                     if ((gradientRect.Width > 0) && (gradientRect.Height > 0))
@@ -488,7 +488,7 @@ namespace Krypton.Toolkit
 
                 if (cache.entireBrush != null)
                 {
-                    using(Clipping clip = new Clipping(g, cache.clipPath))
+                    using(Clipping clip = new(g, cache.clipPath))
                     {
                         g.FillRectangle(cache.entireBrush, cache.drawRect);
                         g.FillPath(cache.insideLighten, cache.ellipsePath);
@@ -506,7 +506,7 @@ namespace Krypton.Toolkit
             rect.Height--;
 
             // Create path using a simple set of lines that cut the corner
-            GraphicsPath path = new GraphicsPath();
+            GraphicsPath path = new();
             path.AddLine(rect.Left + cut, rect.Top, rect.Right - cut, rect.Top);
             path.AddLine(rect.Right - cut, rect.Top, rect.Right, rect.Top + cut);
             path.AddLine(rect.Right, rect.Top + cut, rect.Right, rect.Bottom - cut);

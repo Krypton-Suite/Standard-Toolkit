@@ -590,7 +590,7 @@ namespace Krypton.Toolkit
             /// <returns>A ListBox.ObjectCollection that represents the new item collection.</returns>
             protected override ObjectCollection CreateItemCollection()
             {
-                return new ObjectCollection(this);
+                return new(this);
             }
 
             /// <summary>
@@ -639,7 +639,7 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using (ViewLayoutContext context = new ViewLayoutContext(_viewManager, this, _kryptonCheckedListBox, _kryptonCheckedListBox.Renderer))
+                using (ViewLayoutContext context = new(_viewManager, this, _kryptonCheckedListBox, _kryptonCheckedListBox.Renderer))
                 {
                     ViewDrawPanel.Layout(context);
                 }
@@ -716,7 +716,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             // Find the item under the mouse
-                            Point mousePoint = new Point((int)m.LParam.ToInt64());
+                            Point mousePoint = new((int)m.LParam.ToInt64());
                             int mouseIndex = IndexFromPoint(mousePoint);
 
                             // If we have an actual item from the point
@@ -889,7 +889,7 @@ namespace Krypton.Toolkit
             #region Private
             private void WmPaint(ref Message m)
             {
-                PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                PI.PAINTSTRUCT ps = new();
 
                 // Do we need to BeginPaint or just take the given HDC?
                 IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -915,13 +915,13 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context = new ViewLayoutContext(this, _kryptonCheckedListBox.Renderer))
+                                using (ViewLayoutContext context = new(this, _kryptonCheckedListBox.Renderer))
                                 {
                                     context.DisplayRectangle = realRect;
                                     ViewDrawPanel.Layout(context);
                                 }
 
-                                using (RenderContext context = new RenderContext(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
+                                using (RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
                                 }
@@ -934,7 +934,7 @@ namespace Krypton.Toolkit
 
                                 if (Items.Count == 0)
                                 {
-                                    using (RenderContext context = new RenderContext(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
+                                    using (RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
                                     {
                                         ViewDrawPanel.Render(context);
                                     }
@@ -949,7 +949,7 @@ namespace Krypton.Toolkit
                             if (Items.Count == 0)
                             {
                                 using (Graphics g = Graphics.FromHdc(hdc))
-                                using (RenderContext context = new RenderContext(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
+                                using (RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
                                 }
@@ -1000,7 +1000,7 @@ namespace Krypton.Toolkit
                     {
                         CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
                         CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
-                        ItemCheckEventArgs ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
+                        ItemCheckEventArgs ice = new(selectedIndex, newCheckValue, checkedState);
                         _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
                     }
                     _lastSelected = selectedIndex;
@@ -1905,7 +1905,7 @@ namespace Krypton.Toolkit
             if (value != checkedState)
             {
                 // Give developers a chance to see and alter the change
-                ItemCheckEventArgs ice = new ItemCheckEventArgs(index, value, checkedState);
+                ItemCheckEventArgs ice = new(index, value, checkedState);
                 OnItemCheck(ice);
 
                 // If a change is still occuring
@@ -2351,7 +2351,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(120, 96);
+        protected override Size DefaultSize => new(120, 96);
 
         #endregion
 
@@ -2479,7 +2479,7 @@ namespace Krypton.Toolkit
                         using (Graphics g = Graphics.FromHdc(_screenDC))
                         {
                             // Ask the view element to layout in given space, needs this before a render call
-                            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+                            using (ViewLayoutContext context = new(this, Renderer))
                             {
                                 context.DisplayRectangle = e.Bounds;
                                 _listBox.ViewDrawPanel.Layout(context);
@@ -2487,7 +2487,7 @@ namespace Krypton.Toolkit
                             }
 
                             // Ask the view element to actually draw
-                            using (RenderContext context = new RenderContext(this, g, e.Bounds, Renderer))
+                            using (RenderContext context = new(this, g, e.Bounds, Renderer))
                             {
                                 _listBox.ViewDrawPanel.Render(context);
                                 _layoutDocker.Render(context);
@@ -2516,7 +2516,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // Ask the view element to layout in given space, needs this before a render call
-            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+            using (ViewLayoutContext context = new(this, Renderer))
             {
                 Size size = _layoutDocker.GetPreferredSize(context);
                 e.ItemWidth = size.Width;

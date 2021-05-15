@@ -11,11 +11,12 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -60,34 +61,31 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonTrackBar = (KryptonRibbonGroupTrackBar)component;
-            _ribbonTrackBar.TrackBarDesigner = this;
+            _ribbonTrackBar = component as KryptonRibbonGroupTrackBar;
+            if (_ribbonTrackBar != null)
+            {
+                _ribbonTrackBar.TrackBarDesigner = this;
 
-            // Update designer properties with actual starting values
-            Visible = _ribbonTrackBar.Visible;
-            Enabled = _ribbonTrackBar.Enabled;
+                // Update designer properties with actual starting values
+                Visible = _ribbonTrackBar.Visible;
+                Enabled = _ribbonTrackBar.Enabled;
 
-            // Update visible/enabled to always be showing/enabled at design time
-            _ribbonTrackBar.Visible = true;
-            _ribbonTrackBar.Enabled = true;
+                // Update visible/enabled to always be showing/enabled at design time
+                _ribbonTrackBar.Visible = true;
+                _ribbonTrackBar.Enabled = true;
 
-            // Tell the embedded text box it is in design mode
-            _ribbonTrackBar.TrackBar.InRibbonDesignMode = true;
+                // Tell the embedded text box it is in design mode
+                _ribbonTrackBar.TrackBar.InRibbonDesignMode = true;
 
-            // Hook into events
-            _ribbonTrackBar.DesignTimeContextMenu += OnContextMenu;
+                // Hook into events
+                _ribbonTrackBar.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -112,8 +110,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is enabled.
         /// </summary>
-        public bool DesignEnabled 
-        { 
+        public bool DesignEnabled
+        {
             get => Enabled;
             set => Enabled = value;
         }
@@ -121,11 +119,11 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is visible.
         /// </summary>
-        public bool DesignVisible 
+        public bool DesignVisible
         {
             get => Visible;
             set => Visible = value;
-        }        
+        }
         #endregion
 
         #region Protected
@@ -215,7 +213,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move TrackBar Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move TrackBar Last", OnMoveLast);
                 _deleteTrackBarVerb = new DesignerVerb("Delete TrackBar", OnDeleteTrackBar);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteTrackBarVerb });
             }
 

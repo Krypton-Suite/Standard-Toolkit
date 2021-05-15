@@ -77,8 +77,8 @@ namespace Krypton.Toolkit
 #endregion
 
 #region Static Fields
-        private static readonly Font ADDRESS_FONT = new Font("Microsoft Sans Serif", 8f);
-        private static readonly Font HEXDUMP_FONT = new Font("Consolas", 9.75f);
+        private static readonly Font ADDRESS_FONT = new("Microsoft Sans Serif", 8f);
+        private static readonly Font HEXDUMP_FONT = new("Consolas", 9.75f);
 #endregion
 
 #region Instance Fields
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
             {
                 g.FillRectangle(brush, new Rectangle(74, 5, 538, _rowCount * 21));
             }
-            using (Pen pen = new Pen(SystemColors.ControlDark))
+            using (Pen pen = new(SystemColors.ControlDark))
             {
                 g.DrawRectangle(pen, new Rectangle(74, 5, 537, _rowCount * 21 - 1));
                 g.DrawLine(pen, 474, 5, 474, 5 + _rowCount * 21 - 1);
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
 
         private void DrawDump(Graphics g, byte[] lineBuffer, int line)
         {
-            StringBuilder stringBuilder = new StringBuilder(lineBuffer.Length);
+            StringBuilder stringBuilder = new(lineBuffer.Length);
             for (int i = 0; i < lineBuffer.Length; i++)
             {
                 char c = Convert.ToChar(lineBuffer[i]);
@@ -202,7 +202,7 @@ namespace Krypton.Toolkit
 
         private void DrawHex(Graphics g, byte[] lineBuffer, int line)
         {
-            StringBuilder stringBuilder = new StringBuilder(lineBuffer.Length * 3 + 1);
+            StringBuilder stringBuilder = new(lineBuffer.Length * 3 + 1);
             for (int i = 0; i < lineBuffer.Length; i++)
             {
                 stringBuilder.Append(lineBuffer[i].ToString("X2", CultureInfo.InvariantCulture));
@@ -473,7 +473,7 @@ namespace Krypton.Toolkit
         {
             if (_dataBuf != null)
             {
-                FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+                FileStream fileStream = new(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
                 try
                 {
                     fileStream.Write(_dataBuf, 0, _dataBuf.Length);
@@ -570,7 +570,7 @@ namespace Krypton.Toolkit
         /// <exception cref="T:System.UnauthorizedAccessException">The access requested is not permitted by the operating system for the specified <paramref name="path" />, such as when access is Write or ReadWrite and the file or directory is set for read-only access. </exception>
         public virtual void SetFile(string path)
         {
-            FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None);
+            FileStream fileStream = new(path, FileMode.Open, FileAccess.Read, FileShare.None);
             try
             {
                 int num = (int)fileStream.Length;

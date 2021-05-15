@@ -35,9 +35,9 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(KryptonLinkBehavior.AlwaysUnderline,  "Always Underline"),
-            new Pair(KryptonLinkBehavior.HoverUnderline,   "Hover Underline"),
-            new Pair(KryptonLinkBehavior.NeverUnderline,   "Never Underline") };
+        { new(KryptonLinkBehavior.AlwaysUnderline,  "Always Underline"),
+            new(KryptonLinkBehavior.HoverUnderline,   "Hover Underline"),
+            new(KryptonLinkBehavior.NeverUnderline,   "Never Underline") };
 
         #endregion
     }

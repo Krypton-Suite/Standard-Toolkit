@@ -539,7 +539,7 @@ namespace Krypton.Toolkit
                             Orientation, State);
 
                     // Create a new region the same as the existing clipping region
-                    Region combineRegion = new Region(borderPath);
+                    Region combineRegion = new(borderPath);
 
                     // Reduce clipping region down by our border path
                     combineRegion.Intersect(_clipRegion);
@@ -596,7 +596,7 @@ namespace Krypton.Toolkit
                     switch (State)
                     {
                         case PaletteState.Tracking:
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, NonSplitRectangle))
+                            using (Clipping clipToSplitter = new(context.Graphics, NonSplitRectangle))
                             {
                                 if (SplitWithFading)
                                 {
@@ -608,7 +608,7 @@ namespace Krypton.Toolkit
                                 }
                             }
 
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, _splitRectangle))
+                            using (Clipping clipToSplitter = new(context.Graphics, _splitRectangle))
                             {
                                 if (SplitWithFading)
                                 {
@@ -621,7 +621,7 @@ namespace Krypton.Toolkit
                             }
                             break;
                         case PaletteState.Pressed:
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, _splitRectangle))
+                            using (Clipping clipToSplitter = new(context.Graphics, _splitRectangle))
                             {
                                 if (SplitWithFading)
                                 {
@@ -635,7 +635,7 @@ namespace Krypton.Toolkit
                                 }
                             }
 
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, NonSplitRectangle))
+                            using (Clipping clipToSplitter = new(context.Graphics, NonSplitRectangle))
                             {
                                 if (SplitWithFading)
                                 {
@@ -679,7 +679,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Pressed:
                             DrawBorder(context, rect, PaletteBorder, PaletteState.Tracking);
 
-                            using (Clipping clipToSplitter = new Clipping(context.Graphics, (mouseInSplit ? _splitRectangle : NonSplitRectangle)))
+                            using (Clipping clipToSplitter = new(context.Graphics, (mouseInSplit ? _splitRectangle : NonSplitRectangle)))
                             {
                                 DrawBorder(context, rect, PaletteBorder, PaletteState.Pressed);
                             }

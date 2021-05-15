@@ -9,10 +9,10 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -30,14 +30,10 @@ namespace Krypton.Toolkit
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
+
+            Debug.Assert(component != null);
 
             // Cast to correct type
             _crumbItem = component as KryptonBreadCrumbItem;
@@ -56,8 +52,8 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
-                
+                ArrayList compound = new(base.AssociatedComponents);
+
                 if (_crumbItem != null)
                 {
                     compound.AddRange(_crumbItem.Items);

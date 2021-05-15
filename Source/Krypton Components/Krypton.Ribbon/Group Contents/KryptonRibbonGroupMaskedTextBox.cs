@@ -10,11 +10,12 @@
 // *****************************************************************************
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
 using System.Globalization;
+using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -24,7 +25,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupMaskedTextBox), "ToolboxBitmaps.KryptonRibbonGroupMaskedTextBox.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupMaskedTextBoxDesigner))]
+    [Designer(typeof(KryptonRibbonGroupMaskedTextBoxDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("TextChanged")]
@@ -234,8 +235,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override KryptonRibbon Ribbon
         {
-            set 
-            { 
+            set
+            {
                 base.Ribbon = value;
 
                 if (value != null)
@@ -361,7 +362,7 @@ namespace Krypton.Ribbon
                 }
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the minimum size of the control.
         /// </summary>
@@ -817,8 +818,8 @@ namespace Krypton.Ribbon
             get => MaskedTextBox.AllowButtonSpecToolTips;
             set => MaskedTextBox.AllowButtonSpecToolTips = value;
         }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -845,7 +846,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
+        public override ViewBase CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint)
         {
             return new ViewDrawRibbonGroupMaskedTextBox(ribbon, this, needPaint);

@@ -1,16 +1,48 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <Choose>
+        <When Condition="'$(TFMs)' == 'all'">
+            <PropertyGroup>
+                <TargetFrameworks>net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
     <PropertyGroup>
-        <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <TargetFrameworks Condition="'$(TFMs)' == 'all'">net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Workspace</RootNamespace>
         <AssemblyName>Krypton.Workspace</AssemblyName>
-        <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <SignAssembly>false</SignAssembly>
         <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+        <ApplicationIcon>Krypton.ico</ApplicationIcon>
+        <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>
+        <LangVersion>9.0</LangVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>4.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>5.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>6.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'"/>
+        <!--TODO: Need to specify version here-->
+    </ItemGroup>
 
     <PropertyGroup>
         <PackageId>Krypton.Workspace.Canary</PackageId>
@@ -39,9 +71,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.1'">
-        <Reference Include="System.Design" />
     </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Workspace.xml</DocumentationFile>

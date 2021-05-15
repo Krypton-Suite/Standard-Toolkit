@@ -35,17 +35,17 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(PaletteImageEffect.Inherit,           "Inherit"),
-            new Pair(PaletteImageEffect.Light,             "Light"),
-            new Pair(PaletteImageEffect.LightLight,        "LightLight"),
-            new Pair(PaletteImageEffect.Normal,            "Normal"),
-            new Pair(PaletteImageEffect.Disabled,          "Disabled"),
-            new Pair(PaletteImageEffect.Dark,              "Dark"),
-            new Pair(PaletteImageEffect.DarkDark,          "DarkDark"),
-            new Pair(PaletteImageEffect.GrayScale,         "GrayScale"),
-            new Pair(PaletteImageEffect.GrayScaleRed,      "GrayScale - Red"),
-            new Pair(PaletteImageEffect.GrayScaleGreen,    "GrayScale - Green"),
-            new Pair(PaletteImageEffect.GrayScaleBlue,     "GrayScale - Blue") };
+        { new(PaletteImageEffect.Inherit,           "Inherit"),
+            new(PaletteImageEffect.Light,             "Light"),
+            new(PaletteImageEffect.LightLight,        "LightLight"),
+            new(PaletteImageEffect.Normal,            "Normal"),
+            new(PaletteImageEffect.Disabled,          "Disabled"),
+            new(PaletteImageEffect.Dark,              "Dark"),
+            new(PaletteImageEffect.DarkDark,          "DarkDark"),
+            new(PaletteImageEffect.GrayScale,         "GrayScale"),
+            new(PaletteImageEffect.GrayScaleRed,      "GrayScale - Red"),
+            new(PaletteImageEffect.GrayScaleGreen,    "GrayScale - Green"),
+            new(PaletteImageEffect.GrayScaleBlue,     "GrayScale - Blue") };
 
         #endregion
     }

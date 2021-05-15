@@ -9,12 +9,12 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Workspace
@@ -32,7 +32,7 @@ namespace Krypton.Workspace
         /// </summary>
         public KryptonWorkspaceSequenceDesigner()
         {
-        }            
+        }
         #endregion
 
         #region Public
@@ -42,19 +42,13 @@ namespace Krypton.Workspace
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _sequence = (KryptonWorkspaceSequence)component;
+            _sequence = component as KryptonWorkspaceSequence;
 
             // Get access to the services
             _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));

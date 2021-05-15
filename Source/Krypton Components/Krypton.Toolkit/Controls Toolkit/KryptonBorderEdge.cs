@@ -313,7 +313,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(50, 50);
+        protected override Size DefaultSize => new(50, 50);
 
         /// <summary>
         /// Raises the EnabledChanged event.

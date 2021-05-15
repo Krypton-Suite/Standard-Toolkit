@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
             get => base.AutoSizeMode;
             set { /* Ignore request */ }
         }
-        
+
         /// <summary>
         /// Gets or sets the border style for the KryptonSplitterPanel. 
         /// </summary>
@@ -366,7 +366,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the space, in pixels, that is specified by default between controls.
         /// </summary>
-        protected override Padding DefaultMargin => new Padding(0, 0, 0, 0);
+        protected override Padding DefaultMargin => new(0, 0, 0, 0);
 
         /// <summary>
         /// Raises the Layout event.

@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private const DataGridViewContentAlignment ANY_CENTER = DataGridViewContentAlignment.TopCenter | DataGridViewContentAlignment.MiddleCenter | DataGridViewContentAlignment.BottomCenter;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewMaskedTextBoxEditingControl);
         private static readonly Type _defaultValueType = typeof(String);
-        private static readonly Size _sizeLarge = new Size(10000, 10000);
+        private static readonly Size _sizeLarge = new(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -583,7 +583,7 @@ namespace Krypton.Toolkit
         private void OnButtonClick(object sender, EventArgs e)
         {
             KryptonDataGridViewMaskedTextBoxColumn maskedColumn = OwningColumn as KryptonDataGridViewMaskedTextBoxColumn;
-            DataGridViewButtonSpecClickEventArgs args = new DataGridViewButtonSpecClickEventArgs(maskedColumn, this, (ButtonSpecAny)sender);
+            DataGridViewButtonSpecClickEventArgs args = new(maskedColumn, this, (ButtonSpecAny)sender);
             maskedColumn.PerfomButtonSpecClick(args);
         }
 

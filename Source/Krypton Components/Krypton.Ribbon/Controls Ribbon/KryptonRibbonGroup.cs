@@ -10,10 +10,11 @@
 // *****************************************************************************
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using System.ComponentModel;
 using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -23,7 +24,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroup), "ToolboxBitmaps.KryptonRibbonGroup.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupDesigner))]
+    [Designer(typeof(KryptonRibbonGroupDesigner))]
     [DefaultEvent("DialogBoxLauncherClick")]
     [DefaultProperty("TextLine1")]
     [DesignerCategory("code")]
@@ -86,14 +87,14 @@ namespace Krypton.Ribbon
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event EventHandler DesignTimeAddSeparator;
-        
+
         /// <summary>
         /// Occurs when the design time wants to add a gallery.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event EventHandler DesignTimeAddGallery;
-        
+
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
@@ -147,7 +148,7 @@ namespace Krypton.Ribbon
             base.Dispose(disposing);
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets access to the owning ribbon control.

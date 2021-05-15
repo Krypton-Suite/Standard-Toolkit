@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a layout context for calculating size and positioning
-                using (ViewLayoutContext context = new ViewLayoutContext(this,
+                using (ViewLayoutContext context = new(this,
                                                                          Control,
                                                                          AlignControl,
                                                                          renderer,
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
             }
 
             // Create a layout context for calculating size and positioning
-            using (ViewContext context = new ViewContext(this,
+            using (ViewContext context = new(this,
                                                          Control,
                                                          AlignControl,
                                                           renderer))
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a layout context for calculating size and positioning
-                using (ViewLayoutContext context = new ViewLayoutContext(this,
+                using (ViewLayoutContext context = new(this,
                                                                          Control,
                                                                          AlignControl,
                                                                          renderer))
@@ -398,7 +398,7 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a render context for drawing the view
-                using (RenderContext context = new RenderContext(this,
+                using (RenderContext context = new(this,
                                                                  Control,
                                                                  AlignControl,
                                                                  e.Graphics,
@@ -473,7 +473,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new Point(e.X, e.Y);
+            Point pt = new(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);
@@ -498,7 +498,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new Point(e.X, e.Y);
+            Point pt = new(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);
@@ -529,7 +529,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new Point(e.X, e.Y);
+            Point pt = new(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);

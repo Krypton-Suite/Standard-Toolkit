@@ -395,7 +395,7 @@ namespace Krypton.Toolkit
                 Caller = caller;
 
                 // Give event handler a change to cancel the open request
-                CancelEventArgs cea = new CancelEventArgs();
+                CancelEventArgs cea = new();
                 OnOpening(cea);
 
                 if (!cea.Cancel)
@@ -485,7 +485,7 @@ namespace Krypton.Toolkit
                                                               Boolean enabled,
                                                               bool keyboardActivated)
         {
-            return new VisualContextMenu(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated);
+            return new(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated);
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         private static KryptonComboBox _paintingComboBox;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewComboBoxEditingControl);
         private static readonly Type _defaultValueType = typeof(String);
-        private static readonly Size _sizeLarge = new Size(10000, 10000);
+        private static readonly Size _sizeLarge = new(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -453,7 +453,7 @@ namespace Krypton.Toolkit
         private void OnButtonClick(object sender, EventArgs e)
         {
             KryptonDataGridViewComboBoxColumn comboColumn = OwningColumn as KryptonDataGridViewComboBoxColumn;
-            DataGridViewButtonSpecClickEventArgs args = new DataGridViewButtonSpecClickEventArgs(comboColumn, this, (ButtonSpecAny)sender);
+            DataGridViewButtonSpecClickEventArgs args = new(comboColumn, this, (ButtonSpecAny)sender);
             comboColumn?.PerfomButtonSpecClick(args);
         }
 

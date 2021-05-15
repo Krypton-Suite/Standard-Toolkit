@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Position the button element inside the available cell area
-                using (ViewLayoutContext layoutContext = new ViewLayoutContext(kDGV, kDGV.Renderer))
+                using (ViewLayoutContext layoutContext = new(kDGV, kDGV.Renderer))
                 {
                     // Define the available area for layout
                     layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
                 // Should we draw the content foreground?
                 if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
                 {
-                    using (RenderContext renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer))
+                    using (RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer))
                     {
                         // Create the view elements and palette structure
                         CreateViewAndPalettes(kDgv);
@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
                         cellBounds.Height -= cellStyle.Padding.Vertical;
 
                         // Position the button element inside the available cell area
-                        using (ViewLayoutContext layoutContext = new ViewLayoutContext(kDgv, kDgv.Renderer))
+                        using (ViewLayoutContext layoutContext = new(kDgv, kDgv.Renderer))
                         {
                             // Define the available area for layout
                             layoutContext.DisplayRectangle = cellBounds;

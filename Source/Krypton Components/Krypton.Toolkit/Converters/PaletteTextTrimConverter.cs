@@ -35,13 +35,13 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(PaletteTextTrim.Inherit,              "Inherit"),
-            new Pair(PaletteTextTrim.Hide,                 "Hide"),
-            new Pair(PaletteTextTrim.Character,            "Character"),
-            new Pair(PaletteTextTrim.Word,                 "Word"),
-            new Pair(PaletteTextTrim.EllipsisCharacter,    "Ellipsis Character"),
-            new Pair(PaletteTextTrim.EllipsisWord,         "Ellipsis Word"),
-            new Pair(PaletteTextTrim.EllipsisPath,         "Ellipsis Path") };
+        { new(PaletteTextTrim.Inherit,              "Inherit"),
+            new(PaletteTextTrim.Hide,                 "Hide"),
+            new(PaletteTextTrim.Character,            "Character"),
+            new(PaletteTextTrim.Word,                 "Word"),
+            new(PaletteTextTrim.EllipsisCharacter,    "Ellipsis Character"),
+            new(PaletteTextTrim.EllipsisWord,         "Ellipsis Word"),
+            new(PaletteTextTrim.EllipsisPath,         "Ellipsis Path") };
 
         #endregion
     }

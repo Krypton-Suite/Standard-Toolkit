@@ -1269,7 +1269,7 @@ namespace Krypton.Toolkit
         public static Color FadedColor(Color baseColor)
         {
             // Conver to HSL space
-            ColorHSL hsl = new ColorHSL(baseColor)
+            ColorHSL hsl = new(baseColor)
             {
 
                 // Remove saturation and fix luminance
@@ -1292,7 +1292,7 @@ namespace Krypton.Toolkit
                 if (!_inputControlPadding.HasValue)
                 {
                     // Find size of a input control with and without a border
-                    TextBox tb = new TextBox
+                    TextBox tb = new()
                     {
                         BorderStyle = BorderStyle.None
                     };
@@ -1301,7 +1301,7 @@ namespace Krypton.Toolkit
                     Size ss = tb.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
 
                     // Always subtract one from top and bottom edges to account for border placed there later by Krypton
-                    Padding inputControlPadding = new Padding(0);
+                    Padding inputControlPadding = new(0);
                     int xDiff = Math.Max(0, ss.Width - sn.Width);
                     int yDiff = Math.Max(0, ss.Height - sn.Height - 2);
 

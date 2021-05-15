@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private static readonly Font _defaultFont = new Font("Consolas", 9.75f);
+        private static readonly Font _defaultFont = new("Consolas", 9.75f);
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         /// <returns>A String that represents the current Object.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder(0x40);
+            StringBuilder builder = new(0x40);
             builder.Append("KryptonDataGridViewBinaryColumn { Name=");
             builder.Append(Name);
             builder.Append(", Index=");

@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
                 UpdateParent(context.Control);
 
                 // Ensure context has the correct control
-                using (CorrectContextControl ccc = new CorrectContextControl(context, ChildControl))
+                using (CorrectContextControl ccc = new(context, ChildControl))
                 {
                     // Ask the view for its preferred size
                     if (ChildView != null)
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
             if (ChildControl != null)
             {
                 // Ensure context has the correct control
-                using (CorrectContextControl ccc = new CorrectContextControl(context, ChildControl))
+                using (CorrectContextControl ccc = new(context, ChildControl))
                 {
                     // We take on all the available display area
                     ClientRectangle = context.DisplayRectangle;

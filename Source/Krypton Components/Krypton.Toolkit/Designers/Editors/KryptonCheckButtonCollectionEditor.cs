@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
                     KryptonCheckSet checkSet = (KryptonCheckSet)context.Instance;
 
                     // Create the dialog used to edit the set of KryptonCheckButtons
-                    KryptonCheckButtonCollectionForm dialog = new KryptonCheckButtonCollectionForm(checkSet);
+                    KryptonCheckButtonCollectionForm dialog = new(checkSet);
 
                     if (editorService.ShowDialog(dialog) == DialogResult.OK)
                     {

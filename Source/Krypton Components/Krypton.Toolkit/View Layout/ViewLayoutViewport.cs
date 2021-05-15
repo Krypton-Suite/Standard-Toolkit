@@ -246,7 +246,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the total extent of the scrolling view.
         /// </summary>
-        public Size ScrollExtent => new Size(Math.Abs(_extent.Width),
+        public Size ScrollExtent => new(Math.Abs(_extent.Width),
             Math.Abs(_extent.Height));
 
         #endregion
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a scrolling offset within the viewport.
         /// </summary>
-        public Point ScrollOffset => new Point(Math.Abs(_offset.X),
+        public Point ScrollOffset => new(Math.Abs(_offset.X),
             Math.Abs(_offset.Y));
 
         #endregion
@@ -553,7 +553,7 @@ namespace Krypton.Toolkit
                 childOffsetY = CalculateAlignedOffset(AlignmentRTL, positionRectangle.Y, positionRectangle.Height, _offset.Y, _extent.Height, _limit.Y);
             }
 
-            Point childOffset = new Point(childOffsetX, childOffsetY);
+            Point childOffset = new(childOffsetX, childOffsetY);
 
             // Ask each child to layout in turn
             foreach (ViewBase child in this)
@@ -616,7 +616,7 @@ namespace Krypton.Toolkit
             }
 
             // New clipping region is at most our own client size
-            using (Region combineRegion = new Region(clipRectangle))
+            using (Region combineRegion = new(clipRectangle))
             {
                 // Remember the current clipping region
                 Region clipRegion = context.Graphics.Clip.Clone();

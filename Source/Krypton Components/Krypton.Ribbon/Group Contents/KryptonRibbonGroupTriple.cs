@@ -10,10 +10,11 @@
 // *****************************************************************************
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using System.ComponentModel;
 using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -23,7 +24,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTriple), "ToolboxBitmaps.KryptonRibbonGroupTriple.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupTripleDesigner))]
+    [Designer(typeof(KryptonRibbonGroupTripleDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -115,7 +116,7 @@ namespace Krypton.Ribbon
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event EventHandler DesignTimeAddComboBox;
-        
+
         /// <summary>
         /// Occurs when the design time wants to add a numeric up down.
         /// </summary>
@@ -191,7 +192,7 @@ namespace Krypton.Ribbon
             base.Dispose(disposing);
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets access to the owning ribbon control.
@@ -203,8 +204,8 @@ namespace Krypton.Ribbon
         {
             get => base.Ribbon;
 
-            set 
-            { 
+            set
+            {
                 base.Ribbon = value;
 
                 // Forward the reference to all children (just in case the children
@@ -226,8 +227,8 @@ namespace Krypton.Ribbon
         {
             get => base.RibbonTab;
 
-            set 
-            { 
+            set
+            {
                 base.RibbonTab = value;
 
                 // Forward the reference to all children (just in case the children
@@ -249,7 +250,7 @@ namespace Krypton.Ribbon
         {
             get => _itemAlignment;
 
-            set             
+            set
             {
                 if (_itemAlignment != value)
                 {
@@ -385,7 +386,7 @@ namespace Krypton.Ribbon
         {
             get => _itemSizeMin;
 
-            set 
+            set
             {
                 if (_itemSizeMin != value)
                 {

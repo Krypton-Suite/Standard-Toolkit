@@ -623,7 +623,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(90, 25);
+        protected override Size DefaultSize => new(90, 25);
 
         /// <summary>
         /// Gets the default Input Method Editor (IME) mode supported by this control.
@@ -830,7 +830,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint)
         {
-            return new ButtonValues(needPaint);
+            return new(needPaint);
         }
 
         /// <summary>
@@ -888,7 +888,7 @@ namespace Krypton.Toolkit
             }
 
             // Package up the context menu and positioning values we will use later
-            ContextPositionMenuArgs cpma = new ContextPositionMenuArgs(ContextMenuStrip,
+            ContextPositionMenuArgs cpma = new(ContextMenuStrip,
                                                                        KryptonContextMenu,
                                                                        GetPositionH(),
                                                                        GetPositionV());

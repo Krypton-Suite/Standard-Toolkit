@@ -9,13 +9,12 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using System.Diagnostics;
 
 namespace Krypton.Ribbon
 {
@@ -36,7 +35,7 @@ namespace Krypton.Ribbon
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
             // do not get the resizing handles, otherwise you do.
             AutoResizeHandles = true;
-        }            
+        }
         #endregion
 
         #region Public
@@ -46,19 +45,12 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
             // Cast to correct type
-            _gallery = (KryptonGallery)component;
+            _gallery = component as KryptonGallery;
 
             // We need to know when we are being removed
             _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));

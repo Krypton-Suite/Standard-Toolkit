@@ -12,6 +12,7 @@
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -31,6 +32,8 @@ namespace Krypton.Toolkit
         {
             // Let base class do standard stuff
             base.Initialize(component);
+
+            Debug.Assert(component != null);
 
             // Cast to correct type
             _maskedTextBox = component as KryptonDataGridViewMaskedTextBoxColumn;

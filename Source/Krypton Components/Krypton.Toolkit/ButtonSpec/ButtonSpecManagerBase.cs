@@ -161,8 +161,8 @@ namespace Krypton.Toolkit
                     _viewSpacers[i] = new ListSpacers();
 
                     // Always create the outside edge spacers
-                    ViewLayoutMetricSpacer spacerL1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutside);
-                    ViewLayoutMetricSpacer spacerR1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutside);
+                    ViewLayoutMetricSpacer spacerL1 = new(viewMetric, viewMetricIntOutside);
+                    ViewLayoutMetricSpacer spacerR1 = new(viewMetric, viewMetricIntOutside);
                     spacerL1.Visible = spacerR1.Visible = false;
 
                     // Add the spacers to the docker instance
@@ -176,8 +176,8 @@ namespace Krypton.Toolkit
                         PaletteMetricInt viewMetricIntInside = _viewMetricIntInside[i];
 
                         // Create the inside edge spacers
-                        ViewLayoutMetricSpacer spacerL2 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntInside);
-                        ViewLayoutMetricSpacer spacerR2 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntInside);
+                        ViewLayoutMetricSpacer spacerL2 = new(viewMetric, viewMetricIntInside);
+                        ViewLayoutMetricSpacer spacerR2 = new(viewMetric, viewMetricIntInside);
                         spacerL2.Visible = spacerR2.Visible = false;
 
                         // Add them into the view docker instance
@@ -692,7 +692,7 @@ namespace Krypton.Toolkit
                                                               PaletteMetricPadding viewMetricPadding,
                                                               ButtonSpec buttonSpec)
         {
-            return new ButtonSpecView(redirector,
+            return new(redirector,
                                       viewPaletteMetric,
                                       viewMetricPadding,
                                       this,

@@ -517,7 +517,7 @@ namespace Krypton.Toolkit
                                         TaskDialogButtons commonButtons)
         {
             // Create a temporary task dialog for storing definition whilst showing
-            using (KryptonTaskDialog taskDialog = new KryptonTaskDialog())
+            using (KryptonTaskDialog taskDialog = new())
             {
                 // Store incoming values
                 taskDialog.WindowTitle = windowTitle;

@@ -15,8 +15,6 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms;
 
-using Krypton.Toolkit.Utilities;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -201,7 +199,7 @@ namespace Krypton.Toolkit
                                                 PaletteState.Disabled));
 
                                     // Define the string formatting requirements
-                                    StringFormat stringFormat = new StringFormat
+                                    StringFormat stringFormat = new()
                                     {
                                         Trimming = StringTrimming.None,
                                         LineAlignment = StringAlignment.Near
@@ -243,7 +241,7 @@ namespace Krypton.Toolkit
                                     // Draw using a solid brush
                                     try
                                     {
-                                        using SolidBrush foreBrush = new SolidBrush(ForeColor);
+                                        using SolidBrush foreBrush = new(ForeColor);
                                         g.DrawString(drawString, Font, foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left,
                                                 rect.bottom - rect.top),
@@ -251,7 +249,7 @@ namespace Krypton.Toolkit
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using SolidBrush foreBrush = new SolidBrush(ForeColor);
+                                        using SolidBrush foreBrush = new(ForeColor);
                                         g.DrawString(drawString,
                                             _kryptonTextBox.GetTripleState().PaletteContent
                                                 .GetContentShortTextFont(PaletteState.Disabled), foreBrush,
@@ -277,7 +275,7 @@ namespace Krypton.Toolkit
                         if (_kryptonTextBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)((long)m.LParam)) == -1)
@@ -583,7 +581,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        [Obsolete("Deprecated - Use CueHint")]
+        [Obsolete("Deprecated - Use CueHint.CueHintText")]
         public string Hint
         {
             get => CueHint.CueHintText;
@@ -1704,7 +1702,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(100, PreferredHeight);
+        protected override Size DefaultSize => new(100, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -1916,7 +1914,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -1934,7 +1932,7 @@ namespace Krypton.Toolkit
 
                         if (AllowButtonSpecToolTipPriority)
                         {
-                            _visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip?.Dispose();
                         }
 
                         // Create the actual tooltip popup object

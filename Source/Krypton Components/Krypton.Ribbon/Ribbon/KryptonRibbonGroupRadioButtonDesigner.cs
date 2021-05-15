@@ -10,11 +10,12 @@
 // *****************************************************************************
 
 using System;
-using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -60,20 +61,17 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonRadioButton = (KryptonRibbonGroupRadioButton)component;
-            _ribbonRadioButton.DesignTimeContextMenu += OnContextMenu;
+            _ribbonRadioButton = component as KryptonRibbonGroupRadioButton;
+            if (_ribbonRadioButton != null)
+            {
+                _ribbonRadioButton.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -133,7 +131,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move RadioButton Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move RadioButton Last", OnMoveLast);
                 _deleteRadioButtonVerb = new DesignerVerb("Delete RadioButton", OnDeleteRadioButton);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteRadioButtonVerb });
             }
 

@@ -25,7 +25,7 @@ namespace Krypton.Workspace
         public override SelectionRules SelectionRules => SelectionRules.None;
 
         #endregion
-        
+
         #region Implementation
         /// <summary>
         /// Occurs when the component is being removed from the designer.
@@ -40,7 +40,7 @@ namespace Krypton.Workspace
                 // If this workspace cell is inside a parent
                 KryptonWorkspaceCell cell = (KryptonWorkspaceCell)Navigator;
                 // Cell an only be inside a workspace sequence
-                KryptonWorkspaceSequence sequence = (KryptonWorkspaceSequence) cell.WorkspaceParent;
+                KryptonWorkspaceSequence sequence = (KryptonWorkspaceSequence)cell.WorkspaceParent;
                 // Remove the cell from the parent
                 sequence?.Children.Remove(cell);
             }

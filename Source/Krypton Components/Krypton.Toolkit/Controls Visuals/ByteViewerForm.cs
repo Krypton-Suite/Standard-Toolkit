@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
 
         private void OnClickExport(object sender, EventArgs e)
         {
-            using (SaveFileDialog sfd = new SaveFileDialog
+            using (SaveFileDialog sfd = new()
             {
                 CheckFileExists = false,
                 CheckPathExists = false,
@@ -125,14 +125,14 @@ namespace Krypton.Toolkit
             components = new Container();
 
             _byteViewer = new KryptonByteViewer();
-            KryptonPanel bottomPanel = new KryptonPanel();
-            KryptonPanel topPanel = new KryptonPanel();
-            KryptonGroupBox groupBox = new KryptonGroupBox();
-            KryptonCheckButton unicodeButton = new KryptonCheckButton();
-            KryptonCheckButton hexButton = new KryptonCheckButton();
-            KryptonCheckButton ansiButton = new KryptonCheckButton();
-            KryptonCheckButton export = new KryptonCheckButton();
-            KryptonCheckSet displayModeCheckset = new KryptonCheckSet(components);
+            KryptonPanel bottomPanel = new();
+            KryptonPanel topPanel = new();
+            KryptonGroupBox groupBox = new();
+            KryptonCheckButton unicodeButton = new();
+            KryptonCheckButton hexButton = new();
+            KryptonCheckButton ansiButton = new();
+            KryptonCheckButton export = new();
+            KryptonCheckSet displayModeCheckset = new(components);
             ((ISupportInitialize)(topPanel)).BeginInit();
             topPanel.SuspendLayout();
             ((ISupportInitialize)(groupBox)).BeginInit();

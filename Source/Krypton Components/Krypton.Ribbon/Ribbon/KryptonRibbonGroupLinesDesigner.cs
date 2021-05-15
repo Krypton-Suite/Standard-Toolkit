@@ -11,11 +11,12 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -90,7 +91,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public KryptonRibbonGroupLinesDesigner()
         {
-        }            
+        }
         #endregion
 
         #region Public
@@ -100,35 +101,32 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonLines = (KryptonRibbonGroupLines)component;
-            _ribbonLines.DesignTimeAddButton += OnAddButton;
-            _ribbonLines.DesignTimeAddColorButton += OnAddColorButton;
-            _ribbonLines.DesignTimeAddCheckBox += OnAddCheckBox;
-            _ribbonLines.DesignTimeAddRadioButton += OnAddRadioButton;
-            _ribbonLines.DesignTimeAddLabel += OnAddLabel;
-            _ribbonLines.DesignTimeAddCustomControl += OnAddCustomControl;
-            _ribbonLines.DesignTimeAddCluster += OnAddCluster;
-            _ribbonLines.DesignTimeAddTextBox += OnAddTextBox;
-            _ribbonLines.DesignTimeAddMaskedTextBox += OnAddMaskedTextBox;
-            _ribbonLines.DesignTimeAddRichTextBox += OnAddRichTextBox;
-            _ribbonLines.DesignTimeAddComboBox += OnAddComboBox;
-            _ribbonLines.DesignTimeAddNumericUpDown += OnAddNumericUpDown;
-            _ribbonLines.DesignTimeAddDomainUpDown += OnAddDomainUpDown;
-            _ribbonLines.DesignTimeAddDateTimePicker += OnAddDateTimePicker;
-            _ribbonLines.DesignTimeAddTrackBar += OnAddTrackBar;
-            _ribbonLines.DesignTimeContextMenu += OnContextMenu;
+            _ribbonLines = component as KryptonRibbonGroupLines;
+            if (_ribbonLines != null)
+            {
+                _ribbonLines.DesignTimeAddButton += OnAddButton;
+                _ribbonLines.DesignTimeAddColorButton += OnAddColorButton;
+                _ribbonLines.DesignTimeAddCheckBox += OnAddCheckBox;
+                _ribbonLines.DesignTimeAddRadioButton += OnAddRadioButton;
+                _ribbonLines.DesignTimeAddLabel += OnAddLabel;
+                _ribbonLines.DesignTimeAddCustomControl += OnAddCustomControl;
+                _ribbonLines.DesignTimeAddCluster += OnAddCluster;
+                _ribbonLines.DesignTimeAddTextBox += OnAddTextBox;
+                _ribbonLines.DesignTimeAddMaskedTextBox += OnAddMaskedTextBox;
+                _ribbonLines.DesignTimeAddRichTextBox += OnAddRichTextBox;
+                _ribbonLines.DesignTimeAddComboBox += OnAddComboBox;
+                _ribbonLines.DesignTimeAddNumericUpDown += OnAddNumericUpDown;
+                _ribbonLines.DesignTimeAddDomainUpDown += OnAddDomainUpDown;
+                _ribbonLines.DesignTimeAddDateTimePicker += OnAddDateTimePicker;
+                _ribbonLines.DesignTimeAddTrackBar += OnAddTrackBar;
+                _ribbonLines.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -234,7 +232,7 @@ namespace Krypton.Ribbon
                 _addTrackBarVerb = new DesignerVerb("Add TrackBar", OnAddTrackBar);
                 _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
                 _deleteLinesVerb = new DesignerVerb("Delete Lines", OnDeleteLines);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
                                                      _addButtonVerb, _addColorButtonVerb, _addCheckBoxVerb, _addClusterVerb, _addComboBoxVerb, _addCustomControlVerb, _addDateTimePickerVerb, _addDomainUpDownVerb, _addLabelVerb, _addNumericUpDownVerb, _addRadioButtonVerb, _addRichTextBoxVerb, _addTextBoxVerb, _addTrackBarVerb, _addMaskedTextBoxVerb,
                                                      _clearItemsVerb, _deleteLinesVerb });
             }

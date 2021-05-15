@@ -21,21 +21,21 @@ namespace Krypton.Toolkit
     public class ViewDrawTrackBar : ViewDrawPanel
     {
         #region Static Fields
-        private static readonly Size _positionSizeSmallH = new Size(11, 15);
-        private static readonly Size _positionSizeSmallV = new Size(15, 11);
-        private static readonly Size _positionSizeMediumH = new Size(13, 21);
-        private static readonly Size _positionSizeMediumV = new Size(21, 13);
-        private static readonly Size _positionSizeLargeH = new Size(17, 27);
-        private static readonly Size _positionSizeLargeV = new Size(27, 17);
-        private static readonly Size _trackSizeSmall = new Size(2, 2);
-        private static readonly Size _trackSizeSmallV = new Size(6, 6);
-        private static readonly Size _trackSizeMedium = new Size(4, 4);
-        private static readonly Size _trackSizeMediumV = new Size(11, 11);
-        private static readonly Size _trackSizeLarge = new Size(5, 5);
-        private static readonly Size _trackSizeLargeV = new Size(16, 16);
-        private static readonly Size _tickSizeSmall = new Size(5, 5);
-        private static readonly Size _tickSizeMedium = new Size(6, 6);
-        private static readonly Size _tickSizeLarge = new Size(7, 7);
+        private static readonly Size _positionSizeSmallH = new(11, 15);
+        private static readonly Size _positionSizeSmallV = new(15, 11);
+        private static readonly Size _positionSizeMediumH = new(13, 21);
+        private static readonly Size _positionSizeMediumV = new(21, 13);
+        private static readonly Size _positionSizeLargeH = new(17, 27);
+        private static readonly Size _positionSizeLargeV = new(27, 17);
+        private static readonly Size _trackSizeSmall = new(2, 2);
+        private static readonly Size _trackSizeSmallV = new(6, 6);
+        private static readonly Size _trackSizeMedium = new(4, 4);
+        private static readonly Size _trackSizeMediumV = new(11, 11);
+        private static readonly Size _trackSizeLarge = new(5, 5);
+        private static readonly Size _trackSizeLargeV = new(16, 16);
+        private static readonly Size _tickSizeSmall = new(5, 5);
+        private static readonly Size _tickSizeMedium = new(6, 6);
+        private static readonly Size _tickSizeLarge = new(7, 7);
         #endregion
 
         #region Instance Fields

@@ -879,7 +879,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(90, 25);
+        protected override Size DefaultSize => new(90, 25);
 
         /// <summary>
         /// Gets the default Input Method Editor (IME) mode supported by this control.
@@ -1100,7 +1100,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Set of color button values.</returns>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected virtual ColorButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ColorButtonValues(needPaint);
+        protected virtual ColorButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new(needPaint);
 
         /// <summary>
         /// Gets access to the view element for the color button.
@@ -1158,7 +1158,7 @@ namespace Krypton.Toolkit
             }
 
             // Package up the context menu and positioning values we will use later
-            ContextPositionMenuArgs cpma = new ContextPositionMenuArgs(null,
+            ContextPositionMenuArgs cpma = new(null,
                                                                        _kryptonContextMenu,
                                                                        GetPositionH(),
                                                                        GetPositionV());
@@ -1435,14 +1435,14 @@ namespace Krypton.Toolkit
         private void OnClickMoreColors(object sender, EventArgs e)
         {
             // Give user a chance to cancel showing the standard more colors dialog
-            CancelEventArgs cea = new CancelEventArgs();
+            CancelEventArgs cea = new();
             OnMoreColors(cea);
 
             // If not instructed to cancel then...
             if (!cea.Cancel)
             {
                 // Use a standard color dialog for the selection of custom colors
-                ColorDialog cd = new ColorDialog
+                ColorDialog cd = new()
                 {
                     Color = SelectedColor,
                     FullOpen = true

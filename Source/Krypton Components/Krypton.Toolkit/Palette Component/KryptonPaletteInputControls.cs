@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             InputControlCustom3 = new KryptonPaletteInputControl(redirector, PaletteBackStyle.InputControlCustom3, PaletteBorderStyle.InputControlCustom3, PaletteContentStyle.InputControlCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectTriple redirectCommon = new PaletteRedirectTriple(redirector, InputControlCommon.StateDisabled, InputControlCommon.StateNormal, InputControlCommon.StateActive);
+            PaletteRedirectTriple redirectCommon = new(redirector, InputControlCommon.StateDisabled, InputControlCommon.StateNormal, InputControlCommon.StateActive);
 
             // Inform the input control style to use the new redirector
             InputControlStandalone.SetRedirector(redirectCommon);

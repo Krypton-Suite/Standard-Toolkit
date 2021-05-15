@@ -669,7 +669,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public SelectionRange SelectionRange
         {
-            get => new SelectionRange(SelectionStart, SelectionEnd);
+            get => new(SelectionStart, SelectionEnd);
             set => SetSelectionRange(value.Start, value.End);
         }
 
@@ -1671,7 +1671,7 @@ namespace Krypton.Toolkit
 
         private void AdjustSize(ref int width, ref int height)
         {
-            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+            using (ViewLayoutContext context = new(this, Renderer))
             {
                 // Ask back/border the size it requires
                 Size backBorderSize = _drawDocker.GetNonChildSize(context);

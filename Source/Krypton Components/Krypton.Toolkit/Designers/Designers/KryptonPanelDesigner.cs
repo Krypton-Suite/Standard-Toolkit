@@ -9,9 +9,9 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.ComponentModel.Design;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
             // do not get the resizing handles, otherwise you do.
             AutoResizeHandles = true;
-        }            
+        }
         #endregion
 
         #region Public Overrides
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the panel specific list
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         private void DrawBorder(Graphics graphics)
         {
             // Create a pen for drawing
-            using (Pen borderPen = new Pen(SystemColors.ControlDarkDark))
+            using (Pen borderPen = new(SystemColors.ControlDarkDark))
             {
                 // Always draw the border dashed
                 borderPen.DashStyle = DashStyle.Dash;

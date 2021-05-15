@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
                                        int end, 
                                        bool enabled)
         {
-            ViewLayoutColorStack vertical = new ViewLayoutColorStack();
+            ViewLayoutColorStack vertical = new();
 
             for (int i = start; i < end; i++)
             {
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            using (SolidBrush brush = new SolidBrush(Color.FromArgb(197, 197, 197)))
+            using (SolidBrush brush = new(Color.FromArgb(197, 197, 197)))
             {
                 context.Graphics.FillRectangle(brush, ClientRectangle);
             }

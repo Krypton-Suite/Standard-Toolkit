@@ -500,7 +500,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Fire event to recover the rectangle of allowed separator movement
-                SplitterMoveRectMenuArgs args = new SplitterMoveRectMenuArgs(Rectangle.Empty);
+                SplitterMoveRectMenuArgs args = new(Rectangle.Empty);
                 OnSplitterMoveRect(args);
 
                 return Orientation == Orientation.Horizontal
@@ -519,7 +519,7 @@ namespace Krypton.Toolkit
         public bool SeparatorMoving(Point mouse, Point splitter)
         {
             // Fire the event that indicates the splitter is being moved
-            SplitterCancelEventArgs e = new SplitterCancelEventArgs(mouse.X, mouse.Y, splitter.X, splitter.Y);
+            SplitterCancelEventArgs e = new(mouse.X, mouse.Y, splitter.X, splitter.Y);
             OnSplitterMoving(e);
 
             // Tell caller if the movement should be cancelled or not
@@ -535,7 +535,7 @@ namespace Krypton.Toolkit
         public void SeparatorMoved(Point mouse, Point splitter)
         {
             // Fire the event that indicates the splitter has finished being moved
-            SplitterEventArgs e = new SplitterEventArgs(mouse.X, mouse.Y, splitter.X, splitter.Y);
+            SplitterEventArgs e = new(mouse.X, mouse.Y, splitter.X, splitter.Y);
             OnSplitterMoved(e);
 
             _redrawTimer?.Start();
@@ -610,7 +610,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(5, 5);
+        protected override Size DefaultSize => new(5, 5);
 
         /// <summary>
         /// Raises the Initialized event.

@@ -437,7 +437,7 @@ namespace Krypton.Toolkit
         #region Implementation
         private TargetList ConstructKeyboardTargets(ViewBase root)
         {
-            TargetList targets = new TargetList();
+            TargetList targets = new();
             FindKeyboardTargets(root, targets);
             return targets;
         }

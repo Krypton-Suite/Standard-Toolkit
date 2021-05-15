@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
             Debug.Assert(hWnd != null);
 
             // Cerate structure that contains distances for each edge
-            PI.MARGINS margins = new PI.MARGINS
+            PI.MARGINS margins = new()
             {
                 leftWidth = padding.Left,
                 topHeight = padding.Top,

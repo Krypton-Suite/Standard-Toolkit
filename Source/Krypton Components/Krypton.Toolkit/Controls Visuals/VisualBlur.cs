@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             // Update form properties so we do not have a border and do not show
             // in the task bar. We draw the background in Magenta and set that as
             // the transparency key so it is a see through window.
-            CreateParams cp = new CreateParams
+            CreateParams cp = new()
             {
                 // Define the screen position/size
                 X = -2,
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// </remarks>
         public void SetTargetRect(Point clientLocation, Rectangle windowBounds)
         {
-            Rectangle rect = new Rectangle(0, 0, windowBounds.Width, windowBounds.Height);
+            Rectangle rect = new(0, 0, windowBounds.Width, windowBounds.Height);
             rect.Offset(clientLocation);
             TargetRect = rect;
         }
@@ -139,10 +139,10 @@ namespace Krypton.Toolkit
                 hOldBitmap = PI.SelectObject(memDc, hBitmap);
 
                 // Set parameters for layered window update.
-                PI.SIZE newSize = new PI.SIZE(_blurredForm.Width, _blurredForm.Height);
-                PI.POINT sourceLocation = new PI.POINT(0, 0);
-                PI.POINT newLocation = new PI.POINT(TargetRect.Left, TargetRect.Top);
-                PI.BLENDFUNCTION blend = new PI.BLENDFUNCTION
+                PI.SIZE newSize = new(_blurredForm.Width, _blurredForm.Height);
+                PI.POINT sourceLocation = new(0, 0);
+                PI.POINT newLocation = new(TargetRect.Left, TargetRect.Top);
+                PI.BLENDFUNCTION blend = new()
                 {
                     BlendOp = PI.AC_SRC_OVER,
                     BlendFlags = 0,
@@ -191,7 +191,7 @@ namespace Krypton.Toolkit
         /// <summary>Gaussian blur.</summary>
         private void GaussianBlur()
         {
-            PI.BlurParams blurParams = new PI.BlurParams
+            PI.BlurParams blurParams = new()
             {
                 Radius = _blurValues.Radius,
                 ExpandEdges = false
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
                     handle = Marshal.AllocHGlobal(Marshal.SizeOf(blurParams));
                     Marshal.StructureToPtr(blurParams, handle, true);
                     PI.GdipSetEffectParameters(blurEffect, handle, (uint)Marshal.SizeOf(blurParams));
-                    PI.RECT rect = new PI.RECT
+                    PI.RECT rect = new()
                     {
                         top = 0,
                         left = 0,

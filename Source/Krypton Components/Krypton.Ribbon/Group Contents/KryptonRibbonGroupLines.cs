@@ -10,11 +10,12 @@
 // *****************************************************************************
 
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Design;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Diagnostics;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -24,7 +25,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupLines), "ToolboxBitmaps.KryptonRibbonGroupLines.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupLinesDesigner))]
+    [Designer(typeof(KryptonRibbonGroupLinesDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -199,7 +200,7 @@ namespace Krypton.Ribbon
             base.Dispose(disposing);
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets access to the owning ribbon control.
@@ -211,8 +212,8 @@ namespace Krypton.Ribbon
         {
             get => base.Ribbon;
 
-            set 
-            { 
+            set
+            {
                 base.Ribbon = value;
 
                 // Forward the reference to all children (just in case the children
@@ -234,8 +235,8 @@ namespace Krypton.Ribbon
         {
             get => base.RibbonTab;
 
-            set 
-            { 
+            set
+            {
                 base.RibbonTab = value;
 
                 // Forward the reference to all children (just in case the children

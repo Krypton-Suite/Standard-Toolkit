@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
             };
 
             // Use context menu specific version of the radio button controller
-            MenuRadioButtonController mrbc = new MenuRadioButtonController(provider.ProviderViewManager, _innerDocker, this, provider.ProviderNeedPaintDelegate);
+            MenuRadioButtonController mrbc = new(provider.ProviderViewManager, _innerDocker, this, provider.ProviderNeedPaintDelegate);
             mrbc.Click += OnClick;
             _innerDocker.MouseController = mrbc;
             _innerDocker.KeyController = mrbc;

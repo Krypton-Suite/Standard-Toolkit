@@ -670,7 +670,7 @@ namespace Krypton.Toolkit
 
             string result;
 
-            PaletteModeConverter modeConverter = new PaletteModeConverter();
+            PaletteModeConverter modeConverter = new();
 
             result = modeConverter.ConvertToString(paletteMode);
 

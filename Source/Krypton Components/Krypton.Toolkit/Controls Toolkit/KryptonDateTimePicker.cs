@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
             IsDropped = false;
             IsMouseOver = false;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
             CalendarShowToday = true;
             CalendarShowTodayCircle = true;
             CalendarCloseOnTodayClick = false;
@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
 
             // Add a checkbox to the left of the text area
             Images = new CheckBoxImages(NeedPaintDelegate);
-            PaletteRedirectCheckBox paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
+            PaletteRedirectCheckBox paletteCheckBoxImages = new(Redirector, Images);
             InternalViewDrawCheckBox = new ViewDrawCheckBox(paletteCheckBoxImages)
             {
                 CheckState = CheckState.Checked
@@ -238,7 +238,7 @@ namespace Krypton.Toolkit
             _layoutCheckBox.Visible = false;
 
             // Need a controller for handling check box mouse input
-            CheckBoxController controller = new CheckBoxController(InternalViewDrawCheckBox, InternalViewDrawCheckBox, NeedPaintDelegate);
+            CheckBoxController controller = new(InternalViewDrawCheckBox, InternalViewDrawCheckBox, NeedPaintDelegate);
             controller.Click += OnCheckBoxClick;
             controller.Enabled = true;
             InternalViewDrawCheckBox.MouseController = controller;
@@ -1300,8 +1300,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -1860,7 +1860,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !InRibbonDesignMode)
             {
                 // We treat positive numbers as moving upwards
-                KeyEventArgs kpea = new KeyEventArgs((e.Delta < 0) ? Keys.Down : Keys.Up);
+                KeyEventArgs kpea = new((e.Delta < 0) ? Keys.Down : Keys.Up);
 
                 // Simulate the up/down key the correct number of times
                 int detents = Math.Abs(e.Delta) / SystemInformation.MouseWheelScrollDelta;
@@ -2097,7 +2097,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(240, PreferredHeight);
+        protected override Size DefaultSize => new(240, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -2224,7 +2224,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2239,10 +2239,10 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						if (AllowButtonSpecToolTipPriority)
+
+                        if (AllowButtonSpecToolTipPriority)
                         {
-                            _visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip?.Dispose();
                         }
 
                         // Create the actual tooltip popup object
@@ -2278,7 +2278,7 @@ namespace Krypton.Toolkit
                 _dropDownMonthChanged = false;
 
                 // Create a new krypton context menu each time we drop the menu
-                DTPContextMenu kcm = new DTPContextMenu(RectangleToScreen(_buttonDropDown.ClientRectangle));
+                DTPContextMenu kcm = new(RectangleToScreen(_buttonDropDown.ClientRectangle));
 
                 // Add and setup a month calendar element
                 _kmc = new KryptonContextMenuMonthCalendar
@@ -2317,7 +2317,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Give user a change to modify the context menu or even cancel the menu entirely
-                DateTimePickerDropArgs dtpda = new DateTimePickerDropArgs(kcm,
+                DateTimePickerDropArgs dtpda = new(kcm,
                                                                           (DropDownAlign == LeftRightAlignment.Left ? KryptonContextMenuPositionH.Left : KryptonContextMenuPositionH.Right),
                                                                           KryptonContextMenuPositionV.Below);
                 // Let user examine and later values
@@ -2375,7 +2375,7 @@ namespace Krypton.Toolkit
         private void OnMonthCalendarDateChanged(object sender, DateRangeEventArgs e)
         {
             // Use the newly selected date but the exising time
-            DateTime newDt = new DateTime(e.Start.Year, e.Start.Month, e.Start.Day,
+            DateTime newDt = new(e.Start.Year, e.Start.Month, e.Start.Day,
                                           _dateTime.Hour, _dateTime.Minute, _dateTime.Second, _dateTime.Millisecond);
 
             // Range check in case the min/max have time portions and not just full days
@@ -2410,7 +2410,7 @@ namespace Krypton.Toolkit
             }
 
             // Generate the close up event and provide the menu so handlers can examine state that might have changed
-            DateTimePickerCloseArgs dtca = new DateTimePickerCloseArgs(kcm);
+            DateTimePickerCloseArgs dtca = new(kcm);
             OnCloseUp(dtca);
 
             // Notify that the month calendar changed value whilst the dropped down.

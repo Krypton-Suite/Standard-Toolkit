@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
-            using(SolidBrush fillBrush = new SolidBrush(_fillColor))
+            using(SolidBrush fillBrush = new(_fillColor))
             {
                 context.Graphics.FillRectangle(fillBrush, ClientRectangle);
             }

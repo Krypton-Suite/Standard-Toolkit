@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private const DataGridViewContentAlignment ANY_CENTER = DataGridViewContentAlignment.TopCenter | DataGridViewContentAlignment.MiddleCenter | DataGridViewContentAlignment.BottomCenter;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewDomainUpDownEditingControl);
         private static readonly Type _defaultValueType = typeof(String);
-        private static readonly Size _sizeLarge = new Size(10000, 10000);
+        private static readonly Size _sizeLarge = new(10000, 10000);
         #endregion
 
         #region Identity
@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
         private void OnButtonClick(object sender, EventArgs e)
         {
             KryptonDataGridViewDomainUpDownColumn domainColumn = OwningColumn as KryptonDataGridViewDomainUpDownColumn;
-            DataGridViewButtonSpecClickEventArgs args = new DataGridViewButtonSpecClickEventArgs(domainColumn, this, (ButtonSpecAny)sender);
+            DataGridViewButtonSpecClickEventArgs args = new(domainColumn, this, (ButtonSpecAny)sender);
             domainColumn.PerfomButtonSpecClick(args);
         }
 

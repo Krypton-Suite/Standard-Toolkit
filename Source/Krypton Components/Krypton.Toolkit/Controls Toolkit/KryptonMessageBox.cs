@@ -558,7 +558,7 @@ namespace Krypton.Toolkit
             }
 
             // Show message box window as a modal dialog and then dispose of it afterwards
-            using (KryptonMessageBox kmb = new KryptonMessageBox(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, useBlurOnParent, parentWindow))
+            using (KryptonMessageBox kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, useBlurOnParent, parentWindow))
             {
                 kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
@@ -861,7 +861,7 @@ namespace Krypton.Toolkit
 
             // Button1 is always visible
             Size button1Size = _button1.GetPreferredSize(Size.Empty);
-            Size maxButtonSize = new Size(button1Size.Width + GAP, button1Size.Height);
+            Size maxButtonSize = new(button1Size.Width + GAP, button1Size.Height);
 
             // If Button2 is visible
             if (_button2.Enabled)
@@ -941,7 +941,7 @@ namespace Krypton.Toolkit
                 // Pressing Ctrl+C should copy message text into the clipboard
                 if ((e.Modifiers == Keys.Control) && (e.KeyCode == Keys.C))
                 {
-                    StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new();
 
                     sb.AppendLine("---------------------------");
                     sb.AppendLine(_caption);

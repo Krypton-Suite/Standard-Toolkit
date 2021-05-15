@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// </returns>
         public object Clone()
         {
-            IconSpec spec = new IconSpec
+            IconSpec spec = new()
             {
                 Icon = Icon?.Clone() as Image,
                 Alignment = Alignment

@@ -337,6 +337,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="m">The message to be dispatched. You cannot modify this message.</param>
         /// <returns>true to filter the message and stop it from being dispatched; false to allow the message to continue to the next filter or control.</returns>
+        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/100 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public bool PreFilterMessage(ref Message m)
         {
@@ -428,7 +429,7 @@ namespace Krypton.Toolkit
                             // KeyPress events occur for the current popup.
                             if (!CurrentPopup.ContainsFocus)
                             {
-                                PI.MSG msg = new PI.MSG
+                                PI.MSG msg = new()
                                 {
                                     hwnd = m.HWnd,
                                     message = m.Msg,
@@ -587,7 +588,7 @@ namespace Krypton.Toolkit
         private bool ProcessNonClientMouseDown(ref Message m)
         {
             // Extract the x and y mouse position from message
-            Point screenPt = new Point(PI.LOWORD((int)m.LParam), PI.HIWORD((int)m.LParam));
+            Point screenPt = new(PI.LOWORD((int)m.LParam), PI.HIWORD((int)m.LParam));
 
             // Ask the popup if this message causes the entire stack to be killed
             if (CurrentPopup.DoesCurrentMouseDownEndAllTracking(m, ScreenPtToClientPt(screenPt)))
@@ -672,7 +673,7 @@ namespace Krypton.Toolkit
             Point screenPt = CommonHelper.ClientMouseMessageToScreenPt(m);
 
             // Convert from a class to a structure
-            PI.POINT screenPIPt = new PI.POINT
+            PI.POINT screenPIPt = new()
             {
                 X = screenPt.X,
                 Y = screenPt.Y
@@ -711,7 +712,7 @@ namespace Krypton.Toolkit
 
         private Point ScreenPtToClientPt(Point pt, IntPtr handle)
         {
-            PI.POINTC clientPt = new PI.POINTC
+            PI.POINTC clientPt = new()
             {
                 x = pt.X,
                 y = pt.Y
@@ -730,7 +731,7 @@ namespace Krypton.Toolkit
             }
 
             // Convert a 0,0 point from client to screen to find offsetting
-            PI.POINTC zeroPIPt = new PI.POINTC
+            PI.POINTC zeroPIPt = new()
             {
                 x = 0,
                 y = 0

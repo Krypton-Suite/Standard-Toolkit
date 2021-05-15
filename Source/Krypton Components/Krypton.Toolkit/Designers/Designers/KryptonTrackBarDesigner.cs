@@ -11,6 +11,7 @@
 
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
@@ -32,6 +33,9 @@ namespace Krypton.Toolkit
             // ReSharper disable RedundantBaseQualifier
             // Let base class do standard stuff
             base.Initialize(component);
+
+            Debug.Assert(component != null);
+
             base.AutoResizeHandles = true;
             // ReSharper restore RedundantBaseQualifier
 
@@ -72,7 +76,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the button specific list

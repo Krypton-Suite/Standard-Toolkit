@@ -9,13 +9,12 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Windows.Forms.Design.Behavior;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -36,16 +35,10 @@ namespace Krypton.Toolkit
         /// <param name="component">The IComponent to associate with the designer.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
+
+            Debug.Assert(component != null);
 
             // The resizing handles around the control need to change depending on the
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
@@ -142,7 +135,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the orientation list

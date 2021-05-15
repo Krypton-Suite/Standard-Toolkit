@@ -906,7 +906,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly Point _nullPoint = new Point(-1, -1);
+        private static readonly Point _nullPoint = new(-1, -1);
         private static readonly Cursor _cursorHSplit = Cursors.HSplit;
         private static readonly Cursor _cursorVSplit = Cursors.VSplit;
         private static readonly Cursor _cursorHMove = Cursors.SizeNS;
@@ -925,7 +925,7 @@ namespace Krypton.Toolkit
         private SeparatorMessageFilter _filter;
         private ISeparatorSource _source;
         private SeparatorIndicator _indicator;
-        private KryptonPalette _palette = new KryptonPalette();
+        private KryptonPalette _palette = new();
         #endregion
 
         #region Identity
@@ -1401,6 +1401,7 @@ namespace Krypton.Toolkit
             if (_filter == null)
             {
                 // Check that caller has permission to access unmanaged code
+                // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/100 
                 new SecurityPermission(SecurityPermissionFlag.UnmanagedCode).Assert();
 
                 try
@@ -1460,6 +1461,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="m">The message to be dispatched.</param>
         /// <returns>true to filter the message and stop it from being dispatched.</returns>
+        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/100 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public bool PreFilterMessage(ref Message m)
         {

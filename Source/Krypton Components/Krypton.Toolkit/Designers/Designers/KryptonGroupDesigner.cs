@@ -9,16 +9,15 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonGroupDesigner : ParentControlDesigner
+    public class KryptonGroupDesigner : ParentControlDesigner
     {
         #region Instance Fields
         private KryptonGroup _group;
@@ -32,14 +31,6 @@ namespace Krypton.Toolkit
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
@@ -104,7 +95,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the group specific list

@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
                                                         Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using (SolidBrush drawBrush = new SolidBrush(lightColor))
+            using (SolidBrush drawBrush = new(lightColor))
             {
                 context.Graphics.FillRectangle(drawBrush, displayRect);
             }
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            KryptonOffice2007Renderer renderer = new KryptonOffice2007Renderer(colorPalette.ColorTable)
+            KryptonOffice2007Renderer renderer = new(colorPalette.ColorTable)
             {
 
                 // Seup the need to use rounded corners
@@ -155,16 +155,16 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    Rectangle borderRect = new Rectangle(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+                    Rectangle borderRect = new(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
                     cache.fillRect = new Rectangle(rect.X + 1, rect.Y, rect.Width - 2, rect.Height - 1);
 
-                    LinearGradientBrush borderBrush = new LinearGradientBrush(borderRect, c1, Color.Transparent, 270f)
+                    LinearGradientBrush borderBrush = new(borderRect, c1, Color.Transparent, 270f)
                     {
                         Blend = _ribbonGroup5Blend
                     };
                     cache.borderPen = new Pen(borderBrush);
 
-                    LinearGradientBrush underlineBrush = new LinearGradientBrush(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
+                    LinearGradientBrush underlineBrush = new(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
                     {
                         Blend = _ribbonGroup7Blend
                     };

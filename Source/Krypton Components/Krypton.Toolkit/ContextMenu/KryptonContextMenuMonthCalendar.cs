@@ -695,7 +695,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public SelectionRange SelectionRange
         {
-            get => new SelectionRange(SelectionStart, SelectionEnd);
+            get => new(SelectionStart, SelectionEnd);
             set => SetSelectionRange(value.Start, value.End);
         }
 

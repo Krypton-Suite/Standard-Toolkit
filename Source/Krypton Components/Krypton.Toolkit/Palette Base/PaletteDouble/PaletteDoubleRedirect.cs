@@ -54,12 +54,12 @@ namespace Krypton.Toolkit
                                      NeedPaintHandler needPaint)
         {
             // Store the inherit instances
-            PaletteBackInheritRedirect backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
-            PaletteBorderInheritRedirect borderInherit = new PaletteBorderInheritRedirect(redirect, borderStyle);
+            PaletteBackInheritRedirect backInherit = new(redirect, backStyle);
+            PaletteBorderInheritRedirect borderInherit = new(redirect, borderStyle);
 
             // Create storage that maps onto the inherit instances
-            PaletteBack back = new PaletteBack(backInherit, needPaint);
-            PaletteBorder border = new PaletteBorder(borderInherit, needPaint);
+            PaletteBack back = new(backInherit, needPaint);
+            PaletteBorder border = new(borderInherit, needPaint);
 
             Construct(redirect, back, backInherit, border, borderInherit, needPaint);
         }

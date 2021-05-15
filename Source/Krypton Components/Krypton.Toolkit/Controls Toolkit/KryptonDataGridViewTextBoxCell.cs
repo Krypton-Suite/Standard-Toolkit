@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
         private void OnButtonClick(object sender, EventArgs e)
         {
             KryptonDataGridViewTextBoxColumn textColumn = OwningColumn as KryptonDataGridViewTextBoxColumn;
-            DataGridViewButtonSpecClickEventArgs args = new DataGridViewButtonSpecClickEventArgs(textColumn, this, (ButtonSpecAny)sender);
+            DataGridViewButtonSpecClickEventArgs args = new(textColumn, this, (ButtonSpecAny)sender);
             textColumn.PerformButtonSpecClick(args);
         }
 
