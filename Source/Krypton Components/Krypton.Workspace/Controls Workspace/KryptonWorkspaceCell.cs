@@ -29,7 +29,7 @@ namespace Krypton.Workspace
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonWorkspaceCell), "ToolboxBitmaps.KryptonWorkspaceCell.bmp")]
-    [Designer(typeof(Krypton.Workspace.KryptonWorkspaceCellDesigner))]
+    [Designer(typeof(KryptonWorkspaceCellDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Pages")]

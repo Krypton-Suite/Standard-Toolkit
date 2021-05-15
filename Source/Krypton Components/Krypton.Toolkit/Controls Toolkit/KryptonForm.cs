@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly Size CAPTION_ICON_SIZE = new Size(16, 16);
+        private static readonly Size CAPTION_ICON_SIZE = new(16, 16);
         private const int HT_CORNER = 8;
         // Drop shadow
         private const int CS_DROPSHADOW = 0x00020000;
@@ -754,7 +754,7 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Convert to a bitmap for use in drawing (get the 16x16 version if available)
-                    using (Icon temp = new Icon(_cacheIcon, new Size(16, 16)))
+                    using (Icon temp = new(_cacheIcon, new Size(16, 16)))
                     {
                         _cacheBitmap = temp.ToBitmap();
                     }
@@ -779,7 +779,7 @@ namespace Krypton.Toolkit
                     if (_cacheBitmap.Size != CAPTION_ICON_SIZE)
                     {
                         // Create a resized version of the bitmap
-                        Bitmap resizedBitmap = new Bitmap(_cacheBitmap, CAPTION_ICON_SIZE);
+                        Bitmap resizedBitmap = new(_cacheBitmap, CAPTION_ICON_SIZE);
 
                         // Must gracefully remove unused resources!
                         _cacheBitmap.Dispose();
@@ -1032,7 +1032,7 @@ namespace Krypton.Toolkit
                 return (IntPtr)PI.HT.CLIENT;
             }
 
-            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+            using (ViewLayoutContext context = new(this, Renderer))
             {
                 // Discover if the form icon is being displayed
                 if (_drawContent.IsImageDisplayed(context))
@@ -1372,7 +1372,7 @@ namespace Krypton.Toolkit
                     if (NeedLayout || (GetDefinedIcon() != _cacheIcon))
                     {
                         // Ask the view to perform a layout
-                        using (ViewLayoutContext context = new ViewLayoutContext(ViewManager,
+                        using (ViewLayoutContext context = new(ViewManager,
                                                                                  this,
                                                                                  RealWindowRectangle,
                                                                                  Renderer))
@@ -1394,7 +1394,7 @@ namespace Krypton.Toolkit
                             _regionWindowState = WindowState;
 
                             // Get the path for the border so we can shape the form using it
-                            using (RenderContext context = new RenderContext(this, null, Bounds, Renderer))
+                            using (RenderContext context = new(this, null, Bounds, Renderer))
                             {
                                 using (GraphicsPath path = _drawDocker.GetOuterBorderPath(context))
                                 {
@@ -1453,7 +1453,7 @@ namespace Krypton.Toolkit
                 Padding padding = RealWindowBorders;
 
                 // Reduce the Bounds by the padding on all but the top
-                Rectangle maximizedRect = new Rectangle(padding.Left, padding.Left,
+                Rectangle maximizedRect = new(padding.Left, padding.Left,
                                                         Width - padding.Horizontal,
                                                         Height - padding.Left - padding.Bottom);
 
@@ -1561,7 +1561,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -1764,7 +1764,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                WindowsPrincipal principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+                WindowsPrincipal principal = new(WindowsIdentity.GetCurrent());
 
                 bool hasAdministrativeRights = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
@@ -1793,7 +1793,7 @@ namespace Krypton.Toolkit
         /// <param name="value">if set to <c>true</c> [value].</param>
         public static void SetIsInAdministratorMode(bool value)
         {
-            KryptonForm form = new KryptonForm();
+            KryptonForm form = new();
 
             //form.IsInAdministratorMode = value;
         }
@@ -1802,7 +1802,7 @@ namespace Krypton.Toolkit
         /// <returns>IsInAdministratorMode</returns>
         public static bool GetIsInAdministratorMode()
         {
-            KryptonForm form = new KryptonForm();
+            KryptonForm form = new();
 
             return form.IsInAdministratorMode;
         }

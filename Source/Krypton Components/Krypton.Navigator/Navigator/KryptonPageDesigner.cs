@@ -14,12 +14,14 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Navigator
@@ -45,16 +47,21 @@ namespace Krypton.Navigator
             // Perform common base class initializating
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // The resizing handles around the control need to change depending on the
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
             // do not get the resizing handles, otherwise you do.
             AutoResizeHandles = true;
 
             // Remember references to components involved in design
-            _page = (KryptonPage)component;
+            _page = component as KryptonPage;
+            if (_page != null)
+            {
 
-            // Hook into page events
-            _page.FlagsChanged += OnPageFlagsChanged;
+                // Hook into page events
+                _page.FlagsChanged += OnPageFlagsChanged;
+            }
 
             // Acquire service interfaces
             _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
@@ -130,8 +137,8 @@ namespace Krypton.Navigator
         /// </summary>
         public override SelectionRules SelectionRules
         {
-            get 
-            { 
+            get
+            {
                 // If inside a navigator then prevent resizing of the page
                 if (ParentNavigator != null)
                 {
@@ -149,7 +156,7 @@ namespace Krypton.Navigator
         /// </summary>
         public bool CanPaint
         {
-            get 
+            get
             {
                 // Only draw the glyph for the selected page
                 if (ParentNavigator != null)
@@ -239,7 +246,7 @@ namespace Krypton.Navigator
                 Control parent = _page.Parent;
 
                 // Search parent chain looking for navigator instance
-                while(parent != null)
+                while (parent != null)
                 {
                     if (parent is KryptonNavigator navigator)
                     {

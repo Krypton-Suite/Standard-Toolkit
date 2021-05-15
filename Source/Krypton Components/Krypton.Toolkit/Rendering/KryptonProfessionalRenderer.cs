@@ -108,10 +108,10 @@ namespace Krypton.Toolkit
                                         // Finally we actually have an image to draw!
                                         if (paletteImage != null)
                                         {
-                                            using (ImageAttributes attribs = new ImageAttributes())
+                                            using (ImageAttributes attribs = new())
                                             {
                                                 // Setup mapping to make required color transparent
-                                                ColorMap remap = new ColorMap
+                                                ColorMap remap = new()
                                                 {
                                                     OldColor = transparentColor,
                                                     NewColor = Color.Transparent

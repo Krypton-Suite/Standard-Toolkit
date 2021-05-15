@@ -12,9 +12,10 @@
  */
 #endregion
 
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -24,7 +25,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupSeparator), "ToolboxBitmaps.KryptonRibbonGroupSeparator.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupSeparatorDesigner))]
+    [Designer(typeof(KryptonRibbonGroupSeparatorDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -63,7 +64,7 @@ namespace Krypton.Ribbon
             _visible = true;
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the visible state of the group separator.
@@ -111,7 +112,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override GroupItemSize ItemSizeMaximum 
+        public override GroupItemSize ItemSizeMaximum
         {
             get { return GroupItemSize.Large; }
             set { }

@@ -41,8 +41,8 @@ namespace Krypton.Toolkit.Utilities
         /// <param name="pal">KryptonPalette</param>
         public static void ScalePalette(Form frm, KryptonPalette pal)
         {
-            SizeF dpi = new SizeF();
-            SizeF scaleFactor = new SizeF();
+            SizeF dpi = new();
+            SizeF scaleFactor = new();
 
             // Get System Dpi setting. Note this does not handle per monitor Dpi
             // but should be the same Dpi as AutoScaleFont
@@ -160,9 +160,9 @@ namespace Krypton.Toolkit.Utilities
                 return img;
             }
 
-            Bitmap bmp = new Bitmap((int)(img.Width * scaleFactor.Width), (int)(img.Height * scaleFactor.Height), System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Bitmap bmp = new((int)(img.Width * scaleFactor.Width), (int)(img.Height * scaleFactor.Height), System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 
-            using (Bitmap tmpBmp = new Bitmap(img))
+            using (Bitmap tmpBmp = new(img))
             {
                 tmpBmp.MakeTransparent(Color.Magenta);
                 using (Graphics g = Graphics.FromImage(bmp))

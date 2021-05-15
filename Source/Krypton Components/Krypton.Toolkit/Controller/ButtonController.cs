@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
                             {
                                 _draggingAttempt = true;
                                 Point targetOrigin = Target.ClientLocation;
-                                Point offset = new Point(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
+                                Point offset = new(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
                                 OnDragStart(MousePoint, offset, c);
                             }
                         }
@@ -270,7 +270,7 @@ namespace Krypton.Toolkit
 
                     if (!_dragging && !_dragRect.IsEmpty && _preDragOffset)
                     {
-                        ButtonDragOffsetEventArgs args = new ButtonDragOffsetEventArgs(pt);
+                        ButtonDragOffsetEventArgs args = new(pt);
                         OnButtonDragOffset(args);
                     }
                 }
@@ -300,7 +300,7 @@ namespace Krypton.Toolkit
                         _draggingAttempt = false;
 
                         // Use event to discover the rectangle that causes dragging to begin
-                        ButtonDragRectangleEventArgs args = new ButtonDragRectangleEventArgs(pt);
+                        ButtonDragRectangleEventArgs args = new(pt);
                         OnButtonDragRectangle(args);
                         _dragRect = args.DragRect;
                         _preDragOffset = args.PreDragOffset;
@@ -848,7 +848,7 @@ namespace Krypton.Toolkit
         {
             // Convert point from client to screen coordinates
             mousePt = Target.OwningControl.PointToScreen(mousePt);
-            DragStartEventCancelArgs ce = new DragStartEventCancelArgs(mousePt, offset, c);
+            DragStartEventCancelArgs ce = new(mousePt, offset, c);
 
             DragStart?.Invoke(this, ce);
 

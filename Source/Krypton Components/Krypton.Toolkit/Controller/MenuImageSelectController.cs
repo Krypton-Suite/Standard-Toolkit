@@ -348,7 +348,7 @@ namespace Krypton.Toolkit
                 case Keys.Space:
                     if (_layout.ItemEnabled)
                     {
-                        Point pt = new Point(int.MaxValue, int.MaxValue);
+                        Point pt = new(int.MaxValue, int.MaxValue);
                         OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
                         UpdateTargetState(pt);
                     }

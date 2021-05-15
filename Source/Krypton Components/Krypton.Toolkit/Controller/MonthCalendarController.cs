@@ -172,7 +172,7 @@ namespace Krypton.Toolkit
 
                         // Enforce the maximum number of days
                         DateTime selectStart = _selectionStart;
-                        TimeSpan span = new TimeSpan(_months.Calendar.MaxSelectionCount - 1, 0, 0, 0);
+                        TimeSpan span = new(_months.Calendar.MaxSelectionCount - 1, 0, 0, 0);
                         if (selectEnd > selectStart)
                         {
                             if ((selectEnd - selectStart) > span)
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
                             if (_months.Provider.ProviderCanCloseMenu)
                             {
                                 // Ask the original context menu definition, if we can close
-                                CancelEventArgs cea = new CancelEventArgs();
+                                CancelEventArgs cea = new();
                                 _months.Provider.OnClosing(cea);
 
                                 if (!cea.Cancel)
@@ -420,7 +420,7 @@ namespace Krypton.Toolkit
                         if (_months.Provider.ProviderCanCloseMenu)
                         {
                             // Ask the original context menu definition, if we can close
-                            CancelEventArgs cea = new CancelEventArgs();
+                            CancelEventArgs cea = new();
                             _months.Provider.OnClosing(cea);
 
                             if (!cea.Cancel)

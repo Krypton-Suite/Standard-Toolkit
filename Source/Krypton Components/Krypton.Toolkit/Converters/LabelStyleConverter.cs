@@ -38,21 +38,21 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(LabelStyle.NormalControl,     "Normal (Control)"),
-            new Pair(LabelStyle.BoldControl,       "Bold (Control)"),
-            new Pair(LabelStyle.ItalicControl,     "Italic (Control)"),
-            new Pair(LabelStyle.TitleControl,      "Title (Control)"),
-            new Pair(LabelStyle.NormalPanel,       "Normal (Panel)"),
-            new Pair(LabelStyle.BoldPanel,         "Bold (Panel)"),
-            new Pair(LabelStyle.ItalicPanel,       "Italic (Panel)"),
-            new Pair(LabelStyle.TitlePanel,        "Title (Panel)"),
-            new Pair(LabelStyle.GroupBoxCaption,   "Caption (Panel)"),
-            new Pair(LabelStyle.ToolTip,           "ToolTip"), 
-            new Pair(LabelStyle.SuperTip,          "SuperTip"), 
-            new Pair(LabelStyle.KeyTip,            "KeyTip"), 
-            new Pair(LabelStyle.Custom1,           "Custom1"), 
-            new Pair(LabelStyle.Custom2,           "Custom2"), 
-            new Pair(LabelStyle.Custom3,           "Custom3") };
+        { new(LabelStyle.NormalControl,     "Normal (Control)"),
+            new(LabelStyle.BoldControl,       "Bold (Control)"),
+            new(LabelStyle.ItalicControl,     "Italic (Control)"),
+            new(LabelStyle.TitleControl,      "Title (Control)"),
+            new(LabelStyle.NormalPanel,       "Normal (Panel)"),
+            new(LabelStyle.BoldPanel,         "Bold (Panel)"),
+            new(LabelStyle.ItalicPanel,       "Italic (Panel)"),
+            new(LabelStyle.TitlePanel,        "Title (Panel)"),
+            new(LabelStyle.GroupBoxCaption,   "Caption (Panel)"),
+            new(LabelStyle.ToolTip,           "ToolTip"), 
+            new(LabelStyle.SuperTip,          "SuperTip"), 
+            new(LabelStyle.KeyTip,            "KeyTip"), 
+            new(LabelStyle.Custom1,           "Custom1"), 
+            new(LabelStyle.Custom2,           "Custom2"), 
+            new(LabelStyle.Custom3,           "Custom3") };
 
         #endregion
     }

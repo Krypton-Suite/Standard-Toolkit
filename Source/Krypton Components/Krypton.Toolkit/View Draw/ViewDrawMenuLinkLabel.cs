@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             };
 
             // Use context menu specific version of the link label controller
-            MenuLinkLabelController mllc = new MenuLinkLabelController(provider.ProviderViewManager, _drawContent, this, provider.ProviderNeedPaintDelegate);
+            MenuLinkLabelController mllc = new(provider.ProviderViewManager, _drawContent, this, provider.ProviderNeedPaintDelegate);
             mllc.Click += OnClick;
             _drawContent.MouseController = mllc;
             _drawContent.KeyController = mllc;

@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
             IWindowsFormsEditorService svc = (IWindowsFormsEditorService)provider?.GetService(typeof(IWindowsFormsEditorService));
             if (svc != null)
             {
-                UserControl ctrl = new UserControl();
-                ListBox clb = new ListBox { Dock = DockStyle.Fill };
+                UserControl ctrl = new();
+                ListBox clb = new() { Dock = DockStyle.Fill };
                 clb.Items.Add(ComboBoxStyle.DropDown);
                 clb.Items.Add(ComboBoxStyle.DropDownList);
                 clb.SelectedIndexChanged += delegate

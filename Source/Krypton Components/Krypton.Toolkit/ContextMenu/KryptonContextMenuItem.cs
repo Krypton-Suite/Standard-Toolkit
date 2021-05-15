@@ -13,10 +13,10 @@
 #endregion
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -247,7 +247,7 @@ namespace Krypton.Toolkit
         {
             get => _text;
 
-            set 
+            set
             {
                 if (_text != value)
                 {
@@ -271,7 +271,7 @@ namespace Krypton.Toolkit
         {
             get => _extraText;
 
-            set 
+            set
             {
                 if (_extraText != value)
                 {
@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
         {
             get => _image;
 
-            set 
+            set
             {
                 if (_image != value)
                 {
@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
         {
             get => _imageTransparentColor;
 
-            set 
+            set
             {
                 if (_imageTransparentColor != value)
                 {
@@ -343,7 +343,7 @@ namespace Krypton.Toolkit
         {
             get => _shortcutKeys;
 
-            set 
+            set
             {
                 if (_shortcutKeys != value)
                 {
@@ -364,7 +364,7 @@ namespace Krypton.Toolkit
         {
             get => _autoClose;
 
-            set 
+            set
             {
                 if (_autoClose != value)
                 {
@@ -385,7 +385,7 @@ namespace Krypton.Toolkit
         {
             get => _splitSubMenu;
 
-            set 
+            set
             {
                 if (_splitSubMenu != value)
                 {
@@ -406,7 +406,7 @@ namespace Krypton.Toolkit
         {
             get => _checkOnClick;
 
-            set 
+            set
             {
                 if (_checkOnClick != value)
                 {
@@ -428,7 +428,7 @@ namespace Krypton.Toolkit
         {
             get => _showShortcutKeys;
 
-            set 
+            set
             {
                 if (_showShortcutKeys != value)
                 {
@@ -449,7 +449,7 @@ namespace Krypton.Toolkit
         {
             get => _largeKryptonCommandImage;
 
-            set 
+            set
             {
                 if (_largeKryptonCommandImage != value)
                 {
@@ -471,7 +471,7 @@ namespace Krypton.Toolkit
         {
             get => _shortcutKeyDisplayString;
 
-            set 
+            set
             {
                 if (_shortcutKeyDisplayString != value)
                 {
@@ -494,7 +494,7 @@ namespace Krypton.Toolkit
         {
             get => (CheckState != CheckState.Unchecked);
 
-            set 
+            set
             {
                 // Are we currently checked?
                 bool areChecked = (CheckState != CheckState.Unchecked);
@@ -534,7 +534,7 @@ namespace Krypton.Toolkit
         {
             get => _checkState;
 
-            set 
+            set
             {
                 if (_checkState != value)
                 {
@@ -575,7 +575,7 @@ namespace Krypton.Toolkit
         {
             get => _enabled;
 
-            set 
+            set
             {
                 if (_enabled != value)
                 {
@@ -672,7 +672,7 @@ namespace Krypton.Toolkit
             {
                 // Grab current state from command or ourself
                 CheckState state = (KryptonCommand == null ? CheckState : KryptonCommand.CheckState);
-                
+
                 // Find new state
                 switch (state)
                 {

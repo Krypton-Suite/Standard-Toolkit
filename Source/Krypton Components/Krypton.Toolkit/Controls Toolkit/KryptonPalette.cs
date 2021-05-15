@@ -2637,7 +2637,7 @@ namespace Krypton.Toolkit
         /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
         public string Import()
         {
-            using (OpenFileDialog dialog = new OpenFileDialog())
+            using (OpenFileDialog dialog = new())
             {
                 // Palette files are just XML documents
                 dialog.CheckFileExists = true;
@@ -2846,7 +2846,7 @@ namespace Krypton.Toolkit
         /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
         public string Export()
         {
-            using (SaveFileDialog dialog = new SaveFileDialog())
+            using (SaveFileDialog dialog = new())
             {
                 // Palette files are just xml documents
                 dialog.OverwritePrompt = true;
@@ -3510,7 +3510,7 @@ namespace Krypton.Toolkit
             // Cast to correct type
             string filename = (string)parameter;
 
-            FileInfo info = new FileInfo(filename);
+            FileInfo info = new(filename);
 
             // Check the target file actually exists
             if (!info.Exists)
@@ -3519,7 +3519,7 @@ namespace Krypton.Toolkit
             }
 
             // Create a new xml document for storing the palette settings
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new();
 
             // Attempt to load as a valid xml document
             doc.Load(filename);
@@ -3536,7 +3536,7 @@ namespace Krypton.Toolkit
             Stream stream = (Stream)parameter;
 
             // Create a new xml document for storing the palette settings
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new();
 
             // Attempt to load from the provided stream
             doc.Load(stream);
@@ -3553,7 +3553,7 @@ namespace Krypton.Toolkit
             byte[] byteArray = (byte[])parameter;
 
             // Create a memory based stream
-            MemoryStream ms = new MemoryStream(byteArray);
+            MemoryStream ms = new(byteArray);
 
             // Perform import from the memory stream
             ImportFromStream(ms);
@@ -3620,7 +3620,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Cache the images from the images element
-                ImageReverseDictionary imageCache = new ImageReverseDictionary();
+                ImageReverseDictionary imageCache = new();
 
                 // Use reflection to import the palette hierarchy
                 ImportImagesFromElement(doc, images, imageCache);
@@ -3642,7 +3642,7 @@ namespace Krypton.Toolkit
             string filename = (string)parameters[0];
             bool ignoreDefaults = (bool)parameters[1];
 
-            FileInfo info = new FileInfo(filename);
+            FileInfo info = new(filename);
 
             // Check the target directory actually exists
             if (!info.Directory.Exists)
@@ -3686,7 +3686,7 @@ namespace Krypton.Toolkit
             bool ignoreDefaults = (bool)parameters[0];
 
             // Create a memory based stream
-            MemoryStream ms = new MemoryStream();
+            MemoryStream ms = new();
 
             // Perform export into the memory stream
             ExportToStream(new object[] { ms, ignoreDefaults });
@@ -3709,7 +3709,7 @@ namespace Krypton.Toolkit
                 Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
                 // Create a new xml document for storing the palette settings
-                XmlDocument doc = new XmlDocument();
+                XmlDocument doc = new();
 
                 // Add the standard xml version number
                 doc.AppendChild(doc.CreateProcessingInstruction("xml", @"version=""1.0"""));
@@ -3733,7 +3733,7 @@ namespace Krypton.Toolkit
                 root.AppendChild(images);
 
                 // Cache any images that are found during object export
-                ImageDictionary imageCache = new ImageDictionary();
+                ImageDictionary imageCache = new();
 
                 // Use reflection to export the palette hierarchy
                 ExportObjectToElement(doc, props, imageCache, this, ignoreDefaults);
@@ -3881,8 +3881,8 @@ namespace Krypton.Toolkit
                             byte[] bytes = Convert.FromBase64String(cdata.Value);
 
                             // Convert the bytes back into an Image
-                            MemoryStream memory = new MemoryStream(bytes);
-                            BinaryFormatter formatter = new BinaryFormatter();
+                            MemoryStream memory = new(bytes);
+                            BinaryFormatter formatter = new();
                             Image resurect = (Image)formatter.Deserialize(memory);
 
                             // Add into the lookup dictionary
@@ -4053,8 +4053,8 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Conv ert the Image into base64 so it can be used in xml
-                    MemoryStream memory = new MemoryStream();
-                    BinaryFormatter formatter = new BinaryFormatter();
+                    MemoryStream memory = new();
+                    BinaryFormatter formatter = new();
                     formatter.Serialize(memory, entry.Key);
                     string base64 = Convert.ToBase64String(memory.ToArray());
 

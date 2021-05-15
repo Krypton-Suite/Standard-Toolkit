@@ -38,12 +38,12 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(PaletteButtonOrientation.Inherit,     "Inherit"),
-            new Pair(PaletteButtonOrientation.Auto,        "Auto"),
-            new Pair(PaletteButtonOrientation.FixedTop,    "Fixed Top"),
-            new Pair(PaletteButtonOrientation.FixedBottom, "Fixed Bottom"),
-            new Pair(PaletteButtonOrientation.FixedLeft,   "Fixed Left"),
-            new Pair(PaletteButtonOrientation.FixedRight,  "Fixed Right") };
+        { new(PaletteButtonOrientation.Inherit,     "Inherit"),
+            new(PaletteButtonOrientation.Auto,        "Auto"),
+            new(PaletteButtonOrientation.FixedTop,    "Fixed Top"),
+            new(PaletteButtonOrientation.FixedBottom, "Fixed Bottom"),
+            new(PaletteButtonOrientation.FixedLeft,   "Fixed Left"),
+            new(PaletteButtonOrientation.FixedRight,  "Fixed Right") };
 
         #endregion
     }

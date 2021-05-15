@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
             float solidW = clientRectangle.Width + blur * 2;
             float solidH = clientRectangle.Height + blur * 2;
             float blurOffset = _shadowValues.ExtraWidth - blur;
-            Bitmap bitmap = new Bitmap(w, h);
+            Bitmap bitmap = new(w, h);
             bitmap.MakeTransparent();
             using (Graphics g = Graphics.FromImage(bitmap))
             {
@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
                 // four dir gradient
                 if (blurOffset > 0)
                 {
-                    using (LinearGradientBrush brush = new LinearGradientBrush(new PointF(0, 0), new PointF(blurOffset, 0),
+                    using (LinearGradientBrush brush = new(new PointF(0, 0), new PointF(blurOffset, 0),
                         Color.Transparent, _shadowValues.Colour))
                     {
                         // Left
@@ -250,11 +250,11 @@ namespace Krypton.Toolkit
 
 
                     // four corner
-                    using (GraphicsPath gp = new GraphicsPath())
-                    using (Matrix matrix = new Matrix())
+                    using (GraphicsPath gp = new())
+                    using (Matrix matrix = new())
                     {
                         gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
-                        using (PathGradientBrush pgb = new PathGradientBrush(gp)
+                        using (PathGradientBrush pgb = new(gp)
                         {
                             CenterColor = _shadowValues.Colour,
                             SurroundColors = new[] { Color.Transparent },
@@ -356,7 +356,7 @@ namespace Krypton.Toolkit
     /// </summary>
     internal static class FlashWindowExListener
     {
-        private static readonly Dictionary<IntPtr, Form> _forms = new Dictionary<IntPtr, Form>();
+        private static readonly Dictionary<IntPtr, Form> _forms = new();
         private static readonly IntPtr _hHook;
         // Keep the HookProc delegate alive manually, such as using a class member as shown below,
         // otherwise the garbage collector will clean up the hook delegate eventually,

@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
 
         private void SetCancelText(string cancelText) => kbtnCancel.Text = cancelText;
 
-        private void SetPrompt(string prompt) => ktxtInput.Hint = prompt;
+        private void SetPrompt(string prompt) => ktxtPrompt.CueHint.CueHintText = prompt;
 
         private void SetMessage(string message) => kwlMessage.Text = message;
 
@@ -240,7 +240,7 @@ namespace Krypton.Toolkit
         {
             IWin32Window showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
-            using (KryptonInputBox kib = new KryptonInputBox(title, message, prompt, okText, cancelText, passwordEnabled, startPosition, inputTextAlignment))
+            using (KryptonInputBox kib = new(title, message, prompt, okText, cancelText, passwordEnabled, startPosition, inputTextAlignment))
             {
                 kib.StartPosition = showOwner == null ? startPosition : startPosition;
 

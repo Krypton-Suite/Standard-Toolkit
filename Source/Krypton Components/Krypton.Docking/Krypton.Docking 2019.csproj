@@ -1,9 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <Choose>
+        <When Condition="'$(TFMs)' == 'all'">
+            <PropertyGroup>
+                <TargetFrameworks>net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <TargetFrameworks>net48;net5.0-windows;net6.0-windows</TargetFrameworks>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
     <PropertyGroup>
-        <TargetFrameworks>net48;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <TargetFrameworks Condition="'$(TFMs)' == 'all'">net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.0;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Docking</RootNamespace>
         <AssemblyName>Krypton.Docking</AssemblyName>
@@ -12,7 +20,29 @@
         <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <UseWindowsForms>true</UseWindowsForms>
+        <LangVersion>9.0</LangVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>4.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>5.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>6.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'"/>
+        <!--TODO: Need to specify version here-->
+    </ItemGroup>
 
     <PropertyGroup>
         <PackageId>Krypton.Docking.Canary</PackageId>
@@ -51,9 +81,6 @@
         <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
         <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2019.csproj" />
     </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.1'">
-        <Reference Include="System.Design" />
-    </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Docking.xml</DocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
@@ -65,5 +92,4 @@
         <AssemblyVersion>6.1.2108</AssemblyVersion>
         <FileVersion>6.1.2108</FileVersion>
     </PropertyGroup>
-   
 </Project>

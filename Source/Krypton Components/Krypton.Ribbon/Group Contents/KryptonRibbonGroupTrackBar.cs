@@ -13,9 +13,10 @@
 #endregion
 
 using System;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -25,7 +26,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTrackBar), "ToolboxBitmaps.KryptonRibbonGroupTrackBar.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupTrackBarDesigner))]
+    [Designer(typeof(KryptonRibbonGroupTrackBarDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("ValueChanged")]
@@ -371,7 +372,7 @@ namespace Krypton.Ribbon
         {
             get => TrackBar.Orientation;
 
-            set 
+            set
             {
                 if (value != TrackBar.Orientation)
                 {
@@ -514,7 +515,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
+        public override ViewBase CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint)
         {
             return new ViewDrawRibbonGroupTrackBar(ribbon, this, needPaint);

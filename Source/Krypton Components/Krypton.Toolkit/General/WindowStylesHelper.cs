@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
 
         public override string ToString()
         {
-            StringBuilder str1 = new StringBuilder();
+            StringBuilder str1 = new();
             if (Caption)
             {
                 str1.Append("Caption+");

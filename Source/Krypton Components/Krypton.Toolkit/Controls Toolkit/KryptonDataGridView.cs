@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly Point _nullCell = new Point(-2, -2);
+        private static readonly Point _nullCell = new(-2, -2);
 
         // Cached access to private parent values
         private static PropertyInfo _piRTL;
@@ -724,7 +724,7 @@ namespace Krypton.Toolkit
                     // A data cell cannot become tracking or pressed
                     if ((rowIndex < 0) || (columnIndex < 0))
                     {
-                        Point cellIndex = new Point(columnIndex, rowIndex);
+                        Point cellIndex = new(columnIndex, rowIndex);
 
                         // If the user has pressed down on this cell
                         if (cellIndex.Equals(_cellDown))
@@ -1226,12 +1226,12 @@ namespace Krypton.Toolkit
             bool rtl = RightToLeftInternal;
 
             // Use an offscreen bitmap to draw onto before blitting it to the screen
-            Rectangle tempCellBounds = new Rectangle(0, 0, e.CellBounds.Width, e.CellBounds.Height);
-            using (Bitmap tempBitmap = new Bitmap(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
+            Rectangle tempCellBounds = new(0, 0, e.CellBounds.Width, e.CellBounds.Height);
+            using (Bitmap tempBitmap = new(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
             {
                 using (Graphics tempG = Graphics.FromImage(tempBitmap))
                 {
-                    using (RenderContext renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer))
+                    using (RenderContext renderContext = new(this, tempG, tempCellBounds, Renderer))
                     {
                         // Force the border to have a specificed maximum border edge
                         _borderForced.SetInherit(paletteBorder);
@@ -1282,7 +1282,7 @@ namespace Krypton.Toolkit
                                     // Draw icon and update the remainder cell bounds left over
                                     int iconWidth = spec.Icon.Width + 5;
                                     int width = tempCellBounds.Width - iconWidth;
-                                    Rectangle iconBounds = new Rectangle(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
+                                    Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
                                         tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
                                     renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
                                     tempCellBounds = new Rectangle(tempCellBounds.X +
@@ -1349,7 +1349,7 @@ namespace Krypton.Toolkit
                                     tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
 
                                     // Calculate the icon rectangle
-                                    Rectangle iconBounds = new Rectangle(tempCellBounds.Right + 1, tempCellBounds.Top,
+                                    Rectangle iconBounds = new(tempCellBounds.Right + 1, tempCellBounds.Top,
                                                                          beforeCellBounds.Width - tempCellBounds.Width,
                                                                          tempCellBounds.Height);
 
@@ -1391,7 +1391,7 @@ namespace Krypton.Toolkit
                                             // Draw icon and update the remainder cell bounds left over
                                             int iconWidth = spec.Icon.Width + 5;
                                             int width = tempCellBounds.Width - iconWidth;
-                                            Rectangle iconBounds = new Rectangle(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
+                                            Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
                                                 tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
                                             renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
                                             tempCellBounds = new Rectangle(tempCellBounds.X +
@@ -1427,7 +1427,7 @@ namespace Krypton.Toolkit
                                     int sCount = 1;
                                     while (sindx >= 0)
                                     {
-                                        Rectangle hl_rect = new Rectangle
+                                        Rectangle hl_rect = new()
                                         {
                                             Y = e.CellBounds.Y + 2,
                                             Height = e.CellBounds.Height - 5
@@ -1487,7 +1487,7 @@ namespace Krypton.Toolkit
                                     // Use the display value of the header cell
                                     _shortTextValue.ShortText = e.FormattedValue.ToString();
 
-                                    using (ViewLayoutContext layoutContext = new ViewLayoutContext(this, Renderer))
+                                    using (ViewLayoutContext layoutContext = new(this, Renderer))
                                     {
                                         // If a column header cell...
                                         if ((e.RowIndex == -1) && (e.ColumnIndex != -1))
@@ -1601,7 +1601,7 @@ namespace Krypton.Toolkit
                         PaintTransparentBackground(graphics, clipBounds);
 
                         // Use the view manager to paint the view panel that fills the entire areas as the background
-                        using (RenderContext context = new RenderContext(this, graphics, clipBounds, Renderer))
+                        using (RenderContext context = new(this, graphics, clipBounds, Renderer))
                         {
                             ViewManager.Paint(context);
                         }
@@ -2576,7 +2576,7 @@ namespace Krypton.Toolkit
         {
             if (toolTipText.Length > 0x120)
             {
-                StringBuilder builder = new StringBuilder(toolTipText.Substring(0, 0x100), 0x103);
+                StringBuilder builder = new(toolTipText.Substring(0, 0x100), 0x103);
                 builder.Append("...");
                 return builder.ToString();
             }
@@ -2813,7 +2813,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)((long)m.LParam)) == -1)

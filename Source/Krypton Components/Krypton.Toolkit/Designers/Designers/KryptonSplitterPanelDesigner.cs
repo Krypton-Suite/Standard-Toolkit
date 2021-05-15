@@ -13,10 +13,11 @@
 #endregion
 
 using System;
-using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
@@ -39,6 +40,8 @@ namespace Krypton.Toolkit
         {
             // Perform common base class initializating
             base.Initialize(component);
+
+            Debug.Assert(component != null);
 
             // Remember references to components involved in design
             _panel = component as KryptonSplitterPanel;
@@ -220,7 +223,7 @@ namespace Krypton.Toolkit
                 if (_panel.Controls.Count == 0)
                 {
                     // Then we need to draw a watermark to indicate no children
-                    using(Graphics g = _panel.CreateGraphics())
+                    using (Graphics g = _panel.CreateGraphics())
                     {
                         DrawWaterMark(g);
                     }
@@ -242,7 +245,7 @@ namespace Krypton.Toolkit
             string drawText = Control.Name;
 
             // Use a fixed font for the drawing
-            using (Font f = new Font("Arial", 8f))
+            using (Font f = new("Arial", 8f))
             {
                 try
                 {

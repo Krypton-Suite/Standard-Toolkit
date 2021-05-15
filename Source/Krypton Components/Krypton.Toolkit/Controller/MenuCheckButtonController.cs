@@ -428,7 +428,7 @@ namespace Krypton.Toolkit
                 if (_menuCheckButton.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new CancelEventArgs();
+                    CancelEventArgs cea = new();
                     _menuCheckButton.Closing(cea);
 
                     if (!cea.Cancel)

@@ -38,11 +38,11 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(InputControlStyle.Standalone, "Standalone"),
-            new Pair(InputControlStyle.Ribbon,     "Ribbon"),
-            new Pair(InputControlStyle.Custom1,    "Custom1"),
-            new Pair(InputControlStyle.Custom2,    "Custom2"),
-            new Pair(InputControlStyle.Custom3,    "Custom3")
+        { new(InputControlStyle.Standalone, "Standalone"),
+            new(InputControlStyle.Ribbon,     "Ribbon"),
+            new(InputControlStyle.Custom1,    "Custom1"),
+            new(InputControlStyle.Custom2,    "Custom2"),
+            new(InputControlStyle.Custom3,    "Custom3")
         };
 
         #endregion

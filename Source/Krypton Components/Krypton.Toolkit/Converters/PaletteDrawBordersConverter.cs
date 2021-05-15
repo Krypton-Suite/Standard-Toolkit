@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Append the names of each border we want
-                    StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new();
 
                     if ((borders & PaletteDrawBorders.Top) == PaletteDrawBorders.Top)
                     {

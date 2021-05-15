@@ -1,17 +1,48 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-   
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <Choose>
+        <When Condition="'$(TFMs)' == 'all'">
+            <PropertyGroup>
+                <TargetFrameworks>net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <TargetFrameworks>net48;net5.0-windows;net6.0-windows</TargetFrameworks>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
     <PropertyGroup>
-        <TargetFrameworks>net48;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <TargetFrameworks Condition="'$(TFMs)' == 'all'">net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Ribbon</RootNamespace>
         <AssemblyName>Krypton.Ribbon</AssemblyName>
-        <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <SignAssembly>false</SignAssembly>
         <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+        <ApplicationIcon>Krypton.ico</ApplicationIcon>
+        <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>
+        <LangVersion>9.0</LangVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>4.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>5.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>6.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'"/>
+        <!--TODO: Need to specify version here-->
+    </ItemGroup>
 
     <PropertyGroup>
         <PackageId>Krypton.Ribbon.Canary</PackageId>
@@ -26,27 +57,13 @@
         <Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
             <Link>General\PlatformInvoke.cs</Link>
         </Compile>
-        <Compile Update="ButtonSpec\ButtonSpecAppMenu.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="ButtonSpec\ButtonSpecMdiChildFixed.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="ButtonSpec\ButtonSpecMdiChildClose.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="ButtonSpec\ButtonSpecMdiChildRestore.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="ButtonSpec\ButtonSpecMdiChildMin.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="ButtonSpec\ButtonSpecMinimizeRibbon.cs">
-            <SubType>Component</SubType>
-        </Compile>
-        <Compile Update="ButtonSpec\ButtonSpecExpandRibbon.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="ButtonSpec\ButtonSpecAppMenu.cs" />
+        <Compile Update="ButtonSpec\ButtonSpecMdiChildFixed.cs" />
+        <Compile Update="ButtonSpec\ButtonSpecMdiChildClose.cs" />
+        <Compile Update="ButtonSpec\ButtonSpecMdiChildRestore.cs" />
+        <Compile Update="ButtonSpec\ButtonSpecMdiChildMin.cs" />
+        <Compile Update="ButtonSpec\ButtonSpecMinimizeRibbon.cs" />
+        <Compile Update="ButtonSpec\ButtonSpecExpandRibbon.cs" />
         <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
     </ItemGroup>
     <ItemGroup>
@@ -88,9 +105,6 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.1'">
-        <Reference Include="System.Design" />
     </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Ribbon.xml</DocumentationFile>

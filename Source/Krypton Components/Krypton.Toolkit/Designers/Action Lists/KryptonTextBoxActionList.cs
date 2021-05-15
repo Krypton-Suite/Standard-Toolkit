@@ -12,6 +12,7 @@
  */
 #endregion
 
+using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
@@ -147,17 +148,18 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the hint.</summary>
         /// <value>The hint.</value>
+        [Obsolete("Deprecated - Use CueHint.CueHintText")]
         public string Hint
         {
-            get => _textBox.Hint;
+            get => _textBox.CueHint.CueHintText;
 
             set
             {
-                if (_textBox.Hint != value)
+                if (_textBox.CueHint.CueHintText != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.Hint, value);
+                    _service.OnComponentChanged(_textBox, null, _textBox.CueHint.CueHintText, value);
 
-                    _textBox.Hint = value;
+                    _textBox.CueHint.CueHintText = value;
                 }
             }
         }
@@ -206,7 +208,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            DesignerActionItemCollection actions = new();
 
             // This can be null when deleting a control instance at design time
             if (_textBox != null)

@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
     public class ShadowValues : Storage
     {
         #region statics
-        private static Point _defaultOffset = new Point(5, 5);
+        private static Point _defaultOffset = new(5,5);
         private double _blurDistance;
         private bool _enableShadows;
         private Point _offset;

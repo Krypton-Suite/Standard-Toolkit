@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Create new lookup that only contains entries for current child items
-            ViewDockStyleLookup newChildDocking = new ViewDockStyleLookup();
+            ViewDockStyleLookup newChildDocking = new();
 
             // Remember the original display rectangle provided
             Rectangle originalRect = context.DisplayRectangle;

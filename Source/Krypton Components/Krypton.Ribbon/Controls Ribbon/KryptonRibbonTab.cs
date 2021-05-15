@@ -13,9 +13,10 @@
 #endregion
 
 using System;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -25,7 +26,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonTab), "ToolboxBitmaps.KryptonRibbonTab.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonTabDesigner))]
+    [Designer(typeof(KryptonRibbonTabDesigner))]
     [DefaultProperty("Text")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
@@ -140,7 +141,7 @@ namespace Krypton.Ribbon
         {
             get => _text;
 
-            set 
+            set
             {
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
@@ -174,7 +175,7 @@ namespace Krypton.Ribbon
         {
             get => _keyTip;
 
-            set 
+            set
             {
                 if (string.IsNullOrEmpty(value))
                 {
@@ -184,7 +185,7 @@ namespace Krypton.Ribbon
                 _keyTip = value.ToUpper();
             }
         }
-            
+
         /// <summary>
         /// Gets and sets the name of the context this tab is associated with.
         /// </summary>

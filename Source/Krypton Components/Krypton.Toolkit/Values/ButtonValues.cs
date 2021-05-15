@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
         /// <returns>Storage object.</returns>
         protected virtual ButtonImageStates CreateImageStates()
         {
-            return new ButtonImageStates();
+            return new();
         }
         #endregion
 

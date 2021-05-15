@@ -40,19 +40,19 @@ namespace Krypton.Toolkit
         /// <summary>
         ///     Places the window above all non-topmost windows. The window maintains its topmost position even when it is deactivated.
         /// </summary>
-        internal static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+        internal static readonly IntPtr HWND_TOPMOST = new(-1);
         /// <summary>
         ///     Places the window above all non-topmost windows (that is, behind all topmost windows). This flag has no effect if the window is already a non-topmost window.
         /// </summary>
-        internal static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
+        internal static readonly IntPtr HWND_NOTOPMOST = new(-2);
         /// <summary>
         ///     Places the window at the top of the Z order.
         /// </summary>
-        internal static readonly IntPtr HWND_TOP = new IntPtr(0);
+        internal static readonly IntPtr HWND_TOP = new(0);
         /// <summary>
         ///     Places the window at the bottom of the Z order. If the hWnd parameter identifies a topmost window, the window loses its topmost status and is placed at the bottom of all other windows.
         /// </summary>
-        internal static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+        internal static readonly IntPtr HWND_BOTTOM = new(1);
 
         #endregion
 
@@ -2496,7 +2496,7 @@ namespace Krypton.Toolkit
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal static MONITORINFO GetMonitorInfo(IntPtr hMonitor)
         {
-            MONITORINFO mi = new MONITORINFO();
+            MONITORINFO mi = new();
             if (!_GetMonitorInfo(hMonitor, mi))
             {
                 throw new Win32Exception();
@@ -2796,7 +2796,7 @@ namespace Krypton.Toolkit
             return (IntPtr)FIELD_INFO_NATIVE_IMAGE.GetValue(bitmap);
         }
 
-        internal static Guid BlurEffectGuid = new Guid("{633C80A4-1843-482B-9EF2-BE2834C5FDD4}");
+        internal static Guid BlurEffectGuid = new("{633C80A4-1843-482B-9EF2-BE2834C5FDD4}");
 
         [DllImport("gdiplus.dll", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
         internal static extern int GdipCreateEffect(Guid guid, out IntPtr effect);
@@ -3063,11 +3063,11 @@ namespace Krypton.Toolkit
 
             /// <summary>
             /// </summary>            
-            public RECT rcMonitor = new RECT();
+            public RECT rcMonitor = new();
 
             /// <summary>
             /// </summary>            
-            public RECT rcWork = new RECT();
+            public RECT rcWork = new();
 
             /// <summary>
             /// </summary>            

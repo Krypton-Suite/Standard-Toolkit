@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
                         if (_kryptonNumericUpDown.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)((long)m.LParam)) == -1)
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
                         // Mouse is over the control
                         if (!MouseOver)
                         {
-                            PI.TRACKMOUSEEVENTS tme = new PI.TRACKMOUSEEVENTS
+                            PI.TRACKMOUSEEVENTS tme = new()
                             {
 
                                 // This structure needs to know its own size in bytes
@@ -361,7 +361,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            PI.PAINTSTRUCT ps = new();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -379,7 +379,7 @@ namespace Krypton.Toolkit
                                 PaletteInputControlTripleStates states = NumericUpDown.GetTripleState();
 
                                 // Drawn entire client area in the background color
-                                using (SolidBrush backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state)))
+                                using (SolidBrush backBrush = new(states.PaletteBack.GetBackColor1(state)))
                                 {
                                     g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
                                 }
@@ -414,7 +414,7 @@ namespace Krypton.Toolkit
                                     g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state));
 
                                     // Define the string formatting requirements
-                                    StringFormat stringFormat = new StringFormat
+                                    StringFormat stringFormat = new()
                                     {
                                         LineAlignment = StringAlignment.Near,
                                         FormatFlags = StringFormatFlags.NoWrap,
@@ -442,7 +442,7 @@ namespace Krypton.Toolkit
                                             break;
                                     }
 
-                                    Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+                                    Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
                                     rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle,
                                         states.Content.GetContentPadding(state));
 
@@ -455,7 +455,7 @@ namespace Krypton.Toolkit
 
                                     try
                                     {
-                                        using (SolidBrush foreBrush = new SolidBrush(states.Content.GetContentShortTextColor1(state)))
+                                        using (SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state)))
                                         {
                                             g.DrawString(text, states.Content.GetContentShortTextFont(state), foreBrush,
                                                 rectangle, stringFormat);
@@ -463,7 +463,7 @@ namespace Krypton.Toolkit
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using (SolidBrush foreBrush = new SolidBrush(_internalNumericUpDown.ForeColor))
+                                        using (SolidBrush foreBrush = new(_internalNumericUpDown.ForeColor))
                                         {
                                             g.DrawString(text, _internalNumericUpDown.Font, foreBrush, rectangle, stringFormat);
                                         }
@@ -486,7 +486,7 @@ namespace Krypton.Toolkit
                         if (NumericUpDown.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)((long)m.LParam)) == -1)
@@ -619,14 +619,14 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            PI.PAINTSTRUCT ps = new();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
-                            Rectangle clientRect = new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                            Rectangle clientRect = new(rect.left, rect.top, rect.right - rect.left,
                                 rect.bottom - rect.top);
 
                             try
@@ -648,7 +648,7 @@ namespace Krypton.Toolkit
                                         {
                                             // Drawn entire client area in the background color
                                             using (SolidBrush backBrush =
-                                                new SolidBrush(NumericUpDown.NumericUpDown.BackColor))
+                                                new(NumericUpDown.NumericUpDown.BackColor))
                                             {
                                                 g.FillRectangle(backBrush, clientRect);
                                             }
@@ -710,12 +710,12 @@ namespace Krypton.Toolkit
                 _palette.SetStyles(NumericUpDown.UpDownButtonStyle);
 
                 // Find button rectangles
-                Rectangle upRect = new Rectangle(clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height / 2);
-                Rectangle downRect = new Rectangle(clientRect.X, upRect.Bottom, clientRect.Width, clientRect.Bottom - upRect.Bottom);
+                Rectangle upRect = new(clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height / 2);
+                Rectangle downRect = new(clientRect.X, upRect.Bottom, clientRect.Width, clientRect.Bottom - upRect.Bottom);
 
                 // Position and draw the up/down buttons
-                using (ViewLayoutContext layoutContext = new ViewLayoutContext(NumericUpDown, NumericUpDown.Renderer))
-                using (RenderContext renderContext = new RenderContext(NumericUpDown, g, clientRect, NumericUpDown.Renderer))
+                using (ViewLayoutContext layoutContext = new(NumericUpDown, NumericUpDown.Renderer))
+                using (RenderContext renderContext = new(NumericUpDown, g, clientRect, NumericUpDown.Renderer))
                 {
                     // Up button
                     layoutContext.DisplayRectangle = upRect;
@@ -894,7 +894,7 @@ namespace Krypton.Toolkit
             _cachedHeight = -1;
             _alwaysActive = true;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
 
             // Create storage properties
             ButtonSpecs = new NumericUpDownButtonSpecCollection(this);
@@ -1401,8 +1401,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -1891,7 +1891,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(120, PreferredHeight);
+        protected override Size DefaultSize => new(120, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -2155,7 +2155,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2170,10 +2170,10 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						if (AllowButtonSpecToolTipPriority)
+
+                        if (AllowButtonSpecToolTipPriority)
                         {
-                            _visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip?.Dispose();
                         }
 
                         // Create the actual tooltip popup object

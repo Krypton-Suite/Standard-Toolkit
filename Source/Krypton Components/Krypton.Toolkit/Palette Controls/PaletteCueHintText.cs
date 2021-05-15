@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
             using Font font = GetContentShortTextNewFont(PaletteState.Normal);
             using SolidBrush foreBrush = new (GetContentShortTextColor1(PaletteState.Normal));
             var drawText = string.IsNullOrEmpty(CueHintText) ? textBox.Text : CueHintText;
-            RectangleF layoutRectangle = new RectangleF(rect.left, rect.top, rect.right - rect.left,
+            RectangleF layoutRectangle = new(rect.left, rect.top, rect.right - rect.left,
                 rect.bottom - rect.top);
             var padding = GetContentPadding(PaletteState.Normal);
             if (!padding.Equals(CommonHelper.InheritPadding))

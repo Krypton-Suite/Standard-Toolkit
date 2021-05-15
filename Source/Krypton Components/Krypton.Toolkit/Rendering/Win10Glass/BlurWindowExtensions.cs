@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         {
             // var windowHelper = new WindowInteropHelper(window);
 
-            PI.AccentPolicy accent = new PI.AccentPolicy
+            PI.AccentPolicy accent = new()
             {
                 AccentState = accentState,
                 AccentFlags = GetAccentFlagsForTaskbarPosition()
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
             IntPtr accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);
 
-            PI.WindowCompositionAttribData data = new PI.WindowCompositionAttribData
+            PI.WindowCompositionAttribData data = new()
             {
                 Attribute = PI.WindowCompositionAttribute.WCA_ACCENT_POLICY,
                 SizeOfData = accentStructSize,
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         /// </remarks>
         public static void ApplyGlass(this Form window, bool apply)
         {
-            PI.DWM_BLURBEHIND blurBehindParameters = new PI.DWM_BLURBEHIND(apply)
+            PI.DWM_BLURBEHIND blurBehindParameters = new(apply)
             {
                 dwFlags = PI.DWM_BB.Enable,
                 hRgnBlur = IntPtr.Zero

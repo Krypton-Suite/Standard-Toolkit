@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
             base.OnLayout(lEvent);
 
             // Need a render context for accessing the renderer
-            using (RenderContext context = new RenderContext(this, null, ClientRectangle, Renderer))
+            using (RenderContext context = new(this, null, ClientRectangle, Renderer))
             {
 
                 // Grab a path that is the outside edge of the border

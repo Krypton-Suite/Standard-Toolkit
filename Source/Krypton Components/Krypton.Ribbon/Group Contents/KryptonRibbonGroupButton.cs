@@ -13,11 +13,12 @@
 #endregion
 
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Design;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Diagnostics;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -27,7 +28,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupButton), "ToolboxBitmaps.KryptonRibbonGroupButton.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupButtonDesigner))]
+    [Designer(typeof(KryptonRibbonGroupButtonDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("Click")]
@@ -431,7 +432,7 @@ namespace Krypton.Ribbon
         {
             get => _contextMenuStrip;
 
-            set 
+            set
             {
                 if (value != _contextMenuStrip)
                 {
@@ -558,7 +559,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
+        public override ViewBase CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint)
         {
             return new ViewDrawRibbonGroupButton(ribbon, this, needPaint);

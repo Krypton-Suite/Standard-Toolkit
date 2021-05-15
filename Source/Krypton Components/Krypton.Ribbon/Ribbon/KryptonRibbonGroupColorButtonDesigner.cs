@@ -13,11 +13,12 @@
 #endregion
 
 using System;
-using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -68,20 +69,17 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonColorButton = (KryptonRibbonGroupColorButton)component;
-            _ribbonColorButton.DesignTimeContextMenu += OnContextMenu;
+            _ribbonColorButton = component as KryptonRibbonGroupColorButton;
+            if (_ribbonColorButton != null)
+            {
+                _ribbonColorButton.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -141,7 +139,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move Color Button Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move Color Button Last", OnMoveLast);
                 _deleteButtonVerb = new DesignerVerb("Delete Color Button", OnDeleteButton);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteButtonVerb });
             }
 

@@ -16,6 +16,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Windows.Forms.Design;
 
 namespace Krypton.Toolkit
@@ -35,8 +36,10 @@ namespace Krypton.Toolkit
         /// <param name="component">The IComponent to associate with the designer.</param>
         public override void Initialize(IComponent component)
         {
-            // Perform common base class initializating
+            // Perform common base class initializing
             base.Initialize(component);
+
+            Debug.Assert(component != null);
 
             // Remember references to components involved in design
             _panel = component as KryptonGroupPanel;
@@ -75,7 +78,7 @@ namespace Krypton.Toolkit
             {
                 // If the panel is inside our Krypton group container then prevent 
                 // user changing the size or location of the group panel instance
-                if ((Control.Parent is KryptonGroup) || 
+                if ((Control.Parent is KryptonGroup) ||
                     (Control.Parent is KryptonHeaderGroup))
                 {
                     return (SelectionRules.None | SelectionRules.Locked);
@@ -108,7 +111,7 @@ namespace Krypton.Toolkit
         /// <summary>
         ///  Gets the design-time action lists supported by the component associated with the designer.
         /// </summary>
-        public override DesignerActionListCollection ActionLists => new DesignerActionListCollection();
+        public override DesignerActionListCollection ActionLists => new();
 
         /// <summary>
         /// Should painting be performed for the selection glyph.

@@ -111,14 +111,14 @@ namespace Krypton.Toolkit.General
             visited.Add(_visualBlur.Handle);
 
 
-            PI.RECT thisRect = new PI.RECT();
+            PI.RECT thisRect = new();
             PI.GetWindowRect(hWnd, ref thisRect);
 
             while ((hWnd = PI.GetWindow(hWnd, PI.GetWindowType.GW_HWNDPREV)) != IntPtr.Zero
                    && !visited.Contains(hWnd))
             {
                 visited.Add(hWnd);
-                PI.RECT testRect = new PI.RECT();
+                PI.RECT testRect = new();
                 if (PI.IsWindowVisible(hWnd)
                     && PI.GetWindowRect(hWnd, ref testRect)
                     && PI.IntersectRect(out _, ref thisRect, ref testRect)
@@ -196,7 +196,7 @@ namespace Krypton.Toolkit.General
 
         private static Bitmap TakeSnapshot(Rectangle targetRectangle)
         {
-            Bitmap bmp = new Bitmap(targetRectangle.Width, targetRectangle.Height);
+            Bitmap bmp = new(targetRectangle.Width, targetRectangle.Height);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
             g.CopyFromScreen(targetRectangle.Left, targetRectangle.Top, 0, 0, bmp.Size);
             return bmp;

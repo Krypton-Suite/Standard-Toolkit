@@ -409,7 +409,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the set of global strings.
         /// </summary>
-        public static GlobalStrings Strings { get; } = new GlobalStrings();
+        public static GlobalStrings Strings { get; } = new();
 
         #endregion
 

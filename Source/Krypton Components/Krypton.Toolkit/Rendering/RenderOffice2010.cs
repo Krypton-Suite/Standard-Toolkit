@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
                                                         Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using (SolidBrush drawBrush = new SolidBrush(lightColor))
+            using (SolidBrush drawBrush = new(lightColor))
             {
                 context.Graphics.FillRectangle(drawBrush, displayRect);
             }
@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            KryptonOffice2010Renderer renderer = new KryptonOffice2010Renderer(colorPalette.ColorTable)
+            KryptonOffice2010Renderer renderer = new(colorPalette.ColorTable)
             {
 
                 // Seup the need to use rounded corners

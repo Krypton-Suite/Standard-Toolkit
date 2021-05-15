@@ -14,11 +14,12 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -63,34 +64,31 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonRichTextBox = (KryptonRibbonGroupRichTextBox)component;
-            _ribbonRichTextBox.RichTextBoxDesigner = this;
+            _ribbonRichTextBox = component as KryptonRibbonGroupRichTextBox;
+            if (_ribbonRichTextBox != null)
+            {
+                _ribbonRichTextBox.RichTextBoxDesigner = this;
 
-            // Update designer properties with actual starting values
-            Visible = _ribbonRichTextBox.Visible;
-            Enabled = _ribbonRichTextBox.Enabled;
+                // Update designer properties with actual starting values
+                Visible = _ribbonRichTextBox.Visible;
+                Enabled = _ribbonRichTextBox.Enabled;
 
-            // Update visible/enabled to always be showing/enabled at design time
-            _ribbonRichTextBox.Visible = true;
-            _ribbonRichTextBox.Enabled = true;
+                // Update visible/enabled to always be showing/enabled at design time
+                _ribbonRichTextBox.Visible = true;
+                _ribbonRichTextBox.Enabled = true;
 
-            // Tell the embedded text box it is in design mode
-            _ribbonRichTextBox.RichTextBox.InRibbonDesignMode = true;
+                // Tell the embedded text box it is in design mode
+                _ribbonRichTextBox.RichTextBox.InRibbonDesignMode = true;
 
-            // Hook into events
-            _ribbonRichTextBox.DesignTimeContextMenu += OnContextMenu;
+                // Hook into events
+                _ribbonRichTextBox.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -115,8 +113,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is enabled.
         /// </summary>
-        public bool DesignEnabled 
-        { 
+        public bool DesignEnabled
+        {
             get => Enabled;
             set => Enabled = value;
         }
@@ -124,7 +122,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is visible.
         /// </summary>
-        public bool DesignVisible 
+        public bool DesignVisible
         {
             get => Visible;
             set => Visible = value;
@@ -218,7 +216,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move RichTextBox Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move RichTextBox Last", OnMoveLast);
                 _deleteRichTextBoxVerb = new DesignerVerb("Delete RichTextBox", OnDeleteTextBox);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteRichTextBoxVerb });
             }
 

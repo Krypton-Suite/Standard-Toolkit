@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
                 if (value != ViewDrawButton.Checked)
                 {
                     // Generate a pre-change event allowing it to be cancelled
-                    CancelEventArgs ce = new CancelEventArgs();
+                    CancelEventArgs ce = new();
                     OnCheckedChanging(ce);
 
                     // If the change is allowed to occur

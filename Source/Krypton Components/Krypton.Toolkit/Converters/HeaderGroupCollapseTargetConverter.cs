@@ -38,9 +38,9 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(HeaderGroupCollapsedTarget.CollapsedToPrimary,   "Collapse to Primary Header"),
-            new Pair(HeaderGroupCollapsedTarget.CollapsedToSecondary, "Collapse to Secondary Header"),
-            new Pair(HeaderGroupCollapsedTarget.CollapsedToBoth,      "Collapse to Both Headers") };
+        { new(HeaderGroupCollapsedTarget.CollapsedToPrimary,   "Collapse to Primary Header"),
+            new(HeaderGroupCollapsedTarget.CollapsedToSecondary, "Collapse to Secondary Header"),
+            new(HeaderGroupCollapsedTarget.CollapsedToBoth,      "Collapse to Both Headers") };
 
         #endregion
     }

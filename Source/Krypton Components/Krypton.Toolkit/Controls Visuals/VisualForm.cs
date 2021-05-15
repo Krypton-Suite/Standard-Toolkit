@@ -743,7 +743,7 @@ namespace Krypton.Toolkit
                                                 realWindowRectangle.Height);
                 }
 
-                using (Region invalidRegion = new Region(invalidRect))
+                using (Region invalidRegion = new(invalidRect))
                 {
                     if (excludeClientArea)
                     {
@@ -772,7 +772,7 @@ namespace Krypton.Toolkit
             {
                 // Grab the actual current size of the window, this is more accurate than using
                 // the 'this.Size' which is out of date when performing a resize of the window.
-                PI.RECT windowRect = new PI.RECT();
+                PI.RECT windowRect = new();
                 PI.GetWindowRect(Handle, ref windowRect);
 
                 // Create rectangle that encloses the entire window
@@ -890,7 +890,7 @@ namespace Krypton.Toolkit
             // If drawing with custom chrome and composition
             if (ApplyCustomChrome && ApplyComposition)
             {
-                Rectangle compositionRect = new Rectangle(0, 0, Width, _compositionHeight);
+                Rectangle compositionRect = new(0, 0, Width, _compositionHeight);
 
                 // Draw the extended area inside the client in black, this ensures
                 // it is treated as transparent by the desktop window manager
@@ -944,7 +944,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteRedirect derived class.</returns>
         protected virtual PaletteRedirect CreateRedirector()
         {
-            return new PaletteRedirect(_palette);
+            return new(_palette);
         }
 
         /// <summary>
@@ -1031,6 +1031,7 @@ namespace Krypton.Toolkit
         /// Process Windows-based messages.
         /// </summary>
         /// <param name="m">A Windows-based message.</param>
+        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/100 
         [System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
         protected override void WndProc(ref Message m)
         {
@@ -1260,7 +1261,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCHITTEST(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new Point((int)m.LParam.ToInt64());
+            Point screenPoint = new((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1296,7 +1297,7 @@ namespace Krypton.Toolkit
                 (m.Result == (IntPtr)PI.HT.CLIENT))
             {
                 // Extract the point in screen coordinates
-                Point screenPoint = new Point((int)m.LParam.ToInt64());
+                Point screenPoint = new((int)m.LParam.ToInt64());
 
                 // Convert to window coordinates
                 Point windowPoint = ScreenToWindow(screenPoint);
@@ -1364,7 +1365,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCMOUSEMOVE(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new Point((int)m.LParam.ToInt64());
+            Point screenPoint = new((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1381,7 +1382,7 @@ namespace Krypton.Toolkit
             // If we are not tracking when the mouse leaves the non-client window
             if (!_trackingMouse)
             {
-                PI.TRACKMOUSEEVENTS tme = new PI.TRACKMOUSEEVENTS
+                PI.TRACKMOUSEEVENTS tme = new()
                 {
 
                     // This structure needs to know its own size in bytes
@@ -1417,7 +1418,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCLBUTTONDOWN(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new Point((int)m.LParam.ToInt64());
+            Point screenPoint = new((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1440,7 +1441,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCLBUTTONUP(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new Point((int)m.LParam.ToInt64());
+            Point screenPoint = new((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1486,7 +1487,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_MOUSEMOVE(ref Message m)
         {
             // Extract the point in client coordinates
-            Point clientPoint = new Point((int)m.LParam);
+            Point clientPoint = new((int)m.LParam);
 
             // Convert to screen coordinates
             Point screenPoint = PointToScreen(clientPoint);
@@ -1518,7 +1519,7 @@ namespace Krypton.Toolkit
             _trackingMouse = false;
 
             // Extract the point in client coordinates
-            Point clientPoint = new Point((int)m.LParam);
+            Point clientPoint = new((int)m.LParam);
 
             // Convert to screen coordinates
             Point screenPoint = PointToScreen(clientPoint);
@@ -1546,7 +1547,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCLBUTTONDBLCLK(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new Point((int)m.LParam.ToInt64());
+            Point screenPoint = new((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1583,7 +1584,7 @@ namespace Krypton.Toolkit
                     {
                         // Find the rectangle that covers the client area of the form
                         Padding borders = RealWindowBorders;
-                        Rectangle clipClientRect = new Rectangle(borders.Left, borders.Top,
+                        Rectangle clipClientRect = new(borders.Left, borders.Top,
                                                                  windowBounds.Width - borders.Horizontal,
                                                                  windowBounds.Height - borders.Vertical);
 

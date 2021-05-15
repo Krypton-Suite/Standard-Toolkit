@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
             AllowButtonSpecToolTips = false;
 
             // Use a controller that can work against all the displayed months
-            MonthCalendarController controller = new MonthCalendarController(monthCalendar, viewManager, this, _needPaintDelegate);
+            MonthCalendarController controller = new(monthCalendar, viewManager, this, _needPaintDelegate);
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
@@ -659,7 +659,7 @@ namespace Krypton.Toolkit
         #region Private
         private DateTime JustDay(DateTime dt)
         {
-            return new DateTime(dt.Year, dt.Month, dt.Day);
+            return new(dt.Year, dt.Month, dt.Day);
         }
 
         private void OnTodayClick(object sender, EventArgs e)
@@ -678,7 +678,7 @@ namespace Krypton.Toolkit
             if (CloseOnTodayClick && (Provider != null) && Provider.ProviderCanCloseMenu)
             {
                 // Ask the original context menu definition, if we can close
-                CancelEventArgs cea = new CancelEventArgs();
+                CancelEventArgs cea = new();
                 Provider.OnClosing(cea);
 
                 if (!cea.Cancel)
@@ -783,7 +783,7 @@ namespace Krypton.Toolkit
                     // Bring the selection into the display range
                     DateTime endMonth = _displayMonth.AddMonths(months - 1);
                     DateTime oldSelEndDate = _oldSelectionEnd.Date;
-                    DateTime oldSelEndMonth = new DateTime(oldSelEndDate.Year, oldSelEndDate.Month, 1);
+                    DateTime oldSelEndMonth = new(oldSelEndDate.Year, oldSelEndDate.Month, 1);
                     if (oldSelEndMonth >= endMonth)
                     {
                         _displayMonth = oldSelEndMonth.AddMonths(-(months - 1));
@@ -840,7 +840,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(_redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(_redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

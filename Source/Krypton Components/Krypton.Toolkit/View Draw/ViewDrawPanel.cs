@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
                 if (_paletteBack.GetBackDraw(State) == InheritBool.True)
                 {
                     // Render the background
-                    using (GraphicsPath panelPath = new GraphicsPath())
+                    using (GraphicsPath panelPath = new())
                     {
                         // The path encloses the entire panel area
                         panelPath.AddRectangle(ClientRectangle);

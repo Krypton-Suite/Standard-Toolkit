@@ -14,11 +14,12 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -58,7 +59,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public KryptonRibbonGroupClusterDesigner()
         {
-        }            
+        }
         #endregion
 
         #region Public
@@ -68,22 +69,19 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonCluster = (KryptonRibbonGroupCluster)component;
-            _ribbonCluster.DesignTimeAddButton += OnAddButton;
-            _ribbonCluster.DesignTimeAddColorButton += OnAddColorButton;
-            _ribbonCluster.DesignTimeContextMenu += OnContextMenu;
+            _ribbonCluster = component as KryptonRibbonGroupCluster;
+            if (_ribbonCluster != null)
+            {
+                _ribbonCluster.DesignTimeAddButton += OnAddButton;
+                _ribbonCluster.DesignTimeAddColorButton += OnAddColorButton;
+                _ribbonCluster.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -162,7 +160,7 @@ namespace Krypton.Ribbon
                 _addColorButtonVerb = new DesignerVerb("Add Color Button", OnAddColorButton);
                 _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
                 _deleteClusterVerb = new DesignerVerb("Delete Cluster", OnDeleteCluster);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
                                                      _addButtonVerb, _addColorButtonVerb, _clearItemsVerb, _deleteClusterVerb });
             }
 

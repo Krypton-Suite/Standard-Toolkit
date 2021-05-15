@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public Size SeparatorSize
         {
-            get => new Size(_width, _height);
+            get => new(_width, _height);
 
             set
             {
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
             // Always return the same minimum size
-            return new Size(_width, _height);
+            return new(_width, _height);
         }
 
         /// <summary>

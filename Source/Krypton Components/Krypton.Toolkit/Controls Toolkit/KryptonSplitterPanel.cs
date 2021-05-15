@@ -313,7 +313,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the space, in pixels, that is specified by default between controls.
         /// </summary>
-        protected override Padding DefaultMargin => new Padding(0, 0, 0, 0);
+        protected override Padding DefaultMargin => new(0, 0, 0, 0);
 
         /// <summary>
         /// Raises the AutoSizeChanged event.

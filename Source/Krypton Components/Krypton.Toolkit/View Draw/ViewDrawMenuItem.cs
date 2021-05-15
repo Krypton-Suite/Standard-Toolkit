@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
             KryptonContextMenuItem.SetPaletteRedirect(provider);
 
             // Create a stack of horizontal items inside the item
-            ViewLayoutDocker docker = new ViewLayoutDocker();
+            ViewLayoutDocker docker = new();
 
             // Decide on the enabled state of the display
             ItemEnabled = provider.ProviderEnabled && ResolveEnabled;
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
             Add(docker);
 
             // Add a controller for handing mouse and keyboard events
-            MenuItemController mic = new MenuItemController(provider.ProviderViewManager, this, provider.ProviderNeedPaintDelegate);
+            MenuItemController mic = new(provider.ProviderViewManager, this, provider.ProviderNeedPaintDelegate);
             MouseController = mic;
             KeyController = mic;
 

@@ -38,12 +38,12 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(SeparatorStyle.LowProfile,            "Low Profile"),
-            new Pair(SeparatorStyle.HighProfile,           "High Profile"),  
-            new Pair(SeparatorStyle.HighInternalProfile,   "High Internal Profile"),  
-            new Pair(SeparatorStyle.Custom1,               "Custom1"),
-            new Pair(SeparatorStyle.Custom2,               "Custom2"),
-            new Pair(SeparatorStyle.Custom3,               "Custom3")
+        { new(SeparatorStyle.LowProfile,            "Low Profile"),
+            new(SeparatorStyle.HighProfile,           "High Profile"),  
+            new(SeparatorStyle.HighInternalProfile,   "High Internal Profile"),  
+            new(SeparatorStyle.Custom1,               "Custom1"),
+            new(SeparatorStyle.Custom2,               "Custom2"),
+            new(SeparatorStyle.Custom3,               "Custom3")
 
         };
 

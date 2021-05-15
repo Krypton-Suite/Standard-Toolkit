@@ -554,7 +554,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Create a new region the same as the existing clipping region
-                    Region combineRegion = new Region(borderPath);
+                    Region combineRegion = new(borderPath);
 
                     // Reduce clipping region down by our border path
                     combineRegion.Intersect(_clipRegion);

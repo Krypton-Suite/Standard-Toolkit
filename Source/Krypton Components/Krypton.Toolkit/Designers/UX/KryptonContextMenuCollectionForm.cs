@@ -882,7 +882,7 @@ namespace Krypton.Toolkit
             private void AddMenuTreeNode(KryptonContextMenuItemBase item, MenuTreeNode parent)
             {
                 // Create a node to match the item
-                MenuTreeNode node = new MenuTreeNode(item);
+                MenuTreeNode node = new(item);
 
                 // Add to either root or parent node
                 if (parent != null)
@@ -1044,7 +1044,7 @@ namespace Krypton.Toolkit
 
                 if (ItemInsideCollection(item, parent))
                 {
-                    KryptonContextMenuCollection temp = new KryptonContextMenuCollection();
+                    KryptonContextMenuCollection temp = new();
                     foreach (Type t in temp.RestrictTypes)
                     {
                         if (t.Equals(addType))
@@ -1055,7 +1055,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    KryptonContextMenuItemCollection temp1 = new KryptonContextMenuItemCollection();
+                    KryptonContextMenuItemCollection temp1 = new();
                     foreach (Type t in temp1.RestrictTypes)
                     {
                         if (t.Equals(addType))
@@ -1066,7 +1066,7 @@ namespace Krypton.Toolkit
 
                     if (item is KryptonContextMenuItem)
                     {
-                        KryptonContextMenuCollection temp2 = new KryptonContextMenuCollection();
+                        KryptonContextMenuCollection temp2 = new();
                         foreach (Type t in temp2.RestrictTypes)
                         {
                             if (t.Equals(addType))
@@ -1083,7 +1083,7 @@ namespace Krypton.Toolkit
             private bool ValidInCollection(KryptonContextMenuItemBase item)
             {
                 Type addType = item.GetType();
-                KryptonContextMenuCollection temp = new KryptonContextMenuCollection();
+                KryptonContextMenuCollection temp = new();
                 foreach (Type t in temp.RestrictTypes)
                 {
                     if (t.Equals(addType))
@@ -1098,7 +1098,7 @@ namespace Krypton.Toolkit
             private bool ValidInItemCollection(KryptonContextMenuItemBase item)
             {
                 Type addType = item.GetType();
-                KryptonContextMenuItemCollection temp = new KryptonContextMenuItemCollection();
+                KryptonContextMenuItemCollection temp = new();
                 foreach (Type t in temp.RestrictTypes)
                 {
                     if (t.Equals(addType))
@@ -1120,7 +1120,7 @@ namespace Krypton.Toolkit
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
-                DictItemBase dictItems = new DictItemBase();
+                DictItemBase dictItems = new();
 
                 foreach (KryptonContextMenuItemBase item in items)
                 {

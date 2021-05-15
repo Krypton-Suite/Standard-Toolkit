@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
             ButtonValues = this;
 
             // Define a controller so the button can be clicked
-            ButtonController controller = new ButtonController(this, needPaintHandler);
+            ButtonController controller = new(this, needPaintHandler);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;

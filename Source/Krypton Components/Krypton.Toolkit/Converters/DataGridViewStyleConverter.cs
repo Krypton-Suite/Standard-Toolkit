@@ -38,12 +38,12 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(DataGridViewStyle.List,       "List"),
-            new Pair(DataGridViewStyle.Sheet,      "Sheet"),
-            new Pair(DataGridViewStyle.Custom1,    "Custom1"),
-            new Pair(DataGridViewStyle.Custom2,    "Custom2"),
-            new Pair(DataGridViewStyle.Custom3,    "Custom3"),
-            new Pair(DataGridViewStyle.Mixed,      "Mixed")
+        { new(DataGridViewStyle.List,       "List"),
+            new(DataGridViewStyle.Sheet,      "Sheet"),
+            new(DataGridViewStyle.Custom1,    "Custom1"),
+            new(DataGridViewStyle.Custom2,    "Custom2"),
+            new(DataGridViewStyle.Custom3,    "Custom3"),
+            new(DataGridViewStyle.Mixed,      "Mixed")
 
         };
 

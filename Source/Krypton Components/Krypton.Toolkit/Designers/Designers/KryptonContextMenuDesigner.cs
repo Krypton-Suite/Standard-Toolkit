@@ -12,10 +12,10 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -33,14 +33,10 @@ namespace Krypton.Toolkit
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
+
+            Debug.Assert(component != null);
 
             // Cast to correct type
             _contextMenu = component as KryptonContextMenu;
@@ -59,8 +55,8 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
-                
+                ArrayList compound = new(base.AssociatedComponents);
+
                 if (_contextMenu != null)
                 {
                     compound.AddRange(_contextMenu.Items);
@@ -78,7 +74,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the palette specific list

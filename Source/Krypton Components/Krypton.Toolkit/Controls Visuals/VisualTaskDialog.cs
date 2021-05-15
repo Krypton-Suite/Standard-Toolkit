@@ -277,7 +277,7 @@ namespace Krypton.Toolkit
                 foreach (KryptonTaskDialogCommand command in _radioButtons)
                 {
                     // Create and add a new radio button instance
-                    KryptonRadioButton button = new KryptonRadioButton
+                    KryptonRadioButton button = new()
                     {
                         LabelStyle = LabelStyle.NormalPanel
                     };
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
                 maxButtonSize.Width = Math.Min(Math.Max(maxButtonSize.Width, 150), 400);
 
                 // Position the radio buttons in a vertical stack and size owning panel
-                Point offset = new Point(BUTTON_GAP - 1, 2);
+                Point offset = new(BUTTON_GAP - 1, 2);
                 foreach (KryptonRadioButton button in _panelMainRadio.Controls)
                 {
                     button.Location = offset;
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
                 foreach (KryptonTaskDialogCommand command in _commandButtons)
                 {
                     // Create and add a new button instance
-                    KryptonButton button = new KryptonButton
+                    KryptonButton button = new()
                     {
                         ButtonStyle = ButtonStyle.Command
                     };
@@ -360,7 +360,7 @@ namespace Krypton.Toolkit
                 maxButtonSize.Width = Math.Min(Math.Max(maxButtonSize.Width, 150), 400);
 
                 // Position the buttons in a vertical stack and size owning panel
-                Point offset = new Point(BUTTON_GAP - 1, 2);
+                Point offset = new(BUTTON_GAP - 1, 2);
                 foreach (KryptonButton button in _panelMainCommands.Controls)
                 {
                     button.Location = offset;
@@ -599,7 +599,7 @@ namespace Krypton.Toolkit
 
                 int h = (int)Math.Min(messageContentSize.Height, dispSize.Height * 0.6);
                 int w = (int)Math.Min(messageContentSize.Width, dispSize.Width * 0.6);
-                Size sz = new Size(w, h);
+                Size sz = new(w, h);
                 if (messageContentSize != sz)
                 {
                     messageContentSize = sz;
@@ -794,7 +794,7 @@ namespace Krypton.Toolkit
             {
                 _panelButtons.Visible = true;
 
-                Size panelButtonSize = new Size((maxButtonSize.Width * numButtons) + (BUTTON_GAP * (numButtons + 1)), maxButtonSize.Height + (BUTTON_GAP * 2));
+                Size panelButtonSize = new((maxButtonSize.Width * numButtons) + (BUTTON_GAP * (numButtons + 1)), maxButtonSize.Height + (BUTTON_GAP * 2));
 
                 if (!checkboxSize.IsEmpty)
                 {
@@ -952,7 +952,7 @@ namespace Krypton.Toolkit
                 if ((e.Modifiers == Keys.Control)
                     && (e.KeyCode == Keys.C))
                 {
-                    StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new();
 
                     sb.AppendLine("---------------------------");
                     sb.AppendLine(_windowTitle);

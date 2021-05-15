@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         private readonly SimpleCall _refreshCall;
         private readonly SimpleCall _layoutCall;
         private KryptonContextMenu _kryptonContextMenu;
-        protected VisualPopupToolTip _visualBasePopupToolTip;
+        protected VisualPopupToolTip visualBasePopupToolTip;
         private ToolTipManager _toolTipManager;
         #endregion
 
@@ -815,7 +815,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteRedirect derived class.</returns>
         protected virtual PaletteRedirect CreateRedirector()
         {
-            return new PaletteRedirect(_palette);
+            return new(_palette);
         }
 
         /// <summary>
@@ -1195,7 +1195,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)((long)m.LParam)) == -1)
@@ -1374,19 +1374,19 @@ namespace Krypton.Toolkit
                     )
                 {
                     // Remove any currently showing tooltip
-                    _visualBasePopupToolTip?.Dispose();
+                    visualBasePopupToolTip?.Dispose();
 
                     // Create the actual tooltip popup object
                     // ReSharper disable once UseObjectOrCollectionInitializer
-                    _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
+                    visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
                         ToolTipValues,
                         Renderer,
                         PaletteBackStyle.ControlToolTip,
                         PaletteBorderStyle.ControlToolTip,
                         CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle));
 
-                    _visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
-                    _visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
+                    visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                    visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
                 }
             }
         }
@@ -1394,7 +1394,7 @@ namespace Krypton.Toolkit
         private void OnCancelToolTip(object sender, EventArgs e)
         {
             // Remove any currently showing tooltip
-            _visualBasePopupToolTip?.Dispose();
+            visualBasePopupToolTip?.Dispose();
         }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
@@ -1404,7 +1404,7 @@ namespace Krypton.Toolkit
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
-            _visualBasePopupToolTip = null;
+            visualBasePopupToolTip = null;
         }
 
         protected override void OnHandleCreated(EventArgs e)

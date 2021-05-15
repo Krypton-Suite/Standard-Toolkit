@@ -13,11 +13,11 @@
 #endregion
 
 using System;
-using System.Xml;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using System.ComponentModel;
 using System.Windows.Forms;
+using System.Xml;
 
 using Krypton.Navigator;
 using Krypton.Toolkit;
@@ -30,7 +30,7 @@ namespace Krypton.Workspace
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonWorkspaceSequence), "ToolboxBitmaps.KryptonWorkspaceSequence.bmp")]
     [TypeConverter(typeof(KryptonWorkspaceSequenceConverter))]
-    [Designer(typeof(Krypton.Workspace.KryptonWorkspaceSequenceDesigner))]
+    [Designer(typeof(KryptonWorkspaceSequenceDesigner))]
     [DesignTimeVisible(false)]
     [DesignerCategory("code")]
     [DefaultProperty("Children")]
@@ -119,7 +119,7 @@ namespace Krypton.Workspace
             return Orientation + " (" + Children.Count.ToString() + " Children)";
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets access to the collection of child workspace items.
@@ -314,7 +314,7 @@ namespace Krypton.Workspace
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Size WorkspaceMinSize
         {
-            get 
+            get
             {
                 Size minSize = Size.Empty;
 
@@ -343,7 +343,7 @@ namespace Krypton.Workspace
                     }
                 }
 
-                return minSize; 
+                return minSize;
             }
         }
 
@@ -423,7 +423,7 @@ namespace Krypton.Workspace
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool WorkspaceAllowResizing
         {
-            get 
+            get
             {
                 // If any child says no resizing then we cannot be resized
                 foreach (Component component in Children)
@@ -445,7 +445,7 @@ namespace Krypton.Workspace
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool WorkspaceVisible
         {
-            get 
+            get
             {
                 // Only if we are visible do we need to check the children
                 if (Visible)
@@ -461,7 +461,7 @@ namespace Krypton.Workspace
                 }
 
                 // If we set invisible or all the children are invisible then don't show
-                return false; 
+                return false;
             }
         }
 
@@ -499,7 +499,7 @@ namespace Krypton.Workspace
 
             // Terminate the workspace element        
             xmlWriter.WriteEndElement();
-        }        
+        }
 
         /// <summary>
         /// Request this sequence load and recreate children.
@@ -507,7 +507,7 @@ namespace Krypton.Workspace
         /// <param name="workspace">Reference to owning workspace instance.</param>
         /// <param name="xmlReader">Xml reader for loading information.</param>
         /// <param name="existingPages">Dictionary on existing pages before load.</param>
-        public void LoadFromXml(KryptonWorkspace workspace, 
+        public void LoadFromXml(KryptonWorkspace workspace,
                                 XmlReader xmlReader,
                                 UniqueNameToPage existingPages)
         {
@@ -580,7 +580,7 @@ namespace Krypton.Workspace
                     cell.DebugOutput(indent + 1);
                 }
             }
-        }        
+        }
         #endregion
 
         #region Protected

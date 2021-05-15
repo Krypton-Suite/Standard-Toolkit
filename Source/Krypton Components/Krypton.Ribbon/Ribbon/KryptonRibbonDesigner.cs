@@ -14,12 +14,13 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using System.Diagnostics;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -48,7 +49,7 @@ namespace Krypton.Ribbon
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
             // do not get the resizing handles, otherwise you do.
             AutoResizeHandles = true;
-        }            
+        }
         #endregion
 
         #region Public
@@ -58,25 +59,21 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
-            // Cast to correct type
-            _ribbon = (KryptonRibbon)component;
+            Debug.Assert(component != null);
 
-            // Hook into ribbon events
-            _ribbon.GetViewManager().MouseUpProcessed += OnRibbonMouseUp;
-            _ribbon.GetViewManager().DoubleClickProcessed += OnRibbonDoubleClick;
-            _ribbon.SelectedTabChanged += OnSelectedTabChanged;
-            _ribbon.DesignTimeAddTab += OnAddTab;
+            // Cast to correct type
+            _ribbon = component as KryptonRibbon;
+            if (_ribbon != null)
+            {
+                // Hook into ribbon events
+                _ribbon.GetViewManager().MouseUpProcessed += OnRibbonMouseUp;
+                _ribbon.GetViewManager().DoubleClickProcessed += OnRibbonDoubleClick;
+                _ribbon.SelectedTabChanged += OnSelectedTabChanged;
+                _ribbon.DesignTimeAddTab += OnAddTab;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -184,7 +181,7 @@ namespace Krypton.Ribbon
                     _ribbon.GetViewManager().DoubleClickProcessed -= OnRibbonDoubleClick;
                     _ribbon.SelectedTabChanged -= OnSelectedTabChanged;
                     _ribbon.DesignTimeAddTab -= OnAddTab;
-                    
+
                     // Unhook from events
                     _changeService.ComponentRemoving -= OnComponentRemoving;
                     _changeService.ComponentChanged -= OnComponentChanged;

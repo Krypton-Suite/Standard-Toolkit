@@ -12,10 +12,10 @@
  */
 #endregion
 
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
                                               bool imageColumn)
         {
             // Add child items into columns of display views
-            ViewLayoutStack itemsColumns = new ViewLayoutStack(true);
+            ViewLayoutStack itemsColumns = new(true);
             Items.GenerateView(provider, this, this, itemsColumns, StandardStyle, ImageColumn);
             return itemsColumns;
         }
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         {
             get => _standardStyle;
 
-            set 
+            set
             {
                 if (_standardStyle != value)
                 {
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         {
             get => _imageColumn;
 
-            set 
+            set
             {
                 if (_imageColumn != value)
                 {

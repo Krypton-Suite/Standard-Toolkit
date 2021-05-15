@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
                 PaintBackground?.Invoke(this, e);
 
                 // Create a render context for drawing the view
-                using (RenderContext context = new RenderContext(GetViewManager(),
+                using (RenderContext context = new(GetViewManager(),
                                                                  this,
                                                                  RootInstance,
                                                                  e.Graphics,
@@ -418,10 +418,10 @@ namespace Krypton.Toolkit
             if (m.Msg == PI.WM_.NCHITTEST)
             {
                 // Extract the screen point for the hit test
-                Point screenPoint = new Point((int)m.LParam.ToInt64());
+                Point screenPoint = new((int)m.LParam.ToInt64());
 
                 // Generate event so message can be processed
-                ViewControlHitTestArgs args = new ViewControlHitTestArgs(PointToClient(screenPoint));
+                ViewControlHitTestArgs args = new(PointToClient(screenPoint));
                 OnWndProcHitTest(args);
 
                 if (!args.Cancel)

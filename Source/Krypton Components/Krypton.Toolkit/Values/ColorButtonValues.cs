@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
         /// <returns>Storage object.</returns>
         protected virtual ButtonImageStates CreateImageStates()
         {
-            return new ButtonImageStates();
+            return new();
         }
         #endregion
 
@@ -365,7 +365,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Create a copy of the source image
-                    Bitmap copyBitmap = new Bitmap(image);
+                    Bitmap copyBitmap = new(image);
 
                     // Paint over the image with a color indicator
                     using (Graphics g = Graphics.FromImage(copyBitmap))
@@ -376,7 +376,7 @@ namespace Krypton.Toolkit
                             // Indicate the absense of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
-                            using (Pen borderPen = new Pen(_emptyBorderColor))
+                            using (Pen borderPen = new(_emptyBorderColor))
                             {
                                 g.DrawRectangle(borderPen, new Rectangle(_selectedRect.X,
                                                                          _selectedRect.Y,
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             // We have a valid selected color so draw a solid block of color
-                            using (SolidBrush colorBrush = new SolidBrush(_selectedColor))
+                            using (SolidBrush colorBrush = new(_selectedColor))
                             {
                                 g.FillRectangle(colorBrush, _selectedRect);
                             }

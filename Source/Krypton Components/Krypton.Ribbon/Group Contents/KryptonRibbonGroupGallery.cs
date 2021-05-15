@@ -13,10 +13,11 @@
 #endregion
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
-using System.ComponentModel;
 using System.Windows.Forms;
+
 using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
@@ -26,7 +27,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupGalleryDesigner))]
+    [Designer(typeof(KryptonRibbonGroupGalleryDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -80,7 +81,7 @@ namespace Krypton.Ribbon
         [Category("Action")]
         [Description("Occurs when user invokes the drop down menu.")]
         public event EventHandler<GalleryDropMenuEventArgs> GalleryDropMenu;
-        
+
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
@@ -157,7 +158,7 @@ namespace Krypton.Ribbon
             MonitorControl(Gallery);
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Access to the actual embedded KryptonGallery instance.
@@ -187,8 +188,8 @@ namespace Krypton.Ribbon
         {
             get => Gallery.SmoothScrolling;
 
-            set 
-            { 
+            set
+            {
                 Gallery.SmoothScrolling = value;
                 OnPropertyChanged("SmoothScrolling");
             }
@@ -223,7 +224,7 @@ namespace Krypton.Ribbon
         {
             get => Gallery.SelectedIndex;
 
-            set 
+            set
             {
                 if (Gallery.SelectedIndex != value)
                 {
@@ -318,7 +319,7 @@ namespace Krypton.Ribbon
         {
             get => Gallery.DropMaxItemWidth;
 
-            set 
+            set
             {
                 if (Gallery.DropMaxItemWidth != value)
                 {
@@ -338,7 +339,7 @@ namespace Krypton.Ribbon
         {
             get => Gallery.DropMinItemWidth;
 
-            set 
+            set
             {
                 if (Gallery.DropMinItemWidth != value)
                 {
@@ -575,7 +576,7 @@ namespace Krypton.Ribbon
         {
             get => _enabled;
 
-            set 
+            set
             {
                 if (_enabled != value)
                 {
@@ -623,7 +624,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override GroupItemSize ItemSizeMaximum 
+        public override GroupItemSize ItemSizeMaximum
         {
             get => _itemSizeMax;
 
@@ -667,7 +668,7 @@ namespace Krypton.Ribbon
         {
             get => _itemSizeCurrent;
 
-            set 
+            set
             {
                 _itemSizeCurrent = value;
 
