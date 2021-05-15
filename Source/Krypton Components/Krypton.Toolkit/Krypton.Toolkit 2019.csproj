@@ -377,8 +377,8 @@
         <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
     <PropertyGroup>
-        <AssemblyVersion>6.1.2106</AssemblyVersion>
-        <FileVersion>6.1.2106</FileVersion>
+        <AssemblyVersion>6.1.2108</AssemblyVersion>
+        <FileVersion>6.1.2108</FileVersion>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <WarningLevel>5</WarningLevel>

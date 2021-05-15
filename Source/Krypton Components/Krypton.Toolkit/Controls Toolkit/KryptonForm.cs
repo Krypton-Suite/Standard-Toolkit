@@ -7,7 +7,7 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
+ *  Modified: Monday 13rd May, 2021 @ 13:00 GMT
  *
  */
 #endregion
@@ -22,25 +22,6 @@ using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    #region Enumerations
-    /// <summary>
-    /// Used for wrapping the administrator title text
-    /// </summary>
-    // ReSharper disable IdentifierTypo
-    public enum BracketType
-    {
-        /// <summary>A curly bracket.</summary>
-        CURLYBRACKET,
-        /// <summary>A curved bracket.</summary>
-        CURVEDBRACKET,
-        /// <summary>A square bracket.</summary>
-        SQUAREBRACKET,
-        /// <summary>No bracket.</summary>
-        NOBRACKET
-    }
-    // ReSharper restore IdentifierTypo
-    #endregion
-
     /// <summary>
     /// Draws the window chrome using a Krypton palette.
     /// </summary>
@@ -111,7 +92,6 @@ namespace Krypton.Toolkit
         private FormWindowState _lastWindowState;
         private string _textExtra;
         private string _oldText;
-        private string _administratorText;
         private static bool _isInAdministratorMode;
         private bool _allowFormChrome;
         private bool _allowStatusStripMerge;
@@ -120,12 +100,11 @@ namespace Krypton.Toolkit
         private bool _lastNotNormal;
         private bool _useDropShadow;
         private bool _disableCloseButton;
-        private bool _appendAdministratorText;
         private StatusStrip _statusStrip;
         private Bitmap _cacheBitmap;
         private Icon _cacheIcon;
-        private BracketType _bracketType;
         private int _cornerRoundingRadius;
+        private Control _activeControl;
         #endregion
 
         #region Identity
@@ -627,14 +606,31 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Gets or sets the corner rounding radius.
-        /// </summary>
-        /// <value>
-        /// The corner rounding radius.
-        /// </value>
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
         [DefaultValue(-1), Description("Defines the corner roundness on the current window (-1 is the default look).")]
         public int CornerRoundingRadius { get => _cornerRoundingRadius; set { _cornerRoundingRadius = value; Invalidate(); } }
+
+        /// <summary>Gets or sets the active control on the container control.</summary>
+        [DefaultValue(null), Description("Defines an active control for this window.")]
+        public Control ActiveControl
+        {
+            get => _activeControl;
+
+            set
+            {
+                if (_activeControl != value)
+                {
+                    _activeControl = value;
+
+                    _activeControl.Focus();
+                }
+                else
+                {
+                    _activeControl.Focus();
+                }
+            }
+        }
         #endregion
 
         #region Public Chrome
