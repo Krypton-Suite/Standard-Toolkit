@@ -193,16 +193,28 @@ namespace Krypton.Toolkit
         private void kbtnOk_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
 
         #region Methods
+        /// <summary>Sets the password enabled.</summary>
+        /// <param name="passwordEnabled">if set to <c>true</c> [password enabled].</param>
         private void SetPasswordEnabled(bool passwordEnabled) => ktxtInput.UseSystemPasswordChar = passwordEnabled;
 
+        /// <summary>Sets the ok text.</summary>
+        /// <param name="okText">The ok text.</param>
         private void SetOkText(string okText) => kbtnOk.Text = okText;
 
+        /// <summary>Sets the cancel text.</summary>
+        /// <param name="cancelText">The cancel text.</param>
         private void SetCancelText(string cancelText) => kbtnCancel.Text = cancelText;
 
-        private void SetPrompt(string prompt) => ktxtPrompt.CueHint.CueHintText = prompt;
+        /// <summary>Sets the prompt.</summary>
+        /// <param name="prompt">The prompt.</param>
+        private void SetPrompt(string prompt) => ktxtInput.CueHint.CueHintText = prompt;
 
+        /// <summary>Sets the message.</summary>
+        /// <param name="message">The message.</param>
         private void SetMessage(string message) => kwlMessage.Text = message;
 
+        /// <summary>Sets the start position.</summary>
+        /// <param name="startPosition">The start position.</param>
         private void SetStartPosition(FormStartPosition startPosition) => StartPosition = startPosition;
 
         private void SetTitle(string title) => Text = title;
