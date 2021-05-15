@@ -108,10 +108,13 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5/6.
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
 * New `KryptonMessageBoxManager`, now you can configure a `KryptonMessageBox` through the designer
 * Implemented [#93](https://github.com/Krypton-Suite/Standard-Toolkit/issues/93), For a `KryptonMessageBox`: Please describe difference between **owner** and **parentWindow** parameters
+* Fixed [#91](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92), **Many* Items cannot be Dragged and dropped onto a Form in Designer
 * Fixed [#84](https://github.com/Krypton-Suite/Standard-Toolkit/issues/84), Multi-Line Text Box does not support Hint
 * Implemented [#81](https://github.com/Krypton-Suite/Standard-Toolkit/issues/81), Can the "6.x.Lite" version only support .net48;net5.0-windows;net6.0-windows
 * Implemented [#79](https://github.com/Krypton-Suite/Standard-Toolkit/issues/79), Customise 'Hint' Font
 * Fixed [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
+* Fixed [#71](https://github.com/Krypton-Suite/Standard-Toolkit/issues/71), No design support while using Krypton.Ribbon in .NET 5/6 
+* Fixed [#54](https://github.com/Krypton-Suite/Standard-Toolkit/issues/54), .Net5 Winform Project - Dropping a KLabel onto a KGroup or KGroupBox causes an Exception in Designer
 
 =======
 
