@@ -13,280 +13,297 @@
 #endregion
 
 using System;
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    /// <summary>
-    /// The <see cref="KryptonInputBox"/> class.
-    /// </summary>
-    /// <seealso cref="Krypton.Toolkit.KryptonForm" />
+    /// <summary>Displays an input box for the user.</summary>
+    /// <seealso cref="KryptonForm" />
+    [ToolboxItem(false), ToolboxBitmap(typeof(KryptonInputBox), "ToolboxBitmaps.KryptonInputBox.bmp"), 
+     DesignerCategory("code"), DesignTimeVisible(false)]
     public class KryptonInputBox : KryptonForm
     {
         #region Design Code
-        private KryptonButton kbtnOk;
-        private KryptonButton kbtnCancel;
-        private KryptonBorderEdge kryptonBorderEdge1;
-        private KryptonWrapLabel kwlMessage;
-        private KryptonPanel kryptonPanel2;
-        private KryptonTextBox ktxtInput;
-        private KryptonPanel kryptonPanel1;
+        private KryptonPanel _panelMessage;
+        private KryptonWrapLabel _labelPrompt;
+        private KryptonTextBox _textBoxResponse;
+        private KryptonButton _buttonOK;
+        private KryptonButton _buttonCancel;
 
         private void InitializeComponent()
         {
-            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
-            this.kbtnOk = new Krypton.Toolkit.KryptonButton();
-            this.kbtnCancel = new Krypton.Toolkit.KryptonButton();
-            this.kwlMessage = new Krypton.Toolkit.KryptonWrapLabel();
-            this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
-            this.ktxtInput = new Krypton.Toolkit.KryptonTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
-            this.kryptonPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
-            this.kryptonPanel2.SuspendLayout();
+            this._panelMessage = new KryptonPanel();
+            this._textBoxResponse = new KryptonTextBox();
+            this._labelPrompt = new KryptonWrapLabel();
+            this._buttonCancel = new KryptonButton();
+            this._buttonOK = new KryptonButton();
+            ((System.ComponentModel.ISupportInitialize)(this._panelMessage)).BeginInit();
+            this._panelMessage.SuspendLayout();
             this.SuspendLayout();
             // 
-            // kryptonPanel1
+            // _panelMessage
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
-            this.kryptonPanel1.Controls.Add(this.kbtnOk);
-            this.kryptonPanel1.Controls.Add(this.kbtnCancel);
-            this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 77);
-            this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(357, 49);
-            this.kryptonPanel1.TabIndex = 0;
+            this._panelMessage.Controls.Add(this._textBoxResponse);
+            this._panelMessage.Controls.Add(this._labelPrompt);
+            this._panelMessage.Controls.Add(this._buttonCancel);
+            this._panelMessage.Controls.Add(this._buttonOK);
+            this._panelMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._panelMessage.Location = new System.Drawing.Point(0, 0);
+            this._panelMessage.Name = "_panelMessage";
+            this._panelMessage.Size = new System.Drawing.Size(357, 118);
+            this._panelMessage.TabIndex = 0;
             // 
-            // kryptonBorderEdge1
+            // _textBoxResponse
             // 
-            this.kryptonBorderEdge1.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
-            this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(357, 1);
-            this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
+            this._textBoxResponse.Location = new System.Drawing.Point(12, 86);
+            this._textBoxResponse.Name = "_textBoxResponse";
+            this._textBoxResponse.Size = new System.Drawing.Size(333, 20);
+            this._textBoxResponse.TabIndex = 0;
             // 
-            // kbtnOk
+            // _labelPrompt
             // 
-            this.kbtnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kbtnOk.Location = new System.Drawing.Point(159, 12);
-            this.kbtnOk.Name = "kbtnOk";
-            this.kbtnOk.Size = new System.Drawing.Size(90, 25);
-            this.kbtnOk.TabIndex = 1;
-            this.kbtnOk.Values.Text = "O&k";
-            this.kbtnOk.Click += new System.EventHandler(this.kbtnOk_Click);
+            this._labelPrompt.AutoSize = false;
+            this._labelPrompt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this._labelPrompt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this._labelPrompt.LabelStyle = LabelStyle.NormalPanel;
+            this._labelPrompt.Location = new System.Drawing.Point(12, 12);
+            this._labelPrompt.Margin = new System.Windows.Forms.Padding(0);
+            this._labelPrompt.Name = "_labelPrompt";
+            this._labelPrompt.Size = new System.Drawing.Size(78, 15);
+            this._labelPrompt.Text = "Prompt";
             // 
-            // kbtnCancel
+            // _buttonCancel
             // 
-            this.kbtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnCancel.Location = new System.Drawing.Point(255, 12);
-            this.kbtnCancel.Name = "kbtnCancel";
-            this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
-            this.kbtnCancel.TabIndex = 0;
-            this.kbtnCancel.Values.Text = "&Cancel";
-            this.kbtnCancel.Click += new System.EventHandler(this.kbtnCancel_Click);
+            this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonCancel.AutoSize = true;
+            this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._buttonCancel.Location = new System.Drawing.Point(295, 43);
+            this._buttonCancel.Margin = new System.Windows.Forms.Padding(0);
+            this._buttonCancel.MinimumSize = new System.Drawing.Size(50, 26);
+            this._buttonCancel.Name = "_buttonCancel";
+            this._buttonCancel.Size = new System.Drawing.Size(50, 26);
+            this._buttonCancel.TabIndex = 2;
+            this._buttonCancel.Values.Text = "Cancel";
+            this._buttonCancel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.button_keyDown);
             // 
-            // kwlMessage
+            // _buttonOK
             // 
-            this.kwlMessage.AutoSize = false;
-            this.kwlMessage.Dock = System.Windows.Forms.DockStyle.Top;
-            this.kwlMessage.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.kwlMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.kwlMessage.Location = new System.Drawing.Point(0, 0);
-            this.kwlMessage.Name = "kwlMessage";
-            this.kwlMessage.Size = new System.Drawing.Size(357, 31);
-            this.kwlMessage.Text = "{0}";
-            this.kwlMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // kryptonPanel2
-            // 
-            this.kryptonPanel2.Controls.Add(this.ktxtInput);
-            this.kryptonPanel2.Controls.Add(this.kwlMessage);
-            this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
-            this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(357, 77);
-            this.kryptonPanel2.TabIndex = 1;
-            // 
-            // ktxtInput
-            // 
-            this.ktxtInput.Location = new System.Drawing.Point(13, 35);
-            this.ktxtInput.Name = "ktxtInput";
-            this.ktxtInput.Size = new System.Drawing.Size(332, 23);
-            this.ktxtInput.TabIndex = 1;
-            this.ktxtInput.TextChanged += new System.EventHandler(this.ktxtInput_TextChanged);
-            this.ktxtInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ktxtInput_KeyDown);
+            this._buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonOK.AutoSize = true;
+            this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this._buttonOK.Location = new System.Drawing.Point(295, 12);
+            this._buttonOK.Margin = new System.Windows.Forms.Padding(0);
+            this._buttonOK.MinimumSize = new System.Drawing.Size(50, 26);
+            this._buttonOK.Name = "_buttonOK";
+            this._buttonOK.Size = new System.Drawing.Size(50, 26);
+            this._buttonOK.TabIndex = 1;
+            this._buttonOK.Values.Text = "OK";
+            this._buttonOK.KeyDown += new System.Windows.Forms.KeyEventHandler(this.button_keyDown);
             // 
             // KryptonInputBox
             // 
-            this.AcceptButton = this.kbtnOk;
-            this.CancelButton = this.kbtnCancel;
-            this.ClientSize = new System.Drawing.Size(357, 126);
-            this.Controls.Add(this.kryptonPanel2);
-            this.Controls.Add(this.kryptonPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(357, 118);
+            this.Controls.Add(this._panelMessage);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "KryptonInputBox";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.KryptonInputBoxTest_FormClosing);
-            this.Load += new System.EventHandler(this.KryptonInputBoxTest_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
-            this.kryptonPanel1.ResumeLayout(false);
-            this.kryptonPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
-            this.kryptonPanel2.ResumeLayout(false);
-            this.kryptonPanel2.PerformLayout();
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            ((System.ComponentModel.ISupportInitialize)(this._panelMessage)).EndInit();
+            this._panelMessage.ResumeLayout(false);
+            this._panelMessage.PerformLayout();
             this.ResumeLayout(false);
+        }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+
+            }
+
+            base.Dispose(disposing);
         }
         #endregion
 
-        #region Constructor
-        /// <summary>Initializes a new instance of the <see cref="KryptonInputBox"/> class.</summary>
-        /// <param name="title">The title.</param>
-        /// <param name="message">The message.</param>
+        #region Instance
+        private Color _cueColour;
+
+        private Font _cueTypeface;
+
+        private string _caption, _cueText, _defaultResponse, _prompt;
+        #endregion
+
+        #region Constants
+        private const int GAP = 10;
+        #endregion
+
+        #region Identity
+        /// <summary>Initializes a new instance of the <see cref="KryptonInputBox" /> class.</summary>
         /// <param name="prompt">The prompt.</param>
-        /// <param name="okText">The ok text.</param>
-        /// <param name="cancelText">The cancel text.</param>
-        /// <param name="passwordEnabled">if set to <c>true</c> [password enabled].</param>
-        /// <param name="startPosition">The start position.</param>
-        /// <param name="inputTextAlignment">The input text alignment.</param>
-        public KryptonInputBox(string title, string message, string prompt = "", string okText = "O&k", string cancelText = "&Cancel", bool passwordEnabled = false, FormStartPosition startPosition = FormStartPosition.Manual, HorizontalAlignment inputTextAlignment = HorizontalAlignment.Left)        
+        /// <param name="caption">The caption.</param>
+        /// <param name="defaultResponse">The default response.</param>
+        /// <param name="cueColour">The cue colour.</param>
+        /// <param name="cueTypeface">The cue typeface.</param>
+        /// <param name="cueText">The cue text.</param>
+        public KryptonInputBox(string prompt, string caption, string defaultResponse, Color? cueColour, Font? cueTypeface, string cueText)
         {
             InitializeComponent();
 
-            SetMessage(message);
+            #region Store Values
+            _cueColour = cueColour ?? Color.Black;
 
-            SetPrompt(prompt);
+            _cueTypeface = cueTypeface ?? new Font("Microsoft Sans Serif", 8.25f);
 
-            SetOkText(okText);
+            _cueText = cueText ?? string.Empty;
 
-            SetCancelText(cancelText);
+            _caption = caption;
 
-            SetPasswordEnabled(passwordEnabled);
+            _defaultResponse = defaultResponse;
 
-            SetTitle(title);
+            _prompt = prompt;
+            #endregion
 
-            SetStartPosition(startPosition);
+            // Update contents to match requirements
+            UpdateText();
 
-            SetPromptTextAlignment(inputTextAlignment);
+            UpdateButtons();
+
+            // Finally calculate and set form sizing
+            UpdateSizing();
         }
         #endregion
 
-        private void KryptonInputBoxTest_Load(object sender, EventArgs e)
+
+        #region Implementation
+        private static string InternalShow(IWin32Window owner, string prompt, string caption, string defaultResponse,
+                                           Color? cueColour, Font? cueTypeface, string cueText)
         {
+            IWin32Window showOwner = null;
 
-        }
-
-        private void KryptonInputBoxTest_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
-
-        private void kbtnCancel_Click(object sender, EventArgs e) => DialogResult = DialogResult.Cancel;
-
-        private void kbtnOk_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
-
-        #region Methods
-        /// <summary>Sets the password enabled.</summary>
-        /// <param name="passwordEnabled">if set to <c>true</c> [password enabled].</param>
-        private void SetPasswordEnabled(bool passwordEnabled) => ktxtInput.UseSystemPasswordChar = passwordEnabled;
-
-        /// <summary>Sets the ok text.</summary>
-        /// <param name="okText">The ok text.</param>
-        private void SetOkText(string okText) => kbtnOk.Text = okText;
-
-        /// <summary>Sets the cancel text.</summary>
-        /// <param name="cancelText">The cancel text.</param>
-        private void SetCancelText(string cancelText) => kbtnCancel.Text = cancelText;
-
-        /// <summary>Sets the prompt.</summary>
-        /// <param name="prompt">The prompt.</param>
-        private void SetPrompt(string prompt) => ktxtInput.CueHint.CueHintText = prompt;
-
-        /// <summary>Sets the message.</summary>
-        /// <param name="message">The message.</param>
-        private void SetMessage(string message) => kwlMessage.Text = message;
-
-        /// <summary>Sets the start position.</summary>
-        /// <param name="startPosition">The start position.</param>
-        private void SetStartPosition(FormStartPosition startPosition) => StartPosition = startPosition;
-
-        private void SetTitle(string title) => Text = title;
-
-        /// <summary>Retrieves the user response.</summary>
-        /// <returns>The user's response.</returns>
-        public string RetrieveUserResponse() => ktxtInput.Text;
-
-        /// <summary>Enables the ok button.</summary>
-        /// <param name="value">if set to <c>true</c> [value].</param>
-        private void EnableOkButton(bool value)
-        {
-            if (value)
+            // If do not have an owner passed in then get the active window and use that instead
+            if (owner == null)
             {
-                kbtnOk.Enabled = true;
+                showOwner = Control.FromHandle(PI.GetActiveWindow());
             }
             else
             {
-                kbtnOk.Enabled = false;
+                showOwner = owner;
             }
-        }
 
-        /// <summary>Internals the show.</summary>
-        /// <param name="owner">The owner.</param>
-        /// <param name="title">The title.</param>
-        /// <param name="message">The message.</param>
-        /// <param name="prompt">The prompt.</param>
-        /// <param name="okText">The ok text.</param>
-        /// <param name="cancelText">The cancel text.</param>
-        /// <param name="passwordEnabled">if set to <c>true</c> [password enabled].</param>
-        /// <param name="startPosition">The start position.</param>
-        /// <param name="inputTextAlignment">The input text alignment.</param>
-        /// <returns></returns>
-        private static string InternalShow(IWin32Window owner, string title, string message, string prompt = "", string okText = "O&k", string cancelText = "&Cancel", bool passwordEnabled = false, FormStartPosition startPosition = FormStartPosition.WindowsDefaultLocation, HorizontalAlignment inputTextAlignment = HorizontalAlignment.Left)
-        {
-            IWin32Window showOwner = owner ?? FromHandle(PI.GetActiveWindow());
-
-            using (KryptonInputBox kib = new(title, message, prompt, okText, cancelText, passwordEnabled, startPosition, inputTextAlignment))
+            // Show input box window as a modal dialog and then dispose of it afterwards
+            using (KryptonInputBox ib = new KryptonInputBox(prompt, caption, defaultResponse, cueColour, cueTypeface, cueText))
             {
-                kib.StartPosition = showOwner == null ? startPosition : startPosition;
+                if (showOwner == null)
+                {
+                    ib.StartPosition = FormStartPosition.CenterScreen;
+                }
+                else
+                {
+                    ib.StartPosition = FormStartPosition.CenterParent;
+                }
 
-                return kib.ShowDialog(showOwner) == DialogResult.OK ? kib.GetUserResponse() : string.Empty;
+                if (ib.ShowDialog(showOwner) == DialogResult.OK)
+                {
+                    return ib.InputResponse;
+                }
+                else
+                {
+                    return string.Empty;
+                }
             }
         }
 
-        private string GetUserResponse() => ktxtInput.Text;
+        internal string InputResponse => _textBoxResponse.Text;
 
+        private void UpdateText()
+        {
+            Text = _caption;
+            _labelPrompt.Text = _prompt;
+            _textBoxResponse.Text = _defaultResponse;
 
-        /// <summary>Shows the specified owner.</summary>
-        /// <param name="owner">The owner.</param>
-        /// <param name="title">The title.</param>
-        /// <param name="message">The message.</param>
-        /// <param name="prompt">The prompt.</param>
-        /// <param name="okText">The ok text.</param>
-        /// <param name="cancelText">The cancel text.</param>
-        /// <param name="passwordEnabled">if set to <c>true</c> [password enabled].</param>
-        /// <param name="startPosition">The start position.</param>
-        /// <param name="inputTextAlignment">The input text alignment.</param>
-        /// <returns>A new KryptonInputBox</returns>
-        public static string Show(IWin32Window owner, string title, string message, string prompt = "", string okText = "O&k", string cancelText = "&Cancel", bool passwordEnabled = false, FormStartPosition startPosition = FormStartPosition.WindowsDefaultLocation, HorizontalAlignment inputTextAlignment = HorizontalAlignment.Left) => InternalShow(owner, title, message, prompt, okText, cancelText, passwordEnabled, startPosition, inputTextAlignment);
+            _textBoxResponse.CueHint.Color1 = _cueColour;
 
-        private void SetPromptTextAlignment(HorizontalAlignment alignment) => ktxtInput.TextAlign = alignment;
+            _textBoxResponse.CueHint.Font = _cueTypeface;
+
+            _textBoxResponse.CueHint.CueHintText = _cueText;
+        }
+
+        private void UpdateButtons()
+        {
+            _buttonOK.Text = KryptonManager.Strings.OK;
+            _buttonCancel.Text = KryptonManager.Strings.Cancel;
+        }
+
+        private void UpdateSizing()
+        {
+            Size buttonSize = UpdateButtonSizing();
+            Size promptSize = UpdatePromptSizing();
+            Size responseSize = UpdateResponseSizing();
+            ClientSize = new Size(_buttonCancel.Right + GAP, _textBoxResponse.Bottom + GAP);
+        }
+
+        private Size UpdatePromptSizing()
+        {
+            // Update size of the message label but with a maximum width
+            using (Graphics g = CreateGraphics())
+            {
+                // Find size of the label when it has a maximum length of 250, this tells us the height
+                // required to fully show the label with the prompt.
+                _labelPrompt.UpdateFont();
+                Size messageSize = g.MeasureString(_prompt, _labelPrompt.Font, 250).ToSize();
+
+                // Work out DPI adjustment factor
+                float factorX = g.DpiX > 96 ? (1.0f * g.DpiX / 96) : 1.0f;
+                float factorY = g.DpiY > 96 ? (1.0f * g.DpiY / 96) : 1.0f;
+                messageSize.Width = (int)((float)messageSize.Width * factorX);
+                messageSize.Height = (int)((float)messageSize.Height * factorY);
+
+                _labelPrompt.Location = new Point(GAP, GAP);
+                _labelPrompt.Size = new Size(255, Math.Max(messageSize.Height, _buttonCancel.Bottom - _buttonOK.Top));
+
+                return new Size(_labelPrompt.Right, _labelPrompt.Bottom);
+            }
+        }
+        private Size UpdateButtonSizing()
+        {
+            Size buttonOKSize = _buttonOK.GetPreferredSize(Size.Empty);
+            Size buttonCancelSize = _buttonCancel.GetPreferredSize(Size.Empty);
+
+            // Make both buttons the size of the largest one
+            Size largestButton = new Size(Math.Max(buttonOKSize.Width, buttonCancelSize.Width), Math.Max(buttonOKSize.Height, buttonCancelSize.Height));
+            _buttonOK.Size = largestButton;
+            _buttonCancel.Size = largestButton;
+
+            // Position the buttons relative to the top left of the owning panel
+            _buttonOK.Location = new Point(_panelMessage.Right - _buttonOK.Width - GAP, GAP);
+            _buttonCancel.Location = new Point(_panelMessage.Right - _buttonCancel.Width - GAP, _buttonOK.Bottom + GAP / 2);
+
+            // We need enough space for the buttons and gaps on either size
+            return new Size(_buttonOK.Left + GAP, _buttonCancel.Bottom + GAP);
+        }
+
+        private Size UpdateResponseSizing()
+        {
+            // Position the response text box below the prompt
+            _textBoxResponse.Location = new Point(GAP, _labelPrompt.Bottom + GAP);
+            _textBoxResponse.Width = _buttonOK.Right - _textBoxResponse.Left;
+            return _textBoxResponse.Size;
+        }
+
+        private void button_keyDown(object sender, KeyEventArgs e)
+        {
+            // Escape key kills the dialog if we allow it to be closed
+            if ((e.KeyCode == Keys.Escape) && ControlBox)
+                Close();
+        }
         #endregion
-
-        private void ktxtInput_TextChanged(object sender, EventArgs e) => EnableOkButton(string.IsNullOrEmpty(ktxtInput.Text));
-
-        private void ktxtInput_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                kbtnOk.PerformClick();
-            }
-        }
     }
 }

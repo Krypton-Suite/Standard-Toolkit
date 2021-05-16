@@ -15,7 +15,7 @@ namespace Krypton.Toolkit.Utilities
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-#if NET35
+#if NET35 || NET40
 #else
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
