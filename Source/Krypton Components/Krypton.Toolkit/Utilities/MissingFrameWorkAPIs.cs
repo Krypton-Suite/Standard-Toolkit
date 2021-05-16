@@ -16,7 +16,7 @@ namespace Krypton.Toolkit.Utilities
         /// <param name="value"></param>
         /// <returns></returns>
 #if NET35 || NET40
-#else
+#else // NET45_OR_GREATER || CORE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsNullOrWhiteSpace(string value)
