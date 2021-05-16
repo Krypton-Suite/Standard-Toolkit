@@ -107,7 +107,7 @@ These packages only support .NET Framework 4.8 and .NET 5/6.
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
 * New `KryptonMessageBoxManager`, now you can configure a `KryptonMessageBox` through the designer
-Documentation [#97](https://github.com/Krypton-Suite/Standard-Toolkit/issues/97), Add descriptions & documentation
+* Documentation [#97](https://github.com/Krypton-Suite/Standard-Toolkit/issues/97), Add descriptions & documentation
 * Implemented [#93](https://github.com/Krypton-Suite/Standard-Toolkit/issues/93), For a `KryptonMessageBox`: Please describe difference between **owner** and **parentWindow** parameters
 * Fixed [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92), **Many* Items cannot be Dragged and dropped onto a Form in Designer
 * Fixed [#91](https://github.com/Krypton-Suite/Standard-Toolkit/issues/91), Cannot add items to KryptonGroupBox in designer
