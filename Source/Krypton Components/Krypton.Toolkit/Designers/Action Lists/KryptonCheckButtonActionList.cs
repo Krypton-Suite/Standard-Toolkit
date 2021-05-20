@@ -75,79 +75,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/99
-        public ContextMenuStrip ContextMenuStrip
-        {
-            get => _checkButton.ContextMenuStrip;
-
-            set
-            {
-                if (_checkButton.ContextMenuStrip != value)
-                {
-                    _service.OnComponentChanged(_checkButton, null, _checkButton.ContextMenuStrip, value);
-
-                    _checkButton.ContextMenuStrip = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the font.</summary>
-        /// <value>The font.</value>
-        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/99
-        public Font ShortTextFont
-        {
-            get => _checkButton.StateCommon.Content.ShortText.Font;
-
-            set
-            {
-                if (_checkButton.StateCommon.Content.ShortText.Font != value)
-                {
-                    _service.OnComponentChanged(_checkButton, null, _checkButton.StateCommon.Content.ShortText.Font, value);
-
-                    _checkButton.StateCommon.Content.ShortText.Font = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the font.</summary>
-        /// <value>The font.</value>
-        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/99
-        public Font LongTextFont
-        {
-            get => _checkButton.StateCommon.Content.LongText.Font;
-
-            set
-            {
-                if (_checkButton.StateCommon.Content.LongText.Font != value)
-                {
-                    _service.OnComponentChanged(_checkButton, null, _checkButton.StateCommon.Content.LongText.Font, value);
-
-                    _checkButton.StateCommon.Content.LongText.Font = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(-1)]
-        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/99
-        public int CornerRadius
-        {
-            get => _checkButton.StateCommon.Border.Rounding;
-
-            set
-            {
-                if (_checkButton.StateCommon.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_checkButton, null, _checkButton.StateCommon.Border.Rounding, value);
-
-                    _checkButton.StateCommon.Border.Rounding = value;
-                }
-            }
-        }
         #endregion
 
         #region Public Override
@@ -168,10 +95,6 @@ namespace Krypton.Toolkit
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnCheckedClick), "Appearance"));
                 actions.Add(new DesignerActionPropertyItem("ButtonStyle", "Style", "Appearance", "Button style"));
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Button orientation"));
-                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
-                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
-                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
-                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Button text"));
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Button extra text"));
