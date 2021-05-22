@@ -101,6 +101,12 @@ These packages only support .NET Framework 4.8 and .NET 5/6.
 
 =======
 
+# How to build?
+
+Please follow [this](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha-Documentation/Documents/Development/How-to-Build.md) guide for instructions on how to build the toolkit.
+
+=======
+
 ## Version History
 
 =======
