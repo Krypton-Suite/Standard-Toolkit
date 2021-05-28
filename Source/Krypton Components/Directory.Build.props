@@ -21,4 +21,6 @@
   <ItemGroup>
 	  <None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Canary.png" Link="Icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
+
+  <SupportedRuntimeIdentifiers>win-x86;win-x64;win-arm;win-arm64</SupportedRuntimeIdentifiers>
 </Project>
