@@ -22,6 +22,7 @@
         <UseWindowsForms>true</UseWindowsForms>
         <LangVersion>9.0</LangVersion>
         <PlatformTarget>AnyCPU</PlatformTarget>
+        <!--<RuntimeIdentifiers>win-x86;win-x64;win-arm;win-arm64</RuntimeIdentifiers>-->
     </PropertyGroup>
 
     <ItemGroup>
