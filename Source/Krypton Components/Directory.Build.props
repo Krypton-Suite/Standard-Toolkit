@@ -1,12 +1,16 @@
 <Project>
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm;win-arm64</RuntimeIdentifiers>
+  </PropertyGroup>
   
   <PropertyGroup>
     <!-- common project data -->
 	  <Version>$(LibraryVersion)</Version>
     <!-- two flavors of TFM are supported : 'all' where the NuGet package include all supported tfms. 'lite' with only .net core and .net 4.5 support -->
     <TFMs Condition="'$(TFMs)' == ''">lite</TFMs>
-    <RuntimeIdentifiers>win-x86;win-x64;win-arm;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -17,7 +21,6 @@
 	  <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 	  <PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .Net Toolkit Core</PackageTags>
 	  <PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
-    <RuntimeIdentifiers>win-x86;win-x64;win-arm;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
   
   <ItemGroup>
