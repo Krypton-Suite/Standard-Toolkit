@@ -1,4 +1,18 @@
-﻿using System;
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  
+ *  Modified: Friday 23rd April, 2021 @ 19:30 GMT
+ *
+ */
+#endregion
+
+using System;
 using System.Windows.Forms;
 
 namespace Krypton.Toolkit
@@ -12,21 +26,21 @@ namespace Krypton.Toolkit
         #region Design Code
         private KryptonButton kbtnOk;
         private KryptonButton kbtnCancel;
-        private KryptonPanel kryptonPanel2;
-        private KryptonTextBox ktxtPrompt;
+        private KryptonBorderEdge kryptonBorderEdge1;
         private KryptonWrapLabel kwlMessage;
-        private System.Windows.Forms.Panel panel1;
+        private KryptonPanel kryptonPanel2;
+        private KryptonTextBox ktxtInput;
         private KryptonPanel kryptonPanel1;
 
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kbtnOk = new Krypton.Toolkit.KryptonButton();
             this.kbtnCancel = new Krypton.Toolkit.KryptonButton();
-            this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
-            this.ktxtPrompt = new Krypton.Toolkit.KryptonTextBox();
             this.kwlMessage = new Krypton.Toolkit.KryptonWrapLabel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
+            this.ktxtInput = new Krypton.Toolkit.KryptonTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -35,13 +49,23 @@ namespace Krypton.Toolkit
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Controls.Add(this.kbtnOk);
             this.kryptonPanel1.Controls.Add(this.kbtnCancel);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 69);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 77);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(357, 49);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonBorderEdge1
+            // 
+            this.kryptonBorderEdge1.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
+            this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(357, 1);
+            this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kbtnOk
             // 
@@ -51,7 +75,7 @@ namespace Krypton.Toolkit
             this.kbtnOk.Name = "kbtnOk";
             this.kbtnOk.Size = new System.Drawing.Size(90, 25);
             this.kbtnOk.TabIndex = 1;
-            this.kbtnOk.Values.Text = "&OK";
+            this.kbtnOk.Values.Text = "O&k";
             this.kbtnOk.Click += new System.EventHandler(this.kbtnOk_Click);
             // 
             // kbtnCancel
@@ -65,25 +89,6 @@ namespace Krypton.Toolkit
             this.kbtnCancel.Values.Text = "&Cancel";
             this.kbtnCancel.Click += new System.EventHandler(this.kbtnCancel_Click);
             // 
-            // kryptonPanel2
-            // 
-            this.kryptonPanel2.Controls.Add(this.ktxtPrompt);
-            this.kryptonPanel2.Controls.Add(this.kwlMessage);
-            this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
-            this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(357, 69);
-            this.kryptonPanel2.TabIndex = 1;
-            // 
-            // ktxtPrompt
-            // 
-            this.ktxtPrompt.Location = new System.Drawing.Point(12, 37);
-            this.ktxtPrompt.Name = "ktxtPrompt";
-            this.ktxtPrompt.Size = new System.Drawing.Size(333, 23);
-            this.ktxtPrompt.TabIndex = 1;
-            this.ktxtPrompt.TextChanged += new System.EventHandler(this.ktxtPrompt_TextChanged);
-            this.ktxtPrompt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ktxtPrompt_KeyDown);
-            // 
             // kwlMessage
             // 
             this.kwlMessage.AutoSize = false;
@@ -96,21 +101,30 @@ namespace Krypton.Toolkit
             this.kwlMessage.Text = "{0}";
             this.kwlMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // panel1
+            // kryptonPanel2
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 66);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(357, 3);
-            this.panel1.TabIndex = 2;
+            this.kryptonPanel2.Controls.Add(this.ktxtInput);
+            this.kryptonPanel2.Controls.Add(this.kwlMessage);
+            this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
+            this.kryptonPanel2.Name = "kryptonPanel2";
+            this.kryptonPanel2.Size = new System.Drawing.Size(357, 77);
+            this.kryptonPanel2.TabIndex = 1;
+            // 
+            // ktxtInput
+            // 
+            this.ktxtInput.Location = new System.Drawing.Point(13, 35);
+            this.ktxtInput.Name = "ktxtInput";
+            this.ktxtInput.Size = new System.Drawing.Size(332, 23);
+            this.ktxtInput.TabIndex = 1;
+            this.ktxtInput.TextChanged += new System.EventHandler(this.ktxtInput_TextChanged);
+            this.ktxtInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ktxtInput_KeyDown);
             // 
             // KryptonInputBox
             // 
             this.AcceptButton = this.kbtnOk;
             this.CancelButton = this.kbtnCancel;
-            this.ClientSize = new System.Drawing.Size(357, 118);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(357, 126);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -123,6 +137,7 @@ namespace Krypton.Toolkit
             this.Load += new System.EventHandler(this.KryptonInputBoxTest_Load);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
+            this.kryptonPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
             this.kryptonPanel2.ResumeLayout(false);
             this.kryptonPanel2.PerformLayout();
@@ -173,28 +188,18 @@ namespace Krypton.Toolkit
 
         }
 
-        private void ktxtPrompt_TextChanged(object sender, EventArgs e) => EnableOkButton(ktxtPrompt.Text != "");
-
-        private void ktxtPrompt_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter) kbtnOk.PerformClick();
-        }
-
-        private void kbtnCancel_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void kbtnCancel_Click(object sender, EventArgs e) => DialogResult = DialogResult.Cancel;
 
         private void kbtnOk_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
 
         #region Methods
-        private void SetPasswordEnabled(bool passwordEnabled) => ktxtPrompt.UseSystemPasswordChar = passwordEnabled;
+        private void SetPasswordEnabled(bool passwordEnabled) => ktxtInput.UseSystemPasswordChar = passwordEnabled;
 
         private void SetOkText(string okText) => kbtnOk.Text = okText;
 
         private void SetCancelText(string cancelText) => kbtnCancel.Text = cancelText;
 
-        private void SetPrompt(string prompt) => ktxtPrompt.Hint = prompt;
+        private void SetPrompt(string prompt) => ktxtInput.Hint = prompt;
 
         private void SetMessage(string message) => kwlMessage.Text = message;
 
@@ -204,7 +209,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Retrieves the user response.</summary>
         /// <returns>The user's response.</returns>
-        public string RetrieveUserResponse() => ktxtPrompt.Text;
+        public string RetrieveUserResponse() => ktxtInput.Text;
 
         /// <summary>Enables the ok button.</summary>
         /// <param name="value">if set to <c>true</c> [value].</param>
@@ -243,7 +248,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private string GetUserResponse() => ktxtPrompt.Text;
+        private string GetUserResponse() => ktxtInput.Text;
 
 
         /// <summary>Shows the specified owner.</summary>
@@ -259,7 +264,17 @@ namespace Krypton.Toolkit
         /// <returns>A new KryptonInputBox</returns>
         public static string Show(IWin32Window owner, string title, string message, string prompt = "", string okText = "O&k", string cancelText = "&Cancel", bool passwordEnabled = false, FormStartPosition startPosition = FormStartPosition.WindowsDefaultLocation, HorizontalAlignment inputTextAlignment = HorizontalAlignment.Left) => InternalShow(owner, title, message, prompt, okText, cancelText, passwordEnabled, startPosition, inputTextAlignment);
 
-        private void SetPromptTextAlignment(HorizontalAlignment alignment) => ktxtPrompt.TextAlign = alignment;
+        private void SetPromptTextAlignment(HorizontalAlignment alignment) => ktxtInput.TextAlign = alignment;
         #endregion
+
+        private void ktxtInput_TextChanged(object sender, EventArgs e) => EnableOkButton(string.IsNullOrEmpty(ktxtInput.Text));
+
+        private void ktxtInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                kbtnOk.PerformClick();
+            }
+        }
     }
 }

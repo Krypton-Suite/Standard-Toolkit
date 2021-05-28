@@ -1,8 +1,16 @@
-﻿// *****************************************************************************
-// BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
-//  Created by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 6.0.0  
-// *****************************************************************************
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
+ *
+ */
+#endregion
 
 using System;
 using System.ComponentModel;
@@ -18,7 +26,7 @@ namespace Krypton.Toolkit
     public class ShadowValues : Storage
     {
         #region statics
-        private static Point _defaultOffset = new Point(5,5);
+        private static Point _defaultOffset = new Point(5, 5);
         private double _blurDistance;
         private bool _enableShadows;
         private Point _offset;
@@ -162,7 +170,7 @@ namespace Krypton.Toolkit
             get => _blurDistance;
             set
             {
-                if (Math.Abs(_blurDistance - value) > 0.001 
+                if (Math.Abs(_blurDistance - value) > 0.001
                     && 0 <= value
                     && value <= 100
                     )
@@ -233,7 +241,7 @@ namespace Krypton.Toolkit
                     OpacityChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
-        }   
+        }
 
         private bool ShouldSerializeOpacity()
         {
