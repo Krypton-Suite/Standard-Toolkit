@@ -12,8 +12,6 @@
  */
 #endregion
 
-using Krypton.Toolkit;
-
 namespace Krypton.Ribbon
 {
     /// <summary>

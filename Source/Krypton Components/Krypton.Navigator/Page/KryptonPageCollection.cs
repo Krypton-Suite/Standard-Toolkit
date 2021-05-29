@@ -12,8 +12,6 @@
  */
 #endregion
 
-using System.Collections.Generic;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {

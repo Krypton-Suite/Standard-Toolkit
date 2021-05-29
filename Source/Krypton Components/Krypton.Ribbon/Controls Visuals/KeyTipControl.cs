@@ -12,15 +12,10 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
-    internal class KeyTipControl : Form
+    internal class KeyTipControl : KryptonForm
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
@@ -274,7 +269,8 @@ namespace Krypton.Ribbon
         private void StartTimer()
         {
             // Start timer to take care of re drawing the display
-            Timer redrawTimer = new Timer
+            // TODO: Something is not quite right here!
+            System.Windows.Forms.Timer redrawTimer = new System.Windows.Forms.Timer()
             {
                 Interval = 1
             };
@@ -284,7 +280,7 @@ namespace Krypton.Ribbon
 
         private void OnRedrawTick(object sender, EventArgs e)
         {
-            Timer redrawTimer = (Timer)sender;
+            System.Windows.Forms.Timer redrawTimer = (System.Windows.Forms.Timer)sender;
             redrawTimer.Stop();
             redrawTimer.Dispose();
 

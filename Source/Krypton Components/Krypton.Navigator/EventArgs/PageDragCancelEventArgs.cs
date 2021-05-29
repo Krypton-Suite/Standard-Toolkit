@@ -12,9 +12,6 @@
  */
 #endregion
 
-using System.Windows.Forms;
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Krypton.Navigator
 {

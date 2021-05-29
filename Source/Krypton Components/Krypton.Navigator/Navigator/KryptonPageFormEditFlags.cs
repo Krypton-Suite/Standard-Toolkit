@@ -12,12 +12,10 @@
  */
 #endregion
 
-using System;
-using System.Windows.Forms;
 
 namespace Krypton.Navigator
 {
-    internal partial class KryptonPageFormEditFlags : Form
+    internal partial class KryptonPageFormEditFlags : KryptonForm
     {
         #region Instance Fields
         private readonly KryptonPage _page;

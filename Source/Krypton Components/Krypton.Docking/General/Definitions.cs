@@ -12,7 +12,6 @@
  */
 #endregion
 
-
 namespace Krypton.Docking
 {
     #region Interface IDockingElement

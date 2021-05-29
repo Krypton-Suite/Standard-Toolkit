@@ -12,17 +12,13 @@
  */
 #endregion
 
-using Krypton.Toolkit;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Navigator
 {
     /// <summary>
     /// Draws a semi-transparent window to indicate a drop rectangle.
     /// </summary>
-    public class DropSolidWindow : Form
+    public class DropSolidWindow : KryptonForm
     {
         #region Instance Fields
         private readonly IPaletteDragDrop _paletteDragDrop;
