@@ -20,6 +20,7 @@ global using System.Collections.Generic;
 global using System.ComponentModel.Design;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Drawing;
+global using System.Drawing.Imaging;
 global using System.Diagnostics;
 global using System.Drawing.Design;
 global using System.Drawing.Drawing2D;
