@@ -20,7 +20,7 @@
         <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <UseWindowsForms>true</UseWindowsForms>
-        <LangVersion>9.0</LangVersion>
+        <LangVersion>preview</LangVersion>
         <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
 

@@ -12,12 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Diagnostics;
-using System.Collections.Generic;
-using Krypton.Toolkit;
-using Krypton.Navigator;
 
 namespace Krypton.Docking
 {
