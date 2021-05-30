@@ -22,6 +22,7 @@ namespace Krypton.Ribbon
         private List<ViewDrawRibbonKeyTip> _viewList;
         private string _prefix;
         private readonly bool _showDisabled;
+        private System.Windows.Forms.Timer _redrawTimer = null;
         #endregion
 
         #region Identity
@@ -269,20 +270,19 @@ namespace Krypton.Ribbon
         private void StartTimer()
         {
             // Start timer to take care of re drawing the display
-            // TODO: Something is not quite right here!
-            System.Windows.Forms.Timer redrawTimer = new System.Windows.Forms.Timer()
+            _redrawTimer = new System.Windows.Forms.Timer
             {
                 Interval = 1
             };
-            redrawTimer.Tick += OnRedrawTick;
-            redrawTimer.Start();
+            _redrawTimer.Tick += OnRedrawTick;
+            _redrawTimer.Start();
         }
 
         private void OnRedrawTick(object sender, EventArgs e)
         {
-            System.Windows.Forms.Timer redrawTimer = (System.Windows.Forms.Timer)sender;
-            redrawTimer.Stop();
-            redrawTimer.Dispose();
+            _redrawTimer = (System.Windows.Forms.Timer)sender;
+            _redrawTimer.Stop();
+            _redrawTimer.Dispose();
 
             // Show the window and so cause it to be redrawn
             if (!IsDisposed && (Handle != IntPtr.Zero))

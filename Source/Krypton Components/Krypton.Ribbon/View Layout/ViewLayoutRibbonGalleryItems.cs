@@ -12,11 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -39,7 +34,7 @@ namespace Krypton.Ribbon
         private readonly PaletteTripleToPalette _triple;
         private readonly KryptonGallery _gallery;
         private ButtonStyle _style;
-        private readonly Timer _scrollTimer;
+        private readonly System.Windows.Forms.Timer _scrollTimer;
         private Size _itemSize;
         private int _lineItems;
         private int _displayLines;
@@ -97,7 +92,7 @@ namespace Krypton.Ribbon
                                                  PaletteContentStyle.ButtonLowProfile);
 
             // Setup timer to use for scrolling lines
-            _scrollTimer = new Timer
+            _scrollTimer = new System.Windows.Forms.Timer
             {
                 Interval = 40
             };
