@@ -12,11 +12,6 @@
  */
 #endregion
 
-using System.Collections;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-
 namespace Krypton.Toolkit
 {
     internal class KryptonTextBoxColumnDesigner : ComponentDesigner

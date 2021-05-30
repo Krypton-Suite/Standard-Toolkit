@@ -23,6 +23,7 @@ global using System.Diagnostics.CodeAnalysis;
 global using System.Drawing;
 global using System.Drawing.Design;
 global using System.Drawing.Drawing2D;
+global using System.Drawing.Imaging;
 global using System.Drawing.Text;
 global using System.Globalization;
 global using System.IO;
@@ -39,6 +40,8 @@ global using System.Text;
 global using System.Text.RegularExpressions;
 global using System.Threading;
 global using System.Windows.Forms;
+global using System.Windows.Forms.Design;
+global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
 

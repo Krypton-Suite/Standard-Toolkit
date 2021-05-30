@@ -12,12 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Collections.Generic;
 
 namespace Krypton.Toolkit
 {
@@ -308,13 +302,13 @@ namespace Krypton.Toolkit
                 // 
                 buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
                 buttonMoveUp.Image = Properties.Resources.arrow_up_blue;
-                buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonMoveUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveUp.Location = new Point(272, 32);
                 buttonMoveUp.Name = "buttonMoveUp";
                 buttonMoveUp.Size = new Size(95, 28);
                 buttonMoveUp.TabIndex = 2;
                 buttonMoveUp.Text = "Move Up";
-                buttonMoveUp.TextAlign = ContentAlignment.MiddleLeft;
+                buttonMoveUp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveUp.TextImageRelation = TextImageRelation.ImageBeforeText;
                 buttonMoveUp.UseVisualStyleBackColor = true;
                 buttonMoveUp.Click += buttonMoveUp_Click;
@@ -323,13 +317,13 @@ namespace Krypton.Toolkit
                 // 
                 buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
                 buttonMoveDown.Image = Properties.Resources.arrow_down_blue;
-                buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonMoveDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveDown.Location = new Point(272, 66);
                 buttonMoveDown.Name = "buttonMoveDown";
                 buttonMoveDown.Size = new Size(95, 28);
                 buttonMoveDown.TabIndex = 3;
                 buttonMoveDown.Text = "Move Down";
-                buttonMoveDown.TextAlign = ContentAlignment.MiddleLeft;
+                buttonMoveDown.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveDown.TextImageRelation = TextImageRelation.ImageBeforeText;
                 buttonMoveDown.UseVisualStyleBackColor = true;
                 buttonMoveDown.Click += buttonMoveDown_Click;
@@ -338,13 +332,13 @@ namespace Krypton.Toolkit
                 // 
                 buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
                 buttonAddItem.Image = Properties.Resources.add;
-                buttonAddItem.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddItem.Location = new Point(272, 112);
                 buttonAddItem.Name = "buttonAddItem";
                 buttonAddItem.Size = new Size(95, 28);
                 buttonAddItem.TabIndex = 4;
                 buttonAddItem.Text = "Add Sibling";
-                buttonAddItem.TextAlign = ContentAlignment.MiddleLeft;
+                buttonAddItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddItem.TextImageRelation = TextImageRelation.ImageBeforeText;
                 buttonAddItem.UseVisualStyleBackColor = true;
                 buttonAddItem.Click += buttonAddSibling_Click;
@@ -353,13 +347,13 @@ namespace Krypton.Toolkit
                 // 
                 buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
                 buttonDelete.Image = Properties.Resources.delete2;
-                buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonDelete.Location = new Point(272, 190);
                 buttonDelete.Name = "buttonDelete";
                 buttonDelete.Size = new Size(95, 28);
                 buttonDelete.TabIndex = 5;
                 buttonDelete.Text = "Delete Item";
-                buttonDelete.TextAlign = ContentAlignment.MiddleLeft;
+                buttonDelete.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
                 buttonDelete.UseVisualStyleBackColor = true;
                 buttonDelete.Click += buttonDelete_Click;
@@ -398,13 +392,13 @@ namespace Krypton.Toolkit
                 // 
                 buttonAddChild.Anchor = AnchorStyles.Top | AnchorStyles.Right;
                 buttonAddChild.Image = Properties.Resources.add;
-                buttonAddChild.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddChild.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddChild.Location = new Point(272, 146);
                 buttonAddChild.Name = "buttonAddChild";
                 buttonAddChild.Size = new Size(95, 28);
                 buttonAddChild.TabIndex = 9;
                 buttonAddChild.Text = "Add Child";
-                buttonAddChild.TextAlign = ContentAlignment.MiddleLeft;
+                buttonAddChild.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddChild.TextImageRelation = TextImageRelation.ImageBeforeText;
                 buttonAddChild.UseVisualStyleBackColor = true;
                 buttonAddChild.Click += buttonAddChild_Click;
