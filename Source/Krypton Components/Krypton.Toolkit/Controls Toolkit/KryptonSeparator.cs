@@ -12,10 +12,6 @@
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -38,7 +34,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawSeparator _drawSeparator;
         private readonly SeparatorController _separatorController;
         private Orientation _orientation;
-        private Timer _redrawTimer;
+        private System.Windows.Forms.Timer _redrawTimer;
         private Point _designLastPt;
         private int _splitterWidth;
 
@@ -162,7 +158,7 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDocker);
 
             // Use timer to redraw after windows messages are processed
-            _redrawTimer = new Timer
+            _redrawTimer = new System.Windows.Forms.Timer
             {
                 Interval = 1
             };
