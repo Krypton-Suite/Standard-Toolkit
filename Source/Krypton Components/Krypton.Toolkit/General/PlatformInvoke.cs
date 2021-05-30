@@ -23,15 +23,6 @@
 #pragma warning disable 649
 
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit
 {
     internal class PI

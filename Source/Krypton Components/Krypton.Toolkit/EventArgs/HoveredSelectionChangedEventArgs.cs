@@ -12,8 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
 // ReSharper disable MemberCanBeInternal
 // ReSharper disable UnusedMember.Global
 
