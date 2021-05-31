@@ -30,6 +30,7 @@ global using System.IO;
 global using System.Linq;
 global using System.Media;
 global using System.Reflection;
+global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
 global using System.Runtime.Serialization;
 global using System.Runtime.Serialization.Formatters.Binary;
@@ -48,3 +49,5 @@ global using System.Xml;
 global using Krypton.Toolkit.Properties;
 
 global using Microsoft.Win32;
+
+global using static System.Windows.Forms.AxHost;

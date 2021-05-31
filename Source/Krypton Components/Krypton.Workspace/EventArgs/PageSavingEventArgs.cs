@@ -12,9 +12,6 @@
  */
 #endregion
 
-using System.Xml;
-
-using Krypton.Navigator;
 
 namespace Krypton.Workspace
 {

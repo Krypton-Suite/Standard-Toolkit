@@ -50,6 +50,8 @@ namespace Krypton.Docking
                 case DockingEdge.Bottom:
                     Padding = new Padding(0, EXTRA_PADDING, 0, 0);
                     break;
+                default:
+                    break;
             }
         }
         #endregion

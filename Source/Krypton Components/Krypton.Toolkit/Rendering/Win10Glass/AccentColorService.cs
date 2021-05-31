@@ -12,9 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Runtime.InteropServices;
 
 //https://github.com/File-New-Project/EarTrumpet/blob/master/EarTrumpet/Services/AccentColorService.cs
 //Seb add

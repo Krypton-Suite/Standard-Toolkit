@@ -12,8 +12,6 @@
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
 
 //Seb add
 //https://github.com/File-New-Project/EarTrumpet/blob/master/EarTrumpet/Services/ThemeService.cs
