@@ -1,4 +1,16 @@
-﻿using System;
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *
+ */
+#endregion
+
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -8,14 +20,9 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(StatusStrip)), Description("A Krypton based status strip."), ToolboxItem(true)]
     public class KryptonStatusStrip : StatusStrip
     {
-        #region Variables
-        private ToolStripProgressBar[] _progressBars;
-
-        private Color[] _progressbarColours;
-        #endregion
-
         #region Properties
-        public ToolStripProgressBar[] ProgressBars { get => _progressBars; set => _progressBars = value; }
+        public ToolStripProgressBar[] ProgressBars { get; set; }
+
         #endregion
 
         #region Constructor
@@ -31,9 +38,12 @@ namespace Krypton.Toolkit
         {
             if (ToolStripManager.Renderer is KryptonProfessionalRenderer kpr)
             {
-                foreach (ToolStripProgressBar progressBar in ProgressBars)
+                if (ProgressBars != null)
                 {
-                    progressBar.BackColor = kpr.KCT.StatusStripGradientEnd;
+                    foreach (ToolStripProgressBar progressBar in ProgressBars)
+                    {
+                        progressBar.BackColor = kpr.KCT.StatusStripGradientEnd;
+                    }
                 }
             }
 
