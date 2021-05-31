@@ -12,13 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -334,7 +327,7 @@ namespace Krypton.Toolkit
                 // buttonDelete
                 // 
                 buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonDelete.ImageIndex = 9;
                 buttonDelete.ImageList = imageList;
                 buttonDelete.Location = new Point(282, 467);
@@ -349,7 +342,7 @@ namespace Krypton.Toolkit
                 // buttonMoveUp
                 // 
                 buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonMoveUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveUp.ImageIndex = 10;
                 buttonMoveUp.ImageList = imageList;
                 buttonMoveUp.Location = new Point(282, 29);
@@ -364,7 +357,7 @@ namespace Krypton.Toolkit
                 // buttonMoveDown
                 // 
                 buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonMoveDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveDown.ImageIndex = 11;
                 buttonMoveDown.ImageList = imageList;
                 buttonMoveDown.Location = new Point(282, 60);
@@ -379,7 +372,7 @@ namespace Krypton.Toolkit
                 // buttonAddCheckBox
                 // 
                 buttonAddCheckBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddCheckBox.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddCheckBox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddCheckBox.ImageIndex = 6;
                 buttonAddCheckBox.ImageList = imageList;
                 buttonAddCheckBox.Location = new Point(282, 222);
@@ -394,7 +387,7 @@ namespace Krypton.Toolkit
                 // buttonAddCheckButton
                 // 
                 buttonAddCheckButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddCheckButton.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddCheckButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddCheckButton.ImageIndex = 7;
                 buttonAddCheckButton.ImageList = imageList;
                 buttonAddCheckButton.Location = new Point(282, 256);
@@ -409,7 +402,7 @@ namespace Krypton.Toolkit
                 // buttonAddRadioButton
                 // 
                 buttonAddRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddRadioButton.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddRadioButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddRadioButton.ImageIndex = 5;
                 buttonAddRadioButton.ImageList = imageList;
                 buttonAddRadioButton.Location = new Point(282, 286);
@@ -424,7 +417,7 @@ namespace Krypton.Toolkit
                 // buttonAddLinkLabel
                 // 
                 buttonAddLinkLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddLinkLabel.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddLinkLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddLinkLabel.ImageIndex = 8;
                 buttonAddLinkLabel.ImageList = imageList;
                 buttonAddLinkLabel.Location = new Point(282, 318);
@@ -439,7 +432,7 @@ namespace Krypton.Toolkit
                 // buttonAddSeparator
                 // 
                 buttonAddSeparator.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddSeparator.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddSeparator.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddSeparator.ImageIndex = 4;
                 buttonAddSeparator.ImageList = imageList;
                 buttonAddSeparator.Location = new Point(282, 190);
@@ -454,7 +447,7 @@ namespace Krypton.Toolkit
                 // buttonAddItem
                 // 
                 buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddItem.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddItem.ImageIndex = 2;
                 buttonAddItem.ImageList = imageList;
                 buttonAddItem.Location = new Point(282, 94);
@@ -469,7 +462,7 @@ namespace Krypton.Toolkit
                 // buttonAddItems
                 // 
                 buttonAddItems.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddItems.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddItems.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddItems.ImageIndex = 3;
                 buttonAddItems.ImageList = imageList;
                 buttonAddItems.Location = new Point(282, 126);
@@ -484,7 +477,7 @@ namespace Krypton.Toolkit
                 // buttonAddHeading
                 // 
                 buttonAddHeading.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddHeading.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddHeading.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddHeading.ImageIndex = 1;
                 buttonAddHeading.ImageList = imageList;
                 buttonAddHeading.Location = new Point(282, 158);
@@ -499,7 +492,7 @@ namespace Krypton.Toolkit
                 // buttonAddMonthCalendar
                 // 
                 buttonAddMonthCalendar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddMonthCalendar.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddMonthCalendar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddMonthCalendar.ImageIndex = 13;
                 buttonAddMonthCalendar.ImageList = imageList;
                 buttonAddMonthCalendar.Location = new Point(282, 412);
@@ -514,7 +507,7 @@ namespace Krypton.Toolkit
                 // buttonAddComboBox
                 // 
                 buttonAddComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddComboBox.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddComboBox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddComboBox.ImageIndex = 14;
                 buttonAddComboBox.ImageList = imageList;
                 buttonAddComboBox.Location = new Point(282, 440);
@@ -549,7 +542,7 @@ namespace Krypton.Toolkit
                 // buttonAddColorColumns
                 // 
                 buttonAddColorColumns.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddColorColumns.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddColorColumns.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddColorColumns.ImageIndex = 0;
                 buttonAddColorColumns.ImageList = imageList;
                 buttonAddColorColumns.Location = new Point(282, 350);
@@ -564,7 +557,7 @@ namespace Krypton.Toolkit
                 // buttonAddImageSelect
                 // 
                 buttonAddImageSelect.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddImageSelect.ImageAlign = ContentAlignment.MiddleLeft;
+                buttonAddImageSelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddImageSelect.ImageIndex = 12;
                 buttonAddImageSelect.ImageList = imageList;
                 buttonAddImageSelect.Location = new Point(282, 380);

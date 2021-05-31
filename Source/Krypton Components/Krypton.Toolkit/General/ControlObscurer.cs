@@ -12,13 +12,9 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
-{    
+{
     /// <summary>
     /// Used to obscure an area of the screen to hide form changes underneath.
     /// </summary>

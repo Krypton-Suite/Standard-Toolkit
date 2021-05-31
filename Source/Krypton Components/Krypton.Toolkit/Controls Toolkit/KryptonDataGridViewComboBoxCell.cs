@@ -12,11 +12,6 @@
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Windows.Forms;
 // ReSharper disable MemberCanBeInternal
 
 namespace Krypton.Toolkit

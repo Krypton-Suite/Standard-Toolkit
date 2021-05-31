@@ -20,7 +20,7 @@
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>
-        <LangVersion>9.0</LangVersion>
+        <LangVersion>preview</LangVersion>
         <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
     <ItemGroup>

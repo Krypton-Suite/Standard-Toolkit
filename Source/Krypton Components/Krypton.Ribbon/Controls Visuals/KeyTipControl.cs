@@ -12,21 +12,17 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
-    internal class KeyTipControl : Form
+    internal class KeyTipControl : KryptonForm
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private List<ViewDrawRibbonKeyTip> _viewList;
         private string _prefix;
         private readonly bool _showDisabled;
+        private System.Windows.Forms.Timer _redrawTimer = null;
         #endregion
 
         #region Identity
@@ -274,19 +270,19 @@ namespace Krypton.Ribbon
         private void StartTimer()
         {
             // Start timer to take care of re drawing the display
-            Timer redrawTimer = new Timer
+            _redrawTimer = new System.Windows.Forms.Timer
             {
                 Interval = 1
             };
-            redrawTimer.Tick += OnRedrawTick;
-            redrawTimer.Start();
+            _redrawTimer.Tick += OnRedrawTick;
+            _redrawTimer.Start();
         }
 
         private void OnRedrawTick(object sender, EventArgs e)
         {
-            Timer redrawTimer = (Timer)sender;
-            redrawTimer.Stop();
-            redrawTimer.Dispose();
+            _redrawTimer = (System.Windows.Forms.Timer)sender;
+            _redrawTimer.Stop();
+            _redrawTimer.Dispose();
 
             // Show the window and so cause it to be redrawn
             if (!IsDisposed && (Handle != IntPtr.Zero))

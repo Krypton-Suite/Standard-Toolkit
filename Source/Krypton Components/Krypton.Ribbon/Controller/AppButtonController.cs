@@ -12,10 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -34,7 +30,7 @@ namespace Krypton.Ribbon
         private bool _mouseDown;
         private bool _fixedPressed;
         private bool _hasFocus;
-        private readonly Timer _updateTimer;
+        private readonly System.Windows.Forms.Timer _updateTimer;
         #endregion
 
         #region Events
@@ -61,7 +57,7 @@ namespace Krypton.Ribbon
         public AppButtonController(KryptonRibbon ribbon)
         {
             _ribbon = ribbon;
-            _updateTimer = new Timer
+            _updateTimer = new System.Windows.Forms.Timer
             {
                 Interval = 1
             };

@@ -12,9 +12,6 @@
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-
 namespace Krypton.Docking
 {
     /// <summary>

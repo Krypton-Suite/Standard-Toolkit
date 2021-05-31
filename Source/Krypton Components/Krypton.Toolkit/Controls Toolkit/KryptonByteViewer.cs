@@ -13,17 +13,6 @@
 #endregion
 
 #if NETFRAMEWORK // https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks
-using System;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Globalization;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -58,7 +47,7 @@ namespace Krypton.Toolkit
         }
 #endregion
 
-#region Private Constants
+        #region Private Constants
         private const int DEFAULT_COLUMN_COUNT = 16;
         private const int DEFAULT_ROW_COUNT = 25;
         private const int COLUMN_COUNT = 16;

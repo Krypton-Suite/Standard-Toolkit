@@ -12,13 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Windows.Forms.VisualStyles;
-using System.Runtime.InteropServices;
 
 namespace Krypton.Toolkit
 {

@@ -12,15 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Xml;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Krypton.Toolkit;
-using Krypton.Navigator;
-
 namespace Krypton.Docking
 {
     /// <summary>

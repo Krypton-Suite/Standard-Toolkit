@@ -12,9 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Text;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {

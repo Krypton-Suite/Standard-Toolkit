@@ -12,9 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -24,8 +21,7 @@ namespace Krypton.Toolkit
     public class ToolTipManager
     {
         #region Instance Fields
-        private readonly Timer _startTimer;
-        private readonly Timer _stopTimer;
+        private readonly System.Windows.Forms.Timer _startTimer, _stopTimer;
         private ViewBase _startTarget;
         private ViewBase _currentTarget;
         private bool _showingToolTips;
@@ -49,13 +45,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public ToolTipManager()
         {
-            _startTimer = new Timer
+            _startTimer = new System.Windows.Forms.Timer
             {
                 Interval = 1200
             };
             _startTimer.Tick += OnStartTimerTick;
 
-            _stopTimer = new Timer
+            _stopTimer = new System.Windows.Forms.Timer
             {
                 Interval = 100
             };

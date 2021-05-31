@@ -12,22 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading;
-using System.Windows.Forms;
-using System.Xml;
-
-using Krypton.Toolkit.Utilities;
-
 namespace Krypton.Toolkit
 {
     /// <summary>

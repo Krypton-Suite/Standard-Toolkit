@@ -12,17 +12,13 @@
  */
 #endregion
 
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
     /// <summary>
     /// Draws a window containing square docking indicators.
     /// </summary>
-    public class DropDockingIndicatorsSquare : Form,
+    public class DropDockingIndicatorsSquare : KryptonForm,
                                                IDropDockingIndicator
     {
         #region Instance Fields

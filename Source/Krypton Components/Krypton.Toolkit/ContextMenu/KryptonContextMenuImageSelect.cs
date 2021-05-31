@@ -12,10 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -42,7 +38,7 @@ namespace Krypton.Toolkit
         private int _trackingIndex;
         private int _cacheTrackingIndex;
         private int _eventTrackingIndex;
-        private readonly Timer _trackingEventTimer;
+        private readonly System.Windows.Forms.Timer _trackingEventTimer;
         #endregion
 
         #region Events
@@ -86,7 +82,7 @@ namespace Krypton.Toolkit
             _style = ButtonStyle.LowProfile;
 
             // Timer used to generate tracking change event
-            _trackingEventTimer = new Timer
+            _trackingEventTimer = new System.Windows.Forms.Timer
             {
                 Interval = 120
             };

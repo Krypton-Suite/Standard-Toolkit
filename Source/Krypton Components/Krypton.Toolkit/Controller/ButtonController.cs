@@ -12,10 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -36,7 +32,7 @@ namespace Krypton.Toolkit
         private bool _draggingAttempt;
         private bool _preDragOffset;
         private NeedPaintHandler _needPaint;
-        private Timer _repeatTimer;
+        private System.Windows.Forms.Timer _repeatTimer, _t;
         private Rectangle _dragRect;
 
         #endregion
@@ -327,7 +323,7 @@ namespace Krypton.Toolkit
                                 // If we need to perform click repeats then use a timer...
                                 if (Repeat)
                                 {
-                                    _repeatTimer = new Timer
+                                    _repeatTimer = new System.Windows.Forms.Timer
                                     {
                                         Interval = SystemInformation.DoubleClickTime
                                     };
@@ -935,8 +931,8 @@ namespace Krypton.Toolkit
         private void OnRepeatTimer(object sender, EventArgs e)
         {
             // Modify subsequent repeat timing
-            Timer t = (Timer)sender;
-            t.Interval = Math.Max(SystemInformation.DoubleClickTime / 4, 100);
+            _t = (System.Windows.Forms.Timer)sender;
+            _t.Interval = Math.Max(SystemInformation.DoubleClickTime / 4, 100);
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
         }
         #endregion

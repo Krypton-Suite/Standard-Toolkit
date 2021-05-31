@@ -12,10 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -29,7 +25,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly ViewDrawTP _drawTB;
-        private Timer _repeatTimer;
+        private System.Windows.Forms.Timer _repeatTimer;
         private bool _captured;
         private int _targetValue;
         private Point _lastMovePt;
@@ -99,7 +95,7 @@ namespace Krypton.Toolkit
                     OnRepeatTimer(_repeatTimer, EventArgs.Empty);
 
                     // Use timer to keep moving towards the target value
-                    _repeatTimer = new Timer
+                    _repeatTimer = new System.Windows.Forms.Timer
                     {
                         Interval = SystemInformation.DoubleClickTime
                     };

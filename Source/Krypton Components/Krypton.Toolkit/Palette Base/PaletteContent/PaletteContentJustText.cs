@@ -12,12 +12,11 @@
  */
 #endregion
 
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Implement storage but remove accesss to the non text properties.
+    /// Implement storage but remove access to the non text properties.
     /// </summary>
     public class PaletteContentJustText : PaletteContent
     {

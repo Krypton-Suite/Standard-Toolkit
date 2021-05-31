@@ -12,8 +12,6 @@
  */
 #endregion
 
-using System.Drawing;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
