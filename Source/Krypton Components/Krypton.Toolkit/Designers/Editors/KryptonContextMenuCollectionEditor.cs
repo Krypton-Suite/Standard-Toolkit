@@ -12,8 +12,6 @@
  */
 #endregion
 
-using System;
-using System.ComponentModel.Design;
 
 namespace Krypton.Toolkit
 {
@@ -22,8 +20,7 @@ namespace Krypton.Toolkit
     /// </summary>
     public partial class KryptonContextMenuCollectionEditor : CollectionEditor
     {
-
-#region Classes
+        #region Classes
         #endregion
 
         #region Identity

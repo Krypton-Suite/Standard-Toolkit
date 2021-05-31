@@ -12,8 +12,6 @@
  */
 #endregion
 
-using System.Collections.Generic;
-
 namespace Krypton.Docking
 {
     /// <summary>

@@ -12,17 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
-
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
@@ -163,7 +152,7 @@ namespace Krypton.Toolkit
         private RowHeaderCache _rowCache;
         private Point _cellOver;
         private Point _cellDown;
-        private Timer _showTimer;
+        private System.Windows.Forms.Timer _showTimer;
         private bool _hideOuterBorders;
         private string _toolTipText;
         private byte _oldLocation;
@@ -1744,7 +1733,7 @@ namespace Krypton.Toolkit
             GridStyles = new DataGridViewStyles(this);
             _columnCache = new ColumnHeaderCache();
             _rowCache = new RowHeaderCache();
-            _showTimer = new Timer
+            _showTimer = new System.Windows.Forms.Timer
             {
                 Interval = 500
             };

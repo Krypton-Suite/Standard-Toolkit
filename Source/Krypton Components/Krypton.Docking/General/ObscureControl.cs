@@ -12,8 +12,6 @@
  */
 #endregion
 
-using System.Windows.Forms;
-
 namespace Krypton.Docking
 {
     internal class ObscureControl : Control

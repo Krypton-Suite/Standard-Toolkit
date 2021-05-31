@@ -12,7 +12,6 @@
  */
 #endregion
 
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {

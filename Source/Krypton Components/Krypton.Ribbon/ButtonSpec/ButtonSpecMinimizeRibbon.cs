@@ -12,10 +12,6 @@
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {

@@ -12,15 +12,10 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
-    internal partial class KryptonCheckButtonCollectionForm : Form
+    internal partial class KryptonCheckButtonCollectionForm : KryptonForm
     {
         #region Type Definitions
         private class ListEntry

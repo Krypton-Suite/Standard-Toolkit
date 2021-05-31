@@ -12,14 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Globalization;
-using System.Text;
-using System.Windows.Forms;
 // ReSharper disable UnusedMember.Global
 
 namespace Krypton.Toolkit

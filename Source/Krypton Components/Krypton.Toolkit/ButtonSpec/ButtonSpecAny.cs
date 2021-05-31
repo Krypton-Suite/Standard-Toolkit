@@ -12,8 +12,6 @@
  */
 #endregion
 
-using System;
-using System.ComponentModel;
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable MemberCanBeInternal
 // ReSharper disable MemberCanBePrivate.Global

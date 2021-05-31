@@ -12,10 +12,6 @@
  */
 #endregion
 
-using System.ComponentModel;
-using Krypton.Toolkit;
-using Krypton.Navigator;
-
 namespace Krypton.Docking
 {
     /// <summary>

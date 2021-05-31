@@ -12,11 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -32,7 +27,7 @@ namespace Krypton.Ribbon
         private bool _mouseOver;
         private bool _mouseDown;
         private readonly NeedPaintHandler _needPaint;
-        private readonly Timer _updateTimer;
+        private readonly System.Windows.Forms.Timer _updateTimer;
         #endregion
 
         #region Events
@@ -61,7 +56,7 @@ namespace Krypton.Ribbon
             Target = target;
             _needPaint = needPaint;
 
-            _updateTimer = new Timer
+            _updateTimer = new System.Windows.Forms.Timer
             {
                 Interval = 1
             };

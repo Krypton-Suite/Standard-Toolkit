@@ -12,20 +12,6 @@
  */
 #endregion
 
-using Krypton.Navigator;
-using Krypton.Toolkit;
-using Krypton.Workspace;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
-using System.Xml;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBeProtected.Global
 

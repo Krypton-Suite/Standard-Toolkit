@@ -12,12 +12,8 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 
-namespace Krypton.Toolkit.General
+namespace Krypton.Toolkit
 {
     /// <summary>
     /// Manages the drawing of Shadows
@@ -28,7 +24,7 @@ namespace Krypton.Toolkit.General
         private readonly VisualForm _parentForm;
         private readonly BlurValues _blurValues;
         private VisualBlur _visualBlur;
-        private Timer _detectIsActiveTimer;
+        private System.Windows.Forms.Timer _detectIsActiveTimer;
         #endregion
 
         #region Identity
@@ -39,7 +35,7 @@ namespace Krypton.Toolkit.General
             _blurValues = blurValues;
 
             _parentForm.Closing += KryptonFormOnClosing;
-            _detectIsActiveTimer = new Timer { Enabled = false, Interval = 200 };
+            _detectIsActiveTimer = new System.Windows.Forms.Timer { Enabled = false, Interval = 200 };
             _detectIsActiveTimer.Tick += DetectIsTopMost;
 
             _blurValues.EnableBlurChanged += BlurValues_EnableBlurChanged;
@@ -67,6 +63,8 @@ namespace Krypton.Toolkit.General
                     {
                         RemoveBlur();
                     }
+                    break;
+                default:
                     break;
             }
         }

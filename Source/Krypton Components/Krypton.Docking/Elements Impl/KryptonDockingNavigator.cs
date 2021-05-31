@@ -12,14 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Xml;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
-using Krypton.Workspace;
 // ReSharper disable MemberCanBeInternal
 
 namespace Krypton.Docking

@@ -12,11 +12,9 @@
  */
 #endregion
 
-using System.ComponentModel;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable MemberCanBeInternal
-
 
 namespace Krypton.Toolkit
 {

@@ -12,13 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Security.Permissions;
-using Krypton.Navigator;
-using Krypton.Toolkit;
-
 namespace Krypton.Docking
 {
     /// <summary>
@@ -32,7 +25,7 @@ namespace Krypton.Docking
         private readonly KryptonDockingManager _manager;
         private Point _offset;
         private Point _screenPt;
-        private readonly Timer _moveTimer;
+        private readonly System.Windows.Forms.Timer _moveTimer;
         private bool _addedFilter;
         private bool _monitorMouse;
         #endregion
@@ -49,7 +42,7 @@ namespace Krypton.Docking
             _offset = Point.Empty;
 
             // Use timer to ensure we do not update the display too quickly which then causes tearing
-            _moveTimer = new Timer
+            _moveTimer = new System.Windows.Forms.Timer
             {
                 Interval = 10
             };

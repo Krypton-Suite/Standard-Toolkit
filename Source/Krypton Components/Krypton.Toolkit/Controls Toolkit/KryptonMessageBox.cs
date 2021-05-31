@@ -12,17 +12,6 @@
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Media;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
-
-using Krypton.Toolkit.Properties;
-using Krypton.Toolkit.Utilities;
-
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMethodReturnValue.Global

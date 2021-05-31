@@ -12,15 +12,6 @@
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Reflection;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable IdentifierTypo
