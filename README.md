@@ -112,6 +112,7 @@ Please follow [this](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alph
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
+* New `KryptonWebBrowser`Control allowing `KryptonContext` menus [#113](https://github.com/Krypton-Suite/Standard-Toolkit/issues/113)
 * New `KryptonMessageBoxManager`, now you can configure a `KryptonMessageBox` through the designer
 * Fixed [#122](https://github.com/Krypton-Suite/Standard-Toolkit/issues/122), Placing a `KryptonStatusStrip` in the Designer causes an exception
 * Implemented [#117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/117), Consolidate `using` statements
