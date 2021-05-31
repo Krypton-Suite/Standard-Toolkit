@@ -2215,6 +2215,9 @@ namespace Krypton.Toolkit
 
         internal const int CURSOR_SHOWING = 0x00000001;
         internal const int VK_ESCAPE = 0x1B;
+        internal const int VK_MENU = 0x12;  // https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+        internal const int VK_LMENU = 0xA4;
+        internal const int VK_RMENU = 0xA5;
         internal const int PRF_CLIENT = 0x00000004;
         internal const int MA_NOACTIVATE = 0x03;
         internal const int EM_FORMATRANGE = 0x0439;
