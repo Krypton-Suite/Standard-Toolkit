@@ -12,9 +12,6 @@
  */
 #endregion
 
-using System.Drawing;
-using System.Diagnostics;
-
 namespace Krypton.Toolkit
 {
     internal class KryptonProfessionalKCT : KryptonColorTable
