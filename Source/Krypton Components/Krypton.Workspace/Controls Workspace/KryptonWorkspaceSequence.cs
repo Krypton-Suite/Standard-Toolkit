@@ -12,15 +12,6 @@
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
-using System.Xml;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
 
 namespace Krypton.Workspace
 {
