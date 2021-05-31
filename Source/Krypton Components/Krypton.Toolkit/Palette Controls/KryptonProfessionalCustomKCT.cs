@@ -12,8 +12,6 @@
  */
 #endregion
 
-using System.Drawing;
-
 namespace Krypton.Toolkit
 {
     internal class KryptonProfessionalCustomKCT : KryptonProfessionalKCT

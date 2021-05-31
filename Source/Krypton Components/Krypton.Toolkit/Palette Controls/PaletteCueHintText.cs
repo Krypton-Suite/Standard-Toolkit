@@ -4,16 +4,6 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Windows.Forms;
-
-using Krypton.Toolkit.Utilities;
-
-using static System.Windows.Forms.AxHost;
-
 namespace Krypton.Toolkit
 {
     /// <summary>

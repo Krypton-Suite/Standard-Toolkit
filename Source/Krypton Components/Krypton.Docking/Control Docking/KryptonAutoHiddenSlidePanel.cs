@@ -47,8 +47,7 @@ namespace Krypton.Docking
         private DockingAutoHiddenShowState _state;
         private Rectangle _startRect;
         private Rectangle _endRect;
-        private Timer _slideTimer;
-        private Timer _dismissTimer;
+        private System.Windows.Forms.Timer _slideTimer, _dismissTimer;
         private bool _dismissRunning;
         private IntPtr _mouseTrackWindow;
         #endregion
@@ -120,14 +119,14 @@ namespace Krypton.Docking
             _checkMakeHidden = OnCheckMakeHidden;
 
             // We need to a timer to automate sliding in and out
-            _slideTimer = new Timer
+            _slideTimer = new System.Windows.Forms.Timer
             {
                 Interval = SLIDE_INTERVAL
             };
             _slideTimer.Tick += OnSlideTimerTick;
 
             // Timer used to delay between notification of need to slide inwards and performing actual slide
-            _dismissTimer = new Timer
+            _dismissTimer = new System.Windows.Forms.Timer
             {
                 Interval = DISMISS_INTERVAL
             };

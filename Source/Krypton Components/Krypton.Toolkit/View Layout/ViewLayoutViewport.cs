@@ -12,10 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -33,7 +29,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private readonly Timer _animationTimer;
+        private readonly System.Windows.Forms.Timer _animationTimer;
         private IPaletteMetric _paletteMetrics;
         private PaletteMetricPadding _metricPadding;
         private PaletteMetricInt _metricOvers;
@@ -86,7 +82,7 @@ namespace Krypton.Toolkit
             CounterAlignment = RelativePositionAlign.Far;
 
             // Create a timer for animation effect
-            _animationTimer = new Timer
+            _animationTimer = new System.Windows.Forms.Timer
             {
                 Interval = _animationInterval
             };

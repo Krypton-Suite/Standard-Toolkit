@@ -12,10 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -31,7 +27,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private IContextMenuTarget _target;
         private IContextMenuTarget _targetSubMenu;
-        private Timer _itemDelayTimer;
+        private System.Windows.Forms.Timer _itemDelayTimer;
         #endregion
 
         #region Identity
@@ -44,7 +40,7 @@ namespace Krypton.Toolkit
             : base(control, root)
         {
             // Create timer to notify targets when the standard delay expires
-            _itemDelayTimer = new Timer
+            _itemDelayTimer = new System.Windows.Forms.Timer
             {
                 Interval = Math.Max(1, SystemInformation.MenuShowDelay)
             };

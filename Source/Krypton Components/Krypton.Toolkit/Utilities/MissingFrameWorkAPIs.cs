@@ -4,9 +4,7 @@
 //  Version 6.0.0  
 // *****************************************************************************
 
-using System.Runtime.CompilerServices;
-
-namespace Krypton.Toolkit.Utilities
+namespace Krypton.Toolkit
 {
     public static class MissingFrameWorkAPIs
     {

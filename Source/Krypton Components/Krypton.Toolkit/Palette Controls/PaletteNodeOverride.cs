@@ -12,14 +12,11 @@
  */
 #endregion
 
-using System;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Allow some palette values to be overriden.
+    /// Allow some palette values to be overridden.
     /// </summary>
     public class PaletteNodeOverride : GlobalId,
                                        IPaletteTriple

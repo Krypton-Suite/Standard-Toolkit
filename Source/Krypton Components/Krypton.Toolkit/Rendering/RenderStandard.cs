@@ -12,15 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using System.Diagnostics;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -6381,7 +6372,7 @@ namespace Krypton.Toolkit
         }
 #endregion
 
-#region Implementation Glyph
+        #region Implementation Glyph
         private static CheckBoxState DiscoverCheckBoxState(bool enabled,
                                                            CheckState checkState,
                                                            bool tracking,
@@ -7253,7 +7244,7 @@ namespace Krypton.Toolkit
         }
 #endregion
 
-#region Implementation Ribbon
+        #region Implementation Ribbon
         /// <summary>
         /// Internal rendering method.
         /// </summary>
@@ -11980,7 +11971,7 @@ namespace Krypton.Toolkit
         }
 #endregion
 
-#region StandardContentMemento
+        #region StandardContentMemento
         /// <summary>
         /// Internal help class used to store content rendering details.
         /// </summary>

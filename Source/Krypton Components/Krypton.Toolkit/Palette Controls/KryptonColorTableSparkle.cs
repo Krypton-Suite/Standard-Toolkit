@@ -12,10 +12,6 @@
  */
 #endregion
 
-using System.Drawing;
-using System.Diagnostics;
-using Microsoft.Win32;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
