@@ -112,8 +112,8 @@ Please follow [this](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alph
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
-* Removed `KryptonStatusStrip` & `KryptonToolStrip` - to be implemented in the `Extended Toolkit`
 * New `KryptonMessageBoxManager`, now you can configure a `KryptonMessageBox` through the designer
+* Fixed [#122](https://github.com/Krypton-Suite/Standard-Toolkit/issues/122), Placing a `KryptonStatusStrip` in the Designer causes an exception
 * Fixed [#106](https://github.com/Krypton-Suite/Standard-Toolkit/issues/106), 'MethodImplOptions' does not contain a definition for 'AggressiveInlining'
 * Fixed [#102](https://github.com/Krypton-Suite/Standard-Toolkit/issues/102), `KryptonInputBox` does not compile
 * Fixed [#99](https://github.com/Krypton-Suite/Standard-Toolkit/issues/99), There is no need to replace some functions in `KryptonCheckButtonActionList`
