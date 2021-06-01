@@ -340,7 +340,7 @@
         <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
     <PropertyGroup>
-        <AssemblyVersion>5.550.2106</AssemblyVersion>
-        <FileVersion>5.550.2106</FileVersion>
+        <AssemblyVersion>5.550.2106.1</AssemblyVersion>
+        <FileVersion>5.550.2106.1</FileVersion>
     </PropertyGroup>
 </Project>
