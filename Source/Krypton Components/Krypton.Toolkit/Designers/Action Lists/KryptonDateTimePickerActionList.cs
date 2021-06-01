@@ -1,14 +1,18 @@
-﻿// *****************************************************************************
-// BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
-//  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
-// The software and associated documentation supplied hereunder are the 
-//  proprietary information of Component Factory Pty Ltd, 13 Swallows Close, 
-//  Mornington, Vic 3931, Australia and are supplied subject to license terms.
-// 
-//  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 6.0.0  
-// *****************************************************************************
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
+ *
+ */
+#endregion
 
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
@@ -155,6 +159,24 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the corner radius.</summary>
+        /// <value>The corner radius.</value>
+        [DefaultValue(-1)]
+        public int CornerRadius
+        {
+            get => _dateTimePicker.StateCommon.Border.Rounding;
+
+            set
+            {
+                if (_dateTimePicker.StateCommon.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.StateCommon.Border.Rounding, value);
+
+                    _dateTimePicker.StateCommon.Border.Rounding = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -178,6 +200,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("ShowCheckBox", "ShowCheckBox", "Appearance", "Display a check box allowing the user to set the value is null"));
                 actions.Add(new DesignerActionPropertyItem("Checked", "Checked", "Appearance", "Is the current value null"));
                 actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The font for the date time picker."));
+                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }
