@@ -1,8 +1,16 @@
-﻿// *****************************************************************************
-// BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
-//  Created by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 6.0.0  
-// *****************************************************************************
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
+ *
+ */
+#endregion
 
 using System;
 using System.Diagnostics;
@@ -45,7 +53,7 @@ namespace Krypton.Toolkit
                 Width = 2,
 
                 Parent = IntPtr.Zero,//_ownerHandle,
-                Style = unchecked((int) (PI.WS_.DISABLED | PI.WS_.POPUP)),
+                Style = unchecked((int)(PI.WS_.DISABLED | PI.WS_.POPUP)),
                 ExStyle = PI.WS_EX_.LAYERED | PI.WS_EX_.NOACTIVATE | PI.WS_EX_.TRANSPARENT | PI.WS_EX_.NOPARENTNOTIFY
             };
 
@@ -76,7 +84,7 @@ namespace Krypton.Toolkit
             get => _optimisedVisible;
             set
             {
-                if ( _optimisedVisible != value )
+                if (_optimisedVisible != value)
                 {
                     _optimisedVisible = value;
                     if (!value)
@@ -179,7 +187,7 @@ namespace Krypton.Toolkit
                 {
                     BlendOp = PI.AC_SRC_OVER,
                     BlendFlags = 0,
-                    SourceConstantAlpha = (byte)(255 * _shadowValues.Opacity/100.0),
+                    SourceConstantAlpha = (byte)(255 * _shadowValues.Opacity / 100.0),
                     AlphaFormat = PI.AC_SRC_ALPHA
                 };
 
@@ -219,8 +227,8 @@ namespace Krypton.Toolkit
         private Rectangle CalcRectangle(Rectangle windowBounds)
         {
             int extraWidth = _shadowValues.ExtraWidth;
-            int w = windowBounds.Width + extraWidth*2;
-            int h = windowBounds.Height + extraWidth*2;
+            int w = windowBounds.Width + extraWidth * 2;
+            int h = windowBounds.Height + extraWidth * 2;
 
             int top;
             int left;
@@ -232,7 +240,7 @@ namespace Krypton.Toolkit
                 case VisualOrientation.Top:
                     top = 0;
                     left = 0;
-                    bottom = Math.Abs(_shadowValues.Offset.Y)+ extraWidth;
+                    bottom = Math.Abs(_shadowValues.Offset.Y) + extraWidth;
                     right = w;
                     break;
                 case VisualOrientation.Left:
