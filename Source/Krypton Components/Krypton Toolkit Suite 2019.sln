@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{8EC65998-9433-4A2D-8376-FB35DAC73B16}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\Documents\Development\Development-Workflow.md = ..\..\Documents\Development\Development-Workflow.md
+		..\..\Documents\Development\How to Manage Using Statements.md = ..\..\Documents\Development\How to Manage Using Statements.md
 		..\..\Documents\Development\How-to-Build.md = ..\..\Documents\Development\How-to-Build.md
 	EndProjectSection
 EndProject
@@ -68,7 +69,7 @@ Global
 		{8EC65998-9433-4A2D-8376-FB35DAC73B16} = {942DAEF7-509F-4BB7-B1DD-CBC28949CCF6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_StartDate = 2000/1/1
 		SolutionGuid = {ECEA7A85-0CA8-47A4-93BE-6AA896E9749D}
+		BuildVersion_StartDate = 2000/1/1
 	EndGlobalSection
 EndGlobal
