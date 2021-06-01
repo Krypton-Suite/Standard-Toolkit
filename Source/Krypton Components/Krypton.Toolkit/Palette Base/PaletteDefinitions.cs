@@ -1,13 +1,16 @@
-﻿// *****************************************************************************
-// BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
-//  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
-// The software and associated documentation supplied hereunder are the 
-//  proprietary information of Component Factory Pty Ltd, 13 Swallows Close, 
-//  Mornington, Vic 3931, Australia and are supplied subject to license terms.
-// 
-//  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
-//  Version 6.0.0  
-// *****************************************************************************
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
+ *
+ */
+#endregion
 
 using System;
 using System.ComponentModel;
@@ -2095,6 +2098,9 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Silver,
 
+        /// <summary>
+        /// Specifies the White color variant of the Office 2007 appearance.
+        /// </summary>
         Office2007White,
 
         /// <summary>
@@ -2112,6 +2118,9 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2010Silver,
 
+        /// <summary>
+        /// Specifies the White color variant of the Office 2010 appearance.
+        /// </summary>
         Office2010White,
 
         /// <summary>
@@ -2120,21 +2129,33 @@ namespace Krypton.Toolkit
         Office2010Black,
 
         /// <summary>
-        /// Specifies the Office 2013 palette theme.
+        /// Specifies the Office 2013 palette appearance.
         /// </summary>
         Office2013,
 
         /// <summary>
-        /// Specifies the Office 2013 White palette theme.
+        /// Specifies the White color variant of the Office 2013 appearance.
         /// </summary>
         Office2013White,
 
+        /// <summary>
+        /// Specifies the Black color variant of the Office 365 appearance.
+        /// </summary>
         Office365Black,
 
+        /// <summary>
+        /// Specifies the Blue color variant of the Office 365 appearance.
+        /// </summary>
         Office365Blue,
 
+        /// <summary>
+        /// Specifies the Silver color variant of the Office 365 appearance.
+        /// </summary>
         Office365Silver,
 
+        /// <summary>
+        /// Specifies the White color variant of the Office 365 appearance.
+        /// </summary>
         Office365White,
 
         /// <summary>
@@ -2184,6 +2205,9 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Silver,
 
+        /// <summary>
+        /// Specifies the White color variant of the Office 2007 appearance.
+        /// </summary>
         Office2007White,
 
         /// <summary>
@@ -2201,6 +2225,9 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2010Silver,
 
+        /// <summary>
+        /// Specifies the White color variant of the Office 2010 appearance.
+        /// </summary>
         Office2010White,
 
         /// <summary>
@@ -2209,21 +2236,33 @@ namespace Krypton.Toolkit
         Office2010Black,
 
         /// <summary>
-        /// Specifies the Office 2013 palette theme.
+        /// Specifies the Office 2013 appearance.
         /// </summary>
         Office2013,
 
         /// <summary>
-        /// Specifies the Office 2013 White palette theme.
+        /// Specifies the White color variant of the Office 2013 appearance.
         /// </summary>
         Office2013White,
 
+        /// <summary>
+        /// Specifies the Black color variant of the Office 365 appearance.
+        /// </summary>
         Office365Black,
 
+        /// <summary>
+        /// Specifies the Blue color variant of the Office 365 appearance.
+        /// </summary>
         Office365Blue,
 
+        /// <summary>
+        /// Specifies the Silver color variant of the Office 365 appearance.
+        /// </summary>
         Office365Silver,
 
+        /// <summary>
+        /// Specifies the White color variant of the Office 365 appearance.
+        /// </summary>
         Office365White,
 
         /// <summary>
