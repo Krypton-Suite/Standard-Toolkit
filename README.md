@@ -94,16 +94,10 @@ Follow the links to see the different objects and layouts that this framework al
 # Which packages should I use?
 
 ## Non-Lite
-Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 5/6 (Inclusive). Please note that these packages are larger than the lite packages.
+Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 6. Please note that these packages are larger than the lite packages.
 
 ## Lite
-These packages only support .NET Framework 4.8 and .NET 5/6.
-
-=======
-
-# How to build?
-
-Please follow [this](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha-Documentation/Documents/Development/How-to-Build.md) guide for instructions on how to build the toolkit.
+These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 
 =======
 
@@ -129,6 +123,17 @@ Please follow [this](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alph
 * Fixed [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
 * Fixed [#71](https://github.com/Krypton-Suite/Standard-Toolkit/issues/71), No design support while using Krypton.Ribbon in .NET 5/6 
 * Fixed [#54](https://github.com/Krypton-Suite/Standard-Toolkit/issues/54), .Net5 Winform Project - Dropping a KLabel onto a KGroup or KGroupBox causes an Exception in Designer
+
+=======
+
+## 2021-06-03 - Build 2106.1 - June 2021 (Update 1)
+* Fix NuGet package descriptions
+* Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
+
+=======
+
+## 2021-06-02 - Build 2106.1 - June 2021 (Update 1 - Canary)
+* Fix for [#129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/129), Canary NuGet description for `Lite` is incorrect
 
 =======
 
