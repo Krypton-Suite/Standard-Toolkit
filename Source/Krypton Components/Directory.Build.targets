@@ -4,13 +4,13 @@
     -->
 
     <PropertyGroup>
-        <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Lite</PackageId>
+        <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Signed.Lite</PackageId>
         <Description Condition="'$(TFMs)' == 'lite'">
          $(Description)
          This package supports only .NET Framework >= 4.5, .NET Core 3.1 and.NET 5.
          If you require .NET 3.5 support or want to use library fully build against your specific framework version use non-lite package.
         </Description>
-		<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId)</PackageId>
+		<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Signed</PackageId>
         <Description Condition="'$(TFMs)' == 'all'">
           $(Description)
           This package supports all .NET Framework versions starting .NET 3.5, .NET Core 3.1 and .NET 5.
