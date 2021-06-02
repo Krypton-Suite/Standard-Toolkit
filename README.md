@@ -107,12 +107,12 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 ## 2021-06-03 - Build 2106.1 - June 2021 (Update 1)
 * Fix NuGet package descriptions
+* Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
 
 =======
 
 ## 2021-06-02 - Build 2106.1 - June 2021 (Update 1 - Canary)
 * Fix for [#129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/129), Canary NuGet description for `Lite` is incorrect
-* Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
 
 =======
 
