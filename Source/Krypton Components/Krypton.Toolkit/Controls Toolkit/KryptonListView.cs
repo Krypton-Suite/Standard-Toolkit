@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
     /// A Kryptonised listview (experimental).
     /// </summary>
     /// <seealso cref="System.Windows.Forms.ListView" />
-    [Description("A Kryptonised listview (experimental)."), ToolboxBitmap(typeof(ListView)), ToolboxItem(true)]
-    public class KryptonListView : ListView
+    [Description("A Kryptonised listview (experimental)."), ToolboxBitmap(typeof(ListView)), ToolboxItem(false)]
+    private class KryptonListView : ListView
     {
         #region Designer Code
         private ImageList ilCheckBoxes;

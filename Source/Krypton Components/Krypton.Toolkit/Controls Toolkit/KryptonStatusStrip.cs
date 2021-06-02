@@ -5,8 +5,8 @@ using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    [ToolboxBitmap(typeof(StatusStrip)), Description("A Krypton based status strip."), ToolboxItem(true)]
-    public class KryptonStatusStrip : StatusStrip
+    [ToolboxBitmap(typeof(StatusStrip)), Description("A Krypton based status strip."), ToolboxItem(false)]
+    private class KryptonStatusStrip : StatusStrip
     {
         #region Variables
         private ToolStripProgressBar[] _progressBars;
