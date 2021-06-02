@@ -114,6 +114,11 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
 
+## 2021-06-01 Build 2106.1 - June 2021 (Update 1 - Canary)
+* Fix [#129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/129), Canary Nuget description for `Lite` is incorrect
+
+=======
+
 ## 2021-03-27 - Build 2103.1 - March 2021 (Update 1)
 * Remove the Auto Versioning on Each build
 * Fix [#52](https://github.com/Krypton-Suite/Standard-Toolkit/issues/52), Nuget Package descriptions need to be consistent (And published!)
