@@ -105,6 +105,16 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
 
+## 2021-06-03 - Build 2106.1 - June 2021 (Update 1)
+* Fix NuGet package descriptions
+
+=======
+
+## 2021-06-02 - Build 2106.1 - June 2021 (Update 1 - Canary)
+* Fix for [#129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/129), Canary NuGet description for `Lite` is incorrect
+
+=======
+
 ## 2021-06-01 - Build 2106 - June 2021
 * Allow the user to set a `ActivePage` on the `KryptonWorkspace` control
 * Implemented [#43](https://github.com/Krypton-Suite/Standard-Toolkit/issues/43), Access corner rounding features via Action Lists
