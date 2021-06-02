@@ -107,6 +107,7 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 ## 2021-06-03 - Build 2106.1 - June 2021 (Update 1)
 * Fix NuGet package descriptions
+* Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
 
 =======
 
@@ -121,11 +122,6 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 * Implemented [#60](https://github.com/Krypton-Suite/Standard-Toolkit/issues/60), As this project is now a long way from the original "ComponentFactory" - The BSD-3 License Header needs to change
 * Removed `Krypton.Toolkit.Values` namespace to comply with the general namespace. ***NOTE: This is likely to cause errors in your projects. To solve, please do a find/replace with `Krypton.Toolkit.Values` to `Krypton.Toolkit` in your source code.***
 * The `MultilineStringEditor` now inherits a `KryptonForm`
-
-=======
-
-## 2021-06-01 Build 2106.1 - June 2021 (Update 1 - Canary)
-* Fix [#129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/129), Canary Nuget description for `Lite` is incorrect
 
 =======
 
