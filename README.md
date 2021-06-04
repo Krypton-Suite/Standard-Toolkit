@@ -105,7 +105,7 @@ These packages only support .NET Framework >= 4.5 and .NET Core 3.1/.NET 5.
 
 =======
 
-## 2021-06-03 - Build 2106.1 - June 2021 (Update 1)
+## 2021-06-04 - Build 2106.1 - June 2021 (Update 1)
 * Fix NuGet package descriptions
 * Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
 
