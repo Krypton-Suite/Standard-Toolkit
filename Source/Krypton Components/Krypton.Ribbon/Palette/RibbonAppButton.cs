@@ -200,7 +200,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Text color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "White")]
         public Color AppButtonTextColor
         {
@@ -208,7 +208,7 @@ namespace Krypton.Ribbon
 
             set 
             {
-                if (_appButtonTextColor != null)
+                if (_appButtonTextColor != Color.Empty)
                 {
                     _appButtonTextColor = value;
                     _ribbon.PerformNeedPaint(true);

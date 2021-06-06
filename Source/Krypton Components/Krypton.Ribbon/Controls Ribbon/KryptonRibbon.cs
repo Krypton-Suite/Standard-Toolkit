@@ -3235,6 +3235,8 @@ namespace Krypton.Ribbon
                     // Display not updated until a layout occurs
                     PerformNeedPaint(true);
                     break;
+                default:
+                    break;
             }
         }
 

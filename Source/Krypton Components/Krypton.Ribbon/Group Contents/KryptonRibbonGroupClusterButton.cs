@@ -591,6 +591,8 @@ namespace Krypton.Ribbon
                 case "Checked":
                     OnPropertyChanged("Checked");
                     break;
+                default:
+                    break;
             }
         }
 
