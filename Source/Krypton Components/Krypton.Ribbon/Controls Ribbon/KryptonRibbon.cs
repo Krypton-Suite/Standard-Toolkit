@@ -2937,6 +2937,8 @@ namespace Krypton.Ribbon
                     }
                     catch (Exception exc)
                     {
+                        Debug.WriteLine(exc);
+
                         // Is platform invoke not available, then definitely not themed
                         _uxthemeNotAvailable = true;
                         return false;

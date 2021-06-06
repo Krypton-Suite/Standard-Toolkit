@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Darker base color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "31, 72, 161")]
         public Color AppButtonBaseColorDark
         {
@@ -160,7 +160,7 @@ namespace Krypton.Ribbon
 
             set 
             {
-                if (_appButtonBaseColorDark != null)
+                if (_appButtonBaseColorDark != Color.Empty)
                 {
                     _appButtonBaseColorDark = value;
                     _ribbon.PerformNeedPaint(true);
