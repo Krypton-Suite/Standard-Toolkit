@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
             _defaultResponse = defaultResposne;
             _cueText = cueText;
             _cueColour = cueColour ?? Color.Gray;
-            _cueTypeface = cueTypeface ?? new Font("Microsoft Sans Serif", 8f);
+            _cueTypeface = cueTypeface ?? new Font("Microsoft Sans Serif", 8.25f);
             _usePasswordOption = usePasswordOption ?? false;
 
             // Create the form contents
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
 
         private Size UpdateResponseSizing()
         {
-            // Position the reponse text box below the prompt
+            // Position the response text box below the prompt
             _textBoxResponse.Location = new Point(GAP, _labelPrompt.Bottom + GAP);
             _textBoxResponse.Width = _buttonOK.Right - _textBoxResponse.Left;
             return _textBoxResponse.Size;

@@ -106,15 +106,17 @@ These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
+* New `KryptonInputBoxManager` control, now you can configure a `KryptonInputBox` through the designer
+* Improved the `KryptonInputBox` to take advantage of the `KryptonTextBox` ***CueHint*** features
 * New `KryptonWebBrowser`Control allowing `KryptonContext` menus [#113](https://github.com/Krypton-Suite/Standard-Toolkit/issues/113)
-* New `KryptonMessageBoxManager`, now you can configure a `KryptonMessageBox` through the designer
+* New `KryptonMessageBoxManager` control, now you can configure a `KryptonMessageBox` through the designer
 * Fixed [#122](https://github.com/Krypton-Suite/Standard-Toolkit/issues/122), Placing a `KryptonStatusStrip` in the Designer causes an exception
 * Implemented [#117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/117), Consolidate `using` statements
 * Fixed [#106](https://github.com/Krypton-Suite/Standard-Toolkit/issues/106), 'MethodImplOptions' does not contain a definition for 'AggressiveInlining'
 * Fixed [#102](https://github.com/Krypton-Suite/Standard-Toolkit/issues/102), `KryptonInputBox` does not compile
 * Fixed [#99](https://github.com/Krypton-Suite/Standard-Toolkit/issues/99), There is no need to replace some functions in `KryptonCheckButtonActionList`
 * Documentation [#97](https://github.com/Krypton-Suite/Standard-Toolkit/issues/97), Add descriptions & documentation
-* Implemented [#93](https://github.com/Krypton-Suite/Standard-Toolkit/issues/93), For a `KryptonMessageBox`: Please describe difference between **owner** and **parentWindow** parameters
+* Implemented [#93](https://github.com/Krypton-Suite/Standard-Toolkit/issues/93), For a `KryptonMessageBox`: Please describe difference between ***owner*** and ***parentWindow*** parameters
 * Fixed [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92), **Many* Items cannot be Dragged and dropped onto a Form in Designer
 * Fixed [#91](https://github.com/Krypton-Suite/Standard-Toolkit/issues/91), Cannot add items to KryptonGroupBox in designer
 * Fixed [#84](https://github.com/Krypton-Suite/Standard-Toolkit/issues/84), Multi-Line Text Box does not support Hint
