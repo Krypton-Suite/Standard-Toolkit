@@ -1211,6 +1211,8 @@ namespace Krypton.Ribbon
                             }
                         }
                         break;
+                    default:
+                        break;
                 }
             }
             return false;

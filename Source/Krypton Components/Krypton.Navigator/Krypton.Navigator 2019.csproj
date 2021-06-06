@@ -89,9 +89,15 @@
     <PropertyGroup>
         <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
-    <PropertyGroup>
-        <AssemblyVersion>6.1.2108</AssemblyVersion>
-        <FileVersion>6.1.2108</FileVersion>
-    </PropertyGroup>
+
+  <!--Handle AssemblyInfo-->
+  <PropertyGroup>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
+    <Copyright>(c) ComponentFactory 2006 - 2016, modifications by Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV) 2017 - 2021</Copyright>
+    <AssemblyVersion>6.1.2108</AssemblyVersion>
+    <FileVersion>6.1.2108</FileVersion>
+  </PropertyGroup>
 
 </Project>
