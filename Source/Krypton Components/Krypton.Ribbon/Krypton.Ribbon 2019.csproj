@@ -119,7 +119,7 @@
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
-    <Copyright>(c) ComponentFactory 2006 - 2016, modifications by Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV) 2017 - 2021</Copyright>
+    <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
     <AssemblyVersion>6.1.2108</AssemblyVersion>
     <FileVersion>6.1.2108</FileVersion>
   </PropertyGroup>
