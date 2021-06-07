@@ -106,6 +106,7 @@ These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
+* Implement [#147](https://github.com/Krypton-Suite/Standard-Toolkit/issues/147), Update `csproj` files to handle `AssemblyInfo` data
 * New `KryptonInputBoxManager` control, now you can configure a `KryptonInputBox` through the designer
 * Improved the `KryptonInputBox` to take advantage of the `KryptonTextBox` ***CueHint*** features
 * New `KryptonWebBrowser`Control allowing `KryptonContext` menus [#113](https://github.com/Krypton-Suite/Standard-Toolkit/issues/113)

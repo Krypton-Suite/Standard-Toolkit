@@ -960,6 +960,8 @@ namespace Krypton.Ribbon
                 case "Checked":
                     OnPropertyChanged("Checked");
                     break;
+                default:
+                    break;
             }
         }
 
@@ -1250,7 +1252,7 @@ namespace Krypton.Ribbon
                 }
 
                 // If this color valid and so possible to become a recent color
-                if ((color != null) && !color.Equals(Color.Empty))
+                if ((color != Color.Empty) && !color.Equals(Color.Empty))
                 {
                     bool found = false;
                     foreach (Color recentColor in _recentColors)
