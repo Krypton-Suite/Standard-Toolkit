@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Global palette applied to drawing.")]
-        [DefaultValue(typeof(PaletteModeManager), "Office2010Blue")]
+        [DefaultValue(typeof(PaletteModeManager), "Office365Blue")]
         public PaletteModeManager GlobalPaletteMode
         {
             get => InternalGlobalPaletteMode;
@@ -191,7 +191,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeGlobalPaletteMode()
         {
-            return (GlobalPaletteMode != PaletteModeManager.Office2010Blue);
+            return (GlobalPaletteMode != PaletteModeManager.Office365Blue);
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ResetGlobalPaletteMode()
         {
-            GlobalPaletteMode = PaletteModeManager.Office2010Blue;
+            GlobalPaletteMode = PaletteModeManager.Office365Blue;
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
                     IPalette tempPalette = InternalGlobalPalette;
 
                     // Use the new values
-                    InternalGlobalPaletteMode = (value == null) ? PaletteModeManager.Office2010Blue : PaletteModeManager.Custom;
+                    InternalGlobalPaletteMode = (value == null) ? PaletteModeManager.Office365Blue : PaletteModeManager.Custom;
                     InternalGlobalPalette = value;
 
                     // If the new value creates a circular reference
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ResetGlobalPalette()
         {
-            GlobalPaletteMode = PaletteModeManager.Office2010Blue;
+            GlobalPaletteMode = PaletteModeManager.Office365Blue;
         }
 
         /// <summary>
@@ -691,7 +691,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Internal
-        internal static PaletteModeManager InternalGlobalPaletteMode { get; private set; } = PaletteModeManager.Office2010Blue;
+        internal static PaletteModeManager InternalGlobalPaletteMode { get; private set; } = PaletteModeManager.Office365Blue;
 
         internal static IPalette InternalGlobalPalette { get; private set; } = CurrentGlobalPalette;
 
