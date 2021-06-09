@@ -15,7 +15,7 @@
 
 namespace Krypton.Toolkit
 {
-    //// <summary>
+    /// <summary>
     /// Displays an input box for the user.
     /// </summary>
     [ToolboxItem(false)]
