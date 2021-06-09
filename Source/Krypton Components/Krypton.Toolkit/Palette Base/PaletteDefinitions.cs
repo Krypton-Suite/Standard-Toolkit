@@ -2276,6 +2276,8 @@ namespace Krypton.Toolkit
         /// </summary>
         SparklePurple,
 
+        VisualStudio2019,
+
         /// <summary>
         /// Specifies a custom palette be used.
         /// </summary>
