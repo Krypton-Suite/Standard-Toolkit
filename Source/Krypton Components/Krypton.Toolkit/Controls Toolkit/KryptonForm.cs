@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
 
-            // Hook into globalstatic events
+            // Hook into global static events
             KryptonManager.GlobalAllowFormChromeChanged += OnGlobalAllowFormChromeChanged;
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -634,12 +634,12 @@ namespace Krypton.Toolkit
         /// <summary>Gets the internal krypton manager.</summary>
         /// <value>The internal krypton manager.</value>
         [Description("Manages the current theme.")]
-        public KryptonManager InternalKryptonManager { get => _internalKryptonManager; private set => _internalKryptonManager = value; }
+        public KryptonManager KryptonManager { get => _internalKryptonManager; private set => _internalKryptonManager = value; }
 
         /// <summary>Gets the internal krypton palette.</summary>
         /// <value>The internal krypton palette.</value>
         [Description("Create a custom theme palette.")]
-        public KryptonPalette InternalKryptonPalette { get => _internalKryptonPalette; private set => _internalKryptonPalette = value; }
+        public KryptonPalette KryptonPalette { get => _internalKryptonPalette; private set => _internalKryptonPalette = value; }
         #endregion
 
         #region Public Chrome
