@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Define and modify a palette for styling Krypton controls.
     /// </summary>
-    [ToolboxItem(true)]
+    [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonPalette), "ToolboxBitmaps.KryptonPalette.bmp")]
     [DefaultEvent("PalettePaint")]
     [DefaultProperty("BasePaletteMode")]

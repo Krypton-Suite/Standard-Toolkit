@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Exposes global settings that affect all the Krypton controls.
     /// </summary>
-    [ToolboxItem(true)]
+    [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonManager), "ToolboxBitmaps.KryptonManager.bmp")]
     [Designer(typeof(KryptonManagerDesigner))]
     [DefaultProperty("GlobalPaletteMode")]
