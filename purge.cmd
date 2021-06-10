@@ -13,6 +13,7 @@ rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
 rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
 rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
 rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
+del /f build.log
 
 :no
 pause
