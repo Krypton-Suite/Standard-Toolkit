@@ -124,8 +124,8 @@ namespace Krypton.Toolkit
             _needTMSPaintDelegate = OnMenuToolStatusPaint;
 
             // Set the default palette/palette mode
-            _basePalette = KryptonManager.GetPaletteForMode(PaletteMode.Office2010Blue);
-            _basePaletteMode = PaletteMode.Office2010Blue;
+            _basePalette = KryptonManager.GetPaletteForMode(PaletteMode.Office365Blue);
+            _basePaletteMode = PaletteMode.Office365Blue;
 
             // Set the default renderer
             _baseRenderer = null;
@@ -3076,7 +3076,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false, false)]
         [Category("Visuals")]
         [Description("Base palette used to inherit from.")]
-        [DefaultValue(typeof(PaletteMode), "Office2010Blue")]
+        [DefaultValue(typeof(PaletteMode), "Office365Blue")]
         public PaletteMode BasePaletteMode
         {
             get => _basePaletteMode;
@@ -3134,7 +3134,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeBasePaletteMode()
         {
-            return (BasePaletteMode != PaletteMode.Office2010Blue);
+            return (BasePaletteMode != PaletteMode.Office365Blue);
         }
 
         /// <summary>
@@ -3142,7 +3142,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ResetBasePaletteMode()
         {
-            BasePaletteMode = PaletteMode.Office2010Blue;
+            BasePaletteMode = PaletteMode.Office365Blue;
         }
 
         /// <summary>
@@ -3165,7 +3165,7 @@ namespace Krypton.Toolkit
                     IPalette tempPalette = _basePalette;
 
                     // Find the new palette mode based on the incoming value
-                    _basePaletteMode = (value == null) ? PaletteMode.Office2010Blue : PaletteMode.Custom;
+                    _basePaletteMode = (value == null) ? PaletteMode.Office365Blue : PaletteMode.Custom;
                     _basePalette = value;
 
                     // If the new value creates a circular reference
@@ -3209,7 +3209,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ResetBasePalette()
         {
-            BasePaletteMode = PaletteMode.Office2010Blue;
+            BasePaletteMode = PaletteMode.Office365Blue;
         }
 
         /// <summary>

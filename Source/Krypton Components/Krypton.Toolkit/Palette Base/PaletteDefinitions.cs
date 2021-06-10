@@ -2170,6 +2170,16 @@ namespace Krypton.Toolkit
         SparklePurple,
 
         /// <summary>
+        /// Specifies the visual studio dark palette theme.
+        /// </summary>
+        VisualStudioDark,
+
+        /// <summary>
+        /// Specifies the visual studio light palette theme.
+        /// </summary>
+        VisualStudioLight,
+
+        /// <summary>
         /// Specifies a custom palette be used.
         /// </summary>
         Custom
@@ -2275,6 +2285,16 @@ namespace Krypton.Toolkit
         /// Specifies the Purple color variant on the Sparkle palette theme.
         /// </summary>
         SparklePurple,
+
+        /// <summary>
+        /// Specifies the visual studio dark palette theme.
+        /// </summary>
+        VisualStudioDark,
+
+        /// <summary>
+        /// Specifies the visual studio light palette theme.
+        /// </summary>
+        VisualStudioLight,
 
         /// <summary>
         /// Specifies a custom palette be used.
