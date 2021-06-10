@@ -19,7 +19,8 @@ namespace Krypton.Toolkit
     /// </summary>
     internal class PaletteModeConverter : StringLookupConverter
     {
-        #region Static Fields
+        #region Static Fields        
+        /// <summary>Converts the <see cref="PaletteMode"/> values into a human readable format.</summary>
         private Pair[] _pairs = new Pair[] { new(PaletteMode.ProfessionalSystem,    "Professional - System"),
                                              new(PaletteMode.ProfessionalOffice2003,"Professional - Office 2003"),
                                              new(PaletteMode.Office2007Blue,        "Office 2007 - Blue"),
@@ -37,7 +38,10 @@ namespace Krypton.Toolkit
                                              new(PaletteMode.Office365White,        "Office 365 - White"),
                                              new(PaletteMode.SparkleBlue,           "Sparkle - Blue"),
                                              new(PaletteMode.SparkleOrange,         "Sparkle - Orange"),
-                                             new(PaletteMode.SparklePurple,         "Sparkle - Purple") };
+                                             new(PaletteMode.SparklePurple,         "Sparkle - Purple"),
+                                             //new(PaletteMode.VisualStudioDark,      "Visual Studio Dark"),
+                                             //new(PaletteMode.VisualStudioLight,     "Visual Studio Light")
+                                             };
         #endregion
 
         #region Identity

@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Darker base color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "31, 72, 161")]
         public Color AppButtonBaseColorDark
         {
@@ -160,7 +160,7 @@ namespace Krypton.Ribbon
 
             set 
             {
-                if (_appButtonBaseColorDark != null)
+                if (_appButtonBaseColorDark != Color.Empty)
                 {
                     _appButtonBaseColorDark = value;
                     _ribbon.PerformNeedPaint(true);
@@ -176,7 +176,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Lighter base color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "84, 158, 243")]
         public Color AppButtonBaseColorLight
         {
@@ -184,7 +184,7 @@ namespace Krypton.Ribbon
 
             set 
             {
-                if (_appButtonBaseColorLight != null)
+                if (_appButtonBaseColorLight != Color.Empty)
                 {
                     _appButtonBaseColorLight = value;
                     _ribbon.PerformNeedPaint(true);
@@ -200,7 +200,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Text color used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [DefaultValue(typeof(Color), "White")]
         public Color AppButtonTextColor
         {
@@ -208,7 +208,7 @@ namespace Krypton.Ribbon
 
             set 
             {
-                if (_appButtonTextColor != null)
+                if (_appButtonTextColor != Color.Empty)
                 {
                     _appButtonTextColor = value;
                     _ribbon.PerformNeedPaint(true);

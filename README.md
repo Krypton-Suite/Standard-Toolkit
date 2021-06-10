@@ -94,16 +94,10 @@ Follow the links to see the different objects and layouts that this framework al
 # Which packages should I use?
 
 ## Non-Lite
-Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 5/6 (Inclusive). Please note that these packages are larger than the lite packages.
+Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 6. Please note that these packages are larger than the lite packages.
 
 ## Lite
-These packages only support .NET Framework 4.8 and .NET 5/6.
-
-=======
-
-# How to build?
-
-Please follow [this](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha-Documentation/Documents/Development/How-to-Build.md) guide for instructions on how to build the toolkit.
+These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 
 =======
 
@@ -112,15 +106,20 @@ Please follow [this](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alph
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
+* Implement [#154](https://github.com/Krypton-Suite/Standard-Toolkit/issues/154), Ability to alter both a `KryptonManager` and a `KryptonPalette` from within a `KryptonForm`
+* Implement [#149](https://github.com/Krypton-Suite/Standard-Toolkit/issues/149), Change the default theme from `Office 2010 - Blue` to `Office 365 - Blue`
+* Implement [#147](https://github.com/Krypton-Suite/Standard-Toolkit/issues/147), Update `csproj` files to handle `AssemblyInfo` data
+* New `KryptonInputBoxManager` control, now you can configure a `KryptonInputBox` through the designer
+* Improved the `KryptonInputBox` to take advantage of the `KryptonTextBox` ***CueHint*** features
 * New `KryptonWebBrowser`Control allowing `KryptonContext` menus [#113](https://github.com/Krypton-Suite/Standard-Toolkit/issues/113)
-* New `KryptonMessageBoxManager`, now you can configure a `KryptonMessageBox` through the designer
+* New `KryptonMessageBoxManager` control, now you can configure a `KryptonMessageBox` through the designer
 * Fixed [#122](https://github.com/Krypton-Suite/Standard-Toolkit/issues/122), Placing a `KryptonStatusStrip` in the Designer causes an exception
 * Implemented [#117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/117), Consolidate `using` statements
 * Fixed [#106](https://github.com/Krypton-Suite/Standard-Toolkit/issues/106), 'MethodImplOptions' does not contain a definition for 'AggressiveInlining'
 * Fixed [#102](https://github.com/Krypton-Suite/Standard-Toolkit/issues/102), `KryptonInputBox` does not compile
 * Fixed [#99](https://github.com/Krypton-Suite/Standard-Toolkit/issues/99), There is no need to replace some functions in `KryptonCheckButtonActionList`
 * Documentation [#97](https://github.com/Krypton-Suite/Standard-Toolkit/issues/97), Add descriptions & documentation
-* Implemented [#93](https://github.com/Krypton-Suite/Standard-Toolkit/issues/93), For a `KryptonMessageBox`: Please describe difference between **owner** and **parentWindow** parameters
+* Implemented [#93](https://github.com/Krypton-Suite/Standard-Toolkit/issues/93), For a `KryptonMessageBox`: Please describe difference between ***owner*** and ***parentWindow*** parameters
 * Fixed [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92), **Many* Items cannot be Dragged and dropped onto a Form in Designer
 * Fixed [#91](https://github.com/Krypton-Suite/Standard-Toolkit/issues/91), Cannot add items to KryptonGroupBox in designer
 * Fixed [#84](https://github.com/Krypton-Suite/Standard-Toolkit/issues/84), Multi-Line Text Box does not support Hint
@@ -129,6 +128,17 @@ Please follow [this](https://github.com/Krypton-Suite/Standard-Toolkit/blob/alph
 * Fixed [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
 * Fixed [#71](https://github.com/Krypton-Suite/Standard-Toolkit/issues/71), No design support while using Krypton.Ribbon in .NET 5/6 
 * Fixed [#54](https://github.com/Krypton-Suite/Standard-Toolkit/issues/54), .Net5 Winform Project - Dropping a KLabel onto a KGroup or KGroupBox causes an Exception in Designer
+
+=======
+
+## 2021-06-04 - Build 2106.1 - June 2021 (Update 1)
+* Fix NuGet package descriptions
+* Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
+
+=======
+
+## 2021-06-02 - Build 2106.1 - June 2021 (Update 1 - Canary)
+* Fix for [#129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/129), Canary NuGet description for `Lite` is incorrect
 
 =======
 

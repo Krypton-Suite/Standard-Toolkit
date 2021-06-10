@@ -15,26 +15,316 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>Displays an input box for the user.</summary>
-    /// <seealso cref="KryptonForm" />
-    [ToolboxItem(false), ToolboxBitmap(typeof(KryptonInputBox), "ToolboxBitmaps.KryptonInputBox.bmp"), 
-     DesignerCategory("code"), DesignTimeVisible(false)]
+    /// <summary>
+    /// Displays an input box for the user.
+    /// </summary>
+    [ToolboxItem(false)]
+    [ToolboxBitmap(typeof(KryptonInputBox), "ToolboxBitmaps.KryptonInputBox.bmp")]
+    [DesignerCategory("code")]
+    [DesignTimeVisible(false)]
     public class KryptonInputBox : KryptonForm
     {
-        #region Design Code
+        #region Static Fields
+        private static readonly int GAP = 10;
+        #endregion
+
+        #region Instance Fields
+        private bool _usePasswordOption;
+        private Color _cueColour;
+        private string _prompt;
+        private string _caption;
+        private string _defaultResponse;
+        private string _cueText;
+        private Font _cueTypeface;
         private KryptonPanel _panelMessage;
         private KryptonWrapLabel _labelPrompt;
         private KryptonTextBox _textBoxResponse;
         private KryptonButton _buttonOK;
         private KryptonButton _buttonCancel;
+        #endregion
+
+        #region Identity
+        private KryptonInputBox(string prompt,
+                                string caption,
+                                string defaultResposne,
+                                string cueText,
+                                Color? cueColour,
+                                Font? cueTypeface,
+                                bool? usePasswordOption)
+        {
+            // Store incoming values
+            _prompt = prompt;
+            _caption = caption;
+            _defaultResponse = defaultResposne;
+            _cueText = cueText;
+            _cueColour = cueColour ?? Color.Gray;
+            _cueTypeface = cueTypeface ?? new Font("Microsoft Sans Serif", 8.25f);
+            _usePasswordOption = usePasswordOption ?? false;
+
+            // Create the form contents
+            InitializeComponent();
+
+            // Update contents to match requirements
+            UpdateText();
+
+            UpdateCue();
+
+            UpdateButtons();
+
+            // Finally calculate and set form sizing
+            UpdateSizing();
+        }
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+            }
+
+            base.Dispose(disposing);
+        }
+        #endregion
+
+        #region Public
+        /// <summary>
+        /// Displays an input box with the provided prompt.
+        /// </summary>
+        /// <param name="prompt">The text to display as an input prompt.</param>
+        /// <returns>Input string.</returns>
+        public static string Show(string prompt)
+        {
+            return InternalShow(null, prompt, string.Empty, string.Empty, string.Empty, null, null, null);
+        }
+
+        /// <summary>
+        /// Displays an input box in front of the specified object and with the provided prompt.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="prompt">The text to display as an input prompt.</param>
+        /// <returns>Input string.</returns>
+        public static string Show(IWin32Window owner, string prompt)
+        {
+            return InternalShow(owner, prompt, string.Empty, string.Empty, string.Empty, null, null, null);
+        }
+
+        /// <summary>
+        /// Displays an input box with provided prompt and caption.
+        /// </summary>
+        /// <param name="prompt">The text to display as an input prompt.</param>
+        /// <param name="caption">The text to display in the title bar of the input box.</param>
+        /// <returns>Input string.</returns>
+        public static string Show(string prompt, string caption)
+        {
+            return InternalShow(null, prompt, caption, string.Empty, string.Empty, null, null, null);
+        }
+
+        /// <summary>
+        /// Displays an input box in front of the specified object and with the provided prompt and caption.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="prompt">The text to display as an input prompt.</param>
+        /// <param name="caption">The text to display in the title bar of the input box.</param>
+        /// <returns>Input string.</returns>
+        public static string Show(IWin32Window owner, string prompt, string caption)
+        {
+            return InternalShow(owner, prompt, caption, string.Empty, string.Empty, null, null, null);
+        }
+
+        /// <summary>
+        /// Displays an input box with provided prompt and caption and defaulted response string.
+        /// </summary>
+        /// <param name="prompt">The text to display as an input prompt.</param>
+        /// <param name="caption">The text to display in the title bar of the input box.</param>
+        /// <param name="defaultResponse">Default response text..</param>
+        /// <returns>Input string.</returns>
+        public static string Show(string prompt, string caption, string defaultResponse)
+        {
+            return InternalShow(null, prompt, caption, defaultResponse, string.Empty, null, null, null);
+        }
+
+        /// <summary>
+        /// Displays an input box in front of the specified object and with the provided prompt and caption and defaulted response string.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="prompt">The text to display as an input prompt.</param>
+        /// <param name="caption">The text to display in the title bar of the input box.</param>
+        /// <param name="defaultResponse">Default response text..</param>
+        /// <returns>Input string.</returns>
+        public static string Show(IWin32Window owner, string prompt, string caption, string defaultResponse)
+        {
+            return InternalShow(owner, prompt, caption, defaultResponse, string.Empty, null, null, null);
+        }
+
+        /// <summary>
+        /// Displays an input box with provided prompt and caption and defaulted response string.
+        /// </summary>
+        /// <param name="prompt">The text to display as an input prompt.</param>
+        /// <param name="caption">The text to display in the title bar of the input box.</param>
+        /// <param name="defaultResponse">Default response text..</param>
+        /// <param name="cueText">The cue text.</param>
+        /// <param name="cueColour">The colour of the cue.</param>
+        /// <param name="cueTypeface">The cue font.</param>
+        /// <param name="usePasswordOption">Enables the password option.</param>
+        /// <returns>Input string.</returns>
+        public static string Show(string prompt, string caption, string defaultResponse, string cueText, Color cueColour, Font cueTypeface, bool usePasswordOption)
+        {
+            return InternalShow(null, prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
+        }
+
+        /// <summary>
+        /// DDisplays an input box in front of the specified object and with the provided prompt and caption and defaulted response string.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="prompt">The text to display as an input prompt.</param>
+        /// <param name="caption">The text to display in the title bar of the input box.</param>
+        /// <param name="defaultResponse">Default response text..</param>
+        /// <param name="cueText">The cue text.</param>
+        /// <param name="cueColour">The colour of the cue.</param>
+        /// <param name="cueTypeface">The cue font.</param>
+        /// <param name="usePasswordOption">Enables the password option.</param>
+        /// <returns>Input string.</returns>
+        public static string Show(IWin32Window owner, string prompt, string caption, string defaultResponse, string cueText, Color cueColour, Font cueTypeface, bool usePasswordOption)
+        {
+            return InternalShow(owner, prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
+        }
+        #endregion
+
+        #region Implementation
+        private static string InternalShow(IWin32Window owner,
+                                           string prompt,
+                                           string caption,
+                                           string defaultResponse,
+                                           string cueText,
+                                           Color? cueColour,
+                                           Font? cueTypeface,
+                                           bool? usePasswordOption)
+        {
+            IWin32Window showOwner = null;
+
+            // If do not have an owner passed in then get the active window and use that instead
+            if (owner == null)
+                showOwner = Control.FromHandle(PI.GetActiveWindow());
+            else
+                showOwner = owner;
+
+            // Show input box window as a modal dialog and then dispose of it afterwards
+            using (KryptonInputBox ib = new KryptonInputBox(prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption))
+            {
+                if (showOwner == null)
+                    ib.StartPosition = FormStartPosition.CenterScreen;
+                else
+                    ib.StartPosition = FormStartPosition.CenterParent;
+
+                if (ib.ShowDialog(showOwner) == DialogResult.OK)
+                    return ib.InputResponse;
+                else
+                    return string.Empty;
+            }
+        }
+
+        internal string InputResponse
+        {
+            get { return _textBoxResponse.Text; }
+        }
+
+        private void UpdateText()
+        {
+            Text = _caption;
+            _labelPrompt.Text = _prompt;
+            _textBoxResponse.Text = _defaultResponse;
+            _textBoxResponse.UseSystemPasswordChar = _usePasswordOption;
+        }
+
+        private void UpdateCue()
+        {
+            _textBoxResponse.CueHint.CueHintText = _cueText;
+
+            _textBoxResponse.CueHint.Color1 = _cueColour;
+
+            _textBoxResponse.CueHint.Font = _cueTypeface;
+        }
+
+        private void UpdateButtons()
+        {
+            _buttonOK.Text = KryptonManager.Strings.OK;
+            _buttonCancel.Text = KryptonManager.Strings.Cancel;
+        }
+
+        private void UpdateSizing()
+        {
+            Size buttonSize = UpdateButtonSizing();
+            Size promptSize = UpdatePromptSizing();
+            Size responseSize = UpdateResponseSizing();
+            ClientSize = new Size(_buttonCancel.Right + GAP, _textBoxResponse.Bottom + GAP);
+        }
+
+        private Size UpdatePromptSizing()
+        {
+            // Update size of the message label but with a maximum width
+            using (Graphics g = CreateGraphics())
+            {
+                // Find size of the label when it has a maximum length of 250, this tells us the height
+                // required to fully show the label with the prompt.
+                _labelPrompt.UpdateFont();
+                Size messageSize = g.MeasureString(_prompt, _labelPrompt.Font, 250).ToSize();
+
+                // Work out DPI adjustment factor
+                float factorX = g.DpiX > 96 ? (1.0f * g.DpiX / 96) : 1.0f;
+                float factorY = g.DpiY > 96 ? (1.0f * g.DpiY / 96) : 1.0f;
+                messageSize.Width = (int)((float)messageSize.Width * factorX);
+                messageSize.Height = (int)((float)messageSize.Height * factorY);
+
+                _labelPrompt.Location = new Point(GAP, GAP);
+                _labelPrompt.Size = new Size(255, Math.Max(messageSize.Height, _buttonCancel.Bottom - _buttonOK.Top));
+
+                return new Size(_labelPrompt.Right, _labelPrompt.Bottom);
+            }
+        }
+
+        private Size UpdateButtonSizing()
+        {
+            Size buttonOKSize = _buttonOK.GetPreferredSize(Size.Empty);
+            Size buttonCancelSize = _buttonCancel.GetPreferredSize(Size.Empty);
+
+            // Make both buttons the size of the largest one
+            Size largestButton = new Size(Math.Max(buttonOKSize.Width, buttonCancelSize.Width), Math.Max(buttonOKSize.Height, buttonCancelSize.Height));
+            _buttonOK.Size = largestButton;
+            _buttonCancel.Size = largestButton;
+
+            // Position the buttons relative to the top left of the owning panel
+            _buttonOK.Location = new Point(_panelMessage.Right - _buttonOK.Width - GAP, GAP);
+            _buttonCancel.Location = new Point(_panelMessage.Right - _buttonCancel.Width - GAP, _buttonOK.Bottom + GAP / 2);
+
+            // We need enough space for the buttons and gaps on either size
+            return new Size(_buttonOK.Left + GAP, _buttonCancel.Bottom + GAP);
+        }
+
+        private Size UpdateResponseSizing()
+        {
+            // Position the response text box below the prompt
+            _textBoxResponse.Location = new Point(GAP, _labelPrompt.Bottom + GAP);
+            _textBoxResponse.Width = _buttonOK.Right - _textBoxResponse.Left;
+            return _textBoxResponse.Size;
+        }
+
+        private void button_keyDown(object sender, KeyEventArgs e)
+        {
+            // Escape key kills the dialog if we allow it to be closed
+            if ((e.KeyCode == Keys.Escape) && ControlBox)
+                Close();
+        }
 
         private void InitializeComponent()
         {
-            this._panelMessage = new KryptonPanel();
-            this._textBoxResponse = new KryptonTextBox();
-            this._labelPrompt = new KryptonWrapLabel();
-            this._buttonCancel = new KryptonButton();
-            this._buttonOK = new KryptonButton();
+            this._panelMessage = new Krypton.Toolkit.KryptonPanel();
+            this._textBoxResponse = new Krypton.Toolkit.KryptonTextBox();
+            this._labelPrompt = new Krypton.Toolkit.KryptonWrapLabel();
+            this._buttonCancel = new Krypton.Toolkit.KryptonButton();
+            this._buttonOK = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this._panelMessage)).BeginInit();
             this._panelMessage.SuspendLayout();
             this.SuspendLayout();
@@ -63,7 +353,7 @@ namespace Krypton.Toolkit
             this._labelPrompt.AutoSize = false;
             this._labelPrompt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this._labelPrompt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this._labelPrompt.LabelStyle = LabelStyle.NormalPanel;
+            this._labelPrompt.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
             this._labelPrompt.Location = new System.Drawing.Point(12, 12);
             this._labelPrompt.Margin = new System.Windows.Forms.Padding(0);
             this._labelPrompt.Name = "_labelPrompt";
@@ -116,189 +406,7 @@ namespace Krypton.Toolkit
             this._panelMessage.ResumeLayout(false);
             this._panelMessage.PerformLayout();
             this.ResumeLayout(false);
-        }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-
-            }
-
-            base.Dispose(disposing);
-        }
-        #endregion
-
-        #region Instance
-        private Color _cueColour;
-
-        private Font _cueTypeface;
-
-        private string _caption, _cueText, _defaultResponse, _prompt;
-        #endregion
-
-        #region Constants
-        private const int GAP = 10;
-        #endregion
-
-        #region Identity
-        /// <summary>Initializes a new instance of the <see cref="KryptonInputBox" /> class.</summary>
-        /// <param name="prompt">The prompt.</param>
-        /// <param name="caption">The caption.</param>
-        /// <param name="defaultResponse">The default response.</param>
-        /// <param name="cueColour">The cue colour.</param>
-        /// <param name="cueTypeface">The cue typeface.</param>
-        /// <param name="cueText">The cue text.</param>
-        public KryptonInputBox(string prompt, string caption, string defaultResponse, Color? cueColour, Font? cueTypeface, string cueText)
-        {
-            InitializeComponent();
-
-            #region Store Values
-            _cueColour = cueColour ?? Color.Black;
-
-            _cueTypeface = cueTypeface ?? new Font("Microsoft Sans Serif", 8.25f);
-
-            _cueText = cueText ?? string.Empty;
-
-            _caption = caption;
-
-            _defaultResponse = defaultResponse;
-
-            _prompt = prompt;
-            #endregion
-
-            // Update contents to match requirements
-            UpdateText();
-
-            UpdateButtons();
-
-            // Finally calculate and set form sizing
-            UpdateSizing();
-        }
-        #endregion
-
-
-        #region Implementation
-        private static string InternalShow(IWin32Window owner, string prompt, string caption, string defaultResponse,
-                                           Color? cueColour, Font? cueTypeface, string cueText)
-        {
-            IWin32Window showOwner = null;
-
-            // If do not have an owner passed in then get the active window and use that instead
-            if (owner == null)
-            {
-                showOwner = Control.FromHandle(PI.GetActiveWindow());
-            }
-            else
-            {
-                showOwner = owner;
-            }
-
-            // Show input box window as a modal dialog and then dispose of it afterwards
-            using (KryptonInputBox ib = new KryptonInputBox(prompt, caption, defaultResponse, cueColour, cueTypeface, cueText))
-            {
-                if (showOwner == null)
-                {
-                    ib.StartPosition = FormStartPosition.CenterScreen;
-                }
-                else
-                {
-                    ib.StartPosition = FormStartPosition.CenterParent;
-                }
-
-                if (ib.ShowDialog(showOwner) == DialogResult.OK)
-                {
-                    return ib.InputResponse;
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
-        }
-
-        internal string InputResponse => _textBoxResponse.Text;
-
-        private void UpdateText()
-        {
-            Text = _caption;
-            _labelPrompt.Text = _prompt;
-            _textBoxResponse.Text = _defaultResponse;
-
-            _textBoxResponse.CueHint.Color1 = _cueColour;
-
-            _textBoxResponse.CueHint.Font = _cueTypeface;
-
-            _textBoxResponse.CueHint.CueHintText = _cueText;
-        }
-
-        private void UpdateButtons()
-        {
-            _buttonOK.Text = KryptonManager.Strings.OK;
-            _buttonCancel.Text = KryptonManager.Strings.Cancel;
-        }
-
-        private void UpdateSizing()
-        {
-            Size buttonSize = UpdateButtonSizing();
-            Size promptSize = UpdatePromptSizing();
-            Size responseSize = UpdateResponseSizing();
-            ClientSize = new Size(_buttonCancel.Right + GAP, _textBoxResponse.Bottom + GAP);
-        }
-
-        private Size UpdatePromptSizing()
-        {
-            // Update size of the message label but with a maximum width
-            using (Graphics g = CreateGraphics())
-            {
-                // Find size of the label when it has a maximum length of 250, this tells us the height
-                // required to fully show the label with the prompt.
-                _labelPrompt.UpdateFont();
-                Size messageSize = g.MeasureString(_prompt, _labelPrompt.Font, 250).ToSize();
-
-                // Work out DPI adjustment factor
-                float factorX = g.DpiX > 96 ? (1.0f * g.DpiX / 96) : 1.0f;
-                float factorY = g.DpiY > 96 ? (1.0f * g.DpiY / 96) : 1.0f;
-                messageSize.Width = (int)((float)messageSize.Width * factorX);
-                messageSize.Height = (int)((float)messageSize.Height * factorY);
-
-                _labelPrompt.Location = new Point(GAP, GAP);
-                _labelPrompt.Size = new Size(255, Math.Max(messageSize.Height, _buttonCancel.Bottom - _buttonOK.Top));
-
-                return new Size(_labelPrompt.Right, _labelPrompt.Bottom);
-            }
-        }
-        private Size UpdateButtonSizing()
-        {
-            Size buttonOKSize = _buttonOK.GetPreferredSize(Size.Empty);
-            Size buttonCancelSize = _buttonCancel.GetPreferredSize(Size.Empty);
-
-            // Make both buttons the size of the largest one
-            Size largestButton = new Size(Math.Max(buttonOKSize.Width, buttonCancelSize.Width), Math.Max(buttonOKSize.Height, buttonCancelSize.Height));
-            _buttonOK.Size = largestButton;
-            _buttonCancel.Size = largestButton;
-
-            // Position the buttons relative to the top left of the owning panel
-            _buttonOK.Location = new Point(_panelMessage.Right - _buttonOK.Width - GAP, GAP);
-            _buttonCancel.Location = new Point(_panelMessage.Right - _buttonCancel.Width - GAP, _buttonOK.Bottom + GAP / 2);
-
-            // We need enough space for the buttons and gaps on either size
-            return new Size(_buttonOK.Left + GAP, _buttonCancel.Bottom + GAP);
-        }
-
-        private Size UpdateResponseSizing()
-        {
-            // Position the response text box below the prompt
-            _textBoxResponse.Location = new Point(GAP, _labelPrompt.Bottom + GAP);
-            _textBoxResponse.Width = _buttonOK.Right - _textBoxResponse.Left;
-            return _textBoxResponse.Size;
-        }
-
-        private void button_keyDown(object sender, KeyEventArgs e)
-        {
-            // Escape key kills the dialog if we allow it to be closed
-            if ((e.KeyCode == Keys.Escape) && ControlBox)
-                Close();
         }
         #endregion
     }

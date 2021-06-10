@@ -1211,6 +1211,8 @@ namespace Krypton.Ribbon
                             }
                         }
                         break;
+                    default:
+                        break;
                 }
             }
             return false;
@@ -1430,6 +1432,8 @@ namespace Krypton.Ribbon
 
                         _focusView.KeyDown(new KeyEventArgs(keyData));
                         return true;
+                    default:
+                        break;
                 }
             }
             else
@@ -1446,6 +1450,8 @@ namespace Krypton.Ribbon
                             SelectNonRibbonControl(keyData == Keys.Tab);
                             return true;
                         }
+                        break;
+                    default:
                         break;
                 }
             }
@@ -2343,6 +2349,8 @@ namespace Krypton.Ribbon
                 case QATLocation.Below:
                     view = _qatBelowContents.GetNextQATView(qatView);
                     break;
+                default:
+                    break;
             }
 
             // Get the first near edge button (the last near button is the leftmost one!)
@@ -2718,6 +2726,8 @@ namespace Krypton.Ribbon
                         KillKeyboardKeyTips();
                         _focusView.KeyDown(new KeyEventArgs(keyData));
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -2925,8 +2935,10 @@ namespace Krypton.Ribbon
                         // Not all operating systems have Uxtheme.dll for these calls
                         return PI.IsAppThemed() && PI.IsThemeActive();
                     }
-                    catch
+                    catch (Exception exc)
                     {
+                        Debug.WriteLine(exc);
+
                         // Is platform invoke not available, then definitely not themed
                         _uxthemeNotAvailable = true;
                         return false;
@@ -3222,6 +3234,8 @@ namespace Krypton.Ribbon
 
                     // Display not updated until a layout occurs
                     PerformNeedPaint(true);
+                    break;
+                default:
                     break;
             }
         }
