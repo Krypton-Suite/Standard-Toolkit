@@ -32,3 +32,15 @@ goto build
 set targets=Build
 if not "%~1" == "" set targets=%~1
 "%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
+
+echo Do you now want to create NuGet packages? (y/n)
+set INPUT=
+set /PINPUT=Type input: %=%
+if /I "%INPUT%"=="y" goto createpackages
+if /I "%INPUT%"=="n" goto break
+
+:createpackages
+build.cmd Pack
+
+:break
+pause
