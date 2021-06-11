@@ -611,6 +611,51 @@ namespace Krypton.Toolkit
         {
             _buttonController.RemoveFixed();
         }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (DialogResult == DialogResult.None)
+            {
+                Text = "KryptonButton";
+            }
+
+            if (DialogResult == DialogResult.Abort)
+            {
+                Text = KryptonManager.Strings.Abort;
+            }
+
+            if (DialogResult == DialogResult.Cancel)
+            {
+                Text = KryptonManager.Strings.Cancel;
+            }
+
+            if (DialogResult == DialogResult.OK)
+            {
+                Text = KryptonManager.Strings.OK;
+            }
+
+            if (DialogResult == DialogResult.Yes)
+            {
+                Text = KryptonManager.Strings.Yes;
+            }
+
+            if (DialogResult == DialogResult.No)
+            {
+                Text = KryptonManager.Strings.No;
+            }
+
+            if (DialogResult == DialogResult.Retry)
+            {
+                Text = KryptonManager.Strings.Retry;
+            }
+
+            if (DialogResult == DialogResult.Ignore)
+            {
+                Text = KryptonManager.Strings.Ignore;
+            }
+
+            base.OnPaint(e);
+        }
         #endregion
 
         #region Protected Virtual
