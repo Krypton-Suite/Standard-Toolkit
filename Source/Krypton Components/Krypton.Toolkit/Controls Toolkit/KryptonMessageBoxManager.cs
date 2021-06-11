@@ -16,7 +16,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>Displays a new KryptonMessageBox, configurable through the designer.</summary>
-    [ToolboxBitmap(typeof(KryptonMessageBox)), Description("Displays a new KryptonMessageBox, configurable through the designer.")]
+    [ToolboxBitmap(typeof(KryptonMessageBox), "ToolboxBitmaps.KryptonMessageBox.bmp"), Description("Displays a new KryptonMessageBox, configurable through the designer.")]
     public class KryptonMessageBoxManager : Component
     {
         #region Variables
