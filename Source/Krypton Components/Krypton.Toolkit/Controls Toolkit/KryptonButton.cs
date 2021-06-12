@@ -38,9 +38,8 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand _command;
-        private bool _isDefault;
-        private bool _useMnemonic;
-        private bool _wasEnabled;
+        private bool _alwaysUseSetText, _isDefault, _useMnemonic, _wasEnabled;
+        private string _persistantText;
         #endregion
 
         #region Events
@@ -227,6 +226,11 @@ namespace Krypton.Toolkit
         {
             ButtonStyle = ButtonStyle.Standalone;
         }
+
+        [DefaultValue(false), Description("Always use the set text, even if the 'DialogResult' value has been changed. (Note: You can manage the 'DialogResult' string values via the KryptonManager on the parent KryptonForm.)")]
+        public bool AlwaysUseSetText { get => _alwaysUseSetText; set => _alwaysUseSetText = value; }
+
+        public string PersistantText { get => _persistantText; private set => _persistantText = value; }
 
         /// <summary>
         /// Gets access to the button content.
@@ -614,44 +618,49 @@ namespace Krypton.Toolkit
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (DialogResult == DialogResult.None)
+            if (_alwaysUseSetText)
             {
-                Text = "KryptonButton";
+                if (Text != KryptonManager.Strings.Abort || Text != KryptonManager.Strings.Cancel || Text != KryptonManager.Strings.OK || Text != KryptonManager.Strings.Yes || Text != KryptonManager.Strings.No || Text != KryptonManager.Strings.Retry || Text != KryptonManager.Strings.Ignore)
+                {
+                    PersistantText = Text;
+                }
             }
-
-            if (DialogResult == DialogResult.Abort)
+            else
             {
-                Text = KryptonManager.Strings.Abort;
-            }
+                if (DialogResult == DialogResult.Abort)
+                {
+                    Text = KryptonManager.Strings.Abort;
+                }
 
-            if (DialogResult == DialogResult.Cancel)
-            {
-                Text = KryptonManager.Strings.Cancel;
-            }
+                if (DialogResult == DialogResult.Cancel)
+                {
+                    Text = KryptonManager.Strings.Cancel;
+                }
 
-            if (DialogResult == DialogResult.OK)
-            {
-                Text = KryptonManager.Strings.OK;
-            }
+                if (DialogResult == DialogResult.OK)
+                {
+                    Text = KryptonManager.Strings.OK;
+                }
 
-            if (DialogResult == DialogResult.Yes)
-            {
-                Text = KryptonManager.Strings.Yes;
-            }
+                if (DialogResult == DialogResult.Yes)
+                {
+                    Text = KryptonManager.Strings.Yes;
+                }
 
-            if (DialogResult == DialogResult.No)
-            {
-                Text = KryptonManager.Strings.No;
-            }
+                if (DialogResult == DialogResult.No)
+                {
+                    Text = KryptonManager.Strings.No;
+                }
 
-            if (DialogResult == DialogResult.Retry)
-            {
-                Text = KryptonManager.Strings.Retry;
-            }
+                if (DialogResult == DialogResult.Retry)
+                {
+                    Text = KryptonManager.Strings.Retry;
+                }
 
-            if (DialogResult == DialogResult.Ignore)
-            {
-                Text = KryptonManager.Strings.Ignore;
+                if (DialogResult == DialogResult.Ignore)
+                {
+                    Text = KryptonManager.Strings.Ignore;
+                }
             }
 
             base.OnPaint(e);
