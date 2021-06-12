@@ -627,6 +627,11 @@ namespace Krypton.Toolkit
             }
             else
             {
+                if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistantText) && DialogResult == DialogResult.None)
+                {
+                    Text = _persistantText;
+                }
+
                 if (DialogResult == DialogResult.Abort)
                 {
                     Text = KryptonManager.Strings.Abort;
