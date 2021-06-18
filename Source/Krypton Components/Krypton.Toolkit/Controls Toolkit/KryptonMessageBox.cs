@@ -207,7 +207,7 @@ namespace Krypton.Toolkit
             _options = options;
             _helpInfo = helpInfo;
             _showOwner = showOwner;
-            _cornerRadius = cornerRadius ?? -1;
+            _cornerRadius = cornerRadius ?? GlobalStaticValues.CORNER_ROUNDING_VALUE;
             _useBlur = useBlur ?? false;
             _blurRadius = blurRadius ?? 0;
             _parentWindow = parentWindow;
@@ -281,7 +281,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(IWin32Window owner, string text, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(IWin32Window owner, string text, string caption, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -339,7 +339,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -441,7 +441,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -461,7 +461,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -480,7 +480,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -519,7 +519,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -539,7 +539,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -559,7 +559,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, keyword), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -580,7 +580,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -601,7 +601,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, keyword), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -622,7 +622,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
@@ -644,7 +644,7 @@ namespace Krypton.Toolkit
         /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
         /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null, int? cornerRadius = -1, bool? useBlur = false,
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null, int? cornerRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE, bool? useBlur = false,
                                         int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
         #endregion
 

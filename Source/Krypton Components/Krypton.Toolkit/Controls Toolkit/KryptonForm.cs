@@ -202,8 +202,8 @@ namespace Krypton.Toolkit
 
             //DisableCloseButton = false;
 
-            // Set the CornerRoundingRadius to '-1', default value
-            CornerRoundingRadius = -1;
+            // Set the CornerRoundingRadius to 'GlobalStaticValues.CORNER_ROUNDING_VALUE', default value
+            CornerRoundingRadius = GlobalStaticValues.CORNER_ROUNDING_VALUE;
 
             _internalKryptonManager = new KryptonManager();
 
