@@ -174,6 +174,24 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the corner radius.</summary>
+        /// <value>The corner radius.</value>
+        [DefaultValue(GlobalStaticValues.CORNER_ROUNDING_VALUE)]
+        public int CornerRadius
+        {
+            get => _treeView.StateCommon.Border.Rounding;
+
+            set
+            {
+                if (_treeView.StateCommon.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_treeView, null, _treeView.StateCommon.Border.Rounding, value);
+
+                    _treeView.StateCommon.Border.Rounding = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -197,6 +215,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("ItemStyle", "Item Style", "Appearance", "How to display tree items."));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
+                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem("Behavior"));
                 actions.Add(new DesignerActionPropertyItem("Sorted", "Sorted", "Behavior", "Should items be sorted according to string."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
