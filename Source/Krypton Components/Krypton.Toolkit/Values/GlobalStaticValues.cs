@@ -14,6 +14,6 @@ namespace Krypton.Toolkit
 {
     public class GlobalStaticValues
     {
-        public const int CORNER_ROUNDING_VALUE = -1;
+        public const int CORNER_ROUNDING_VALUE = 5;
     }
 }
