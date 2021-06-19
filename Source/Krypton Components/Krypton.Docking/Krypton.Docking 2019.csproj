@@ -13,12 +13,12 @@
     </Choose>
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <RootNamespace>Krypton.Navigator</RootNamespace>
-        <AssemblyName>Krypton.Navigator</AssemblyName>
+        <RootNamespace>Krypton.Docking</RootNamespace>
+        <AssemblyName>Krypton.Docking</AssemblyName>
+        <StartupObject></StartupObject>
         <SignAssembly>false</SignAssembly>
         <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
-        <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>
         <LangVersion>preview</LangVersion>
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,8 +45,8 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>Krypton.Navigator.Canary</PackageId>
-        <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the navigator module.</Description>
+        <PackageId>Krypton.Docking.Canary</PackageId>
+        <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the docking module.</Description>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -57,39 +57,38 @@
         <Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
             <Link>General\PlatformInvoke.cs</Link>
         </Compile>
-        <Compile Update="ButtonSpecs\ButtonSpecNavigator.cs" />
-        <Compile Update="ButtonSpecs\ButtonSpecNavFixed.cs" />
-        <Compile Update="ButtonSpecs\ButtonSpecNavClose.cs" />
-        <Compile Update="ButtonSpecs\ButtonSpecNavPrevious.cs" />
-        <Compile Update="ButtonSpecs\ButtonSpecNavNext.cs" />
-        <Compile Update="ButtonSpecs\ButtonSpecNavContext.cs" />
-    </ItemGroup>
-    <ItemGroup>
-        <EmbeddedResource Include="ToolboxBitmaps\KryptonNavigator.bmp" />
+        <Compile Update="Elements Base\DockingElementClosedCollection.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="Elements Base\DockingElementOpenCollection.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="Elements Base\DockingElement.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="General\ObscureControl.cs">
+            <SubType>Component</SubType>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <Content Include="Krypton.ico" Pack="false" />
-        <EmbeddedResource Include="ToolboxBitmaps\KryptonPage.bmp" />
-        <EmbeddedResource Include="Resources\PageLarge.png" />
-        <EmbeddedResource Include="Resources\PageMedium.png" />
-        <EmbeddedResource Include="Resources\PageSmall.png" />
-        <EmbeddedResource Include="Resources\BlueDown.bmp" />
-        <EmbeddedResource Include="Resources\BlueUp.bmp" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonDockableNavigator.bmp" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonDockableWorkspace.bmp" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonDockingManager.bmp" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Remove="Palette\PaletteNavigatorOtherOverride.cs" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+        <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />
+        <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
+        <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2019.csproj" />
     </ItemGroup>
     <PropertyGroup>
-        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Navigator.xml</DocumentationFile>
+        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Docking.xml</DocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
     </PropertyGroup>
     <PropertyGroup>
         <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
-
+  
   <!--Handle AssemblyInfo-->
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -99,5 +98,4 @@
     <AssemblyVersion>6.1.2108</AssemblyVersion>
     <FileVersion>6.1.2108</FileVersion>
   </PropertyGroup>
-
 </Project>
