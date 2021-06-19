@@ -612,7 +612,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("How much to round the border corners.")]
-        [DefaultValue(GlobalStaticValues.CORNER_ROUNDING_VALUE)]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         [RefreshPropertiesAttribute(RefreshProperties.All)]
         public int Rounding
         {
@@ -620,7 +620,7 @@ namespace Krypton.Toolkit
             {
                 if (_storage == null)
                 {
-                    return GlobalStaticValues.CORNER_ROUNDING_VALUE;
+                    return GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
                 }
                 else
                 {

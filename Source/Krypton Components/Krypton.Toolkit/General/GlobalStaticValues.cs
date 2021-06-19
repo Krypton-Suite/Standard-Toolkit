@@ -17,6 +17,6 @@ namespace Krypton.Toolkit
     {
         public const int PRIMARY_CORNER_ROUNDING_VALUE = 5;
 
-        public const int SECONDARY_CORNER_ROUNDING_VALUE = 2.5;
+        public const int SECONDARY_CORNER_ROUNDING_VALUE = (int)2.5;
     }
 }
