@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Implement storage for palette border details.
     /// </summary>
-    public class PaletteBorder : Storage, 
+    public class PaletteBorder : Storage,
                                  IPaletteBorder
     {
         #region Internal Classes
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
         {
             get => _storage?.BorderDraw ?? InheritBool.Inherit;
 
-            set 
+            set
             {
                 if (_storage != null)
                 {
@@ -312,7 +312,7 @@ namespace Krypton.Toolkit
         {
             get => _storage?.BorderColor1 ?? Color.Empty;
 
-            set 
+            set
             {
                 if (_storage != null)
                 {
@@ -502,7 +502,7 @@ namespace Krypton.Toolkit
         [RefreshPropertiesAttribute(RefreshProperties.All)]
         public float ColorAngle
         {
-            get 
+            get
             {
                 if (_storage == null)
                 {
@@ -559,7 +559,7 @@ namespace Krypton.Toolkit
         [RefreshPropertiesAttribute(RefreshProperties.All)]
         public int Width
         {
-            get 
+            get
             {
                 if (_storage == null)
                 {
@@ -612,15 +612,15 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("How much to round the border corners.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         [RefreshPropertiesAttribute(RefreshProperties.All)]
         public int Rounding
         {
-            get 
+            get
             {
                 if (_storage == null)
                 {
-                    return -1;
+                    return GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
                 }
                 else
                 {

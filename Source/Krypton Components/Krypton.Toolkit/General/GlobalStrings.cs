@@ -25,18 +25,16 @@ namespace Krypton.Toolkit
     public class GlobalStrings : GlobalId
     {
         #region Static Fields
-
-        private const string DEFAULT_OK = "OK";
-        private const string DEFAULT_CANCEL = "Cancel";
-        private const string DEFAULT_YES = "Yes";
-        private const string DEFAULT_NO = "No";
-        private const string DEFAULT_ABORT = "Abort";
-        private const string DEFAULT_RETRY = "Retry";
-        private const string DEFAULT_IGNORE = "Ignore";
-        private const string DEFAULT_CLOSE = "Close";
-        private const string DEFAULT_TODAY = "Today";
-        private const string DEFAULT_HELP = "Help";
-
+        private const string DEFAULT_OK = "&OK";
+        private const string DEFAULT_CANCEL = "Cance&l";
+        private const string DEFAULT_YES = "Y&es";
+        private const string DEFAULT_NO = "&No";
+        private const string DEFAULT_ABORT = "A&bort";
+        private const string DEFAULT_RETRY = "Ret&ry";
+        private const string DEFAULT_IGNORE = "I&gnore";
+        private const string DEFAULT_CLOSE = "Cl&ose";
+        private const string DEFAULT_TODAY = "T&oday";
+        private const string DEFAULT_HELP = "H&elp";
         #endregion
 
         #region Instance Fields
@@ -101,7 +99,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("OK string used for message box buttons.")]
         [DefaultValue(DEFAULT_OK)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string OK { get; set; }
 
         /// <summary>
@@ -111,7 +109,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Cancel string used for message box buttons.")]
         [DefaultValue(DEFAULT_CANCEL)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Cancel { get; set; }
 
         /// <summary>
@@ -121,7 +119,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Yes string used for message box buttons.")]
         [DefaultValue(DEFAULT_YES)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Yes { get; set; }
 
         /// <summary>
@@ -131,7 +129,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("No string used for message box buttons.")]
         [DefaultValue(DEFAULT_NO)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string No { get; set; }
 
         /// <summary>
@@ -141,7 +139,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Abort string used for message box buttons.")]
         [DefaultValue(DEFAULT_ABORT)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Abort { get; set; }
 
         /// <summary>
@@ -151,7 +149,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Retry string used for message box buttons.")]
         [DefaultValue(DEFAULT_RETRY)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Retry { get; set; }
 
         /// <summary>
@@ -161,7 +159,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ignore string used for message box buttons.")]
         [DefaultValue(DEFAULT_IGNORE)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Ignore { get; set; }
 
         /// <summary>
@@ -172,7 +170,7 @@ namespace Krypton.Toolkit
         [Description("Close string used for message box buttons.")]
         [DefaultValue(DEFAULT_CLOSE)]
 
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Close { get; set; }
 
         /// <summary>
@@ -182,7 +180,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Today string used for calendars.")]
         [DefaultValue(DEFAULT_TODAY)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Today { get; set; }
 
         /// <summary>
@@ -192,7 +190,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Help string used for Message Box Buttons.")]
         [DefaultValue(DEFAULT_HELP)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Help { get; set; }
         #endregion
     }

@@ -191,6 +191,42 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the corner radius.</summary>
+        /// <value>The corner radius.</value>
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public int CornerRadius
+        {
+            get => _listBox.StateCommon.Border.Rounding;
+
+            set
+            {
+                if (_listBox.StateCommon.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_listBox, null, _listBox.StateCommon.Border.Rounding, value);
+
+                    _listBox.StateCommon.Border.Rounding = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the item corner radius.</summary>
+        /// <value>The item corner radius.</value>
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public int ItemCornerRounding
+        {
+            get => _listBox.StateCommon.Item.Border.Rounding;
+
+            set
+            {
+                if (_listBox.StateCommon.Item.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_listBox, null, _listBox.StateCommon.Item.Border.Rounding, value);
+
+                    _listBox.StateCommon.Item.Border.Rounding = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -214,6 +250,8 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("ItemStyle", "Item Style", "Appearance", "How to display list items."));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
+                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem("ItemCornerRadius", "Item Corner Rounding Radius", "Appearance", "The corner rounding radius of the item."));
                 actions.Add(new DesignerActionHeaderItem("Behavior"));
                 actions.Add(new DesignerActionPropertyItem("SelectionMode", "Selection Mode", "Behavior", "Determines the selection mode."));
                 actions.Add(new DesignerActionPropertyItem("Sorted", "Sorted", "Behavior", "Should items be sorted according to string."));
