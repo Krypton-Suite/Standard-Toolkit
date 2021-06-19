@@ -823,11 +823,11 @@ namespace Krypton.Toolkit
         #region Preserve Text
         /// <summary>Preserves the button text.</summary>
         /// <param name="buttonText">The text to preserve.</param>
-        private void PreserveText(string buttonText)
+        public void PreserveText(string buttonText)
         {
             if (_alwaysUseSetText)
             {
-                _persistentText = buttonText;
+                PersistentText = buttonText;
             }
         }
         #endregion
