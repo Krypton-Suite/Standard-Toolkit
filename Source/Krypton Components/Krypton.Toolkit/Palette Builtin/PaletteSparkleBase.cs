@@ -3450,7 +3450,7 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
             {
-                return -1;
+                return GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
             }
 
             switch (style)
@@ -7285,7 +7285,7 @@ namespace Krypton.Toolkit
                 (style != PaletteContentStyle.InputControlRibbon) &&
                 (style != PaletteContentStyle.InputControlCustom1) &&
                 (style != PaletteContentStyle.InputControlCustom2) &&
-                (style != PaletteContentStyle.InputControlCustom3) 
+                (style != PaletteContentStyle.InputControlCustom3)
                 )
             {
                 return _disabledText;
@@ -7503,7 +7503,7 @@ namespace Krypton.Toolkit
                 (style != PaletteContentStyle.InputControlRibbon) &&
                 (style != PaletteContentStyle.InputControlCustom1) &&
                 (style != PaletteContentStyle.InputControlCustom2) &&
-                (style != PaletteContentStyle.InputControlCustom3) 
+                (style != PaletteContentStyle.InputControlCustom3)
                 )
             {
                 return _disabledText;
