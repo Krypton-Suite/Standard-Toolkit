@@ -116,6 +116,9 @@ namespace Krypton.Toolkit
 
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawButton);
+
+            // Always preserve the text, if the DialogResult value has been changed
+            _alwaysUseSetText = true;
         }
         #endregion
 
@@ -625,6 +628,11 @@ namespace Krypton.Toolkit
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+            {
+                PreserveText(Text);
+            }
+
             if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText) && DialogResult == DialogResult.None)
             {
                 Text = _persistentText;
@@ -808,6 +816,18 @@ namespace Krypton.Toolkit
             if (CanFocus)
             {
                 Focus();
+            }
+        }
+        #endregion
+
+        #region Preserve Text
+        /// <summary>Preserves the button text.</summary>
+        /// <param name="buttonText">The text to preserve.</param>
+        public void PreserveText(string buttonText)
+        {
+            if (_alwaysUseSetText)
+            {
+                PersistentText = buttonText;
             }
         }
         #endregion
