@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the corner radius of the KryptonMessageBox.</summary>
         /// <value>The corner radius.</value>
-        [DefaultValue(-1), Description("Defines the corner radius of the KryptonMessageBox.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description("Defines the corner radius of the KryptonMessageBox.")]
         public int CornerRadius { get => _cornerRadius; set => _cornerRadius = value; }
 
         /// <summary>Gets or sets the owner.</summary>
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
 
             _blurRadius = 0;
 
-            _cornerRadius = -1;
+            _cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             _owner = null;
 

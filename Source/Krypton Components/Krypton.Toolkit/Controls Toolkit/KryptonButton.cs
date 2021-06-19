@@ -38,9 +38,8 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand _command;
-        private bool _isDefault;
-        private bool _useMnemonic;
-        private bool _wasEnabled;
+        private bool _alwaysUseSetText, _isDefault, _useMnemonic, _wasEnabled;
+        private string _persistentText;
         #endregion
 
         #region Events
@@ -227,6 +226,18 @@ namespace Krypton.Toolkit
         {
             ButtonStyle = ButtonStyle.Standalone;
         }
+
+        [DefaultValue(true), Description("Always use the set text, even if the 'DialogResult' value has been changed. (Note: You can manage the 'DialogResult' string values via the KryptonManager on the parent KryptonForm.)")]
+        public bool AlwaysUseSetText { get => _alwaysUseSetText; set => _alwaysUseSetText = value; }
+
+        private bool ShouldSerializeAlwaysUseSetText() => (AlwaysUseSetText != _alwaysUseSetText);
+
+        private bool ResetAlwaysUseSetText() => AlwaysUseSetText = true;
+
+        /// <summary>Gets the persistent text.</summary>
+        /// <value>The persistent text.</value>
+        [Description("Stores the button text.")]
+        public string PersistentText { get => _persistentText; private set => _persistentText = value; }
 
         /// <summary>
         /// Gets access to the button content.
@@ -610,6 +621,100 @@ namespace Krypton.Toolkit
         protected override void ContextMenuClosed()
         {
             _buttonController.RemoveFixed();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText) && DialogResult == DialogResult.None)
+            {
+                Text = _persistentText;
+            }
+
+            if (DialogResult == DialogResult.Abort)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.Abort;
+                }
+            }
+
+            if (DialogResult == DialogResult.Cancel)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.Cancel;
+                }
+            }
+
+            if (DialogResult == DialogResult.OK)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.OK;
+                }
+            }
+
+            if (DialogResult == DialogResult.Yes)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.Yes;
+                }
+            }
+
+            if (DialogResult == DialogResult.No)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.No;
+                }
+            }
+
+            if (DialogResult == DialogResult.Retry)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.Retry;
+                }
+            }
+
+            if (DialogResult == DialogResult.Ignore)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.Ignore;
+                }
+            }
+
+            base.OnPaint(e);
         }
         #endregion
 

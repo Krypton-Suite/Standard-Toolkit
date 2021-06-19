@@ -245,7 +245,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.CORNER_ROUNDING_VALUE)]
         public int CornerRadius
         {
             get => _dropButton.StateCommon.Border.Rounding;

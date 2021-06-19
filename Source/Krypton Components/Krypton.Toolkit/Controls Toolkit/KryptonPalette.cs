@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         private KryptonPaletteTMS _toolMenuStatus;
         private NeedPaintHandler _needPaintDelegate;
         private NeedPaintHandler _needTMSPaintDelegate;
-        private string _customisedKryptonPaletteFilePath;
+        private string _customisedKryptonPaletteFilePath, _paletteFileName;
 
         #region Property Grid Variables
 
@@ -2641,6 +2641,9 @@ namespace Krypton.Toolkit
                 {
                     // Set the file path
                     SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
+
+                    // Set the palette name
+                    SetPaletteName(Path.GetFileName(dialog.FileName));
                 }
             }
 
@@ -3045,15 +3048,15 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public Properties        
-        /// <summary>Gets or sets the customised Krypton palette file path.</summary>
+        /// <summary>Gets the customised Krypton palette file path.</summary>
         [KryptonPersist(false, false)]
         [Category("Miscellaneous")]
-        [Description("Gets or sets the customised Krypton palette file path.")]
+        [Description("Gets the customised Krypton palette file path.")]
         [DefaultValue("")]
         public string CustomisedKryptonPaletteFilePath
         {
             get => _customisedKryptonPaletteFilePath;
-            set => _customisedKryptonPaletteFilePath = value;
+            private set => _customisedKryptonPaletteFilePath = value;
         }
 
         private bool ShouldSerializeCustomisedKryptonPaletteFilePath()
@@ -3069,6 +3072,9 @@ namespace Krypton.Toolkit
             _customisedKryptonPaletteFilePath = string.Empty;
         }
 
+        /// <summary>Gets the palette name.</summary>
+        [KryptonPersist(false, false), Category("Miscellaneous"), Description("Gets the palette name."), DefaultValue("")]
+        public string PaletteName { get => _paletteFileName; private set => _paletteFileName = value; }
 
         /// <summary>
         /// Gets or sets the base palette used to inherit from.
@@ -6368,23 +6374,21 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Setters and Getters
-        /// <summary>
-        /// Sets the CustomisedKryptonPaletteFilePath to the value of customisedKryptonPaletteFilePathValue.
-        /// </summary>
+        /// <summary>Sets the CustomisedKryptonPaletteFilePath to the value of customisedKryptonPaletteFilePathValue.</summary>
         /// <param name="customisedKryptonPaletteFilePathValue">The value of customisedKryptonPaletteFilePathValue.</param>
-        public void SetCustomisedKryptonPaletteFilePath(string customisedKryptonPaletteFilePathValue)
-        {
-            CustomisedKryptonPaletteFilePath = customisedKryptonPaletteFilePathValue;
-        }
+        public void SetCustomisedKryptonPaletteFilePath(string customisedKryptonPaletteFilePathValue) => CustomisedKryptonPaletteFilePath = customisedKryptonPaletteFilePathValue;
 
-        /// <summary>
-        /// Gets the CustomisedKryptonPaletteFilePath value.
-        /// </summary>
+        /// <summary>Gets the CustomisedKryptonPaletteFilePath value.</summary>
         /// <returns>The value of customisedKryptonPaletteFilePathValue.</returns>
-        public string GetCustomisedKryptonPaletteFilePath()
-        {
-            return CustomisedKryptonPaletteFilePath;
-        }
+        public string GetCustomisedKryptonPaletteFilePath() => CustomisedKryptonPaletteFilePath;
+
+        /// <summary>Sets the PaletteName to the value of value.</summary>
+        /// <param name="value">The desired value of PaletteName.</param>
+        public void SetPaletteName(string value) => PaletteName = value;
+
+        /// <summary>Returns the value of the PaletteName.</summary>
+        /// <returns>The value of the PaletteName.</returns>
+        public string GetPaletteName() => PaletteName;
         #endregion
     }
 }
