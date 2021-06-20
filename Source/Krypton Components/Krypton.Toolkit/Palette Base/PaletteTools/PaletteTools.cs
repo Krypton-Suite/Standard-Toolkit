@@ -38,6 +38,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Properties
+        /// <summary>Gets the theme list.</summary>
+        /// <value>The theme list.</value>
         public static string[] ThemeList { get => _themeList; }
         #endregion
 
@@ -49,6 +51,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Methods
+        /// <summary>Links the type of the palette to the correct theme style.</summary>
+        /// <param name="themeName">Name of the theme.</param>
+        /// <returns></returns>
         public PaletteModeManager LinkPaletteType(string themeName)
         {
             PaletteModeManager paletteMode = new PaletteModeManager();
@@ -137,6 +142,10 @@ namespace Krypton.Toolkit
             return paletteMode;
         }
 
+        /// <summary>Applies the theme.</summary>
+        /// <param name="manager">The manager.</param>
+        /// <param name="paletteMode">The palette mode.</param>
+        /// <param name="customThemePath">The custom theme path.</param>
         public static void ApplyTheme(KryptonManager manager, PaletteModeManager paletteMode = PaletteModeManager.Office365Blue, string customThemePath = "")
         {
             manager.GlobalPaletteMode = paletteMode;
