@@ -46,8 +46,7 @@ global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
 
+global using Krypton.Toolkit.Global;
 global using Krypton.Toolkit.Properties;
 
 global using Microsoft.Win32;
-
-global using static System.Windows.Forms.AxHost;
