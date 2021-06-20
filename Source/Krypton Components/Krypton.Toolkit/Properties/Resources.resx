@@ -2005,22 +2005,4 @@
   <data name="XP_Not_Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\XPNotChecked.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Critical_32_x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Critical_32_x_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Hand_32_x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Hand_32_x_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Information_32_x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Information_32_x_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Question_32_x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Question_32_x_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stop_32_x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Stop_32_x_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Warning_32_x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Warning_32_x_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>
