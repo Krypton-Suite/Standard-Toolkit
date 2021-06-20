@@ -2,6 +2,11 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
 
   <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  
+  <PropertyGroup>
     <!-- common project data -->
 	  <Version>$(LibraryVersion)</Version>
     <!-- two flavors of TFM are supported : 'all' where the NuGet package include all supported tfms. 'lite' with only .net core and .net 4.5 support -->
