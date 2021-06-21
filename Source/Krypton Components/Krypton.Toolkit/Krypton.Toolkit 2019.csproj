@@ -204,6 +204,11 @@
         <Compile Update="Rendering\RenderStandard.cs">
             <SubType>Component</SubType>
         </Compile>
+        <Compile Update="Global\MessageBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
         </Compile>
@@ -368,6 +373,12 @@
         <EmbeddedResource Remove="Controls Toolkit\KryptonInputBoxNew.resx" />
         <EmbeddedResource Remove="Toolkit\KryptonCheckButtonCollectionForm.resx" />
         <EmbeddedResource Remove="Toolkit\PaletteDrawBordersSelector.resx" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Global\MessageBoxResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
