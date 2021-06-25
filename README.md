@@ -134,6 +134,11 @@ These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 
 =======
 
+## 2021-06-2x - Build 2106.2 - June 2021 (Update 2)
+* Fixed [#167](https://github.com/Krypton-Suite/Standard-Toolkit/issues/167), Latest Canary of `KryptonInputBox` is not useable!! 
+
+=======
+
 ## 2021-06-04 - Build 2106.1 - June 2021 (Update 1)
 * Fix NuGet package descriptions
 * Disabled `KryptonListView`, `KryptonToolStrip` and `KryptonStatusStrip` - to return in a future update
