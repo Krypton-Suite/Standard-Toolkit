@@ -100,8 +100,8 @@
         <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
     <PropertyGroup>
-        <AssemblyVersion>6.0.2106.1</AssemblyVersion>
-        <FileVersion>6.0.2106.1</FileVersion>
+        <AssemblyVersion>6.0.2106.2</AssemblyVersion>
+        <FileVersion>6.0.2106.2</FileVersion>
     </PropertyGroup>
 
 </Project>

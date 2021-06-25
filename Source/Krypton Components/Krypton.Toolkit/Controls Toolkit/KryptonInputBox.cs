@@ -212,18 +212,8 @@ namespace Krypton.Toolkit
         public string RetrieveUserResponse() => ktxtInput.Text;
 
         /// <summary>Enables the ok button.</summary>
-        /// <param name="value">if set to <c>true</c> [value].</param>
-        private void EnableOkButton(bool value)
-        {
-            if (value)
-            {
-                kbtnOk.Enabled = true;
-            }
-            else
-            {
-                kbtnOk.Enabled = false;
-            }
-        }
+        /// <param name="state">if set to <c>true</c> [value].</param>
+        private void EnableOkButton(bool state) => kbtnOk.Enabled = state;
 
         /// <summary>Internals the show.</summary>
         /// <param name="owner">The owner.</param>
@@ -267,7 +257,7 @@ namespace Krypton.Toolkit
         private void SetPromptTextAlignment(HorizontalAlignment alignment) => ktxtInput.TextAlign = alignment;
         #endregion
 
-        private void ktxtInput_TextChanged(object sender, EventArgs e) => EnableOkButton(string.IsNullOrEmpty(ktxtInput.Text));
+        private void ktxtInput_TextChanged(object sender, EventArgs e) => kbtnOk.Enabled = !string.IsNullOrEmpty(ktxtInput.Text); // EnableOkButton(string.IsNullOrEmpty(ktxtInput.Text));
 
         private void ktxtInput_KeyDown(object sender, KeyEventArgs e)
         {
