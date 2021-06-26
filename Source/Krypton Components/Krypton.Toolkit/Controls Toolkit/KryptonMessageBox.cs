@@ -751,19 +751,19 @@ namespace Krypton.Toolkit
 
                     break;
                 case MessageBoxIcon.Question:
-                    _messageIcon.Image = MessageBoxResources.Question_32_x_32;
+                    _messageIcon.Image = SystemIcons.Question.ToBitmap();
                     SystemSounds.Question.Play();
                     break;
                 case MessageBoxIcon.Information:
-                    _messageIcon.Image = MessageBoxResources.Information_32_x_32;
+                    _messageIcon.Image = SystemIcons.Information.ToBitmap();
                     SystemSounds.Asterisk.Play();
                     break;
                 case MessageBoxIcon.Warning:
-                    _messageIcon.Image = MessageBoxResources.Warning_32_x_32;
+                    _messageIcon.Image = SystemIcons.Warning.ToBitmap();
                     SystemSounds.Exclamation.Play();
                     break;
                 case MessageBoxIcon.Error:
-                    _messageIcon.Image = MessageBoxResources.Critical_32_x_32;
+                    _messageIcon.Image = SystemIcons.Error.ToBitmap();
                     SystemSounds.Hand.Play();
                     break;
             }
