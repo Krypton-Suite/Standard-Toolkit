@@ -782,7 +782,22 @@ namespace Krypton.Toolkit
                     _messageIcon.Image = MessageBoxResources.UAC_Shield;
                     break;
                 case KryptonMessageBoxIcon.WINDOWSLOGO:
-                    _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.WinLogo.ToBitmap(), _messageIcon.Size);
+                    if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 1)
+                    {
+                        // Use Windows 7 icon
+                        _messageIcon.Image = MessageBoxResources.Windows_7;
+                    }
+                    else if (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor >= 3)
+                    {
+                        // Use Windows 8/8.1/10 icon
+                        _messageIcon.Image = MessageBoxResources.Windows_10;
+                    }
+                    else
+                    {
+                        // Use Windows 11 icon
+
+                        // TODO: Windows 11 icon
+                    }
                     break;
             }
         }
