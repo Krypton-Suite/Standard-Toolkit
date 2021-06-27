@@ -781,6 +781,9 @@ namespace Krypton.Toolkit
                 case KryptonMessageBoxIcon.SHIELD:
                     _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.Shield.ToBitmap(), _messageIcon.Size);
                     break;
+                case KryptonMessageBoxIcon.WINDOWSLOGO:
+                    _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.WinLogo.ToBitmap(), _messageIcon.Size);
+                    break;
             }
         }
 

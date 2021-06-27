@@ -60,6 +60,8 @@
         /// <summary>Specify a information icon.</summary>
         INFORMATION = 8,
         /// <summary>Specify a UAC shield icon.</summary>
-        SHIELD = 9
+        SHIELD = 9,
+        /// <summary>Specify a Windows logo icon.</summary>
+        WINDOWSLOGO = 10
     }
 }
