@@ -21,6 +21,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonForm), "ToolboxBitmaps.KryptonForm.bmp")]
     [Description("Draws the window chrome using a Krypton palette.")]
+    [Designer(typeof(KryptonFormDesigner))]
     public class KryptonForm : VisualForm,
                                IContentValues
     {
@@ -98,6 +99,8 @@ namespace Krypton.Toolkit
         private Icon _cacheIcon;
         private int _cornerRoundingRadius;
         private Control _activeControl;
+        private KryptonManager _internalKryptonManager;
+        private KryptonPalette _internalKryptonPalette;
         #endregion
 
         #region Identity
@@ -179,7 +182,7 @@ namespace Krypton.Toolkit
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
 
-            // Hook into globalstatic events
+            // Hook into global static events
             KryptonManager.GlobalAllowFormChromeChanged += OnGlobalAllowFormChromeChanged;
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -199,8 +202,12 @@ namespace Krypton.Toolkit
 
             //DisableCloseButton = false;
 
-            // Set the CornerRoundingRadius to '-1', default value
-            CornerRoundingRadius = -1;
+            // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
+            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _internalKryptonManager = new KryptonManager();
+
+            _internalKryptonPalette = new KryptonPalette();
         }
 
         /// <summary>
@@ -624,6 +631,16 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets the internal krypton manager.</summary>
+        /// <value>The internal krypton manager.</value>
+        [Description("Manages the current theme.")]
+        public KryptonManager KryptonManager { get => _internalKryptonManager; private set => _internalKryptonManager = value; }
+
+        /// <summary>Gets the internal krypton palette.</summary>
+        /// <value>The internal krypton palette.</value>
+        [Description("Create a custom theme palette.")]
+        public KryptonPalette KryptonPalette { get => _internalKryptonPalette; private set => _internalKryptonPalette = value; }
         #endregion
 
         #region Public Chrome

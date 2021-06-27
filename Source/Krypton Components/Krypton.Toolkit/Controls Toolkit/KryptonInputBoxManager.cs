@@ -12,6 +12,7 @@
 
 namespace Krypton.Toolkit
 {
+    [ToolboxBitmap(typeof(KryptonInputBox), "ToolboxBitmaps.KryptonInputBox.bmp")]
     public class KryptonInputBoxManager : Component
     {
         #region Variables
@@ -65,7 +66,7 @@ namespace Krypton.Toolkit
 
         #region Constructor
         /// <summary>Initializes a new instance of the <see cref="KryptonInputBoxManager" /> class.</summary>
-        public KryptonInputBoxManager() 
+        public KryptonInputBoxManager()
         {
             _usePasswordOption = false;
 

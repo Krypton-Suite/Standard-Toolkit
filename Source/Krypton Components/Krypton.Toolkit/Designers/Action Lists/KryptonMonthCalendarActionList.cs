@@ -174,6 +174,24 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the corner radius.</summary>
+        /// <value>The corner radius.</value>
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public int CornerRadius
+        {
+            get => _monthCalendar.StateCommon.Border.Rounding;
+
+            set
+            {
+                if (_monthCalendar.StateCommon.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_monthCalendar, null, _monthCalendar.StateCommon.Border.Rounding, value);
+
+                    _monthCalendar.StateCommon.Border.Rounding = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -194,6 +212,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("DayShortTextFont", "Day Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("DayLongTextFont", "Day Long Text Font", "Appearance", "The long text font."));
+                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem("Behavior"));
                 actions.Add(new DesignerActionPropertyItem("MaxSelectionCount", "MaxSelectionCount", "Behavior", "Maximum number of selected days"));
                 actions.Add(new DesignerActionPropertyItem("ShowToday", "ShowToday", "Behavior", "Show the today button"));
