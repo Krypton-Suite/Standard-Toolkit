@@ -751,35 +751,35 @@ namespace Krypton.Toolkit
 
                     break;
                 case KryptonMessageBoxIcon.QUESTION:
-                    _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.Question.ToBitmap(), _messageIcon.Size);
+                    _messageIcon.Image = MessageBoxResources.Question;
                     SystemSounds.Question.Play();
                     break;
                 case KryptonMessageBoxIcon.INFORMATION:
-                    _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.Information.ToBitmap(), _messageIcon.Size);
+                    _messageIcon.Image = MessageBoxResources.MBInformation;
                     SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.WARNING:
-                    _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.Warning.ToBitmap(), _messageIcon.Size);
+                    _messageIcon.Image = MessageBoxResources.Warning;
                     SystemSounds.Exclamation.Play();
                     break;
                 case KryptonMessageBoxIcon.ERROR:
-                    _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.Error.ToBitmap(), _messageIcon.Size);
+                    _messageIcon.Image = MessageBoxResources.Critical;
                     SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.ASTERISK:
-                    _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.Asterisk.ToBitmap(), _messageIcon.Size);
+                    _messageIcon.Image = MessageBoxResources.Asterisk;
                     SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.HAND:
-                    _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.Hand.ToBitmap(), _messageIcon.Size);
+                    _messageIcon.Image = MessageBoxResources.Hand;
                     SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.STOP:
-                    _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.Error.ToBitmap(), _messageIcon.Size);
+                    _messageIcon.Image = MessageBoxResources.Stop;
                     SystemSounds.Hand.Play();
                     break;
                 case KryptonMessageBoxIcon.SHIELD:
-                    _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.Shield.ToBitmap(), _messageIcon.Size);
+                    _messageIcon.Image = MessageBoxResources.UAC_Shield;
                     break;
                 case KryptonMessageBoxIcon.WINDOWSLOGO:
                     _messageIcon.Image = IconUtilities.SetIcon(SystemIcons.WinLogo.ToBitmap(), _messageIcon.Size);
