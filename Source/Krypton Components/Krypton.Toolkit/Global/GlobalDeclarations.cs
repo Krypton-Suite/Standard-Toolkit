@@ -45,6 +45,7 @@ global using System.Windows.Forms.Design;
 global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
+global using System.Xml.Serialization;
 
 global using Krypton.Toolkit.Global;
 global using Krypton.Toolkit.Properties;

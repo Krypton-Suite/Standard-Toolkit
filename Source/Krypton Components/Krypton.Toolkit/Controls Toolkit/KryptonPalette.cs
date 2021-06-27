@@ -4044,8 +4044,12 @@ namespace Krypton.Toolkit
                 {
                     // Conv ert the Image into base64 so it can be used in xml
                     MemoryStream memory = new();
+
+                    // TODO: Change this to a safer alternative https://docs.microsoft.com/en-gb/dotnet/standard/serialization/binaryformatter-security-guide
                     BinaryFormatter formatter = new();
+
                     formatter.Serialize(memory, entry.Key);
+
                     string base64 = Convert.ToBase64String(memory.ToArray());
 
                     // Create and add a new xml element
