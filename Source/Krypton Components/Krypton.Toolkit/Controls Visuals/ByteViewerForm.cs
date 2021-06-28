@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
                         File.WriteAllBytes(sfd.FileName, bytes);
                         // FIXME: string literal.
                         KryptonMessageBox.Show(this, $"Data exported to {sfd.FileName}", "Data Export",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                     }
                 }
             }

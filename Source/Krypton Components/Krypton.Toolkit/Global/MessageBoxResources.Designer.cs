@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Global {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Critical_32_x_32 {
+        internal static System.Drawing.Bitmap Asterisk {
             get {
-                object obj = ResourceManager.GetObject("Critical_32_x_32", resourceCulture);
+                object obj = ResourceManager.GetObject("Asterisk", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.Global {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Hand_32_x_32 {
+        internal static System.Drawing.Bitmap Critical {
             get {
-                object obj = ResourceManager.GetObject("Hand_32_x_32", resourceCulture);
+                object obj = ResourceManager.GetObject("Critical", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.Global {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Information_32_x_32 {
+        internal static System.Drawing.Bitmap Hand {
             get {
-                object obj = ResourceManager.GetObject("Information_32_x_32", resourceCulture);
+                object obj = ResourceManager.GetObject("Hand", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.Global {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Question_32_x_32 {
+        internal static System.Drawing.Bitmap MBInformation {
             get {
-                object obj = ResourceManager.GetObject("Question_32_x_32", resourceCulture);
+                object obj = ResourceManager.GetObject("MBInformation", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit.Global {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Stop_32_x_32 {
+        internal static System.Drawing.Bitmap Question {
             get {
-                object obj = ResourceManager.GetObject("Stop_32_x_32", resourceCulture);
+                object obj = ResourceManager.GetObject("Question", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,59 @@ namespace Krypton.Toolkit.Global {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Warning_32_x_32 {
+        internal static System.Drawing.Bitmap Stop {
             get {
-                object obj = ResourceManager.GetObject("Warning_32_x_32", resourceCulture);
+                object obj = ResourceManager.GetObject("Stop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UAC_Shield {
+            get {
+                object obj = ResourceManager.GetObject("UAC_Shield", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Warning {
+            get {
+                object obj = ResourceManager.GetObject("Warning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Windows_10 {
+            get {
+                object obj = ResourceManager.GetObject("Windows_10", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Windows_10_Coloured {
+            get {
+                object obj = ResourceManager.GetObject("Windows_10_Coloured", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Windows_7 {
+            get {
+                object obj = ResourceManager.GetObject("Windows_7", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

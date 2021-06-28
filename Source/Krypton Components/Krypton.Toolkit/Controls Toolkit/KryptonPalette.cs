@@ -2563,7 +2563,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show("Reset failed.\n\n Error:" + ex.Message,
                                     "Palette Reset",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
             }
             finally
@@ -2605,7 +2605,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show("Reset failed.\n\n Error:" + ex.Message,
                                     "Populate Values",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
             }
             finally
@@ -2688,7 +2688,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show($"Import from file '{filename}' completed.",
                                     @"Palette Import",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -2698,7 +2698,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show($"Import from file '{filename}' failed.\n\n Error:{ex.Message}",
                                     @"Palette Import",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -2747,7 +2747,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Import completed with success.",
                                     @"Palette Import",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -2757,7 +2757,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show(@"Import has failed.\n\n Error:" + ex.Message,
                                     @"Palette Import",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -2804,7 +2804,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Import completed with success.",
                                     @"Palette Import",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -2814,7 +2814,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show(@"Import has failed.\n\n Error:" + ex.Message,
                                     @"Palette Import",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -2897,7 +2897,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show($"Export to file '{filename}' completed.",
                                     @"Palette Export",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -2907,7 +2907,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show($"Export to file '{filename}' failed.\n\n Error:{ex.Message}",
                                     @"Palette Export",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -2961,7 +2961,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Export completed with success.",
                                     @"Palette Export",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -2971,7 +2971,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show(@"Export has failed.\n\n Error:" + ex.Message,
                                     @"Palette Export",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -3021,7 +3021,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Export completed with success.",
                                     @"Palette Export",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -3031,7 +3031,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show(@"Export has failed.\n\n Error:" + ex.Message,
                                     @"Palette Export",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -4044,8 +4044,12 @@ namespace Krypton.Toolkit
                 {
                     // Conv ert the Image into base64 so it can be used in xml
                     MemoryStream memory = new();
+
+                    // TODO: Change this to a safer alternative https://docs.microsoft.com/en-gb/dotnet/standard/serialization/binaryformatter-security-guide
                     BinaryFormatter formatter = new();
+
                     formatter.Serialize(memory, entry.Key);
+
                     string base64 = Convert.ToBase64String(memory.ToArray());
 
                     // Create and add a new xml element

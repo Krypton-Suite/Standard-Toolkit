@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
 
         private MessageBoxDefaultButton _defaultButton;
 
-        private MessageBoxIcon _icon;
+        private KryptonMessageBoxIcon _icon;
 
         private MessageBoxOptions _options;
 
@@ -81,8 +81,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the message box icon.</summary>
         /// <value>The message box icon.</value>
-        [DefaultValue(typeof(MessageBoxIcon), "MessageBoxIcon.None"), Description("Defines the KryptonMessageBox icon.")]
-        public MessageBoxIcon MessageBoxIcon { get => _icon; set => _icon = value; }
+        [DefaultValue(typeof(KryptonMessageBoxIcon), "KryptonMessageBoxIcon.NONE"), Description("Defines the KryptonMessageBox icon.")]
+        public KryptonMessageBoxIcon MessageBoxIcon { get => _icon; set => _icon = value; }
 
         /// <summary>Gets or sets the message box options.</summary>
         /// <value>The message box options.</value>
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
 
             _defaultButton = MessageBoxDefaultButton.Button1;
 
-            _icon = MessageBoxIcon.None;
+            _icon = KryptonMessageBoxIcon.NONE;
 
             _options = MessageBoxOptions.DefaultDesktopOnly;
 
