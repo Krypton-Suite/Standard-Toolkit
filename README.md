@@ -106,6 +106,7 @@ These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
+* New `KryptonMessageBoxIcon` to replace the default `MessageBoxIcon` option
 * Updated `KryptonMessageBox` icons
 * Implement [#162](https://github.com/Krypton-Suite/Standard-Toolkit/issues/162), Default rounding of control corners
 * New the `KryptonButton` will now change its text, based on the `DialogResult` property

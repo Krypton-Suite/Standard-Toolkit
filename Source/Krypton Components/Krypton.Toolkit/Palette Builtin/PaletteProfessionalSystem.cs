@@ -3168,7 +3168,7 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
             {
-                return -1;
+                return GlobalStaticValues.MATERIAL_THEME_CORNER_ROUNDING_VALUE;
             }
 
             switch (style)

@@ -1243,12 +1243,12 @@ namespace Krypton.Toolkit
                 // Remember the new palette
                 _palette = palette;
 
-                // Get the renderer associated with the palette
-                Renderer = _palette.GetRenderer();
-
                 // Hook to new palette events
                 if (_palette != null)
                 {
+                    // Get the renderer associated with the palette
+                    Renderer = _palette.GetRenderer();
+
                     _palette.PalettePaint += OnPaletteNeedPaint;
                     _palette.ButtonSpecChanged += OnButtonSpecChanged;
                     _palette.BasePaletteChanged += OnBaseChanged;
