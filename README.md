@@ -109,7 +109,7 @@ These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 * Fixed [#138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/138), `KryptonListView` throws a `System.Resources.MissingManifestResourceException`
     - If you want a standard List then use ListBox or CheckedListBox
     - If you want a Details view then use a `DataGrid`
-    - This implements LargIcons / Small Icons / Tiles with and without checkboxes as allowed
+    - This implements LargeIcons / Small Icons / Tiles with and without checkboxes as allowed
 * New `KryptonMessageBoxIcon` to replace the default `MessageBoxIcon` option
 * Updated `KryptonMessageBox` icons
 * Implement [#162](https://github.com/Krypton-Suite/Standard-Toolkit/issues/162), Default rounding of control corners
