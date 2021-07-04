@@ -926,10 +926,18 @@ namespace Krypton.Toolkit
             SW_FORCEMINIMIZE = 11
         }
 
+        internal struct PRF_
+        {
+            public const int
+                CHECKVISIBLE = 0x01,
+
+                NONCLIENT = 0x02;
+        }
+
         /// <summary>
         /// I needed some "Generic" magic to get from an enum to an int for switch and boolean operands
         /// </summary>
-        internal struct WM_
+            internal struct WM_
         {
             public const int
             // <summary>
@@ -1310,6 +1318,44 @@ namespace Krypton.Toolkit
             // The WM_NCXBUTTONDBLCLK message is posted when the user double-clicks the first or second X button while the cursor is in the nonclient area of a window. This message is posted to the window that contains the cursor. If a window has captured the mouse, this message is not posted.
             // </summary>
             NCXBUTTONDBLCLK = 0x00AD,
+            EM_GETSEL = 0xB0,
+            EM_SETSEL = 0xB1,
+            EM_GETRECT = 0xB2,
+            EM_SETRECT = 0xB3,
+            EM_SETRECTNP = 0xB4,
+            EM_SCROLL = 0xB5,
+            EM_LINESCROLL = 0xB6,
+            EM_SCROLLCARET = 0xB7,
+            EM_GETMODIFY = 0xB8,
+            EM_SETMODIFY = 0xB9,
+            EM_GETLINECOUNT = 0xBA,
+            EM_LINEINDEX = 0xBB,
+            EM_SETHANDLE = 0xBC,
+            EM_GETHANDLE = 0xBD,
+            EM_GETTHUMB = 0xBE,
+            EM_LINELENGTH = 0xC1,
+            EM_REPLACESEL = 0xC2,
+            EM_GETLINE = 0xC4,
+            EM_SETLIMITTEXT = 0xC5,
+            EM_CANUNDO = 0xC6,
+            EM_UNDO = 0xC7,
+            EM_FMTLINES = 0xC8,
+            EM_LINEFROMCHAR = 0xC9,
+            EM_SETTABSTOPS = 0xCB,
+            EM_SETPASSWORDCHAR = 0xCC,
+            EM_EMPTYUNDOBUFFER = 0xCD,
+            EM_GETFIRSTVISIBLELINE = 0xCE,
+            EM_SETREADONLY = 0xCF,
+            EM_SETWORDBREAKPROC = 0xD0,
+            EM_GETWORDBREAKPROC = 0xD1,
+            EM_GETPASSWORDCHAR = 0xD2,
+            EM_SETMARGINS = 0xD3,
+            EM_GETMARGINS = 0xD4,
+            EM_GETLIMITTEXT = 0xD5,
+            EM_POSFROMCHAR = 0xD6,
+            EM_CHARFROMPOS = 0xD7,
+            EM_SETIMESTATUS = 0xD8,
+            EM_GETIMESTATUS = 0xD9,
             // <summary>
             // The WM_INPUT_DEVICE_CHANGE message is sent to the window that registered to receive raw input. A window receives this message through its WindowProc function.
             // </summary>
@@ -2235,6 +2281,7 @@ namespace Krypton.Toolkit
         internal const byte AC_SRC_OVER = 0x00;
         internal const byte AC_SRC_ALPHA = 0x01;
         internal const int EM_SETCUEBANNER = 0x1501;
+        internal const int CB_SETCUEBANNER = 0x1703;
         #endregion
 
         #region Static Methods
@@ -2333,6 +2380,10 @@ namespace Krypton.Toolkit
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool IsWindowVisible(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern uint SetWindowLong(IntPtr hwnd, GWL_ nIndex, uint nLong);
@@ -2533,6 +2584,9 @@ namespace Krypton.Toolkit
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr GetWindow(IntPtr hWnd, GetWindowType uCmd);
 
+        [DllImport("user32.dll")]
+        internal static extern IntPtr ChildWindowFromPoint(IntPtr hWndParent, POINT pt);
+
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         internal static extern IntPtr GetParent(IntPtr hWnd);
 
@@ -2681,6 +2735,9 @@ namespace Krypton.Toolkit
 
         [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         internal static extern uint SetBkColor(IntPtr hdc, int crColor);
+
+        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        internal static extern uint SetBkMode(IntPtr hdc, int crColor);
 
         [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         internal static extern IntPtr CreateSolidBrush(int crColor);
