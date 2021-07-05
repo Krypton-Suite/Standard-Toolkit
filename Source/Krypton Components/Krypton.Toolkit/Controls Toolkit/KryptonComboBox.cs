@@ -318,7 +318,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText))
+                            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText))
                             {
                                 PI.SendMessage(Handle, PI.CB_SETCUEBANNER, IntPtr.Zero, _kryptonComboBox.CueHint.CueHintText);
                             }
