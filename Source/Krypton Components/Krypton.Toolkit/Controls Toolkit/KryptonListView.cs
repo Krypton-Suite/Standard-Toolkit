@@ -1,1316 +1,750 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2021. All rights reserved. 
  *
  */
 #endregion
 
-
+// ReSharper disable MemberCanBeProtected.Global
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// A Kryptonised listview (experimental).
+    /// Provide a ListView with Krypton styling applied.
     /// </summary>
     /// <seealso cref="System.Windows.Forms.ListView" />
-    [Description("A Kryptonised listview (experimental)."), ToolboxBitmap(typeof(ListView)), ToolboxItem(true)]
+    [ToolboxItem(true)]
+    [ToolboxBitmap(typeof(ListView))]
+    [DefaultEvent("AfterSelect")]
+    [DefaultProperty("Nodes")]
+    [Designer(typeof(KryptonTreeViewDesigner))]
+    [DesignerCategory("code")]
+    [Description("A Kryptonised listview. Does not support the `List or Details View` types")]
     public class KryptonListView : ListView
     {
-        #region Designer Code
-        private ImageList ilCheckBoxes;
-        private System.ComponentModel.IContainer components;
-        private ImageList ilHeight;
-
-        private void InitializeComponent()
-        {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KryptonListView));
-            //this.ilCheckBoxes = new System.Windows.Forms.ImageList(this.components);
-            this.ilHeight = new System.Windows.Forms.ImageList(this.components);
-            this.SuspendLayout();
-            // 
-            // ilCheckBoxes
-            // 
-            this.ilCheckBoxes.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilCheckBoxes.ImageStream")));
-            this.ilCheckBoxes.TransparentColor = System.Drawing.Color.Transparent;
-            this.ilCheckBoxes.Images.SetKeyName(0, "XpNotChecked.gif");
-            this.ilCheckBoxes.Images.SetKeyName(1, "XpChecked.gif");
-            this.ilCheckBoxes.Images.SetKeyName(2, "VistaNotChecked.png");
-            this.ilCheckBoxes.Images.SetKeyName(3, "VistaChecked.png");
-            // 
-            // ilHeight
-            // 
-            this.ilHeight.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.ilHeight.ImageSize = new System.Drawing.Size(1, 16);
-            this.ilHeight.TransparentColor = System.Drawing.Color.Transparent;
-            this.ResumeLayout(false);
-
-        }
-        #endregion
-
         #region Variables
-        private bool _hasFocus = false;
         private IPalette _palette;
-        private PaletteRedirect _paletteRedirect;
-        private PaletteBackInheritRedirect _paletteBack;
-        private PaletteBorderInheritRedirect _paletteBorder;
-        private PaletteContentInheritRedirect _paletteContent;
-        private IDisposable _mementoContent;
-        private IDisposable _mementoBack1;
-        private IDisposable _mementoBack2;
-        private ListViewColumnSorter lvwColumnSorter;
-        private Font _originalFont;
-        private Color _originalForeColour;
-        #endregion
+        private PaletteMode _paletteMode;
+        private bool _layoutDirty;
+        private bool _refreshAll;
+        private readonly IntPtr _screenDC;
 
-        #region Constants
-        private const int MINIMUM_ITEM_HEIGHT = 18;
-        #endregion
-
-        #region Properties
-
-        //for setting the minimum height of an item
-        public virtual int ItemHeight { get; set; }
-
-        ///
-        /// Indicates if the current view is being utilized in the VS.NET IDE or not.
-        ///
-        private bool _designMode;
-        public new bool DesignMode
-        {
-            get
-            {
-                //return (System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv");
-                return _designMode; ;
-            }
-        }
-
-        private int _lineBefore = -1;
-        [Browsable(true), Category("Appearance-Extended")]
-        public int LineBefore
-        {
-            get { return _lineBefore; }
-            set { _lineBefore = value; }
-        }
-
-        private int _lineAfter = -1;
-        [Browsable(true), Category("Appearance-Extended")]
-        public int LineAfter
-        {
-            get { return _lineAfter; }
-            set { _lineAfter = value; }
-        }
-        Boolean _enableDragDrop = false;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("False")]
-        public Boolean EnableDragDrop
-        {
-            get { return _enableDragDrop; }
-            set { _enableDragDrop = value; }
-        }
-
-        Color _alternateRowColor = Color.LightGray;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("Color.Gray")]
-        public Color AlternateRowColor
-        {
-            get { return _alternateRowColor; }
-            set { _alternateRowColor = value; Invalidate(); }
-        }
-
-        Boolean _alternateRowColorEnabled = true;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("true")]
-        public Boolean AlternateRowColorEnabled
-        {
-            get { return _alternateRowColorEnabled; }
-            set { _alternateRowColorEnabled = value; Invalidate(); }
-        }
-
-        Color _gradientStartColor = Color.White;
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("Color.White")]
-        public Color GradientStartColor
-        {
-            get { return _gradientStartColor; }
-            set { _gradientStartColor = value; Invalidate(); }
-        }
-
-        Color _gradientEndColor = Color.Gray;
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("Color.Gray")]
-        public Color GradientEndColor
-        {
-            get { return _gradientEndColor; }
-            set { _gradientEndColor = value; Invalidate(); }
-        }
-
-        Color _gradientMiddleColor = Color.LightGray;
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("Color.Gray")]
-        public Color GradientMiddleColor
-        {
-            get { return _gradientMiddleColor; }
-            set { _gradientMiddleColor = value; Invalidate(); }
-        }
-
-        Boolean _persistentColors = false;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("False")]
-        public Boolean PersistentColors
-        {
-            get { return _persistentColors; }
-            set { _persistentColors = value; Invalidate(); }
-        }
-
-        Boolean _useStyledColors = false;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("False")]
-        public Boolean UseStyledColors
-        {
-            get { return _useStyledColors; }
-            set { _useStyledColors = value; Invalidate(); }
-        }
-
-        private bool _useKryptonRenderer = true;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("True")]
-        public Boolean UseKryptonRenderer
-        {
-            get { return _useKryptonRenderer; }
-            set { _useKryptonRenderer = value; Invalidate(); }
-        }
-
-        Boolean _selectEntireRowOnSubItem = true;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("True")]
-        public Boolean SelectEntireRowOnSubItem
-        {
-            get { return _selectEntireRowOnSubItem; }
-            set { _selectEntireRowOnSubItem = value; }
-        }
-
-        //Boolean _indendFirstItem = true;
-        /*[Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("True")]
-        public Boolean IndendFirstItem
-        {
-            get { return _indendFirstItem; }
-            set { _indendFirstItem = value; }
-        }*/
-
-        Boolean _forceLeftAlign = false;
-        [Browsable(false), Category("Appearance-Extended")]
-        [DefaultValue("True")]
-        public Boolean ForceLeftAlign
-        {
-            get { return _forceLeftAlign; }
-            set { _forceLeftAlign = value; }
-        }
-
-        Boolean _autoSizeLastColumn = true;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("True")]
-        public Boolean AutoSizeLastColumn
-        {
-            get { return _autoSizeLastColumn; }
-            set { _autoSizeLastColumn = value; Invalidate(); }
-        }
-
-        Boolean _enableSorting = true;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("True")]
-        public Boolean EnableSorting
-        {
-            get { return _enableSorting; }
-            set { _enableSorting = value; }
-        }
-
-        Boolean _enableHeaderRendering = true;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("False")]
-        public Boolean EnableHeaderRendering
-        {
-            get { return _enableHeaderRendering; }
-            set { _enableHeaderRendering = value; Invalidate(); }
-        }
-
-        Boolean _enableHeaderGlow = false;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("False")]
-        public Boolean EnableHeaderGlow
-        {
-            get { return _enableHeaderGlow; }
-            set { _enableHeaderGlow = value; Invalidate(); }
-        }
-
-        Boolean _enableHeaderHotTrack = false;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("False")]
-        public Boolean EnableHeaderHotTrack
-        {
-            get { return _enableHeaderHotTrack; }
-            set
-            {
-                _enableHeaderHotTrack = value;
-                if (value)
-                {
-                    this.SetStyle(ControlStyles.OptimizedDoubleBuffer, false);
-                }
-                else
-                {
-                    this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-                }
-                UpdateStyles();
-                ; Invalidate();
-            }
-        }
-
-        Boolean _enableVistaCheckBoxes = true;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("True")]
-        public Boolean EnableVistaCheckBoxes
-        {
-            get { return _enableVistaCheckBoxes; }
-            set { _enableVistaCheckBoxes = value; Invalidate(); }
-        }
-
-        Boolean _enableSelectionBorder = false;
-        [Browsable(true), Category("Appearance-Extended")]
-        [DefaultValue("True")]
-        public Boolean EnableSelectionBorder
-        {
-            get { return _enableSelectionBorder; }
-            set { _enableSelectionBorder = value; Invalidate(); }
-        }
+        private readonly PaletteTripleOverride _overrideNormal;
+        private readonly PaletteTripleOverride _overrideTracking;
+        private readonly PaletteTripleOverride _overridePressed;
+        private readonly PaletteTripleOverride _overrideCheckedNormal;
+        private readonly PaletteTripleOverride _overrideCheckedTracking;
+        private readonly PaletteTripleOverride _overrideCheckedPressed;
+        private readonly PaletteRedirectCheckBox _paletteCheckBoxImages;
+        private readonly ViewLayoutDocker _drawDockerInner;
+        private readonly ViewDrawDocker _drawDockerOuter;
+        private readonly ViewLayoutCenter _layoutCheckBox;
+        private readonly ViewLayoutSeparator _layoutCheckBoxAfter;
+        private readonly ViewLayoutStack _layoutCheckBoxStack;
+        private readonly ViewLayoutDocker _layoutDockerTile;
+        private readonly ViewLayoutDocker _layoutDockerSmall;
+        private readonly ViewLayoutDocker _layoutDockerCheckLarge;
+        private readonly ViewLayoutStack _layoutImageStack;
+        private readonly ViewLayoutCenter _layoutImageCenter;
+        private readonly ViewLayoutCenter _layoutImageCenterState;
+        private readonly ViewLayoutSeparator _layoutImage;
+        private readonly ViewLayoutSeparator _layoutImageState;
+        private readonly ViewLayoutSeparator _layoutImageAfter;
+        private readonly ViewDrawCheckBox _drawCheckBox;
+        private readonly ViewLayoutFill _layoutFill;
+        private readonly ViewDrawButton _drawButton;
+        private readonly ShortTextValue _contentValues;
+        private bool _mouseOver;
+        private bool _alwaysActive;
+        private ButtonStyle _style;
+        private bool? _fixedActive;
+        private KryptonContextMenu _kryptonContextMenu;
 
         #endregion
 
         #region Constructor
         public KryptonListView()
         {
-            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.SupportsTransparentBackColor | ControlStyles.EnableNotifyMessage, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint
+                     | ControlStyles.OptimizedDoubleBuffer
+                     | ControlStyles.SupportsTransparentBackColor // Cannot get thi sto work (Code removed)!!
+                     | ControlStyles.EnableNotifyMessage
+                , true);
 
-            OwnerDraw = true;
+            base.OwnerDraw = true;
+            // We need to repaint entire control whenever resized
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            // Yes, we want to be drawn double buffered by default
+            DoubleBuffered = true;
 
-            _originalFont = (Font)Font.Clone();
+            // Default fields
+            _alwaysActive = true;
+            _style = ButtonStyle.ListItem;
+            Padding = new Padding(1);
+            base.BorderStyle = System.Windows.Forms.BorderStyle.None;
 
-            _originalForeColour = (Color)ForeColor;
+            // We need to create and cache a device context compatible with the display
+            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
 
-            _palette = KryptonManager.CurrentGlobalPalette;
-
-            if (_palette != null)
-            {
-                _palette.PalettePaint += OnPalettePaint;
-            }
+            // Set the palette and renderer to the defaults as specified by the manager
+            Redirector = new PaletteRedirect(null);
+            CacheNewPalette(KryptonManager.CurrentGlobalPalette);
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
-            _paletteRedirect = new PaletteRedirect(_palette);
+            NeedPaintDelegate = OnNeedPaint;
 
-            _paletteBack = new PaletteBackInheritRedirect(_paletteRedirect);
+            // Create the palette storage
+            Images = new CheckBoxImages(NeedPaintDelegate);
+            _paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
+            StateCommon = new PaletteListStateRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, NeedPaintDelegate);
+            OverrideFocus = new PaletteListItemTripleRedirect(Redirector, PaletteBackStyle.ButtonListItem, PaletteBorderStyle.ButtonListItem, PaletteContentStyle.ButtonListItem, NeedPaintDelegate);
+            StateDisabled = new PaletteListState(StateCommon, NeedPaintDelegate);
+            StateActive = new PaletteDouble(StateCommon, NeedPaintDelegate);
+            StateNormal = new PaletteListState(StateCommon, NeedPaintDelegate);
+            StateTracking = new PaletteListItemTriple(StateCommon.Item, NeedPaintDelegate);
+            StatePressed = new PaletteListItemTriple(StateCommon.Item, NeedPaintDelegate);
+            StateCheckedNormal = new PaletteListItemTriple(StateCommon.Item, NeedPaintDelegate);
+            StateCheckedTracking = new PaletteListItemTriple(StateCommon.Item, NeedPaintDelegate);
+            StateCheckedPressed = new PaletteListItemTriple(StateCommon.Item, NeedPaintDelegate);
+            // Create manager and view for drawing the background
+            ViewDrawPanel = new ViewDrawPanel(StateNormal.Back);
 
-            _paletteBorder = new PaletteBorderInheritRedirect(_paletteRedirect);
+            // Create the override handling classes
+            _overrideNormal = new PaletteTripleOverride(OverrideFocus.Item, StateNormal.Item, PaletteState.FocusOverride);
+            _overrideTracking = new PaletteTripleOverride(OverrideFocus.Item, StateTracking.Item, PaletteState.FocusOverride);
+            _overridePressed = new PaletteTripleOverride(OverrideFocus.Item, StatePressed.Item, PaletteState.FocusOverride);
+            _overrideCheckedNormal = new PaletteTripleOverride(OverrideFocus.Item, StateCheckedNormal.Item, PaletteState.FocusOverride);
+            _overrideCheckedTracking = new PaletteTripleOverride(OverrideFocus.Item, StateCheckedTracking.Item, PaletteState.FocusOverride);
+            _overrideCheckedPressed = new PaletteTripleOverride(OverrideFocus.Item, StateCheckedPressed.Item, PaletteState.FocusOverride);
 
-            _paletteContent = new PaletteContentInheritRedirect(_paletteRedirect);
-
-            InitialiseColours();
-
-            lvwColumnSorter = new ListViewColumnSorter();
-
-            ListViewItemSorter = lvwColumnSorter;
-
-            if (_selectEntireRowOnSubItem)
+            // Create the check box image drawer and place inside element so it is always centered
+            _drawCheckBox = new ViewDrawCheckBox(_paletteCheckBoxImages);
+            _layoutCheckBox = new ViewLayoutCenter
             {
-                FullRowSelect = true;
-            }
-
-            _enableVistaCheckBoxes = Utility.IsSevenOrHigher();
-
-            InitializeComponent();
-
-            _designMode = (Process.GetCurrentProcess().ProcessName == "devenv");
-
-            if (SmallImageList == null)
+                _drawCheckBox
+            };
+            _layoutCheckBoxAfter = new ViewLayoutSeparator(3, 0);
+            _layoutCheckBoxStack = new ViewLayoutStack(true)
             {
-                SmallImageList = ilHeight;
-            }
+                _layoutCheckBox,
+                _layoutCheckBoxAfter
+            };
+            // Stack used to layout the location of the node image
+            _layoutImage = new ViewLayoutSeparator(0, 0);
+            _layoutImageAfter = new ViewLayoutSeparator(3, 0);
+            _layoutImageCenter = new ViewLayoutCenter(_layoutImage);
+            _layoutImageStack = new ViewLayoutStack(true)
+            {
+                _layoutImageCenter,
+                _layoutImageAfter
+            };
+            _layoutImageState = new ViewLayoutSeparator(16, 16);
+            _layoutImageCenterState = new ViewLayoutCenter(_layoutImageState);
+            // Create the draw element for owner drawing individual items
+            _contentValues = new ShortTextValue();
+            _drawButton = new ViewDrawButton(StateDisabled.Item, _overrideNormal,
+                _overrideTracking, _overridePressed,
+                _overrideCheckedNormal, _overrideCheckedTracking,
+                _overrideCheckedPressed,
+                new PaletteMetricRedirect(Redirector),
+                _contentValues, VisualOrientation.Top, false);
+
+            // Place check box on the left and the label in the remainder
+            _layoutDockerTile = new ViewLayoutDocker
+            {
+                { _layoutImageStack, ViewDockStyle.Left },
+                { _layoutImageCenterState, ViewDockStyle.Left },
+                { _layoutCheckBoxStack, ViewDockStyle.Left },
+                { _drawButton, ViewDockStyle.Fill }
+            };
+
+            _layoutDockerSmall = new ViewLayoutDocker
+            {
+                { _drawButton, ViewDockStyle.Left },
+                { _layoutImageStack, ViewDockStyle.Left },
+                { _layoutImageCenterState, ViewDockStyle.Left },
+                { _layoutCheckBoxStack, ViewDockStyle.Left }
+            };
+
+            // Place check box on the left and the text to match the width
+            _layoutDockerCheckLarge = new ViewLayoutDocker
+            {
+                { _layoutImageStack, ViewDockStyle.Left },
+                { _layoutImageCenterState, ViewDockStyle.Left },
+                { _layoutCheckBoxStack, ViewDockStyle.Left },
+                { _drawButton, ViewDockStyle.Bottom }
+            };
+
+            // Create the element that fills the remainder space and remembers fill rectangle
+            _layoutFill = new ViewLayoutFill(this)
+            {
+                DisplayPadding = new Padding(1)
+            };
+
+            // Create inner view for placing inside the drawing docker
+            _drawDockerInner = new ViewLayoutDocker
+            {
+                { _layoutFill, ViewDockStyle.Fill }
+            };
+
+            // Create view for the control border and background
+            _drawDockerOuter = new ViewDrawDocker(StateNormal.Back, StateNormal.Border)
+            {
+                { _drawDockerInner, ViewDockStyle.Fill }
+            };
+
+            // Create the view manager instance
+            ViewManager = new ViewManager(this, _drawDockerOuter);
+            // We need to create and cache a device context compatible with the display
+            _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
+            StateCommon.Item.Content.ShortText.MultiLine = InheritBool.True;
+            StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Center;
+            StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Center;
+
         }
+
+        /// <summary>
+        /// Gets access to the contained view draw panel instance.
+        /// </summary>
+        public ViewDrawPanel ViewDrawPanel { get; }
+
+        /// <summary>
+        /// Gets access to the palette redirector.
+        /// </summary>
+        protected PaletteRedirect Redirector
+        {
+            [DebuggerStepThrough]
+            get;
+        }
+        /// <summary>
+        /// Gets and sets the ViewManager instance.
+        /// </summary>
+        public ViewManager ViewManager
+        {
+            [DebuggerStepThrough]
+            get;
+        }
+        /// <summary>
+        /// Gets access to the current renderer.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IRenderer Renderer
+        {
+            [DebuggerStepThrough]
+            get;
+            private set;
+        }
+
         #endregion
 
+        #region public
+
+        /// <summary>
+        /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [DefaultValue(true)]
+        public bool AlwaysActive
+        {
+            get => _alwaysActive;
+
+            set
+            {
+                if (_alwaysActive != value)
+                {
+                    _alwaysActive = value;
+                    Invalidate();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the fixed state of the control.
+        /// </summary>
+        /// <param name="active">Should the control be fixed as active.</param>
+        public void SetFixedState(bool active) => _fixedActive = active;
+
+        /// <summary>
+        /// Gets a value indicating if the input control is active.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver;
+
+        public new bool OwnerDraw
+        {
+            get => base.OwnerDraw; // Should be true!
+            // ReSharper disable once ValueParameterNotUsed
+            set { /*Do nothing*/}
+        }
+
+        /// <summary>Gets or sets the <see cref="T:System.Windows.Forms.ContextMenuStrip" /> associated with this control.</summary>
+        /// <returns>The <see cref="T:System.Windows.Forms.ContextMenuStrip" /> for this control, or <see langword="null" /> if there is no <see cref="T:System.Windows.Forms.ContextMenuStrip" />. The default is <see langword="null" />.</returns>
+        [Category("Behavior")]
+        [Description("Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
+        [DefaultValue(null)]
+        public override ContextMenuStrip ContextMenuStrip
+        {
+            [DebuggerStepThrough]
+            get => base.ContextMenuStrip;
+
+            set
+            {
+                // Unhook from any current menu strip
+                if (base.ContextMenuStrip != null)
+                {
+                    base.ContextMenuStrip.Opening -= OnContextMenuStripOpening;
+                    base.ContextMenuStrip.Closed -= OnContextMenuClosed;
+                }
+
+                // Let parent handle actual storage
+                base.ContextMenuStrip = value;
+
+                // Hook into the strip being shown (so we can set the correct renderer)
+                if (base.ContextMenuStrip != null)
+                {
+                    base.ContextMenuStrip.Opening += OnContextMenuStripOpening;
+                    base.ContextMenuStrip.Closed += OnContextMenuClosed;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Gets and sets the KryptonContextMenu to show when right clicked.
+        /// </summary>
+        [Category("Behavior")]
+        [Description("The KryptonContextMenu to show when the user right-clicks the Control.")]
+        [DefaultValue(null)]
+        public virtual KryptonContextMenu KryptonContextMenu
+        {
+            get => _kryptonContextMenu;
+
+            set
+            {
+                if (_kryptonContextMenu != value)
+                {
+                    if (_kryptonContextMenu != null)
+                    {
+                        _kryptonContextMenu.Closed -= OnContextMenuClosed;
+                        _kryptonContextMenu.Disposed -= OnKryptonContextMenuDisposed;
+                    }
+
+                    _kryptonContextMenu = value;
+
+                    if (_kryptonContextMenu != null)
+                    {
+                        _kryptonContextMenu.Closed += OnContextMenuClosed;
+                        _kryptonContextMenu.Disposed += OnKryptonContextMenuDisposed;
+                    }
+                }
+            }
+        }
+        #endregion public
+
         #region DrawItem and SubItem
+        private void UpdateStateAndPalettes()
+        {
+            if (!IsDisposed)
+            {
+                // Get the correct palette settings to use
+                IPaletteDouble doubleState = GetDoubleState();
+                ViewDrawPanel.SetPalettes(doubleState.PaletteBack);
+                _drawDockerOuter.SetPalettes(doubleState.PaletteBack, doubleState.PaletteBorder);
+                _drawDockerOuter.Enabled = Enabled;
+
+                // Find the new state of the main view element
+                PaletteState state;
+                if (IsActive)
+                {
+                    state = PaletteState.Tracking;
+                }
+                else
+                {
+                    state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+                }
+
+                ViewDrawPanel.ElementState = state;
+                _drawDockerOuter.ElementState = state;
+            }
+        }
+
+        private IPaletteDouble GetDoubleState()
+        {
+            if (Enabled)
+            {
+                return IsActive ? StateActive : StateNormal;
+            }
+            else
+            {
+                return StateDisabled;
+            }
+        }
+
         /// <summary>Raises the <see cref="E:System.Windows.Forms.ListView.DrawItem">DrawItem</see> event.</summary>
         /// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewItemEventArgs">DrawListViewItemEventArgs</see> that contains the event data.</param>
         protected override void OnDrawItem(DrawListViewItemEventArgs e)
         {
-            //set font 
-            //get Colors And Font
-            this.ForeColor = GetForeTextColor(PaletteState.Normal);
-            this.Font = GetForeTextFont(PaletteState.Normal);
-
-
-            if (!DesignMode)
+            // We cannot do anything without a valid node
+            if (e.Item == null)
             {
-                Rectangle rect = e.Bounds;
-                Graphics g = e.Graphics;
+                return;
+            }
 
-                //minimum item height
-                if (rect.Height < MINIMUM_ITEM_HEIGHT)
-                { rect.Height = (int)MINIMUM_ITEM_HEIGHT; }
+            // Do we need an image?
+            ImageList imgList = View switch
+            {
+                View.LargeIcon => LargeImageList,
+                View.Tile => LargeImageList,
+                View.SmallIcon => SmallImageList,
+                _ => null
+            };
+            if (imgList != null)
+            {
+                _layoutImageStack.Visible = true;
+                _layoutImage.SeparatorSize = imgList.ImageSize;
+            }
+            else
+            {
+                _layoutImageStack.Visible = false;
+            }
 
-
-                rect.Height -= 1;
-                rect.Width -= 1;
-
-                if (_palette == null)
+            // Work out if we need to draw a state image
+            Image drawStateImage = null;
+            if (StateImageList != null)
+            {
+                try
                 {
-                    EventArgs Ev = new EventArgs();
-                    OnGlobalPaletteChanged(this, Ev);
-                }
-
-                //force Left align on items
-                if (_forceLeftAlign == true)
-                {
-                    foreach (ColumnHeader col in this.Columns)
+                    // If showing check boxes then used fixed entries from the state image list
+                    if (CheckBoxes)
                     {
-                        col.TextAlign = HorizontalAlignment.Left;
-                    }
-                }
-
-                if (View == System.Windows.Forms.View.Details)
-                {
-                    if (((e.State & ListViewItemStates.Selected) != 0) && (e.Item.Selected == true))
-                    {
-                        // Draw the background and focus rectangle for a selected item.
-                        if (_useKryptonRenderer)
-                        {
-                            if (_hasFocus)
-                            {
-                                KryptonRenderer(PaletteState.Pressed, ref g, ref rect); //KryptonRenderer
-                            }
-                            else
-                            {
-                                KryptonRenderer(PaletteState.Normal, ref g, ref rect);
-                            }
-                        }
-                        else
-                            InternalRenderer(ref g, ref rect); //InternalRenderer
+                        drawStateImage = e.Item.Checked ? StateImageList.Images[1] : StateImageList.Images[0];
                     }
                     else
                     {
-                        // Draw the background for an unselected item.
-                        e.DrawDefault = true;
-                    }
-                }
-                // Draw the item text for views other than the Details view.
-                else
-                {
-                    // Draw the background for an unselected item.
-                    e.DrawDefault = true;
-                }
-            }
-            else
-            {
-                e.DrawDefault = true;
-            }
-        }
-
-        /// <summary>Raises the <see cref="E:System.Windows.Forms.ListView.DrawSubItem">DrawSubItem</see> event.</summary>
-        /// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewSubItemEventArgs">DrawListViewSubItemEventArgs</see> that contains the event data.</param>
-        protected override void OnDrawSubItem(DrawListViewSubItemEventArgs e)
-        {
-            //set font 
-            //get Colors And Font
-            this.ForeColor = GetForeTextColor(PaletteState.Normal);
-            this.Font = GetForeTextFont(PaletteState.Normal);
-
-            if (!DesignMode)
-            {
-                Rectangle rect = e.Bounds;
-                Graphics g = e.Graphics;
-
-                //minimum item height
-                if (rect.Height < MINIMUM_ITEM_HEIGHT)
-                { rect.Height = (int)MINIMUM_ITEM_HEIGHT; }
-
-                rect.Height -= 1;
-                rect.Width -= 1;
-
-                //for correct string drawing Space
-                int MeasureStringWidth = e.Header.Width;
-
-                // We want to anti alias the drawing for nice smooth curves
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.CompositingQuality = CompositingQuality.HighQuality;
-                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-
-                //force Left align on items
-                if (_forceLeftAlign == true)
-                {
-                    foreach (ColumnHeader col in this.Columns)
-                    {
-                        col.TextAlign = HorizontalAlignment.Left;
-                    }
-                }
-
-                if (View == System.Windows.Forms.View.Details)
-                {
-                    if ((e.ItemState & ListViewItemStates.Selected) != 0)
-                    {
-
-                        //set offset for krypton
-                        if (_useKryptonRenderer) rect.Offset(0, +1);
-
-                        //CheckBox present?
-                        if ((this.CheckBoxes == true) && (e.ColumnIndex == 0))
+                        // Check node values 
+                        if ((e.Item.StateImageIndex >= 0)
+                            && (e.Item.StateImageIndex < StateImageList.Images.Count)
+                            )
                         {
-                            //string CheckState = "V";
-
-                            Image Check;
-                            if (e.Item.Checked == true)
-                            {
-                                //CheckState = "V";
-                                if (_enableVistaCheckBoxes == true)
-                                {
-                                    Check = ilCheckBoxes.Images[3];
-
-                                    //Check = Properties.Resources.VistaChecked;
-                                }
-                                else
-                                {
-                                    Check = ilCheckBoxes.Images[1];
-
-                                    //Check = Resources.XPChecked;
-                                }
-                            }
-                            else
-                            {
-                                //CheckState = "O";
-                                if (_enableVistaCheckBoxes == true)
-                                {
-                                    Check = ilCheckBoxes.Images[2];
-
-                                    //Check = Resources.VistaNotChecked;
-                                }
-                                else
-                                {
-                                    Check = ilCheckBoxes.Images[0];
-
-                                    //Check = Resources.XPNotChecked;
-                                }
-                            }
-
-                            //vista pixel fix
-                            if (Utility.IsSevenOrHigher() == true)
-                            {
-                                rect.Offset(-2, 0);
-                            }
-
-                            //e.Graphics.DrawString(CheckState, this.Font, new SolidBrush(textColor), rect);
-                            g.DrawImage(Check, rect.X + 4, rect.Y - 1, 16, 16);
-                            rect.Offset(19, 0);
-
-                            //fix for string drawing
-                            MeasureStringWidth -= 19;
-
-                            //vista pixel fix
-                            if (Utility.IsSevenOrHigher() == true)
-                            {
-                                rect.Offset(-1, 0);
-                            }
-                        }
-
-                        //Picture Present?
-                        if (e.ColumnIndex == 0)
-                        {
-                            if (this.SmallImageList != null)
-                            {
-                                Size imgSize = this.SmallImageList.ImageSize;
-                                try
-                                { this.SmallImageList.Draw(g, rect.X + 4, rect.Y, imgSize.Width, imgSize.Height, e.Item.ImageIndex); }
-                                catch
-                                { }
-                                rect.Offset(imgSize.Width, 0);
-
-                                //fix for string drawing
-                                MeasureStringWidth -= imgSize.Width;
-                            }
-                        }
-
-                        rect.Offset(4, 2);
-
-                        //set offset for krypton
-                        if (_useKryptonRenderer) rect.Offset(0, -2);
-
-                        //drawText
-                        Color textColor = GetForeTextColor(PaletteState.CheckedPressed);
-                        //if (!_hasFocus)
-                        //    textColor = GetForeTextColor(PaletteState.Normal);
-
-
-                        //compact the text:
-                        string TextToDraw = CompactString(e.SubItem.Text, MeasureStringWidth, this.Font, TextFormatFlags.EndEllipsis);
-
-                        //Draw String
-                        e.Graphics.DrawString(TextToDraw, this.Font, new SolidBrush(textColor), rect);
-
-
-                        //e.DrawFocusRectangle(rect);
-                    }
-                    else
-                    {
-                        // Draw the background for an unselected item.
-                        e.DrawDefault = true;
-
-                    }
-
-                }
-                // Draw the item text for views other than the Details view.
-                else
-                {
-                    // Draw the background for an unselected item.
-                    e.DrawDefault = true;
-                }
-
-            }
-            else
-            {
-                e.DrawDefault = true;
-            }
-        }
-        #endregion
-
-        #region Drawing Renderers
-        private Color GetForeTextColorHeader(PaletteState buttonState)
-        {
-            Color textColor = _originalForeColour;
-
-            textColor = _palette.ColorTable.MenuItemText;// StatusStripText;
-            if (buttonState == PaletteState.CheckedPressed) textColor = _palette.ColorTable.StatusStripText;
-
-            if (_useKryptonRenderer)
-                textColor = _palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, buttonState);
-
-            return textColor;
-        }
-        private Color GetForeTextColor(PaletteState buttonState)
-        {
-            Color textColor = _originalForeColour;
-
-            if ((_persistentColors == false) || _useKryptonRenderer)
-            {
-                //init color values
-                //if (_useStyledColors == true)
-                //    textColor = _palette.ColorTable.MenuItemText;
-                //else
-                textColor = _palette.ColorTable.MenuItemText;// StatusStripText;
-                if (buttonState == PaletteState.CheckedPressed)
-                {
-                    if (_useKryptonRenderer) textColor = _palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, buttonState);
-                    else textColor = _palette.ColorTable.StatusStripText;
-                }
-            }
-
-            return textColor;
-        }
-
-        private Font GetForeTextFont(PaletteState buttonState)
-        {
-            Font textFont = (Font)_originalFont;
-
-            if (_useKryptonRenderer)
-                textFont = _palette.GetContentShortTextFont(PaletteContentStyle.ButtonStandalone, buttonState);
-
-            //return value
-            return textFont;
-        }
-
-        private PaletteState GetPaletteState(ref DrawListViewColumnHeaderEventArgs e, bool isTracking)
-        {
-            PaletteState State = PaletteState.Normal;
-
-            if (e.State == ListViewItemStates.Selected)
-            {
-                State = PaletteState.CheckedPressed;
-            }
-            else
-            {
-                if (isTracking)
-                    State = PaletteState.Tracking;
-                else
-                    State = PaletteState.Normal;
-            }
-            return State;
-        }
-
-
-        private void KryptonRenderer(PaletteState State, ref Graphics g, ref Rectangle rect)
-        {
-            // Get the renderer associated with this palette
-            IRenderer renderer = _palette.GetRenderer();
-
-
-            // we need to find the correct palette state based on if the mouse 
-            // is over the control if the mouse button is pressed down or not.
-            PaletteState buttonState = PaletteState.Normal;
-
-            //get button state
-            buttonState = State;
-
-            // Create a rectangle inset, this is where we will draw the node
-            Rectangle innerRect = rect;
-            Rectangle innerContent = new Rectangle(innerRect.X + 1, innerRect.Y + 1, innerRect.Width - 2, innerRect.Height - 2);
-
-            // Set the style of control we want to draw
-            _paletteBack.Style = PaletteBackStyle.ButtonStandalone;
-            _paletteBorder.Style = PaletteBorderStyle.ButtonStandalone;
-            _paletteContent.Style = PaletteContentStyle.ButtonStandalone;
-
-            //clear contents
-            g.FillRectangle(new SolidBrush(this.BackColor), innerRect.X - 1, innerRect.Y, innerRect.Width + 2, innerRect.Height);
-
-            //force disabled mode
-            if (this.Enabled == false) buttonState = PaletteState.Disabled;
-
-            // Create the rendering context that is passed into all renderer calls
-            using (RenderContext renderContext = new RenderContext(this, g, rect, renderer))
-            {
-                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, innerRect, _paletteBorder, VisualOrientation.Top, buttonState))
-                {
-                    // Ask renderer to draw the background
-                    _mementoBack1 = renderer.RenderStandardBack.DrawBack(renderContext, innerContent, path, _paletteBack, VisualOrientation.Top, buttonState, _mementoBack1);
-                }
-
-                // Now we draw the border of the inner area, also in ButtonStandalone style
-                renderer.RenderStandardBorder.DrawBorder(renderContext, innerRect, _paletteBorder, VisualOrientation.Top, buttonState);
-            }
-        }
-
-        private void InternalRenderer(ref Graphics g, ref Rectangle rect)
-        {
-            //set colors
-            if (_persistentColors == false)
-            {
-                //init color values
-                if (_useStyledColors == true)
-                {
-                    _gradientStartColor = Color.FromArgb(255, 246, 215);
-                    _gradientEndColor = Color.FromArgb(255, 213, 77);
-                    _gradientMiddleColor = Color.FromArgb(252, 224, 133);
-                }
-                else
-                {
-                    _gradientStartColor = _palette.ColorTable.StatusStripGradientBegin;
-                    _gradientEndColor = _palette.ColorTable.OverflowButtonGradientEnd;
-                    _gradientMiddleColor = _palette.ColorTable.StatusStripGradientEnd;
-                }
-            }
-
-
-            //draw
-            ListViewDrawingMethods.DrawGradient(g, rect, _gradientStartColor, _gradientEndColor, 90F, _enableSelectionBorder, _gradientMiddleColor, 1);
-        }
-
-        private void KryptonRendererHeader(ref Graphics g, ref Rectangle rect, bool bHot, ref DrawListViewColumnHeaderEventArgs e)
-        {
-            // Get the renderer associated with this palette
-            IRenderer renderer = _palette.GetRenderer();
-
-            // we need to find the correct palette state based on if the mouse 
-            // is over the control if the mouse button is pressed down or not.
-            PaletteState buttonState = PaletteState.Normal;
-
-            buttonState = GetPaletteState(ref e, bHot);
-
-            // Create a rectangle inset, this is where we will draw the node
-            Rectangle innerRect = rect;
-            Rectangle innerContent = new Rectangle(innerRect.X + 1, innerRect.Y + 1, innerRect.Width - 2, innerRect.Height - 2);
-
-            // Set the style of control we want to draw
-            _paletteBack.Style = PaletteBackStyle.ButtonStandalone;
-            _paletteBorder.Style = PaletteBorderStyle.HeaderPrimary;
-            _paletteContent.Style = PaletteContentStyle.ButtonStandalone;
-
-            //clear contents
-            g.FillRectangle(new SolidBrush(this.BackColor), innerRect.X - 1, innerRect.Y, innerRect.Width + 2, innerRect.Height);
-
-            //force disabled mode
-            if (this.Enabled == false) buttonState = PaletteState.Disabled;
-
-
-            // Create the rendering context that is passed into all renderer calls
-            using (RenderContext renderContext = new RenderContext(this, g, rect, renderer))
-            {
-                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, innerRect, _paletteBorder, VisualOrientation.Top, buttonState))
-                {
-                    // Ask renderer to draw the background
-                    _mementoBack2 = renderer.RenderStandardBack.DrawBack(renderContext, innerContent, path, _paletteBack, VisualOrientation.Top, buttonState, _mementoBack2);
-                }
-
-                // Now we draw the border of the inner area, also in ButtonStandalone style
-                renderer.RenderStandardBorder.DrawBorder(renderContext, innerRect, _paletteBorder, VisualOrientation.Top, buttonState);
-            }
-        }
-
-        /// <summary>Internal renderer header.</summary>
-        /// <param name="g">The g.</param>
-        /// <param name="rect">The rect.</param>
-        /// <param name="bHot">if set to <c>true</c> [b hot].</param>
-        /// <param name="e">The <see cref="DrawListViewColumnHeaderEventArgs" /> instance containing the event data.</param>
-        private void InternalRendererHeader(ref Graphics g, ref Rectangle rect, bool bHot, ref DrawListViewColumnHeaderEventArgs e)
-        {
-            //set colors
-            Color gradStartColor;
-            Color gradEndColor;
-            Color gradMiddleColor;
-            Color borderColor = _palette.ColorTable.ToolStripBorder;
-
-            if (e.State == ListViewItemStates.Selected)
-            {
-                gradStartColor = Color.White;// _palette.ColorTable.ButtonSelectedGradientBegin;
-                gradMiddleColor = _palette.ColorTable.ButtonCheckedGradientEnd;
-                gradEndColor = _palette.ColorTable.ButtonCheckedGradientBegin;
-
-            }
-            else
-            {
-                if (bHot)
-                {
-                    gradStartColor = Color.White;// _palette.ColorTable.ButtonSelectedGradientBegin;
-                    gradMiddleColor = _palette.ColorTable.ButtonSelectedGradientEnd;
-                    gradEndColor = _palette.ColorTable.ButtonSelectedGradientBegin;
-                }
-                else
-                {
-                    gradStartColor = Color.White;//_palette.ColorTable.ToolStripGradientBegin;
-                    gradMiddleColor = _palette.ColorTable.ToolStripGradientEnd;
-                    gradEndColor = _palette.ColorTable.ToolStripGradientBegin;
-                }
-            }
-            //Fill Gradient
-            using (LinearGradientBrush brush = new LinearGradientBrush(rect, gradStartColor, gradMiddleColor, LinearGradientMode.Vertical))
-            {
-                if (!_enableHeaderGlow)
-                    g.FillRectangle(brush, rect);
-                else
-                    ListViewDrawingMethods.DrawListViewHeader(g, rect, gradStartColor, gradMiddleColor, 90F);
-            }
-
-            //DrawBorder
-            g.DrawRectangle(new Pen(borderColor), rect);
-
-            //Draw light lines
-            //oriz
-            g.DrawLine(new Pen(Color.White), new Point(rect.X + 1, rect.Y + 1), new Point(rect.X + rect.Width - 1, rect.Y + 1));
-            //vert
-            g.DrawLine(new Pen(Color.White), new Point(rect.X + 1, rect.Y + 1), new Point(rect.X + 1, rect.Y + rect.Height - 1));
-
-            if (e.ColumnIndex == this.Columns.Count - 1)
-                g.DrawLine(new Pen(borderColor), new Point(rect.X + rect.Width - 1, rect.Y), new Point(rect.X + rect.Width - 1, rect.Y + rect.Height + 0));
-
-        }
-
-
-        /// <summary>Headers the pressed offset.</summary>
-        /// <param name="rect">The rect.</param>
-        /// <param name="State">The state.</param>
-        private void HeaderPressedOffset(ref Rectangle rect, ListViewItemStates State)
-        {
-            //min rect height for SystemColors (Theme disabled)
-            if ((int)rect.Height > (int)15)
-            {
-                //Draw Normal
-                if (State == ListViewItemStates.Selected)
-                { rect.Offset(3, 3); }
-                else
-                { rect.Offset(2, 2); }
-            }
-            else
-            {
-                //draw a little up
-                if (State == ListViewItemStates.Selected)
-                { rect.Offset(3, 2); }
-                else
-                { rect.Offset(2, 1); }
-            }
-        }
-        #endregion
-
-        #region Draw Header
-        /// <summary>Raises the <see cref="E:System.Windows.Forms.ListView.DrawColumnHeader">DrawColumnHeader</see> event.</summary>
-        /// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewColumnHeaderEventArgs">DrawListViewColumnHeaderEventArgs</see> that contains the event data.</param>
-        protected override void OnDrawColumnHeader(DrawListViewColumnHeaderEventArgs e)
-        {
-            if (!DesignMode)
-            {
-                if (_enableHeaderRendering)
-                {
-                    Rectangle r = e.Bounds;
-
-                    r.Height = r.Height;
-
-                    r.Width = r.Width;
-
-                    Graphics g = e.Graphics;
-
-                    Point mouse = new Point();
-
-                    mouse = PointToClient(MousePosition);
-
-                    bool bHot = false;
-
-                    if (_enableHeaderHotTrack)
-                    {
-                        Invalidate();
-
-                        Rectangle mouseRectangle = new Rectangle();
-
-                        mouseRectangle = e.Bounds;
-
-                        mouseRectangle.Width += 2;
-
-                        mouseRectangle.Height += 2;
-
-                        if (mouseRectangle.Contains(mouse))
-                        {
-                            bHot = true;
+                            drawStateImage = StateImageList.Images[e.Item.StateImageIndex];
                         }
                     }
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
 
+            _layoutImageCenterState.Visible = (drawStateImage != null);
+            _layoutCheckBoxStack.Visible = (drawStateImage == null) && CheckBoxes && (View != View.Tile);
+            if (_layoutCheckBoxStack.Visible)
+            {
+                _drawCheckBox.CheckState = e.Item.Checked ? CheckState.Checked : CheckState.Unchecked;
+            }
+            _contentValues.ShortText = View switch
+            {
+                View.LargeIcon => e.Item.Text,
+                View.Tile => e.Item.Text,
+                View.SmallIcon => e.Item.Text +@"     ", // Hack to get the button to "Surround" the text
+                _ => null
+            };
+
+            // By default the button is in the normal state
+            PaletteState buttonState;
+
+            if (e.State.HasFlag(ListViewItemStates.Grayed))
+            {
+                buttonState = PaletteState.Disabled;
+            }
+            else
+            {
+                // If selected then show as a checked item
+                if (e.Item.Selected)
+                {
+                    _drawButton.Checked = true;
+
+                    buttonState = e.State.HasFlag(ListViewItemStates.Hot)
+                        ? PaletteState.CheckedTracking
+                        : PaletteState.CheckedNormal;
+                }
+                else
+                {
+                    _drawButton.Checked = false;
+
+                    buttonState = e.State.HasFlag(ListViewItemStates.Hot)
+                        ? PaletteState.Tracking
+                        : PaletteState.Normal;
+                }
+
+                // Do we need to show item as having the focus
+                var hasFocus = e.Item.Focused;
+
+                _overrideNormal.Apply = hasFocus;
+                _overrideTracking.Apply = hasFocus;
+                _overridePressed.Apply = hasFocus;
+                _overrideCheckedTracking.Apply = hasFocus;
+                _overrideCheckedNormal.Apply = hasFocus;
+                _overrideCheckedPressed.Apply = hasFocus;
+            }
+
+            // Update the view with the calculated state
+            _drawButton.ElementState = buttonState;
+
+            // Grab the raw device context for the graphics instance
+            IntPtr hdc = e.Graphics.GetHdc();
+
+            try
+            {
+                Rectangle bounds = e.Bounds;
+                ViewLayoutDocker layoutDocker = View switch
+                {
+                    View.LargeIcon => _layoutDockerCheckLarge,
+                    View.SmallIcon => _layoutDockerSmall,
+                    View.Tile => _layoutDockerTile,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+
+                using (ViewLayoutContext context = new(this, Renderer))
+                {
+                    context.DisplayRectangle = e.Bounds;
+                    ViewDrawPanel.Layout(context);
+                    layoutDocker.Layout(context);
+                }
+
+                // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
+                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
+
+                // If we managed to get a compatible bitmap
+                if (hBitmap != IntPtr.Zero)
+                {
                     try
                     {
-                        e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-                    }
-                    catch
-                    {
+                        // Must use the screen device context for the bitmap when drawing into the 
+                        // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+                        PI.SelectObject(_screenDC, hBitmap);
 
-                    }
-
-                    g.FillRectangle(new SolidBrush(Color.White), r);
-
-                    try
-                    {
-                        if (_useKryptonRenderer)
+                        // Easier to draw using a graphics instance than a DC!
+                        using Graphics g = Graphics.FromHdc(_screenDC);
+                        using (RenderContext context = new(this, g, e.Bounds, Renderer))
                         {
-                            KryptonRendererHeader(ref g, ref r, bHot, ref e);
+                            ViewDrawPanel.Render(context);
                         }
-                        else
+
+                        using (RenderContext context = new(this, g, bounds, Renderer))
                         {
-                            InternalRendererHeader(ref g, ref r, bHot, ref e);
+                            layoutDocker.Render(context);
                         }
+
+                        // Do we draw an image for the node?
+                        if (imgList != null)
+                        {
+                            Image drawImage = null;
+                            int imageCount = imgList.Images.Count;
+
+                            try
+                            {
+                                // Check node values before tree level values
+                                if (!string.IsNullOrEmpty(e.Item.ImageKey))
+                                {
+                                    drawImage = imgList.Images[e.Item.ImageKey];
+                                }
+                                else if ((e.Item.ImageIndex >= 0) && (e.Item.ImageIndex < imageCount))
+                                {
+                                    drawImage = imgList.Images[e.Item.ImageIndex];
+                                }
+
+                                if (drawImage != null)
+                                {
+                                    g.DrawImage(drawImage, _layoutImage.ClientRectangle);
+                                }
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                        }
+
+                        // Draw a node state image?
+                        if (_layoutImageCenterState.Visible)
+                        {
+                            if (drawStateImage != null)
+                            {
+                                g.DrawImage(drawStateImage, _layoutImageState.ClientRectangle);
+                            }
+                        }
+
+                        // Now blit from the bitmap from the screen to the real dc
+                        PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC,
+                            e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
                     }
-                    catch (Exception exc)
+                    finally
                     {
-                        ExceptionHandler.CaptureException(exc);
+                        // Delete the temporary bitmap
+                        PI.DeleteObject(hBitmap);
                     }
-
-                    HeaderPressedOffset(ref r, e.State);
-
-                    Color textColour = GetForeTextColorHeader(GetPaletteState(ref e, bHot));
-
-                    Font textFont = GetForeTextFont(GetPaletteState(ref e, bHot));
-
-                    StringFormat stringFormat = new StringFormat();
-
-                    stringFormat.FormatFlags = StringFormatFlags.NoWrap;
-
-                    stringFormat.Alignment = ConvertHorizontalAlignmentToStringAlignment(e.Header.TextAlign);
-
-                    string ColumnHeaderString = CompactString(e.Header.Text, r.Width, textFont, TextFormatFlags.EndEllipsis);
-
-                    g.DrawString(ColumnHeaderString, textFont, new SolidBrush(textColour), r, stringFormat);
-                    //e.DrawText();
-
-
-                    //Draw sort indicator
-                    if (this.Columns[e.ColumnIndex].Tag != null)
-                    {
-                        SortOrder sort = (SortOrder)this.Columns[e.ColumnIndex].Tag;
-
-                        // Prepare arrow
-                        if (sort == SortOrder.Ascending)
-                        {
-                            g.FillRectangle(new SolidBrush(Color.Red), r.X + r.Width - 8, r.Y, 8, 8);
-                        }
-                        else if (sort == SortOrder.Descending)
-                        {
-                            g.FillRectangle(new SolidBrush(Color.Green), r.X + r.Width - 8, r.Y, 8, 8);
-                        }
-                    }
-
                 }
-                else
-                {
-                    e.DrawDefault = true;
-                }
-
             }
-            else
+            catch
             {
                 e.DrawDefault = true;
             }
+            finally
+            {
+                // Must reserve the GetHdc() call before
+                e.Graphics.ReleaseHdc();
+            }
+            
         }
+
         #endregion
 
-        #region Helper Subs
-        /// <summary>Converts the horizontal alignment to string alignment.</summary>
-        /// <param name="input">The input.</param>
-        /// <returns>
-        ///   <br />
-        /// </returns>
-        public StringAlignment ConvertHorizontalAlignmentToStringAlignment(HorizontalAlignment input)
+
+        #region Others Overrides
+        protected override void OnSelectedIndexChanged(EventArgs e)
         {
-
-            switch (input)
-            {
-                case HorizontalAlignment.Center:
-                    return StringAlignment.Center;
-
-                case HorizontalAlignment.Right:
-                    return StringAlignment.Far;
-
-                case HorizontalAlignment.Left:
-                    return StringAlignment.Near;
-
-            }
-            return StringAlignment.Center;
-        }
-
-        private void CleanColumnsTags()
-        {
-            int i;
-
-            for (i = 0; i < this.Columns.Count; i++)
-            {
-                this.Columns[i].Tag = null;
-            }
+            UpdateStateAndPalettes();
             Invalidate();
-        }
-
-        //create Graphics Path
-        private GraphicsPath CreateRectGraphicsPath(Rectangle rect)
-        {
-            GraphicsPath path = new GraphicsPath();
-            path.AddRectangle(rect);
-            return path;
+            base.OnSelectedIndexChanged(e);
         }
 
         /// <summary>
-        /// Draw a line with insertion marks at each end
+        /// Process Windows-based messages.
         /// </summary>
-        /// <param name="X1">Starting position (X) of the line</param>
-        /// <param name="X2">Ending position (X) of the line</param>
-        /// <param name="Y">Position (Y) of the line</param>
-        private void DrawInsertionLine(int X1, int X2, int Y)
+        /// <param name="m">A Windows-based message.</param>
+        protected override void WndProc(ref Message m)
         {
-            using (Graphics g = this.CreateGraphics())
+            switch (m.Msg)
             {
-                g.DrawLine(Pens.Red, X1, Y, X2 - 1, Y);
-
-                Point[] leftTriangle = new Point[3] {
-                            new Point(X1,      Y-4),
-                            new Point(X1 + 7,  Y),
-                            new Point(X1,      Y+4)
-                        };
-                Point[] rightTriangle = new Point[3] {
-                            new Point(X2,     Y-4),
-                            new Point(X2 - 8, Y),
-                            new Point(X2,     Y+4)
-                        };
-                g.FillPolygon(Brushes.Red, leftTriangle);
-                g.FillPolygon(Brushes.Red, rightTriangle);
-            }
-        }
-
-
-        private string CompactString(string MyString, int Width, Font Font, TextFormatFlags FormatFlags)
-        {
-            string result = string.Copy(MyString);
-
-            TextRenderer.MeasureText(result, Font, new Size(Width, 0), FormatFlags | TextFormatFlags.ModifyString);
-
-            return result;
-        }
-        #endregion
-
-        #region Others Overrides
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-        }
-
-        private ListViewItem _itemDnD = null;
-
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            if (_enableDragDrop)
-            {
-                _itemDnD = GetItemAt(e.X, e.Y);
-            }
-
-            base.OnMouseDown(e);
-        }
-
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            if (_enableDragDrop)
-            {
-                if (_itemDnD == null)
-                {
-                    return;
-                }
-
-                try
-                {
-                    int lastItemBottom = Math.Min(e.Y, Items[Items.Count - 1].GetBounds(ItemBoundsPortion.Entire).Bottom - 1);
-
-                    ListViewItem itemOver = GetItemAt(0, lastItemBottom);
-
-                    if (itemOver == null)
+                case PI.WM_.ERASEBKGND:
+                    // Do not draw the background here, always do it in the paint 
+                    // instead to prevent flicker because of a two stage drawing process
+                    break;
+                case PI.WM_.PRINTCLIENT:
+                //case PI.WM_.PAINT:
+                //    WmPaint(ref m);
+                //    break;
+                case PI.WM_.VSCROLL:
+                case PI.WM_.HSCROLL:
+                case PI.WM_.MOUSEWHEEL:
+                    Invalidate();
+                    base.WndProc(ref m);
+                    break;
+                //case PI.WM_.MOUSEMOVE:// TODO: On Mouse Enter ??
+                //    if (!_mouseOver)
+                //    {
+                //        _mouseOver = true;
+                //        Invalidate();
+                //    }
+                //    base.WndProc(ref m);
+                //    break;
+                // We need to snoop the need to show a context menu
+                case PI.WM_.CONTEXTMENU:
+                    // Only interested in overriding the behaviour when we have a krypton context menu...
+                    if (KryptonContextMenu != null)
                     {
-                        return;
-                    }
+                        // Extract the screen mouse position (if might not actually be provided)
+                        Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
-                    Rectangle r = itemOver.GetBounds(ItemBoundsPortion.Entire);
-
-                    bool instertBefore;
-
-                    if (e.Y < r.Top + (r.Height / 2))
-                    {
-                        instertBefore = true;
-                    }
-                    else
-                    {
-                        instertBefore = false;
-                    }
-
-                    if (_itemDnD != itemOver)
-                    {
-                        if (instertBefore)
+                        // If keyboard activated, the menu position is centered
+                        if (((int)((long)m.LParam)) == -1)
                         {
-                            Items.Remove(_itemDnD);
-
-                            Items.Insert(itemOver.Index, _itemDnD);
+                            mousePt = new Point(Width / 2, Height / 2);
                         }
                         else
                         {
-                            Items.Remove(_itemDnD);
+                            mousePt = PointToClient(mousePt);
 
-                            Items.Insert(itemOver.Index + 1, _itemDnD);
+                            // Mouse point up and left 1 pixel so that the mouse overlaps the top left corner
+                            // of the showing context menu just like it happens for a ContextMenuStrip.
+                            mousePt.X -= 1;
+                            mousePt.Y -= 1;
+                        }
+
+                        // If the mouse position is within our client area
+                        if (ClientRectangle.Contains(mousePt))
+                        {
+                            // Show the context menu
+                            KryptonContextMenu.Show(this, PointToScreen(mousePt));
                         }
                     }
 
-                    LineAfter = LineBefore = -1;
-
-                    Invalidate();
-                }
-                finally
-                {
-                    _itemDnD = null;
-
-                    Cursor = Cursors.Default;
-                }
+                    break;
+                default:
+                    base.WndProc(ref m);
+                    break;
             }
-
-            base.OnMouseUp(e);
         }
 
         protected override void OnGotFocus(EventArgs e)
         {
-            _hasFocus = true;
-
+            UpdateStateAndPalettes();
+            PerformNeedPaint(true);
             base.OnGotFocus(e);
         }
 
         protected override void OnLostFocus(EventArgs e)
         {
-            _hasFocus = false;
-
+            UpdateStateAndPalettes();
+            PerformNeedPaint(true);
             base.OnLostFocus(e);
+        }
+
+        protected override void OnEnabledChanged(EventArgs e)
+        {
+            UpdateStateAndPalettes();
+            PerformNeedPaint(true);
+            base.OnEnabledChanged(e);
         }
 
         protected override void OnMouseEnter(EventArgs e)
         {
+            if (!_mouseOver)
+            {
+                _mouseOver = true;
+                PerformNeedPaint(true);
+                Invalidate();
+            }
             base.OnMouseEnter(e);
         }
 
-        protected override void OnMouseMove(MouseEventArgs e)
+        protected override void OnMouseLeave(EventArgs e)
         {
-            if (_enableDragDrop)
+            if (_mouseOver)
             {
-                if (_itemDnD == null)
-                {
-                    return;
-                }
-
-                // Show the user that a drag operation is happening
-                Cursor = Cursors.Hand;
-
-                // calculate the bottom of the last item in the LV so that you don't have to stop your drag at the last item
-                int lastItemBottom = Math.Min(e.Y, Items[Items.Count - 1].GetBounds(ItemBoundsPortion.Entire).Bottom - 1);
-
-                // use 0 instead of e.X so that you don't have to keep inside the columns while dragging
-                ListViewItem itemOver = GetItemAt(0, lastItemBottom);
-
-                if (itemOver == null)
-                {
-                    return;
-                }
-
-                Rectangle rc = itemOver.GetBounds(ItemBoundsPortion.Entire);
-
-                if (e.Y < rc.Top + (rc.Height / 2))
-                {
-                    LineBefore = itemOver.Index;
-
-                    LineAfter = -1;
-                }
-                else
-                {
-                    LineBefore = -1;
-
-                    LineAfter = itemOver.Index;
-                }
-
-                // invalidate the LV so that the insertion line is shown
+                _mouseOver = false;
+                PerformNeedPaint(true);
                 Invalidate();
             }
-
-            base.OnMouseMove(e);
+            base.OnMouseLeave(e);
         }
 
-        protected override void OnItemMouseHover(ListViewItemMouseHoverEventArgs e)
-        {
-            base.OnItemMouseHover(e);
-        }
-
-        protected override void OnColumnClick(ColumnClickEventArgs e)
-        {
-            base.OnColumnClick(e);
-
-            if (_enableSorting == true)
-            {
-                // Determine if clicked column is already the column that is being sorted.
-                if (e.Column == lvwColumnSorter.SortColumn)
-                {
-                    // Reverse the current sort direction for this column.
-                    if (lvwColumnSorter.Order == SortOrder.Ascending)
-                    {
-                        lvwColumnSorter.Order = SortOrder.Descending;
-                    }
-                    else
-                    {
-                        lvwColumnSorter.Order = SortOrder.Ascending;
-                    }
-                }
-                else
-                {
-                    // Set the column number that is to be sorted; default to ascending.
-                    lvwColumnSorter.SortColumn = e.Column;
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                }
-
-                //set info for sort image
-                //CleanColumnsTag();
-                //this.Columns[e.Column].Tag = lvwColumnSorter.Order;
-
-                // Perform the sort with these new sort options.
-                Sort();
-            }
-        }
-
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void WndProc(ref Message m)
-        {
-            //To avoid errors on designer
-            if (!DesignMode)
-            {
-                if (_autoSizeLastColumn)
-                {
-                    // if the control is in details view mode and columns
-                    // have been added, then intercept the WM_PAINT message
-                    // and reset the last column width to fill the list view
-                    switch (m.Msg)
-                    {
-                        case Win32.WM_PAINT:
-                            if (View == System.Windows.Forms.View.Details && Columns.Count > 0)
-                            {
-                                Columns[Columns.Count - 1].Width = -2;
-                            }
-
-                            for (int i = 0; i < Columns.Count - 1; i++)
-                            {
-                                Columns[i].Width = Columns[i].Width;
-                            }
-
-                            if (_enableDragDrop)
-                            {
-                                if (LineBefore >= 0 && LineBefore < Items.Count)
-                                {
-                                    Rectangle rc = Items[LineBefore].GetBounds(ItemBoundsPortion.Entire);
-
-                                    DrawInsertionLine(rc.Left, rc.Right, rc.Top);
-                                }
-                                if (LineAfter >= 0 && LineBefore < Items.Count)
-                                {
-                                    Rectangle rc = Items[LineAfter].GetBounds(ItemBoundsPortion.Entire);
-
-                                    DrawInsertionLine(rc.Left, rc.Right, rc.Bottom);
-                                }
-                            }
-                            break;
-
-                        case Win32.WM_NCHITTEST:
-                            //DRAWITEMSTRUCT dis = (DRAWITEMSTRUCT)Marshal.PtrToStructure(message.LParam, typeof(DRAWITEMSTRUCT));
-
-                            //ColumnHeader ch = this.Columns[dis.itemID];
-                            break;
-                    }
-
-                }
-            }
-
-            base.WndProc(ref m);
-        }
-
+        /// <summary>
+        /// Releases all resources used by the Control. 
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (_mementoContent != null)
+                if (_screenDC != IntPtr.Zero)
                 {
-                    _mementoContent.Dispose();
-                    _mementoContent = null;
+                    PI.DeleteDC(_screenDC);
                 }
-
-                if (_mementoBack1 != null)
-                {
-                    _mementoBack1.Dispose();
-                    _mementoBack1 = null;
-                }
-
-                if (_mementoBack2 != null)
-                {
-                    _mementoBack2.Dispose();
-                    _mementoBack2 = null;
-                }
-
                 // Unhook from the palette events
                 if (_palette != null)
                 {
-                    _palette.PalettePaint -= new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+                    _palette.PalettePaint -= OnPalettePaint;
                     _palette = null;
                 }
 
                 // Unhook from the static events, otherwise we cannot be garbage collected
-                KryptonManager.GlobalPaletteChanged -= new EventHandler(OnGlobalPaletteChanged);
+                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
             }
 
             base.Dispose(disposing);
@@ -1326,54 +760,477 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Krypton
+
+        /// <summary>
+        /// Gets and sets the background style.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Style used to draw the background.")]
+        public PaletteBackStyle BackStyle
+        {
+            get => StateCommon.BackStyle;
+
+            set
+            {
+                if (StateCommon.BackStyle != value)
+                {
+                    StateCommon.BackStyle = value;
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        private void ResetBackStyle()
+        {
+            BackStyle = PaletteBackStyle.InputControlStandalone;
+        }
+
+        private bool ShouldSerializeBackStyle()
+        {
+            return (BackStyle != PaletteBackStyle.InputControlStandalone);
+        }
+
+        /// <summary>
+        /// Gets and sets the border style.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Style used to draw the border.")]
+        public new PaletteBorderStyle BorderStyle
+        {
+            get => StateCommon.BorderStyle;
+
+            set
+            {
+                if (StateCommon.BorderStyle != value)
+                {
+                    StateCommon.BorderStyle = value;
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        private void ResetBorderStyle()
+        {
+            BorderStyle = PaletteBorderStyle.InputControlStandalone;
+        }
+
+        private bool ShouldSerializeBorderStyle()
+        {
+            return (BorderStyle != PaletteBorderStyle.InputControlStandalone);
+        }
+
+        /// <summary>
+        /// Gets access to the item appearance when it has focus.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining item appearance when it has focus.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteListItemTripleRedirect OverrideFocus { get; }
+
+        private bool ShouldSerializeOverrideFocus()
+        {
+            return !OverrideFocus.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the check box image value overrides.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("CheckBox image value overrides.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public CheckBoxImages Images { get; }
+
+        [Category("Appearance")]
+        [DefaultValue(View.LargeIcon)]
+        [Description("Selects a subset of the view types that can be shown.")]
+        public new View View
+        {
+            get => base.View;
+            set
+            {
+                if (DesignMode)
+                {
+                    if (value is not (View.Details or View.List))
+                    {
+                        base.View = value;
+                    }
+                    return;
+                }
+
+                switch (value)
+                {
+                    case View.Details:
+                        throw new NotSupportedException(@"Use the Krypton DataGrid for this view type");
+                    case View.List:
+                        throw new NotSupportedException(@"Use the Krypton ListBox for this view type");
+                    case View.LargeIcon:
+                        StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Center;
+                        StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Center;
+                        break;
+                    case View.SmallIcon:
+                    case View.Tile:
+                        StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Inherit;
+                        StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Inherit;
+                        break;
+                }
+                base.View = value;
+            }
+        }
+        private bool ShouldSerializeImages()
+        {
+            return !Images.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the common appearance entries that other states can override.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining common appearance that other states can override.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteListStateRedirect StateCommon { get; }
+
+        private bool ShouldSerializeStateCommon()
+        {
+            return !StateCommon.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the disabled appearance entries.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining disabled appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteListState StateDisabled { get; }
+
+        private bool ShouldSerializeStateDisabled()
+        {
+            return !StateDisabled.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the normal appearance entries.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining normal appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteListState StateNormal { get; }
+
+        private bool ShouldSerializeStateNormal()
+        {
+            return !StateNormal.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the active appearance entries.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining active appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteDouble StateActive { get; }
+
+        private bool ShouldSerializeStateActive()
+        {
+            return !StateActive.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the hot tracking item appearance entries.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining hot tracking item appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteListItemTriple StateTracking { get; }
+
+        private bool ShouldSerializeStateTracking()
+        {
+            return !StateTracking.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the pressed item appearance entries.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining pressed item appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteListItemTriple StatePressed { get; }
+
+        private bool ShouldSerializeStatePressed()
+        {
+            return !StatePressed.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the normal checked item appearance entries.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining normal checked item appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteListItemTriple StateCheckedNormal { get; }
+
+        private bool ShouldSerializeStateCheckedNormal()
+        {
+            return !StateCheckedNormal.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the hot tracking checked item appearance entries.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining hot tracking checked item appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteListItemTriple StateCheckedTracking { get; }
+
+        private bool ShouldSerializeStateCheckedTracking()
+        {
+            return !StateCheckedTracking.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the pressed checked item appearance entries.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining pressed checked item appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteListItemTriple StateCheckedPressed { get; }
+
+        private bool ShouldSerializeStateCheckedPressed()
+        {
+            return !StateCheckedPressed.IsDefault;
+        }
+
+        /// <summary>
+        /// Gets access to the need paint delegate.
+        /// </summary>
+        protected NeedPaintHandler NeedPaintDelegate { get; }
+
+        /// <summary>
+        /// Fires the NeedPaint event.
+        /// </summary>
+        /// <param name="needLayout">Does the palette change require a layout.</param>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        protected virtual void PerformNeedPaint(bool needLayout)
+        {
+            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
+        }
+
+        /// <summary>
+        /// Gets or sets the palette to be applied.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Palette applied to drawing.")]
+        public PaletteMode PaletteMode
+        {
+            [DebuggerStepThrough]
+            get => _paletteMode;
+
+            set
+            {
+                if (_paletteMode != value)
+                {
+                    // Action depends on new value
+                    switch (value)
+                    {
+                        case PaletteMode.Custom:
+                            // Do nothing, you must assign a palette to the 
+                            // 'Palette' property in order to get the custom mode
+                            break;
+                        default:
+                            // Use the new value
+                            _paletteMode = value;
+
+                            // Get a reference to the standard palette from its name
+                            CacheNewPalette(KryptonManager.GetPaletteForMode(_paletteMode));
+
+                            // Need to layout again use new palette
+                            PerformNeedPaint(true);
+                            Invalidate();
+                            break;
+                    }
+                }
+            }
+        }
+
+        private bool ShouldSerializePaletteMode()
+        {
+            return (PaletteMode != PaletteMode.Global);
+        }
+
+        /// <summary>
+        /// Resets the PaletteMode property to its default value.
+        /// </summary>
+        public void ResetPaletteMode()
+        {
+            PaletteMode = PaletteMode.Global;
+        }
+
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             // Unhook events from old palette
             if (_palette != null)
             {
-                _palette.PalettePaint -= new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+                _palette.PalettePaint -= OnPalettePaint;
             }
 
-            // Cache the new IPalette that is the global palette
-            _palette = KryptonManager.CurrentGlobalPalette;
-
-            _paletteRedirect.Target = _palette;
-
-            // Hook into events for the new palette
-            if (_palette != null)
-            {
-                _palette.PalettePaint += new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
-
-                InitialiseColours();
-            }
+            CacheNewPalette(KryptonManager.CurrentGlobalPalette);
 
             // Change of palette means we should repaint to show any changes
             Invalidate();
         }
 
+        private void CacheNewPalette(IPalette palette)
+        {
+            if (palette != _palette)
+            {
+                // Unhook from current palette events
+                if (_palette != null)
+                {
+                    _palette.PalettePaint -= OnPalettePaint;
+                }
+
+                // Remember the new palette
+                _palette = palette;
+            }
+
+            // Hook into events for the new palette
+            if (_palette != null)
+            {
+                // Get the renderer associated with the palette
+                Renderer = _palette.GetRenderer();
+                Redirector.Target = _palette;
+                _palette.PalettePaint += OnPalettePaint;
+            }
+        }
+
         private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
 
-        private void InitialiseColours()
+        /// <summary>
+        /// Processes a notification from palette storage of a paint and optional layout required.
+        /// </summary>
+        /// <param name="sender">Source of notification.</param>
+        /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        protected virtual void OnNeedPaint(object sender, NeedLayoutEventArgs e)
         {
-            //set colors
-            if (_persistentColors == false)
+            Debug.Assert(e != null);
+
+            // Validate incoming reference
+            if (e == null)
             {
-                //init color values
-                if (_useStyledColors == true)
+                throw new ArgumentNullException(nameof(e));
+            }
+
+            // Never try and redraw or layout when disposed are trying to dispose
+            if (!IsDisposed && !Disposing)
+            {
+
+                // If required, layout the control
+                if (e.NeedLayout && !_layoutDirty)
                 {
-                    _gradientStartColor = Color.FromArgb(255, 246, 215);
-                    _gradientEndColor = Color.FromArgb(255, 213, 77);
-                    _gradientMiddleColor = Color.FromArgb(252, 224, 133);
+                    _layoutDirty = true;
                 }
-                else
+
+                if (IsHandleCreated && (!_refreshAll || !e.InvalidRect.IsEmpty))
                 {
-                    _gradientStartColor = _palette.ColorTable.StatusStripGradientBegin;
-                    _gradientEndColor = _palette.ColorTable.OverflowButtonGradientEnd;
-                    _gradientMiddleColor = _palette.ColorTable.StatusStripGradientEnd;
+                    // Always request the repaint immediately
+                    if (e.InvalidRect.IsEmpty)
+                    {
+                        _refreshAll = true;
+                        Invalidate();
+                    }
+                    else
+                    {
+                        Invalidate(e.InvalidRect);
+                    }
+
+                }
+                // Update palette to reflect latest state
+                UpdateStateAndPalettes();
+            }
+        }
+
+        /// <summary>
+        /// Raises the Layout event.
+        /// </summary>
+        /// <param name="levent">A LayoutEventArgs that contains the event data.</param>
+        protected override void OnLayout(LayoutEventArgs levent)
+        {
+            // Cannot process a message for a disposed control
+            if (!IsDisposed && !Disposing)
+            {
+                // Do we have a manager to use for laying out?
+                if (ViewManager != null)
+                {
+                    // Prevent infinite loop by looping a maximum number of times
+                    int max = 5;
+
+                    do
+                    {
+                        // Layout cannot now be dirty
+                        _layoutDirty = false;
+
+                        // Ask the view to perform a layout
+                        ViewManager.Layout(Renderer);
+
+                    } while (_layoutDirty && (max-- > 0));
                 }
             }
-            _alternateRowColor = _palette.ColorTable.ToolStripContentPanelGradientBegin;
+
+            // Let base class layout child controls
+            base.OnLayout(levent);
         }
+
+
+        /// <summary>
+        /// Gets and sets the button style.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Item style.")]
+        public ButtonStyle ItemStyle
+        {
+            get => _style;
+
+            set
+            {
+                if (_style != value)
+                {
+                    _style = value;
+                    StateCommon.Item.SetStyles(_style);
+                    OverrideFocus.Item.SetStyles(_style);
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
+        {
+            // Get the actual strip instance
+            ContextMenuStrip cms = base.ContextMenuStrip;
+
+            // Make sure it has the correct renderer
+            cms.Renderer = Renderer.RenderToolStrip(_palette);
+        }
+
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
+        {
+            // When the current krypton context menu is disposed, we should remove 
+            // it to prevent it being used again, as that would just throw an exception 
+            // because it has been disposed.
+            KryptonContextMenu = null;
+        }
+
+        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            ContextMenuClosed();
+        }
+
+        /// <summary>
+        /// Called when a context menu has just been closed.
+        /// </summary>
+        protected virtual void ContextMenuClosed()
+        {
+        }
+
         #endregion
     }
 }
