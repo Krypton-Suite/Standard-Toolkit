@@ -68,8 +68,9 @@ namespace Krypton.Toolkit
             return Color1 != Color.Empty ? Color1 : ControlPaint.Light(Inherit.GetContentShortTextColor1(state));
         }
 
-        internal void PerformPaint(KryptonTextBox textBox, Graphics g, PI.RECT rect)
+        internal void PerformPaint(VisualControlBase textBox, Graphics g, PI.RECT rect)
         {
+            g.SmoothingMode = SmoothingMode.HighQuality;
             g.TextRenderingHint = TextRenderingHint.AntiAlias;
             // Define the string formatting requirements
             var stringFormat = new StringFormat

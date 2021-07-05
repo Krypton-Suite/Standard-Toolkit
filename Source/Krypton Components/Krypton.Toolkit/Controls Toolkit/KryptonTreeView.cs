@@ -1945,7 +1945,7 @@ namespace Krypton.Toolkit
             }
 
             // By default the button is in the normal state
-            PaletteState buttonState = PaletteState.Normal;
+            PaletteState buttonState;
 
             // Is this item disabled
             if ((e.State & TreeNodeStates.Grayed) == TreeNodeStates.Grayed)
@@ -2013,179 +2013,177 @@ namespace Krypton.Toolkit
                         PI.SelectObject(_screenDC, hBitmap);
 
                         // Easier to draw using a graphics instance than a DC!
-                        using (Graphics g = Graphics.FromHdc(_screenDC))
+                        using Graphics g = Graphics.FromHdc(_screenDC);
+                        using (ViewLayoutContext context = new(this, Renderer))
                         {
-                            using (ViewLayoutContext context = new(this, Renderer))
+                            context.DisplayRectangle = e.Bounds;
+                            _treeView.ViewDrawPanel.Layout(context);
+                            context.DisplayRectangle = bounds;
+
+                            // If no using full row selection, then layout using only required width
+                            Size prefSize = _layoutDocker.GetPreferredSize(context);
+                            if (!FullRowSelect)
                             {
-                                context.DisplayRectangle = e.Bounds;
-                                _treeView.ViewDrawPanel.Layout(context);
-                                context.DisplayRectangle = bounds;
-
-                                // If no using full row selection, then layout using only required width
-                                Size prefSize = _layoutDocker.GetPreferredSize(context);
-                                if (!FullRowSelect)
-                                {
-                                    if (prefSize.Width < bounds.Width)
-                                    {
-                                        bounds.Width = prefSize.Width;
-                                    }
-                                }
-
-                                // Always ensure we have enough space for drawing all the elements
-                                if (bounds.Width < prefSize.Width)
+                                if (prefSize.Width < bounds.Width)
                                 {
                                     bounds.Width = prefSize.Width;
                                 }
-
-                                context.DisplayRectangle = bounds;
-
-                                _layoutDocker.Layout(context);
                             }
 
-                            using (RenderContext context = new(this, g, e.Bounds, Renderer))
+                            // Always ensure we have enough space for drawing all the elements
+                            if (bounds.Width < prefSize.Width)
                             {
-                                _treeView.ViewDrawPanel.Render(context);
+                                bounds.Width = prefSize.Width;
                             }
 
-                            // Do we have a indent area for drawing plus/minus/lines?
-                            if (indentBounds.X >= 0)
-                            {
-                                // Do we draw lines between nodes?
-                                if (ShowLines && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
-                                {
-                                    // Find center points
-                                    int hCenter = (indentBounds.X + (indentBounds.Width / 2)) - 1;
-                                    int vCenter = indentBounds.Y + (indentBounds.Height / 2);
-                                    vCenter -= (vCenter + 1) % 2;
+                            context.DisplayRectangle = bounds;
 
-                                    // Default to showing full line height
-                                    int top = indentBounds.Y;
-                                    top -= (top + 1) % 2;
-                                    int bottom = indentBounds.Bottom;
-
-                                    // If the first root node then do not show top half of line
-                                    if ((e.Node.Parent == null) && (e.Node.PrevNode == null))
-                                    {
-                                        top = vCenter;
-                                    }
-
-                                    // If the last node in collection then do not show bottom half of line
-                                    if (e.Node.NextNode == null)
-                                    {
-                                        bottom = vCenter;
-                                    }
-
-                                    // Draw the horizontal and vertical lines
-                                    Color lineColor = Redirector.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-                                    using (Pen linePen = new(lineColor))
-                                    {
-                                        linePen.DashStyle = DashStyle.Dot;
-                                        linePen.DashOffset = indent % 2;
-                                        g.DrawLine(linePen, hCenter, top, hCenter, bottom);
-                                        g.DrawLine(linePen, hCenter - 1, vCenter - 1, indentBounds.Right, vCenter - 1);
-                                        hCenter -= indent;
-
-                                        // Draw the vertical lines for previous node levels
-                                        while (hCenter >= 0)
-                                        {
-                                            int begin = indentBounds.Y;
-                                            begin -= (begin + 1) % 2;
-                                            g.DrawLine(linePen, hCenter, begin, hCenter, indentBounds.Bottom);
-                                            hCenter -= indent;
-                                        }
-                                    }
-                                }
-
-                                // Do we draw any plus/minus images in indent bounds?
-                                if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
-                                {
-                                    Image drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
-                                    if (drawImage != null)
-                                    {
-                                        g.DrawImage(drawImage, new Rectangle((indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2)) - 1,
-                                                                             indentBounds.Y + ((indentBounds.Height - drawImage.Height) / 2),
-                                                                             drawImage.Width, drawImage.Height));
-                                    }
-                                }
-                            }
-
-                            using (RenderContext context = new(this, g, bounds, Renderer))
-                            {
-                                _layoutDocker.Render(context);
-                            }
-
-                            // Do we draw an image for the node?
-                            if (ImageList != null)
-                            {
-                                Image drawImage = null;
-                                int imageCount = ImageList.Images.Count;
-
-                                try
-                                {
-                                    if (e.Node.IsSelected)
-                                    {
-                                        // Check node values before tree level values
-                                        if (!string.IsNullOrEmpty(e.Node.SelectedImageKey))
-                                        {
-                                            drawImage = ImageList.Images[e.Node.SelectedImageKey];
-                                        }
-                                        else if ((e.Node.SelectedImageIndex >= 0) && (e.Node.SelectedImageIndex < imageCount))
-                                        {
-                                            drawImage = ImageList.Images[e.Node.SelectedImageIndex];
-                                        }
-                                        else if (!string.IsNullOrEmpty(SelectedImageKey))
-                                        {
-                                            drawImage = ImageList.Images[SelectedImageKey];
-                                        }
-                                        else if ((SelectedImageIndex >= 0) && (SelectedImageIndex < imageCount))
-                                        {
-                                            drawImage = ImageList.Images[SelectedImageIndex];
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // Check node values before tree level values
-                                        if (!string.IsNullOrEmpty(e.Node.ImageKey))
-                                        {
-                                            drawImage = ImageList.Images[e.Node.ImageKey];
-                                        }
-                                        else if ((e.Node.ImageIndex >= 0) && (e.Node.ImageIndex < imageCount))
-                                        {
-                                            drawImage = ImageList.Images[e.Node.ImageIndex];
-                                        }
-                                        else if (!string.IsNullOrEmpty(ImageKey))
-                                        {
-                                            drawImage = ImageList.Images[ImageKey];
-                                        }
-                                        else if ((ImageIndex >= 0) && (ImageIndex < imageCount))
-                                        {
-                                            drawImage = ImageList.Images[ImageIndex];
-                                        }
-                                    }
-
-                                    if (drawImage != null)
-                                    {
-                                        g.DrawImage(drawImage, _layoutImage.ClientRectangle);
-                                    }
-                                }
-                                catch
-                                {
-                                    // ignored
-                                }
-                            }
-
-                            // Draw a node state image?
-                            if (_layoutImageCenterState.Visible)
-                            {
-                                if (drawStateImage != null)
-                                {
-                                    g.DrawImage(drawStateImage, _layoutImageState.ClientRectangle);
-                                }
-                            }
-
-                            // Now blit from the bitmap from the screen to the real dc
-                            PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
+                            _layoutDocker.Layout(context);
                         }
+
+                        using (RenderContext context = new(this, g, e.Bounds, Renderer))
+                        {
+                            _treeView.ViewDrawPanel.Render(context);
+                        }
+
+                        // Do we have a indent area for drawing plus/minus/lines?
+                        if (indentBounds.X >= 0)
+                        {
+                            // Do we draw lines between nodes?
+                            if (ShowLines && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
+                            {
+                                // Find center points
+                                int hCenter = (indentBounds.X + (indentBounds.Width / 2)) - 1;
+                                int vCenter = indentBounds.Y + (indentBounds.Height / 2);
+                                vCenter -= (vCenter + 1) % 2;
+
+                                // Default to showing full line height
+                                int top = indentBounds.Y;
+                                top -= (top + 1) % 2;
+                                int bottom = indentBounds.Bottom;
+
+                                // If the first root node then do not show top half of line
+                                if ((e.Node.Parent == null) && (e.Node.PrevNode == null))
+                                {
+                                    top = vCenter;
+                                }
+
+                                // If the last node in collection then do not show bottom half of line
+                                if (e.Node.NextNode == null)
+                                {
+                                    bottom = vCenter;
+                                }
+
+                                // Draw the horizontal and vertical lines
+                                Color lineColor = Redirector.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
+                                using (Pen linePen = new(lineColor))
+                                {
+                                    linePen.DashStyle = DashStyle.Dot;
+                                    linePen.DashOffset = indent % 2;
+                                    g.DrawLine(linePen, hCenter, top, hCenter, bottom);
+                                    g.DrawLine(linePen, hCenter - 1, vCenter - 1, indentBounds.Right, vCenter - 1);
+                                    hCenter -= indent;
+
+                                    // Draw the vertical lines for previous node levels
+                                    while (hCenter >= 0)
+                                    {
+                                        int begin = indentBounds.Y;
+                                        begin -= (begin + 1) % 2;
+                                        g.DrawLine(linePen, hCenter, begin, hCenter, indentBounds.Bottom);
+                                        hCenter -= indent;
+                                    }
+                                }
+                            }
+
+                            // Do we draw any plus/minus images in indent bounds?
+                            if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
+                            {
+                                Image drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
+                                if (drawImage != null)
+                                {
+                                    g.DrawImage(drawImage, new Rectangle((indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2)) - 1,
+                                        indentBounds.Y + ((indentBounds.Height - drawImage.Height) / 2),
+                                        drawImage.Width, drawImage.Height));
+                                }
+                            }
+                        }
+
+                        using (RenderContext context = new(this, g, bounds, Renderer))
+                        {
+                            _layoutDocker.Render(context);
+                        }
+
+                        // Do we draw an image for the node?
+                        if (ImageList != null)
+                        {
+                            Image drawImage = null;
+                            int imageCount = ImageList.Images.Count;
+
+                            try
+                            {
+                                if (e.Node.IsSelected)
+                                {
+                                    // Check node values before tree level values
+                                    if (!string.IsNullOrEmpty(e.Node.SelectedImageKey))
+                                    {
+                                        drawImage = ImageList.Images[e.Node.SelectedImageKey];
+                                    }
+                                    else if ((e.Node.SelectedImageIndex >= 0) && (e.Node.SelectedImageIndex < imageCount))
+                                    {
+                                        drawImage = ImageList.Images[e.Node.SelectedImageIndex];
+                                    }
+                                    else if (!string.IsNullOrEmpty(SelectedImageKey))
+                                    {
+                                        drawImage = ImageList.Images[SelectedImageKey];
+                                    }
+                                    else if ((SelectedImageIndex >= 0) && (SelectedImageIndex < imageCount))
+                                    {
+                                        drawImage = ImageList.Images[SelectedImageIndex];
+                                    }
+                                }
+                                else
+                                {
+                                    // Check node values before tree level values
+                                    if (!string.IsNullOrEmpty(e.Node.ImageKey))
+                                    {
+                                        drawImage = ImageList.Images[e.Node.ImageKey];
+                                    }
+                                    else if ((e.Node.ImageIndex >= 0) && (e.Node.ImageIndex < imageCount))
+                                    {
+                                        drawImage = ImageList.Images[e.Node.ImageIndex];
+                                    }
+                                    else if (!string.IsNullOrEmpty(ImageKey))
+                                    {
+                                        drawImage = ImageList.Images[ImageKey];
+                                    }
+                                    else if ((ImageIndex >= 0) && (ImageIndex < imageCount))
+                                    {
+                                        drawImage = ImageList.Images[ImageIndex];
+                                    }
+                                }
+
+                                if (drawImage != null)
+                                {
+                                    g.DrawImage(drawImage, _layoutImage.ClientRectangle);
+                                }
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                        }
+
+                        // Draw a node state image?
+                        if (_layoutImageCenterState.Visible)
+                        {
+                            if (drawStateImage != null)
+                            {
+                                g.DrawImage(drawStateImage, _layoutImageState.ClientRectangle);
+                            }
+                        }
+
+                        // Now blit from the bitmap from the screen to the real dc
+                        PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
                     }
                     finally
                     {
