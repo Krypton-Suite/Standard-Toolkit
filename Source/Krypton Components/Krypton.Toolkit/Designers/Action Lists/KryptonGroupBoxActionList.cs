@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the group background style.
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         {
             get => _groupBox.GroupBackStyle;
 
-            set 
+            set
             {
                 if (_groupBox.GroupBackStyle != value)
                 {
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         {
             get => _groupBox.GroupBorderStyle;
 
-            set 
+            set
             {
                 if (_groupBox.GroupBorderStyle != value)
                 {
@@ -131,12 +131,97 @@ namespace Krypton.Toolkit
         {
             get => _groupBox.PaletteMode;
 
-            set 
+            set
             {
                 if (_groupBox.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_groupBox, null, _groupBox.PaletteMode, value);
                     _groupBox.PaletteMode = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the description.</summary>
+        /// <value>The description.</value>
+        public string Description
+        {
+            get => _groupBox.Values.Description;
+
+            set
+            {
+                if (_groupBox.Values.Description != value)
+                {
+                    _service.OnComponentChanged(_groupBox, null, _groupBox.Values.Description, value);
+
+                    _groupBox.Values.Description = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the heading.</summary>
+        /// <value>The heading.</value>
+        public string Heading
+        {
+            get => _groupBox.Values.Heading;
+
+            set
+            {
+                if (_groupBox.Values.Heading != value)
+                {
+                    _service.OnComponentChanged(_groupBox, null, _groupBox.Values.Heading, value);
+
+                    _groupBox.Values.Heading = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the image.</summary>
+        /// <value>The image.</value>
+        public Image Image
+        {
+            get => _groupBox.Values.Image;
+
+            set
+            {
+                if (_groupBox.Values.Image != value)
+                {
+                    _service.OnComponentChanged(_groupBox, null, _groupBox.Values.Image, value);
+
+                    _groupBox.Values.Image = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the long text font.</summary>
+        /// <value>The long text font.</value>
+        public Font LongTextFont
+        {
+            get => _groupBox.StateCommon.Content.LongText.Font;
+
+            set
+            {
+                if (_groupBox.StateCommon.Content.LongText.Font != value)
+                {
+                    _service.OnComponentChanged(_groupBox, null, _groupBox.StateCommon.Content.LongText.Font, value);
+
+                    _groupBox.StateCommon.Content.LongText.Font = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the short text font.</summary>
+        /// <value>The short text font.</value>
+        public Font ShortTextFont
+        {
+            get => _groupBox.StateCommon.Content.ShortText.Font;
+
+            set
+            {
+                if (_groupBox.StateCommon.Content.ShortText.Font != value)
+                {
+                    _service.OnComponentChanged(_groupBox, null, _groupBox.StateCommon.Content.ShortText.Font, value);
+
+                    _groupBox.StateCommon.Content.ShortText.Font = value;
                 }
             }
         }
@@ -162,8 +247,14 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("CaptionStyle", "Caption style", "Appearance", "Caption style"));
                 actions.Add(new DesignerActionPropertyItem("CaptionEdge", "Caption edge", "Appearance", "Caption edge"));
                 actions.Add(new DesignerActionPropertyItem("CaptionOverlap", "Caption overlap", "Appearance", "Caption overlap"));
+                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
+                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionHeaderItem("Values"));
+                actions.Add(new DesignerActionPropertyItem("Description", "Description", "Values", "The header description text."));
+                actions.Add(new DesignerActionPropertyItem("Heading", "Heading", "Values", "The heading text."));
+                actions.Add(new DesignerActionPropertyItem("Image", "Image", "Values", "The heading image."));
             }
 
             return actions;
