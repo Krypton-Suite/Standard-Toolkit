@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             get => base.CellTemplate;
             set
             {
-                if ((value != null) && (!(value is KryptonDataGridViewDomainUpDownCell cell)))
+                if ((value != null) && (value is not KryptonDataGridViewDomainUpDownCell cell))
                 {
                     throw new InvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewDomainUpDownCell or derive from it.");
                 }

@@ -498,7 +498,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                if (!(initialFormattedValue is string initialFormattedValueStr))
+                if (initialFormattedValue is not string initialFormattedValueStr)
                 {
                     maskedTextBox.Text = string.Empty;
                 }

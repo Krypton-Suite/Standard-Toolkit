@@ -51,11 +51,7 @@ namespace Krypton.Toolkit
                 case PI.WM_.WINDOWPOSCHANGED:
                     {
                         PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
-#if NET35
-                        bool move = (structure.flags & (PI.SWP_.NOSIZE | PI.SWP_.NOMOVE)) == 0;
-#else
-                        bool move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
-#endif
+                        bool move = !MissingFrameWorkAPIs.HasFlag(structure.flags, PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
                         PositionShadowForms(move);
                         if (!move)
                         {

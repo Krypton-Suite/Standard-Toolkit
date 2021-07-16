@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                if (!(initialFormattedValue is string initialFormattedValueStr))
+                if (initialFormattedValue is not string initialFormattedValueStr)
                 {
                     numericUpDown.Text = string.Empty;
                 }

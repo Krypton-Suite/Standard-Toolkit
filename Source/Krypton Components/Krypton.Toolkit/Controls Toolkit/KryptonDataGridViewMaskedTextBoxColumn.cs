@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
             get => base.CellTemplate;
             set
             {
-                if ((value != null) && (!(value is KryptonDataGridViewMaskedTextBoxCell cell)))
+                if ((value != null) && (value is not KryptonDataGridViewMaskedTextBoxCell cell))
                 {
                     throw new InvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewMaskedTextBoxCell or derive from it.");
                 }

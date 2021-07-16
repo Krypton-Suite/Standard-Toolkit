@@ -451,14 +451,14 @@ namespace Krypton.Toolkit
             {
                 View.LargeIcon => e.Item.Text,
                 View.Tile => e.Item.Text,
-                View.SmallIcon => e.Item.Text +@"     ", // Hack to get the button to "Surround" the text
+                View.SmallIcon => e.Item.Text + @"     ", // Hack to get the button to "Surround" the text
                 _ => null
             };
 
             // By default the button is in the normal state
             PaletteState buttonState;
 
-            if (e.State.HasFlag(ListViewItemStates.Grayed))
+            if (MissingFrameWorkAPIs.HasFlag(e.State, ListViewItemStates.Grayed))
             {
                 buttonState = PaletteState.Disabled;
             }
@@ -469,7 +469,7 @@ namespace Krypton.Toolkit
                 {
                     _drawButton.Checked = true;
 
-                    buttonState = e.State.HasFlag(ListViewItemStates.Hot)
+                    buttonState = MissingFrameWorkAPIs.HasFlag(e.State, ListViewItemStates.Hot)
                         ? PaletteState.CheckedTracking
                         : PaletteState.CheckedNormal;
                 }
@@ -477,7 +477,7 @@ namespace Krypton.Toolkit
                 {
                     _drawButton.Checked = false;
 
-                    buttonState = e.State.HasFlag(ListViewItemStates.Hot)
+                    buttonState = MissingFrameWorkAPIs.HasFlag(e.State, ListViewItemStates.Hot)
                         ? PaletteState.Tracking
                         : PaletteState.Normal;
                 }
@@ -599,7 +599,7 @@ namespace Krypton.Toolkit
                 // Must reserve the GetHdc() call before
                 e.Graphics.ReleaseHdc();
             }
-            
+
         }
 
         #endregion

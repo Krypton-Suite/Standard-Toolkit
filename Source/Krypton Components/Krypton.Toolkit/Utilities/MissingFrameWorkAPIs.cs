@@ -35,5 +35,40 @@ namespace Krypton.Toolkit
             return true;
 
         }
+
+#if NET35 || NET40
+#else // NET45_OR_GREATER || CORE
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool HasFlag<T>(T source, T flags) where T : Enum
+        {
+            // Stolen from .net45 code base
+            static ulong ToUInt64(object value)
+            {
+#pragma warning disable IDE0066 // Convert switch statement to expression
+                // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+                switch (Convert.GetTypeCode(value))
+#pragma warning restore IDE0066 // Convert switch statement to expression
+                {
+                    case TypeCode.Boolean:
+                    case TypeCode.Char:
+                    case TypeCode.Byte:
+                    case TypeCode.UInt16:
+                    case TypeCode.UInt32:
+                    case TypeCode.UInt64:
+                        return Convert.ToUInt64(value, (IFormatProvider)CultureInfo.InvariantCulture);
+                    case TypeCode.SByte:
+                    case TypeCode.Int16:
+                    case TypeCode.Int32:
+                    case TypeCode.Int64:
+                        return (ulong)Convert.ToInt64(value, (IFormatProvider)CultureInfo.InvariantCulture);
+                    default:
+                        throw new InvalidOperationException("InvalidOperation_UnknownEnumType");
+                }
+            }
+            var s1 = ToUInt64(source);
+            var f1 = ToUInt64(flags);
+            return (s1 & f1) == f1;
+        }
     }
 }
