@@ -5694,7 +5694,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation Content
-       
+
         private static Padding ContentPaddingForButtonForm(Padding original,
                                                            ViewLayoutContext context,
                                                            int allocatedHeight)
@@ -5882,12 +5882,7 @@ namespace Krypton.Toolkit
                 Size requiredSpace = memento.ShortTextMemento.Size;
 
                 // Find the space available given our required alignment
-
-#if NET35
-                var noClipIsSet = (memento.ShortTextMemento.Format.FormatFlags & StringFormatFlags.NoClip) == StringFormatFlags.NoClip;
-#else
-                var noClipIsSet = memento.ShortTextMemento.Format.FormatFlags.HasFlag(StringFormatFlags.NoClip);
-#endif
+                var noClipIsSet = MissingFrameWorkAPIs.HasFlag(memento.ShortTextMemento.Format.FormatFlags, StringFormatFlags.NoClip);
                 if (AllocateAlignmentSpace(alignHIndex, alignVIndex,
                                            allocation, displayRect,
                                            spacingGap, memento.ShortTextTrimming,
@@ -5972,11 +5967,7 @@ namespace Krypton.Toolkit
                 Size requiredSpace = memento.LongTextMemento.Size;
 
                 // Find the space available given our required alignment
-#if NET35
-                var noClipIsSet = (memento.ShortTextMemento != null) ? (memento.ShortTextMemento.Format.FormatFlags & StringFormatFlags.NoClip) == StringFormatFlags.NoClip : true;
-#else
-                var noClipIsSet = (memento.ShortTextMemento != null) ? memento.ShortTextMemento.Format.FormatFlags.HasFlag(StringFormatFlags.NoClip) : true;
-#endif
+                var noClipIsSet = (memento.ShortTextMemento == null) || MissingFrameWorkAPIs.HasFlag(memento.ShortTextMemento.Format.FormatFlags, StringFormatFlags.NoClip);
                 if (AllocateAlignmentSpace(alignHIndex, alignVIndex,
                                            allocation, displayRect,
                                            spacingGap, memento.LongTextTrimming,
@@ -6370,7 +6361,7 @@ namespace Krypton.Toolkit
 
             return location;
         }
-#endregion
+        #endregion
 
         #region Implementation Glyph
         private static CheckBoxState DiscoverCheckBoxState(bool enabled,
@@ -7242,7 +7233,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
-#endregion
+        #endregion
 
         #region Implementation Ribbon
         /// <summary>
@@ -10452,8 +10443,8 @@ namespace Krypton.Toolkit
             Color[] colorsLowerHalf = { bottomDark, bottomMedium, bottomLight, bottomLight, bottomMedium, bottomDark };
 
             float[] posLowerHalf = state == PaletteState.Pressed
-                ? new float[] {0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f}
-                : new float[] {0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f};
+                ? new float[] { 0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f }
+                : new float[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
 
             ColorBlend blendLowerHalf = new()
             {
@@ -11969,7 +11960,7 @@ namespace Krypton.Toolkit
 
             return memento;
         }
-#endregion
+        #endregion
 
         #region StandardContentMemento
         /// <summary>
@@ -12127,6 +12118,6 @@ namespace Krypton.Toolkit
                 rect.Height = temp;
             }
         }
-#endregion
+        #endregion
     }
 }

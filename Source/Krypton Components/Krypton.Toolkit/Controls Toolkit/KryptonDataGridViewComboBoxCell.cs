@@ -367,7 +367,7 @@ namespace Krypton.Toolkit
                 comboBox.ValueMember = ValueMember;
                 comboBox.DataSource = DataSource;
 
-                if (!(initialFormattedValue is string initialFormattedValueStr))
+                if (initialFormattedValue is not string initialFormattedValueStr)
                 {
                     comboBox.Text = string.Empty;
                 }

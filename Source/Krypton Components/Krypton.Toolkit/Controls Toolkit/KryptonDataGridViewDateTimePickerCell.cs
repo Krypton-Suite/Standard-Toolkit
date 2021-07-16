@@ -536,7 +536,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                if ((!(initialFormattedValue is string initialFormattedValueStr)) || string.IsNullOrEmpty(initialFormattedValueStr))
+                if ((initialFormattedValue is not string initialFormattedValueStr) || string.IsNullOrEmpty(initialFormattedValueStr))
                 {
                     dateTime.ValueNullable = null;
                 }

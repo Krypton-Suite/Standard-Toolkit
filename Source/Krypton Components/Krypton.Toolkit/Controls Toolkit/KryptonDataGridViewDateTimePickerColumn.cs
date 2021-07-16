@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if ((value != null) && (!(value is KryptonDataGridViewDateTimePickerCell cell)))
+                if ((value != null) && (value is not KryptonDataGridViewDateTimePickerCell cell))
                 {
                     throw new InvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewDateTimePickerCell or derive from it.");
                 }

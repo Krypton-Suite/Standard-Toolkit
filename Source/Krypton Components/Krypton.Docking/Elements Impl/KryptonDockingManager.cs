@@ -2603,19 +2603,19 @@ namespace Krypton.Docking
             }
 
             // Resolve the given path to the expected docking control element
-            if (!(ResolvePath(path) is KryptonDockingControl control))
+            if (ResolvePath(path) is not KryptonDockingControl control)
             {
                 throw new ArgumentException("Path does not resolve to a KryptonDockingControl");
             }
 
             // Find the requested target edge
-            if (!(control[edge.ToString()] is KryptonDockingEdge edgeElement))
+            if (control[edge.ToString()] is not KryptonDockingEdge edgeElement)
             {
                 throw new ArgumentException("KryptonDockingControl does not have the requested edge.");
             }
 
             // Find the docked edge
-            if (!(edgeElement["Docked"] is KryptonDockingEdgeDocked edgeDocked))
+            if (edgeElement["Docked"] is not KryptonDockingEdgeDocked edgeDocked)
             {
                 throw new ArgumentException("KryptonDockingControl edge does not have a docked element.");
             }
@@ -2694,19 +2694,19 @@ namespace Krypton.Docking
             }
 
             // Resolve the given path to the expected docking control element
-            if (!(ResolvePath(path) is KryptonDockingControl control))
+            if (ResolvePath(path) is not KryptonDockingControl control)
             {
                 throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl");
             }
 
             // Find the requested target edge
-            if (!(control[edge.ToString()] is KryptonDockingEdge edgeElement))
+            if (control[edge.ToString()] is not KryptonDockingEdge edgeElement)
             {
                 throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.");
             }
 
             // Find the auto hidden edge
-            if (!(edgeElement["AutoHidden"] is KryptonDockingEdgeAutoHidden edgeAutoHidden))
+            if (edgeElement["AutoHidden"] is not KryptonDockingEdgeAutoHidden edgeAutoHidden)
             {
                 throw new ArgumentException(@"KryptonDockingControl edge does not have an auto hidden element.");
             }
@@ -2808,7 +2808,7 @@ namespace Krypton.Docking
             }
 
             // Resolve the given path to the expected docking floating element
-            if (!(ResolvePath(path) is KryptonDockingFloating floating))
+            if (ResolvePath(path) is not KryptonDockingFloating floating)
             {
                 throw new ArgumentException("Path does not resolve to a KryptonDockingFloating");
             }
@@ -2865,7 +2865,7 @@ namespace Krypton.Docking
             }
 
             // Resolve the given path to the expected docking workspace element
-            if (!(ResolvePath(path) is KryptonDockingWorkspace workspace))
+            if (ResolvePath(path) is not KryptonDockingWorkspace workspace)
             {
                 throw new ArgumentException("Path does not resolve to a KryptonDockingWorkspace");
             }
@@ -2902,7 +2902,7 @@ namespace Krypton.Docking
             }
 
             // Resolve the given path to the expected docking navigator element
-            if (!(ResolvePath(path) is KryptonDockingNavigator navigator))
+            if (ResolvePath(path) is not KryptonDockingNavigator navigator)
             {
                 throw new ArgumentException("Path does not resolve to a KryptonDockingNavigator");
             }
@@ -2946,19 +2946,19 @@ namespace Krypton.Docking
             }
 
             // Resolve the given path to the expected docking control element
-            if (!(ResolvePath(path) is KryptonDockingControl control))
+            if (ResolvePath(path) is not KryptonDockingControl control)
             {
                 throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl");
             }
 
             // Find the requested target edge
-            if (!(control[edge.ToString()] is KryptonDockingEdge edgeElement))
+            if (control[edge.ToString()] is not KryptonDockingEdge edgeElement)
             {
                 throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.");
             }
 
             // Find the docked edge
-            if (!(edgeElement["Docked"] is KryptonDockingEdgeDocked edgeDocked))
+            if (edgeElement["Docked"] is not KryptonDockingEdgeDocked edgeDocked)
             {
                 throw new ArgumentException(@"KryptonDockingControl edge does not have a docked element.");
             }
@@ -3039,19 +3039,19 @@ namespace Krypton.Docking
             }
 
             // Resolve the given path to the expected docking control element
-            if (!(ResolvePath(path) is KryptonDockingControl control))
+            if (ResolvePath(path) is not KryptonDockingControl control)
             {
                 throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl");
             }
 
             // Find the requested target edge
-            if (!(control[edge.ToString()] is KryptonDockingEdge edgeElement))
+            if (control[edge.ToString()] is not KryptonDockingEdge edgeElement)
             {
                 throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.");
             }
 
             // Find the auto hidden edge
-            if (!(edgeElement["AutoHidden"] is KryptonDockingEdgeAutoHidden edgeAutoHidden))
+            if (edgeElement["AutoHidden"] is not KryptonDockingEdgeAutoHidden edgeAutoHidden)
             {
                 throw new ArgumentException(@"KryptonDockingControl edge does not have an auto hidden element.");
             }
@@ -4349,7 +4349,7 @@ namespace Krypton.Docking
         private void RemoveControlStorePages(DockingElement element, string[] uniqueNames, bool autoHidden, bool docked)
         {
             // Find the control element from the provided starting point
-            if (!(element is KryptonDockingControl control))
+            if (element is not KryptonDockingControl control)
             {
                 control = element.GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
             }

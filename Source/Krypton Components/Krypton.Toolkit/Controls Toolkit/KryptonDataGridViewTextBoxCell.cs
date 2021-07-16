@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
 
             if (DataGridView.EditingControl is KryptonTextBox textBox)
             {
-                if (!(initialFormattedValue is string initialFormattedValueStr))
+                if (initialFormattedValue is not string initialFormattedValueStr)
                 {
                     textBox.Text = string.Empty;
                 }
