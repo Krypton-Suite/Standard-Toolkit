@@ -40,7 +40,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Static Fields
-        private static readonly HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
+        private static readonly HandleRef NullHandleRef = new(null, IntPtr.Zero);
         private const int BUTTON_TAB_GAP_2007 = 5;
         private const int BUTTON_TAB_GAP_2010 = 0;  //TODO dpi 12 ? 
         private const int FAR_TAB_GAP = 1;
@@ -304,7 +304,7 @@ namespace Krypton.Ribbon
             buttonRect.X += 2;
 
             // The keytip should be centered on the top center of the bottom half
-            Point screenPt = new Point(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Top);
+            Point screenPt = new(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Top);
 
             // Return key tip details
             return new KeyTipInfo(true, _ribbon.RibbonStrings.AppButtonKeyTip, screenPt,
@@ -320,7 +320,7 @@ namespace Krypton.Ribbon
             Rectangle buttonRect = _ribbon.RectangleToScreen(LayoutAppTab.ClientRectangle);
 
             // The keytip should be centered on the top center of the bottom half
-            Point screenPt = new Point(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Bottom + 2);
+            Point screenPt = new(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Bottom + 2);
 
             // Return key tip details
             return new KeyTipInfo(true, _ribbon.RibbonStrings.AppButtonKeyTip, screenPt,
@@ -336,13 +336,13 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo; otherwise null.</returns>
         public KeyTipInfo[] GetTabKeyTips()
         {
-            KeyTipInfoList keyTips = new KeyTipInfoList();
+            KeyTipInfoList keyTips = new();
 
             // Grab the list of key tips for all tab headers
             keyTips.AddRange(LayoutTabs.GetTabKeyTips());
 
             // Remove all those that do not intercept the scroll port the tabs are inside
-            Rectangle scrollRect = new Rectangle(Point.Empty, _tabsViewport.ClientSize);
+            Rectangle scrollRect = new(Point.Empty, _tabsViewport.ClientSize);
             for (int i = 0; i < keyTips.Count; i++)
             {
                 if (!scrollRect.Contains(keyTips[i].ClientRect))
@@ -448,7 +448,7 @@ namespace Krypton.Ribbon
         private void CreateController()
         {
             // Use a controller to initiate context menu when using right mouse click
-            RibbonTabsController controller = new RibbonTabsController(_ribbon);
+            RibbonTabsController controller = new(_ribbon);
             controller.ContextClick += OnContextClicked;
             MouseController = controller;
         }
@@ -480,7 +480,7 @@ namespace Krypton.Ribbon
             LayoutTabs.NeedPaintDelegate = _tabsViewport.ViewControlPaintDelegate;
 
             // We use a layout docker as a child to prevent buttons going to the left of the app button
-            ViewLayoutDocker tabsDocker = new ViewLayoutDocker
+            ViewLayoutDocker tabsDocker = new()
             {
 
                 // Place the tabs viewport as the fill inside ourself, the button specs will be placed 
@@ -675,7 +675,7 @@ namespace Krypton.Ribbon
             else
             {
                 // Give event handler a change to cancel the open request
-                CancelEventArgs cea = new CancelEventArgs();
+                CancelEventArgs cea = new();
                 _ribbon.OnAppButtonMenuOpening(cea);
 
                 if (cea.Cancel)
@@ -794,7 +794,7 @@ namespace Krypton.Ribbon
                 {
                     IContentValues sourceContent = null;
                     LabelStyle toolTipStyle = LabelStyle.SuperTip;
-                    Rectangle screenRect = new Rectangle(e.ControlMousePosition, new Size(1, 1));
+                    Rectangle screenRect = new(e.ControlMousePosition, new Size(1, 1));
 
                     // If the target is the application button
                     switch (e.Target)
@@ -802,7 +802,7 @@ namespace Krypton.Ribbon
                         case ViewLayoutRibbonAppButton _:
                         case ViewLayoutRibbonAppTab _:
                             // Create a content that recovers values from a the ribbon for the app button/tab
-                            AppButtonToolTipToContent appButtonContent = new AppButtonToolTipToContent(_ribbon);
+                            AppButtonToolTipToContent appButtonContent = new(_ribbon);
 
                             // Is there actually anything to show for the tooltip
                             if (appButtonContent.HasContent)
@@ -821,7 +821,7 @@ namespace Krypton.Ribbon
                             // Cast to correct type
 
                             // Create a content that recovers values from a IQuickAccessToolbarButton
-                            QATButtonToolTipToContent qatButtonContent = new QATButtonToolTipToContent(viewElement1.QATButton);
+                            QATButtonToolTipToContent qatButtonContent = new(viewElement1.QATButton);
 
                             // Is there actually anything to show for the tooltip
                             if (qatButtonContent.HasContent)
@@ -841,7 +841,7 @@ namespace Krypton.Ribbon
                                 // Cast to correct type
 
                                 // Create a content that recovers values from a KryptonRibbonGroupItem
-                                GroupItemToolTipToContent groupItemContent = new GroupItemToolTipToContent(viewElement2.GroupLabel);
+                                GroupItemToolTipToContent groupItemContent = new(viewElement2.GroupLabel);
 
                                 // Is there actually anything to show for the tooltip
                                 if (groupItemContent.HasContent)
@@ -869,7 +869,7 @@ namespace Krypton.Ribbon
                                             // Cast to correct type
 
                                             // Create a content that recovers values from a KryptonRibbonGroupItem
-                                            GroupItemToolTipToContent groupItemContent = new GroupItemToolTipToContent(viewElement3.GroupItem);
+                                            GroupItemToolTipToContent groupItemContent = new(viewElement3.GroupItem);
 
                                             // Is there actually anything to show for the tooltip
                                             if (groupItemContent.HasContent)
@@ -894,7 +894,7 @@ namespace Krypton.Ribbon
                                             ViewDrawRibbonGroupCheckBox viewElement = (ViewDrawRibbonGroupCheckBox)e.Target.Parent;
 
                                             // Create a content that recovers values from a KryptonRibbonGroupItem
-                                            GroupItemToolTipToContent groupItemContent = new GroupItemToolTipToContent(viewElement.GroupCheckBox);
+                                            GroupItemToolTipToContent groupItemContent = new(viewElement.GroupCheckBox);
 
                                             // Is there actually anything to show for the tooltip
                                             if (groupItemContent.HasContent)
@@ -919,7 +919,7 @@ namespace Krypton.Ribbon
                                             ViewDrawRibbonGroupRadioButton viewElement = (ViewDrawRibbonGroupRadioButton)e.Target.Parent;
 
                                             // Create a content that recovers values from a KryptonRibbonGroupItem
-                                            GroupItemToolTipToContent groupItemContent = new GroupItemToolTipToContent(viewElement.GroupRadioButton);
+                                            GroupItemToolTipToContent groupItemContent = new(viewElement.GroupRadioButton);
 
                                             // Is there actually anything to show for the tooltip
                                             if (groupItemContent.HasContent)
@@ -949,7 +949,7 @@ namespace Krypton.Ribbon
                                             if (_ribbon.AllowButtonSpecToolTips)
                                             {
                                                 // Create a helper object to provide tooltip values
-                                                ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(_ribbon.GetRedirector(), buttonSpec);
+                                                ButtonSpecToContent buttonSpecMapping = new(_ribbon.GetRedirector(), buttonSpec);
 
                                                 // Is there actually anything to show for the tooltip
                                                 if (buttonSpecMapping.HasContent)

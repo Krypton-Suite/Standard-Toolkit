@@ -141,8 +141,7 @@ namespace Krypton.Toolkit
                         // Be careful not to unshare rows unnecessarily. 
                         // This could have severe performance repercussions.
                         DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
-                        KryptonDataGridViewNumericUpDownCell dataGridViewCell = dataGridViewRow.Cells[Index] as KryptonDataGridViewNumericUpDownCell;
-                        if (dataGridViewCell != null)
+                        if (dataGridViewRow.Cells[Index] is KryptonDataGridViewNumericUpDownCell dataGridViewCell)
                         {
                             dataGridViewCell.SetAllowDecimals(rowIndex, value);
                         }
@@ -190,8 +189,7 @@ namespace Krypton.Toolkit
                         // Be careful not to unshare rows unnecessarily. 
                         // This could have severe performance repercussions.
                         DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
-                        KryptonDataGridViewNumericUpDownCell dataGridViewCell = dataGridViewRow.Cells[Index] as KryptonDataGridViewNumericUpDownCell;
-                        if (dataGridViewCell != null)
+                        if (dataGridViewRow.Cells[Index] is KryptonDataGridViewNumericUpDownCell dataGridViewCell)
                         {
                             dataGridViewCell.SetTrailingZeroes(rowIndex, value);
                         }

@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Font for drawing the content text.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Font Font
         {
             get => _font;
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative horizontal alignment of content text.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextH
         {
             get => _textH;
@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative vertical alignment of content text.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextV
         {
             get => _textV;
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding between the border and content drawing.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding Padding
         {
             get => _padding;

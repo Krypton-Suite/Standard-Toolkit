@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Feedback drawing method used.")]
         [DefaultValue(typeof(PaletteDragFeedback), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteDragFeedback Feedback
         {
             get => _feedback;
@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background color for a solid drag drop area.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color SolidBack
         {
             get => _solidBack;
@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Border color for a solid drag drop area.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color SolidBorder
         {
             get => _solidBorder;
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Opacity for the solid drag drop area.")]
         [DefaultValue(-1.0f)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public float SolidOpacity
         {
             get => _solidOpacity;
@@ -260,7 +260,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background color for the docking indicators area.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color DropDockBack
         {
             get => _dropDockBack;
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Border color for the docking indicators area.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color DropDockBorder
         {
             get => _dropDockBorder;
@@ -335,7 +335,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Sctive color for docking indicators..")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color DropDockActive
         {
             get => _dropDockActive;
@@ -372,7 +372,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Inactive color for docking indicators.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color DropDockInactive
         {
             get => _dropDockInactive;

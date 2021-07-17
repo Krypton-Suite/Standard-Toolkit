@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly IContextMenuProvider _parent;
-        private Nullable<ToolStripDropDownCloseReason> _closeReason;
+        private ToolStripDropDownCloseReason? _closeReason;
 
         #endregion
 
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the reason for the context menu being closed.
         /// </summary>
-        public Nullable<ToolStripDropDownCloseReason> ProviderCloseReason 
+        public ToolStripDropDownCloseReason? ProviderCloseReason 
         { 
             get => _parent != null ? _parent.ProviderCloseReason : _closeReason;
 

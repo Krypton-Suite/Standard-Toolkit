@@ -42,32 +42,32 @@ namespace Krypton.Toolkit
         private IPalette _basePalette;
         private PaletteMode _basePaletteMode;
         private InheritBool _allowFormChrome;
-        private PaletteRedirect _redirector;
-        private PaletteRedirectCommon _redirectCommon;
-        private KryptonPaletteCheckButtons _buttons;
-        private KryptonPaletteButtonSpecs _buttonSpecs;
-        private KryptonPaletteCalendarDay _calendarDay;
-        private KryptonPaletteCargo _cargo;
-        private KryptonPaletteCommon _common;
-        private KryptonPaletteContextMenu _contextMenu;
-        private KryptonPaletteControls _controls;
-        private PaletteDragDrop _dragDrop;
-        private KryptonPaletteForms _forms;
-        private KryptonPaletteGrids _grids;
-        private KryptonPaletteHeaders _headers;
-        private KryptonPaletteHeaderGroup _headerGroup;
-        private KryptonPaletteImages _images;
-        private KryptonPaletteInputControls _inputControls;
-        private KryptonPaletteLabels _labels;
-        private KryptonPaletteNavigator _navigator;
-        private KryptonPalettePanels _panels;
-        private KryptonPaletteRibbon _ribbon;
-        private KryptonPaletteSeparators _separators;
-        private KryptonPaletteTabButtons _tabs;
-        private KryptonPaletteTrackBar _trackBar;
-        private KryptonPaletteTMS _toolMenuStatus;
-        private NeedPaintHandler _needPaintDelegate;
-        private NeedPaintHandler _needTMSPaintDelegate;
+        private readonly PaletteRedirect _redirector;
+        private readonly PaletteRedirectCommon _redirectCommon;
+        private readonly KryptonPaletteCheckButtons _buttons;
+        private readonly KryptonPaletteButtonSpecs _buttonSpecs;
+        private readonly KryptonPaletteCalendarDay _calendarDay;
+        private readonly KryptonPaletteCargo _cargo;
+        private readonly KryptonPaletteCommon _common;
+        private readonly KryptonPaletteContextMenu _contextMenu;
+        private readonly KryptonPaletteControls _controls;
+        private readonly PaletteDragDrop _dragDrop;
+        private readonly KryptonPaletteForms _forms;
+        private readonly KryptonPaletteGrids _grids;
+        private readonly KryptonPaletteHeaders _headers;
+        private readonly KryptonPaletteHeaderGroup _headerGroup;
+        private readonly KryptonPaletteImages _images;
+        private readonly KryptonPaletteInputControls _inputControls;
+        private readonly KryptonPaletteLabels _labels;
+        private readonly KryptonPaletteNavigator _navigator;
+        private readonly KryptonPalettePanels _panels;
+        private readonly KryptonPaletteRibbon _ribbon;
+        private readonly KryptonPaletteSeparators _separators;
+        private readonly KryptonPaletteTabButtons _tabs;
+        private readonly KryptonPaletteTrackBar _trackBar;
+        private readonly KryptonPaletteTMS _toolMenuStatus;
+        private readonly NeedPaintHandler _needPaintDelegate;
+        private readonly NeedPaintHandler _needTMSPaintDelegate;
         private string _customisedKryptonPaletteFilePath, _paletteFileName;
 
         #region Property Grid Variables
@@ -1887,7 +1887,7 @@ namespace Krypton.Toolkit
             Image retImage = null;
 
             // Grab the compound object for the required button
-            KryptonPaletteImagesGalleryButton images = null;
+            KryptonPaletteImagesGalleryButton images;
             switch (button)
             {
                 case PaletteRibbonGalleryButton.Up:
@@ -3325,10 +3325,7 @@ namespace Krypton.Toolkit
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                if (PalettePaint != null)
-                {
-                    PalettePaint(this, e);
-                }
+                PalettePaint?.Invoke(this, e);
             }
         }
 
@@ -3342,10 +3339,7 @@ namespace Krypton.Toolkit
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                if (AllowFormChromeChanged != null)
-                {
-                    AllowFormChromeChanged(this, e);
-                }
+                AllowFormChromeChanged?.Invoke(this, e);
             }
         }
 
@@ -3359,10 +3353,7 @@ namespace Krypton.Toolkit
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                if (BasePaletteChanged != null)
-                {
-                    BasePaletteChanged(this, e);
-                }
+                BasePaletteChanged?.Invoke(this, e);
             }
         }
 
@@ -3376,10 +3367,7 @@ namespace Krypton.Toolkit
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                if (BaseRendererChanged != null)
-                {
-                    BaseRendererChanged(this, e);
-                }
+                BaseRendererChanged?.Invoke(this, e);
             }
         }
 
@@ -3393,10 +3381,7 @@ namespace Krypton.Toolkit
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                if (ButtonSpecChanged != null)
-                {
-                    ButtonSpecChanged(this, e);
-                }
+                ButtonSpecChanged?.Invoke(this, e);
             }
         }
         #endregion
@@ -3422,27 +3407,18 @@ namespace Krypton.Toolkit
                 {
                     // Otherwise, add to the set
                     paletteSet.Add(palette, true);
-
+                    // Cast to correct type
 
                     // If this is a KryptonPalette instance
-                    if (palette is KryptonPalette)
+                    if (palette is KryptonPalette owner)
                     {
-                        // Cast to correct type
-                        KryptonPalette owner = (KryptonPalette)palette;
-
                         // Get the next palette up in hierarchy
-                        if (owner.BasePaletteMode == PaletteMode.Custom)
+                        palette = owner.BasePaletteMode switch
                         {
-                            palette = owner.BasePalette;
-                        }
-                        else if (owner.BasePaletteMode == PaletteMode.Global)
-                        {
-                            palette = KryptonManager.InternalGlobalPalette;
-                        }
-                        else
-                        {
-                            palette = null;
-                        }
+                            PaletteMode.Custom => owner.BasePalette,
+                            PaletteMode.Global => KryptonManager.InternalGlobalPalette,
+                            _ => null
+                        };
                     }
                     else
                     {
@@ -3756,10 +3732,9 @@ namespace Krypton.Toolkit
                     foreach (object attrib in prop.GetCustomAttributes(false))
                     {
                         // Is it marked with the special krypton persist marker?
-                        if (attrib is KryptonPersistAttribute)
+                        if (attrib is KryptonPersistAttribute persistAttribute)
                         {
                             // Cast attribute to the correct type
-                            KryptonPersistAttribute persist = (KryptonPersistAttribute)attrib;
 
                             // Check if there is an element matching the property
                             XmlElement childElement = (XmlElement)element.SelectSingleNode(prop.Name);
@@ -3768,7 +3743,7 @@ namespace Krypton.Toolkit
                             if (childElement != null)
                             {
                                 // Should we navigate down inside the property?
-                                if (persist.Navigate)
+                                if (persistAttribute.Navigate)
                                 {
                                     // If we can read the property value
                                     if (prop.CanRead)

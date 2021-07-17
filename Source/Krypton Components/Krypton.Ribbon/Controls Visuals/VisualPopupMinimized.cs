@@ -271,7 +271,7 @@ namespace Krypton.Ribbon
             Size popupSize;
 
             // Get the preferred size of the groups area, we only really want the height
-            using (ViewLayoutContext context = new ViewLayoutContext(_ribbon, Renderer))
+            using (ViewLayoutContext context = new(_ribbon, Renderer))
             {
                 popupSize = drawMinimizedPanel.GetPreferredSize(context);
             }
@@ -284,7 +284,7 @@ namespace Krypton.Ribbon
             Rectangle parentTabsRect = _ribbon.RectangleToScreen(tabsArea.ClientRectangle);
 
             // Default popup is placed below the ribbon
-            Rectangle popupRect = new Rectangle(parentRibbonRect.X, parentTabsRect.Bottom - 1, popupSize.Width, popupSize.Height);
+            Rectangle popupRect = new(parentRibbonRect.X, parentTabsRect.Bottom - 1, popupSize.Width, popupSize.Height);
 
             // Get the view element for the currently selected tab
             ViewDrawRibbonTab viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);

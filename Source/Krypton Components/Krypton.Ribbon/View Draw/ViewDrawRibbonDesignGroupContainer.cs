@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDesignGroupContainer : ViewDrawRibbonDesignBase
     {
         #region Static Fields
-        private static readonly Padding _padding = new Padding(1, 0, 0, 0);
+        private static readonly Padding _padding = new(1, 0, 0, 0);
         private static readonly ImageList _imageList;
         #endregion
 
@@ -111,10 +111,10 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuTriple = new ToolStripMenuItem("Add Triple", null, OnAddTriple);
-                ToolStripMenuItem menuLines = new ToolStripMenuItem("Add Lines", null, OnAddLines);
-                ToolStripMenuItem menuSeparator = new ToolStripMenuItem("Add Separator", null, OnAddSeparator);
-                ToolStripMenuItem menuGallery = new ToolStripMenuItem("Add Gallery", null, OnAddGallery);
+                ToolStripMenuItem menuTriple = new("Add Triple", null, OnAddTriple);
+                ToolStripMenuItem menuLines = new("Add Lines", null, OnAddLines);
+                ToolStripMenuItem menuSeparator = new("Add Separator", null, OnAddSeparator);
+                ToolStripMenuItem menuGallery = new("Add Gallery", null, OnAddGallery);
 
                 // Assign correct images
                 menuTriple.ImageIndex = 0;

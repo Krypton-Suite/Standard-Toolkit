@@ -670,7 +670,7 @@ namespace Krypton.Ribbon
                     {
                         if (KryptonContextMenu != null)
                         {
-                            ContextMenuArgs contextArgs = new ContextMenuArgs(KryptonContextMenu);
+                            ContextMenuArgs contextArgs = new(KryptonContextMenu);
 
                             // Generate an event giving a chance for the krypton context menu strip to 
                             // be shown to be provided/modified or the action even to be cancelled
@@ -703,7 +703,7 @@ namespace Krypton.Ribbon
                         }
                         else if (ContextMenuStrip != null)
                         {
-                            ContextMenuArgs contextArgs = new ContextMenuArgs(ContextMenuStrip);
+                            ContextMenuArgs contextArgs = new(ContextMenuStrip);
 
                             // Generate an event giving a chance for the context menu strip to be
                             // shown to be provided/modified or the action even to be cancelled

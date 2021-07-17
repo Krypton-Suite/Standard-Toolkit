@@ -21,10 +21,10 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonGroupsArea : ViewDrawPanel
     {
         #region Static Fields
-        private static readonly Padding _preferredNormalPadding = new Padding(0, 0, 1, 0);
-        private static readonly Padding _preferredMinimizedPadding = new Padding(0, 1, 1, 0);
-        private static readonly Padding _layoutNormalPadding = new Padding(0, -1, 1, 1);
-        private static readonly Padding _layoutMinimizedPadding = new Padding(0, 0, 1, 1);
+        private static readonly Padding _preferredNormalPadding = new(0, 0, 1, 0);
+        private static readonly Padding _preferredMinimizedPadding = new(0, 1, 1, 0);
+        private static readonly Padding _layoutNormalPadding = new(0, -1, 1, 1);
+        private static readonly Padding _layoutMinimizedPadding = new(0, 0, 1, 1);
         #endregion
 
         #region Instance Fields
@@ -97,7 +97,7 @@ namespace Krypton.Ribbon
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
             // Get the preferred size of the contained content
-            Size preferredSize = new Size(0, _ribbon.CalculatedValues.GroupsHeight);
+            Size preferredSize = new(0, _ribbon.CalculatedValues.GroupsHeight);
 
             // Add on the padding we need around edges
             if (_ribbon.RealMinimizedMode)

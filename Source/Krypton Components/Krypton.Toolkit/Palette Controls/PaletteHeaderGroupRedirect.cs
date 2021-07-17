@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Should headers overlay the border.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public InheritBool OverlayHeaders
         {
             get => _overlayHeaders;

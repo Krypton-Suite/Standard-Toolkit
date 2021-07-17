@@ -930,7 +930,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteRedirect derived class.</returns>
         protected virtual PaletteRedirect CreateRedirector()
         {
-            return new(_palette);
+            return new PaletteRedirect(_palette);
         }
 
         /// <summary>
@@ -1017,8 +1017,6 @@ namespace Krypton.Toolkit
         /// Process Windows-based messages.
         /// </summary>
         /// <param name="m">A Windows-based message.</param>
-        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/100 
-        [System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
         protected override void WndProc(ref Message m)
         {
             bool processed = false;

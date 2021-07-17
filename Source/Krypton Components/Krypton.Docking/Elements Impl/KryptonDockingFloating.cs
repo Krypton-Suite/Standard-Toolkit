@@ -135,8 +135,8 @@ namespace Krypton.Docking
         private KryptonDockingFloatingWindow CreateFloatingWindow(string name)
         {
             // Create a floatspace and floating window for hosting the floatspace
-            KryptonDockingFloatspace floatSpaceElement = new KryptonDockingFloatspace("Floatspace");
-            KryptonDockingFloatingWindow floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
+            KryptonDockingFloatspace floatSpaceElement = new("Floatspace");
+            KryptonDockingFloatingWindow floatingWindowElement = new(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
             floatingWindowElement.Disposed += OnDockingFloatingWindowDisposed;
             InternalAdd(floatingWindowElement);
 
@@ -145,8 +145,8 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Generate events so the floating window/dockspace appearance can be customized
-                FloatingWindowEventArgs floatingWindowArgs = new FloatingWindowEventArgs(floatingWindowElement.FloatingWindow, floatingWindowElement);
-                FloatspaceEventArgs floatSpaceArgs = new FloatspaceEventArgs(floatSpaceElement.FloatspaceControl, floatSpaceElement);
+                FloatingWindowEventArgs floatingWindowArgs = new(floatingWindowElement.FloatingWindow, floatingWindowElement);
+                FloatspaceEventArgs floatSpaceArgs = new(floatSpaceElement.FloatspaceControl, floatSpaceElement);
                 dockingManager.RaiseFloatingWindowAdding(floatingWindowArgs);
                 dockingManager.RaiseFloatspaceAdding(floatSpaceArgs);
             }

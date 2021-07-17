@@ -122,7 +122,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Values")]
         [Description("Application button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image AppButtonImage
         {
             get => _appButtonImage;
@@ -224,7 +224,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Text used for drawing an Office 2010 style application button.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [DefaultValue("File")]
         [Localizable(true)]
         public string AppButtonText
@@ -249,7 +249,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Context menu items for the application button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(Krypton.Toolkit.KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
         public virtual KryptonContextMenuItemCollection AppButtonMenuItems => _appButtonMenuItems.Items;
 
         #endregion
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Recent document entries for the application buttton.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonRecentDocCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonRibbonRecentDocCollectionEditor), typeof(UITypeEditor))]
         public virtual KryptonRibbonRecentDocCollection AppButtonRecentDocs { get; }
 
         #endregion
@@ -342,7 +342,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color AppButtonToolTipImageTransparentColor { get; set; }
 

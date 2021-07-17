@@ -21,10 +21,10 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDesignGroupTriple : ViewDrawRibbonDesignBase
     {
         #region Static Fields
-        private static readonly Padding _preferredPaddingL = new Padding(1, 3, 1, 3);
-        private static readonly Padding _layoutPaddingL = new Padding(1);
-        private static readonly Padding _outerPaddingL = new Padding(0, 2, 0, 2);
-        private static readonly Padding _paddingMS = new Padding(0, 2, 0, 2);
+        private static readonly Padding _preferredPaddingL = new(1, 3, 1, 3);
+        private static readonly Padding _layoutPaddingL = new(1);
+        private static readonly Padding _outerPaddingL = new(0, 2, 0, 2);
+        private static readonly Padding _paddingMS = new(0, 2, 0, 2);
         private static readonly ImageList _imageList;
         #endregion
 
@@ -137,20 +137,20 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuButton = new ToolStripMenuItem("Add Button", null, OnAddButton);
-                ToolStripMenuItem menuColorButton = new ToolStripMenuItem("Add Color Button", null, OnAddColorButton);
-                ToolStripMenuItem menuCheckBox = new ToolStripMenuItem("Add CheckBox", null, OnAddCheckBox);
-                ToolStripMenuItem menuCustomControl = new ToolStripMenuItem("Add Custom Control", null, OnAddCustomControl);
-                ToolStripMenuItem menuLabel = new ToolStripMenuItem("Add Label", null, OnAddLabel);
-                ToolStripMenuItem menuRadioButton = new ToolStripMenuItem("Add RadioButton", null, OnAddRadioButton);
-                ToolStripMenuItem menuTextBox = new ToolStripMenuItem("Add TextBox", null, OnAddTextBox);
-                ToolStripMenuItem menuMaskedTextBox = new ToolStripMenuItem("Add MaskedTextBox", null, OnAddMaskedTextBox);
-                ToolStripMenuItem menuRichTextBox = new ToolStripMenuItem("Add RichTextBox", null, OnAddRichTextBox);
-                ToolStripMenuItem menuComboBox = new ToolStripMenuItem("Add ComboBox", null, OnAddComboBox);
-                ToolStripMenuItem menuNumericUpDown = new ToolStripMenuItem("Add NumericUpDown", null, OnAddNumericUpDown);
-                ToolStripMenuItem menuDomainUpDown = new ToolStripMenuItem("Add DomainUpDown", null, OnAddDomainUpDown);
-                ToolStripMenuItem menuDateTimePicker = new ToolStripMenuItem("Add DateTimePicker", null, OnAddDateTimePicker);
-                ToolStripMenuItem menuTrackBar = new ToolStripMenuItem("Add TrackBar", null, OnAddTrackBar);
+                ToolStripMenuItem menuButton = new("Add Button", null, OnAddButton);
+                ToolStripMenuItem menuColorButton = new("Add Color Button", null, OnAddColorButton);
+                ToolStripMenuItem menuCheckBox = new("Add CheckBox", null, OnAddCheckBox);
+                ToolStripMenuItem menuCustomControl = new("Add Custom Control", null, OnAddCustomControl);
+                ToolStripMenuItem menuLabel = new("Add Label", null, OnAddLabel);
+                ToolStripMenuItem menuRadioButton = new("Add RadioButton", null, OnAddRadioButton);
+                ToolStripMenuItem menuTextBox = new("Add TextBox", null, OnAddTextBox);
+                ToolStripMenuItem menuMaskedTextBox = new("Add MaskedTextBox", null, OnAddMaskedTextBox);
+                ToolStripMenuItem menuRichTextBox = new("Add RichTextBox", null, OnAddRichTextBox);
+                ToolStripMenuItem menuComboBox = new("Add ComboBox", null, OnAddComboBox);
+                ToolStripMenuItem menuNumericUpDown = new("Add NumericUpDown", null, OnAddNumericUpDown);
+                ToolStripMenuItem menuDomainUpDown = new("Add DomainUpDown", null, OnAddDomainUpDown);
+                ToolStripMenuItem menuDateTimePicker = new("Add DateTimePicker", null, OnAddDateTimePicker);
+                ToolStripMenuItem menuTrackBar = new("Add TrackBar", null, OnAddTrackBar);
 
                 // Assign correct images
                 menuButton.ImageIndex = 0;

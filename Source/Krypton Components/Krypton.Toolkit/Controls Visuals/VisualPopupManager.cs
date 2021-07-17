@@ -334,8 +334,6 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="m">The message to be dispatched. You cannot modify this message.</param>
         /// <returns>true to filter the message and stop it from being dispatched; false to allow the message to continue to the next filter or control.</returns>
-        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/100 
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public bool PreFilterMessage(ref Message m)
         {
             // If we have suspended operation....

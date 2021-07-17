@@ -114,7 +114,7 @@ namespace Krypton.Navigator
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the navigator specific list
@@ -157,7 +157,7 @@ namespace Krypton.Navigator
             get
             {
                 // Create a new compound array
-                ArrayList compound = new ArrayList();
+                ArrayList compound = new();
 
                 // Add all the navigator components
                 compound.AddRange(Navigator.Button.ButtonSpecs);
@@ -515,7 +515,7 @@ namespace Krypton.Navigator
                     Navigator.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new ArrayList
+                    ArrayList selectionList = new()
                     {
                         component
                     };

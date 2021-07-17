@@ -332,7 +332,7 @@ namespace Krypton.Docking
                         {
                             // Replace the existing page with a placeholder that has the same unique name
                             KryptonWorkspaceCell cell = SpaceControl.CellForPage(page);
-                            KryptonStorePage placeholder = new KryptonStorePage(uniqueName, _storeName);
+                            KryptonStorePage placeholder = new(uniqueName, _storeName);
                             cell.Pages.Insert(cell.Pages.IndexOf(page), placeholder);
                             cell.Pages.Remove(page);
                         }
@@ -352,7 +352,7 @@ namespace Krypton.Docking
                                 if ((page != null) && !(page is KryptonStorePage))
                                 {
                                     // Replace the existing page with a placeholder that has the same unique name
-                                    KryptonStorePage placeholder = new KryptonStorePage(page.UniqueName, _storeName);
+                                    KryptonStorePage placeholder = new(page.UniqueName, _storeName);
                                     cell.Pages.Insert(cell.Pages.IndexOf(page), placeholder);
                                     cell.Pages.Remove(page);
                                 }
@@ -913,7 +913,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockPageLoadingEventArgs args = new DockPageLoadingEventArgs(dockingManager, e.XmlReader, e.Page);
+                DockPageLoadingEventArgs args = new(dockingManager, e.XmlReader, e.Page);
                 dockingManager.RaisePageLoading(args);
             }
         }
@@ -923,7 +923,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockPageSavingEventArgs args = new DockPageSavingEventArgs(dockingManager, e.XmlWriter, e.Page);
+                DockPageSavingEventArgs args = new(dockingManager, e.XmlWriter, e.Page);
                 dockingManager.RaisePageSaving(args);
             }
         }

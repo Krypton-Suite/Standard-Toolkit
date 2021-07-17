@@ -466,7 +466,7 @@ namespace Krypton.Navigator
                         if (_selectedPage != null)
                         {
                             // Create event information
-                            KryptonPageCancelEventArgs e1 = new KryptonPageCancelEventArgs(_selectedPage, Pages.IndexOf(_selectedPage));
+                            KryptonPageCancelEventArgs e1 = new(_selectedPage, Pages.IndexOf(_selectedPage));
 
                             // Give event handlers a chance to cancel the deselection of the current page
                             OnDeselecting(e1);
@@ -479,7 +479,7 @@ namespace Krypton.Navigator
                         }
 
                         // Create event information
-                        KryptonPageCancelEventArgs e2 = new KryptonPageCancelEventArgs(value, Pages.IndexOf(value));
+                        KryptonPageCancelEventArgs e2 = new(value, Pages.IndexOf(value));
 
                         // Give event handlers a chance to cancel the selection of the new page
                         OnSelecting(e2);
@@ -913,7 +913,7 @@ namespace Krypton.Navigator
         /// <returns>List of drag targets.</returns>
         public virtual DragTargetList GenerateDragTargets(PageDragEndData dragEndData, KryptonPageFlags allowFlags)
         {
-            DragTargetList targets = new DragTargetList
+            DragTargetList targets = new()
             {
 
                 // Generate target for the entire navigator client area
@@ -1444,7 +1444,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(250, 150);
+        protected override Size DefaultSize => new(250, 150);
 
         /// <summary>
         /// Update global event attachments.
@@ -1601,7 +1601,7 @@ namespace Krypton.Navigator
             if (!IsDisposed && (ViewBuilder != null))
             {
                 // Create the event arguments
-                DirectionActionEventArgs e = new DirectionActionEventArgs(SelectedPage,
+                DirectionActionEventArgs e = new(SelectedPage,
                                                                           SelectedIndex,
                                                                           Button.PreviousButtonAction);
 
@@ -1629,7 +1629,7 @@ namespace Krypton.Navigator
             if (!IsDisposed && (ViewBuilder != null))
             {
                 // Create the event arguments
-                DirectionActionEventArgs e = new DirectionActionEventArgs(SelectedPage,
+                DirectionActionEventArgs e = new(SelectedPage,
                                                                           SelectedIndex,
                                                                           Button.NextButtonAction);
 
@@ -1685,7 +1685,7 @@ namespace Krypton.Navigator
                     if (Pages.Contains(page))
                     {
                         // Create the event arguments
-                        CloseActionEventArgs e = new CloseActionEventArgs(page,
+                        CloseActionEventArgs e = new(page,
                                                                           Pages.IndexOf(page),
                                                                           Button.CloseButtonAction);
 
@@ -2204,7 +2204,7 @@ namespace Krypton.Navigator
 
                 // Generate event allowing the DragPageNotify setting to be updated before the
                 // actual drag processing occurs. You can even cancel the drag entirely.
-                PageDragCancelEventArgs de = new PageDragCancelEventArgs(e.Point, e.Offset, e.Control, _dragPages)
+                PageDragCancelEventArgs de = new(e.Point, e.Offset, e.Control, _dragPages)
                 {
                     Cancel = (!AllowPageDrag || !allowPageDrag)
                 };
@@ -2684,7 +2684,7 @@ namespace Krypton.Navigator
                     }
 
                     // Create event information
-                    KryptonPageCancelEventArgs args = new KryptonPageCancelEventArgs(next, Pages.IndexOf(next))
+                    KryptonPageCancelEventArgs args = new(next, Pages.IndexOf(next))
                     {
                         // Disabled pages default to not becoming selected
                         Cancel = !next.Enabled
@@ -2783,7 +2783,7 @@ namespace Krypton.Navigator
                     }
 
                     // Create event information
-                    KryptonPageCancelEventArgs args = new KryptonPageCancelEventArgs(next, Pages.IndexOf(next))
+                    KryptonPageCancelEventArgs args = new(next, Pages.IndexOf(next))
                     {
 
                         // Disabled pages default to not becoming selected
@@ -2913,7 +2913,7 @@ namespace Krypton.Navigator
 
                     // Kill any existing contents and add a items collection for the page entries
                     contextMenu.Items.Clear();
-                    KryptonContextMenuItems contextMenuItems = new KryptonContextMenuItems();
+                    KryptonContextMenuItems contextMenuItems = new();
                     contextMenu.Items.Add(contextMenuItems);
 
                     // Process each page for those that need adding to context strip
@@ -2927,7 +2927,7 @@ namespace Krypton.Navigator
                             // Add a vertical break after every 20 items
                             if ((menuItems > 0) && ((menuItems % 20) == 0))
                             {
-                                KryptonContextMenuSeparator vertBreak = new KryptonContextMenuSeparator
+                                KryptonContextMenuSeparator vertBreak = new()
                                 {
                                     Horizontal = false
                                 };
@@ -2935,7 +2935,7 @@ namespace Krypton.Navigator
                             }
 
                             // Create a menu item for the page
-                            KryptonContextMenuItem pageMenuItem = new KryptonContextMenuItem(page.GetTextMapping(Button.ContextMenuMapText),
+                            KryptonContextMenuItem pageMenuItem = new(page.GetTextMapping(Button.ContextMenuMapText),
                                                                                              page.GetImageMapping(Button.ContextMenuMapImage),
                                                                                              OnContextMenuClick)
                             {
@@ -2957,7 +2957,7 @@ namespace Krypton.Navigator
                     }
 
                     // Create the event arguments
-                    ContextActionEventArgs cae = new ContextActionEventArgs(SelectedPage,
+                    ContextActionEventArgs cae = new(SelectedPage,
                                                                             SelectedIndex,
                                                                             Button.ContextButtonAction,
                                                                             contextMenu);
@@ -3008,7 +3008,7 @@ namespace Krypton.Navigator
                         if (ToolTips.AllowPageToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            PageToToolTipMapping pageMapping = new PageToToolTipMapping(toolTipPage,
+                            PageToToolTipMapping pageMapping = new(toolTipPage,
                                                                                        ToolTips.MapImage,
                                                                                        ToolTips.MapText,
                                                                                        ToolTips.MapExtraText);
@@ -3033,7 +3033,7 @@ namespace Krypton.Navigator
                             if (ToolTips.AllowButtonSpecToolTips)
                             {
                                 // Create a helper object to provide tooltip values
-                                ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                                ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                                 // Is there actually anything to show for the tooltip
                                 if (buttonSpecMapping.HasContent)

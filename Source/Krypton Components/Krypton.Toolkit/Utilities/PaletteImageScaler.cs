@@ -158,15 +158,15 @@ namespace Krypton.Toolkit.Utilities
                 return img;
             }
 
-            Bitmap bmp = new((int)(img.Width * scaleFactor.Width), (int)(img.Height * scaleFactor.Height), System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Bitmap bmp = new((int)(img.Width * scaleFactor.Width), (int)(img.Height * scaleFactor.Height), PixelFormat.Format32bppPArgb);
 
             using (Bitmap tmpBmp = new(img))
             {
                 tmpBmp.MakeTransparent(Color.Magenta);
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
-                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.InterpolationMode = InterpolationMode.High;
                     g.DrawImage(tmpBmp, 0, 0, bmp.Width, bmp.Height);
                 }
             }

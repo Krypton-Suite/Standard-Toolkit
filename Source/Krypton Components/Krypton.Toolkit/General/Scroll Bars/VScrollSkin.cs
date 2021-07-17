@@ -1,4 +1,5 @@
 ﻿#region BSD License
+// TODO: Put in the correct license info
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -23,21 +24,20 @@ namespace Krypton.Toolkit
         private Control __win;
 
         [AccessedThroughProperty("VScrollBar1")]
-        private KryptonScrollBar _VScrollBar1;
+        private KryptonScrollBar _vScrollBar1;
 
         [AccessedThroughProperty("HScrollBar1")]
-        private KryptonScrollBar _HScrollBar1;
+        private KryptonScrollBar _hScrollBar1;
 
         private IContainer components;
 
         public WIN32ScrollBars.ScrollInfo si;
-        //public WIN32ScrollBars.ScrollInfo si2;
 
         private VScrollBar VSB;
         private HScrollBar HSC;
 
         private static IPalette _palette;
-        private PaletteRedirect _paletteRedirect;
+        private readonly PaletteRedirect _paletteRedirect;
 
         #endregion
 
@@ -45,38 +45,20 @@ namespace Krypton.Toolkit
 
         private Control _win
         {
-            get
-            {
-                return __win;
-            }
-            set
-            {
-                __win = value;
-            }
+            get => __win;
+            set => __win = value;
         }
 
         internal virtual KryptonScrollBar VScrollBar1
         {
-            get
-            {
-                return _VScrollBar1;
-            }
-            set
-            {
-                _VScrollBar1 = value;
-            }
+            get => _vScrollBar1;
+            set => _vScrollBar1 = value;
         }
 
         internal virtual KryptonScrollBar HScrollBar1
         {
-            get
-            {
-                return _HScrollBar1;
-            }
-            set
-            {
-                _HScrollBar1 = value;
-            }
+            get => _hScrollBar1;
+            set => _hScrollBar1 = value;
         }
         #endregion
 
@@ -85,14 +67,14 @@ namespace Krypton.Toolkit
         {
             // add Palette Handler
             if (_palette != null)
-                _palette.PalettePaint += new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+                _palette.PalettePaint += OnPalettePaint;
 
-            KryptonManager.GlobalPaletteChanged += new EventHandler(OnGlobalPaletteChanged);
+            KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect = new PaletteRedirect(_palette);
 
-            base.ControlAdded += new ControlEventHandler(scrollSkin_ControlAdded);
+            ControlAdded += scrollSkin_ControlAdded;
             //_win = null;
 
             // This call is required by the Windows Form Designer.
@@ -105,14 +87,14 @@ namespace Krypton.Toolkit
 
             // add Palette Handler
             if (_palette != null)
-                _palette.PalettePaint += new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+                _palette.PalettePaint += OnPalettePaint;
 
-            KryptonManager.GlobalPaletteChanged += new EventHandler(OnGlobalPaletteChanged);
+            KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect = new PaletteRedirect(_palette);
 
-            base.ControlAdded += new ControlEventHandler(scrollSkin_ControlAdded);
+            ControlAdded += scrollSkin_ControlAdded;
 
             _win = win;
             Controls.Add(win);
@@ -207,15 +189,14 @@ namespace Krypton.Toolkit
 
                     foreach (Control control in dgv.Controls)
                     {
-                        if (control is HScrollBar)
+                        switch (control)
                         {
-                            HScrollBar hscroll = (HScrollBar)control;
-                            hscroll.VisibleChanged += new EventHandler(HorizontalScrollBar_VisibleChanged);
-                        }
-                        if (control is VScrollBar)
-                        {
-                            VScrollBar vscroll = (VScrollBar)control;
-                            vscroll.VisibleChanged += new EventHandler(VerticalScrollBar_VisibleChanged);
+                            case HScrollBar hscroll:
+                                hscroll.VisibleChanged += HorizontalScrollBar_VisibleChanged;
+                                break;
+                            case VScrollBar vscroll:
+                                vscroll.VisibleChanged += VerticalScrollBar_VisibleChanged;
+                                break;
                         }
                     }
                 }
@@ -239,33 +220,33 @@ namespace Krypton.Toolkit
 
                 IntPtr min = IntPtr.Zero;
                 IntPtr max = IntPtr.Zero;
-                WIN32ScrollBars.GetScrollRange(listView1.Handle, WIN32ScrollBars.SB_VERT, ref min, ref max);
+                PI.GetScrollRange(listView1.Handle, PI.SB_.VERT, ref min, ref max);
 
                 int nMax = max.ToInt32();
                 nMax += 3;
 
                 int nHeight = listView1.DisplayRectangle.Height;
-                int ItemRectHeight = listView1.GetItemRect(0).Height;
+                int itemRectHeight = listView1.GetItemRect(0).Height;
 
-                int nTimes = (nHeight - 17) / ItemRectHeight;
+                int nTimes = (nHeight - 17) / itemRectHeight;
                 int nScrollPositions = (nMax - nTimes) + 1;
 
                 double nThePos = VScrollBar1.Maximum / nScrollPositions;
 
-                double RealPos = 0.0;
+                double RealPos;
                 if (nThePos <= 0.0)
                     RealPos = VScrollBar1.Value;
                 else
                     RealPos = VScrollBar1.Value / nThePos;
 
-                int nPos = WIN32ScrollBars.GetScrollPos(listView1.Handle, WIN32ScrollBars.SB_VERT);
+                int nPos = PI.GetScrollPos(listView1.Handle, PI.SB_.VERT);
 
-                double nShouldBeAt = RealPos * ItemRectHeight;
-                double nIsAt = nPos * ItemRectHeight;
+                double nShouldBeAt = RealPos * itemRectHeight;
+                double nIsAt = nPos * itemRectHeight;
 
                 int pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
 
-                WIN32ScrollBars.SendMessage(listView1.Handle, WIN32ScrollBars.LVM_SCROLL, IntPtr.Zero, (IntPtr)pixelsToScroll);
+                PI.SendMessage(listView1.Handle, PI.LVM_SCROLL, IntPtr.Zero, (IntPtr)pixelsToScroll);
 
                 Invalidate();
 
@@ -279,32 +260,32 @@ namespace Krypton.Toolkit
                     {
                         foreach (Control control in dgv.Controls)
                         {
-                            if (control is VScrollBar)
+                            if (control is not VScrollBar { Visible: true })
                             {
-                                VScrollBar vscroll = (VScrollBar)control;
-                                if (vscroll.Visible)
-                                {
-                                    switch (e.Type)
+                                continue;
+                            }
+
+                            switch (e.Type)
+                            {
+                                case ScrollEventType.ThumbTrack:
+                                    if (e.NewValue >= e.OldValue)
                                     {
-                                        case ScrollEventType.ThumbTrack:
-                                            if (e.NewValue >= e.OldValue)
-                                            {
-                                                WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_VSCROLL, (IntPtr)WIN32ScrollBars.SB_LINEDOWN, VSB.Handle);
-                                            }
-                                            else
-                                            {
-                                                WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_VSCROLL, (IntPtr)WIN32ScrollBars.SB_LINEUP, VSB.Handle);
-                                            }
-
-                                            WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_VSCROLL, (IntPtr)WIN32ScrollBars.SB_THUMBTRACK, VSB.Handle);
-                                            break;
-
-                                        default:
-                                            WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_VSCROLL, (IntPtr)e.Type, VSB.Handle);
-                                            break;
+                                        PI.SendMessage(_win.Handle, PI.WM_.VSCROLL, (IntPtr)PI.SB_.LINEDOWN,
+                                            VSB.Handle);
+                                    }
+                                    else
+                                    {
+                                        PI.SendMessage(_win.Handle, PI.WM_.VSCROLL, (IntPtr)PI.SB_.LINEUP,
+                                            VSB.Handle);
                                     }
 
-                                }
+                                    PI.SendMessage(_win.Handle, PI.WM_.VSCROLL, (IntPtr)PI.SB_.THUMBTRACK,
+                                        VSB.Handle);
+                                    break;
+
+                                default:
+                                    PI.SendMessage(_win.Handle, PI.WM_.VSCROLL, (IntPtr)e.Type, VSB.Handle);
+                                    break;
                             }
                         }
 
@@ -317,31 +298,31 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (_win.GetType() == typeof(TreeView) || (_win.GetType() == typeof(Krypton.Toolkit.KryptonTreeView)))
+                    if (_win.GetType() == typeof(TreeView) || (_win.GetType() == typeof(KryptonTreeView)))
                     {
                         switch (e.Type)
                         {
                             case ScrollEventType.ThumbTrack:
                                 if (e.NewValue >= e.OldValue)
                                 {
-                                    WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_VSCROLL, (IntPtr)WIN32ScrollBars.SB_LINEDOWN, IntPtr.Zero);
+                                    PI.SendMessage(_win.Handle, PI.WM_.VSCROLL, (IntPtr)PI.SB_.LINEDOWN, IntPtr.Zero);
                                 }
                                 else
                                 {
-                                    WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_VSCROLL, (IntPtr)WIN32ScrollBars.SB_LINEUP, IntPtr.Zero);
+                                    PI.SendMessage(_win.Handle, PI.WM_.VSCROLL, (IntPtr)PI.SB_.LINEUP, IntPtr.Zero);
                                 }
 
-                                WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_VSCROLL, (IntPtr)WIN32ScrollBars.SB_THUMBTRACK, IntPtr.Zero);
+                                PI.SendMessage(_win.Handle, PI.WM_.VSCROLL, (IntPtr)PI.SB_.THUMBTRACK, IntPtr.Zero);
                                 break;
 
                             default:
-                                WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_VSCROLL, (IntPtr)e.Type, IntPtr.Zero);
+                                PI.SendMessage(_win.Handle, PI.WM_.VSCROLL, (IntPtr)e.Type, IntPtr.Zero);
                                 break;
                         }
                     }
                     else
                     {
-                        WIN32ScrollBars.PostMessageA(_win.Handle, WIN32ScrollBars.WM_VSCROLL, WIN32ScrollBars.SB_THUMBPOSITION + (0x10000 * VScrollBar1.Value), 0);
+                        PI.PostMessage(_win.Handle, PI.WM_.VSCROLL, (IntPtr)(PI.SB_.THUMBPOSITION + (0x10000 * VScrollBar1.Value)), IntPtr.Zero);
                     }
                 }
             }
@@ -357,12 +338,12 @@ namespace Krypton.Toolkit
             {
                 ListView listView1 = (ListView)_win;
 
-                int nIsAt = WIN32ScrollBars.GetScrollPos(listView1.Handle, WIN32ScrollBars.SB_HORZ);
+                int nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
                 int nShouldBeAt = (int)e.NewValue;
 
                 int pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
 
-                WIN32ScrollBars.SendMessage(listView1.Handle, (int)WIN32ScrollBars.LVM_SCROLL, pixelsToScroll, 0);
+                PI.SendMessage(listView1.Handle, PI.LVM_SCROLL, (IntPtr)pixelsToScroll, IntPtr.Zero);
 
                 Invalidate();
             }
@@ -375,36 +356,27 @@ namespace Krypton.Toolkit
                     {
                         foreach (Control control in dgv.Controls)
                         {
-                            if (control is HScrollBar)
+                            if (control is HScrollBar { Visible: true })
                             {
-                                HScrollBar hscroll = (HScrollBar)control;
-                                if (hscroll.Visible)
+                                if (e.Type == ScrollEventType.ThumbTrack)
                                 {
-                                    switch (e.Type)
+                                    if (e.NewValue >= e.OldValue)
                                     {
-                                        case ScrollEventType.ThumbTrack:
-                                            if (e.NewValue >= e.OldValue)
-                                            {
-                                                WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_HSCROLL, (IntPtr)WIN32ScrollBars.SB_LINEDOWN, HSC.Handle);
-                                            }
-                                            else
-                                            {
-                                                WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_HSCROLL, (IntPtr)WIN32ScrollBars.SB_LINEUP, HSC.Handle);
-                                            }
-
-                                            WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_HSCROLL, (IntPtr)WIN32ScrollBars.SB_THUMBTRACK, HSC.Handle);
-                                            break;
-
-                                        default:
-                                            WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_HSCROLL, (IntPtr)e.Type, HSC.Handle);
-                                            break;
+                                        PI.SendMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)PI.SB_.LINEDOWN, HSC.Handle);
+                                    }
+                                    else
+                                    {
+                                        PI.SendMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)PI.SB_.LINEUP, HSC.Handle);
                                     }
 
+                                    PI.SendMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)PI.SB_.THUMBTRACK, HSC.Handle);
+                                }
+                                else
+                                {
+                                    PI.SendMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)e.Type, HSC.Handle);
                                 }
                             }
                         }
-
-
                     }
                     else
                     {
@@ -413,31 +385,29 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (_win.GetType() == typeof(TreeView) || (_win.GetType() == typeof(Krypton.Toolkit.KryptonTreeView)))
+                    if (_win.GetType() == typeof(TreeView) || (_win.GetType() == typeof(KryptonTreeView)))
                     {
-                        switch (e.Type)
+                        if (e.Type == ScrollEventType.ThumbTrack)
                         {
-                            case ScrollEventType.ThumbTrack:
-                                if (e.NewValue >= e.OldValue)
-                                {
-                                    WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_HSCROLL, (IntPtr)WIN32ScrollBars.SB_LINEDOWN, IntPtr.Zero);
-                                }
-                                else
-                                {
-                                    WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_HSCROLL, (IntPtr)WIN32ScrollBars.SB_LINEUP, IntPtr.Zero);
-                                }
+                            if (e.NewValue >= e.OldValue)
+                            {
+                                PI.SendMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)PI.SB_.LINEDOWN, IntPtr.Zero);
+                            }
+                            else
+                            {
+                                PI.SendMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)PI.SB_.LINEUP, IntPtr.Zero);
+                            }
 
-                                WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_HSCROLL, (IntPtr)WIN32ScrollBars.SB_THUMBTRACK, IntPtr.Zero);
-                                break;
-
-                            default:
-                                WIN32ScrollBars.SendMessage(_win.Handle, WIN32ScrollBars.WM_HSCROLL, (IntPtr)e.Type, IntPtr.Zero);
-                                break;
+                            PI.SendMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)PI.SB_.THUMBTRACK, IntPtr.Zero);
+                        }
+                        else
+                        {
+                            PI.SendMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)e.Type, IntPtr.Zero);
                         }
                     }
                     else
                     {
-                        WIN32ScrollBars.PostMessageA(_win.Handle, WIN32ScrollBars.WM_HSCROLL, WIN32ScrollBars.SB_THUMBPOSITION + (0x10000 * HScrollBar1.Value), 0);
+                        PI.PostMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)(PI.SB_.THUMBPOSITION + (0x10000 * HScrollBar1.Value)), IntPtr.Zero);
                     }
                 }
             }
@@ -453,11 +423,11 @@ namespace Krypton.Toolkit
             VScrollBar vscroll = (VScrollBar)sender;
             if (vscroll.Visible)
             {
-                _VScrollBar1.Visible = true;
+                _vScrollBar1.Visible = true;
             }
             else
             {
-                _VScrollBar1.Visible = false;
+                _vScrollBar1.Visible = false;
             }
         }
 
@@ -466,11 +436,11 @@ namespace Krypton.Toolkit
             HScrollBar hscroll = (HScrollBar)sender;
             if (hscroll.Visible)
             {
-                _HScrollBar1.Visible = true;
+                _hScrollBar1.Visible = true;
             }
             else
             {
-                _HScrollBar1.Visible = false;
+                _hScrollBar1.Visible = false;
             }
         }
 
@@ -555,16 +525,16 @@ namespace Krypton.Toolkit
                 //listStyle |= WIN32ScrollBars.WS_HSCROLL;
                 //listStyle = WIN32ScrollBars.SetWindowLong(_win.Handle, WIN32ScrollBars.GWL_STYLE, listStyle);
 
-                int wndStyle = WIN32ScrollBars.GetWindowLong(_win.Handle, WIN32ScrollBars.GWL_STYLE);
-                bool hsVisible = (wndStyle & WIN32ScrollBars.WS_HSCROLL) != 0;
-                bool vsVisible = (wndStyle & WIN32ScrollBars.WS_VSCROLL) != 0;
+                uint wndStyle = PI.GetWindowLong(_win.Handle, PI.GWL_.STYLE);
+                bool hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
+                bool vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
                 //Vertical
                 if (vsVisible)
                 {
-                    si.fMask = (int)WIN32ScrollBars.ScrollInfoMask.SIF_ALL;
+                    si.fMask = (int)PI.SIF_.ALL;
                     si.cbSize = Marshal.SizeOf(si);
-                    WIN32ScrollBars.GetScrollInfo(_win.Handle, (int)WIN32ScrollBars.ScrollBarDirection.SB_VERT, ref si);
+                    PI.GetScrollInfo(_win.Handle, PI.SB_.VERT, ref si);
 
                     if ((si.nMax + 0) <= si.nPage)
                     {
@@ -587,9 +557,9 @@ namespace Krypton.Toolkit
                 //horizontal
                 if (hsVisible)
                 {
-                    si.fMask = (int)WIN32ScrollBars.ScrollInfoMask.SIF_ALL;
+                    si.fMask = (int)PI.SIF_.ALL;
                     si.cbSize = Marshal.SizeOf(si);
-                    WIN32ScrollBars.GetScrollInfo(_win.Handle, (int)WIN32ScrollBars.ScrollBarDirection.SB_HORZ, ref si);
+                    PI.GetScrollInfo(_win.Handle, PI.SB_.HORZ, ref si);
 
                     if ((si.nMax + 0) <= si.nPage)
                     {
@@ -613,10 +583,10 @@ namespace Krypton.Toolkit
                 {
                     ListView listView1 = (ListView)_win;
 
-                    WIN32ScrollBars.ScrollInfo si = new WIN32ScrollBars.ScrollInfo();
+                    WIN32ScrollBars.ScrollInfo si = new();
                     si.cbSize = Marshal.SizeOf(si);
-                    si.fMask = (int)WIN32ScrollBars.ScrollInfoMask.SIF_ALL;
-                    if (WIN32ScrollBars.GetScrollInfo(listView1.Handle, (int)WIN32ScrollBars.ScrollBarDirection.SB_VERT, ref si))
+                    si.fMask = (int)PI.SIF_.ALL;
+                    if (PI.GetScrollInfo(listView1.Handle, PI.SB_.VERT, ref si))
                     {
                         VScrollBar1.LargeChange = si.nPage;
                         VScrollBar1.Maximum = si.nMax;
@@ -628,8 +598,8 @@ namespace Krypton.Toolkit
 
                     si = new WIN32ScrollBars.ScrollInfo();
                     si.cbSize = Marshal.SizeOf(si);
-                    si.fMask = (int)WIN32ScrollBars.ScrollInfoMask.SIF_ALL;
-                    if (WIN32ScrollBars.GetScrollInfo(listView1.Handle, (int)WIN32ScrollBars.ScrollBarDirection.SB_HORZ, ref si))
+                    si.fMask = (int)PI.SIF_.ALL;
+                    if (PI.GetScrollInfo(listView1.Handle, PI.SB_.HORZ, ref si))
                     {
                         HScrollBar1.LargeChange = si.nPage;
                         HScrollBar1.Maximum = si.nMax;
@@ -654,9 +624,9 @@ namespace Krypton.Toolkit
 
             foreach (Control ctr in dgv.Controls)
             {
-                if ((ctr) is VScrollBar)
+                if ((ctr) is VScrollBar bar)
                 {
-                    VSB = (VScrollBar)ctr;
+                    VSB = bar;
                     isPresent = true;
                 }
             }
@@ -665,10 +635,10 @@ namespace Krypton.Toolkit
 
         public void SetDGVScrollBarValue(ref DataGridView dgv, ref VScrollBar VSB)
         {
-            int listStyle = WIN32ScrollBars.GetWindowLong(dgv.Handle, WIN32ScrollBars.GWL_STYLE);
+            uint listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
             //listStyle |= WIN32ScrollBars.WS_VSCROLL | WIN32ScrollBars.WS_HSCROLL;
-            listStyle |= WIN32ScrollBars.WS_VSCROLL;
-            listStyle = WIN32ScrollBars.SetWindowLong(dgv.Handle, WIN32ScrollBars.GWL_STYLE, listStyle);
+            listStyle |= PI.WS_.VSCROLL;
+            listStyle = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
 
             VScrollBar1.Value = VSB.Value;
             VScrollBar1.Visible = true;
@@ -687,9 +657,9 @@ namespace Krypton.Toolkit
 
             foreach (Control ctr in dgv.Controls)
             {
-                if ((ctr) is HScrollBar)
+                if ((ctr) is HScrollBar bar)
                 {
-                    HSB = (HScrollBar)ctr;
+                    HSB = bar;
                     isPresent = true;
                 }
             }
@@ -698,10 +668,10 @@ namespace Krypton.Toolkit
 
         public void SetDGVScrollBarValue(ref DataGridView dgv, ref HScrollBar HSB)
         {
-            int listStyle = WIN32ScrollBars.GetWindowLong(dgv.Handle, WIN32ScrollBars.GWL_STYLE);
+            uint listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
             //listStyle |= WIN32ScrollBars.WS_VSCROLL | WIN32ScrollBars.WS_HSCROLL;
-            listStyle |= WIN32ScrollBars.WS_HSCROLL;
-            listStyle = WIN32ScrollBars.SetWindowLong(dgv.Handle, WIN32ScrollBars.GWL_STYLE, listStyle);
+            listStyle |= PI.WS_.HSCROLL;
+            listStyle = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
 
             HScrollBar1.Value = HSB.Value;
             HScrollBar1.Visible = true;
@@ -714,14 +684,17 @@ namespace Krypton.Toolkit
         }
         protected static ScrollBars GetVisibleScrollbars(Control ctl)
         {
-            int wndStyle = WIN32ScrollBars.GetWindowLong(ctl.Handle, WIN32ScrollBars.GWL_STYLE);
-            bool hsVisible = (wndStyle & WIN32ScrollBars.WS_HSCROLL) != 0;
-            bool vsVisible = (wndStyle & WIN32ScrollBars.WS_VSCROLL) != 0;
+            uint wndStyle = PI.GetWindowLong(ctl.Handle, PI.GWL_.STYLE);
+            bool hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
+            bool vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
-            if (hsVisible)
-                return vsVisible ? ScrollBars.Both : ScrollBars.Horizontal;
-            else
-                return vsVisible ? ScrollBars.Vertical : ScrollBars.None;
+            return hsVisible 
+                ? vsVisible 
+                    ? ScrollBars.Both 
+                    : ScrollBars.Horizontal 
+                : vsVisible 
+                    ? ScrollBars.Vertical 
+                    : ScrollBars.None;
         }
 
 
@@ -738,11 +711,11 @@ namespace Krypton.Toolkit
             {
                 if (_palette != null)
                 {
-                    _palette.PalettePaint -= new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+                    _palette.PalettePaint -= OnPalettePaint;
                     _palette = null;
                 }
 
-                KryptonManager.GlobalPaletteChanged -= new EventHandler(OnGlobalPaletteChanged);
+                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
             }
             base.Dispose(disposing);
         }
@@ -756,14 +729,14 @@ namespace Krypton.Toolkit
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
-                _palette.PalettePaint -= new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+                _palette.PalettePaint -= OnPalettePaint;
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect.Target = _palette;
 
             if (_palette != null)
             {
-                _palette.PalettePaint += new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+                _palette.PalettePaint += OnPalettePaint;
             }
 
             Invalidate();

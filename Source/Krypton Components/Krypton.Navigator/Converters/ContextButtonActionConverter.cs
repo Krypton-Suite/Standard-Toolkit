@@ -39,8 +39,8 @@ namespace Krypton.Navigator
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(ContextButtonAction.None,         "None (Do nothing)"),
-            new Pair(ContextButtonAction.SelectPage,   "Select Page") };
+        { new(ContextButtonAction.None,         "None (Do nothing)"),
+            new(ContextButtonAction.SelectPage,   "Select Page") };
 
         #endregion
     }

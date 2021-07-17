@@ -1178,24 +1178,15 @@ namespace Krypton.Toolkit
                 cacheThis.Dispose();
 
                 // Find the bottom area rectangle
-                RectangleF mainRect;
 
-                switch (orientation)
+                RectangleF mainRect = orientation switch
                 {
-                    case VisualOrientation.Right:
-                        mainRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height);
-                        break;
-                    case VisualOrientation.Left:
-                        mainRect = new RectangleF(glassRect.Right + 1, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height);
-                        break;
-                    case VisualOrientation.Bottom:
-                        mainRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, drawRect.Height - glassRect.Height - 1);
-                        break;
-                    case VisualOrientation.Top:
-                    default:
-                        mainRect = new RectangleF(drawRect.X, glassRect.Bottom + 1, drawRect.Width, drawRect.Height - glassRect.Height - 1);
-                        break;
-                }
+                    VisualOrientation.Right => new RectangleF(drawRect.X, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height),
+                    VisualOrientation.Left => new RectangleF(glassRect.Right + 1, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height),
+                    VisualOrientation.Bottom => new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, drawRect.Height - glassRect.Height - 1),
+                    VisualOrientation.Top => new RectangleF(drawRect.X, glassRect.Bottom + 1, drawRect.Width, drawRect.Height - glassRect.Height - 1),
+                    _ => new RectangleF(drawRect.X, glassRect.Bottom + 1, drawRect.Width, drawRect.Height - glassRect.Height - 1)
+                };
 
                 RectangleF doubleRect;
 
@@ -1831,18 +1822,14 @@ namespace Krypton.Toolkit
 
         private static float AngleFromOrientation(VisualOrientation orientation)
         {
-            switch (orientation)
+            return orientation switch
             {
-                case VisualOrientation.Bottom:
-                    return 270f;
-                case VisualOrientation.Left:
-                    return 0f;
-                case VisualOrientation.Right:
-                    return 180;
-                case VisualOrientation.Top:
-                default:
-                    return 90f;
-            }
+                VisualOrientation.Bottom => 270f,
+                VisualOrientation.Left => 0f,
+                VisualOrientation.Right => 180,
+                VisualOrientation.Top => 90f,
+                _ => 90f
+            };
         }
 
         private static void ModifyRectByEdges(ref Rectangle rect,

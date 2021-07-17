@@ -653,7 +653,7 @@ namespace Krypton.Toolkit
         #region Private
         private DateTime JustDay(DateTime dt)
         {
-            return new(dt.Year, dt.Month, dt.Day);
+            return new DateTime(dt.Year, dt.Month, dt.Day);
         }
 
         private void OnTodayClick(object sender, EventArgs e)

@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         #region Static Fields
 
         private const int NULL_CONTROL_WIDTH = 50;
-        private static readonly Padding _largeImagePadding = new Padding(3, 2, 3, 3);
+        private static readonly Padding _largeImagePadding = new(3, 2, 3, 3);
         #endregion
 
         #region Instance Fields
@@ -77,7 +77,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the gallery
-                ContextClickController controller = new ContextClickController();
+                ContextClickController controller = new();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -336,7 +336,7 @@ namespace Krypton.Ribbon
                     ((int)GroupGallery.ItemSizeMinimum <= (int)GroupItemSize.Medium))
                 {
                     LastGallery.InternalPreferredItemSize = new Size(GroupGallery.MediumItemCount, 1);
-                    ItemSizeWidth mediumWidth = new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width);
+                    ItemSizeWidth mediumWidth = new(GroupItemSize.Medium, GetPreferredSize(context).Width);
 
                     if (_ribbon.InDesignHelperMode)
                     {
@@ -366,7 +366,7 @@ namespace Krypton.Ribbon
                     _currentSize = GroupItemSize.Small;
 
                     // Get the width of the large button view
-                    ItemSizeWidth smallWidth = new ItemSizeWidth(GroupItemSize.Small, GetPreferredSize(context).Width);
+                    ItemSizeWidth smallWidth = new(GroupItemSize.Small, GetPreferredSize(context).Width);
 
                     if (_ribbon.InDesignHelperMode)
                     {
@@ -396,7 +396,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return new ItemSizeWidth[] { new ItemSizeWidth(GroupItemSize.Large, NULL_CONTROL_WIDTH) };
+                return new ItemSizeWidth[] { new(GroupItemSize.Large, NULL_CONTROL_WIDTH) };
             }
         }
 
@@ -568,11 +568,11 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new ViewLayoutDocker();
+            ViewLayoutDocker contentLayout = new();
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupGalleryImage(_ribbon, GroupGallery);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
             {
                 _viewLargeImage
             };

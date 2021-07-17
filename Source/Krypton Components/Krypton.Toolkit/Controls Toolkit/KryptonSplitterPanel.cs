@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override AnchorStyles Anchor
         {
-            get { return base.Anchor; }
+            get => base.Anchor;
             set { /* Ignore request */ }
         }
 
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool AutoSize
         {
-            get { return base.AutoSize; }
+            get => base.AutoSize;
             set { /* Ignore request */ }
         }
 
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override AutoSizeMode AutoSizeMode
         {
-            get { return base.AutoSizeMode; }
+            get => base.AutoSizeMode;
             set { /* Ignore request */ }
         }
 
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new BorderStyle BorderStyle
         {
-            get { return base.BorderStyle; }
+            get => base.BorderStyle;
             set { /* Ignore request */ }
         }
 
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override DockStyle Dock
         {
-            get { return base.Dock; }
+            get => base.Dock;
             set { /* Ignore request */ }
         }
 

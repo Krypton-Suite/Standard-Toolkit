@@ -81,8 +81,8 @@ namespace Krypton.Ribbon
         {
             if (Draw)
             {
-                RectangleF rectF = new RectangleF(ClientLocation.X, ClientLocation.Y - 0.5f, ClientWidth, ClientHeight + 1);
-                using (LinearGradientBrush sepBrush = new LinearGradientBrush(rectF, Color.Transparent, _palette.GetRibbonTabSeparatorColor(PaletteState.Normal), 90f))
+                RectangleF rectF = new(ClientLocation.X, ClientLocation.Y - 0.5f, ClientWidth, ClientHeight + 1);
+                using (LinearGradientBrush sepBrush = new(rectF, Color.Transparent, _palette.GetRibbonTabSeparatorColor(PaletteState.Normal), 90f))
                 {
                     sepBrush.Blend = _fadeBlend;
 
@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
                         case PaletteRibbonShape.Office2010:
                             context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 1, ClientLocation.Y, 1, ClientHeight - 1);
 
-                            using (LinearGradientBrush sepLightBrush = new LinearGradientBrush(rectF, Color.Transparent, _lighten1, 90f))
+                            using (LinearGradientBrush sepLightBrush = new(rectF, Color.Transparent, _lighten1, 90f))
                             {
                                 context.Graphics.FillRectangle(sepLightBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
                             }

@@ -39,13 +39,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets whether the instance is empty.
         /// </summary>
-        public bool IsEmpty
-        {
-            get
-            {
-                return string.IsNullOrEmpty(Title) && string.IsNullOrEmpty(Body) && Icon == null;
-            }
-        }
+        public bool IsEmpty => string.IsNullOrEmpty(Title) && string.IsNullOrEmpty(Body) && Icon == null;
 
         /// <summary>
         /// Initializes a new instance of the ToolTipNeededEventArgs class.

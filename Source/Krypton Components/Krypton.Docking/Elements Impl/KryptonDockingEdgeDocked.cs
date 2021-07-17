@@ -28,7 +28,7 @@ namespace Krypton.Docking
         #endregion
         
         #region Static Fields
-        private static readonly Size _defaultDockspaceSize = new Size(200, 200);
+        private static readonly Size _defaultDockspaceSize = new(200, 200);
         #endregion
 
         #region Instance Fields
@@ -184,14 +184,14 @@ namespace Krypton.Docking
         private KryptonDockingDockspace CreateAndInsertDockspace(int index, string name, Size size)
         {
             // Create a dockspace separator do the dockspace can be resized
-            KryptonDockspaceSeparator separatorControl = new KryptonDockspaceSeparator(Edge, false);
+            KryptonDockspaceSeparator separatorControl = new(Edge, false);
             separatorControl.SplitterMoveRect += OnDockspaceSeparatorMoveRect;
             separatorControl.SplitterMoved += OnDockspaceSeparatorMoved;
             separatorControl.SplitterNotMoved += OnDockspaceSeparatorNotMoved;
             separatorControl.Disposed += OnDockspaceSeparatorDisposed;
 
             // Create and add the dockspace to the collection
-            KryptonDockingDockspace dockspaceElement = new KryptonDockingDockspace(name, Edge, size);
+            KryptonDockingDockspace dockspaceElement = new(name, Edge, size);
             dockspaceElement.HasVisibleCells += OnDockingDockspaceHasVisibleCells;
             dockspaceElement.HasNoVisibleCells += OnDockingDockspaceHasNoVisibleCells;
             dockspaceElement.Disposed += OnDockingDockspaceDisposed;
@@ -206,8 +206,8 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Allow the dockspace and dockspace separator to be customized by event handlers
-                DockspaceEventArgs spaceArgs = new DockspaceEventArgs(dockspaceElement.DockspaceControl, dockspaceElement);
-                DockspaceSeparatorEventArgs separatorArgs = new DockspaceSeparatorEventArgs(separatorControl, dockspaceElement);
+                DockspaceEventArgs spaceArgs = new(dockspaceElement.DockspaceControl, dockspaceElement);
+                DockspaceSeparatorEventArgs separatorArgs = new(separatorControl, dockspaceElement);
                 dockingManager.RaiseDockspaceAdding(spaceArgs);
                 dockingManager.RaiseDockspaceSeparatorAdding(separatorArgs);
             }
@@ -254,7 +254,7 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Allow the movement rectangle to be modified by event handlers
-                DockspaceSeparatorResizeEventArgs dockspaceResizeRectArgs = new DockspaceSeparatorResizeEventArgs(separatorControl, dockspaceElement, FindMovementRect(dockspaceElement, e.MoveRect));
+                DockspaceSeparatorResizeEventArgs dockspaceResizeRectArgs = new(separatorControl, dockspaceElement, FindMovementRect(dockspaceElement, e.MoveRect));
                 dockingManager.RaiseDockspaceSeparatorResize(dockspaceResizeRectArgs);
                 e.MoveRect = dockspaceResizeRectArgs.ResizeRect;
             }
@@ -357,7 +357,7 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Allow the dockspace and dockspace separator to be customized by event handlers
-                DockspaceSeparatorEventArgs separatorArgs = new DockspaceSeparatorEventArgs(separatorControl, _lookupSeparator[separatorControl]);
+                DockspaceSeparatorEventArgs separatorArgs = new(separatorControl, _lookupSeparator[separatorControl]);
                 dockingManager.RaiseDockspaceSeparatorRemoved(separatorArgs);
             }
 

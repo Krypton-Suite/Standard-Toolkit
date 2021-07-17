@@ -56,30 +56,30 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingBarTabs = new(0);
         private static readonly Padding _metricPaddingBarOutside = new(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
-        private static readonly Image _treeExpandWhite = Properties.Resources.TreeExpandWhite;
-        private static readonly Image _treeCollapseBlack = Properties.Resources.TreeCollapseBlack;
+        private static readonly Image _treeExpandWhite = Resources.TreeExpandWhite;
+        private static readonly Image _treeCollapseBlack = Resources.TreeCollapseBlack;
 
-        private static readonly Image _disabledDropDown = Properties.Resources.DisabledDropDownButton;
-        private static readonly Image _buttonSpecClose = Properties.Resources.ProfessionalCloseButton;
-        private static readonly Image _buttonSpecContext = Properties.Resources.ProfessionalContextButton;
-        private static readonly Image _buttonSpecNext = Properties.Resources.ProfessionalNextButton;
-        private static readonly Image _buttonSpecPrevious = Properties.Resources.ProfessionalPreviousButton;
-        private static readonly Image _buttonSpecArrowLeft = Properties.Resources.ProfessionalArrowLeftButton;
-        private static readonly Image _buttonSpecArrowRight = Properties.Resources.ProfessionalArrowRightButton;
-        private static readonly Image _buttonSpecArrowUp = Properties.Resources.ProfessionalArrowUpButton;
-        private static readonly Image _buttonSpecArrowDown = Properties.Resources.ProfessionalArrowDownButton;
-        private static readonly Image _buttonSpecDropDown = Properties.Resources.ProfessionalDropDownButton;
-        private static readonly Image _buttonSpecPinVertical = Properties.Resources.ProfessionalPinVerticalButton;
-        private static readonly Image _buttonSpecPinHorizontal = Properties.Resources.ProfessionalPinHorizontalButton;
-        private static readonly Image _buttonSpecPendantClose = Properties.Resources._2010ButtonMDIClose;
-        private static readonly Image _buttonSpecPendantMin = Properties.Resources._2010ButtonMDIMin;
-        private static readonly Image _buttonSpecPendantRestore = Properties.Resources._2010ButtonMDIRestore;
-        private static readonly Image _buttonSpecWorkspaceMaximize = Properties.Resources.ProfessionalMaximize;
-        private static readonly Image _buttonSpecWorkspaceRestore = Properties.Resources.ProfessionalRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.RibbonUp2010;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.RibbonDown2010;
-        private static readonly Image _contextMenuChecked = Properties.Resources.Office2007Checked;
-        private static readonly Image _contextMenuIndeterminate = Properties.Resources.Office2007Indeterminate;
+        private static readonly Image _disabledDropDown = Resources.DisabledDropDownButton;
+        private static readonly Image _buttonSpecClose = Resources.ProfessionalCloseButton;
+        private static readonly Image _buttonSpecContext = Resources.ProfessionalContextButton;
+        private static readonly Image _buttonSpecNext = Resources.ProfessionalNextButton;
+        private static readonly Image _buttonSpecPrevious = Resources.ProfessionalPreviousButton;
+        private static readonly Image _buttonSpecArrowLeft = Resources.ProfessionalArrowLeftButton;
+        private static readonly Image _buttonSpecArrowRight = Resources.ProfessionalArrowRightButton;
+        private static readonly Image _buttonSpecArrowUp = Resources.ProfessionalArrowUpButton;
+        private static readonly Image _buttonSpecArrowDown = Resources.ProfessionalArrowDownButton;
+        private static readonly Image _buttonSpecDropDown = Resources.ProfessionalDropDownButton;
+        private static readonly Image _buttonSpecPinVertical = Resources.ProfessionalPinVerticalButton;
+        private static readonly Image _buttonSpecPinHorizontal = Resources.ProfessionalPinHorizontalButton;
+        private static readonly Image _buttonSpecPendantClose = Resources._2010ButtonMDIClose;
+        private static readonly Image _buttonSpecPendantMin = Resources._2010ButtonMDIMin;
+        private static readonly Image _buttonSpecPendantRestore = Resources._2010ButtonMDIRestore;
+        private static readonly Image _buttonSpecWorkspaceMaximize = Resources.ProfessionalMaximize;
+        private static readonly Image _buttonSpecWorkspaceRestore = Resources.ProfessionalRestore;
+        private static readonly Image _buttonSpecRibbonMinimize = Resources.RibbonUp2010;
+        private static readonly Image _buttonSpecRibbonExpand = Resources.RibbonDown2010;
+        private static readonly Image _contextMenuChecked = Resources.Office2007Checked;
+        private static readonly Image _contextMenuIndeterminate = Resources.Office2007Indeterminate;
 
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
@@ -141,11 +141,11 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private KryptonColorTable2013 _table;
-        private Color[] _ribbonColors;
-        private Color[] _trackBarColors;
-        private ImageList _checkBoxList;
-        private ImageList _galleryButtonList;
-        private Image[] _radioButtonArray;
+        private readonly Color[] _ribbonColors;
+        private readonly Color[] _trackBarColors;
+        private readonly ImageList _checkBoxList;
+        private readonly ImageList _galleryButtonList;
+        private readonly Image[] _radioButtonArray;
         private Font _header1ShortFont;
         private Font _header2ShortFont;
         private Font _header1LongFont;
@@ -276,8 +276,7 @@ namespace Krypton.Toolkit
                             return InheritBool.True;
                     }
                 case PaletteBackStyle.ButtonInputControl:
-                    if ((state == PaletteState.Disabled) ||
-                        (state == PaletteState.Normal))
+                    if (state is PaletteState.Disabled or PaletteState.Normal)
                     {
                         return InheritBool.False;
                     }
@@ -1272,12 +1271,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Normal:
                             return _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBack2];
                         case PaletteState.NormalDefaultOverride:
-                            if ((style == PaletteBackStyle.ButtonLowProfile) ||
-                                (style == PaletteBackStyle.ButtonBreadCrumb) ||
-                                (style == PaletteBackStyle.ButtonListItem) ||
-                                (style == PaletteBackStyle.ButtonCommand) ||
-                                (style == PaletteBackStyle.ButtonButtonSpec) ||
-                                (style == PaletteBackStyle.ContextMenuItemHighlight))
+                            if (style is PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ContextMenuItemHighlight)
                             {
                                 return Color.Empty;
                             }
@@ -2788,12 +2782,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Normal:
                             return _ribbonColors[(int)SchemeOfficeColors.ButtonNormalBorder];
                         case PaletteState.NormalDefaultOverride:
-                            if ((style == PaletteBorderStyle.ButtonLowProfile) ||
-                                (style == PaletteBorderStyle.ButtonBreadCrumb) ||
-                                (style == PaletteBorderStyle.ButtonListItem) ||
-                                (style == PaletteBorderStyle.ButtonCommand) ||
-                                (style == PaletteBorderStyle.ButtonButtonSpec) ||
-                                (style == PaletteBorderStyle.ContextMenuItemHighlight))
+                            if (style is PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ContextMenuItemHighlight)
                             {
                                 return Color.Empty;
                             }
@@ -10647,95 +10636,41 @@ namespace Krypton.Toolkit
         protected override void DefineFonts()
         {
             // Release existing resources
-            if (_header1ShortFont != null)
-            {
-                _header1ShortFont.Dispose();
-            }
+            _header1ShortFont?.Dispose();
 
-            if (_header2ShortFont != null)
-            {
-                _header2ShortFont.Dispose();
-            }
+            _header2ShortFont?.Dispose();
 
-            if (_headerFormFont != null)
-            {
-                _headerFormFont.Dispose();
-            }
+            _headerFormFont?.Dispose();
 
-            if (_header1LongFont != null)
-            {
-                _header1LongFont.Dispose();
-            }
+            _header1LongFont?.Dispose();
 
-            if (_header2LongFont != null)
-            {
-                _header2LongFont.Dispose();
-            }
+            _header2LongFont?.Dispose();
 
-            if (_buttonFont != null)
-            {
-                _buttonFont.Dispose();
-            }
+            _buttonFont?.Dispose();
 
-            if (_buttonFontNavigatorStack != null)
-            {
-                _buttonFontNavigatorStack.Dispose();
-            }
+            _buttonFontNavigatorStack?.Dispose();
 
-            if (_buttonFontNavigatorMini != null)
-            {
-                _buttonFontNavigatorMini.Dispose();
-            }
+            _buttonFontNavigatorMini?.Dispose();
 
-            if (_tabFontSelected != null)
-            {
-                _tabFontSelected.Dispose();
-            }
+            _tabFontSelected?.Dispose();
 
-            if (_tabFontNormal != null)
-            {
-                _tabFontNormal.Dispose();
-            }
+            _tabFontNormal?.Dispose();
 
-            if (_ribbonTabFont != null)
-            {
-                _ribbonTabFont.Dispose();
-            }
+            _ribbonTabFont?.Dispose();
 
-            if (_ribbonTabContextFont != null)
-            {
-                _ribbonTabContextFont.Dispose();
-            }
+            _ribbonTabContextFont?.Dispose();
 
-            if (_gridFont != null)
-            {
-                _gridFont.Dispose();
-            }
+            _gridFont?.Dispose();
 
-            if (_calendarFont != null)
-            {
-                _calendarFont.Dispose();
-            }
+            _calendarFont?.Dispose();
 
-            if (_calendarBoldFont != null)
-            {
-                _calendarBoldFont.Dispose();
-            }
+            _calendarBoldFont?.Dispose();
 
-            if (_superToolFont != null)
-            {
-                _superToolFont.Dispose();
-            }
+            _superToolFont?.Dispose();
 
-            if (_boldFont != null)
-            {
-                _boldFont.Dispose();
-            }
+            _boldFont?.Dispose();
 
-            if (_italicFont != null)
-            {
-                _italicFont.Dispose();
-            }
+            _italicFont?.Dispose();
 
             float baseFontSize = BaseFontSize;
             string baseFontName = BaseFontName;

@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Should the button be shown.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool Visible
         {
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Defines the button enabled state.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonEnabled), "Container")]
         public ButtonEnabled Enabled
         {
@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Defines if the button is checked or capable of being checked.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonCheckState), "NotCheckButton")]
         public ButtonCheckState Checked
         {
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Command associated with the button.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public override KryptonCommand KryptonCommand
         {
@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Defines the type of button specification.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(PaletteButtonSpecStyle), "Generic")]
         public PaletteButtonSpecStyle Type
         {

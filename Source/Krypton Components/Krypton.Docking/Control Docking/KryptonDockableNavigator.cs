@@ -84,7 +84,7 @@ namespace Krypton.Docking
             }
 
             // Use event to allow customization of the context menu
-            CancelDropDownEventArgs args = new CancelDropDownEventArgs(e.KryptonContextMenu, e.Item)
+            CancelDropDownEventArgs args = new(e.KryptonContextMenu, e.Item)
             {
                 Cancel = e.Cancel
             };

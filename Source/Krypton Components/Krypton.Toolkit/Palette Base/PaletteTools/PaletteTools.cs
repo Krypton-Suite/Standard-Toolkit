@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     public class PaletteTools
     {
         #region Variables
-        private static string[] _themeList = new string[] { "Custom",
+        private static readonly string[] _themeList = new string[] { "Custom",
                                                             "Professional - System",
                                                             "Professional - Office 2003",
                                                             "Office 2007 - Black",
@@ -40,7 +40,8 @@ namespace Krypton.Toolkit
         #region Properties
         /// <summary>Gets the theme list.</summary>
         /// <value>The theme list.</value>
-        public static string[] ThemeList { get => _themeList; }
+        public static string[] ThemeList => _themeList;
+
         #endregion
 
         #region Constructor
@@ -56,7 +57,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public PaletteModeManager LinkPaletteType(string themeName)
         {
-            PaletteModeManager paletteMode = new PaletteModeManager();
+            PaletteModeManager paletteMode = new();
 
             if (themeName.Equals("Custom"))
             {
@@ -152,7 +153,7 @@ namespace Krypton.Toolkit
 
             if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(customThemePath))
             {
-                KryptonPalette palette = new KryptonPalette();
+                KryptonPalette palette = new();
 
                 palette.Import(customThemePath);
 

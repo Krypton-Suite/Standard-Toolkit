@@ -171,7 +171,7 @@ namespace Krypton.Navigator
             Rectangle rect = _buttonManager.GetButtonRectangle(Navigator.Button.ContextButton);
 
             // We want the context menu to show just below the button
-            Point pt = new Point(rect.Left, rect.Bottom + 3);
+            Point pt = new(rect.Left, rect.Bottom + 3);
 
             // Convert from control coordinates to screen coordinates
             return Navigator.PointToScreen(pt);
@@ -350,7 +350,7 @@ namespace Krypton.Navigator
         private void CreateDragDrop()
         {
             // Create and attach the drag controller to the header view
-            DragViewController controller = new DragViewController(_viewHeadingPrimary);
+            DragViewController controller = new(_viewHeadingPrimary);
             _viewHeadingPrimary.MouseController = controller;
             _viewHeadingPrimary.KeyController = controller;
             _viewHeadingPrimary.SourceController = controller;

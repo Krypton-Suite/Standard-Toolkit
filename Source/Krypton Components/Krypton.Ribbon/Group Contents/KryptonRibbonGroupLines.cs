@@ -444,7 +444,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group line items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonGroupLinesCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonRibbonGroupLinesCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupLinesCollection Items { get; }
 

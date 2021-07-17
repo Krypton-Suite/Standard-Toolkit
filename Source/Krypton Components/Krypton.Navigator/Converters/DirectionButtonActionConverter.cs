@@ -39,10 +39,10 @@ namespace Krypton.Navigator
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(DirectionButtonAction.None,                   "None (Do nothing)"),
-            new Pair(DirectionButtonAction.SelectPage,             "Select Page"),
-            new Pair(DirectionButtonAction.MoveBar,                "Move Bar"),
-            new Pair(DirectionButtonAction.ModeAppropriateAction,  "Mode Appropriate Action") };
+        { new(DirectionButtonAction.None,                   "None (Do nothing)"),
+            new(DirectionButtonAction.SelectPage,             "Select Page"),
+            new(DirectionButtonAction.MoveBar,                "Move Bar"),
+            new(DirectionButtonAction.ModeAppropriateAction,  "Mode Appropriate Action") };
 
         #endregion
     }

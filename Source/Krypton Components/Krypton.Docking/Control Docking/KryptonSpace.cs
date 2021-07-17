@@ -295,7 +295,7 @@ namespace Krypton.Docking
 			else
 			{
 				// Use event to try and get a newly created page for use
-				RecreateLoadingPageEventArgs args = new RecreateLoadingPageEventArgs(uniqueName);
+				RecreateLoadingPageEventArgs args = new(uniqueName);
 				OnRecreateLoadingPage(args);
 				if (!args.Cancel)
 				{
@@ -461,8 +461,8 @@ namespace Krypton.Docking
 			cell.Pages.Inserting += OnCellPagesInserting;
 
 			// Create and store per-cell cached state
-			CachedCellState cellState = new CachedCellState
-			{
+			CachedCellState cellState = new()
+            {
 				Cell = cell
 			};
 			_lookupCellState.Add(cell, cellState);
@@ -740,7 +740,7 @@ namespace Krypton.Docking
 			}
 
 			// Use event to allow customization of the context menu
-			CancelDropDownEventArgs args = new CancelDropDownEventArgs(e.KryptonContextMenu, e.Item)
+			CancelDropDownEventArgs args = new(e.KryptonContextMenu, e.Item)
 			{
 				Cancel = e.Cancel
 			};
@@ -771,8 +771,8 @@ namespace Krypton.Docking
 					cell.SelectedPage.SelectNextControl(cell.SelectedPage, true, true, true, false);
 
 					// Create and populate a context menu with the drop down set of options
-					KryptonContextMenu kcm = new KryptonContextMenu();
-					CancelDropDownEventArgs args = new CancelDropDownEventArgs(kcm, cell.SelectedPage);
+					KryptonContextMenu kcm = new();
+					CancelDropDownEventArgs args = new(kcm, cell.SelectedPage);
 					OnPageDropDownClicked(args);
 
 					// Do we need to show a context menu

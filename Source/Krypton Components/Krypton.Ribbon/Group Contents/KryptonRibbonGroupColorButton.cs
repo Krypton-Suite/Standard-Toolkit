@@ -286,7 +286,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Small color button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageSmall
         {
             get => _imageSmall;
@@ -313,7 +313,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Large color button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageLarge
         {
             get => _imageLarge;
@@ -340,7 +340,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Color button display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Color")]
         public string TextLine1
         {
@@ -363,7 +363,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Color button display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -730,7 +730,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -1041,7 +1041,7 @@ namespace Krypton.Ribbon
                         {
                             UpdateContextMenu();
 
-                            ContextMenuArgs contextArgs = new ContextMenuArgs(_kryptonContextMenu);
+                            ContextMenuArgs contextArgs = new(_kryptonContextMenu);
 
                             // Generate an event giving a chance for the krypton context menu strip to 
                             // be shown to be provided/modified or the action even to be cancelled
@@ -1374,14 +1374,14 @@ namespace Krypton.Ribbon
         private void OnClickMoreColors(object sender, EventArgs e)
         {
             // Give user a chance to cancel showing the standard more colors dialog
-            CancelEventArgs cea = new CancelEventArgs();
+            CancelEventArgs cea = new();
             OnMoreColors(cea);
 
             // If not instructed to cancel then...
             if (!cea.Cancel)
             {
                 // Use a standard color dialog for the selection of custom colors
-                ColorDialog cd = new ColorDialog
+                ColorDialog cd = new()
                 {
                     Color = SelectedColor,
                     FullOpen = true

@@ -415,7 +415,7 @@ namespace Krypton.Toolkit
                                         FormatFlags = StringFormatFlags.NoWrap,
                                         Trimming = StringTrimming.None,
                                         // Use the correct prefix setting
-                                        HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None
+                                        HotkeyPrefix = HotkeyPrefix.None
                                     };
 
                                     switch (states.Content.GetContentShortTextH(state))
@@ -793,7 +793,7 @@ namespace Krypton.Toolkit
         private ButtonStyle _upDownButtonStyle;
         private SubclassEdit _subclassEdit;
         private SubclassButtons _subclassButtons;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private bool _forcedLayout;
         private bool _mouseOver;
         private bool _alwaysActive;

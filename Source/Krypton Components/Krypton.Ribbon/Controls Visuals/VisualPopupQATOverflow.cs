@@ -178,7 +178,7 @@ namespace Krypton.Ribbon
             Size popupSize;
 
             // Find the size the quick access toolbar requests to be
-            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+            using (ViewLayoutContext context = new(this, Renderer))
             {
                 popupSize = _viewQAT.GetPreferredSize(context);
             }

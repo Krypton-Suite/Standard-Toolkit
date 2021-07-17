@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
                                     }
 
                                     // Use the correct prefix setting
-                                    stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+                                    stringFormat.HotkeyPrefix = HotkeyPrefix.None;
 
                                     // Decide on the text to draw disabled
                                     string drawString = Text;
@@ -339,7 +339,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private readonly InternalTextBox _textBox;
         private InputControlStyle _inputControlStyle;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private bool _forcedLayout;
         private bool _autoSize;
         private bool _mouseOver;
@@ -347,7 +347,7 @@ namespace Krypton.Toolkit
         private bool _trackingMouseEnter;
         private int _cachedHeight;
         private bool _multilineStringEditor;
-        private ButtonSpecAny _editorButton;
+        private readonly ButtonSpecAny _editorButton;
         #endregion
 
         #region Events
@@ -528,7 +528,7 @@ namespace Krypton.Toolkit
             // Create the button spec for the multiline editor button.
             _editorButton = new ButtonSpecAny
             {
-                Image = Properties.Resources.SelectParentControlFlipped,
+                Image = Resources.SelectParentControlFlipped,
                 Style = PaletteButtonStyle.ButtonSpec,
                 Type = PaletteButtonSpecStyle.Generic
             };

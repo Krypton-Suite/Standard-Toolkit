@@ -145,16 +145,16 @@ namespace Krypton.Toolkit
             topPanel.Controls.Add(groupBox);
             topPanel.Controls.Add(export);
             topPanel.Dock = DockStyle.Top;
-            topPanel.Location = new System.Drawing.Point(0, 0);
+            topPanel.Location = new Point(0, 0);
             topPanel.Name = "topPanel";
             topPanel.Padding = new Padding(5);
-            topPanel.Size = new System.Drawing.Size(639, 65);
+            topPanel.Size = new Size(639, 65);
             topPanel.TabIndex = 0;
             // 
             // groupBox
             // 
             groupBox.AutoSize = true;
-            groupBox.Location = new System.Drawing.Point(5, 0);
+            groupBox.Location = new Point(5, 0);
             groupBox.Name = "groupBox";
             // 
             // groupBox.Panel
@@ -162,32 +162,32 @@ namespace Krypton.Toolkit
             groupBox.Panel.Controls.Add(unicodeButton);
             groupBox.Panel.Controls.Add(hexButton);
             groupBox.Panel.Controls.Add(ansiButton);
-            groupBox.Size = new System.Drawing.Size(280, 57);
+            groupBox.Size = new Size(280, 57);
             groupBox.TabIndex = 0;
             groupBox.Values.Heading = @"Display Mode";
             // 
             // unicodeButton
             // 
-            unicodeButton.Location = new System.Drawing.Point(141, 3);
+            unicodeButton.Location = new Point(141, 3);
             unicodeButton.Name = "unicodeButton";
-            unicodeButton.Size = new System.Drawing.Size(63, 25);
+            unicodeButton.Size = new Size(63, 25);
             unicodeButton.TabIndex = 3;
             unicodeButton.Values.Text = @"Unicode";
             // 
             // hexButton
             // 
             hexButton.Checked = true;
-            hexButton.Location = new System.Drawing.Point(3, 3);
+            hexButton.Location = new Point(3, 3);
             hexButton.Name = "hexButton";
-            hexButton.Size = new System.Drawing.Size(63, 25);
+            hexButton.Size = new Size(63, 25);
             hexButton.TabIndex = 2;
             hexButton.Values.Text = @"Hex";
             // 
             // ansiButton
             // 
-            ansiButton.Location = new System.Drawing.Point(72, 3);
+            ansiButton.Location = new Point(72, 3);
             ansiButton.Name = "ansiButton";
-            ansiButton.Size = new System.Drawing.Size(63, 25);
+            ansiButton.Size = new Size(63, 25);
             ansiButton.TabIndex = 1;
             ansiButton.Values.Text = @"ANSI";
             // 
@@ -202,9 +202,9 @@ namespace Krypton.Toolkit
             // 
             // export
             // 
-            export.Location = new System.Drawing.Point(535, 22);
+            export.Location = new Point(535, 22);
             export.Name = "export";
-            export.Size = new System.Drawing.Size(80, 25);
+            export.Size = new Size(80, 25);
             export.TabIndex = 4;
             export.Values.Text = @"Export...";
             export.Click += OnClickExport;
@@ -212,9 +212,9 @@ namespace Krypton.Toolkit
             // bottomPanel
             // 
             bottomPanel.Dock = DockStyle.Fill;
-            bottomPanel.Location = new System.Drawing.Point(0, 65);
+            bottomPanel.Location = new Point(0, 65);
             bottomPanel.Name = "bottomPanel";
-            bottomPanel.Size = new System.Drawing.Size(639, 401);
+            bottomPanel.Size = new Size(639, 401);
             bottomPanel.TabIndex = 1;
             bottomPanel.Controls.Add(_byteViewer);
             //
@@ -225,9 +225,9 @@ namespace Krypton.Toolkit
             // 
             // Form1
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(639, 466);
+            ClientSize = new Size(639, 466);
             Controls.Add(bottomPanel);
             Controls.Add(topPanel);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;

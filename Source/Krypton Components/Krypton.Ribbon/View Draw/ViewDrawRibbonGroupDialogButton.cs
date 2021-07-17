@@ -22,9 +22,9 @@ namespace Krypton.Ribbon
     {
         #region Static Fields
         // Button is 8 for context image, 4 for context padding and 2 for border drawing
-        private static readonly Size _viewSize = new Size(14, 14);
+        private static readonly Size _viewSize = new(14, 14);
         // Inflate size to convert from view size to content size
-        private static readonly Size _contentSize = new Size(-3, -3);
+        private static readonly Size _contentSize = new(-3, -3);
         #endregion
 
         #region Instance Fields
@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
             _ribbonGroup = ribbonGroup;
 
             // Attach a controller to this element for the pressing of the button
-            DialogLauncherButtonController controller = new DialogLauncherButtonController(ribbon, this, needPaint);
+            DialogLauncherButtonController controller = new(ribbon, this, needPaint);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;

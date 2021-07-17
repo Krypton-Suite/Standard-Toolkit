@@ -69,9 +69,6 @@
         <Compile Remove="Palette Demo\WorkspacePageMenuBase.cs" />
         <Compile Remove="Palette Install\WorkspacePageMenuBase.cs" />
     </ItemGroup>
-    <ItemGroup>
-        <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
-    </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Workspace.xml</DocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>

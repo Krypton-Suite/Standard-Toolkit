@@ -23,8 +23,8 @@ namespace Krypton.Ribbon
                                                     IContentValues
     {
         #region Static Fields
-        private static readonly Padding _largeImagePadding = new Padding(3, 2, 3, 3);
-        private static readonly Padding _smallImagePadding = new Padding(3);
+        private static readonly Padding _largeImagePadding = new(3, 2, 3, 3);
+        private static readonly Padding _smallImagePadding = new(3);
         #endregion
 
         #region Instance Fields
@@ -325,7 +325,7 @@ namespace Krypton.Ribbon
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupRadioButtonImage(_ribbon, GroupRadioButton, true);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -364,7 +364,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage = new ViewDrawRibbonGroupRadioButtonImage(_ribbon, GroupRadioButton, false);
             _viewMediumSmallText1 = new ViewDrawRibbonGroupRadioButtonText(_ribbon, GroupRadioButton, true);
             _viewMediumSmallText2 = new ViewDrawRibbonGroupRadioButtonText(_ribbon, GroupRadioButton, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
+            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };

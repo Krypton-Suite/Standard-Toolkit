@@ -47,8 +47,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual DataGridView EditingControlDataGridView
         {
-            get { return _dataGridView; }
-            set { _dataGridView = value; }
+            get => _dataGridView;
+            set => _dataGridView = value;
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual object EditingControlFormattedValue
         {
-            get { return GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting); }
-            set { Text = (string)value; }
+            get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
+            set => Text = (string)value;
         }
 
         /// <summary>
@@ -65,8 +65,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual int EditingControlRowIndex
         {
-            get { return _rowIndex; }
-            set { _rowIndex = value; }
+            get => _rowIndex;
+            set => _rowIndex = value;
         }
 
         /// <summary>
@@ -74,25 +74,19 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool EditingControlValueChanged
         {
-            get { return _valueChanged; }
-            set { _valueChanged = value; }
+            get => _valueChanged;
+            set => _valueChanged = value;
         }
 
         /// <summary>
         /// Property which determines which cursor must be used for the editing panel, i.e. the parent of the editing control.
         /// </summary>
-        public virtual Cursor EditingPanelCursor
-        {
-            get { return Cursors.Default; }
-        }
+        public virtual Cursor EditingPanelCursor => Cursors.Default;
 
         /// <summary>
         /// Property which indicates whether the editing control needs to be repositioned when its value changes.
         /// </summary>
-        public virtual bool RepositionEditingControlOnValueChange
-        {
-            get { return false; }
-        }
+        public virtual bool RepositionEditingControlOnValueChange => false;
 
         /// <summary>
         /// Method called by the grid before the editing control is shown so it can adapt to the provided cell style.
@@ -114,8 +108,7 @@ namespace Krypton.Toolkit
             {
                 case Keys.Right:
                     {
-                        TextBox textBox = Controls[0] as TextBox;
-                        if (textBox != null)
+                        if (Controls[0] is TextBox textBox)
                         {
                             // If the end of the selection is at the end of the string, let the DataGridView treat the key message
                             if ((RightToLeft == RightToLeft.No && !(textBox.SelectionLength == 0 && textBox.SelectionStart == textBox.Text.Length)) ||
@@ -128,8 +121,7 @@ namespace Krypton.Toolkit
                     }
                 case Keys.Left:
                     {
-                        TextBox textBox = Controls[0] as TextBox;
-                        if (textBox != null)
+                        if (Controls[0] is TextBox textBox)
                         {
                             // If the end of the selection is at the begining of the string or if the entire text is selected 
                             // and we did not start editing, send this character to the dataGridView, else process the key message
@@ -148,8 +140,7 @@ namespace Krypton.Toolkit
                 case Keys.End:
                     {
                         // Let the grid handle the key if the entire text is selected.
-                        TextBox textBox = Controls[0] as TextBox;
-                        if (textBox != null)
+                        if (Controls[0] is TextBox textBox)
                         {
                             if (textBox.SelectionLength != textBox.Text.Length)
                             {
@@ -161,8 +152,7 @@ namespace Krypton.Toolkit
                 case Keys.Delete:
                     {
                         // Let the grid handle the key if the carret is at the end of the text.
-                        TextBox textBox = Controls[0] as TextBox;
-                        if (textBox != null)
+                        if (Controls[0] is TextBox textBox)
                         {
                             if (textBox.SelectionLength > 0 ||
                                 textBox.SelectionStart < textBox.Text.Length)
@@ -190,8 +180,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual void PrepareEditingControlForEdit(bool selectAll)
         {
-            TextBox textBox = Controls[0] as TextBox;
-            if (textBox != null)
+            if (Controls[0] is TextBox textBox)
             {
                 if (selectAll)
                     textBox.SelectAll();
@@ -219,8 +208,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override bool ProcessKeyEventArgs(ref Message m)
         {
-            TextBox textBox = Controls[0] as TextBox;
-            if (textBox != null)
+            if (Controls[0] is TextBox textBox)
             {
                 PI.SendMessage(textBox.Handle, m.Msg, m.WParam, m.LParam);
                 return true;

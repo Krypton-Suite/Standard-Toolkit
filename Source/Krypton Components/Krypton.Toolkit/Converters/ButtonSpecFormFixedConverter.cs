@@ -42,8 +42,8 @@ namespace Krypton.Toolkit
         /// <param name="value">The Object to convert.</param>
         /// <param name="destinationType">The Type to convert the value parameter to.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertTo(ITypeDescriptorContext context, 
-                                         System.Globalization.CultureInfo culture, 
+        public override object ConvertTo(ITypeDescriptorContext context,
+                                         CultureInfo culture, 
                                          object value, 
                                          Type destinationType)
         {

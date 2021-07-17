@@ -38,10 +38,10 @@ namespace Krypton.Navigator
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(ButtonDisplayLogic.None,                  "None"),
-            new Pair(ButtonDisplayLogic.Context,               "Context"),
-            new Pair(ButtonDisplayLogic.NextPrevious,          "Next/Previous"),
-            new Pair(ButtonDisplayLogic.ContextNextPrevious,   "Context & Next/Previous") };
+        { new(ButtonDisplayLogic.None,                  "None"),
+            new(ButtonDisplayLogic.Context,               "Context"),
+            new(ButtonDisplayLogic.NextPrevious,          "Next/Previous"),
+            new(ButtonDisplayLogic.ContextNextPrevious,   "Context & Next/Previous") };
 
         #endregion
     }

@@ -61,7 +61,6 @@ namespace Krypton.Navigator
         private Color _toolTipImageTransparentColor;
         private bool _setVisible;
         private LabelStyle _toolTipStyle;
-        private KryptonContextMenu _kcm;
         private Size _autoHiddenSlideSize;
         #endregion
 
@@ -262,7 +261,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new PaletteMode PaletteMode
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return base.PaletteMode; }
             set { throw new OperationCanceledException("Cannot change PaletteMode property"); }
         }
@@ -275,7 +274,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new IPalette Palette
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return base.Palette; }
             set { throw new OperationCanceledException("Cannot change PaletteMode property"); }
         }
@@ -296,7 +295,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorRedirect StateCommon
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _stateCommon; }
         }
 
@@ -313,7 +312,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigator StateDisabled
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _stateDisabled; }
         }
 
@@ -330,7 +329,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigator StateNormal
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _stateNormal; }
         }
 
@@ -347,7 +346,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOtherEx StateTracking
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
@@ -364,7 +363,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOtherEx StatePressed
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
@@ -381,7 +380,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOther StateSelected
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
@@ -398,7 +397,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavigatorOtherRedirect OverrideFocus
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
@@ -418,7 +417,7 @@ namespace Krypton.Navigator
         [EditorBrowsable(EditorBrowsableState.Always)]
         public override string Text
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return base.Text; }
 
             set
@@ -441,7 +440,7 @@ namespace Krypton.Navigator
         [DefaultValue("Page Title")]
         public virtual string TextTitle
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _textTitle; }
 
             set
@@ -472,7 +471,7 @@ namespace Krypton.Navigator
         [DefaultValue("Page Description")]
         public virtual string TextDescription
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _textDescription; }
 
             set
@@ -502,7 +501,7 @@ namespace Krypton.Navigator
         [DefaultValue(null)]
         public virtual Image ImageSmall
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _imageSmall; }
 
             set
@@ -532,7 +531,7 @@ namespace Krypton.Navigator
         [DefaultValue(null)]
         public virtual Image ImageMedium
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _imageMedium; }
 
             set
@@ -562,7 +561,7 @@ namespace Krypton.Navigator
         [DefaultValue(null)]
         public virtual Image ImageLarge
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _imageLarge; }
 
             set
@@ -623,7 +622,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Page tooltip image transparent color.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public virtual Color ToolTipImageTransparentColor
         {
             get => _toolTipImageTransparentColor;
@@ -755,45 +754,16 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets and sets the KryptonContextMenu to show when right clicked.
-        /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut menu to show when the user right-clicks the page.")]
-        [DefaultValue(null)]
-        public virtual KryptonContextMenu KryptonContextMenu
-        {
-            get => _kcm;
-
-            set
-            {
-                if (_kcm != value)
-                {
-                    if (_kcm != null)
-                    {
-                        _kcm.Disposed += OnKryptonContextMenuDisposed;
-                    }
-
-                    _kcm = value;
-
-                    if (_kcm != null)
-                    {
-                        _kcm.Disposed -= OnKryptonContextMenuDisposed;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets and sets the unique name of the page.
         /// </summary>
         [Category("Appearance")]
         [Description("The unique name of the page.")]
         public virtual string UniqueName
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _uniqueName; }
 
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             set { _uniqueName = value; }
         }
 
@@ -1172,7 +1142,7 @@ namespace Krypton.Navigator
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public Control KryptonParentContainer
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return ViewManager.AlignControl; }
         }
 
@@ -1291,7 +1261,7 @@ namespace Krypton.Navigator
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     mousePt = ((int)((long)m.LParam)) == -1 ? new Point(Width / 2, Height / 2) : PointToClient(mousePt);

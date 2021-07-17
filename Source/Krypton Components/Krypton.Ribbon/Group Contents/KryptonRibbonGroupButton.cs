@@ -118,7 +118,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Small button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageSmall
         {
             get => _imageSmall;
@@ -145,7 +145,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Large button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageLarge
         {
             get => _imageLarge;
@@ -172,7 +172,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Button")]
         public string TextLine1
         {
@@ -201,7 +201,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -388,7 +388,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -706,7 +706,7 @@ namespace Krypton.Ribbon
                     {
                         if (KryptonContextMenu != null)
                         {
-                            ContextMenuArgs contextArgs = new ContextMenuArgs(KryptonContextMenu);
+                            ContextMenuArgs contextArgs = new(KryptonContextMenu);
 
                             // Generate an event giving a chance for the krypton context menu strip to 
                             // be shown to be provided/modified or the action even to be cancelled
@@ -739,7 +739,7 @@ namespace Krypton.Ribbon
                         }
                         else if (ContextMenuStrip != null)
                         {
-                            ContextMenuArgs contextArgs = new ContextMenuArgs(ContextMenuStrip);
+                            ContextMenuArgs contextArgs = new(ContextMenuStrip);
 
                             // Generate an event giving a chance for the context menu strip to be
                             // shown to be provided/modified or the action even to be cancelled

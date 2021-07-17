@@ -91,7 +91,7 @@ namespace Krypton.Navigator
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the navigator specific list
@@ -214,7 +214,7 @@ namespace Krypton.Navigator
         #region Implementation
         private void OnEditFlags(object sender, EventArgs e)
         {
-            KryptonPageFormEditFlags editFlags = new KryptonPageFormEditFlags(_page);
+            KryptonPageFormEditFlags editFlags = new(_page);
             editFlags.ShowDialog();
         }
 
@@ -252,7 +252,7 @@ namespace Krypton.Navigator
         private void DrawBorder(Graphics graphics)
         {
             // Create a pen for drawing
-            using (Pen borderPen = new Pen(SystemColors.ControlDarkDark))
+            using (Pen borderPen = new(SystemColors.ControlDarkDark))
             {
                 // Always draw the border dashed
                 borderPen.DashStyle = DashStyle.Dash;

@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
         public override ContextMenuStrip ContextMenuStrip
         {
             [DebuggerStepThrough]
-            get { return base.ContextMenuStrip; }
+            get => base.ContextMenuStrip;
 
             set
             {
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
-            get { return _paletteMode; }
+            get => _paletteMode;
 
             set
             {
@@ -330,7 +330,7 @@ namespace Krypton.Toolkit
         public IPalette Palette
         {
             [DebuggerStepThrough]
-            get { return _localPalette; }
+            get => _localPalette;
 
             set
             {
@@ -744,7 +744,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteRedirect derived class.</returns>
         protected virtual PaletteRedirect CreateRedirector()
         {
-            return new(_palette);
+            return new PaletteRedirect(_palette);
         }
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion

@@ -174,7 +174,7 @@ namespace Krypton.Docking
             if (DockspaceControl.CellVisibleCount > 0)
             {
                 // Create list of the pages that are allowed to be dropped into this dockspace
-                KryptonPageCollection pages = new KryptonPageCollection();
+                KryptonPageCollection pages = new();
                 foreach (KryptonPage page in dragData.Pages)
                 {
                     if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))
@@ -264,7 +264,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockspaceEventArgs args = new DockspaceEventArgs(DockspaceControl, this);
+                DockspaceEventArgs args = new(DockspaceControl, this);
                 dockingManager.RaiseDockspaceRemoved(args);
             }
 
@@ -282,7 +282,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockspaceCellEventArgs args = new DockspaceCellEventArgs(DockspaceControl, this, cell);
+                DockspaceCellEventArgs args = new(DockspaceControl, this, cell);
                 dockingManager.RaiseDockspaceCellAdding(args);
             }
         }
@@ -297,7 +297,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockspaceCellEventArgs args = new DockspaceCellEventArgs(DockspaceControl, this, cell);
+                DockspaceCellEventArgs args = new(DockspaceControl, this, cell);
                 dockingManager.RaiseDockspaceCellRemoved(args);
             }
         }
@@ -313,7 +313,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                CancelUniqueNameEventArgs args = new CancelUniqueNameEventArgs(e.Page.UniqueName, false);
+                CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
                 dockingManager.RaisePageDockedRequest(args);
 
                 // Pass back the result of the event

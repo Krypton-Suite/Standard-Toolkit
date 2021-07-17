@@ -77,7 +77,7 @@ namespace Krypton.Ribbon
             _endSepVisible = false;
 
             // Create palette used to supply a width to a border edge view
-            PaletteBorderEdgeRedirect borderEdgeRedirect = new PaletteBorderEdgeRedirect(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
+            PaletteBorderEdgeRedirect borderEdgeRedirect = new(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
             _paletteBorderEdge = new PaletteBorderEdge(borderEdgeRedirect, needPaint);
             _lastShape = PaletteRibbonShape.Office2007;
 
@@ -94,7 +94,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                ViewHightlightController controller = new ViewHightlightController(this, needPaint);
+                ViewHightlightController controller = new(this, needPaint);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -505,8 +505,8 @@ namespace Krypton.Ribbon
             Add(_startSep);
 
             // Create new lookups which are up to date
-            ItemToView regenView = new ItemToView();
-            ViewToEdge regenEdge = new ViewToEdge();
+            ItemToView regenView = new();
+            ViewToEdge regenEdge = new();
 
             // Cache the first and last visible children
             ViewBase viewFirst = null;
@@ -600,11 +600,7 @@ namespace Krypton.Ribbon
                             Remove(regenEdge[item]);
                         }
 
-                        // Cast to correct type
-                        ViewDrawRibbonGroupClusterButton clusterButton = item as ViewDrawRibbonGroupClusterButton;
-                        ViewDrawRibbonGroupClusterColorButton clusterColorButton = item as ViewDrawRibbonGroupClusterColorButton;
-
-                        if (clusterButton != null)
+                        if (item is ViewDrawRibbonGroupClusterButton clusterButton)
                         {
                             clusterButton.MaxBorderEdges = maxBorders;
                             clusterButton.BorderIgnoreNormal = itemEdgeIgnoreNormal;
@@ -612,7 +608,7 @@ namespace Krypton.Ribbon
                             clusterButton.DrawNonTrackingAreas = itemDrawNonTrackingAreas;
                         }
 
-                        if (clusterColorButton != null)
+                        if (item is ViewDrawRibbonGroupClusterColorButton clusterColorButton)
                         {
                             clusterColorButton.MaxBorderEdges = maxBorders;
                             clusterColorButton.BorderIgnoreNormal = itemEdgeIgnoreNormal;

@@ -45,6 +45,7 @@ namespace Krypton.Toolkit
             {
                 Dispose(true);
             }
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -53,12 +54,6 @@ namespace Krypton.Toolkit
         /// <param name="disposing"></param>
         public virtual void Dispose(bool disposing)
         {
-            // If called manully, no need to use a finalize call to dispose
-            if (disposing)
-            {
-                GC.SuppressFinalize(this);
-            }
-
             _disposed = true;
         }
     }

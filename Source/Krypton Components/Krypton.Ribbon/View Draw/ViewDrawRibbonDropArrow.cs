@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDropArrow : ViewLeaf
     {
         #region Static Fields
-        private static readonly Size _arrowSize = new Size(5, 4);
+        private static readonly Size _arrowSize = new(5, 4);
         #endregion
 
         #region Instance Fields

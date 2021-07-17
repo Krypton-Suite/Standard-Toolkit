@@ -151,9 +151,7 @@ namespace Krypton.Toolkit
                     for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
-                        KryptonDataGridViewBinaryCell dataGridViewCell =
-                            dataGridViewRow.Cells[Index] as KryptonDataGridViewBinaryCell;
-                        if (dataGridViewCell != null)
+                        if (dataGridViewRow.Cells[Index] is KryptonDataGridViewBinaryCell dataGridViewCell)
                             dataGridViewCell.SetEditorType(rowIndex, value);
                     }
 

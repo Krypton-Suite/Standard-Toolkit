@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the GlobalId class.
         /// </summary>
-        [System.Diagnostics.DebuggerStepThrough]
+        [DebuggerStepThrough]
         public GlobalId()
         {
             // Assign the next global identifier

@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonQATOverflow  : ViewComposite
     {
         #region Static Fields
-        private static readonly Padding _borderPadding = new Padding(3);
+        private static readonly Padding _borderPadding = new(3);
         private const int QAT_HEIGHT_FULL = 28;
 
         #endregion

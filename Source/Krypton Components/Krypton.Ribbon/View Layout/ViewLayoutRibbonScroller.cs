@@ -63,7 +63,7 @@ namespace Krypton.Ribbon
             _separator = new ViewLayoutRibbonSeparator(GAP_LENGTH, true);
 
             // Create button controller for clicking the button
-            RepeatButtonController rbc = new RepeatButtonController(ribbon, _button, needPaintDelegate);
+            RepeatButtonController rbc = new(ribbon, _button, needPaintDelegate);
             rbc.Click += OnButtonClick;
             _button.MouseController = rbc;
 

@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         public static int NextId
         {
             [DebuggerStepThrough]
-            get { return _nextId++; }
+            get => _nextId++;
         }
 
         /// <summary>
@@ -1113,7 +1113,7 @@ namespace Krypton.Toolkit
         public static bool IsShiftKeyPressed
         {
             [DebuggerStepThrough]
-            get { return ((PI.GetKeyState(VK_SHIFT) & 0x00008000) != 0); }
+            get => ((PI.GetKeyState(VK_SHIFT) & 0x00008000) != 0);
         }
 
         /// <summary>
@@ -1122,7 +1122,7 @@ namespace Krypton.Toolkit
         public static bool IsCtrlKeyPressed
         {
             [DebuggerStepThrough]
-            get { return ((PI.GetKeyState(VK_CONTROL) & 0x00008000) != 0); }
+            get => ((PI.GetKeyState(VK_CONTROL) & 0x00008000) != 0);
         }
 
         /// <summary>
@@ -1131,7 +1131,7 @@ namespace Krypton.Toolkit
         public static bool IsAltKeyPressed
         {
             [DebuggerStepThrough]
-            get { return ((PI.GetKeyState(VK_MENU) & 0x00008000) != 0); }
+            get => ((PI.GetKeyState(VK_MENU) & 0x00008000) != 0);
         }
 
         /// <summary>

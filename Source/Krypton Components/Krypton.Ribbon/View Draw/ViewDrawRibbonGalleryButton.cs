@@ -189,8 +189,8 @@ namespace Krypton.Ribbon
                     Color borderColor = _paletteBorder.GetBorderColor1(State);
 
                     // Draw the border last to overlap the background
-                    using (AntiAlias aa = new AntiAlias(context.Graphics))
-                        using (Pen borderPen = new Pen(borderColor))
+                    using (AntiAlias aa = new(context.Graphics))
+                        using (Pen borderPen = new(borderColor))
                         {
                             context.Graphics.DrawPath(borderPen, borderPath);
                         }
@@ -212,7 +212,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private GraphicsPath CreateBorderPath(Rectangle rect)
         {
-            GraphicsPath path = new GraphicsPath();
+            GraphicsPath path = new();
 
             switch (_alignment)
             {

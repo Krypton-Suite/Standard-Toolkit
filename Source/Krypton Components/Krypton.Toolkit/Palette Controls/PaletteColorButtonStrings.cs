@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Menu string for a 'more colors' entry.")]
         [DefaultValue("&More Colors...")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string MoreColors { get; set; }
 
         #endregion
@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Menu string for a 'no color' entry.")]
         [DefaultValue("&No Color")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string NoColor { get; set; }
 
         #endregion
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Title for recent colors section of the color button menu.")]
         [DefaultValue("Recent Colors")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string RecentColors { get; set; }
 
         #endregion
@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Title for standard colors section of the color button menu.")]
         [DefaultValue("Standard Colors")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string StandardColors { get; set; }
 
         #endregion
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Title for theme colors section of the color button menu.")]
         [DefaultValue("Theme Colors")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string ThemeColors { get; set; }
 
         #endregion

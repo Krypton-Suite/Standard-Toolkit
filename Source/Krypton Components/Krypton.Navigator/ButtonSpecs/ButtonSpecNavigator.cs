@@ -50,7 +50,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Defines a restricted type for a navigator button spec.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(PaletteNavButtonSpecStyle), "Generic")]
         public PaletteNavButtonSpecStyle TypeRestricted
         {

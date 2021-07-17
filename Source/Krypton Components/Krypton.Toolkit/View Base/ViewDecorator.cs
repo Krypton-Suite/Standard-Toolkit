@@ -391,10 +391,7 @@ namespace Krypton.Toolkit
         public override void MouseUp(Point pt, MouseButtons button)
         {
             // Bubble event up to the parent
-            if (Parent != null)
-            {
-                Parent.MouseUp(pt, button);
-            }
+            Parent?.MouseUp(pt, button);
         }
 
         /// <summary>
@@ -486,7 +483,7 @@ namespace Krypton.Toolkit
         public override PaletteState State
         {
             [DebuggerStepThrough]
-            get { return _child.State; }
+            get => _child.State;
         }
         #endregion
 

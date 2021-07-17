@@ -95,7 +95,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Application button key tip string.")]
         [DefaultValue("F")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string AppButtonKeyTip
         {
             get => _appButtonKeyTip;
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Heading for quick access toolbar menu.")]
         [DefaultValue("Customize Quick Access Toolbar")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string CustomizeQuickAccessToolbar { get; set; }
 
         #endregion
@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Menu string for minimizing the ribbon option.")]
         [DefaultValue("Mi&nimize the Ribbon")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Minimize { get; set; }
 
         #endregion
@@ -145,7 +145,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Menu string for a 'more colors' entry.")]
         [DefaultValue("&More Colors...")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string MoreColors { get; set; }
 
         #endregion
@@ -158,7 +158,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Menu string for a 'no color' entry.")]
         [DefaultValue("&No Color")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string NoColor { get; set; }
 
         #endregion
@@ -171,7 +171,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Title for recent documents section of the application menu.")]
         [DefaultValue("Recent Documents")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string RecentDocuments { get; set; }
 
         #endregion
@@ -184,7 +184,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Title for recent colors section of the color button menu.")]
         [DefaultValue("Recent Colors")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string RecentColors { get; set; }
 
         #endregion
@@ -197,7 +197,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Menu string for showing above the ribbon.")]
         [DefaultValue("&Show Above the Ribbon")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string ShowAboveRibbon { get; set; }
 
         #endregion
@@ -210,7 +210,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Menu string for showing below the ribbon.")]
         [DefaultValue("&Show Below the Ribbon")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string ShowBelowRibbon { get; set; }
 
         #endregion
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Menu string for showing QAT above the ribbon.")]
         [DefaultValue("&Show Quick Access Toolbar Above the Ribbon")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string ShowQATAboveRibbon { get; set; }
 
         #endregion
@@ -236,7 +236,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Menu string for showing QAT below the ribbon.")]
         [DefaultValue("&Show Quick Access Toolbar Below the Ribbon")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string ShowQATBelowRibbon { get; set; }
 
         #endregion
@@ -249,7 +249,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Title for standard colors section of the color button menu.")]
         [DefaultValue("Standard Colors")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string StandardColors { get; set; }
 
         #endregion
@@ -262,7 +262,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Title for theme colors section of the color button menu.")]
         [DefaultValue("Theme Colors")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public string ThemeColors { get; set; }
 
         #endregion

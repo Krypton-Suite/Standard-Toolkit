@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
             _headingRecent = new KryptonContextMenuHeading("Recent Colors");
             _colorsRecent = new KryptonContextMenuColorColumns(ColorScheme.None);
             _separatorNoColor = new KryptonContextMenuSeparator();
-            _itemNoColor = new KryptonContextMenuItem("&No Color", Properties.Resources.ButtonNoColor, OnClickNoColor);
+            _itemNoColor = new KryptonContextMenuItem("&No Color", Resources.ButtonNoColor, OnClickNoColor);
             _itemsNoColor = new KryptonContextMenuItems();
             _itemsNoColor.Items.Add(_itemNoColor);
             _separatorMoreColors = new KryptonContextMenuSeparator();
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override ContextMenuStrip ContextMenuStrip
         {
-            get { return null; }
+            get => null;
             set { }
         }
 
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override KryptonContextMenu KryptonContextMenu
         {
-            get { return null; }
+            get => null;
             set { }
         }
 
@@ -483,39 +483,26 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (_drawButton.DropDownOrientation)
+                return _drawButton.DropDownOrientation switch
                 {
-                    default:
-                    case VisualOrientation.Top:
-                        return VisualOrientation.Bottom;
-                    case VisualOrientation.Bottom:
-                        return VisualOrientation.Top;
-                    case VisualOrientation.Left:
-                        return VisualOrientation.Right;
-                    case VisualOrientation.Right:
-                        return VisualOrientation.Left;
-                }
+                    VisualOrientation.Top => VisualOrientation.Bottom,
+                    VisualOrientation.Bottom => VisualOrientation.Top,
+                    VisualOrientation.Left => VisualOrientation.Right,
+                    VisualOrientation.Right => VisualOrientation.Left,
+                    _ => VisualOrientation.Bottom
+                };
             }
 
             set
             {
-                VisualOrientation converted;
-                switch (value)
+                VisualOrientation converted = value switch
                 {
-                    default:
-                    case VisualOrientation.Bottom:
-                        converted = VisualOrientation.Top;
-                        break;
-                    case VisualOrientation.Top:
-                        converted = VisualOrientation.Bottom;
-                        break;
-                    case VisualOrientation.Right:
-                        converted = VisualOrientation.Left;
-                        break;
-                    case VisualOrientation.Left:
-                        converted = VisualOrientation.Right;
-                        break;
-                }
+                    VisualOrientation.Bottom => VisualOrientation.Top,
+                    VisualOrientation.Top => VisualOrientation.Bottom,
+                    VisualOrientation.Right => VisualOrientation.Left,
+                    VisualOrientation.Left => VisualOrientation.Right,
+                    _ => VisualOrientation.Top
+                };
 
                 if (_drawButton.DropDownOrientation != converted)
                 {
@@ -1217,32 +1204,26 @@ namespace Krypton.Toolkit
 
         private KryptonContextMenuPositionH GetPositionH()
         {
-            switch (DropDownOrientation)
+            return DropDownOrientation switch
             {
-                default:
-                case VisualOrientation.Bottom:
-                case VisualOrientation.Top:
-                    return KryptonContextMenuPositionH.Left;
-                case VisualOrientation.Left:
-                    return KryptonContextMenuPositionH.Before;
-                case VisualOrientation.Right:
-                    return KryptonContextMenuPositionH.After;
-            }
+                //VisualOrientation.Bottom => KryptonContextMenuPositionH.Left,
+                //VisualOrientation.Top => KryptonContextMenuPositionH.Left,
+                VisualOrientation.Left => KryptonContextMenuPositionH.Before,
+                VisualOrientation.Right => KryptonContextMenuPositionH.After,
+                _ => KryptonContextMenuPositionH.Left
+            };
         }
 
         private KryptonContextMenuPositionV GetPositionV()
         {
-            switch (DropDownOrientation)
+            return DropDownOrientation switch
             {
-                default:
-                case VisualOrientation.Bottom:
-                    return KryptonContextMenuPositionV.Below;
-                case VisualOrientation.Top:
-                    return KryptonContextMenuPositionV.Above;
-                case VisualOrientation.Left:
-                case VisualOrientation.Right:
-                    return KryptonContextMenuPositionV.Top;
-            }
+                //VisualOrientation.Bottom => KryptonContextMenuPositionV.Below,
+                VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+                VisualOrientation.Left => KryptonContextMenuPositionV.Top,
+                VisualOrientation.Right => KryptonContextMenuPositionV.Top,
+                _ => KryptonContextMenuPositionV.Below
+            };
         }
 
         private void OnContextMenuClosed(object sender, EventArgs e) => ContextMenuClosed();

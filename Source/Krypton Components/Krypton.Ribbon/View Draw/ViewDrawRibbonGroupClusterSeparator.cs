@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupClusterSeparator : ViewLeaf
     {
         #region Static Fields
-        private static readonly Size _preferredSize = new Size(1, 4);
+        private static readonly Size _preferredSize = new(1, 4);
         #endregion
 
         #region Instance Fields

@@ -180,10 +180,11 @@ namespace Krypton.Toolkit
         private KryptonBorderEdge _borderEdge;
         private readonly HelpInfo _helpInfo;
         // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
-        private IWin32Window _showOwner;
-        private int _cornerRadius, _blurRadius;
-        private bool _useBlur;
-        private KryptonForm _parentWindow;
+        private readonly IWin32Window _showOwner;
+        private readonly int _cornerRadius;
+        private readonly int _blurRadius;
+        private readonly bool _useBlur;
+        private readonly KryptonForm _parentWindow;
         #endregion
 
         #region Identity
@@ -244,8 +245,6 @@ namespace Krypton.Toolkit
                 }
                 else if (_parentWindow != null)
                 {
-                    showOwner = parentWindow;
-
                     _parentWindow.BlurValues.EnableBlur = _useBlur;
 
                     _parentWindow.BlurValues.BlurWhenFocusLost = _useBlur;
@@ -702,7 +701,7 @@ namespace Krypton.Toolkit
             }
 
             // Show message box window as a modal dialog and then dispose of it afterwards
-            using (KryptonMessageBox kmb = new KryptonMessageBox(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow))
+            using (KryptonMessageBox kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow))
             {
                 kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 

@@ -1079,7 +1079,7 @@ namespace Krypton.Ribbon
         /// </summary>
         protected NeedPaintHandler NeedPaintDelegate
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get { return _needPaintDelegate; }
         }
 
@@ -1104,9 +1104,11 @@ namespace Krypton.Ribbon
             _otherAppButton = new ViewLayoutRibbonAppButton(_ribbon, false);
 
             // Connect up the application button controller to the two button elements
-            _appButtonController = new AppButtonController(_ribbon);
-            _appButtonController.Target1 = _captionAppButton.AppButton;
-            _appButtonController.Target2 = _otherAppButton.AppButton;
+            _appButtonController = new AppButtonController(_ribbon)
+            {
+                Target1 = _captionAppButton.AppButton,
+                Target2 = _otherAppButton.AppButton
+            };
             _appButtonController.NeedPaint += new NeedPaintHandler(OnAppButtonNeedPaint);
             _captionAppButton.MouseController = _appButtonController;
             _otherAppButton.MouseController = _appButtonController;
@@ -1114,16 +1116,20 @@ namespace Krypton.Ribbon
             _appTabController.NeedPaint += new NeedPaintHandler(OnAppButtonNeedPaint);
 
             // When not showing the app button we show this spacer instead
-            _spaceInsteadOfAppButton = new ViewLayoutSeparator(0);
-            _spaceInsteadOfAppButton.Visible = false;
+            _spaceInsteadOfAppButton = new ViewLayoutSeparator(0)
+            {
+                Visible = false
+            };
 
             // Quick access toolbar, minibar versions
             _captionQAT = new ViewLayoutRibbonQATMini(_ribbon, _needIntegratedDelegate);
             _nonCaptionQAT = new ViewLayoutRibbonQATMini(_ribbon, NeedPaintDelegate);
 
             // Layout needed to position and draw the context titles
-            _contextTiles = new ViewLayoutRibbonContextTitles(_ribbon, this);
-            _contextTiles.ReverseRenderOrder = true;
+            _contextTiles = new ViewLayoutRibbonContextTitles(_ribbon, this)
+            {
+                ReverseRenderOrder = true
+            };
 
             // Create composition right border and attach to composition area
             _compRightBorder = new ViewDrawRibbonCompoRightBorder();

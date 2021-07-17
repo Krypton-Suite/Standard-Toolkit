@@ -70,5 +70,22 @@ namespace Krypton.Toolkit
             var f1 = ToUInt64(flags);
             return (s1 & f1) == f1;
         }
+
+        private static class EmptyArray<T>
+        {
+#pragma warning disable CA1825 // this is the implementation of Array.Empty<T>()
+            internal static readonly T[] Value = new T[0];
+#pragma warning restore CA1825
+        }
+
+#if NET35 || NET40
+#else // NET45_OR_GREATER || CORE
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[] Array_Empty<T>()
+        {
+            return EmptyArray<T>.Value;
+        }
+
     }
 }

@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
                                               IRibbonViewGroupItemView
     {
         #region Static Fields
-        private static readonly Padding _largeImagePadding = new Padding(3, 2, 3, 3);
-        private static readonly Padding _smallImagePadding = new Padding(3);
+        private static readonly Padding _largeImagePadding = new(3, 2, 3, 3);
+        private static readonly Padding _smallImagePadding = new(3);
         #endregion
 
         #region Instance Fields
@@ -282,7 +282,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new ContextClickController();
+                ContextClickController controller = new();
                 controller.ContextClick += OnContextClick;
                 _viewLarge.MouseController = controller;
             }
@@ -319,7 +319,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new ContextClickController();
+                ContextClickController controller = new();
                 controller.ContextClick += OnContextClick;
                 _viewMediumSmall.MouseController = controller;
             }

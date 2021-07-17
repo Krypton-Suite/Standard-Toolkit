@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     /// Displays byte arrays in hexadecimal, ANSI, and Unicode formats.
     /// </summary>
     /// <remarks>
-    /// This is based off <see cref="System.ComponentModel.Design.ByteViewer"/> with a couple
+    /// This is based off <see cref="ByteViewer"/> with a couple
     /// of cosmetic changes to make it look at least a little less Win3.11-ish.
     /// </remarks>
     [ToolboxItem(false)]
@@ -69,8 +69,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly Font ADDRESS_FONT = new Font("Microsoft Sans Serif", 8f);
-        private static readonly Font HEXDUMP_FONT = new Font("Consolas", 9.75f);
+        private static readonly Font ADDRESS_FONT = new("Microsoft Sans Serif", 8f);
+        private static readonly Font HEXDUMP_FONT = new("Consolas", 9.75f);
         #endregion
 
         #region Instance Fields
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
 
         private VScrollBarEx _scrollBar;
         private TextBox _edit;
-        private int _columnCount = 16;
+        private readonly int _columnCount = 16;
         private int _rowCount = 25;
         private byte[] _dataBuf;
         private int _startLine;
@@ -157,13 +157,7 @@ namespace Krypton.Toolkit
         private static bool CharIsPrintable(char c)
         {
             UnicodeCategory unicodeCategory = char.GetUnicodeCategory(c);
-            switch (unicodeCategory)
-            {
-                case UnicodeCategory.Control:
-                    return unicodeCategory == UnicodeCategory.OtherNotAssigned;
-                default:
-                    return true;
-            }
+            return unicodeCategory != UnicodeCategory.Control || unicodeCategory == UnicodeCategory.OtherNotAssigned;
         }
 
         private void DrawDump(Graphics g, byte[] lineBuffer, int line)

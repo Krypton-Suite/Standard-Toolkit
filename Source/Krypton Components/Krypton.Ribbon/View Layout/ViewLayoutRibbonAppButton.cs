@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void UpdateSeparatorSize()
         {
-            Size separatorSize = new Size(APPBUTTON_GAP, APPBUTTON_GAP);
+            Size separatorSize = new(APPBUTTON_GAP, APPBUTTON_GAP);
 
             // Do we need to add on extra sizing to the separator?
             if (OwnerForm != null)

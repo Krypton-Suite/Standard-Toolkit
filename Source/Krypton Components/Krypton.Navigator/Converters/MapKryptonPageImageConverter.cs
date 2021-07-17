@@ -39,17 +39,17 @@ namespace Krypton.Navigator
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(MapKryptonPageImage.None,             "None (Null image)"),
-            new Pair(MapKryptonPageImage.Small,            "Small"),
-            new Pair(MapKryptonPageImage.SmallMedium,      "Small - Medium"), 
-            new Pair(MapKryptonPageImage.SmallMediumLarge, "Small - Medium - Large"),
-            new Pair(MapKryptonPageImage.Medium,           "Medium"), 
-            new Pair(MapKryptonPageImage.MediumSmall,      "Medium - Small"), 
-            new Pair(MapKryptonPageImage.MediumLarge,      "Medium - Large"),
-            new Pair(MapKryptonPageImage.Large,            "Large"),
-            new Pair(MapKryptonPageImage.LargeMedium,      "Large - Medium"),
-            new Pair(MapKryptonPageImage.LargeMediumSmall, "Large - Medium - Small"),
-            new Pair(MapKryptonPageImage.ToolTip,          "ToolTip") };
+        { new(MapKryptonPageImage.None,             "None (Null image)"),
+            new(MapKryptonPageImage.Small,            "Small"),
+            new(MapKryptonPageImage.SmallMedium,      "Small - Medium"), 
+            new(MapKryptonPageImage.SmallMediumLarge, "Small - Medium - Large"),
+            new(MapKryptonPageImage.Medium,           "Medium"), 
+            new(MapKryptonPageImage.MediumSmall,      "Medium - Small"), 
+            new(MapKryptonPageImage.MediumLarge,      "Medium - Large"),
+            new(MapKryptonPageImage.Large,            "Large"),
+            new(MapKryptonPageImage.LargeMedium,      "Large - Medium"),
+            new(MapKryptonPageImage.LargeMediumSmall, "Large - Medium - Small"),
+            new(MapKryptonPageImage.ToolTip,          "ToolTip") };
 
         #endregion
     }

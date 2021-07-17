@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public bool IsInitialized
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             private set;
         }
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public bool IsInitializing
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             private set;
         }

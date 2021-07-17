@@ -54,7 +54,7 @@ namespace Krypton.Docking
         {
             get
             {
-                StringBuilder path = new StringBuilder();
+                StringBuilder path = new();
 
                 IDockingElement element = this;
                 while (element != null)

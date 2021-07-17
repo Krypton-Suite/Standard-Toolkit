@@ -92,6 +92,7 @@ namespace Krypton.Navigator
                 // Dispose of managed and unmanaged resources
                 Dispose(true);
             }
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -100,13 +101,6 @@ namespace Krypton.Navigator
         /// <param name="disposing">Called from Dispose method.</param>
         protected virtual void Dispose(bool disposing)
         {
-            // If called from explicit call to Dispose
-            if (disposing)
-            {
-                // No need to call destructor once dispose has occured
-                GC.SuppressFinalize(this);
-            }
-
             // Mark as disposed
             IsDisposed = true;
         }
@@ -185,7 +179,7 @@ namespace Krypton.Navigator
                 {
                     // Use event to allow decision on if the page should be dropped
                     // (or even swap the page for a different page to be dropped)
-                    PageDropEventArgs e = new PageDropEventArgs(page);
+                    PageDropEventArgs e = new(page);
                     target.OnPageDrop(e);
 
                     if (!e.Cancel && (e.Page != null))

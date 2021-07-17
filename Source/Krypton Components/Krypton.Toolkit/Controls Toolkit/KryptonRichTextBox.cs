@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private readonly InternalRichTextBox _richTextBox;
         private InputControlStyle _inputControlStyle;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private bool _forcedLayout;
         private bool _autoSize;
         private bool _mouseOver;

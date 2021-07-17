@@ -22,11 +22,11 @@ namespace Krypton.Ribbon
                                                  IPaletteRibbonBack
     {
         #region Static Fields
-        private static readonly Padding _borderPadding2007 = new Padding(3, 3, 3, 2);
-        private static readonly Padding _borderPadding2010 = new Padding(1, 1, 1, 3);
+        private static readonly Padding _borderPadding2007 = new(3, 3, 3, 2);
+        private static readonly Padding _borderPadding2010 = new(1, 1, 1, 3);
         //TODO checkseb
-        private static readonly Padding _borderPadding2013 = new Padding(1, 1, 1, 0);
-        private static readonly Padding _borderPadding365 = new Padding(1, 1, 1, 0);
+        private static readonly Padding _borderPadding2013 = new(1, 1, 1, 0);
+        private static readonly Padding _borderPadding365 = new(1, 1, 1, 0);
         #endregion
 
         #region Instance Fields

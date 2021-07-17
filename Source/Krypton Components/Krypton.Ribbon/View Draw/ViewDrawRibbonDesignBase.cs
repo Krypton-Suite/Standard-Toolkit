@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
             Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top));
 
             // Use a controller to change state because of mouse movement
-            ViewHightlightController controller = new ViewHightlightController(this, needPaint);
+            ViewHightlightController controller = new(this, needPaint);
             controller.Click += OnClick;
             MouseController = controller;
         }

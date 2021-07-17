@@ -397,9 +397,9 @@ namespace Krypton.Workspace
         [Description("The unique name of the workspace cell.")]
         public string UniqueName
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             set;
         }
 
@@ -491,7 +491,7 @@ namespace Krypton.Workspace
                         bool finished = xmlReader.IsEmptyElement;
 
                         // Generate event so custom data can be loaded and/or the page to be added can be modified
-                        PageLoadingEventArgs plea = new PageLoadingEventArgs(workspace, page, xmlReader);
+                        PageLoadingEventArgs plea = new(workspace, page, xmlReader);
                         workspace.OnPageLoading(plea);
                         page = plea.Page;
 

@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
                                                IRibbonViewGroupItemView
     {
         #region Static Fields
-        private static readonly Padding _largeImagePadding = new Padding(3, 2, 3, 3);
-        private static readonly Padding _smallImagePadding = new Padding(3, 3, 3, 3);
+        private static readonly Padding _largeImagePadding = new(3, 2, 3, 3);
+        private static readonly Padding _smallImagePadding = new(3, 3, 3, 3);
         #endregion
 
         #region Instance Fields
@@ -361,11 +361,11 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new ViewLayoutDocker();
+            ViewLayoutDocker contentLayout = new();
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupButtonImage(_ribbon, GroupButton, true);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -417,7 +417,7 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new ViewLayoutDocker();
+            ViewLayoutDocker contentLayout = new();
 
             // Create the image and drop down content
             _viewMediumSmallImage = new ViewDrawRibbonGroupButtonImage(_ribbon, GroupButton, false);
@@ -426,7 +426,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewMediumSmallText2Sep2 = new ViewLayoutRibbonSeparator(3, false);
             _viewMediumSmallText2Sep3 = new ViewLayoutRibbonSeparator(3, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
+            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };

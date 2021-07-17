@@ -50,7 +50,7 @@ namespace Krypton.Docking
         /// <returns>List of drag targets.</returns>
         public DragTargetList GenerateDragTargets(PageDragEndData dragEndData)
         {
-            DragTargetList targets = new DragTargetList();
+            DragTargetList targets = new();
 
             // Generate the set of targets from the element hierarchy
             _manager.PropogateDragTargets(_floatingWindow, dragEndData, targets);

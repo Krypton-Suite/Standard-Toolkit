@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button image for normal state.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImageNormal
         {
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button image for disabled state.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImageDisabled
         {
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button image for pressed state.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImagePressed
         {
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button image for tracking state.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImageTracking
         {
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual Image ImageCheckedNormal
         {
-            get { return null; }
+            get => null;
             set { }
         }
 
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual Image ImageCheckedPressed
         {
-            get { return null; }
+            get => null;
             set { }
         }
         #endregion
@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual Image ImageCheckedTracking
         {
-            get { return null; }
+            get => null;
             set { }
         }
         #endregion

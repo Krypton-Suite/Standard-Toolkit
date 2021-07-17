@@ -61,7 +61,7 @@ namespace Krypton.Workspace
             get
             {
                 // Create a new compound array
-                ArrayList compound = new ArrayList();
+                ArrayList compound = new();
 
                 // Add the list of collection items
                 compound.AddRange(_sequence.Children);

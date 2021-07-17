@@ -165,7 +165,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo; otherwise null.</returns>
         public KeyTipInfo[] GetGroupKeyTips()
         {
-            KeyTipInfoList keyTipList = new KeyTipInfoList();
+            KeyTipInfoList keyTipList = new();
 
             // Ask each visible group to add its own key tips
             foreach (ViewDrawRibbonGroup ribGroup in _groupToView.Values)
@@ -391,7 +391,7 @@ namespace Krypton.Ribbon
             Clear();
 
             // Create a new lookup that reflects any changes in groups
-            GroupToView regenerate = new GroupToView();
+            GroupToView regenerate = new();
             
             // Make sure we have a view element to match each group
             foreach(KryptonRibbonGroup ribGroup in _ribbonTab.Groups)

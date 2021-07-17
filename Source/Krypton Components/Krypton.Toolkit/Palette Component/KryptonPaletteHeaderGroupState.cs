@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used to position the primary header.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding PrimaryHeaderPadding
         {
             get => _primaryHeaderPadding;
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used to position the secondary header.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding SecondaryHeaderPadding
         {
             get => _secondaryHeaderPadding;
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used to position the dock inactive header.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding DockInactiveHeaderPadding
         {
             get => _dockInactiveHeaderPadding;
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used to position the dock active header.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding DockActiveHeaderPadding
         {
             get => _dockActiveHeaderPadding;
@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Should headers overlay the border.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public InheritBool OverlayHeaders
         {
             get => _overlayHeaders;

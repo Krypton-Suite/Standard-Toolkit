@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    /// <seealso cref="Krypton.Toolkit.KryptonProfessionalRenderer" />
+    /// <seealso cref="KryptonProfessionalRenderer" />
     public class KryptonOffice365Renderer : KryptonProfessionalRenderer
     {
         #region GradientItemColors
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
         private static readonly Blend _separatorLightBlend;
         private static readonly Blend _separatorDarkBlend;
         private static readonly Color _disabled = Color.FromArgb(167, 167, 167);
-        private static GradientItemColors _disabledItem = new GradientItemColorsDisabled(Color.FromArgb(236, 199, 87), Color.FromArgb(251, 242, 215), Color.FromArgb(247, 224, 137));
+        private static readonly GradientItemColors _disabledItem = new GradientItemColorsDisabled(Color.FromArgb(236, 199, 87), Color.FromArgb(251, 242, 215), Color.FromArgb(247, 224, 137));
         #endregion
 
         #region Instance Fields
@@ -534,10 +534,9 @@ namespace Krypton.Toolkit
                         CheckState checkState = CheckState.Unchecked;
 
                         // Extract the check state from the item
-                        if (e.Item is ToolStripMenuItem)
+                        if (e.Item is ToolStripMenuItem toolStripItem)
                         {
-                            ToolStripMenuItem item = (ToolStripMenuItem)e.Item;
-                            checkState = item.CheckState;
+                            checkState = toolStripItem.CheckState;
                         }
 
                         // Decide what graphic to draw
@@ -548,10 +547,8 @@ namespace Krypton.Toolkit
                                 using (GraphicsPath tickPath = CreateTickPath(checkBox))
                                 {
                                     // Draw the tick with a thickish brush
-                                    using (Pen tickPen = new(CommonHelper.WhitenColor(KCT.CheckBackground, 3.86f, 3.02f, 1.07f), _contextCheckTickThickness))
-                                    {
-                                        e.Graphics.DrawPath(tickPen, tickPath);
-                                    }
+                                    using Pen tickPen = new(CommonHelper.WhitenColor(KCT.CheckBackground, 3.86f, 3.02f, 1.07f), _contextCheckTickThickness);
+                                    e.Graphics.DrawPath(tickPen, tickPath);
                                 }
                                 break;
                             case CheckState.Indeterminate:

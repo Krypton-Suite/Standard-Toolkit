@@ -31,229 +31,68 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates many changes to the scrollbar are happening, so stop painting till finished.
         /// </summary>
-        private bool inUpdate;
+        private bool _inUpdate;
 
         /// <summary>
         /// The scrollbar orientation - horizontal / VERTICAL.
         /// </summary>
-        private ScrollBarOrientation orientation = ScrollBarOrientation.VERTICAL;
+        private ScrollBarOrientation _orientation = ScrollBarOrientation.VERTICAL;
 
         /// <summary>
         /// The scroll orientation in scroll events.
         /// </summary>
-        private ScrollOrientation scrollOrientation = ScrollOrientation.VerticalScroll;
+        private ScrollOrientation _scrollOrientation = ScrollOrientation.VerticalScroll;
 
-        /// <summary>
-        /// The clicked channel rectangle.
-        /// </summary>
-        private Rectangle clickedBarRectangle;
-
-        /// <summary>
-        /// The thumb rectangle.
-        /// </summary>
-        private Rectangle thumbRectangle;
-
-        /// <summary>
-        /// The top arrow rectangle.
-        /// </summary>
-        private Rectangle topArrowRectangle;
-
-        /// <summary>
-        /// The bottom arrow rectangle.
-        /// </summary>
-        private Rectangle bottomArrowRectangle;
-
-        /// <summary>
-        /// The channel rectangle.
-        /// </summary>
-        private Rectangle channelRectangle;
-
-        /// <summary>
-        /// Indicates if top arrow was clicked.
-        /// </summary>
-        private bool topArrowClicked;
-
-        /// <summary>
-        /// Indicates if bottom arrow was clicked.
-        /// </summary>
-        private bool bottomArrowClicked;
-
-        /// <summary>
-        /// Indicates if channel rectangle above the thumb was clicked.
-        /// </summary>
-        private bool topBarClicked;
-
-        /// <summary>
-        /// Indicates if channel rectangle under the thumb was clicked.
-        /// </summary>
-        private bool bottomBarClicked;
-
-        /// <summary>
-        /// Indicates if the thumb was clicked.
-        /// </summary>
-        private bool thumbClicked;
-
-        /// <summary>
-        /// The state of the thumb.
-        /// </summary>
-        private ScrollBarState thumbState = ScrollBarState.NORMAL;
-
-        /// <summary>
-        /// The state of the top arrow.
-        /// </summary>
-        private ScrollBarArrowButtonState topButtonState = ScrollBarArrowButtonState.UPNORMAL;
-
-        /// <summary>
-        /// The state of the bottom arrow.
-        /// </summary>
-        private ScrollBarArrowButtonState bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
-
-        /// <summary>
-        /// The scrollbar value minimum.
-        /// </summary>
-        private int minimum;
-
-        /// <summary>
-        /// The scrollbar value maximum.
-        /// </summary>
-        private int maximum = 100;
-
-        /// <summary>
-        /// The small change value.
-        /// </summary>
-        private int smallChange = 1;
-
-        /// <summary>
-        /// The large change value.
-        /// </summary>
-        private int largeChange = 10;
-
-        /// <summary>
-        /// The value of the scrollbar.
-        /// </summary>
-        private int value;
-
-        /// <summary>
-        /// The width of the thumb.
-        /// </summary>
-        private int thumbWidth = 15;
-
-        /// <summary>
-        /// The height of the thumb.
-        /// </summary>
-        private int thumbHeight;
-
-        /// <summary>
-        /// The width of an arrow.
-        /// </summary>
-        private int arrowWidth = 15;
-
-        /// <summary>
-        /// The height of an arrow.
-        /// </summary>
-        private int arrowHeight = 17;
-
-        /// <summary>
-        /// The bottom limit for the thumb bottom.
-        /// </summary>
-        private int thumbBottomLimitBottom;
-
-        /// <summary>
-        /// The bottom limit for the thumb top.
-        /// </summary>
-        private int thumbBottomLimitTop;
-
-        /// <summary>
-        /// The top limit for the thumb top.
-        /// </summary>
-        private int thumbTopLimit;
-
-        /// <summary>
-        /// The current position of the thumb.
-        /// </summary>
-        private int thumbPosition;
-
-        /// <summary>
-        /// The track position.
-        /// </summary>
-        private int trackPosition;
+        private Rectangle _clickedBarRectangle;
+        private Rectangle _thumbRectangle;
+        private Rectangle _topArrowRectangle;
+        private Rectangle _bottomArrowRectangle;
+        private Rectangle _channelRectangle;
+        private bool _topArrowClicked;
+        private bool _bottomArrowClicked;
+        private bool _topBarClicked;
+        private bool _bottomBarClicked;
+        private bool _thumbClicked;
+        private ScrollBarState _thumbState = ScrollBarState.NORMAL;
+        private ScrollBarArrowButtonState _topButtonState = ScrollBarArrowButtonState.UPNORMAL;
+        private ScrollBarArrowButtonState _bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
+        private int _minimum;
+        private int _maximum = 100;
+        private int _smallChange = 1;
+        private int _largeChange = 10;
+        private int _value;
+        private int _thumbWidth = 15;
+        private int _thumbHeight;
+        private int _arrowWidth = 15;
+        private int _arrowHeight = 17;
+        private int _thumbBottomLimitBottom;
+        private int _thumbBottomLimitTop;
+        private int _thumbTopLimit;
+        private int _thumbPosition;
+        private int _trackPosition;
 
         /// <summary>
         /// The progress timer for moving the thumb.
         /// </summary>
-        private System.Windows.Forms.Timer progressTimer = new System.Windows.Forms.Timer();
+        private readonly System.Windows.Forms.Timer _progressTimer = new();
 
-        /// <summary>
-        /// The border color.
-        /// </summary>
-        private Color borderColor = Color.FromArgb(93, 140, 201);
-
-        /// <summary>
-        /// The border color in disabled state.
-        /// </summary>
-        private Color disabledBorderColor = Color.Gray;
+        private Color _borderColor = Color.FromArgb(93, 140, 201);
+        private Color _disabledBorderColor = Color.Gray;
 
         #region context menu items
 
-        /// <summary>
-        /// Context menu strip.
-        /// </summary>
-        private ContextMenuStrip contextMenu;
-
-        /// <summary>
-        /// Container for components.
-        /// </summary>
+        private ContextMenuStrip _contextMenu;
         private IContainer components;
-
-        /// <summary>
-        /// Menu item.
-        /// </summary>
-        private ToolStripMenuItem tsmiScrollHere;
-
-        /// <summary>
-        /// Menu separator.
-        /// </summary>
-        private ToolStripSeparator toolStripSeparator1;
-
-        /// <summary>
-        /// Menu item.
-        /// </summary>
-        private ToolStripMenuItem tsmiTop;
-
-        /// <summary>
-        /// Menu item.
-        /// </summary>
-        private ToolStripMenuItem tsmiBottom;
-
-        /// <summary>
-        /// Menu separator.
-        /// </summary>
-        private ToolStripSeparator toolStripSeparator2;
-
-        /// <summary>
-        /// Menu item.
-        /// </summary>
-        private ToolStripMenuItem tsmiLargeUp;
-
-        /// <summary>
-        /// Menu item.
-        /// </summary>
-        private ToolStripMenuItem tsmiLargeDown;
-
-        /// <summary>
-        /// Menu separator.
-        /// </summary>
-        private ToolStripSeparator toolStripSeparator3;
-
-        /// <summary>
-        /// Menu item.
-        /// </summary>
-        private ToolStripMenuItem tsmiSmallUp;
-
-        /// <summary>
-        /// Menu item.
-        /// </summary>
-        private ToolStripMenuItem tsmiSmallDown;
+        private ToolStripMenuItem _tsmiScrollHere;
+        private ToolStripSeparator _toolStripSeparator1;
+        private ToolStripMenuItem _tsmiTop;
+        private ToolStripMenuItem _tsmiBottom;
+        private ToolStripSeparator _toolStripSeparator2;
+        private ToolStripMenuItem _tsmiLargeUp;
+        private ToolStripMenuItem _tsmiLargeDown;
+        private ToolStripSeparator _toolStripSeparator3;
+        private ToolStripMenuItem _tsmiSmallUp;
+        private ToolStripMenuItem _tsmiSmallDown;
 
         #endregion
 
@@ -283,12 +122,12 @@ namespace Krypton.Toolkit
 
             // timer for clicking and holding the mouse button
             // over/below the thumb and on the arrow buttons
-            progressTimer.Interval = 20;
-            progressTimer.Tick += ProgressTimerTick;
+            _progressTimer.Interval = 20;
+            _progressTimer.Tick += ProgressTimerTick;
 
             // no image margin in context menu
-            contextMenu.ShowImageMargin = false;
-            ContextMenuStrip = contextMenu;
+            _contextMenu.ShowImageMargin = false;
+            ContextMenuStrip = _contextMenu;
         }
 
         #endregion
@@ -312,26 +151,23 @@ namespace Krypton.Toolkit
         [DefaultValue(ScrollBarOrientation.VERTICAL)]
         public ScrollBarOrientation Orientation
         {
-            get
-            {
-                return orientation;
-            }
+            get => _orientation;
 
             set
             {
                 // no change - return
-                if (value == orientation)
+                if (value == _orientation)
                 {
                     return;
                 }
 
-                orientation = value;
+                _orientation = value;
 
                 // change text of context menu entries
                 ChangeContextMenuItems();
 
                 // save scroll orientation for scroll event
-                scrollOrientation = value == ScrollBarOrientation.VERTICAL ?
+                _scrollOrientation = value == ScrollBarOrientation.VERTICAL ?
                    ScrollOrientation.VerticalScroll : ScrollOrientation.HorizontalScroll;
 
                 // only in DesignMode switch width and height
@@ -353,21 +189,19 @@ namespace Krypton.Toolkit
         [DefaultValue(0)]
         public int Minimum
         {
-            get
-            {
-                return minimum;
-            }
+            get => _minimum;
 
             set
             {
                 // no change or value invalid - return
-                if (minimum == value || value < 0 || value >= maximum)
+                if (_minimum == value || value < 0 || value >= _maximum)
                 {
                     return;
                 }
 
-                minimum = value;
+                _minimum = value;
 
+                // TODO: CS1718: What is being attempted here ? value < value ??
                 // current value less than new minimum value - adjust
                 if (value < value)
                 {
@@ -375,13 +209,14 @@ namespace Krypton.Toolkit
                 }
 
                 // is current large change value invalid - adjust
-                if (largeChange > maximum - minimum)
+                if (_largeChange > _maximum - _minimum)
                 {
-                    largeChange = maximum - minimum;
+                    _largeChange = _maximum - _minimum;
                 }
 
                 SetUpScrollBar();
 
+                // TODO: CS1718: What is being attempted here ? value < value ??
                 // current value less than new minimum value - adjust
                 if (value < value)
                 {
@@ -405,33 +240,31 @@ namespace Krypton.Toolkit
         [DefaultValue(100)]
         public int Maximum
         {
-            get
-            {
-                return maximum;
-            }
+            get => _maximum;
 
             set
             {
                 // no change or new max. value invalid - return
-                if (value == maximum || value < 1 || value <= minimum)
+                if (value == _maximum || value < 1 || value <= _minimum)
                 {
                     return;
                 }
 
-                maximum = value;
+                _maximum = value;
 
                 // is large change value invalid - adjust
-                if (largeChange > maximum - minimum)
+                if (_largeChange > _maximum - _minimum)
                 {
-                    largeChange = maximum - minimum;
+                    _largeChange = _maximum - _minimum;
                 }
 
                 SetUpScrollBar();
 
+                // TODO: CS1718: What is being attempted here ? value < value ??
                 // is current value greater than new maximum value - adjust
                 if (value > value)
                 {
-                    Value = maximum;
+                    Value = _maximum;
                 }
                 else
                 {
@@ -451,20 +284,17 @@ namespace Krypton.Toolkit
         [DefaultValue(1)]
         public int SmallChange
         {
-            get
-            {
-                return smallChange;
-            }
+            get => _smallChange;
 
             set
             {
                 // no change or new small change value invalid - return
-                if (value == smallChange || value < 1 || value >= largeChange)
+                if (value == _smallChange || value < 1 || value >= _largeChange)
                 {
                     return;
                 }
 
-                smallChange = value;
+                _smallChange = value;
 
                 SetUpScrollBar();
             }
@@ -478,28 +308,25 @@ namespace Krypton.Toolkit
         [DefaultValue(10)]
         public int LargeChange
         {
-            get
-            {
-                return largeChange;
-            }
+            get => _largeChange;
 
             set
             {
                 // no change or new large change value is invalid - return
-                if (value == largeChange || value < smallChange || value < 2)
+                if (value == _largeChange || value < _smallChange || value < 2)
                 {
                     return;
                 }
 
                 // if value is greater than scroll area - adjust
-                if (value > maximum - minimum)
+                if (value > _maximum - _minimum)
                 {
-                    largeChange = maximum - minimum;
+                    _largeChange = _maximum - _minimum;
                 }
                 else
                 {
                     // set new value
-                    largeChange = value;
+                    _largeChange = value;
                 }
 
                 SetUpScrollBar();
@@ -514,26 +341,25 @@ namespace Krypton.Toolkit
         [DefaultValue(0)]
         public int Value
         {
-            get
-            {
-                return value;
-            }
+            get => _value;
 
             set
             {
+                // TODO: CS1718: What is being attempted here ? value < value ??
                 // no change or invalid value - return
-                if (value == value || value < minimum || value > maximum)
+                if (value == value || value < _minimum || value > _maximum)
                 {
                     return;
                 }
 
+                // TODO: CS1718: What is being attempted here ? value < value ??
                 value = value;
 
                 // adjust thumb position
                 ChangeThumbPosition(GetThumbPosition());
 
                 // raise scroll event
-                OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, -1, value, scrollOrientation));
+                OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, -1, value, _scrollOrientation));
 
                 Refresh();
             }
@@ -547,14 +373,11 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(Color), "93, 140, 201")]
         public Color BorderColor
         {
-            get
-            {
-                return borderColor;
-            }
+            get => _borderColor;
 
             set
             {
-                borderColor = value;
+                _borderColor = value;
 
                 Invalidate();
             }
@@ -568,14 +391,11 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(Color), "Gray")]
         public Color DisabledBorderColor
         {
-            get
-            {
-                return disabledBorderColor;
-            }
+            get => _disabledBorderColor;
 
             set
             {
-                disabledBorderColor = value;
+                _disabledBorderColor = value;
 
                 Invalidate();
             }
@@ -589,22 +409,19 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(double), "1")]
         public double Opacity
         {
-            get
-            {
-                return contextMenu.Opacity;
-            }
+            get => _contextMenu.Opacity;
 
             set
             {
                 // no change - return
-                if (value == contextMenu.Opacity)
+                if (value == _contextMenu.Opacity)
                 {
                     return;
                 }
 
-                contextMenu.AllowTransparency = value != 1;
+                _contextMenu.AllowTransparency = value != 1;
 
-                contextMenu.Opacity = value;
+                _contextMenu.Opacity = value;
             }
         }
 
@@ -620,7 +437,7 @@ namespace Krypton.Toolkit
         public void BeginUpdate()
         {
             SendMessage(Handle, SETREDRAW, false, 0);
-            inUpdate = true;
+            _inUpdate = true;
         }
 
         /// <summary>
@@ -629,7 +446,7 @@ namespace Krypton.Toolkit
         public void EndUpdate()
         {
             SendMessage(Handle, SETREDRAW, true, 0);
-            inUpdate = false;
+            _inUpdate = false;
             SetUpScrollBar();
             Refresh();
         }
@@ -645,10 +462,7 @@ namespace Krypton.Toolkit
         protected virtual void OnScroll(ScrollEventArgs e)
         {
             // if event handler is attached - raise scroll event
-            if (Scroll != null)
-            {
-                Scroll(this, e);
-            }
+            Scroll?.Invoke(this, e);
         }
 
         /// <summary>
@@ -667,24 +481,24 @@ namespace Krypton.Toolkit
         protected override void OnPaint(PaintEventArgs e)
         {
             // sets the smoothing mode to none
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            e.Graphics.SmoothingMode = SmoothingMode.None;
 
             // save client rectangle
             Rectangle rect = ClientRectangle;
 
             // adjust the rectangle
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.VERTICAL)
             {
                 rect.X++;
-                rect.Y += arrowHeight + 1;
+                rect.Y += _arrowHeight + 1;
                 rect.Width -= 2;
-                rect.Height -= (arrowHeight * 2) + 2;
+                rect.Height -= (_arrowHeight * 2) + 2;
             }
             else
             {
-                rect.X += arrowWidth + 1;
+                rect.X += _arrowWidth + 1;
                 rect.Y++;
-                rect.Width -= (arrowWidth * 2) + 2;
+                rect.Width -= (_arrowWidth * 2) + 2;
                 rect.Height -= 2;
             }
 
@@ -694,92 +508,92 @@ namespace Krypton.Toolkit
             ScrollBarKryptonRenderer.DrawBackground(
                e.Graphics,
                ClientRectangle,
-               orientation);
+               _orientation);
 
             // draws the track
             ScrollBarKryptonRenderer.DrawTrack(
                e.Graphics,
                rect,
                ScrollBarState.NORMAL,
-               orientation);
+               _orientation);
 
             // draw thumb and grip
             ScrollBarKryptonRenderer.DrawThumb(
                e.Graphics,
-               thumbRectangle,
-               thumbState,
-               orientation);
+               _thumbRectangle,
+               _thumbState,
+               _orientation);
 
             if (Enabled)
             {
                 ScrollBarKryptonRenderer.DrawThumbGrip(
                    e.Graphics,
-                   thumbRectangle,
-                   orientation);
+                   _thumbRectangle,
+                   _orientation);
             }
 
             // draw arrows
             ScrollBarKryptonRenderer.DrawArrowButton(
                e.Graphics,
-               topArrowRectangle,
-               topButtonState,
+               _topArrowRectangle,
+               _topButtonState,
                true,
-               orientation);
+               _orientation);
 
             ScrollBarKryptonRenderer.DrawArrowButton(
                e.Graphics,
-               bottomArrowRectangle,
-               bottomButtonState,
+               _bottomArrowRectangle,
+               _bottomButtonState,
                false,
-               orientation);
+               _orientation);
 
             // check if top or bottom bar was clicked
-            if (topBarClicked)
+            if (_topBarClicked)
             {
-                if (orientation == ScrollBarOrientation.VERTICAL)
+                if (_orientation == ScrollBarOrientation.VERTICAL)
                 {
-                    clickedBarRectangle.Y = thumbTopLimit;
-                    clickedBarRectangle.Height =
-                       thumbRectangle.Y - thumbTopLimit;
+                    _clickedBarRectangle.Y = _thumbTopLimit;
+                    _clickedBarRectangle.Height =
+                       _thumbRectangle.Y - _thumbTopLimit;
                 }
                 else
                 {
-                    clickedBarRectangle.X = thumbTopLimit;
-                    clickedBarRectangle.Width =
-                       thumbRectangle.X - thumbTopLimit;
+                    _clickedBarRectangle.X = _thumbTopLimit;
+                    _clickedBarRectangle.Width =
+                       _thumbRectangle.X - _thumbTopLimit;
                 }
 
                 ScrollBarKryptonRenderer.DrawTrack(
                    e.Graphics,
-                   clickedBarRectangle,
+                   _clickedBarRectangle,
                    ScrollBarState.PRESSED,
-                   orientation);
+                   _orientation);
             }
-            else if (bottomBarClicked)
+            else if (_bottomBarClicked)
             {
-                if (orientation == ScrollBarOrientation.VERTICAL)
+                if (_orientation == ScrollBarOrientation.VERTICAL)
                 {
-                    clickedBarRectangle.Y = thumbRectangle.Bottom + 1;
-                    clickedBarRectangle.Height =
-                       thumbBottomLimitBottom - clickedBarRectangle.Y + 1;
+                    _clickedBarRectangle.Y = _thumbRectangle.Bottom + 1;
+                    _clickedBarRectangle.Height =
+                       _thumbBottomLimitBottom - _clickedBarRectangle.Y + 1;
                 }
                 else
                 {
-                    clickedBarRectangle.X = thumbRectangle.Right + 1;
-                    clickedBarRectangle.Width =
-                       thumbBottomLimitBottom - clickedBarRectangle.X + 1;
+                    _clickedBarRectangle.X = _thumbRectangle.Right + 1;
+                    _clickedBarRectangle.Width =
+                       _thumbBottomLimitBottom - _clickedBarRectangle.X + 1;
                 }
 
                 ScrollBarKryptonRenderer.DrawTrack(
                    e.Graphics,
-                   clickedBarRectangle,
+                   _clickedBarRectangle,
                    ScrollBarState.PRESSED,
-                   orientation);
+                   _orientation);
             }
 
             // draw border
-            using (Pen pen = new Pen(
-               (Enabled ? ScrollBarKryptonRenderer.borderColours[0] : disabledBorderColor)))
+            using (Pen pen = new(
+               (Enabled ? ScrollBarKryptonRenderer.borderColours[0] : _disabledBorderColor)))
             {
                 e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
             }
@@ -803,47 +617,47 @@ namespace Krypton.Toolkit
 
                 Point mouseLocation = e.Location;
 
-                if (thumbRectangle.Contains(mouseLocation))
+                if (_thumbRectangle.Contains(mouseLocation))
                 {
-                    thumbClicked = true;
-                    thumbPosition = orientation == ScrollBarOrientation.VERTICAL ? mouseLocation.Y - thumbRectangle.Y : mouseLocation.X - thumbRectangle.X;
-                    thumbState = ScrollBarState.PRESSED;
+                    _thumbClicked = true;
+                    _thumbPosition = _orientation == ScrollBarOrientation.VERTICAL ? mouseLocation.Y - _thumbRectangle.Y : mouseLocation.X - _thumbRectangle.X;
+                    _thumbState = ScrollBarState.PRESSED;
 
-                    Invalidate(thumbRectangle);
+                    Invalidate(_thumbRectangle);
                 }
-                else if (topArrowRectangle.Contains(mouseLocation))
+                else if (_topArrowRectangle.Contains(mouseLocation))
                 {
-                    topArrowClicked = true;
-                    topButtonState = ScrollBarArrowButtonState.UPPRESSED;
+                    _topArrowClicked = true;
+                    _topButtonState = ScrollBarArrowButtonState.UPPRESSED;
 
-                    Invalidate(topArrowRectangle);
+                    Invalidate(_topArrowRectangle);
 
                     ProgressThumb(true);
                 }
-                else if (bottomArrowRectangle.Contains(mouseLocation))
+                else if (_bottomArrowRectangle.Contains(mouseLocation))
                 {
-                    bottomArrowClicked = true;
-                    bottomButtonState = ScrollBarArrowButtonState.DOWNPRESSED;
+                    _bottomArrowClicked = true;
+                    _bottomButtonState = ScrollBarArrowButtonState.DOWNPRESSED;
 
-                    Invalidate(bottomArrowRectangle);
+                    Invalidate(_bottomArrowRectangle);
 
                     ProgressThumb(true);
                 }
                 else
                 {
-                    trackPosition =
-                       orientation == ScrollBarOrientation.VERTICAL ?
+                    _trackPosition =
+                       _orientation == ScrollBarOrientation.VERTICAL ?
                           mouseLocation.Y : mouseLocation.X;
 
-                    if (trackPosition <
-                       (orientation == ScrollBarOrientation.VERTICAL ?
-                          thumbRectangle.Y : thumbRectangle.X))
+                    if (_trackPosition <
+                       (_orientation == ScrollBarOrientation.VERTICAL ?
+                          _thumbRectangle.Y : _thumbRectangle.X))
                     {
-                        topBarClicked = true;
+                        _topBarClicked = true;
                     }
                     else
                     {
-                        bottomBarClicked = true;
+                        _bottomBarClicked = true;
                     }
 
                     ProgressThumb(true);
@@ -851,8 +665,8 @@ namespace Krypton.Toolkit
             }
             else if (e.Button == MouseButtons.Right)
             {
-                trackPosition =
-                   orientation == ScrollBarOrientation.VERTICAL ? e.Y : e.X;
+                _trackPosition =
+                   _orientation == ScrollBarOrientation.VERTICAL ? e.Y : e.X;
             }
         }
 
@@ -866,40 +680,40 @@ namespace Krypton.Toolkit
 
             if (e.Button == MouseButtons.Left)
             {
-                ContextMenuStrip = contextMenu;
+                ContextMenuStrip = _contextMenu;
 
-                if (thumbClicked)
+                if (_thumbClicked)
                 {
-                    thumbClicked = false;
-                    thumbState = ScrollBarState.NORMAL;
+                    _thumbClicked = false;
+                    _thumbState = ScrollBarState.NORMAL;
 
                     OnScroll(new ScrollEventArgs(
                        ScrollEventType.EndScroll,
                        -1,
-                       value,
-                       scrollOrientation)
+                       _value,
+                       _scrollOrientation)
                     );
                 }
-                else if (topArrowClicked)
+                else if (_topArrowClicked)
                 {
-                    topArrowClicked = false;
-                    topButtonState = ScrollBarArrowButtonState.UPNORMAL;
+                    _topArrowClicked = false;
+                    _topButtonState = ScrollBarArrowButtonState.UPNORMAL;
                     StopTimer();
                 }
-                else if (bottomArrowClicked)
+                else if (_bottomArrowClicked)
                 {
-                    bottomArrowClicked = false;
-                    bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
+                    _bottomArrowClicked = false;
+                    _bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
                     StopTimer();
                 }
-                else if (topBarClicked)
+                else if (_topBarClicked)
                 {
-                    topBarClicked = false;
+                    _topBarClicked = false;
                     StopTimer();
                 }
-                else if (bottomBarClicked)
+                else if (_bottomBarClicked)
                 {
-                    bottomBarClicked = false;
+                    _bottomBarClicked = false;
                     StopTimer();
                 }
 
@@ -915,9 +729,9 @@ namespace Krypton.Toolkit
         {
             base.OnMouseEnter(e);
 
-            bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
-            topButtonState = ScrollBarArrowButtonState.UPACTIVE;
-            thumbState = ScrollBarState.ACTIVE;
+            _bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
+            _topButtonState = ScrollBarArrowButtonState.UPACTIVE;
+            _thumbState = ScrollBarState.ACTIVE;
 
             Invalidate();
         }
@@ -945,49 +759,49 @@ namespace Krypton.Toolkit
             if (e.Button == MouseButtons.Left)
             {
                 // Update the thumb position, if the new location is within the bounds.
-                if (thumbClicked)
+                if (_thumbClicked)
                 {
-                    int oldScrollValue = value;
+                    int oldScrollValue = _value;
 
-                    topButtonState = ScrollBarArrowButtonState.UPACTIVE;
-                    bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
-                    int pos = orientation == ScrollBarOrientation.VERTICAL ?
+                    _topButtonState = ScrollBarArrowButtonState.UPACTIVE;
+                    _bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
+                    int pos = _orientation == ScrollBarOrientation.VERTICAL ?
                        e.Location.Y : e.Location.X;
 
                     // The thumb is all the way to the top
-                    if (pos <= (thumbTopLimit + thumbPosition))
+                    if (pos <= (_thumbTopLimit + _thumbPosition))
                     {
-                        ChangeThumbPosition(thumbTopLimit);
+                        ChangeThumbPosition(_thumbTopLimit);
 
-                        value = minimum;
+                        _value = _minimum;
                     }
-                    else if (pos >= (thumbBottomLimitTop + thumbPosition))
+                    else if (pos >= (_thumbBottomLimitTop + _thumbPosition))
                     {
                         // The thumb is all the way to the bottom
-                        ChangeThumbPosition(thumbBottomLimitTop);
+                        ChangeThumbPosition(_thumbBottomLimitTop);
 
-                        value = maximum;
+                        _value = _maximum;
                     }
                     else
                     {
                         // The thumb is between the ends of the track.
-                        ChangeThumbPosition(pos - thumbPosition);
+                        ChangeThumbPosition(pos - _thumbPosition);
 
                         int pixelRange, thumbPos, arrowSize;
 
                         // calculate the value - first some helper variables
                         // dependent on the current orientation
-                        if (orientation == ScrollBarOrientation.VERTICAL)
+                        if (_orientation == ScrollBarOrientation.VERTICAL)
                         {
-                            pixelRange = Height - (2 * arrowHeight) - thumbHeight;
-                            thumbPos = thumbRectangle.Y;
-                            arrowSize = arrowHeight;
+                            pixelRange = Height - (2 * _arrowHeight) - _thumbHeight;
+                            thumbPos = _thumbRectangle.Y;
+                            arrowSize = _arrowHeight;
                         }
                         else
                         {
-                            pixelRange = Width - (2 * arrowWidth) - thumbWidth;
-                            thumbPos = thumbRectangle.X;
-                            arrowSize = arrowWidth;
+                            pixelRange = Width - (2 * _arrowWidth) - _thumbWidth;
+                            thumbPos = _thumbRectangle.X;
+                            arrowSize = _arrowWidth;
                         }
 
                         float perc = 0f;
@@ -1000,13 +814,13 @@ namespace Krypton.Toolkit
 
                         // the new value is somewhere between max and min, starting
                         // at min position
-                        value = Convert.ToInt32((perc * (maximum - minimum)) + minimum);
+                        _value = Convert.ToInt32((perc * (_maximum - _minimum)) + _minimum);
                     }
 
                     // raise scroll event if new value different
-                    if (oldScrollValue != value)
+                    if (oldScrollValue != _value)
                     {
-                        OnScroll(new ScrollEventArgs(ScrollEventType.ThumbTrack, oldScrollValue, value, scrollOrientation));
+                        OnScroll(new ScrollEventArgs(ScrollEventType.ThumbTrack, oldScrollValue, _value, _scrollOrientation));
 
                         Refresh();
                     }
@@ -1018,29 +832,29 @@ namespace Krypton.Toolkit
             }
             else if (e.Button == MouseButtons.None) // only moving the mouse
             {
-                if (topArrowRectangle.Contains(e.Location))
+                if (_topArrowRectangle.Contains(e.Location))
                 {
-                    topButtonState = ScrollBarArrowButtonState.UPHOT;
+                    _topButtonState = ScrollBarArrowButtonState.UPHOT;
 
-                    Invalidate(topArrowRectangle);
+                    Invalidate(_topArrowRectangle);
                 }
-                else if (bottomArrowRectangle.Contains(e.Location))
+                else if (_bottomArrowRectangle.Contains(e.Location))
                 {
-                    bottomButtonState = ScrollBarArrowButtonState.DOWNHOT;
+                    _bottomButtonState = ScrollBarArrowButtonState.DOWNHOT;
 
-                    Invalidate(bottomArrowRectangle);
+                    Invalidate(_bottomArrowRectangle);
                 }
-                else if (thumbRectangle.Contains(e.Location))
+                else if (_thumbRectangle.Contains(e.Location))
                 {
-                    thumbState = ScrollBarState.HOT;
+                    _thumbState = ScrollBarState.HOT;
 
-                    Invalidate(thumbRectangle);
+                    Invalidate(_thumbRectangle);
                 }
                 else if (ClientRectangle.Contains(e.Location))
                 {
-                    topButtonState = ScrollBarArrowButtonState.UPACTIVE;
-                    bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
-                    thumbState = ScrollBarState.ACTIVE;
+                    _topButtonState = ScrollBarArrowButtonState.UPACTIVE;
+                    _bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
+                    _thumbState = ScrollBarState.ACTIVE;
 
                     Invalidate();
                 }
@@ -1060,20 +874,20 @@ namespace Krypton.Toolkit
             // only in design mode - constrain size
             if (DesignMode)
             {
-                if (orientation == ScrollBarOrientation.VERTICAL)
+                if (_orientation == ScrollBarOrientation.VERTICAL)
                 {
-                    if (height < (2 * arrowHeight) + 10)
+                    if (height < (2 * _arrowHeight) + 10)
                     {
-                        height = (2 * arrowHeight) + 10;
+                        height = (2 * _arrowHeight) + 10;
                     }
 
                     width = 19;
                 }
                 else
                 {
-                    if (width < (2 * arrowWidth) + 10)
+                    if (width < (2 * _arrowWidth) + 10)
                     {
-                        width = (2 * arrowWidth) + 10;
+                        width = (2 * _arrowWidth) + 10;
                     }
 
                     height = 19;
@@ -1089,7 +903,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Raises the <see cref="System.Windows.Forms.Control.SizeChanged"/> event.
+        /// Raises the <see cref="Control.SizeChanged"/> event.
         /// </summary>
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         protected override void OnSizeChanged(EventArgs e)
@@ -1101,7 +915,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Processes a dialog key.
         /// </summary>
-        /// <param name="keyData">One of the <see cref="System.Windows.Forms.Keys"/> values that represents the key to process.</param>
+        /// <param name="keyData">One of the <see cref="Keys"/> values that represents the key to process.</param>
         /// <returns>true, if the key was processed by the control, false otherwise.</returns>
         protected override bool ProcessDialogKey(Keys keyData)
         {
@@ -1110,7 +924,7 @@ namespace Krypton.Toolkit
             Keys keyUp = Keys.Up;
             Keys keyDown = Keys.Down;
 
-            if (orientation == ScrollBarOrientation.HORIZONTAL)
+            if (_orientation == ScrollBarOrientation.HORIZONTAL)
             {
                 keyUp = Keys.Left;
                 keyDown = Keys.Right;
@@ -1118,14 +932,14 @@ namespace Krypton.Toolkit
 
             if (keyData == keyUp)
             {
-                Value -= smallChange;
+                Value -= _smallChange;
 
                 return true;
             }
 
             if (keyData == keyDown)
             {
-                Value += smallChange;
+                Value += _smallChange;
 
                 return true;
             }
@@ -1139,13 +953,13 @@ namespace Krypton.Toolkit
 
             if (keyData == Keys.PageDown)
             {
-                if (value + largeChange > maximum)
+                if (_value + _largeChange > _maximum)
                 {
-                    Value = maximum;
+                    Value = _maximum;
                 }
                 else
                 {
-                    Value += largeChange;
+                    Value += _largeChange;
                 }
 
                 return true;
@@ -1153,14 +967,14 @@ namespace Krypton.Toolkit
 
             if (keyData == Keys.Home)
             {
-                Value = minimum;
+                Value = _minimum;
 
                 return true;
             }
 
             if (keyData == Keys.End)
             {
-                Value = maximum;
+                Value = _maximum;
 
                 return true;
             }
@@ -1169,7 +983,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Raises the <see cref="System.Windows.Forms.Control.EnabledChanged"/> event.
+        /// Raises the <see cref="Control.EnabledChanged"/> event.
         /// </summary>
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         protected override void OnEnabledChanged(EventArgs e)
@@ -1178,15 +992,15 @@ namespace Krypton.Toolkit
 
             if (Enabled)
             {
-                thumbState = ScrollBarState.NORMAL;
-                topButtonState = ScrollBarArrowButtonState.UPNORMAL;
-                bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
+                _thumbState = ScrollBarState.NORMAL;
+                _topButtonState = ScrollBarArrowButtonState.UPNORMAL;
+                _bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
             }
             else
             {
-                thumbState = ScrollBarState.DISABLED;
-                topButtonState = ScrollBarArrowButtonState.UPDISABLED;
-                bottomButtonState = ScrollBarArrowButtonState.DOWNDISABLED;
+                _thumbState = ScrollBarState.DISABLED;
+                _topButtonState = ScrollBarArrowButtonState.UPDISABLED;
+                _bottomButtonState = ScrollBarArrowButtonState.DOWNDISABLED;
             }
 
             Refresh();
@@ -1218,110 +1032,110 @@ namespace Krypton.Toolkit
         private void SetUpScrollBar()
         {
             // if no drawing - return
-            if (inUpdate)
+            if (_inUpdate)
             {
                 return;
             }
 
             // set up the width's, height's and rectangles for the different
             // elements
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.VERTICAL)
             {
-                arrowHeight = 17;
-                arrowWidth = 15;
-                thumbWidth = 15;
-                thumbHeight = GetThumbSize();
+                _arrowHeight = 17;
+                _arrowWidth = 15;
+                _thumbWidth = 15;
+                _thumbHeight = GetThumbSize();
 
-                clickedBarRectangle = ClientRectangle;
-                clickedBarRectangle.Inflate(-1, -1);
-                clickedBarRectangle.Y += arrowHeight;
-                clickedBarRectangle.Height -= arrowHeight * 2;
+                _clickedBarRectangle = ClientRectangle;
+                _clickedBarRectangle.Inflate(-1, -1);
+                _clickedBarRectangle.Y += _arrowHeight;
+                _clickedBarRectangle.Height -= _arrowHeight * 2;
 
-                channelRectangle = clickedBarRectangle;
+                _channelRectangle = _clickedBarRectangle;
 
-                thumbRectangle = new Rectangle(
+                _thumbRectangle = new Rectangle(
                    ClientRectangle.X + 2,
-                   ClientRectangle.Y + arrowHeight + 1,
-                   thumbWidth - 1,
-                   thumbHeight
+                   ClientRectangle.Y + _arrowHeight + 1,
+                   _thumbWidth - 1,
+                   _thumbHeight
                 );
 
-                topArrowRectangle = new Rectangle(
+                _topArrowRectangle = new Rectangle(
                    ClientRectangle.X + 2,
                    ClientRectangle.Y + 1,
-                   arrowWidth,
-                   arrowHeight
+                   _arrowWidth,
+                   _arrowHeight
                 );
 
-                bottomArrowRectangle = new Rectangle(
+                _bottomArrowRectangle = new Rectangle(
                    ClientRectangle.X + 2,
-                   ClientRectangle.Bottom - arrowHeight - 1,
-                   arrowWidth,
-                   arrowHeight
+                   ClientRectangle.Bottom - _arrowHeight - 1,
+                   _arrowWidth,
+                   _arrowHeight
                 );
 
                 // Set the default starting thumb position.
-                thumbPosition = thumbRectangle.Height / 2;
+                _thumbPosition = _thumbRectangle.Height / 2;
 
                 // Set the bottom limit of the thumb's bottom border.
-                thumbBottomLimitBottom =
-                   ClientRectangle.Bottom - arrowHeight - 2;
+                _thumbBottomLimitBottom =
+                   ClientRectangle.Bottom - _arrowHeight - 2;
 
                 // Set the bottom limit of the thumb's top border.
-                thumbBottomLimitTop =
-                   thumbBottomLimitBottom - thumbRectangle.Height;
+                _thumbBottomLimitTop =
+                   _thumbBottomLimitBottom - _thumbRectangle.Height;
 
                 // Set the top limit of the thumb's top border.
-                thumbTopLimit = ClientRectangle.Y + arrowHeight + 1;
+                _thumbTopLimit = ClientRectangle.Y + _arrowHeight + 1;
             }
             else
             {
-                arrowHeight = 15;
-                arrowWidth = 17;
-                thumbHeight = 15;
-                thumbWidth = GetThumbSize();
+                _arrowHeight = 15;
+                _arrowWidth = 17;
+                _thumbHeight = 15;
+                _thumbWidth = GetThumbSize();
 
-                clickedBarRectangle = ClientRectangle;
-                clickedBarRectangle.Inflate(-1, -1);
-                clickedBarRectangle.X += arrowWidth;
-                clickedBarRectangle.Width -= arrowWidth * 2;
+                _clickedBarRectangle = ClientRectangle;
+                _clickedBarRectangle.Inflate(-1, -1);
+                _clickedBarRectangle.X += _arrowWidth;
+                _clickedBarRectangle.Width -= _arrowWidth * 2;
 
-                channelRectangle = clickedBarRectangle;
+                _channelRectangle = _clickedBarRectangle;
 
-                thumbRectangle = new Rectangle(
-                   ClientRectangle.X + arrowWidth + 1,
+                _thumbRectangle = new Rectangle(
+                   ClientRectangle.X + _arrowWidth + 1,
                    ClientRectangle.Y + 2,
-                   thumbWidth,
-                   thumbHeight - 1
+                   _thumbWidth,
+                   _thumbHeight - 1
                 );
 
-                topArrowRectangle = new Rectangle(
+                _topArrowRectangle = new Rectangle(
                    ClientRectangle.X + 1,
                    ClientRectangle.Y + 2,
-                   arrowWidth,
-                   arrowHeight
+                   _arrowWidth,
+                   _arrowHeight
                 );
 
-                bottomArrowRectangle = new Rectangle(
-                   ClientRectangle.Right - arrowWidth - 1,
+                _bottomArrowRectangle = new Rectangle(
+                   ClientRectangle.Right - _arrowWidth - 1,
                    ClientRectangle.Y + 2,
-                   arrowWidth,
-                   arrowHeight
+                   _arrowWidth,
+                   _arrowHeight
                 );
 
                 // Set the default starting thumb position.
-                thumbPosition = thumbRectangle.Width / 2;
+                _thumbPosition = _thumbRectangle.Width / 2;
 
                 // Set the bottom limit of the thumb's bottom border.
-                thumbBottomLimitBottom =
-                   ClientRectangle.Right - arrowWidth - 2;
+                _thumbBottomLimitBottom =
+                   ClientRectangle.Right - _arrowWidth - 2;
 
                 // Set the bottom limit of the thumb's top border.
-                thumbBottomLimitTop =
-                   thumbBottomLimitBottom - thumbRectangle.Width;
+                _thumbBottomLimitTop =
+                   _thumbBottomLimitBottom - _thumbRectangle.Width;
 
                 // Set the top limit of the thumb's top border.
-                thumbTopLimit = ClientRectangle.X + arrowWidth + 1;
+                _thumbTopLimit = ClientRectangle.X + _arrowWidth + 1;
             }
 
             ChangeThumbPosition(GetThumbPosition());
@@ -1351,21 +1165,21 @@ namespace Krypton.Toolkit
             // outside or inside the control
             if (ClientRectangle.Contains(pos))
             {
-                bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
-                topButtonState = ScrollBarArrowButtonState.UPACTIVE;
+                _bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
+                _topButtonState = ScrollBarArrowButtonState.UPACTIVE;
             }
             else
             {
-                bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
-                topButtonState = ScrollBarArrowButtonState.UPNORMAL;
+                _bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
+                _topButtonState = ScrollBarArrowButtonState.UPNORMAL;
             }
 
             // set appearance of thumb
-            thumbState = thumbRectangle.Contains(pos) ?
+            _thumbState = _thumbRectangle.Contains(pos) ?
                ScrollBarState.HOT : ScrollBarState.NORMAL;
 
-            bottomArrowClicked = bottomBarClicked =
-               topArrowClicked = topBarClicked = false;
+            _bottomArrowClicked = _bottomBarClicked =
+               _topArrowClicked = _topBarClicked = false;
 
             StopTimer();
 
@@ -1386,20 +1200,20 @@ namespace Krypton.Toolkit
             // with checking if new value is in bounds (min/max)
             if (up)
             {
-                newValue = value - (smallIncrement ? smallChange : largeChange);
+                newValue = _value - (smallIncrement ? _smallChange : _largeChange);
 
-                if (newValue < minimum)
+                if (newValue < _minimum)
                 {
-                    newValue = minimum;
+                    newValue = _minimum;
                 }
             }
             else
             {
-                newValue = value + (smallIncrement ? smallChange : largeChange);
+                newValue = _value + (smallIncrement ? _smallChange : _largeChange);
 
-                if (newValue > maximum)
+                if (newValue > _maximum)
                 {
-                    newValue = maximum;
+                    newValue = _maximum;
                 }
             }
 
@@ -1414,27 +1228,27 @@ namespace Krypton.Toolkit
         {
             int pixelRange, arrowSize;
 
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.VERTICAL)
             {
-                pixelRange = Height - (2 * arrowHeight) - thumbHeight;
-                arrowSize = arrowHeight;
+                pixelRange = Height - (2 * _arrowHeight) - _thumbHeight;
+                arrowSize = _arrowHeight;
             }
             else
             {
-                pixelRange = Width - (2 * arrowWidth) - thumbWidth;
-                arrowSize = arrowWidth;
+                pixelRange = Width - (2 * _arrowWidth) - _thumbWidth;
+                arrowSize = _arrowWidth;
             }
 
-            int realRange = maximum - minimum;
+            int realRange = _maximum - _minimum;
             float perc = 0f;
 
             if (realRange != 0)
             {
-                perc = ((float)value - (float)minimum) / (float)realRange;
+                perc = ((float)_value - (float)_minimum) / (float)realRange;
             }
 
-            return Math.Max(thumbTopLimit, Math.Min(
-               thumbBottomLimitTop,
+            return Math.Max(_thumbTopLimit, Math.Min(
+               _thumbBottomLimitTop,
                Convert.ToInt32((perc * pixelRange) + arrowSize)));
         }
 
@@ -1445,15 +1259,15 @@ namespace Krypton.Toolkit
         private int GetThumbSize()
         {
             int trackSize =
-               orientation == ScrollBarOrientation.VERTICAL ?
-               Height - (2 * arrowHeight) : Width - (2 * arrowWidth);
+               _orientation == ScrollBarOrientation.VERTICAL ?
+               Height - (2 * _arrowHeight) : Width - (2 * _arrowWidth);
 
-            if (maximum == 0 || largeChange == 0)
+            if (_maximum == 0 || _largeChange == 0)
             {
                 return trackSize;
             }
 
-            float newThumbSize = ((float)largeChange * (float)trackSize) / (float)maximum;
+            float newThumbSize = ((float)_largeChange * (float)trackSize) / (float)_maximum;
 
             return Convert.ToInt32(Math.Min((float)trackSize, Math.Max(newThumbSize, 10f)));
         }
@@ -1464,15 +1278,15 @@ namespace Krypton.Toolkit
         private void EnableTimer()
         {
             // if timer is not already enabled - enable it
-            if (!progressTimer.Enabled)
+            if (!_progressTimer.Enabled)
             {
-                progressTimer.Interval = 600;
-                progressTimer.Start();
+                _progressTimer.Interval = 600;
+                _progressTimer.Start();
             }
             else
             {
                 // if already enabled, change tick time
-                progressTimer.Interval = 10;
+                _progressTimer.Interval = 10;
             }
         }
 
@@ -1481,7 +1295,7 @@ namespace Krypton.Toolkit
         /// </summary>
         private void StopTimer()
         {
-            progressTimer.Stop();
+            _progressTimer.Stop();
         }
 
         /// <summary>
@@ -1490,13 +1304,13 @@ namespace Krypton.Toolkit
         /// <param name="position">The new position.</param>
         private void ChangeThumbPosition(int position)
         {
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.VERTICAL)
             {
-                thumbRectangle.Y = position;
+                _thumbRectangle.Y = position;
             }
             else
             {
-                thumbRectangle.X = position;
+                _thumbRectangle.X = position;
             }
         }
 
@@ -1506,69 +1320,69 @@ namespace Krypton.Toolkit
         /// <param name="enableTimer">true for enabling the timer, false otherwise.</param>
         private void ProgressThumb(bool enableTimer)
         {
-            int scrollOldValue = value;
+            int scrollOldValue = _value;
             ScrollEventType type = ScrollEventType.First;
             int thumbSize, thumbPos;
 
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.VERTICAL)
             {
-                thumbPos = thumbRectangle.Y;
-                thumbSize = thumbRectangle.Height;
+                thumbPos = _thumbRectangle.Y;
+                thumbSize = _thumbRectangle.Height;
             }
             else
             {
-                thumbPos = thumbRectangle.X;
-                thumbSize = thumbRectangle.Width;
+                thumbPos = _thumbRectangle.X;
+                thumbSize = _thumbRectangle.Width;
             }
 
             // arrow down or shaft down clicked
-            if (bottomArrowClicked || (bottomBarClicked && (thumbPos + thumbSize) < trackPosition))
+            if (_bottomArrowClicked || (_bottomBarClicked && (thumbPos + thumbSize) < _trackPosition))
             {
-                type = bottomArrowClicked ? ScrollEventType.SmallIncrement : ScrollEventType.LargeIncrement;
+                type = _bottomArrowClicked ? ScrollEventType.SmallIncrement : ScrollEventType.LargeIncrement;
 
-                value = GetValue(bottomArrowClicked, false);
+                _value = GetValue(_bottomArrowClicked, false);
 
-                if (value == maximum)
+                if (_value == _maximum)
                 {
-                    ChangeThumbPosition(thumbBottomLimitTop);
+                    ChangeThumbPosition(_thumbBottomLimitTop);
 
                     type = ScrollEventType.Last;
                 }
                 else
                 {
-                    ChangeThumbPosition(Math.Min(thumbBottomLimitTop, GetThumbPosition()));
+                    ChangeThumbPosition(Math.Min(_thumbBottomLimitTop, GetThumbPosition()));
                 }
             }
-            else if (topArrowClicked || (topBarClicked && thumbPos > trackPosition))
+            else if (_topArrowClicked || (_topBarClicked && thumbPos > _trackPosition))
             {
-                type = topArrowClicked ? ScrollEventType.SmallDecrement : ScrollEventType.LargeDecrement;
+                type = _topArrowClicked ? ScrollEventType.SmallDecrement : ScrollEventType.LargeDecrement;
 
                 // arrow up or shaft up clicked
-                value = GetValue(topArrowClicked, true);
+                _value = GetValue(_topArrowClicked, true);
 
-                if (value == minimum)
+                if (_value == _minimum)
                 {
-                    ChangeThumbPosition(thumbTopLimit);
+                    ChangeThumbPosition(_thumbTopLimit);
 
                     type = ScrollEventType.First;
                 }
                 else
                 {
-                    ChangeThumbPosition(Math.Max(thumbTopLimit, GetThumbPosition()));
+                    ChangeThumbPosition(Math.Max(_thumbTopLimit, GetThumbPosition()));
                 }
             }
-            else if (!((topArrowClicked && thumbPos == thumbTopLimit) || (bottomArrowClicked && thumbPos == thumbBottomLimitTop)))
+            else if (!((_topArrowClicked && thumbPos == _thumbTopLimit) || (_bottomArrowClicked && thumbPos == _thumbBottomLimitTop)))
             {
                 ResetScrollStatus();
 
                 return;
             }
 
-            if (scrollOldValue != value)
+            if (scrollOldValue != _value)
             {
-                OnScroll(new ScrollEventArgs(type, scrollOldValue, value, scrollOrientation));
+                OnScroll(new ScrollEventArgs(type, scrollOldValue, _value, _scrollOrientation));
 
-                Invalidate(channelRectangle);
+                Invalidate(_channelRectangle);
 
                 if (enableTimer)
                 {
@@ -1577,16 +1391,16 @@ namespace Krypton.Toolkit
             }
             else
             {
-                if (topArrowClicked)
+                if (_topArrowClicked)
                 {
                     type = ScrollEventType.SmallDecrement;
                 }
-                else if (bottomArrowClicked)
+                else if (_bottomArrowClicked)
                 {
                     type = ScrollEventType.SmallIncrement;
                 }
 
-                OnScroll(new ScrollEventArgs(type, value));
+                OnScroll(new ScrollEventArgs(type, _value));
             }
         }
 
@@ -1595,25 +1409,25 @@ namespace Krypton.Toolkit
         /// </summary>
         private void ChangeContextMenuItems()
         {
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.VERTICAL)
             {
-                tsmiTop.Text = "Top";
-                tsmiBottom.Text = "Bottom";
-                tsmiLargeDown.Text = "Page down";
-                tsmiLargeUp.Text = "Page up";
-                tsmiSmallDown.Text = "Scroll down";
-                tsmiSmallUp.Text = "Scroll up";
-                tsmiScrollHere.Text = "Scroll here";
+                _tsmiTop.Text = "Top";
+                _tsmiBottom.Text = "Bottom";
+                _tsmiLargeDown.Text = "Page down";
+                _tsmiLargeUp.Text = "Page up";
+                _tsmiSmallDown.Text = "Scroll down";
+                _tsmiSmallUp.Text = "Scroll up";
+                _tsmiScrollHere.Text = "Scroll here";
             }
             else
             {
-                tsmiTop.Text = "Left";
-                tsmiBottom.Text = "Right";
-                tsmiLargeDown.Text = "Page left";
-                tsmiLargeUp.Text = "Page right";
-                tsmiSmallDown.Text = "Scroll right";
-                tsmiSmallUp.Text = "Scroll left";
-                tsmiScrollHere.Text = "Scroll here";
+                _tsmiTop.Text = "Left";
+                _tsmiBottom.Text = "Right";
+                _tsmiLargeDown.Text = "Page left";
+                _tsmiLargeUp.Text = "Page right";
+                _tsmiSmallDown.Text = "Scroll right";
+                _tsmiSmallUp.Text = "Scroll left";
+                _tsmiScrollHere.Text = "Scroll here";
             }
         }
 
@@ -1626,108 +1440,108 @@ namespace Krypton.Toolkit
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            contextMenu = new System.Windows.Forms.ContextMenuStrip(components);
-            tsmiScrollHere = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            tsmiTop = new System.Windows.Forms.ToolStripMenuItem();
-            tsmiBottom = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            tsmiLargeUp = new System.Windows.Forms.ToolStripMenuItem();
-            tsmiLargeDown = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            tsmiSmallUp = new System.Windows.Forms.ToolStripMenuItem();
-            tsmiSmallDown = new System.Windows.Forms.ToolStripMenuItem();
-            contextMenu.SuspendLayout();
+            components = new Container();
+            _contextMenu = new ContextMenuStrip(components);
+            _tsmiScrollHere = new ToolStripMenuItem();
+            _toolStripSeparator1 = new ToolStripSeparator();
+            _tsmiTop = new ToolStripMenuItem();
+            _tsmiBottom = new ToolStripMenuItem();
+            _toolStripSeparator2 = new ToolStripSeparator();
+            _tsmiLargeUp = new ToolStripMenuItem();
+            _tsmiLargeDown = new ToolStripMenuItem();
+            _toolStripSeparator3 = new ToolStripSeparator();
+            _tsmiSmallUp = new ToolStripMenuItem();
+            _tsmiSmallDown = new ToolStripMenuItem();
+            _contextMenu.SuspendLayout();
             SuspendLayout();
             // 
             // contextMenu
             // 
-            contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            tsmiScrollHere,
-            toolStripSeparator1,
-            tsmiTop,
-            tsmiBottom,
-            toolStripSeparator2,
-            tsmiLargeUp,
-            tsmiLargeDown,
-            toolStripSeparator3,
-            tsmiSmallUp,
-            tsmiSmallDown});
-            contextMenu.Name = "contextMenu";
-            contextMenu.Size = new System.Drawing.Size(151, 176);
+            _contextMenu.Items.AddRange(new ToolStripItem[] {
+            _tsmiScrollHere,
+            _toolStripSeparator1,
+            _tsmiTop,
+            _tsmiBottom,
+            _toolStripSeparator2,
+            _tsmiLargeUp,
+            _tsmiLargeDown,
+            _toolStripSeparator3,
+            _tsmiSmallUp,
+            _tsmiSmallDown});
+            _contextMenu.Name = "_contextMenu";
+            _contextMenu.Size = new Size(151, 176);
             // 
             // tsmiScrollHere
             // 
-            tsmiScrollHere.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            tsmiScrollHere.Name = "tsmiScrollHere";
-            tsmiScrollHere.Size = new System.Drawing.Size(150, 22);
-            tsmiScrollHere.Text = "Scroll here";
-            tsmiScrollHere.Click += ScrollHereClick;
+            _tsmiScrollHere.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _tsmiScrollHere.Name = "_tsmiScrollHere";
+            _tsmiScrollHere.Size = new Size(150, 22);
+            _tsmiScrollHere.Text = "Scroll here";
+            _tsmiScrollHere.Click += ScrollHereClick;
             // 
             // toolStripSeparator1
             // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(147, 6);
+            _toolStripSeparator1.Name = "_toolStripSeparator1";
+            _toolStripSeparator1.Size = new Size(147, 6);
             // 
             // tsmiTop
             // 
-            tsmiTop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            tsmiTop.Name = "tsmiTop";
-            tsmiTop.Size = new System.Drawing.Size(150, 22);
-            tsmiTop.Text = "Top";
-            tsmiTop.Click += TopClick;
+            _tsmiTop.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _tsmiTop.Name = "_tsmiTop";
+            _tsmiTop.Size = new Size(150, 22);
+            _tsmiTop.Text = "Top";
+            _tsmiTop.Click += TopClick;
             // 
             // tsmiBottom
             // 
-            tsmiBottom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            tsmiBottom.Name = "tsmiBottom";
-            tsmiBottom.Size = new System.Drawing.Size(150, 22);
-            tsmiBottom.Text = "Bottom";
-            tsmiBottom.Click += BottomClick;
+            _tsmiBottom.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _tsmiBottom.Name = "_tsmiBottom";
+            _tsmiBottom.Size = new Size(150, 22);
+            _tsmiBottom.Text = "Bottom";
+            _tsmiBottom.Click += BottomClick;
             // 
             // toolStripSeparator2
             // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new System.Drawing.Size(147, 6);
+            _toolStripSeparator2.Name = "_toolStripSeparator2";
+            _toolStripSeparator2.Size = new Size(147, 6);
             // 
             // tsmiLargeUp
             // 
-            tsmiLargeUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            tsmiLargeUp.Name = "tsmiLargeUp";
-            tsmiLargeUp.Size = new System.Drawing.Size(150, 22);
-            tsmiLargeUp.Text = "Page up";
-            tsmiLargeUp.Click += LargeUpClick;
+            _tsmiLargeUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _tsmiLargeUp.Name = "_tsmiLargeUp";
+            _tsmiLargeUp.Size = new Size(150, 22);
+            _tsmiLargeUp.Text = "Page up";
+            _tsmiLargeUp.Click += LargeUpClick;
             // 
             // tsmiLargeDown
             // 
-            tsmiLargeDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            tsmiLargeDown.Name = "tsmiLargeDown";
-            tsmiLargeDown.Size = new System.Drawing.Size(150, 22);
-            tsmiLargeDown.Text = "Page down";
-            tsmiLargeDown.Click += LargeDownClick;
+            _tsmiLargeDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _tsmiLargeDown.Name = "_tsmiLargeDown";
+            _tsmiLargeDown.Size = new Size(150, 22);
+            _tsmiLargeDown.Text = "Page down";
+            _tsmiLargeDown.Click += LargeDownClick;
             // 
             // toolStripSeparator3
             // 
-            toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new System.Drawing.Size(147, 6);
+            _toolStripSeparator3.Name = "_toolStripSeparator3";
+            _toolStripSeparator3.Size = new Size(147, 6);
             // 
             // tsmiSmallUp
             // 
-            tsmiSmallUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            tsmiSmallUp.Name = "tsmiSmallUp";
-            tsmiSmallUp.Size = new System.Drawing.Size(150, 22);
-            tsmiSmallUp.Text = "Scroll up";
-            tsmiSmallUp.Click += SmallUpClick;
+            _tsmiSmallUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _tsmiSmallUp.Name = "_tsmiSmallUp";
+            _tsmiSmallUp.Size = new Size(150, 22);
+            _tsmiSmallUp.Text = "Scroll up";
+            _tsmiSmallUp.Click += SmallUpClick;
             // 
             // tsmiSmallDown
             // 
-            tsmiSmallDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            tsmiSmallDown.Name = "tsmiSmallDown";
-            tsmiSmallDown.Size = new System.Drawing.Size(150, 22);
-            tsmiSmallDown.Text = "Scroll down";
-            tsmiSmallDown.Click += SmallDownClick;
-            contextMenu.ResumeLayout(false);
+            _tsmiSmallDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _tsmiSmallDown.Name = "_tsmiSmallDown";
+            _tsmiSmallDown.Size = new Size(150, 22);
+            _tsmiSmallDown.Text = "Scroll down";
+            _tsmiSmallDown.Click += SmallDownClick;
+            _contextMenu.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -1740,25 +1554,25 @@ namespace Krypton.Toolkit
         {
             int thumbSize, thumbPos, arrowSize, size;
 
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.VERTICAL)
             {
-                thumbSize = thumbHeight;
-                arrowSize = arrowHeight;
+                thumbSize = _thumbHeight;
+                arrowSize = _arrowHeight;
                 size = Height;
 
-                ChangeThumbPosition(Math.Max(thumbTopLimit, Math.Min(thumbBottomLimitTop, trackPosition - (thumbRectangle.Height / 2))));
+                ChangeThumbPosition(Math.Max(_thumbTopLimit, Math.Min(_thumbBottomLimitTop, _trackPosition - (_thumbRectangle.Height / 2))));
 
-                thumbPos = thumbRectangle.Y;
+                thumbPos = _thumbRectangle.Y;
             }
             else
             {
-                thumbSize = thumbWidth;
-                arrowSize = arrowWidth;
+                thumbSize = _thumbWidth;
+                arrowSize = _arrowWidth;
                 size = Width;
 
-                ChangeThumbPosition(Math.Max(thumbTopLimit, Math.Min(thumbBottomLimitTop, trackPosition - (thumbRectangle.Width / 2))));
+                ChangeThumbPosition(Math.Max(_thumbTopLimit, Math.Min(_thumbBottomLimitTop, _trackPosition - (_thumbRectangle.Width / 2))));
 
-                thumbPos = thumbRectangle.X;
+                thumbPos = _thumbRectangle.X;
             }
 
             int pixelRange = size - (2 * arrowSize) - thumbSize;
@@ -1769,11 +1583,11 @@ namespace Krypton.Toolkit
                 perc = (float)(thumbPos - arrowSize) / (float)pixelRange;
             }
 
-            int oldValue = value;
+            int oldValue = _value;
 
-            value = Convert.ToInt32((perc * (maximum - minimum)) + minimum);
+            _value = Convert.ToInt32((perc * (_maximum - _minimum)) + _minimum);
 
-            OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, oldValue, value, scrollOrientation));
+            OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, oldValue, _value, _scrollOrientation));
 
             Refresh();
         }
@@ -1785,7 +1599,7 @@ namespace Krypton.Toolkit
         /// <param name="e">The event arguments.</param>
         private void TopClick(object sender, EventArgs e)
         {
-            Value = minimum;
+            Value = _minimum;
         }
 
         /// <summary>
@@ -1795,7 +1609,7 @@ namespace Krypton.Toolkit
         /// <param name="e">The event arguments.</param>
         private void BottomClick(object sender, EventArgs e)
         {
-            Value = maximum;
+            Value = _maximum;
         }
 
         /// <summary>

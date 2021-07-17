@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Command image transparent color.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
         /// </summary>
         Image IKryptonCommand.ImageLarge
         {
-            get { return null; }
+            get => null;
             set { }
         }
 
@@ -302,7 +302,7 @@ namespace Krypton.Toolkit
         /// </summary>
         string IKryptonCommand.TextLine1
         {
-            get { return string.Empty; }
+            get => string.Empty;
             set { }
         }
 
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
         /// </summary>
         string IKryptonCommand.TextLine2
         {
-            get { return string.Empty; }
+            get => string.Empty;
             set { }
         }
 
@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
         /// </summary>
         bool IKryptonCommand.Checked
         {
-            get { return true; }
+            get => true;
             set { }
         }
 
@@ -329,7 +329,7 @@ namespace Krypton.Toolkit
         /// </summary>
         CheckState IKryptonCommand.CheckState
         {
-            get { return CheckState.Unchecked; }
+            get => CheckState.Unchecked;
             set { }
         }
         #endregion

@@ -214,8 +214,8 @@ namespace Krypton.Toolkit
         public Point Offset
         {
             [DebuggerStepThrough]
-            get { return _offset; }
-            set { _offset = value; }
+            get => _offset;
+            set => _offset = value;
         }
         #endregion
 
@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
         public bool CanScrollV
         {
             [DebuggerStepThrough]
-            get { return (_limit.Y != 0); }
+            get => (_limit.Y != 0);
         }
         #endregion
 
@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
         public bool CanScrollH
         {
             [DebuggerStepThrough]
-            get { return (_limit.X != 0); }
+            get => (_limit.X != 0);
         }
         #endregion
 

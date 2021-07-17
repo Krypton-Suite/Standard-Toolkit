@@ -112,7 +112,7 @@ namespace Krypton.Docking
                     OnStoringPage(new UniqueNameEventArgs(page.UniqueName));
 
                     // Replace the existing page with a placeholder that has the same unique name
-                    KryptonStorePage placeholder = new KryptonStorePage(uniqueName, "AutoHiddenGroup");
+                    KryptonStorePage placeholder = new(uniqueName, "AutoHiddenGroup");
                     Pages.Insert(Pages.IndexOf(page), placeholder);
                     Pages.Remove(page);
                 }

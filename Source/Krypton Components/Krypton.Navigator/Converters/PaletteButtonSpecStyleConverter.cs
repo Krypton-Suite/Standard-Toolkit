@@ -38,25 +38,25 @@ namespace Krypton.Navigator
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(PaletteNavButtonSpecStyle.Generic,            "Generic"),
-            new Pair(PaletteNavButtonSpecStyle.ArrowLeft,          "Arrow Left"),
-            new Pair(PaletteNavButtonSpecStyle.ArrowRight,         "Arrow Right"),
-            new Pair(PaletteNavButtonSpecStyle.ArrowUp,            "Arrow Up"),
-            new Pair(PaletteNavButtonSpecStyle.ArrowDown,          "Arrow Down"),
-            new Pair(PaletteNavButtonSpecStyle.DropDown,           "Drop Down"),
-            new Pair(PaletteNavButtonSpecStyle.PinVertical,        "Pin Vertical"),
-            new Pair(PaletteNavButtonSpecStyle.PinHorizontal,      "Pin Horizontal"),
-            new Pair(PaletteNavButtonSpecStyle.FormClose,          "Form Close"),
-            new Pair(PaletteNavButtonSpecStyle.FormMax,            "Form Max"),
-            new Pair(PaletteNavButtonSpecStyle.FormMin,            "Form Min"),
-            new Pair(PaletteNavButtonSpecStyle.FormRestore,        "Form Restore"),
-            new Pair(PaletteNavButtonSpecStyle.PendantClose,       "Pendant Close"),
-            new Pair(PaletteNavButtonSpecStyle.PendantMin,         "Pendant Min"),
-            new Pair(PaletteNavButtonSpecStyle.PendantRestore,     "Pendant Restore"),
-            new Pair(PaletteNavButtonSpecStyle.WorkspaceMaximize,  "Workspace Maximize"),
-            new Pair(PaletteNavButtonSpecStyle.WorkspaceRestore,   "Workspace Restore"),
-            new Pair(PaletteNavButtonSpecStyle.RibbonMinimize,     "Ribbon Minimize"),
-            new Pair(PaletteNavButtonSpecStyle.RibbonExpand,       "Ribbon Expand")};
+        { new(PaletteNavButtonSpecStyle.Generic,            "Generic"),
+            new(PaletteNavButtonSpecStyle.ArrowLeft,          "Arrow Left"),
+            new(PaletteNavButtonSpecStyle.ArrowRight,         "Arrow Right"),
+            new(PaletteNavButtonSpecStyle.ArrowUp,            "Arrow Up"),
+            new(PaletteNavButtonSpecStyle.ArrowDown,          "Arrow Down"),
+            new(PaletteNavButtonSpecStyle.DropDown,           "Drop Down"),
+            new(PaletteNavButtonSpecStyle.PinVertical,        "Pin Vertical"),
+            new(PaletteNavButtonSpecStyle.PinHorizontal,      "Pin Horizontal"),
+            new(PaletteNavButtonSpecStyle.FormClose,          "Form Close"),
+            new(PaletteNavButtonSpecStyle.FormMax,            "Form Max"),
+            new(PaletteNavButtonSpecStyle.FormMin,            "Form Min"),
+            new(PaletteNavButtonSpecStyle.FormRestore,        "Form Restore"),
+            new(PaletteNavButtonSpecStyle.PendantClose,       "Pendant Close"),
+            new(PaletteNavButtonSpecStyle.PendantMin,         "Pendant Min"),
+            new(PaletteNavButtonSpecStyle.PendantRestore,     "Pendant Restore"),
+            new(PaletteNavButtonSpecStyle.WorkspaceMaximize,  "Workspace Maximize"),
+            new(PaletteNavButtonSpecStyle.WorkspaceRestore,   "Workspace Restore"),
+            new(PaletteNavButtonSpecStyle.RibbonMinimize,     "Ribbon Minimize"),
+            new(PaletteNavButtonSpecStyle.RibbonExpand,       "Ribbon Expand")};
 
         #endregion
     }

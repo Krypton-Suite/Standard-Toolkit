@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
                                     }
 
                                     // Use the correct prefix setting
-                                    stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+                                    stringFormat.HotkeyPrefix = HotkeyPrefix.None;
 
                                     // Draw using a solid brush
                                     string drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private readonly InternalMaskedTextBox _maskedTextBox;
         private InputControlStyle _inputControlStyle;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private bool _forcedLayout;
         private bool _autoSize;
         private bool _mouseOver;

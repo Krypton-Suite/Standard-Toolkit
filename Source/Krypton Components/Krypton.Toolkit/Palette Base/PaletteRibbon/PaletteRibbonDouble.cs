@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("First background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color BackColor1
         {
             get => _backColor1;
@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Second background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color BackColor2
         {
             get => _backColor2;
@@ -202,7 +202,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Third background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color BackColor3
         {
             get => _backColor3;
@@ -240,7 +240,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Fourth background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color BackColor4
         {
             get => _backColor4;
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Fifth background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color BackColor5
         {
             get => _backColor5;
@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Tab color for the tab text.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color TextColor
         {
             get => _textColor;

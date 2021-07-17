@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;
         private ButtonStyle _dropButtonStyle;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private DateTimePickerFormat _format;
         private DateTime _maxDateTime;
         private DateTime _minDateTime;
@@ -525,7 +525,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
                 }
 
                 _annualDates.Clear();
@@ -561,7 +561,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -595,10 +595,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = new DateTime[0];
-                }
+                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
 
                 _dates.Clear();
                 _dates.AddRange(value);

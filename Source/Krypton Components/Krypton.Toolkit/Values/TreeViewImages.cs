@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image used to expand a tree node.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Plus
         {
             get => _plus;
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image used to collapse a tree node.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Minus
         {
             get => _minus;

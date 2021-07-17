@@ -83,24 +83,14 @@ namespace Krypton.Toolkit
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
-            IPaletteElementColor elementColors;
-
-            switch (State)
+            IPaletteElementColor elementColors = State switch
             {
-                default:
-                case PaletteState.Normal:
-                    elementColors = _drawTrackBar.StateNormal.Position;
-                    break;
-                case PaletteState.Disabled:
-                    elementColors = _drawTrackBar.StateDisabled.Position;
-                    break;
-                case PaletteState.Tracking:
-                    elementColors = _drawTrackBar.StateTracking.Position;
-                    break;
-                case PaletteState.Pressed:
-                    elementColors = _drawTrackBar.StatePressed.Position;
-                    break;
-            }
+                PaletteState.Normal => _drawTrackBar.StateNormal.Position,
+                PaletteState.Disabled => _drawTrackBar.StateDisabled.Position,
+                PaletteState.Tracking => _drawTrackBar.StateTracking.Position,
+                PaletteState.Pressed => _drawTrackBar.StatePressed.Position,
+                _ => _drawTrackBar.StateNormal.Position
+            };
 
             context.Renderer.RenderGlyph.DrawTrackPositionGlyph(context, State, elementColors, ClientRectangle,
                                                                 _drawTrackBar.Orientation,

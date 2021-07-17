@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Common image that other radio button images inherit from.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Common
         {
             get => _common;
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the radio button is not checked and disabled.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image UncheckedDisabled
         {
             get => _uncheckedDisabled;
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the radio button is unchecked.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image UncheckedNormal
         {
             get => _uncheckedNormal;
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the radio button is unchecked and hot tracking.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image UncheckedTracking
         {
             get => _uncheckedTracking;
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the radio button is unchecked and pressed.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image UncheckedPressed
         {
             get => _uncheckedPressed;
@@ -248,7 +248,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the radio button is checked but disabled.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image CheckedDisabled
         {
             get => _checkedDisabled;
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the radio button is checked.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image CheckedNormal
         {
             get => _checkedNormal;
@@ -312,7 +312,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the radio button is checked and hot tracking.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image CheckedTracking
         {
             get => _checkedTracking;
@@ -344,7 +344,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the radio button is checked and pressed.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image CheckedPressed
         {
             get => _checkedPressed;

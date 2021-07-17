@@ -113,7 +113,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                StringBuilder builder = new StringBuilder();
+                StringBuilder builder = new();
                 builder.Append(UsingStar ? "T," : "F,");
                 builder.Append(FixedSize.ToString() + ",");
                 builder.Append(CommonHelper.DoubleToString(StarSize));

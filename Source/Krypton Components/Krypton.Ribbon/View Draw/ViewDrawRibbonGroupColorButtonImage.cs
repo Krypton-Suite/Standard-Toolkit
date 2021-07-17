@@ -122,7 +122,7 @@ namespace Krypton.Ribbon
                 if ((newImage != null) && (_compositeImage == null))
                 {
                     // Create a copy of the source image
-                    Bitmap copyBitmap = new Bitmap(newImage);
+                    Bitmap copyBitmap = new(newImage);
 
                     // Paint over the image with a color indicator
                     using (Graphics g = Graphics.FromImage(copyBitmap))
@@ -135,7 +135,7 @@ namespace Krypton.Ribbon
                             // Indicate the absense of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
-                            using (Pen borderPen = new Pen(_emptyBorderColor))
+                            using (Pen borderPen = new(_emptyBorderColor))
                             {
                                 g.DrawRectangle(borderPen, new Rectangle(selectedRect.X,
                                                                          selectedRect.Y,
@@ -146,7 +146,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // We have a valid selected color so draw a solid block of color
-                            using (SolidBrush colorBrush = new SolidBrush(_selectedColor))
+                            using (SolidBrush colorBrush = new(_selectedColor))
                             {
                                 g.FillRectangle(colorBrush, selectedRect);
                             }

@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Color for the text.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color TextColor
         {
             get => _textColor;

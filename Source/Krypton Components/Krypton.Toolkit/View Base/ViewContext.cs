@@ -120,6 +120,7 @@ namespace Krypton.Toolkit
 
                 ViewManager = null;
             }
+            GC.SuppressFinalize(this);
         }
         #endregion
 
@@ -129,7 +130,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public ViewManager ViewManager
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             private set;
         }
@@ -139,7 +140,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public Control Control
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             set;
         }
@@ -149,7 +150,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public Control AlignControl
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             set;
         }
@@ -232,7 +233,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public IRenderer Renderer
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 

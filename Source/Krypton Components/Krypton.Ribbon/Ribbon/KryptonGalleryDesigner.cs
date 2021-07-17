@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
             get
             {
                 // Create a new collection for both values
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
+                ArrayList compound = new(base.AssociatedComponents);
 
                 // Add all the display ranges
                 foreach (KryptonGalleryRange dropRange in _gallery.DropButtonRanges)
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the gallery specific list

@@ -142,7 +142,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Should content be drawn.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
             get => _storage?.ContentDraw ?? InheritBool.Inherit;
@@ -188,7 +188,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Should content be drawn with focus indication..")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public InheritBool DrawFocus
         {
             get => _storage?.ContentDrawFocus ?? InheritBool.Inherit;
@@ -635,7 +635,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Padding between the border and content drawing.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding Padding
         {
             get => _storage?.ContentPadding ?? CommonHelper.InheritPadding;
@@ -713,7 +713,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Spacing gap between adjacent content items.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int AdjacentGap
         {
             get => _storage?.ContentAdjacentGap ?? -1;

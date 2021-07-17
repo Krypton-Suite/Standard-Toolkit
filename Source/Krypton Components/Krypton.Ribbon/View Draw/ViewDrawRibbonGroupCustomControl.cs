@@ -66,7 +66,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new ContextClickController();
+                ContextClickController controller = new();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }

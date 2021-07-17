@@ -379,7 +379,7 @@ namespace Krypton.Ribbon
                     if (group != _ribbonSeparator.RibbonGroup)
                     {
                         // Create menu item for the group
-                        ToolStripMenuItem groupMenuItem = new ToolStripMenuItem
+                        ToolStripMenuItem groupMenuItem = new()
                         {
                             Text = group.TextLine1 + " " + group.TextLine2,
                             Tag = group

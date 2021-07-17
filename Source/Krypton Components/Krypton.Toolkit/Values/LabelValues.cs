@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Label image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _image;
@@ -123,8 +123,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Label image transparent color.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
-        [KryptonDefaultColorAttribute()]
+        [RefreshProperties(RefreshProperties.All)]
+        [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
             get => _transparent;
@@ -170,7 +170,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Label text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         public string Text
         {
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Label extra text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ExtraText
@@ -243,6 +243,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ResetExtraText()
         {
+            // TODO: What is the intention of this
             ExtraText = ExtraText;
         }
 

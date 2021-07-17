@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
             if ((screenRect.Contains(_fixedScreenRect)) && (screenRect.Y == _fixedScreenRect.Y))
             {
                 // Position the element appropriately
-                using (ViewLayoutContext layoutContext = new ViewLayoutContext(renderContext.Control, renderContext.Renderer))
+                using (ViewLayoutContext layoutContext = new(renderContext.Control, renderContext.Renderer))
                 {
                     layoutContext.DisplayRectangle = renderContext.TopControl.RectangleToClient(_fixedScreenRect);
                     _fixedElement.Layout(layoutContext);

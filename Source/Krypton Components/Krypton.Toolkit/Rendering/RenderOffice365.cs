@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Extends the professional renderer to provide Office365 style additions.
     /// </summary>
-    /// <seealso cref="Krypton.Toolkit.RenderOffice2010" />
+    /// <seealso cref="RenderOffice2010" />
     public class RenderOffice365 : RenderOffice2010
     {
         #region Static Variables
@@ -103,10 +103,7 @@ namespace Krypton.Toolkit
                 // Access a cache instance and decide if cache resources need generating
                 if ((memento == null) || !(memento is MementoRibbonTabContextOffice2010))
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonTabContextOffice2010(rect, c1, c2);
                     memento = cache;
@@ -167,10 +164,7 @@ namespace Krypton.Toolkit
                 // Access a cache instance and decide if cache resources need generating
                 if ((memento == null) || !(memento is MementoRibbonAppTab2013))
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonAppTab2013(rect, baseColor1);
                     memento = cache;
@@ -276,10 +270,7 @@ namespace Krypton.Toolkit
                 // Access a cache instance and decide if cache resources need generating
                 if ((memento == null) || !(memento is MementoRibbonTabSelected2010))
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonTabSelected2010(rect, c1, c2, c3, c4, c5, orientation);
                     memento = cache;
@@ -376,10 +367,7 @@ namespace Krypton.Toolkit
                 // Access a cache instance and decide if cache resources need generating
                 if ((memento == null) || !(memento is MementoRibbonTabTracking2010))
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonTabTracking2010(rect, c1, c2, c3, c4, orientation);
                     memento = cache;

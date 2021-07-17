@@ -72,7 +72,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public Size SeparatorSize
         {
-            get => new Size(_width, _height);
+            get => new(_width, _height);
 
             set
             {

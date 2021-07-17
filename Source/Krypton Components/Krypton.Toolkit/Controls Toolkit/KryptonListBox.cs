@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
             /// </summary>
             public override DrawMode DrawMode
             {
-                get { return DrawMode.OwnerDrawVariable; }
+                get => DrawMode.OwnerDrawVariable;
                 set { }
             }
 
@@ -356,7 +356,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawButton _drawButton;
         private readonly InternalListBox _listBox;
         private readonly FixedContentValue _contentValues;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private ButtonStyle _style;
         private readonly IntPtr _screenDC;
         private int[] _lastSelectedColl;

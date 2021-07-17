@@ -103,7 +103,7 @@ namespace Krypton.Navigator
 		[Localizable(true)]
 		[Category("Visuals")]
 		[Description("Mapping used for the tooltip image.")]
-		[RefreshPropertiesAttribute(RefreshProperties.All)]
+		[RefreshProperties(RefreshProperties.All)]
 		[DefaultValue(typeof(MapKryptonPageImage), "ToolTip")]
 		public virtual MapKryptonPageImage MapImage
 		{
@@ -126,7 +126,7 @@ namespace Krypton.Navigator
 		/// </summary>
 		[Category("Visuals")]
 		[Description("Mapping used for the tooltip text.")]
-		[RefreshPropertiesAttribute(RefreshProperties.All)]
+		[RefreshProperties(RefreshProperties.All)]
 		[DefaultValue(typeof(MapKryptonPageText), "ToolTipTitle")]
 		public MapKryptonPageText MapText { get; set; }
 
@@ -145,7 +145,7 @@ namespace Krypton.Navigator
 		/// </summary>
 		[Category("Visuals")]
 		[Description("Mapping used for the tooltip description.")]
-		[RefreshPropertiesAttribute(RefreshProperties.All)]
+		[RefreshProperties(RefreshProperties.All)]
 		[DefaultValue(typeof(MapKryptonPageText), "ToolTipBody")]
 		public MapKryptonPageText MapExtraText { get; set; }
 

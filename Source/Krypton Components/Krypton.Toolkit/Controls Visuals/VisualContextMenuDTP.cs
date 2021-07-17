@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     public class VisualContextMenuDTP : VisualContextMenu
     {
         #region Instance Fields
-        private Rectangle _dropScreenRect;
+        private readonly Rectangle _dropScreenRect;
         #endregion
 
         #region Identity

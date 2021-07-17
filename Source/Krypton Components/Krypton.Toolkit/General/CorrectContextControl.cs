@@ -53,6 +53,7 @@ namespace Krypton.Toolkit
         {
             // Put back the original setting
             _context.Control = _startControl;
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         #region Static Fields
 
         private const int EMPTY_WIDTH = 48;
-        private static readonly Padding _padding = new Padding(1, 0, 1, 1);
+        private static readonly Padding _padding = new(1, 0, 1, 1);
         #endregion
 
         #region Instance Fields
@@ -507,7 +507,7 @@ namespace Krypton.Ribbon
             // entry which is the minimum width of a group
             if (retSizes.Count == 0)
             {
-                retSizes.Add(new GroupSizeWidth(EMPTY_WIDTH, new ItemSizeWidth[] { }));
+                retSizes.Add(new GroupSizeWidth(EMPTY_WIDTH, MissingFrameWorkAPIs.Array_Empty<ItemSizeWidth>()));
             }
 
             // If adding the extra design time entry
@@ -688,7 +688,7 @@ namespace Krypton.Ribbon
             // Remove all child elements
             Clear();
 
-            ContainerToView regenerate = new ContainerToView();
+            ContainerToView regenerate = new();
 
             // Add a view element for each group item
             foreach (KryptonRibbonGroupContainer container in _ribbonGroup.Items)

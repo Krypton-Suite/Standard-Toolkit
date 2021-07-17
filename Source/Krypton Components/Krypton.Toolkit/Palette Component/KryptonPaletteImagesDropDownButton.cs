@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Common image that other drop down button images inherit from.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Common
         {
             get => _common;
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the drop down button is disabled.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Disabled
         {
             get => _disabled;
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the drop down button is not disabled.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Normal
         {
             get => _normal;
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the drop down button is tracking.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Tracking
         {
             get => _tracking;
@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when the drop down button is pressed.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Pressed
         {
             get => _pressed;
