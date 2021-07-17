@@ -350,17 +350,16 @@ namespace Krypton.Toolkit
                                 // Grab the client area of the control
                                 PI.GetClientRect(Handle, out PI.RECT rect);
 
-                                PaletteState state = (_kryptonComboBox.Enabled
-                                        ? (_kryptonComboBox.IsActive ? PaletteState.Tracking : PaletteState.Normal)
-                                        : PaletteState.Disabled
-                                    );
+                                PaletteState state = _kryptonComboBox.Enabled
+                                        ? _kryptonComboBox.IsActive 
+                                            ? PaletteState.Tracking 
+                                            : PaletteState.Normal
+                                        : PaletteState.Disabled;
                                 PaletteInputControlTripleStates states = _kryptonComboBox.GetComboBoxTripleState();
 
                                 // Drawn entire client area in the background color
-                                using (SolidBrush backBrush = new(states.PaletteBack.GetBackColor1(state)))
-                                {
-                                    g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
-                                }
+                                using SolidBrush backBrush = new(states.PaletteBack.GetBackColor1(state));
+                                g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
 
                                 // Get the constant used to crack open the display
                                 int dropDownWidth = SystemInformation.VerticalScrollBarWidth;
@@ -395,7 +394,7 @@ namespace Krypton.Toolkit
                                 )
                                 {
                                     // Go perform the drawing of the CueHint
-                                    _kryptonComboBox.CueHint.PerformPaint(_kryptonComboBox, g, rect);
+                                    _kryptonComboBox.CueHint.PerformPaint(_kryptonComboBox, g, rect, backBrush);
                                 }
                                 else
                                 //////////////////////////////////////////////////////
