@@ -150,13 +150,6 @@ namespace Krypton.Toolkit
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
 
-                            // Draw entire client area in the background color
-                            using (SolidBrush backBrush = new(BackColor))
-                            {
-                                g.FillRectangle(backBrush,
-                                    new Rectangle(rect.left, rect.top, rect.right - rect.left,
-                                        rect.bottom - rect.top));
-                            }
 
                             // Create rect for the text area
                             Size borderSize = SystemInformation.BorderSize;
@@ -167,10 +160,19 @@ namespace Krypton.Toolkit
                             )
                             {
                                 // Go perform the drawing of the CueHint
-                                _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, rect);
+                                using SolidBrush backBrush = new(BackColor);
+                                _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, rect, backBrush);
                             }
                             else
                             {
+                                using (SolidBrush backBrush = new(BackColor))
+                                {
+                                    // Draw entire client area in the background color
+                                    g.FillRectangle(backBrush,
+                                        new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                                            rect.bottom - rect.top));
+                                }
+
                                 // If enabled then let the combo draw the text area
                                 if (_kryptonTextBox.Enabled)
                                 {

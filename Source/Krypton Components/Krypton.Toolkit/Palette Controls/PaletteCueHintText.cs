@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
             return Color1 != Color.Empty ? Color1 : ControlPaint.Light(Inherit.GetContentShortTextColor1(state));
         }
 
-        internal void PerformPaint(VisualControlBase textBox, Graphics g, PI.RECT rect)
+        internal void PerformPaint(VisualControlBase textBox, Graphics g, PI.RECT rect, SolidBrush backBrush)
         {
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.TextRenderingHint = TextRenderingHint.AntiAlias;
@@ -92,20 +92,25 @@ namespace Krypton.Toolkit
 
             // Use the correct prefix setting
             stringFormat.HotkeyPrefix = HotkeyPrefix.None;
-            using Font font = GetContentShortTextNewFont(PaletteState.Normal);
-            using SolidBrush foreBrush = new (GetContentShortTextColor1(PaletteState.Normal));
-            var drawText = string.IsNullOrEmpty(CueHintText) ? textBox.Text : CueHintText;
-            RectangleF layoutRectangle = new(rect.left, rect.top, rect.right - rect.left,
-                rect.bottom - rect.top);
+
+            Rectangle layoutRectangle = Rectangle.FromLTRB(rect.left, rect.top, rect.right, rect.bottom);
+
+            // Draw entire client area in the background color
+            g.FillRectangle(backBrush, layoutRectangle);
+
             var padding = GetContentPadding(PaletteState.Normal);
             if (!padding.Equals(CommonHelper.InheritPadding))
             {
                 layoutRectangle.X += padding.Left;
                 layoutRectangle.Y += padding.Top;
-                layoutRectangle.Width += padding.Right;
-                layoutRectangle.Height += padding.Bottom;
+                layoutRectangle.Width -= padding.Left + padding.Right;
+                layoutRectangle.Height -= padding.Top + padding.Bottom;
             }
 
+
+            using Font font = GetContentShortTextNewFont(PaletteState.Normal);
+            using SolidBrush foreBrush = new(GetContentShortTextColor1(PaletteState.Normal));
+            var drawText = string.IsNullOrEmpty(CueHintText) ? textBox.Text : CueHintText;
             g.DrawString(drawText, font, foreBrush, layoutRectangle, stringFormat);
 
 

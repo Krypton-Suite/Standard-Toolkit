@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -209,6 +207,40 @@ namespace Krypton.Toolkit
 
                             // We eat the message!
                             return;
+                        }
+                        base.WndProc(ref m);
+                        break;
+                    case PI.WM_.PAINT:
+                        if (!string.IsNullOrWhiteSpace(_kryptonRichTextBox.CueHint.CueHintText)
+                            && (_kryptonRichTextBox.TextLength == 0)
+                        )
+                        {
+                            PI.PAINTSTRUCT ps = new();
+                            // Do we need to BeginPaint or just take the given HDC?
+                            IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                            using (Graphics g = Graphics.FromHdc(hdc))
+                            {
+                                // Grab the client area of the control
+                                PI.GetClientRect(Handle, out PI.RECT rect);
+
+                                PaletteState state = _kryptonRichTextBox.Enabled
+                                    ? _kryptonRichTextBox.IsActive
+                                        ? PaletteState.Tracking
+                                        : PaletteState.Normal
+                                    : PaletteState.Disabled;
+                                var states = _kryptonRichTextBox.GetTripleState();
+
+                                // Drawn entire client area in the background color
+                                using SolidBrush backBrush = new(states.PaletteBack.GetBackColor1(state));
+                                // Go perform the drawing of the CueHint
+                                _kryptonRichTextBox.CueHint.PerformPaint(_kryptonRichTextBox, g, rect, backBrush);
+                            }
+
+                            // Do we need to match the original BeginPaint?
+                            if (m.WParam == IntPtr.Zero)
+                            {
+                                PI.EndPaint(Handle, ref ps);
+                            }
                         }
                         base.WndProc(ref m);
                         break;
@@ -431,6 +463,7 @@ namespace Krypton.Toolkit
             StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
+            CueHint = new PaletteCueHintText(Redirector, NeedPaintDelegate);
 
             // Create the internal text box used for containing content
             _richTextBox = new InternalRichTextBox(this);
@@ -456,7 +489,7 @@ namespace Krypton.Toolkit
             _richTextBox.Validating += OnRichTextBoxValidating;
             _richTextBox.Validated += OnRichTextBoxValidated;
 
-            // Create the element that fills the remainder space and remembers fill rectange
+            // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_richTextBox);
 
             // Create inner view for placing inside the drawing docker
@@ -524,6 +557,16 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        [Category("Visuals")]
+        [Description("Set a watermark/prompt message for the user.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteCueHintText CueHint { get; }
+
+        private bool ShouldSerializeCueHint()
+        {
+            return !CueHint.IsDefault;
+        }
+
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
@@ -2288,6 +2331,14 @@ namespace Krypton.Toolkit
 
         private void OnRichTextBoxTextChanged(object sender, EventArgs e)
         {
+            if (!string.IsNullOrWhiteSpace(CueHint.CueHintText)
+                && TextLength <= 1)
+            {
+                // Needed to prevent character turds being left behind
+                // Oh, and to get rid of the initial cuetext drawing ;-)
+                _richTextBox.Invalidate();
+            }
+
             OnTextChanged(e);
         }
 
