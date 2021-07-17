@@ -19,9 +19,9 @@ namespace Krypton.Toolkit
         public const int MATERIAL_THEME_CORNER_ROUNDING_VALUE = -1;
 
         // Used for the default control corners
-        public const int PRIMARY_CORNER_ROUNDING_VALUE = 5;
+        public const int PRIMARY_CORNER_ROUNDING_VALUE = -1;
 
         // Used for nodes etc
-        public const int SECONDARY_CORNER_ROUNDING_VALUE = 2;
+        public const int SECONDARY_CORNER_ROUNDING_VALUE = -1;
     }
 }
