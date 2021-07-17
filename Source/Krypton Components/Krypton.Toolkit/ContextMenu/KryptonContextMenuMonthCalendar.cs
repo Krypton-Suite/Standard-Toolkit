@@ -352,10 +352,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = new DateTime[0];
-                }
+                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
 
                 _annualDates.Clear();
                 _annualDates.AddRange(value);
@@ -399,7 +396,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -440,7 +437,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
                 }
 
                 BoldedDatesList.Clear();

@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     internal class RibbonRecentDocsTitleToContent : RibbonToContent
     {
         #region Static Fields
-        private static readonly Padding _titlePadding = new Padding(5, 3, 5, 1);
+        private static readonly Padding _titlePadding = new(5, 3, 5, 1);
         #endregion
 
         #region Instance Fields

@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Should content be drawn.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
             get => _draw;
@@ -268,7 +268,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Text rendering hint for the content text.")]
         [DefaultValue(typeof(PaletteTextHint), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextHint Hint
         {
             get => _hint;
@@ -322,7 +322,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Text trimming style for the content text.")]
         [DefaultValue(typeof(PaletteTextTrim), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextTrim Trim
         {
             get => _trim;
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative horizontal alignment of multiline content text.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign MultiLineH
         {
             get => _multiLineH;
@@ -428,7 +428,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Flag indicating if multiline text is allowed..")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual InheritBool MultiLine
         {
             get => _multiLine;
@@ -468,8 +468,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Main color for the text.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color1
         {
             get => _color1;
@@ -510,8 +510,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Secondary color for the text.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color2
         {
             get => _color2;
@@ -552,7 +552,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Color drawing style for the text.")]
         [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteColorStyle ColorStyle
         {
             get => _colorStyle;
@@ -593,7 +593,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Color alignment style for the text.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRectangleAlign ColorAlign
         {
             get => _colorAlign;
@@ -634,7 +634,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Color angle for the text.")]
         [DefaultValue(-1f)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual float ColorAngle
         {
             get => _colorAngle;
@@ -675,7 +675,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for the text.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Image Image
         {
             get => _image;
@@ -716,7 +716,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image style for the text.")]
         [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteImageStyle ImageStyle
         {
             get => _imageStyle;
@@ -757,7 +757,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image alignment style for the text.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRectangleAlign ImageAlign
         {
             get => _imageAlign;

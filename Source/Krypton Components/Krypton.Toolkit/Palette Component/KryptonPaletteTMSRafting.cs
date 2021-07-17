@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Starting color of the gradient used in the ToolStripContainer.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color RaftingContainerGradientBegin
         {
             get => InternalKCT.InternalRaftingContainerGradientBegin;
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Ending color of the gradient used in the ToolStripContainer.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color RaftingContainerGradientEnd
         {
             get => InternalKCT.InternalRaftingContainerGradientEnd;

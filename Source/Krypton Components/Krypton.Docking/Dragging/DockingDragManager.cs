@@ -204,7 +204,6 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="m">The message to be dispatched.</param>
         /// <returns>true to filter the message and stop it from being dispatched.</returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public bool PreFilterMessage(ref Message m)
         {
             switch (m.Msg)

@@ -220,7 +220,7 @@ namespace Krypton.Ribbon
             {
                 // Find the size the group requests to be
                 Size popupSize;
-                using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+                using (ViewLayoutContext context = new(this, Renderer))
                 {
                     popupSize = ViewGroup.GetPreferredSize(context);
                 }
@@ -263,7 +263,7 @@ namespace Krypton.Ribbon
             workingArea.Width -= BOTTOMRIGHT_GAP;
             workingArea.Height -= BOTTOMRIGHT_GAP;
 
-            Point popupLocation = new Point(parentScreenRect.X, parentScreenRect.Bottom);
+            Point popupLocation = new(parentScreenRect.X, parentScreenRect.Bottom);
 
             // Is there enough room below the parent for the entire popup height?
             if ((parentScreenRect.Bottom + popupSize.Height) <= workingArea.Bottom)

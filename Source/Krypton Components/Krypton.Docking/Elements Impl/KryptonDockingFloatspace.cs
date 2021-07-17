@@ -60,7 +60,7 @@ namespace Krypton.Docking
             if (FloatspaceControl.CellVisibleCount > 0)
             {
                 // Create list of the pages that are allowed to be dropped into this floatspace
-                KryptonPageCollection pages = new KryptonPageCollection();
+                KryptonPageCollection pages = new();
                 foreach (KryptonPage page in dragData.Pages)
                 {
                     if (page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
@@ -178,7 +178,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                FloatspaceEventArgs args = new FloatspaceEventArgs(FloatspaceControl, this);
+                FloatspaceEventArgs args = new(FloatspaceControl, this);
                 dockingManager.RaiseFloatspaceRemoved(args);
             }
 
@@ -196,7 +196,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                FloatspaceCellEventArgs args = new FloatspaceCellEventArgs(FloatspaceControl, this, cell);
+                FloatspaceCellEventArgs args = new(FloatspaceControl, this, cell);
                 dockingManager.RaiseFloatspaceCellAdding(args);
             }
         }
@@ -211,7 +211,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                FloatspaceCellEventArgs args = new FloatspaceCellEventArgs(FloatspaceControl, this, cell);
+                FloatspaceCellEventArgs args = new(FloatspaceControl, this, cell);
                 dockingManager.RaiseFloatspaceCellRemoved(args);
             }
         }
@@ -227,7 +227,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                CancelUniqueNameEventArgs args = new CancelUniqueNameEventArgs(e.Page.UniqueName, false);
+                CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
                 dockingManager.RaisePageFloatingRequest(args);
 
                 // Pass back the result of the event

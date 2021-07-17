@@ -228,7 +228,7 @@ namespace Krypton.Ribbon
 
                 // Grab the list of key tips from the popup group
                 _ribbon.KeyTipMode = KeyTipMode.PopupGroup;
-                KeyTipInfoList keyTipList = new KeyTipInfoList();
+                KeyTipInfoList keyTipList = new();
                 popupGroup.ViewGroup.GetGroupKeyTips(keyTipList);
 
                 // Update key tips with those appropriate for this tab

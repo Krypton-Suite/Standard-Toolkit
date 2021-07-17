@@ -91,7 +91,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the auto hide button tooltip.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Auto Hide")]
         [Localizable(true)]
         public string TextAutoHide
@@ -123,7 +123,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the close button tooltip.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Close")]
         [Localizable(true)]
         public string TextClose
@@ -155,7 +155,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the 'close all but this' button tooltip.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Close All But This")]
         [Localizable(true)]
         public string TextCloseAllButThis
@@ -187,7 +187,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the dock menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Dock")]
         [Localizable(true)]
         public string TextDock
@@ -219,7 +219,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the float menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Float")]
         [Localizable(true)]
         public string TextFloat
@@ -251,7 +251,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the hide menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Hide")]
         [Localizable(true)]
         public string TextHide
@@ -283,7 +283,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the tabbed document menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Tabbed Document")]
         [Localizable(true)]
         public string TextTabbedDocument
@@ -315,7 +315,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the drop down button tooltip.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Window Position")]
         [Localizable(true)]
         public string TextWindowLocation

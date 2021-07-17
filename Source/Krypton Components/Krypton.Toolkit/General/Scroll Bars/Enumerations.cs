@@ -1,4 +1,5 @@
 ﻿#region BSD License
+// TODO: Put in the correct license info
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)

@@ -21,9 +21,9 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonAppButton : ViewLeaf
     {
         #region Static Fields
-        private static readonly Size SIZE_FULL = new Size(39, 39);
-        private static readonly Size SIZE_TOP = new Size(39, 22);
-        private static readonly Size SIZE_BOTTOM = new Size(39, 17);
+        private static readonly Size SIZE_FULL = new(39, 39);
+        private static readonly Size SIZE_TOP = new(39, 22);
+        private static readonly Size SIZE_BOTTOM = new(39, 17);
         #endregion
 
         #region Instance Fields
@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context) 
         {
             // New clipping region is at most our own client size
-            using (Region combineRegion = new Region(_clipRect))
+            using (Region combineRegion = new(_clipRect))
             {
                 // Remember the current clipping region
                 Region clipRegion = context.Graphics.Clip.Clone();
@@ -176,7 +176,7 @@ namespace Krypton.Ribbon
                 if (_ribbon.RibbonAppButton.AppButtonImage != null)
                 {
                     // We always draw the image a 24x24 image
-                    Rectangle imageRect = new Rectangle(ClientLocation.X + 7, ClientLocation.Y + 6, 24, 24);
+                    Rectangle imageRect = new(ClientLocation.X + 7, ClientLocation.Y + 6, 24, 24);
 
                     if (_ribbon.Enabled)
                     {
@@ -185,7 +185,7 @@ namespace Krypton.Ribbon
                     else
                     {
                         // Use a color matrix to convert to black and white
-                        using (ImageAttributes attribs = new ImageAttributes())
+                        using (ImageAttributes attribs = new())
                         {
                             attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
 

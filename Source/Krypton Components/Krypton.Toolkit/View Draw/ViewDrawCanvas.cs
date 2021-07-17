@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
         public IPaletteBack PaletteBack
         {
             [DebuggerStepThrough]
-            get { return _paletteBack; }
+            get => _paletteBack;
         }
         #endregion
 
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         public IPaletteBorder PaletteBorder
         {
             [DebuggerStepThrough]
-            get { return _paletteBorder; }
+            get => _paletteBorder;
         }
         #endregion
 
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
         public IPaletteMetric PaletteMetric
         {
             [DebuggerStepThrough]
-            get { return _paletteMetric; }
+            get => _paletteMetric;
         }
         #endregion
 

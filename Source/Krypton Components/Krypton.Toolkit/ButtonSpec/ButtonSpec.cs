@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button image transparent color.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -372,7 +372,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("ToolTip")]
         [Description("Button image transparent color.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ToolTipImageTransparentColor
         {
             get => _toolTipImageTransparentColor;
@@ -656,7 +656,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Image color to remap to container foreground.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ColorMap
         {
             get => _colorMap;
@@ -728,7 +728,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Defines the button orientation.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteButtonOrientation Orientation
         {
             get => _orientation;
@@ -764,7 +764,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("The header edge to display the button against.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeEdgeAlign Edge
         {
             get => _edge;
@@ -797,7 +797,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("ContextMenuStrip to show when the button is pressed.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public ContextMenuStrip ContextMenuStrip { get; set; }
 
@@ -810,7 +810,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("KryptonContextMenu to show when the button is pressed.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu { get; set; }
 
@@ -822,7 +822,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Command associated with the button.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public virtual KryptonCommand KryptonCommand
         {

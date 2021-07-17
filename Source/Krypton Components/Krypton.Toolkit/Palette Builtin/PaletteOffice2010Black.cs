@@ -24,18 +24,18 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blackDropDownButton = Properties.Resources._2010BlackDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources._2010BlackContextMenuSub;
-        private static readonly Image _formCloseH = Properties.Resources._2010ButtonCloseH;
-        private static readonly Image _formClose = Properties.Resources._2010ButtonCloseBlack;
-        private static readonly Image _formMax = Properties.Resources._2010ButtonMaxBlack;
-        private static readonly Image _formMin = Properties.Resources._2010ButtonMinBlack;
-        private static readonly Image _formRestore = Properties.Resources._2010ButtonRestore;
-        private static readonly Image _buttonSpecPendantClose = Properties.Resources._2010ButtonMDICloseBlack;
-        private static readonly Image _buttonSpecPendantMin = Properties.Resources._2010ButtonMDIMinBlack;
-        private static readonly Image _buttonSpecPendantRestore = Properties.Resources._2010ButtonMDIRestoreBlack;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.RibbonUp2010Black;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.RibbonDown2010Black;
+        private static readonly Image _blackDropDownButton = Resources._2010BlackDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Resources._2010BlackContextMenuSub;
+        private static readonly Image _formCloseH = Resources._2010ButtonCloseH;
+        private static readonly Image _formClose = Resources._2010ButtonCloseBlack;
+        private static readonly Image _formMax = Resources._2010ButtonMaxBlack;
+        private static readonly Image _formMin = Resources._2010ButtonMinBlack;
+        private static readonly Image _formRestore = Resources._2010ButtonRestore;
+        private static readonly Image _buttonSpecPendantClose = Resources._2010ButtonMDICloseBlack;
+        private static readonly Image _buttonSpecPendantMin = Resources._2010ButtonMDIMinBlack;
+        private static readonly Image _buttonSpecPendantRestore = Resources._2010ButtonMDIRestoreBlack;
+        private static readonly Image _buttonSpecRibbonMinimize = Resources.RibbonUp2010Black;
+        private static readonly Image _buttonSpecRibbonExpand = Resources.RibbonDown2010Black;
         private static readonly Color _disabledRibbonText = Color.FromArgb(205, 205, 205);
         private static readonly Color[] _trackBarColors = { Color.FromArgb( 17,  17,  17),      // Tick marks
                                                                         Color.FromArgb( 37,  37,  37),      // Top track
@@ -282,22 +282,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Properties.Resources.CB2010Black);
+            _checkBoxList.Images.AddStrip(Resources.CB2010Black);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Properties.Resources.Gallery2010);
-            _radioButtonArray = new Image[]{Properties.Resources.RB2010BlueD,
-                                            Properties.Resources.RB2010SilverN,
-                                            Properties.Resources.RB2010BlueT,
-                                            Properties.Resources.RB2010BlueP,
-                                            Properties.Resources.RB2010BlueDC,
-                                            Properties.Resources.RB2010SilverNC,
-                                            Properties.Resources.RB2010SilverTC,
-                                            Properties.Resources.RB2010SilverPC};
+            _galleryButtonList.Images.AddStrip(Resources.Gallery2010);
+            _radioButtonArray = new Image[]{Resources.RB2010BlueD,
+                                            Resources.RB2010SilverN,
+                                            Resources.RB2010BlueT,
+                                            Resources.RB2010BlueP,
+                                            Resources.RB2010BlueDC,
+                                            Resources.RB2010SilverNC,
+                                            Resources.RB2010SilverTC,
+                                            Resources.RB2010SilverPC};
         }
 
         /// <summary>

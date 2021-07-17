@@ -51,6 +51,7 @@ namespace Krypton.Toolkit
                 }
                 catch { }
             }
+            GC.SuppressFinalize(this);
         }
         #endregion
     }
@@ -91,6 +92,7 @@ namespace Krypton.Toolkit
                 }
                 catch { }
             }
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

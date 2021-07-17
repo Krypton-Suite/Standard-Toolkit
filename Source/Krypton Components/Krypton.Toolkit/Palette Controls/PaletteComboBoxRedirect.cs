@@ -50,9 +50,14 @@ namespace Krypton.Toolkit
                                                                       PaletteBackStyle.InputControlStandalone,
                                                                       PaletteBorderStyle.InputControlStandalone,
                                                                       PaletteContentStyle.InputControlStandalone, 
-                                                                      NeedPaint);
-            // Set directly to prevent a Paint redirect
-            ComboBox.Content._shortTextH = PaletteRelativeAlign.Near;
+                                                                      NeedPaint)
+            {
+                Content =
+                {
+                    // Set directly to prevent a Paint redirect
+                    _shortTextH = PaletteRelativeAlign.Near
+                }
+            };
 
             _dropBackRedirect = new PaletteDoubleRedirect(redirect, 
                                                           PaletteBackStyle.ControlClient, 

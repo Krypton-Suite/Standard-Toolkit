@@ -383,7 +383,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual bool IsOperating
         {
-            get { return true; }
+            get => true;
             set { }
         }
 
@@ -392,7 +392,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual bool IsOnlyPressedWhenOver
         {
-            get { return true; }
+            get => true;
             set { }
         }
 

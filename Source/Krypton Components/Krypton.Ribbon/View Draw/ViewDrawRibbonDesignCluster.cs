@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDesignCluster : ViewDrawRibbonDesignBase
     {
         #region Static Fields
-        private static readonly Padding _padding = new Padding(1, 2, 0, 2);
+        private static readonly Padding _padding = new(1, 2, 0, 2);
         private static readonly ImageList _imageList;
         #endregion
 
@@ -109,8 +109,8 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuButton = new ToolStripMenuItem("Add Cluster Button", null, OnAddButton);
-                ToolStripMenuItem menuColorButton = new ToolStripMenuItem("Add Cluster Color Button", null, OnAddColorButton);
+                ToolStripMenuItem menuButton = new("Add Cluster Button", null, OnAddButton);
+                ToolStripMenuItem menuColorButton = new("Add Cluster Color Button", null, OnAddColorButton);
 
                 // Assign correct images
                 menuButton.ImageIndex = 0;

@@ -87,6 +87,7 @@ namespace Krypton.Toolkit
                 // Dispose of managed and unmanaged resources
                 Dispose(true);
             }
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -100,9 +101,6 @@ namespace Krypton.Toolkit
             {
                 // Remove reference to parent view
                 Parent = null;
-
-                // No need to call destructor once dispose has occured
-                GC.SuppressFinalize(this);
             }
 
             // Mark as disposed
@@ -143,9 +141,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool Enabled
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _enabled; }
-            set { _enabled = value; }
+            [DebuggerStepThrough]
+            get => _enabled;
+            set => _enabled = value;
         }
         #endregion
 
@@ -155,9 +153,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool Visible
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _visible; }
-            set { _visible = value; }
+            [DebuggerStepThrough]
+            get => _visible;
+            set => _visible = value;
         }
         #endregion
 
@@ -167,9 +165,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual Rectangle ClientRectangle
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _clientRect; }
-            set { _clientRect = value; }
+            [DebuggerStepThrough]
+            get => _clientRect;
+            set => _clientRect = value;
         }
 
         /// <summary>
@@ -177,9 +175,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual Point ClientLocation
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _clientRect.Location; }
-            set { _clientRect.Location = value; }
+            [DebuggerStepThrough]
+            get => _clientRect.Location;
+            set => _clientRect.Location = value;
         }
 
         /// <summary>
@@ -187,9 +185,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual Size ClientSize
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _clientRect.Size; }
-            set { _clientRect.Size = value; }
+            [DebuggerStepThrough]
+            get => _clientRect.Size;
+            set => _clientRect.Size = value;
         }
 
         /// <summary>
@@ -197,9 +195,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual int ClientWidth
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _clientRect.Width; }
-            set { _clientRect.Width = value; }
+            [DebuggerStepThrough]
+            get => _clientRect.Width;
+            set => _clientRect.Width = value;
         }
 
         /// <summary>
@@ -207,9 +205,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual int ClientHeight
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _clientRect.Height; }
-            set { _clientRect.Height = value; }
+            [DebuggerStepThrough]
+            get => _clientRect.Height;
+            set => _clientRect.Height = value;
         }
 
         /// <summary>
@@ -217,7 +215,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public float FactorDpiX
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
@@ -226,7 +224,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public float FactorDpiY
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
@@ -289,7 +287,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public ViewBase Parent
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             set;
         }
@@ -343,8 +341,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool IsReadOnly
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return false; }
+            [DebuggerStepThrough]
+            get => false;
         }
 
         /// <summary>
@@ -402,7 +400,7 @@ namespace Krypton.Toolkit
         /// Enumerate using non-generic interface.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        [System.Diagnostics.DebuggerStepThrough]
+        [DebuggerStepThrough]
         IEnumerator IEnumerable.GetEnumerator()
         {
             // Boilerplate code to satisfy IEnumerable<T> base class.
@@ -416,7 +414,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual IMouseController MouseController
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             set;
         }
@@ -426,7 +424,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual IKeyController KeyController
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             set;
         }
@@ -436,7 +434,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual ISourceController SourceController
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             set;
         }
@@ -679,9 +677,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual PaletteState ElementState
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _elementState; }
-            set { _elementState = value; }
+            [DebuggerStepThrough]
+            get => _elementState;
+            set => _elementState = value;
         }
 
         /// <summary>
@@ -729,8 +727,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual PaletteState FixedState
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _fixedState; }
+            [DebuggerStepThrough]
+            get => _fixedState;
 
             set
             {
@@ -754,8 +752,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool IsFixed
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _fixed; }
+            [DebuggerStepThrough]
+            get => _fixed;
         }
         #endregion
 
@@ -765,8 +763,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual ViewBase DependantEnabledState
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _enableDependantView; }
+            [DebuggerStepThrough]
+            get => _enableDependantView;
 
             set
             {
@@ -788,8 +786,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool IsEnableDependant
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _enableDependant; }
+            [DebuggerStepThrough]
+            get => _enableDependant;
         }
         #endregion
 

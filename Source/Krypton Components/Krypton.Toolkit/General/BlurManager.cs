@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         private readonly VisualForm _parentForm;
         private readonly BlurValues _blurValues;
         private VisualBlur _visualBlur;
-        private System.Windows.Forms.Timer _detectIsActiveTimer;
+        private readonly System.Windows.Forms.Timer _detectIsActiveTimer;
         #endregion
 
         #region Identity
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit
         private static Bitmap TakeSnapshot(Rectangle targetRectangle)
         {
             Bitmap bmp = new(targetRectangle.Width, targetRectangle.Height);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
+            Graphics g = Graphics.FromImage(bmp);
             g.CopyFromScreen(targetRectangle.Left, targetRectangle.Top, 0, 0, bmp.Size);
             return bmp;
         }

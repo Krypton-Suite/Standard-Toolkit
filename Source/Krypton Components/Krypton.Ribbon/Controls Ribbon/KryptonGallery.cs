@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         private ImageList _imageList;
         private readonly ViewLayoutDocker _layoutDocker;
         private readonly ViewDrawDocker _drawDocker;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private Size _preferredItemSize;
         private bool _mouseOver;
         private bool _alwaysActive;
@@ -696,7 +696,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(240, 30);
+        protected override Size DefaultSize => new(240, 30);
 
         /// <summary>
         /// Process Windows-based messages.
@@ -816,7 +816,7 @@ namespace Krypton.Ribbon
             // If there are no ranges defined, just add a single entry showing all enties
             if (DropButtonRanges.Count == 0)
             {
-                KryptonContextMenuImageSelect imageSelect = new KryptonContextMenuImageSelect
+                KryptonContextMenuImageSelect imageSelect = new()
                 {
                     ImageList = ImageList,
                     ImageIndexStart = 0,
@@ -839,7 +839,7 @@ namespace Krypton.Ribbon
                     // Only add a heading if the heading text is not empty
                     if (!string.IsNullOrEmpty(range.Heading))
                     {
-                        KryptonContextMenuHeading heading = new KryptonContextMenuHeading
+                        KryptonContextMenuHeading heading = new()
                         {
                             Text = range.Heading
                         };
@@ -847,7 +847,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Add the image select for the range
-                    KryptonContextMenuImageSelect imageSelect = new KryptonContextMenuImageSelect
+                    KryptonContextMenuImageSelect imageSelect = new()
                     {
                         ImageList = ImageList,
                         ImageIndexStart = Math.Max(0, range.ImageIndexStart),
@@ -860,7 +860,7 @@ namespace Krypton.Ribbon
             }
 
             // Give event handler a change to modify the menu
-            GalleryDropMenuEventArgs args = new GalleryDropMenuEventArgs(_dropMenu);
+            GalleryDropMenuEventArgs args = new(_dropMenu);
             OnGalleryDropMenu(args);
 
             if (!args.Cancel && CommonHelper.ValidKryptonContextMenu(args.KryptonContextMenu))

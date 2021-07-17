@@ -59,44 +59,44 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
         private static readonly Padding _metricPaddingContextMenuItemHighlight = new(1, 0, 1, 0);
 
-        private static readonly Image _disabledDropDown = Properties.Resources.DisabledDropDownButton2;
-        private static readonly Image _disabledDropUp = Properties.Resources.DisabledDropUpButton;
-        private static readonly Image _disabledGalleryDrop = Properties.Resources.DisabledGalleryDropButton;
-        private static readonly Image _buttonSpecClose = Properties.Resources.WhiteCloseButton;
-        private static readonly Image _buttonSpecContext = Properties.Resources.WhiteContextButton;
-        private static readonly Image _buttonSpecNext = Properties.Resources.WhiteNextButton;
-        private static readonly Image _buttonSpecPrevious = Properties.Resources.WhitePreviousButton;
-        private static readonly Image _buttonSpecArrowLeft = Properties.Resources.WhiteArrowLeftButton;
-        private static readonly Image _buttonSpecArrowRight = Properties.Resources.WhiteArrowRightButton;
-        private static readonly Image _buttonSpecArrowUp = Properties.Resources.WhiteArrowUpButton;
-        private static readonly Image _buttonSpecArrowDown = Properties.Resources.WhiteArrowDownButton;
-        private static readonly Image _buttonSpecDropDown = Properties.Resources.WhiteDropDownButton;
-        private static readonly Image _buttonSpecPinVertical = Properties.Resources.WhitePinVerticalButton;
-        private static readonly Image _buttonSpecPinHorizontal = Properties.Resources.WhitePinHorizontalButton;
-        private static readonly Image _buttonSpecPendantClose = Properties.Resources.WhitePendantCloseA;
-        private static readonly Image _buttonSpecPendantMin = Properties.Resources.WhitePendantMinA;
-        private static readonly Image _buttonSpecPendantRestore = Properties.Resources.WhitePendantRestoreA;
-        private static readonly Image _buttonSpecWorkspaceMaximize = Properties.Resources.WhiteMaximize;
-        private static readonly Image _buttonSpecWorkspaceRestore = Properties.Resources.WhiteRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.WhitePendantRibbonMinimize;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.WhitePendantRibbonExpand;
-        private static readonly Image _sparkleDropDownOutlineButton = Properties.Resources.SparkleDropDownOutlineButton;
-        private static readonly Image _sparkleDropDownButton = Properties.Resources.SparkleDropDownButton;
-        private static readonly Image _sparkleDropUpButton = Properties.Resources.SparkleDropUpButton;
-        private static readonly Image _sparkleGalleryDropButton = Properties.Resources.SparkleGalleryDropButton;
-        private static readonly Image _sparkleCloseA = Properties.Resources.SparkleButtonCloseA;
-        private static readonly Image _sparkleCloseI = Properties.Resources.SparkleButtonCloseI;
-        private static readonly Image _sparkleMaxA = Properties.Resources.SparkleButtonMaxA;
-        private static readonly Image _sparkleMaxI = Properties.Resources.SparkleButtonMaxI;
-        private static readonly Image _sparkleMinA = Properties.Resources.SparkleButtonMinA;
-        private static readonly Image _sparkleMinI = Properties.Resources.SparkleButtonMinI;
-        private static readonly Image _sparkleRestoreA = Properties.Resources.SparkleButtonRestoreA;
-        private static readonly Image _sparkleRestoreI = Properties.Resources.SparkleButtonRestoreI;
-        private static readonly Image _contextMenuChecked = Properties.Resources.SparkleGrayChecked;
-        private static readonly Image _contextMenuIndeterminate = Properties.Resources.SparkleGrayIndeterminate;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources.BlackContextMenuSub;
-        private static readonly Image _treeExpandWhite = Properties.Resources.TreeExpandWhite;
-        private static readonly Image _treeCollapseBlack = Properties.Resources.TreeCollapseBlack;
+        private static readonly Image _disabledDropDown = Resources.DisabledDropDownButton2;
+        private static readonly Image _disabledDropUp = Resources.DisabledDropUpButton;
+        private static readonly Image _disabledGalleryDrop = Resources.DisabledGalleryDropButton;
+        private static readonly Image _buttonSpecClose = Resources.WhiteCloseButton;
+        private static readonly Image _buttonSpecContext = Resources.WhiteContextButton;
+        private static readonly Image _buttonSpecNext = Resources.WhiteNextButton;
+        private static readonly Image _buttonSpecPrevious = Resources.WhitePreviousButton;
+        private static readonly Image _buttonSpecArrowLeft = Resources.WhiteArrowLeftButton;
+        private static readonly Image _buttonSpecArrowRight = Resources.WhiteArrowRightButton;
+        private static readonly Image _buttonSpecArrowUp = Resources.WhiteArrowUpButton;
+        private static readonly Image _buttonSpecArrowDown = Resources.WhiteArrowDownButton;
+        private static readonly Image _buttonSpecDropDown = Resources.WhiteDropDownButton;
+        private static readonly Image _buttonSpecPinVertical = Resources.WhitePinVerticalButton;
+        private static readonly Image _buttonSpecPinHorizontal = Resources.WhitePinHorizontalButton;
+        private static readonly Image _buttonSpecPendantClose = Resources.WhitePendantCloseA;
+        private static readonly Image _buttonSpecPendantMin = Resources.WhitePendantMinA;
+        private static readonly Image _buttonSpecPendantRestore = Resources.WhitePendantRestoreA;
+        private static readonly Image _buttonSpecWorkspaceMaximize = Resources.WhiteMaximize;
+        private static readonly Image _buttonSpecWorkspaceRestore = Resources.WhiteRestore;
+        private static readonly Image _buttonSpecRibbonMinimize = Resources.WhitePendantRibbonMinimize;
+        private static readonly Image _buttonSpecRibbonExpand = Resources.WhitePendantRibbonExpand;
+        private static readonly Image _sparkleDropDownOutlineButton = Resources.SparkleDropDownOutlineButton;
+        private static readonly Image _sparkleDropDownButton = Resources.SparkleDropDownButton;
+        private static readonly Image _sparkleDropUpButton = Resources.SparkleDropUpButton;
+        private static readonly Image _sparkleGalleryDropButton = Resources.SparkleGalleryDropButton;
+        private static readonly Image _sparkleCloseA = Resources.SparkleButtonCloseA;
+        private static readonly Image _sparkleCloseI = Resources.SparkleButtonCloseI;
+        private static readonly Image _sparkleMaxA = Resources.SparkleButtonMaxA;
+        private static readonly Image _sparkleMaxI = Resources.SparkleButtonMaxI;
+        private static readonly Image _sparkleMinA = Resources.SparkleButtonMinA;
+        private static readonly Image _sparkleMinI = Resources.SparkleButtonMinI;
+        private static readonly Image _sparkleRestoreA = Resources.SparkleButtonRestoreA;
+        private static readonly Image _sparkleRestoreI = Resources.SparkleButtonRestoreI;
+        private static readonly Image _contextMenuChecked = Resources.SparkleGrayChecked;
+        private static readonly Image _contextMenuIndeterminate = Resources.SparkleGrayIndeterminate;
+        private static readonly Image _contextMenuSubMenu = Resources.BlackContextMenuSub;
+        private static readonly Image _treeExpandWhite = Resources.TreeExpandWhite;
+        private static readonly Image _treeCollapseBlack = Resources.TreeCollapseBlack;
 
         private static readonly Color _disabledText = Color.FromArgb(160, 160, 160);
         private static readonly Color _disabledBack = Color.FromArgb(224, 224, 224);
@@ -262,28 +262,20 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ButtonNavigatorOverflow:
                 case PaletteBackStyle.ButtonForm:
                 case PaletteBackStyle.ButtonFormClose:
-                    switch (state)
+                    return state switch
                     {
-                        case PaletteState.Disabled:
-                        case PaletteState.Normal:
-                        case PaletteState.NormalDefaultOverride:
-                            return InheritBool.False;
-                        default:
-                            return InheritBool.True;
-                    }
+                        PaletteState.Disabled => InheritBool.False,
+                        PaletteState.Normal => InheritBool.False,
+                        PaletteState.NormalDefaultOverride => InheritBool.False,
+                        _ => InheritBool.True
+                    };
                 case PaletteBackStyle.ContextMenuItemImage:
                 case PaletteBackStyle.ContextMenuItemHighlight:
-                    switch (state)
-                    {
-                        case PaletteState.Normal:
-                        case PaletteState.NormalDefaultOverride:
-                            return InheritBool.False;
-                        default:
-                            return InheritBool.True;
-                    }
+                    if (state is PaletteState.Normal or PaletteState.NormalDefaultOverride)
+                        return InheritBool.False;
+                    return InheritBool.True;
                 case PaletteBackStyle.ButtonInputControl:
-                    if ((state == PaletteState.Disabled) ||
-                        (state == PaletteState.Normal))
+                    if (state is PaletteState.Disabled or PaletteState.Normal)
                     {
                         return InheritBool.False;
                     }
@@ -293,7 +285,9 @@ namespace Krypton.Toolkit
                     }
 
                 case PaletteBackStyle.TabLowProfile:
+#pragma warning disable IDE0066 // Convert switch statement to expression
                     switch (state)
+#pragma warning restore IDE0066 // Convert switch statement to expression
                     {
                         case PaletteState.CheckedNormal:
                         case PaletteState.CheckedTracking:
@@ -322,7 +316,9 @@ namespace Krypton.Toolkit
                 return PaletteGraphicsHint.Inherit;
             }
 
+#pragma warning disable IDE0066 // Convert switch statement to expression
             switch (style)
+#pragma warning restore IDE0066 // Convert switch statement to expression
             {
                 case PaletteBackStyle.FormMain:
                 case PaletteBackStyle.FormCustom1:
@@ -5501,8 +5497,7 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonFormClose:
                 case PaletteContentStyle.ButtonLowProfile:
                 case PaletteContentStyle.ButtonInputControl:
-                    if ((state == PaletteState.Normal) ||
-                        (state == PaletteState.NormalDefaultOverride))
+                    if (state is PaletteState.Normal or PaletteState.NormalDefaultOverride)
                     {
                         return _colorDark00;
                     }
@@ -5725,8 +5720,7 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonLowProfile:
                 case PaletteContentStyle.ButtonButtonSpec:
                 case PaletteContentStyle.ButtonInputControl:
-                    if ((state == PaletteState.Normal) ||
-                        (state == PaletteState.NormalDefaultOverride))
+                    if (state is PaletteState.Normal or PaletteState.NormalDefaultOverride)
                     {
                         return _colorDark00;
                     }
@@ -7368,8 +7362,7 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonLowProfile:
                 case PaletteContentStyle.ButtonButtonSpec:
                 case PaletteContentStyle.ButtonInputControl:
-                    if ((state == PaletteState.Normal) ||
-                        (state == PaletteState.NormalDefaultOverride))
+                    if (state is PaletteState.Normal or PaletteState.NormalDefaultOverride)
                     {
                         return _colorDark00;
                     }
@@ -7586,8 +7579,7 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonForm:
                 case PaletteContentStyle.ButtonFormClose:
                 case PaletteContentStyle.ButtonInputControl:
-                    if ((state == PaletteState.Normal) ||
-                        (state == PaletteState.NormalDefaultOverride))
+                    if (state is PaletteState.Normal or PaletteState.NormalDefaultOverride)
                     {
                         return _colorDark00;
                     }
@@ -10631,39 +10623,26 @@ namespace Krypton.Toolkit
             switch (element)
             {
                 case PaletteElement.TrackBarTick:
-                    if (CommonHelper.IsOverrideState(state))
-                    {
-                        return Color.Empty;
-                    }
+                    return CommonHelper.IsOverrideState(state) ? Color.Empty : _trackBarColors[0];
 
-                    return _trackBarColors[0];
                 case PaletteElement.TrackBarTrack:
-                    if (CommonHelper.IsOverrideState(state))
-                    {
-                        return Color.Empty;
-                    }
+                    return CommonHelper.IsOverrideState(state) ? Color.Empty : _trackBarColors[3];
 
-                    return _trackBarColors[3];
                 case PaletteElement.TrackBarPosition:
                     if (CommonHelper.IsOverrideStateExclude(state, PaletteState.FocusOverride))
                     {
                         return Color.Empty;
                     }
 
-                    switch (state)
+                    return state switch
                     {
-                        case PaletteState.Disabled:
-                            return ControlPaint.LightLight(_sparkleColors[5]);
-                        case PaletteState.Normal:
-                            return _sparkleColors[22];
-                        case PaletteState.Tracking:
-                        case PaletteState.FocusOverride:
-                            return _sparkleColors[7];
-                        case PaletteState.Pressed:
-                            return _sparkleColors[9];
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(state));
-                    }
+                        PaletteState.Disabled => ControlPaint.LightLight(_sparkleColors[5]),
+                        PaletteState.Normal => _sparkleColors[22],
+                        PaletteState.Tracking => _sparkleColors[7],
+                        PaletteState.FocusOverride => _sparkleColors[7],
+                        PaletteState.Pressed => _sparkleColors[9],
+                        _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    };
                 default:
                     // Should never happen!
                     Debug.Assert(false);

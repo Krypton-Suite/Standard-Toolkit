@@ -746,7 +746,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint)
         {
-            return new(needPaint);
+            return new ButtonValues(needPaint);
         }
 
         /// <summary>

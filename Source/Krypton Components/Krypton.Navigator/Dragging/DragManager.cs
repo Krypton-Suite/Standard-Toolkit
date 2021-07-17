@@ -51,12 +51,12 @@ namespace Krypton.Navigator
         /// </summary>
         static DragManager()
         {
-            using (MemoryStream ms = new MemoryStream(Properties.Resources.DocumentValid))
+            using (MemoryStream ms = new(Properties.Resources.DocumentValid))
             {
                 _validCursor = new Cursor(ms);
             }
 
-            using (MemoryStream ms = new MemoryStream(Properties.Resources.DocumentInvalid))
+            using (MemoryStream ms = new(Properties.Resources.DocumentInvalid))
             {
                 _invalidCursor = new Cursor(ms);
             }
@@ -99,6 +99,7 @@ namespace Krypton.Navigator
                 // Dispose of managed and unmanaged resources
                 Dispose(true);
             }
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -110,8 +111,6 @@ namespace Krypton.Navigator
             // If called from explicit call to Dispose
             if (disposing)
             {
-                // No need to call destructor once dispose has occured
-                GC.SuppressFinalize(this);
                 ClearDragFeedback();
             }
 

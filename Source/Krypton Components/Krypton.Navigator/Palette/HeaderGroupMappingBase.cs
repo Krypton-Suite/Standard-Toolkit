@@ -156,7 +156,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Mapping used for the image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual MapKryptonPageImage MapImage
         {
             get => _mapImage;
@@ -191,7 +191,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Mapping used for the heading.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual MapKryptonPageText MapHeading
         {
             get => _mapHeading;
@@ -226,7 +226,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Mapping used for the description.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual MapKryptonPageText MapDescription
         {
             get => _mapDescription;

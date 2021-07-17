@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool AllowDecimals
         {
-            get { return _allowDecimals; }
+            get => _allowDecimals;
             set
             {
                 if (_allowDecimals != value)
@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool TrailingZeroes
         {
-            get { return _trailingZeroes; }
+            get => _trailingZeroes;
             set
             {
                 if (_trailingZeroes != value)

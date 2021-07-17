@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used to position the separator.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding Padding
         {
             get => _separatorPadding;

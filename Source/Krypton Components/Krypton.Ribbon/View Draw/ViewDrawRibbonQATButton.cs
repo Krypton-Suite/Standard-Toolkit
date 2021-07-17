@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
                                              IContentValues
     {
         #region Static Fields
-        private static readonly Size _viewSize = new Size(22, 22);
+        private static readonly Size _viewSize = new(22, 22);
         #endregion
 
         #region Instance Fields
@@ -52,10 +52,10 @@ namespace Krypton.Ribbon
 
             // If the source interface comes from a component then allow it to 
             // be selected at design time by clicking on the view instance
-            Component = qatButton as System.ComponentModel.Component;
+            Component = qatButton as Component;
 
             // Attach a controller to this element for the pressing of the button
-            QATButtonController controller = new QATButtonController(ribbon, this, needPaint);
+            QATButtonController controller = new(ribbon, this, needPaint);
             controller.Click += OnClick;
             SourceController = controller;
             KeyController = controller;

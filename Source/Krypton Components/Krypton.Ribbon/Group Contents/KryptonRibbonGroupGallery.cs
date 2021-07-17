@@ -396,7 +396,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Large gallery button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageLarge
         {
             get => _imageLarge;
@@ -423,7 +423,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Gallery button display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Gallery")]
         public string TextLine1
         {
@@ -452,7 +452,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Gallery button display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -492,7 +492,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 

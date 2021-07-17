@@ -364,7 +364,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Command image transparent color.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;

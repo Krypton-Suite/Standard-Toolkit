@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         private readonly SimpleCall _layoutCall;
         private KryptonContextMenu _kryptonContextMenu;
         protected VisualPopupToolTip visualBasePopupToolTip;
-        private ToolTipManager _toolTipManager;
+        private readonly ToolTipManager _toolTipManager;
         #endregion
 
         #region Events
@@ -806,7 +806,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteRedirect derived class.</returns>
         protected virtual PaletteRedirect CreateRedirector()
         {
-            return new(_palette);
+            return new PaletteRedirect(_palette);
         }
 
         /// <summary>

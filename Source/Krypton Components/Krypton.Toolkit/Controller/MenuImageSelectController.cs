@@ -500,7 +500,7 @@ namespace Krypton.Toolkit
         protected virtual void UpdateTargetState(Point pt)
         {
             // By default the button is in the normal state
-            PaletteState newState = PaletteState.Normal;
+            PaletteState newState;
 
             // If the button is disabled then show as disabled
             if (!_target.Enabled)

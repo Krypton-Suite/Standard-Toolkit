@@ -24,16 +24,16 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blueDropDownButton = Properties.Resources.BlueDropDownButton;
-        private static readonly Image _blueCloseA = Properties.Resources.BlueButtonCloseA;
-        private static readonly Image _blueCloseI = Properties.Resources.BlueButtonCloseI;
-        private static readonly Image _blueMaxA = Properties.Resources.BlueButtonMaxA;
-        private static readonly Image _blueMaxI = Properties.Resources.BlueButtonMaxI;
-        private static readonly Image _blueMinA = Properties.Resources.BlueButtonMinA;
-        private static readonly Image _blueMinI = Properties.Resources.BlueButtonMinI;
-        private static readonly Image _blueRestoreA = Properties.Resources.BlueButtonRestoreA;
-        private static readonly Image _blueRestoreI = Properties.Resources.BlueButtonRestoreI;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources.BlueContextMenuSub;
+        private static readonly Image _blueDropDownButton = Resources.BlueDropDownButton;
+        private static readonly Image _blueCloseA = Resources.BlueButtonCloseA;
+        private static readonly Image _blueCloseI = Resources.BlueButtonCloseI;
+        private static readonly Image _blueMaxA = Resources.BlueButtonMaxA;
+        private static readonly Image _blueMaxI = Resources.BlueButtonMaxI;
+        private static readonly Image _blueMinA = Resources.BlueButtonMinA;
+        private static readonly Image _blueMinI = Resources.BlueButtonMinI;
+        private static readonly Image _blueRestoreA = Resources.BlueButtonRestoreA;
+        private static readonly Image _blueRestoreI = Resources.BlueButtonRestoreI;
+        private static readonly Image _contextMenuSubMenu = Resources.BlueContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(116, 150, 194),      // Tick marks
                                                                         Color.FromArgb(116, 150, 194),      // Top track
                                                                         Color.FromArgb(152, 190, 241),      // Bottom track
@@ -265,22 +265,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Properties.Resources.CB2007Blue);
+            _checkBoxList.Images.AddStrip(Resources.CB2007Blue);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Properties.Resources.GalleryBlue);
-            _radioButtonArray = new Image[]{Properties.Resources.RB2007BlueD,
-                                            Properties.Resources.RB2007BlueN,
-                                            Properties.Resources.RB2007BlueT,
-                                            Properties.Resources.RB2007BlueP,
-                                            Properties.Resources.RB2007BlueDC,
-                                            Properties.Resources.RB2007BlueNC,
-                                            Properties.Resources.RB2007BlueTC,
-                                            Properties.Resources.RB2007BluePC};
+            _galleryButtonList.Images.AddStrip(Resources.GalleryBlue);
+            _radioButtonArray = new Image[]{Resources.RB2007BlueD,
+                                            Resources.RB2007BlueN,
+                                            Resources.RB2007BlueT,
+                                            Resources.RB2007BlueP,
+                                            Resources.RB2007BlueDC,
+                                            Resources.RB2007BlueNC,
+                                            Resources.RB2007BlueTC,
+                                            Resources.RB2007BluePC};
         }
 
         /// <summary>

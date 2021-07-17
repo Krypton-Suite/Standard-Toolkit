@@ -12,7 +12,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provide a ListView with Krypton styling applied.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.ListView" />
+    /// <seealso cref="ListView" />
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(ListView))]
     [DefaultEvent("AfterSelect")]

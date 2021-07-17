@@ -77,17 +77,13 @@ namespace Krypton.Toolkit
                 state = state & ~PaletteState.FocusOverride;
             }
 
-            switch (palette.GetRibbonBackColorStyle(state))
+            return palette.GetRibbonBackColorStyle(state) switch
             {
-                case PaletteRibbonColorStyle.RibbonGroupNormalBorderTracking:
-                    return DrawRibbonGroupNormalBorder(context, rect, state, palette, true, false, memento);
-                case PaletteRibbonColorStyle.RibbonGroupAreaBorder:
-                    return DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, false, true, memento);
-                case PaletteRibbonColorStyle.RibbonGroupAreaBorder2:
-                    return DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, true, true, memento);
-                default:
-                    return base.DrawRibbonBack(shape, context, rect, state, palette, orientation, composition, memento);
-            }
+                PaletteRibbonColorStyle.RibbonGroupNormalBorderTracking => DrawRibbonGroupNormalBorder(context, rect, state, palette, true, false, memento),
+                PaletteRibbonColorStyle.RibbonGroupAreaBorder => DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, false, true, memento),
+                PaletteRibbonColorStyle.RibbonGroupAreaBorder2 => DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, true, true, memento),
+                _ => base.DrawRibbonBack(shape, context, rect, state, palette, orientation, composition, memento)
+            };
         }
 
         /// <summary>

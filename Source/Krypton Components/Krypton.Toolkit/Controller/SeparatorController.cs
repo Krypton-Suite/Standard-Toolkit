@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
             /// </summary>
             public Rectangle SolidRect
             {
-                get { return _solidRect; }
+                get => _solidRect;
 
                 set
                 {
@@ -174,17 +174,16 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private bool _drawIndicator;
-        private bool _splitCursors;
+        private readonly bool _splitCursors;
         private bool _moving;
         private Point _downPosition;
-        private Point _movementPoint;
         private int _separatorIncrements;
         private Rectangle _separatorBox;
         private Orientation _separatorOrientation;
         private SeparatorMessageFilter _filter;
-        private ISeparatorSource _source;
+        private readonly ISeparatorSource _source;
         private SeparatorIndicator _indicator;
-        private KryptonPalette _palette = new();
+
         #endregion
 
         #region Identity
@@ -216,6 +215,7 @@ namespace Krypton.Toolkit
         public void Dispose()
         {
             UnregisterFilter();
+            GC.SuppressFinalize(this);
         }
         #endregion
 
@@ -225,8 +225,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool DrawMoveIndicator
         {
-            get { return _drawIndicator; }
-            set { _drawIndicator = value; }
+            get => _drawIndicator;
+            set => _drawIndicator = value;
         }
         #endregion
 
@@ -438,10 +438,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if the separator is moving.
         /// </summary>
-        public bool IsMoving
-        {
-            get { return _moving; }
-        }
+        public bool IsMoving => _moving;
 
         /// <summary>
         /// Request that the separator abort moving.
@@ -485,7 +482,6 @@ namespace Krypton.Toolkit
         protected void DrawSeparatorStarting(Point splitter)
         {
             // Reset the starting point
-            _movementPoint = _nullPoint;
 
             // Draw the initial indication
             DrawSplitIndicator(splitter);
@@ -517,12 +513,10 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override bool IsOperating
         {
-            get
-            {
+            get =>
                 // If the separator cannot be moved then if should not
                 // act has a hot tracking/pressable style button either
-                return _source.SeparatorCanMove;
-            }
+                _source.SeparatorCanMove;
 
             set { }
         }
@@ -532,12 +526,10 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override bool IsOnlyPressedWhenOver
         {
-            get
-            {
+            get =>
                 // We want the separator to have the pressed look event when 
                 // the mouse is pressed by moved outside the separator rectangle
-                return false;
-            }
+                false;
             set { }
         }
         #endregion
@@ -616,8 +608,6 @@ namespace Krypton.Toolkit
                 }
             }
 
-            // Remember the point used for last draw cycle
-            _movementPoint = newPoint;
         }
 
         private Rectangle SplitRectangleFromPoint(Point pt)
@@ -660,9 +650,6 @@ namespace Krypton.Toolkit
             if (_filter == null)
             {
                 // Check that caller has permission to access unmanaged code
-                // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/100 
-                new SecurityPermission(SecurityPermissionFlag.UnmanagedCode).Assert();
-
                 try
                 {
                     _filter = new SeparatorMessageFilter(this);
@@ -671,7 +658,6 @@ namespace Krypton.Toolkit
                 finally
                 {
                     // Always revert the assertion made above
-                    CodeAccessPermission.RevertAssert();
                 }
             }
         }
@@ -698,7 +684,7 @@ namespace Krypton.Toolkit
     internal class SeparatorMessageFilter : IMessageFilter
     {
         #region Instance Fields
-        private SeparatorController _controller;
+        private readonly SeparatorController _controller;
         #endregion
 
         #region Identity
@@ -720,8 +706,6 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="m">The message to be dispatched.</param>
         /// <returns>true to filter the message and stop it from being dispatched.</returns>
-        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/100 
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public bool PreFilterMessage(ref Message m)
         {
             // We are only interested in filtering when moving the separator

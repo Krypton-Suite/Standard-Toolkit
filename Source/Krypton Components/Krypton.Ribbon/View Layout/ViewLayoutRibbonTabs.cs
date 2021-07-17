@@ -259,7 +259,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo instances.</returns>
         public KeyTipInfo[] GetTabKeyTips()
         {
-            KeyTipInfoList keyTipList = new KeyTipInfoList();
+            KeyTipInfoList keyTipList = new();
 
             foreach (ViewBase child in this)
             {
@@ -272,7 +272,7 @@ namespace Krypton.Ribbon
                     Rectangle tabRect = viewTab.OwningControl.RectangleToScreen(viewTab.ClientRectangle);
 
                     // The keytip should be centered on the bottom center of the view
-                    Point screenPt = new Point(tabRect.Left + (tabRect.Width / 2), tabRect.Bottom + 2);
+                    Point screenPt = new(tabRect.Left + (tabRect.Width / 2), tabRect.Bottom + 2);
 
                     // Create new key tip that invokes the tab controller when selected
                     keyTipList.Add(new KeyTipInfo(true, viewTab.RibbonTab.KeyTip,

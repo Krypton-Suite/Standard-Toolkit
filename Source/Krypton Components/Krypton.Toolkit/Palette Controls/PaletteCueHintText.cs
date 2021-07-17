@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
             };
 
             // Use the correct prefix setting
-            stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            stringFormat.HotkeyPrefix = HotkeyPrefix.None;
             using Font font = GetContentShortTextNewFont(PaletteState.Normal);
             using SolidBrush foreBrush = new (GetContentShortTextColor1(PaletteState.Normal));
             var drawText = string.IsNullOrEmpty(CueHintText) ? textBox.Text : CueHintText;

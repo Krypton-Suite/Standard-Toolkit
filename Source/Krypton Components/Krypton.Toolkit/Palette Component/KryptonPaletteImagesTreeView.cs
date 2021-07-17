@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when a node is collapsed.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Plus
         {
             get => _plus;
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use when a node is expanded.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Minus
         {
             get => _minus;

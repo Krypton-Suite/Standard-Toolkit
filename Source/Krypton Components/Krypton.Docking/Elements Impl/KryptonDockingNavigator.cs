@@ -80,7 +80,7 @@ namespace Krypton.Docking
                 KryptonDockingManager dockingManager = DockingManager;
                 if (dockingManager != null)
                 {
-                    DockableNavigatorEventArgs args = new DockableNavigatorEventArgs(DockableNavigatorControl, this);
+                    DockableNavigatorEventArgs args = new(DockableNavigatorControl, this);
                     dockingManager.RaiseDockableNavigatorAdded(args);
                 }
             }
@@ -199,7 +199,7 @@ namespace Krypton.Docking
                     }
                 }
 
-                using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+                using (DockingMultiUpdate update = new(this))
                 {
                     base.PropogateAction(DockingPropogateAction.ShowPages, uniqueNames);
                 }
@@ -211,7 +211,7 @@ namespace Krypton.Docking
         /// </summary>
         public void ShowAllPages()
         {
-            using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+            using (DockingMultiUpdate update = new(this))
             {
                 base.PropogateAction(DockingPropogateAction.ShowAllPages, (string[])null);
             }
@@ -309,7 +309,7 @@ namespace Krypton.Docking
                     }
                 }
 
-                using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+                using (DockingMultiUpdate update = new(this))
                 {
                     base.PropogateAction(DockingPropogateAction.HidePages, uniqueNames);
                 }
@@ -321,7 +321,7 @@ namespace Krypton.Docking
         /// </summary>
         public void HideAllPages()
         {
-            using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+            using (DockingMultiUpdate update = new(this))
             {
                 base.PropogateAction(DockingPropogateAction.HideAllPages, (string[])null);
             }
@@ -411,7 +411,7 @@ namespace Krypton.Docking
                 }
 
                 // Remove page details from all parts of the hierarchy
-                using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+                using (DockingMultiUpdate update = new(this))
                 {
                     base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposePages : DockingPropogateAction.RemovePages, uniqueNames);
                 }
@@ -425,7 +425,7 @@ namespace Krypton.Docking
         public void RemoveAllPages(bool disposePage)
         {
             // Remove all details about all pages from all parts of the hierarchy
-            using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+            using (DockingMultiUpdate update = new(this))
             {
                 base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposeAllPages : DockingPropogateAction.RemoveAllPages, (string[])null);
             }
@@ -459,7 +459,7 @@ namespace Krypton.Docking
                         if ((page != null) && !(page is KryptonStorePage))
                         {
                             // Replace the existing page with a placeholder that has the same unique name
-                            KryptonStorePage placeholder = new KryptonStorePage(uniqueName, _storeName);
+                            KryptonStorePage placeholder = new(uniqueName, _storeName);
                             pageCollection.Insert(pageCollection.IndexOf(page), placeholder);
                             pageCollection.Remove(page);
                         }
@@ -474,7 +474,7 @@ namespace Krypton.Docking
                         if ((page != null) && !(page is KryptonStorePage))
                         {
                             // Replace the existing page with a placeholder that has the same unique name
-                            KryptonStorePage placeholder = new KryptonStorePage(page.UniqueName, _storeName);
+                            KryptonStorePage placeholder = new(page.UniqueName, _storeName);
                             pageCollection.Insert(pageCollection.IndexOf(page), placeholder);
                             pageCollection.Remove(page);
                         }
@@ -636,7 +636,7 @@ namespace Krypton.Docking
                                                   DragTargetList targets)
         {
             // Create list of the pages that are allowed to be dropped into this navigator
-            KryptonPageCollection pages = new KryptonPageCollection();
+            KryptonPageCollection pages = new();
             foreach (KryptonPage page in dragData.Pages)
             {
                 if (page.AreFlagsSet(KryptonPageFlags.DockingAllowNavigator))
@@ -763,7 +763,7 @@ namespace Krypton.Docking
 
                     // Give event handlers a chance to save custom data with the page
                     xmlWriter.WriteStartElement(@"CPD");
-                    DockPageSavingEventArgs args = new DockPageSavingEventArgs(dockingManager, xmlWriter, page);
+                    DockPageSavingEventArgs args = new(dockingManager, xmlWriter, page);
                     dockingManager.RaisePageSaving(args);
                     xmlWriter.WriteEndElement();
 
@@ -843,7 +843,7 @@ namespace Krypton.Docking
                         if (page == null)
                         {
                             // Generate event so developer can create and supply the page now
-                            RecreateLoadingPageEventArgs args = new RecreateLoadingPageEventArgs(uniqueName);
+                            RecreateLoadingPageEventArgs args = new(uniqueName);
                             manager.RaiseRecreateLoadingPage(args);
 
                             if (!args.Cancel && (args.Page != null))
@@ -878,7 +878,7 @@ namespace Krypton.Docking
                     bool finished = xmlReader.IsEmptyElement;
 
                     // Generate event so custom data can be loaded and/or the page to be added can be modified
-                    DockPageLoadingEventArgs pageLoading = new DockPageLoadingEventArgs(manager, xmlReader, page);
+                    DockPageLoadingEventArgs pageLoading = new(manager, xmlReader, page);
                     manager.RaisePageLoading(pageLoading);
 
                     // Read everything until we get the end of custom data marker
@@ -935,7 +935,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockableNavigatorEventArgs args = new DockableNavigatorEventArgs(DockableNavigatorControl, this);
+                DockableNavigatorEventArgs args = new(DockableNavigatorControl, this);
                 dockingManager.RaiseDockableNavigatorRemoved(args);
             }
         }
@@ -978,7 +978,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                CancelUniqueNameEventArgs args = new CancelUniqueNameEventArgs(e.Page.UniqueName, false);
+                CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
                 dockingManager.RaisePageNavigatorRequest(args);
 
                 // Pass back the result of the event

@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Color to draw text on the StatusStrip.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color StatusStripText
         {
             get => InternalKCT.InternalStatusStripText;
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Starting color of the gradient used on the StatusStrip.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color StatusStripGradientBegin
         {
             get => InternalKCT.InternalStatusStripGradientBegin;
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Ending color of the gradient used on the StatusStrip.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color StatusStripGradientEnd
         {
             get => InternalKCT.InternalStatusStripGradientEnd;

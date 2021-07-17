@@ -24,22 +24,22 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blackDropDownButton = Properties.Resources.BlackDropDownButton;
-        private static readonly Image _blackCloseA = Properties.Resources.BlackButtonCloseA;
-        private static readonly Image _blackCloseAH = Properties.Resources.BlackButtonCloseAH;
-        private static readonly Image _blackCloseI = Properties.Resources.BlackButtonCloseI;
-        private static readonly Image _blackMaxA = Properties.Resources.BlackButtonMaxA;
-        private static readonly Image _blackMaxAH = Properties.Resources.BlackButtonMaxAH;
-        private static readonly Image _blackMaxI = Properties.Resources.BlackButtonMaxI;
-        private static readonly Image _blackMinA = Properties.Resources.BlackButtonMinA;
-        private static readonly Image _blackMinAH = Properties.Resources.BlackButtonMinAH;
-        private static readonly Image _blackMinI = Properties.Resources.BlackButtonMinI;
-        private static readonly Image _blackRestoreA = Properties.Resources.BlackButtonRestoreA;
-        private static readonly Image _blackRestoreAH = Properties.Resources.BlackButtonRestoreAH;
-        private static readonly Image _blackRestoreI = Properties.Resources.BlackButtonRestoreI;
-        private static readonly Image _blackRibbonMinimize = Properties.Resources.BlackButtonCollapse;
-        private static readonly Image _blackRibbonExpand = Properties.Resources.BlackButtonExpand;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources.BlackContextMenuSub;
+        private static readonly Image _blackDropDownButton = Resources.BlackDropDownButton;
+        private static readonly Image _blackCloseA = Resources.BlackButtonCloseA;
+        private static readonly Image _blackCloseAH = Resources.BlackButtonCloseAH;
+        private static readonly Image _blackCloseI = Resources.BlackButtonCloseI;
+        private static readonly Image _blackMaxA = Resources.BlackButtonMaxA;
+        private static readonly Image _blackMaxAH = Resources.BlackButtonMaxAH;
+        private static readonly Image _blackMaxI = Resources.BlackButtonMaxI;
+        private static readonly Image _blackMinA = Resources.BlackButtonMinA;
+        private static readonly Image _blackMinAH = Resources.BlackButtonMinAH;
+        private static readonly Image _blackMinI = Resources.BlackButtonMinI;
+        private static readonly Image _blackRestoreA = Resources.BlackButtonRestoreA;
+        private static readonly Image _blackRestoreAH = Resources.BlackButtonRestoreAH;
+        private static readonly Image _blackRestoreI = Resources.BlackButtonRestoreI;
+        private static readonly Image _blackRibbonMinimize = Resources.BlackButtonCollapse;
+        private static readonly Image _blackRibbonExpand = Resources.BlackButtonExpand;
+        private static readonly Image _contextMenuSubMenu = Resources.BlackContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(170, 170, 170),      // Tick marks
                                                                         Color.FromArgb( 37,  37,  37),      // Top track
                                                                         Color.FromArgb(174, 174, 174),      // Bottom track
@@ -271,22 +271,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Properties.Resources.CB2007Black);
+            _checkBoxList.Images.AddStrip(Resources.CB2007Black);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Properties.Resources.GallerySilverBlack);
-            _radioButtonArray = new Image[]{Properties.Resources.RB2007BlueD,
-                                            Properties.Resources.RB2007BlackN,
-                                            Properties.Resources.RB2007BlackT,
-                                            Properties.Resources.RB2007BlackP,
-                                            Properties.Resources.RB2007BlueDC,
-                                            Properties.Resources.RB2007BlackNC,
-                                            Properties.Resources.RB2007BlackTC,
-                                            Properties.Resources.RB2007BlackPC};
+            _galleryButtonList.Images.AddStrip(Resources.GallerySilverBlack);
+            _radioButtonArray = new Image[]{Resources.RB2007BlueD,
+                                            Resources.RB2007BlackN,
+                                            Resources.RB2007BlackT,
+                                            Resources.RB2007BlackP,
+                                            Resources.RB2007BlueDC,
+                                            Resources.RB2007BlackNC,
+                                            Resources.RB2007BlackTC,
+                                            Resources.RB2007BlackPC};
         }
 
         /// <summary>

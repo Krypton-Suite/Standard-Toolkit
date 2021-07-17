@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Should background be drawn.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
             get => _storage?.BackDraw ?? InheritBool.Inherit;
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Hint for drawing graphics.")]
         [DefaultValue(typeof(PaletteGraphicsHint), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteGraphicsHint GraphicsHint
         {
             get => _storage?.BackGraphicsHint ?? PaletteGraphicsHint.Inherit;
@@ -241,8 +241,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Main background color.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color Color1
         {
             get => _storage?.BackColor1 ?? Color.Empty;
@@ -288,8 +288,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Secondary background color.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color Color2
         {
             get => _storage?.BackColor2 ?? Color.Empty;
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background color drawing style.")]
         [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteColorStyle ColorStyle
         {
             get => _storage?.BackColorStyle ?? PaletteColorStyle.Inherit;
@@ -383,7 +383,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background color alignment style.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ColorAlign
         {
             get => _storage?.BackColorAlign ?? PaletteRectangleAlign.Inherit;
@@ -431,7 +431,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background color angle.")]
         [DefaultValue(-1f)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public float ColorAngle
         {
             get 
@@ -489,7 +489,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background image.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _storage?.BackImage;
@@ -536,7 +536,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background image style.")]
         [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteImageStyle ImageStyle
         {
             get => _storage?.BackImageStyle ?? PaletteImageStyle.Inherit;
@@ -585,7 +585,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background image alignment style.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ImageAlign
         {
             get => _storage?.BackImageAlign ?? PaletteRectangleAlign.Inherit;

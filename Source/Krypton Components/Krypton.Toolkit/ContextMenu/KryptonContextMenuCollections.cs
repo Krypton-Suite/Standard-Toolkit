@@ -174,10 +174,8 @@ namespace Krypton.Toolkit
             {
                 do
                 {
-                    KryptonContextMenuRadioButton radioButton = this[start] as KryptonContextMenuRadioButton;
-                    
                     // Exit as soon as a non-radio button is encountered
-                    if (radioButton == null)
+                    if (this[start] is not KryptonContextMenuRadioButton radioButton)
                     {
                         break;
                     }

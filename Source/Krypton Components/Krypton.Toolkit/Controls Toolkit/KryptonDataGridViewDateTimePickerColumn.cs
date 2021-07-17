@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if ((value != null) && (value is not KryptonDataGridViewDateTimePickerCell cell))
+                if ((value != null) && (value is not KryptonDataGridViewDateTimePickerCell ))
                 {
                     throw new InvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewDateTimePickerCell or derive from it.");
                 }
@@ -954,7 +954,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
                 }
 
                 _annualDates.Clear();
@@ -984,7 +984,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -1012,10 +1012,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = new DateTime[0];
-                }
+                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
 
                 _dates.Clear();
                 _dates.AddRange(value);

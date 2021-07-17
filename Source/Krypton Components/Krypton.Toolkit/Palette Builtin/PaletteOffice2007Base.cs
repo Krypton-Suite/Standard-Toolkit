@@ -57,30 +57,30 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingBarTabs = new(0);
         private static readonly Padding _metricPaddingBarOutside = new(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
-        private static readonly Image _treePlus = Properties.Resources.TreePlusBox;
-        private static readonly Image _treeMinus = Properties.Resources.TreeMinusBox;
+        private static readonly Image _treePlus = Resources.TreePlusBox;
+        private static readonly Image _treeMinus = Resources.TreeMinusBox;
 
-        private static readonly Image _disabledDropDown = Properties.Resources.DisabledDropDownButton;
-        private static readonly Image _buttonSpecClose = Properties.Resources.ProfessionalCloseButton;
-        private static readonly Image _buttonSpecContext = Properties.Resources.ProfessionalContextButton;
-        private static readonly Image _buttonSpecNext = Properties.Resources.ProfessionalNextButton;
-        private static readonly Image _buttonSpecPrevious = Properties.Resources.ProfessionalPreviousButton;
-        private static readonly Image _buttonSpecArrowLeft = Properties.Resources.ProfessionalArrowLeftButton;
-        private static readonly Image _buttonSpecArrowRight = Properties.Resources.ProfessionalArrowRightButton;
-        private static readonly Image _buttonSpecArrowUp = Properties.Resources.ProfessionalArrowUpButton;
-        private static readonly Image _buttonSpecArrowDown = Properties.Resources.ProfessionalArrowDownButton;
-        private static readonly Image _buttonSpecDropDown = Properties.Resources.ProfessionalDropDownButton;
-        private static readonly Image _buttonSpecPinVertical = Properties.Resources.ProfessionalPinVerticalButton;
-        private static readonly Image _buttonSpecPinHorizontal = Properties.Resources.ProfessionalPinHorizontalButton;
-        private static readonly Image _buttonSpecPendantClose = Properties.Resources.MdiClose;
-        private static readonly Image _buttonSpecPendantMin = Properties.Resources.MdiMin;
-        private static readonly Image _buttonSpecPendantRestore = Properties.Resources.MdiRestore;
-        private static readonly Image _buttonSpecWorkspaceMaximize = Properties.Resources.ProfessionalMaximize;
-        private static readonly Image _buttonSpecWorkspaceRestore = Properties.Resources.ProfessionalRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.MdiRibbonMinimize;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.MdiRibbonExpand;
-        private static readonly Image _contextMenuChecked = Properties.Resources.Office2007Checked;
-        private static readonly Image _contextMenuIndeterminate = Properties.Resources.Office2007Indeterminate;
+        private static readonly Image _disabledDropDown = Resources.DisabledDropDownButton;
+        private static readonly Image _buttonSpecClose = Resources.ProfessionalCloseButton;
+        private static readonly Image _buttonSpecContext = Resources.ProfessionalContextButton;
+        private static readonly Image _buttonSpecNext = Resources.ProfessionalNextButton;
+        private static readonly Image _buttonSpecPrevious = Resources.ProfessionalPreviousButton;
+        private static readonly Image _buttonSpecArrowLeft = Resources.ProfessionalArrowLeftButton;
+        private static readonly Image _buttonSpecArrowRight = Resources.ProfessionalArrowRightButton;
+        private static readonly Image _buttonSpecArrowUp = Resources.ProfessionalArrowUpButton;
+        private static readonly Image _buttonSpecArrowDown = Resources.ProfessionalArrowDownButton;
+        private static readonly Image _buttonSpecDropDown = Resources.ProfessionalDropDownButton;
+        private static readonly Image _buttonSpecPinVertical = Resources.ProfessionalPinVerticalButton;
+        private static readonly Image _buttonSpecPinHorizontal = Resources.ProfessionalPinHorizontalButton;
+        private static readonly Image _buttonSpecPendantClose = Resources.MdiClose;
+        private static readonly Image _buttonSpecPendantMin = Resources.MdiMin;
+        private static readonly Image _buttonSpecPendantRestore = Resources.MdiRestore;
+        private static readonly Image _buttonSpecWorkspaceMaximize = Resources.ProfessionalMaximize;
+        private static readonly Image _buttonSpecWorkspaceRestore = Resources.ProfessionalRestore;
+        private static readonly Image _buttonSpecRibbonMinimize = Resources.MdiRibbonMinimize;
+        private static readonly Image _buttonSpecRibbonExpand = Resources.MdiRibbonExpand;
+        private static readonly Image _contextMenuChecked = Resources.Office2007Checked;
+        private static readonly Image _contextMenuIndeterminate = Resources.Office2007Indeterminate;
 
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
@@ -272,8 +272,7 @@ namespace Krypton.Toolkit
                             return InheritBool.True;
                     }
                 case PaletteBackStyle.ButtonInputControl:
-                    if ((state == PaletteState.Disabled) ||
-                        (state == PaletteState.Normal))
+                    if (state is PaletteState.Disabled or PaletteState.Normal)
                     {
                         return InheritBool.False;
                     }
@@ -2812,12 +2811,7 @@ namespace Krypton.Toolkit
                             }
 
                         case PaletteState.NormalDefaultOverride:
-                            if ((style == PaletteBorderStyle.ButtonLowProfile) ||
-                                (style == PaletteBorderStyle.ButtonBreadCrumb) ||
-                                (style == PaletteBorderStyle.ButtonListItem) ||
-                                (style == PaletteBorderStyle.ButtonCommand) ||
-                                (style == PaletteBorderStyle.ButtonButtonSpec) ||
-                                (style == PaletteBorderStyle.ContextMenuItemHighlight))
+                            if (style is PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ContextMenuItemHighlight)
                             {
                                 return Color.Empty;
                             }

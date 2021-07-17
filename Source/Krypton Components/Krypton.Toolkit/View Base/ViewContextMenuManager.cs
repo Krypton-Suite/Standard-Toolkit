@@ -72,6 +72,7 @@ namespace Krypton.Toolkit
             }
 
             base.Dispose();
+            GC.SuppressFinalize(this);
         }
         #endregion
 

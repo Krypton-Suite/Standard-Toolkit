@@ -79,7 +79,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                ViewHightlightController controller = new ViewHightlightController(this, needPaint);
+                ViewHightlightController controller = new(this, needPaint);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -297,7 +297,7 @@ namespace Krypton.Ribbon
                 ((int)_ribbonTriple.ItemSizeMinimum <= (int)GroupItemSize.Medium))
             {
                 ApplySize(GroupItemSize.Medium);
-                ItemSizeWidth mediumWidth = new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width);
+                ItemSizeWidth mediumWidth = new(GroupItemSize.Medium, GetPreferredSize(context).Width);
 
                 if (_ribbon.InDesignHelperMode)
                 {
@@ -323,7 +323,7 @@ namespace Krypton.Ribbon
             if (_ribbonTriple.ItemSizeMinimum == GroupItemSize.Small)
             {
                 ApplySize(GroupItemSize.Small);
-                ItemSizeWidth smallWidth = new ItemSizeWidth(GroupItemSize.Small, GetPreferredSize(context).Width);
+                ItemSizeWidth smallWidth = new(GroupItemSize.Small, GetPreferredSize(context).Width);
 
                 if (_ribbon.InDesignHelperMode)
                 {
@@ -635,7 +635,7 @@ namespace Krypton.Ribbon
             // Remove all child elements
             Clear();
 
-            ItemToView regenerate = new ItemToView();
+            ItemToView regenerate = new();
 
             // Add a view element for each group item
             foreach (IRibbonGroupItem item in _ribbonTriple.Items)

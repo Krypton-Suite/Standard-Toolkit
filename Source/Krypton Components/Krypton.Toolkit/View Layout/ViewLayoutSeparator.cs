@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
             // Always return the same minimum size
-            return new(_width, _height);
+            return new Size(_width, _height);
         }
 
         /// <summary>

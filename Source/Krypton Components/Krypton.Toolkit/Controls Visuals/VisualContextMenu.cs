@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the reason for the context menu being closed.
         /// </summary>
-        public Nullable<ToolStripDropDownCloseReason> CloseReason => _provider.ProviderCloseReason;
+        public ToolStripDropDownCloseReason? CloseReason => _provider.ProviderCloseReason;
 
         /// <summary>
         /// Show the context menu relative to the current mouse location.
@@ -382,7 +382,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected PaletteRedirect Redirector
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 

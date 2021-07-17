@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual Component[] GetChildComponents()
         {
-            return new Component[] { };
+            return MissingFrameWorkAPIs.Array_Empty<Component>();
         }
         #endregion
     }

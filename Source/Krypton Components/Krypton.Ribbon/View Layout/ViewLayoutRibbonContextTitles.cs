@@ -192,7 +192,7 @@ namespace Krypton.Ribbon
             clipRect.Height++;
 
             // Limit drawing to our client area
-            using(Clipping clip = new Clipping(context.Graphics, clipRect))
+            using(Clipping clip = new(context.Graphics, clipRect))
             {
                 base.Render(context);
             }
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
                 for (int i = _contextTitlesCache.Count; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
                 {
                     // Create a new view element and an associated button controller
-                    ViewDrawRibbonContextTitle viewContextTitle = new ViewDrawRibbonContextTitle(_ribbon, _ribbon.StateContextCheckedNormal.RibbonTab)
+                    ViewDrawRibbonContextTitle viewContextTitle = new(_ribbon, _ribbon.StateContextCheckedNormal.RibbonTab)
                     {
                         MouseController = new ContextTitleController(_ribbon)
                     };

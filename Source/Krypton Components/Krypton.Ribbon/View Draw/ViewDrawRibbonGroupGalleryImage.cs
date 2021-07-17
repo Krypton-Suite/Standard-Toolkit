@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
                                               
     {
         #region Static Fields
-        private static readonly Size _largeSize = new Size(32, 32);
+        private static readonly Size _largeSize = new(32, 32);
         #endregion
 
         #region Instance Fields

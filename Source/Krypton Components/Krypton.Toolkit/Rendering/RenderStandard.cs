@@ -354,21 +354,21 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta,
                 ImageSize = new Size(17, 11)
             };
-            _gridSortOrder.Images.AddStrip(Properties.Resources.GridSortOrder);
+            _gridSortOrder.Images.AddStrip(Resources.GridSortOrder);
 
             _gridRowIndicators = new ImageList
             {
                 TransparentColor = Color.Magenta,
                 ImageSize = new Size(19, 13)
             };
-            _gridRowIndicators.Images.AddStrip(Properties.Resources.GridRowIndicators);
+            _gridRowIndicators.Images.AddStrip(Resources.GridRowIndicators);
 
             _gridErrorIcon = new ImageList
             {
                 TransparentColor = Color.Magenta,
                 ImageSize = new Size(18, 17)
             };
-            _gridErrorIcon.Images.AddStrip(Properties.Resources.GridErrorIcon);
+            _gridErrorIcon.Images.AddStrip(Resources.GridErrorIcon);
         }
         #endregion
 
@@ -1636,16 +1636,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="tabBorderStyle">Style of tab border.</param>
         /// <returns>True for left to right, otherwise draw right to left.</returns>
-        public override bool GetTabBorderLeftDrawing(TabBorderStyle tabBorderStyle)
-        {
-            switch (tabBorderStyle)
-            {
-                case TabBorderStyle.OneNote:
-                    return false;
-                default:
-                    return true;
-            }
-        }
+        public override bool GetTabBorderLeftDrawing(TabBorderStyle tabBorderStyle) => tabBorderStyle != TabBorderStyle.OneNote;
 
         /// <summary>
         /// Gets the spacing used to separate each tab border instance.
@@ -3857,8 +3848,6 @@ namespace Krypton.Toolkit
                                                          bool smoothing,
                                                          int variant)
         {
-            Rectangle origRect = rect;
-
             GraphicsPath borderPath = new();
 
             // A zero size rectangle cannot be drawn, so return a null path
@@ -7264,17 +7253,17 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupAreaBorder cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonGroupAreaBorder))
+                if (memento is MementoRibbonGroupAreaBorder ribbonGroupAreaBorder)
+                {
+                    cache = ribbonGroupAreaBorder;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonGroupAreaBorder(rect, c1, c2, c3, c4, c5);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonGroupAreaBorder)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -7388,17 +7377,17 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupAreaBorder3 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonGroupAreaBorder3))
+                if (memento is MementoRibbonGroupAreaBorder3 ribbonGroupAreaBorder3)
+                {
+                    cache = ribbonGroupAreaBorder3;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonGroupAreaBorder3(rect, c1, c2, c3, c4, c5);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonGroupAreaBorder3)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -7467,17 +7456,17 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupAreaBorderContext cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonGroupAreaBorderContext))
+                if (memento is MementoRibbonGroupAreaBorderContext groupAreaBorderContext)
+                {
+                    cache = groupAreaBorderContext;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonGroupAreaBorderContext(rect, c1, c2, c3);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonGroupAreaBorderContext)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -7583,17 +7572,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabTracking2007 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabTracking2007))
+                if (memento is MementoRibbonTabTracking2007 tracking2007)
+                {
+                    cache = tracking2007;
+                    generate = !cache.UseCachedValues(rect, c1, c2, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabTracking2007(rect, c1, c2, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabTracking2007)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?

@@ -299,7 +299,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group button cluster items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonGroupClusterCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonRibbonGroupClusterCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupClusterCollection Items { get; }
 

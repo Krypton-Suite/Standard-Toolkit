@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewBinaryCell : DataGridViewTextBoxCell
     {
         #region Instance Fields
-        private static Type defaultValueType = typeof(object);
+        private static readonly Type defaultValueType = typeof(object);
         private Type _editorType;
         #endregion
 

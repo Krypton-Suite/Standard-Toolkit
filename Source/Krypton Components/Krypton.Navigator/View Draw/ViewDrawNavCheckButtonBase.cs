@@ -409,8 +409,8 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create two decorators in order to support tooltips and hover events
-            ToolTipController toolTipController = new ToolTipController(Navigator.ToolTipManager, this, _buttonController);
-            ToolTipController hoverController = new ToolTipController(Navigator.HoverManager, this, toolTipController);
+            ToolTipController toolTipController = new(Navigator.ToolTipManager, this, _buttonController);
+            ToolTipController hoverController = new(Navigator.HoverManager, this, toolTipController);
             return hoverController;
         }
         #endregion
@@ -479,7 +479,7 @@ namespace Krypton.Navigator
             }
 
             // Generate event so user can decide what, if any, context menu to show
-            ShowContextMenuArgs scma = new ShowContextMenuArgs(_page, Navigator.Pages.IndexOf(_page));
+            ShowContextMenuArgs scma = new(_page, Navigator.Pages.IndexOf(_page));
             Navigator.OnShowContextMenu(scma);
 
             // Do we need to show a context menu

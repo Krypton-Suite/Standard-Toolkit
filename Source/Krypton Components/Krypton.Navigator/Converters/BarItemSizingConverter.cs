@@ -38,10 +38,10 @@ namespace Krypton.Navigator
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(BarItemSizing.Individual,           "Individual Sizing"),
-            new Pair(BarItemSizing.SameHeight,           "All Same Height"),
-            new Pair(BarItemSizing.SameWidth,            "All Same Width"),
-            new Pair(BarItemSizing.SameWidthAndHeight,   "All Same Width & Height") };
+        { new(BarItemSizing.Individual,           "Individual Sizing"),
+            new(BarItemSizing.SameHeight,           "All Same Height"),
+            new(BarItemSizing.SameWidth,            "All Same Width"),
+            new(BarItemSizing.SameWidthAndHeight,   "All Same Width & Height") };
 
         #endregion
     }

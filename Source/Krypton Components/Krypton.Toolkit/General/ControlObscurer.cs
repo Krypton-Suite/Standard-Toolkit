@@ -188,6 +188,7 @@ namespace Krypton.Toolkit
                 _obscurer.Dispose();
                 _obscurer = null;
             }
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

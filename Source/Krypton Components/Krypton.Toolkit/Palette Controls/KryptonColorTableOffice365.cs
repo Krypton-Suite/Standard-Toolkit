@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provide KryptonColorTableOffice365 values using an array of Color values as the source.
     /// </summary>
-    /// <seealso cref="Krypton.Toolkit.KryptonColorTable" />
+    /// <seealso cref="KryptonColorTable" />
     public class KryptonColorTableOffice365 : KryptonColorTable
     {
         #region Static Fields
@@ -38,8 +38,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private Color[] _colors;
-        private InheritBool _roundedEdges;
+        private readonly Color[] _colors;
+        private readonly InheritBool _roundedEdges;
         #endregion
 
         #region Identity
@@ -624,15 +624,9 @@ namespace Krypton.Toolkit
         private static void DefineFonts()
         {
             // Release existing resources
-            if (_menuToolFont != null)
-            {
-                _menuToolFont.Dispose();
-            }
+            _menuToolFont?.Dispose();
 
-            if (_statusFont != null)
-            {
-                _statusFont.Dispose();
-            }
+            _statusFont?.Dispose();
 
             // Create new font using system information
             _menuToolFont = new Font("Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);

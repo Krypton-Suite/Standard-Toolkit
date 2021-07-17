@@ -47,7 +47,7 @@ namespace Krypton.Navigator
             };
 
             // Create the view element that lays out the check/tab buttons
-            ViewLayoutBarForTabs layoutBar = new ViewLayoutBarForTabs(Navigator.Bar.ItemSizing,
+            ViewLayoutBarForTabs layoutBar = new(Navigator.Bar.ItemSizing,
                                                                       Navigator.Bar.ItemAlignment,
                                                                       Navigator.Bar.BarMultiline,
                                                                       Navigator.Bar.ItemMinimumSize,

@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
                                                            IRibbonViewGroupItemView
     {
         #region Static Fields
-        private static readonly Padding _smallImagePadding = new Padding(3);
+        private static readonly Padding _smallImagePadding = new(3);
         #endregion
 
         #region Instance Fields
@@ -371,7 +371,7 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new ViewLayoutDocker();
+            ViewLayoutDocker contentLayout = new();
 
             // Create the image and drop down content
             _viewMediumSmallImage = new ViewDrawRibbonGroupClusterColorButtonImage(_ribbon, GroupClusterColorButton);
@@ -382,7 +382,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewMediumSmallText2Sep1 = new ViewLayoutRibbonSeparator(3, false);
             _viewMediumSmallText2Sep2 = new ViewLayoutRibbonSeparator(3, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
+            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };

@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Ribbon group display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Group")]
         public string TextLine1
         {
@@ -228,7 +228,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Ribbon group display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -297,7 +297,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Group image when collapsed.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _image;
@@ -444,7 +444,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonGroupContainerCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupContainerCollection Items { get; }
 

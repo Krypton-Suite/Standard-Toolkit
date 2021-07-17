@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            Attribute[] attributes = new Attribute[0];
+            Attribute[] attributes = MissingFrameWorkAPIs.Array_Empty<Attribute>();
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties

@@ -462,7 +462,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group triple items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonGroupTripleCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonRibbonGroupTripleCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupTripleCollection Items { get; }
 

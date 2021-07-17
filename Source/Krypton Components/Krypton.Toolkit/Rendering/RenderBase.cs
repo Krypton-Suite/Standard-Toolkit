@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         public IRenderBorder RenderStandardBorder 
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
         public IRenderBack RenderStandardBack
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
         public IRenderContent RenderStandardContent
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         public IRenderTabBorder RenderTabBorder
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
         public IRenderRibbon RenderRibbon
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         public IRenderGlyph RenderGlyph 
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>

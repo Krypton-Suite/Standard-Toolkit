@@ -268,7 +268,7 @@ namespace Krypton.Toolkit
         [Description("Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get => _paletteMode;
 
             set
@@ -314,7 +314,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         public IPalette Palette
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get => _localPalette;
 
             set
@@ -407,7 +407,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IRenderer Renderer
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             private set;
         }
@@ -622,7 +622,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteRedirect derived class.</returns>
         private PaletteRedirect CreateRedirector()
         {
-            return new(_palette);
+            return new PaletteRedirect(_palette);
         }
 
         /// <summary>

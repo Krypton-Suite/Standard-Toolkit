@@ -21,8 +21,8 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonQATExtraButton : ViewLeaf
     {
         #region Static Fields
-        private static readonly Size _viewSize = new Size(13, 22);
-        private static readonly Size _contentSize = new Size(-4, -7);
+        private static readonly Size _viewSize = new(13, 22);
+        private static readonly Size _contentSize = new(-4, -7);
         #endregion
 
         #region Instance Fields
@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
             _finishDelegate = ClickFinished;
 
             // Attach a controller to this element for the pressing of the button
-            QATExtraButtonController controller = new QATExtraButtonController(ribbon, this, needPaint);
+            QATExtraButtonController controller = new(ribbon, this, needPaint);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;

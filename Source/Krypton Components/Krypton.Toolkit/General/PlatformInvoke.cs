@@ -23,23 +23,29 @@
 #pragma warning disable 649
 
 
+using static Krypton.Toolkit.WIN32ScrollBars;
+
 namespace Krypton.Toolkit
 {
     internal class PI
     {
         #region statics
+
         /// <summary>
         ///     Places the window above all non-topmost windows. The window maintains its topmost position even when it is deactivated.
         /// </summary>
         internal static readonly IntPtr HWND_TOPMOST = new(-1);
+
         /// <summary>
         ///     Places the window above all non-topmost windows (that is, behind all topmost windows). This flag has no effect if the window is already a non-topmost window.
         /// </summary>
         internal static readonly IntPtr HWND_NOTOPMOST = new(-2);
+
         /// <summary>
         ///     Places the window at the top of the Z order.
         /// </summary>
         internal static readonly IntPtr HWND_TOP = new(0);
+
         /// <summary>
         ///     Places the window at the bottom of the Z order. If the hWnd parameter identifies a topmost window, the window loses its topmost status and is placed at the bottom of all other windows.
         /// </summary>
@@ -48,6 +54,74 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constants
+
+        #region ScrollBar
+
+        internal enum SIF_
+        {
+            RANGE = 0x1,
+            PAGE = 0x2,
+            POS = 0x4,
+            DISABLENOSCROLL = 0x8,
+            TRACKPOS = 0x16,
+            ALL = (RANGE | PAGE | POS | TRACKPOS)
+        }
+
+        internal enum SB_
+        {
+            LINEUP = 0,
+            LINELEFT = 0,
+            LINEDOWN = 1,
+            LINERIGHT = 1,
+            PAGEUP = 2,
+            PAGELEFT = 2,
+            PAGEDOWN = 3,
+            PAGERIGHT = 3,
+            THUMBPOSITION = 4,
+            THUMBTRACK = 5,
+            TOP = 6,
+            LEFT = 6,
+            BOTTOM = 7,
+            RIGHT = 7,
+            ENDSCROLL = 8,
+
+            HORZ = 0,
+            VERT = 1,
+            CTL = 2,
+            BOTH = 3
+        }
+
+        internal enum SBM_
+        {
+            ENABLE_ARROWS = 0x00E4, /*not in win3.1 */
+            SETSCROLLINFO = 0x00E9,
+            GETSCROLLINFO = 0x00EA
+        }
+
+        internal const int LB_SETHORIZONTALEXTENT = 0x194;
+
+        internal const Int32 LVM_FIRST = 0x1000;
+        internal const Int32 LVM_SCROLL = LVM_FIRST + 20;
+
+        internal enum ScrollBarType
+        {
+            Vertical = 0,
+            Horizontal = 1
+        }
+
+        internal enum ESB_
+        {
+            ENABLE_BOTH = 0,
+            DISABLE_BOTH = 3,
+            DISABLE_LEFT = 1,
+            DISABLE_RIGHT = 2,
+            DISABLE_UP = 1,
+            DISABLE_DOWN = 2,
+            DISABLE_LTUP = 1,
+            DISABLE_RTDN = 2
+        }
+
+        #endregion  ScrollBar
 
         #region  TreeView
         [Flags]
@@ -881,7 +955,7 @@ namespace Krypton.Toolkit
             SW_SHOWMAXIMIZED = 3,
             /// <summary>
             /// Displays a window in its most recent size and position. This value
-            /// is similar to <see cref="PI.ShowWindowCommands.SW_NORMAL"/>, except
+            /// is similar to <see cref="SW_NORMAL"/>, except
             /// the window is not activated.
             /// </summary>
             SW_SHOWNOACTIVATE = 4,
@@ -896,13 +970,13 @@ namespace Krypton.Toolkit
             SW_MINIMIZE = 6,
             /// <summary>
             /// Displays the window as a minimized window. This value is similar to
-            /// <see cref="PI.ShowWindowCommands.SW_SHOWMINIMIZED"/>, except the
+            /// <see cref="SW_SHOWMINIMIZED"/>, except the
             /// window is not activated.
             /// </summary>
             SW_SHOWMINNOACTIVE = 7,
             /// <summary>
             /// Displays the window in its current size and position. This value is
-            /// similar to <see cref="PI.ShowWindowCommands.SW_SHOW"/>, except the
+            /// similar to <see cref="SW_SHOW"/>, except the
             /// window is not activated.
             /// </summary>
             SW_SHOWNA = 8,
@@ -2063,9 +2137,6 @@ namespace Krypton.Toolkit
                 // </summary>
                 GROUP = 0x20000,
 
-                // <summary>The window has a horizontal scroll bar.</summary>
-                HSCROLL = 0x100000,
-
                 // <summary>The window is initially maximized.</summary>
                 MAXIMIZE = 0x1000000,
 
@@ -2106,6 +2177,9 @@ namespace Krypton.Toolkit
 
                 // <summary>The window is initially visible. This style can be turned on and off by using the ShowWindow or SetWindowPos function.</summary>
                 VISIBLE = 0x10000000,
+
+                // <summary>The window has a horizontal scroll bar.</summary>
+                HSCROLL = 0x100000,
 
                 // <summary>The window has a vertical scroll bar.</summary>
                 VSCROLL = 0x200000;
@@ -2316,9 +2390,71 @@ namespace Krypton.Toolkit
         {
             return ((value & 0xFFFF) << 0x10);
         }
+
+        internal static int MakeLParam(int LoWord, int HiWord)
+        {
+            return ((HiWord << 16) | (LoWord & 0xffff));
+        }
+
+        /// <summary>
+        /// Is the specified key currently pressed down.
+        /// </summary>
+        /// <param name="key">Key to test.</param>
+        /// <returns>True if pressed; otherwise false.</returns>
+        internal static bool IsKeyDown(Keys key)
+        {
+            return KEY_.DOWN == (GetKeyState(key) & KEY_.DOWN);
+        }
+
+        /// <summary>
+        /// Is the specified key currently toggled.
+        /// </summary>
+        /// <param name="key">Key to test.</param>
+        /// <returns>True if toggled; otherwise false.</returns>
+        internal static bool IsKeyToggled(Keys key)
+        {
+            return KEY_.TOGGLED == (GetKeyState(key) & KEY_.TOGGLED);
+        }
+
+        private static KEY_ GetKeyState(Keys key)
+        {
+            KEY_ state = KEY_.NONE;
+
+            ushort retVal = GetKeyState((int)key);
+
+            if ((retVal & 0x8000) == 0x8000)
+            {
+                state |= KEY_.DOWN;
+            }
+
+            if ((retVal & 1) == 1)
+            {
+                state |= KEY_.TOGGLED;
+            }
+
+            return state;
+        }
         #endregion
 
         #region Static User32
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool GetScrollInfo(IntPtr hWnd, SB_ nBar, ref ScrollInfo lpScrollInfo);
+        
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern int SetScrollInfo(IntPtr hwnd, SB_ nBar, ref ScrollInfo lpcScrollInfo, bool redraw);
+
+        [DllImport("user32.dll")]
+        internal static extern int GetScrollPos(IntPtr hWnd, SB_ nBar);
+        
+        [DllImport("user32.dll")]
+        internal static extern int SetScrollPos(IntPtr hWnd, SB_ nBar, int nPos, bool bRedraw);
+
+        [DllImport("user32.dll")]
+        internal static extern bool GetScrollRange(IntPtr Handle, SB_ nBar, ref IntPtr min, ref IntPtr max);
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        internal static extern IntPtr LoadImage(IntPtr hinst, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern bool SetMenu(HandleRef hWnd, HandleRef hMenu);
@@ -2330,9 +2466,6 @@ namespace Krypton.Toolkit
 
         [DllImport("user32.dll")]
         internal static extern IntPtr SetWindowsHookEx(WH_ idHook, HookProc lpfn, IntPtr hInstance, int threadId);
-
-        [DllImport("kernel32.dll")]
-        internal static extern int GetCurrentThreadId();
 
         [DllImport("user32.dll")]
         internal static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
@@ -2512,7 +2645,7 @@ namespace Krypton.Toolkit
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern bool TranslateMessage([In] ref MSG lpMsg);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
@@ -2530,7 +2663,7 @@ namespace Krypton.Toolkit
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         internal static extern uint RegisterWindowMessage(string lpString);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2784,7 +2917,7 @@ namespace Krypton.Toolkit
                 dwFlags = DWM_BB.Enable;
             }
 
-            public System.Drawing.Region Region => System.Drawing.Region.FromHrgn(hRgnBlur);
+            public Region Region => Region.FromHrgn(hRgnBlur);
 
             public bool TransitionOnMaximized
             {
@@ -2796,14 +2929,13 @@ namespace Krypton.Toolkit
                 }
             }
 
-            public void SetRegion(System.Drawing.Graphics graphics, System.Drawing.Region region)
+            public void SetRegion(Graphics graphics, Region region)
             {
                 hRgnBlur = region.GetHrgn(graphics);
                 dwFlags |= DWM_BB.BlurRegion;
             }
         }
         #endregion dwmapi
-
 
         #region GDIPlus
         // C# GDI Plus 1.1 provides access to the GDI+ 1.1 functions which are available from Vista onwards
@@ -2886,7 +3018,7 @@ namespace Krypton.Toolkit
         [DllImport("uxtheme.dll", CharSet = CharSet.Auto)]
         internal static extern bool IsThemeActive();
 
-        [DllImport("uxtheme.dll", CharSet = CharSet.Auto)]
+        [DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
         internal static extern int SetWindowTheme(IntPtr hWnd, String subAppName, String subIdList);
 
         [DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
@@ -2894,6 +3026,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Kernel32
+        [DllImport("kernel32.dll")]
+        internal static extern int GetCurrentThreadId();
+
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         internal static extern short QueryPerformanceCounter(ref long var);
 
@@ -2959,6 +3094,18 @@ namespace Krypton.Toolkit
             public int top;
             public int right;
             public int bottom;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct ComboBoxInfo
+        {
+            internal int cbSize;
+            internal RECT rcItem;
+            internal RECT rcButton;
+            internal IntPtr stateButton;
+            internal IntPtr hwndCombo;
+            internal IntPtr hwndEdit;
+            internal IntPtr hwndList;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -3254,49 +3401,6 @@ namespace Krypton.Toolkit
             public RECT rcHelpButton;
             public RECT rcCloseButton;
         }
-        #endregion
-
-
-        #region Methods
-        /// <summary>
-        /// Is the specified key currently pressed down.
-        /// </summary>
-        /// <param name="key">Key to test.</param>
-        /// <returns>True if pressed; otherwise false.</returns>
-        internal static bool IsKeyDown(Keys key)
-        {
-            return KEY_.DOWN == (GetKeyState(key) & KEY_.DOWN);
-        }
-
-        /// <summary>
-        /// Is the specified key currently toggled.
-        /// </summary>
-        /// <param name="key">Key to test.</param>
-        /// <returns>True if toggled; otherwise false.</returns>
-        internal static bool IsKeyToggled(Keys key)
-        {
-            return KEY_.TOGGLED == (GetKeyState(key) & KEY_.TOGGLED);
-        }
-
-        private static KEY_ GetKeyState(Keys key)
-        {
-            KEY_ state = KEY_.NONE;
-
-            ushort retVal = GetKeyState((int)key);
-
-            if ((retVal & 0x8000) == 0x8000)
-            {
-                state |= KEY_.DOWN;
-            }
-
-            if ((retVal & 1) == 1)
-            {
-                state |= KEY_.TOGGLED;
-            }
-
-            return state;
-        }
-
         #endregion
 
     }

@@ -361,7 +361,7 @@ namespace Krypton.Ribbon
             if (_menuItem.CanCloseMenu)
             {
                 // Ask the original context menu definition, if we can close
-                CancelEventArgs cea = new CancelEventArgs();
+                CancelEventArgs cea = new();
                 _menuItem.Closing(cea);
 
                 if (!cea.Cancel)

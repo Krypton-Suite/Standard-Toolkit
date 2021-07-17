@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The supported themes
         /// </summary>
-        private static string[] _supportedThemes = new string[]
+        private static readonly string[] _supportedThemes = new string[]
         {
              "Professional - System",
 
@@ -75,7 +75,8 @@ namespace Krypton.Toolkit
         /// <value>
         /// The supported theme array.
         /// </value>
-        public static string[] SupportedThemeArray { get => _supportedThemes; }
+        public static string[] SupportedThemeArray => _supportedThemes;
+
         #endregion
 
         #region Methods

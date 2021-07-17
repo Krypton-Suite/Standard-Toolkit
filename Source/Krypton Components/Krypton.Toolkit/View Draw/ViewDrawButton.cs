@@ -694,7 +694,7 @@ namespace Krypton.Toolkit
             _drawCanvas.Splitter = _splitter & _dropDown;
 
             ViewDockStyle dockStyle = ViewDockStyle.Right;
-            System.Windows.Forms.Orientation splitOrientation = System.Windows.Forms.Orientation.Vertical;
+            Orientation splitOrientation = System.Windows.Forms.Orientation.Vertical;
             switch (_dropDownPosition)
             {
                 case VisualOrientation.Top:

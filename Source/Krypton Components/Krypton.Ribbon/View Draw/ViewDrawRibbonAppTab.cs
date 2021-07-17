@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
                                           IContentValues
     {
         #region Static Fields
-        private static Padding _preferredBorder = new Padding(17, 4, 17, 3);
+        private static Padding _preferredBorder = new(17, 4, 17, 3);
         #endregion
 
         #region Instance Fields

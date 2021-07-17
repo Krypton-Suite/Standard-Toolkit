@@ -145,7 +145,7 @@ namespace Krypton.Docking
                     if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))
                     {
                         // Use event to indicate the page is becoming docked and allow it to be cancelled
-                        CancelUniqueNameEventArgs args = new CancelUniqueNameEventArgs(page.UniqueName, false);
+                        CancelUniqueNameEventArgs args = new(page.UniqueName, false);
                         manager?.RaisePageDockedRequest(args);
 
                         if (!args.Cancel)

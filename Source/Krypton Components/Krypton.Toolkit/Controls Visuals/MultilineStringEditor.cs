@@ -23,7 +23,6 @@ namespace Krypton.Toolkit
     {
         #region Instance Members
         private bool _saveChanges = true;
-        private readonly KryptonPanel _panel;
         private readonly KryptonTextBox _textBox;
         private readonly KryptonTextBox _owner;
         private VisualStyleRenderer _sizeGripRenderer;

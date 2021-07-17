@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Starting color of the gradient used when the button is checked.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonCheckedGradientBegin
         {
             get => InternalKCT.InternalButtonCheckedGradientBegin;
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Ending color of the gradient used when the button is checked.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonCheckedGradientEnd
         {
             get => InternalKCT.InternalButtonCheckedGradientEnd;
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Middle color of the gradient used when the button is checked.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonCheckedGradientMiddle
         {
             get => InternalKCT.InternalButtonCheckedGradientMiddle;
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Highlight color used when the button is checked.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonCheckedHighlight
         {
             get => InternalKCT.InternalButtonCheckedHighlight;
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Border color to use with ButtonCheckedHighlight.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonCheckedHighlightBorder
         {
             get => InternalKCT.InternalButtonCheckedHighlightBorder;
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Border color to use with the ButtonPressedGradientBegin, ButtonPressedGradientMiddle, and ButtonPressedGradientEnd colors.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonPressedBorder
         {
             get => InternalKCT.InternalButtonPressedBorder;
@@ -270,7 +270,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Starting color of the gradient used when the button is pressed.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonPressedGradientBegin
         {
             get => InternalKCT.InternalButtonPressedGradientBegin;
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Ending color of the gradient used when the button is pressed.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonPressedGradientEnd
         {
             get => InternalKCT.InternalButtonPressedGradientEnd;
@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Middle color of the gradient used when the button is pressed.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonPressedGradientMiddle
         {
             get => InternalKCT.InternalButtonPressedGradientMiddle;
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Solid color used when the button is pressed.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonPressedHighlight
         {
             get => InternalKCT.InternalButtonPressedHighlight;
@@ -382,7 +382,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Border color to use with ButtonPressedHighlight.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonPressedHighlightBorder
         {
             get => InternalKCT.InternalButtonPressedHighlightBorder;
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Border color to use with the ButtonSelectedGradientBegin, ButtonSelectedGradientMiddle, and ButtonSelectedGradientEnd colors.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonSelectedBorder
         {
             get => InternalKCT.InternalButtonSelectedBorder;
@@ -438,7 +438,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Starting color of the gradient used when the button is selected.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonSelectedGradientBegin
         {
             get => InternalKCT.InternalButtonSelectedGradientBegin;
@@ -466,7 +466,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Ending color of the gradient used when the button is selected.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonSelectedGradientEnd
         {
             get => InternalKCT.InternalButtonSelectedGradientEnd;
@@ -494,7 +494,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Middle color of the gradient used when the button is selected.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonSelectedGradientMiddle
         {
             get => InternalKCT.InternalButtonSelectedGradientMiddle;
@@ -522,7 +522,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Solid color used when the button is selected.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonSelectedHighlight
         {
             get => InternalKCT.InternalButtonSelectedHighlight;
@@ -550,7 +550,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Border color to use with ButtonSelectedHighlight.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ButtonSelectedHighlightBorder
         {
             get => InternalKCT.InternalButtonSelectedHighlightBorder;
@@ -578,7 +578,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Solid color to use when the button is checked and gradients are being used.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color CheckBackground
         {
             get => InternalKCT.InternalCheckBackground;
@@ -606,7 +606,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Solid color to use when the button is checked and selected and gradients are being used.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color CheckPressedBackground
         {
             get => InternalKCT.InternalCheckPressedBackground;
@@ -634,7 +634,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Solid color to use when the button is checked and selected and gradients are being used.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color CheckSelectedBackground
         {
             get => InternalKCT.InternalCheckSelectedBackground;
@@ -662,7 +662,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Starting color of the gradient used in the ToolStripOverflowButton.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color OverflowButtonGradientBegin
         {
             get => InternalKCT.InternalOverflowButtonGradientBegin;
@@ -690,7 +690,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Ending color of the gradient used in the ToolStripOverflowButton.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color OverflowButtonGradientEnd
         {
             get => InternalKCT.InternalOverflowButtonGradientEnd;
@@ -718,7 +718,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Middle color of the gradient used in the ToolStripOverflowButton.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color OverflowButtonGradientMiddle
         {
             get => InternalKCT.InternalOverflowButtonGradientMiddle;

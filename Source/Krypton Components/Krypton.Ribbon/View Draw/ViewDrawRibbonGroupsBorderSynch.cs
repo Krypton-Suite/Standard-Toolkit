@@ -95,7 +95,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo; otherwise null.</returns>
         public KeyTipInfo[] GetGroupKeyTips(KryptonRibbonTab tab) => _tabToView.ContainsKey(tab)
             ? _tabToView[tab].GetGroupKeyTips()
-            : new KeyTipInfo[] { };
+            : MissingFrameWorkAPIs.Array_Empty<KeyTipInfo>();
 
         #endregion
 
@@ -208,7 +208,7 @@ namespace Krypton.Ribbon
             Clear();
 
             // Create a new lookup that reflects any changes in tabs
-            TabToView regenerate = new TabToView();
+            TabToView regenerate = new();
 
             // Make sure we have a view element to match each tab
             foreach (KryptonRibbonTab tab in Ribbon.RibbonTabs)
@@ -224,7 +224,7 @@ namespace Krypton.Ribbon
                 // If a new tab, create a view for it now
                 if (view == null)
                 {
-                    ViewLayoutRibbonGroups groups = new ViewLayoutRibbonGroups(Ribbon, tab, NeedPaintDelegate);
+                    ViewLayoutRibbonGroups groups = new(Ribbon, tab, NeedPaintDelegate);
                     view = new ViewLayoutRibbonScrollPort(Ribbon, Orientation.Horizontal, groups, false, SCROLL_SPEED, NeedPaintDelegate)
                     {
                         TransparentBackground = true

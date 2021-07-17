@@ -85,7 +85,7 @@ namespace Krypton.Ribbon
                 {
                     // Have to rescale the image when drawing, so need to use own
                     // mechanism for the converting of the image to a disabled one
-                    using (ImageAttributes attribs = new ImageAttributes())
+                    using (ImageAttributes attribs = new())
                     {
                         // Use attributes to wash out the color to look disabled
                         attribs.SetColorMatrix(CommonHelper.MatrixDisabled);

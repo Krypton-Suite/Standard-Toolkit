@@ -5,8 +5,10 @@
         #region Variables
         private DesignerVerbCollection _verbs;
 
+        // TODO: When is this assigned to ?
         private IComponentChangeService _service;
 
+        // TODO: When is this assigned to ?
         private KryptonPalette _palette;
         #endregion
 

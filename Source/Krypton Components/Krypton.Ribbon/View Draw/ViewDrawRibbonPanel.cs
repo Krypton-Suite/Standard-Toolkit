@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
                 int tabsHeight = _ribbon.TabsArea.ClientHeight;
 
                 // Clip to prevent drawing over the tabs area
-                using (Clipping clip = new Clipping(context.Graphics, new Rectangle(ClientLocation.X, ClientLocation.Y + tabsHeight, ClientWidth, ClientHeight - tabsHeight)))
+                using (Clipping clip = new(context.Graphics, new Rectangle(ClientLocation.X, ClientLocation.Y + tabsHeight, ClientWidth, ClientHeight - tabsHeight)))
                 {
                     base.RenderBefore(context);
                 }
@@ -106,10 +106,10 @@ namespace Krypton.Ribbon
                 }
                 else if ((sender != null) && !_ribbon.MinimizedMode)
                 {
-                    using (ViewDrawRibbonGroupsBorder border = new ViewDrawRibbonGroupsBorder(_ribbon, false, _paintDelegate))
+                    using (ViewDrawRibbonGroupsBorder border = new(_ribbon, false, _paintDelegate))
                     {
                         border.ClientRectangle = new Rectangle(-sender.Location.X, rect.Bottom - 1, _ribbon.Width, 10);
-                        using (RenderContext context = new RenderContext(_ribbon, g, rect, _ribbon.Renderer))
+                        using (RenderContext context = new(_ribbon, g, rect, _ribbon.Renderer))
                         {
                             border.Render(context);
                         }
@@ -123,7 +123,7 @@ namespace Krypton.Ribbon
                         ? Color.FromArgb(39, 39, 39)
                         : Color.White;
 
-                    using (LinearGradientBrush backBrush = new LinearGradientBrush(new Rectangle(rect.X, rect.Y - 1, rect.Width, rect.Height + 1), Color.Transparent, gradientColor, 90f))
+                    using (LinearGradientBrush backBrush = new(new Rectangle(rect.X, rect.Y - 1, rect.Width, rect.Height + 1), Color.Transparent, gradientColor, 90f))
                     {
                         backBrush.Blend = _compBlend;
                         g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
@@ -131,14 +131,14 @@ namespace Krypton.Ribbon
                 }
                 else if (_ribbon.RibbonShape == PaletteRibbonShape.Office2013)
                 {
-                    using (SolidBrush backBrush = new SolidBrush(Color.White))
+                    using (SolidBrush backBrush = new(Color.White))
                     {
                         g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
                     }
                 }
                 else if (_ribbon.RibbonShape == PaletteRibbonShape.Office365)
                 {
-                    using (SolidBrush backBrush = new SolidBrush(Color.White))
+                    using (SolidBrush backBrush = new(Color.White))
                     {
                         g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
                     }

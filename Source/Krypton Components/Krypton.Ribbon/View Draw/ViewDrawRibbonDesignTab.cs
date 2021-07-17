@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDesignTab : ViewDrawRibbonDesignBase
     {
         #region Static Fields
-        private static readonly Padding _padding = new Padding(2, 4, 2, 0);
+        private static readonly Padding _padding = new(2, 4, 2, 0);
         #endregion
 
         #region Identity

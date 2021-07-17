@@ -85,7 +85,7 @@ namespace Krypton.Workspace
                 if (dragEndData.Navigator == Cell)
                 {
                     // Create list of all the visible pages in the cell
-                    KryptonPageCollection visiblePages = new KryptonPageCollection();
+                    KryptonPageCollection visiblePages = new();
                     foreach (KryptonPage page in Cell.Pages)
                     {
                         if (page.LastVisibleSet)
@@ -133,7 +133,7 @@ namespace Krypton.Workspace
             if (Cell.WorkspaceParent is KryptonWorkspaceSequence parent)
             {
                 // Transfer the dragged pages into a new cell
-                KryptonWorkspaceCell cell = new KryptonWorkspaceCell();
+                KryptonWorkspaceCell cell = new();
                 KryptonPage page = ProcessDragEndData(Workspace, cell, data);
 
                 // If no pages are transferred then we do nothing and no longer need cell instance
@@ -154,7 +154,7 @@ namespace Krypton.Workspace
                             : Orientation.Horizontal;
 
                         // Create a new sequence and transfer the target cell into it
-                        KryptonWorkspaceSequence sequence = new KryptonWorkspaceSequence(sequenceOrientation);
+                        KryptonWorkspaceSequence sequence = new(sequenceOrientation);
                         int index = parent.Children.IndexOf(Cell);
                         parent.Children.RemoveAt(index);
                         sequence.Children.Add(Cell);

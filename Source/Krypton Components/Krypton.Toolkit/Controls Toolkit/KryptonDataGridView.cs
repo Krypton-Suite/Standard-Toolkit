@@ -96,7 +96,6 @@ namespace Krypton.Toolkit
         // Cached access to private parent values
         private static PropertyInfo _piRTL;
         private static PropertyInfo _piCML;
-        private static PropertyInfo _piCG;
         private static MethodInfo _miPTB;
         private static MethodInfo _miGCI;
         private static MethodInfo _miGTTT;
@@ -104,11 +103,6 @@ namespace Krypton.Toolkit
         private static MethodInfo _miATT;
         private static MethodInfo _miGPW;
         private static MethodInfo _miGPH;
-        private static FieldInfo _fiLayout;
-        private static FieldInfo _fiColumnHeaders;
-        private static FieldInfo _fiRowHeaders;
-        private static FieldInfo _fiColumnHeadersVisible;
-        private static FieldInfo _fiRowHeadersVisible;
         #endregion
 
         #region Instance Fields
@@ -263,7 +257,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new BorderStyle BorderStyle
         {
-            get { return base.BorderStyle; }
+            get => base.BorderStyle;
             set { /* Do nothing, we do not allow a border style change! */ }
         }
 
@@ -462,7 +456,7 @@ namespace Krypton.Toolkit
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
-            get { return _paletteMode; }
+            get => _paletteMode;
 
             set
             {
@@ -516,7 +510,7 @@ namespace Krypton.Toolkit
         public IPalette Palette
         {
             [DebuggerStepThrough]
-            get { return _localPalette; }
+            get => _localPalette;
 
             set
             {
@@ -858,7 +852,7 @@ namespace Krypton.Toolkit
         public Point CellOver
         {
             get => _cellOver;
-            set { _cellOver = value; }
+            set => _cellOver = value;
         }
 
         //seb
@@ -1259,8 +1253,7 @@ namespace Krypton.Toolkit
                             }
 
                             // If this column supports icons, see if it has any.
-                            IIconCell iconColumn = Columns[e.ColumnIndex] as IIconCell;
-                            if (iconColumn != null)
+                            if (Columns[e.ColumnIndex] is IIconCell iconColumn)
                             {
                                 foreach (IconSpec spec in iconColumn.IconSpecs)
                                 {
@@ -1367,8 +1360,7 @@ namespace Krypton.Toolkit
                                 if ((e.RowIndex >= 0) && (e.ColumnIndex >= 0))
                                 {
                                     // If this cell supports icons, see if it has any.
-                                    IIconCell iconColumn = Rows[e.RowIndex].Cells[e.ColumnIndex] as IIconCell;
-                                    if (iconColumn != null)
+                                    if (Rows[e.RowIndex].Cells[e.ColumnIndex] is IIconCell iconColumn)
                                     {
                                         foreach (IconSpec spec in iconColumn.IconSpecs)
                                         {
@@ -2412,25 +2404,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void CacheAccessToLayout()
-        {
-            // Only need to cache reflection info the first time it is needed
-            if (_fiLayout == null)
-            {
-                // Cache field info about the internal 'layout' instance
-                _fiLayout = typeof(DataGridView).GetField("layout", BindingFlags.Instance |
-                                                                    BindingFlags.NonPublic |
-                                                                    BindingFlags.GetField);
-
-                // Cache field info about the various 'layout' fields we need
-                Type layoutType = _fiLayout.GetValue(this).GetType();
-                _fiColumnHeaders = layoutType.GetField("ColumnHeaders");
-                _fiRowHeaders = layoutType.GetField("RowHeaders");
-                _fiColumnHeadersVisible = layoutType.GetField("ColumnHeadersVisible");
-                _fiRowHeadersVisible = layoutType.GetField("RowHeadersVisible");
-            }
-        }
-
         private DataGridViewCell GetCellInternal(int column, int row)
         {
             // Only need to cache reflection info the first time around
@@ -2443,23 +2416,6 @@ namespace Krypton.Toolkit
             }
 
             return (DataGridViewCell)_miGCI.Invoke(this, new object[] { column, row });
-        }
-
-        private Graphics CachedGraphics
-        {
-            get
-            {
-                // Only need to cache reflection info the first time around
-                if (_piCG == null)
-                {
-                    // Cache access to the internal get property 'CachedGraphics'
-                    _piCG = typeof(DataGridView).GetProperty("CachedGraphics", BindingFlags.Instance |
-                                                                               BindingFlags.NonPublic |
-                                                                               BindingFlags.GetField);
-                }
-
-                return (Graphics)_piCG.GetValue(this, null);
-            }
         }
 
         private string GetToolTipText(DataGridViewCell cell, int row)
@@ -2571,66 +2527,7 @@ namespace Krypton.Toolkit
             }
             return toolTipText;
         }
-
-        private Rectangle GetBackgroundClipRect()
-        {
-            Rectangle cellsRect = Rectangle.Empty;
-
-            // Ensure we have cached access to the internal layout fields
-            CacheAccessToLayout();
-
-            // Get access to the actual internal instance
-            object layout = _fiLayout.GetValue(this);
-
-            // Grab the current internal fields we need
-            Rectangle columnHeaders = (Rectangle)_fiColumnHeaders.GetValue(layout);
-            Rectangle rowHeaders = (Rectangle)_fiRowHeaders.GetValue(layout);
-            bool columnHeadersVisible = (bool)_fiColumnHeadersVisible.GetValue(layout);
-            bool rowHeadersVisible = (bool)_fiRowHeadersVisible.GetValue(layout);
-
-            // Find the width/height of the data cells area
-            int columnsWidth = Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
-            int rowsHeight = Rows.GetRowsHeight(DataGridViewElementStates.Visible);
-
-            // Add on the width/height from showing the optional headers
-            if (columnHeadersVisible)
-            {
-                rowsHeight += columnHeaders.Height;
-            }
-
-            if (rowHeadersVisible)
-            {
-                columnsWidth += rowHeaders.Width;
-            }
-            else
-            {
-                // Seems to be a bug in the base implementation such that without the row
-                // headers showing the column width is 1 too thin. So add one the extra 1
-                // pixel needed when there are no row headers showing.
-                columnsWidth++;
-            }
-
-            // If there are no rows or columns, then not much to do
-            if ((Rows.Count > 0) && (Columns.Count > 0))
-            {
-                // Set the height/width of the cells area
-                cellsRect.Height = rowsHeight;
-                cellsRect.Width = columnsWidth;
-
-                // Adjust to reflect the scrolling
-                cellsRect.Y -= VerticalScrollingOffset;
-                cellsRect.X -= HorizontalScrollingOffset;
-
-                // Adjust the rectangle if using right to left setting
-                if (RightToLeft == RightToLeft.Yes)
-                {
-                    cellsRect.X = (Width - columnsWidth) + HorizontalScrollingOffset;
-                }
-            }
-
-            return cellsRect;
-        }
-
+        
         private void SetPalette(IPalette palette)
         {
             if (palette != _palette)

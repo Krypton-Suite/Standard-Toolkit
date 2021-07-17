@@ -109,8 +109,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Main background color.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color Color1
         {
             get => _color1;

@@ -80,7 +80,7 @@ namespace Krypton.Workspace
         public override bool PerformDrop(Point screenPt, PageDragEndData data)
         {
             // Transfer the dragged pages into a new cell
-            KryptonWorkspaceCell cell = new KryptonWorkspaceCell();
+            KryptonWorkspaceCell cell = new();
             KryptonPage page = ProcessDragEndData(Workspace, cell, data);
 
             // If no pages are transferred then we do nothing and no longer need cell instance
@@ -96,7 +96,7 @@ namespace Krypton.Workspace
                     (!dropHorizontal && (Workspace.Root.Orientation == Orientation.Horizontal)))
                 {
                     // Create a new sequence and place all existing root items into it
-                    KryptonWorkspaceSequence sequence = new KryptonWorkspaceSequence(Workspace.Root.Orientation);
+                    KryptonWorkspaceSequence sequence = new(Workspace.Root.Orientation);
                     for (int i = Workspace.Root.Children.Count - 1; i >= 0; i--)
                     {
                         Component child = Workspace.Root.Children[i];

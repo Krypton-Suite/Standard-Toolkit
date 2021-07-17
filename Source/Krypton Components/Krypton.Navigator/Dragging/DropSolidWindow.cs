@@ -109,7 +109,7 @@ namespace Krypton.Navigator
             // If we have a solid rectangle to draw
             if (!SolidRect.IsEmpty)
             {
-                using (RenderContext context = new RenderContext(this, e.Graphics, e.ClipRectangle, _renderer))
+                using (RenderContext context = new(this, e.Graphics, e.ClipRectangle, _renderer))
                 {
                     _renderer.RenderGlyph.DrawDragDropSolidGlyph(context, ClientRectangle, _paletteDragDrop);
                 }

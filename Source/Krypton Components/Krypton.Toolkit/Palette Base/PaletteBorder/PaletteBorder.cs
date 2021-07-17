@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Should border be drawn.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
             get => _storage?.BorderDraw ?? InheritBool.Inherit;
@@ -208,7 +208,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Specify which borders should be drawn.")]
         [DefaultValue(typeof(PaletteDrawBorders), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [Editor(typeof(PaletteDrawBordersEditor), typeof(UITypeEditor))]
         public PaletteDrawBorders DrawBorders
         {
@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Hint for drawing graphics.")]
         [DefaultValue(typeof(PaletteGraphicsHint), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteGraphicsHint GraphicsHint
         {
             get => _storage?.BorderGraphicsHint ?? PaletteGraphicsHint.Inherit;
@@ -306,8 +306,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Main border color.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color Color1
         {
             get => _storage?.BorderColor1 ?? Color.Empty;
@@ -354,8 +354,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Secondary border color.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color Color2
         {
             get => _storage?.BorderColor2 ?? Color.Empty;
@@ -402,7 +402,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Border color drawing style.")]
         [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteColorStyle ColorStyle
         {
             get => _storage?.BorderColorStyle ?? PaletteColorStyle.Inherit;
@@ -451,7 +451,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Border color alignment style.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ColorAlign
         {
             get => _storage?.BorderColorAlign ?? PaletteRectangleAlign.Inherit;
@@ -499,7 +499,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Border color angle.")]
         [DefaultValue(-1f)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public float ColorAngle
         {
             get
@@ -556,7 +556,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Border width.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int Width
         {
             get
@@ -613,7 +613,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("How much to round the border corners.")]
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int Rounding
         {
             get
@@ -670,7 +670,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Border image.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _storage?.BorderImage;
@@ -717,7 +717,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Border image style.")]
         [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteImageStyle ImageStyle
         {
             get => _storage?.BorderImageStyle ?? PaletteImageStyle.Inherit;
@@ -771,7 +771,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Border image alignment style.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ImageAlign
         {
             get => _storage?.BorderImageAlign ?? PaletteRectangleAlign.Inherit;

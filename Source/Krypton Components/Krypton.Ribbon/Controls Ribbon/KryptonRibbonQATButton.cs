@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Values")]
         [Description("Application button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _image;
@@ -202,7 +202,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("QAT button text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("QAT Button")]
         public string Text
         {
@@ -269,7 +269,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 

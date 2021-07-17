@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
                                                   IRibbonViewGroupContainerView
     {
         #region Static Fields
-        private static readonly Size _preferredSize2007 = new Size(4, 4);
-        private static readonly Size _preferredSize2010 = new Size(7, 4);
+        private static readonly Size _preferredSize2007 = new(4, 4);
+        private static readonly Size _preferredSize2010 = new(7, 4);
         #endregion
 
         #region Instance Fields
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new ContextClickController();
+                ContextClickController controller = new();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -193,7 +193,7 @@ namespace Krypton.Ribbon
             }
 
             // Return the one possible size allowed
-            return new ItemSizeWidth[] { new ItemSizeWidth(GroupItemSize.Large, _preferredSize.Width) };
+            return new ItemSizeWidth[] { new(GroupItemSize.Large, _preferredSize.Width) };
         }
 
         /// <summary>

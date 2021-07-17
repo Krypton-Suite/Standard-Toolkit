@@ -130,7 +130,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Should animation effects be used on the stack.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool StackAnimation
         {
@@ -161,7 +161,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Orientation for positioning stack items.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(Orientation), "Vertical")]
         public Orientation StackOrientation
         {
@@ -192,7 +192,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Alignment of the stack relative to the displayed page.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(RelativePositionAlign), "Center")]
         public RelativePositionAlign StackAlignment
         {
@@ -223,7 +223,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Orientation for positioning items in the stack.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonOrientation), "Auto")]
         public ButtonOrientation ItemOrientation
         {
@@ -255,7 +255,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Mapping used for the stack item image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageImage), "Small")]
         public virtual MapKryptonPageImage StackMapImage
         {
@@ -286,7 +286,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Mapping used for the stack item text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
         public MapKryptonPageText StackMapText
         {
@@ -317,7 +317,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Mapping used for the stack item description.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
         public MapKryptonPageText StackMapExtraText
         {

@@ -122,8 +122,8 @@ namespace Krypton.Ribbon
                 if (_ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderDraw(State) == InheritBool.True)
                 {
                     // Draw the border shadow
-                    using (AntiAlias aa = new AntiAlias(context.Graphics))
-                       using (SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(16, Color.Black)))
+                    using (AntiAlias aa = new(context.Graphics))
+                       using (SolidBrush shadowBrush = new(Color.FromArgb(16, Color.Black)))
                        {
                            context.Graphics.FillPath(shadowBrush, shadowPath);
                        }
@@ -154,8 +154,8 @@ namespace Krypton.Ribbon
                     Color borderColor = _ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderColor1(State);
 
                     // Draw the border last to overlap the background
-                    using (AntiAlias aa = new AntiAlias(context.Graphics))
-                        using (Pen borderPen = new Pen(borderColor))
+                    using (AntiAlias aa = new(context.Graphics))
+                        using (Pen borderPen = new(borderColor))
                         {
                             context.Graphics.DrawPath(borderPen, borderPath);
                         }
@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private GraphicsPath CreateBorderPath(Rectangle rect)
         {
-            GraphicsPath path = new GraphicsPath();
+            GraphicsPath path = new();
 
             switch (Orientation)
             {
@@ -212,7 +212,7 @@ namespace Krypton.Ribbon
         {
             // Create path that describes the arrow in orientation needed
             using (GraphicsPath arrowPath = CreateArrowPath(rect))
-                using (SolidBrush arrowBrush = new SolidBrush(textColor))
+                using (SolidBrush arrowBrush = new(textColor))
                 {
                     g.FillPath(arrowBrush, arrowPath);
                 }
@@ -236,7 +236,7 @@ namespace Krypton.Ribbon
             }
 
             // Create triangle using a series of lines
-            GraphicsPath path = new GraphicsPath();
+            GraphicsPath path = new();
 
             switch (Orientation)
             {

@@ -135,7 +135,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
+                ArrayList compound = new(base.AssociatedComponents);
                 compound.AddRange(_ribbonTriple.Items);
                 return compound;
             }
@@ -1067,7 +1067,7 @@ namespace Krypton.Ribbon
                     if (group != _ribbonTriple.RibbonGroup)
                     {
                         // Create menu item for the group
-                        ToolStripMenuItem groupMenuItem = new ToolStripMenuItem
+                        ToolStripMenuItem groupMenuItem = new()
                         {
                             Text = group.TextLine1 + " " + group.TextLine2,
                             Tag = group

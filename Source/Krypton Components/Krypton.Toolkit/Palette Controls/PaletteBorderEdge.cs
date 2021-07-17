@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Border width.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int Width
         {
             get => _borderWidth;

@@ -48,6 +48,7 @@ namespace Krypton.Navigator
                 // Dispose of managed and unmanaged resources
                 Dispose(true);
             }
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -59,9 +60,6 @@ namespace Krypton.Navigator
             // If called from explicit call to Dispose
             if (disposing)
             {
-                // No need to call destructor once dispose has occured
-                GC.SuppressFinalize(this);
-
                 PageDragEndData = null;
                 DragTargets = null;
             }

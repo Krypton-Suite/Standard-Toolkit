@@ -118,7 +118,7 @@ namespace Krypton.Workspace
         [Category("Workspace")]
         [Description("Collection of child workspace items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Workspace.KryptonWorkspaceCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonWorkspaceCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonWorkspaceCollection Children { get; }
 
@@ -196,9 +196,9 @@ namespace Krypton.Workspace
         [Description("The unique name of the workspace sequence.")]
         public string UniqueName
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             set;
         }
 
@@ -347,7 +347,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                Size maxSize = new Size(int.MaxValue, int.MaxValue);
+                Size maxSize = new(int.MaxValue, int.MaxValue);
 
                 // Search all children for the smallest defined maximum
                 foreach (Component component in Children)
@@ -526,12 +526,12 @@ namespace Krypton.Workspace
                     switch (xmlReader.Name)
                     {
                         case "WS":
-                            KryptonWorkspaceSequence sequence = new KryptonWorkspaceSequence();
+                            KryptonWorkspaceSequence sequence = new();
                             sequence.LoadFromXml(workspace, xmlReader, existingPages);
                             Children.Add(sequence);
                             break;
                         case "WC":
-                            KryptonWorkspaceCell cell = new KryptonWorkspaceCell();
+                            KryptonWorkspaceCell cell = new();
                             cell.LoadFromXml(workspace, xmlReader, existingPages);
                             Children.Add(cell);
                             break;

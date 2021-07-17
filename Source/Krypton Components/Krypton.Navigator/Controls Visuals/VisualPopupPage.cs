@@ -54,10 +54,10 @@ namespace Krypton.Navigator
             _page = page;
 
             // Always create the layout that positions the actual page
-            ViewLayoutPopupPage layoutPage = new ViewLayoutPopupPage(navigator, page);
+            ViewLayoutPopupPage layoutPage = new(navigator, page);
 
             // Create the internal panel used for containing content
-            ViewDrawCanvas drawGroup = new ViewDrawCanvas(navigator.StateNormal.HeaderGroup.Back,
+            ViewDrawCanvas drawGroup = new(navigator.StateNormal.HeaderGroup.Back,
                                                           navigator.StateNormal.HeaderGroup.Border,
                                                           VisualOrientation.Top)
             {
@@ -74,7 +74,7 @@ namespace Krypton.Navigator
 
                 // Put the page group inside a layout that has separators 
                 // to pad out the sizing to the border size we need
-                ViewLayoutDocker layoutDocker = new ViewLayoutDocker
+                ViewLayoutDocker layoutDocker = new()
                 {
                     { drawGroup, ViewDockStyle.Fill },
                     { new ViewLayoutSeparator(border), ViewDockStyle.Top },
@@ -135,7 +135,7 @@ namespace Krypton.Navigator
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
-            using (RenderContext context = new RenderContext(this, null, ClientRectangle, Renderer))
+            using (RenderContext context = new(this, null, ClientRectangle, Renderer))
             {
                 // Grab a path that is the outside edge of the border
                 Rectangle borderRect = ClientRectangle;
@@ -208,7 +208,7 @@ namespace Krypton.Navigator
                     break;
             }
 
-            PopupPageEventArgs e = new PopupPageEventArgs(_page,
+            PopupPageEventArgs e = new(_page,
                                                           _navigator.Pages.IndexOf(_page),
                                                           parentScreenRect);
 

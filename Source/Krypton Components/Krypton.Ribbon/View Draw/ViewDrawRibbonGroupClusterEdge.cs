@@ -53,7 +53,7 @@ namespace Krypton.Ribbon
             // Let base class perform standard drawing first
             base.RenderBefore(context);
 
-            Rectangle drawRect = new Rectangle(ClientLocation.X, 
+            Rectangle drawRect = new(ClientLocation.X, 
                                                ClientLocation.Y + ClientWidth, 
                                                ClientWidth, 
                                                ClientHeight - (ClientWidth * 2));

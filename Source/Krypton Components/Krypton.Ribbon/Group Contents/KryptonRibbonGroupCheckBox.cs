@@ -116,7 +116,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Check box display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("CheckBox")]
         public string TextLine1
         {
@@ -145,7 +145,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Check box display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -389,7 +389,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 

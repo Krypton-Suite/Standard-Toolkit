@@ -178,7 +178,7 @@ namespace Krypton.Navigator
         #region Implementation
         private void DropIndicators_Paint(object sender, PaintEventArgs e)
         {
-            using(RenderContext context = new RenderContext(this, e.Graphics, e.ClipRectangle, _renderer))
+            using(RenderContext context = new(this, e.Graphics, e.ClipRectangle, _renderer))
             {
                 _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Square);
             }
@@ -187,7 +187,7 @@ namespace Krypton.Navigator
         private void DrawPath(Graphics g, Color baseColor, GraphicsPath path)
         {
             // Draw a smooth outline around the circle
-            using(Pen outline = new Pen(baseColor))
+            using(Pen outline = new(baseColor))
             {
                 g.DrawPath(outline, path);
             }

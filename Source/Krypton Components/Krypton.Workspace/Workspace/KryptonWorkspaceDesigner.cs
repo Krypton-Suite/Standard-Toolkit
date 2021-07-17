@@ -56,7 +56,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                ArrayList compound = new ArrayList();
+                ArrayList compound = new();
 
                 if (_workspace != null)
                 {
@@ -75,7 +75,7 @@ namespace Krypton.Workspace
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the navigator specific list

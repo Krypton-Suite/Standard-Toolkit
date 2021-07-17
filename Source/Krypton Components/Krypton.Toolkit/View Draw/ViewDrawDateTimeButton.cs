@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
             // We want to be as wide as drop down buttons on standard controls
-            return new(SystemInformation.VerticalScrollBarWidth - 2, 0);
+            return new Size(SystemInformation.VerticalScrollBarWidth - 2, 0);
         }
 
         /// <summary>

@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative horizontal alignment of content image.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageH
         {
             get => _storage?.ContentImageH ?? PaletteRelativeAlign.Inherit;
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative vertical alignment of content image.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageV
         {
             get => _storage?.ContentImageV ?? PaletteRelativeAlign.Inherit;
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Effect applied to drawing the image.")]
         [DefaultValue(typeof(PaletteImageEffect), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteImageEffect Effect
         {
             get => _storage?.ContentEffect ?? PaletteImageEffect.Inherit;
@@ -214,8 +214,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Color to remap in the image.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorMap
         {
             get => _storage?.ContentImageColorMap ?? Color.Empty;
@@ -254,8 +254,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Color to use in place of the image map.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorTo
         {
             get => _storage?.ContentImageColorTo ?? Color.Empty;

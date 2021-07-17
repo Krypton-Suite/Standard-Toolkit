@@ -268,7 +268,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Font for the ribbon text.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Font TextFont
         {
             get => _textFont;
@@ -307,7 +307,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Rendering hint for the text font.")]
         [DefaultValue(typeof(PaletteTextHint), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteTextHint TextHint
         {
             get => _textHint;

@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("First element color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color1
         {
             get => _color1;
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Second element color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color2
         {
             get => _color2;
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Third element color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color3
         {
             get => _color3;
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Fourth element color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color4
         {
             get => _color4;
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Fifth element color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color5
         {
             get => _color5;

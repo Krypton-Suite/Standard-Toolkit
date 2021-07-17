@@ -20,12 +20,12 @@ namespace Krypton.Navigator
                                           INavCheckItem
     {
         #region Static Fields
-        private static readonly Padding _preferredBorder = new Padding(5, 5, 5, 2);
-        private static readonly Padding _layoutBorderTop = new Padding(4, 4, 4, 1);
-        private static readonly Padding _layoutBorderLeft = new Padding(5, 4, 3, 1);
-        private static readonly Padding _layoutBorderRight = new Padding(4, 5, 4, 0);
-        private static readonly Padding _layoutBorderBottom = new Padding(4, 2, 4, 3);
-        private static readonly Padding _drawBorder = new Padding(1, 0, 1, 0);
+        private static readonly Padding _preferredBorder = new(5, 5, 5, 2);
+        private static readonly Padding _layoutBorderTop = new(4, 4, 4, 1);
+        private static readonly Padding _layoutBorderLeft = new(5, 4, 3, 1);
+        private static readonly Padding _layoutBorderRight = new(4, 5, 4, 0);
+        private static readonly Padding _layoutBorderBottom = new(4, 2, 4, 3);
+        private static readonly Padding _drawBorder = new(1, 0, 1, 0);
         #endregion
 
         #region Events
@@ -106,8 +106,8 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create a decorator to interface with the tooltip manager
-            ToolTipController toolTipController = new ToolTipController(Navigator.ToolTipManager, this, _buttonController);
-            ToolTipController hoverController = new ToolTipController(Navigator.HoverManager, this, toolTipController);
+            ToolTipController toolTipController = new(Navigator.ToolTipManager, this, _buttonController);
+            ToolTipController hoverController = new(Navigator.HoverManager, this, toolTipController);
 
             // Assign controller for handing mouse input
             MouseController = hoverController;
@@ -431,7 +431,7 @@ namespace Krypton.Navigator
             }
 
             // Generate event so user can decide what, if any, context menu to show
-            ShowContextMenuArgs scma = new ShowContextMenuArgs(Page, Navigator.Pages.IndexOf(Page));
+            ShowContextMenuArgs scma = new(Page, Navigator.Pages.IndexOf(Page));
             Navigator.OnShowContextMenu(scma);
 
             // Do we need to show a context menu

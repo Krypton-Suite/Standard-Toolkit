@@ -107,11 +107,11 @@ namespace Krypton.Docking
                         if (result == PI.HT.CAPTION)
                         {
                             // Extract screen position of the mouse from the message LPARAM
-                            Point screenPos = new Point(PI.LOWORD(m.LParam),
+                            Point screenPos = new(PI.LOWORD(m.LParam),
                                                         PI.HIWORD(m.LParam));
 
                             // Find the mouse offset relative to the top left of the window
-                            Point offset = new Point(screenPos.X - Location.X, screenPos.Y - Location.Y);
+                            Point offset = new(screenPos.X - Location.X, screenPos.Y - Location.Y);
 
                             // Do not intercept message if inside the max/close buttons
                             if (!HitTestMaxButton(offset) && !HitTestCloseButton(offset))

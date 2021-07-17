@@ -58,7 +58,7 @@ namespace Krypton.Ribbon
                 : ribbon.StateCommon.RibbonGroupButton.Back.GetBackColor1(PaletteState.Tracking);
 
             // Draw entire area in color
-            using (SolidBrush darkBrush = new SolidBrush(c))
+            using (SolidBrush darkBrush = new(c))
             {
                 context.Graphics.FillRectangle(darkBrush, clientRect);
             }
@@ -87,14 +87,14 @@ namespace Krypton.Ribbon
             drawRect.Width -= DESIGN_SEP_WIDTH;
             drawRect.Height--;
             drawRect.X++;
-            using (Pen darkPen = new Pen(c))
+            using (Pen darkPen = new(c))
             {
                 context.Graphics.DrawRectangle(darkPen, drawRect);
             }
 
             // Draw the flap in the dark color
             drawRect.Width = DESIGN_FLAP_WIDTH - 2;
-            using (SolidBrush darkBrush = new SolidBrush(c))
+            using (SolidBrush darkBrush = new(c))
             {
                 context.Graphics.FillRectangle(darkBrush, drawRect);
             }

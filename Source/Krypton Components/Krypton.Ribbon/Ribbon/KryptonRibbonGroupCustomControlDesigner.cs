@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            Attribute[] attributes = new Attribute[0];
+            Attribute[] attributes = MissingFrameWorkAPIs.Array_Empty<Attribute>();
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
@@ -332,10 +332,7 @@ namespace Krypton.Ribbon
                 finally
                 {
                     // If we managed to create the transaction, then do it
-                    if (transaction != null)
-                    {
-                        transaction.Commit();
-                    }
+                    transaction?.Commit();
                 }
             }
         }

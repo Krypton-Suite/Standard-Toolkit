@@ -306,7 +306,7 @@ namespace Krypton.Ribbon
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
             {
-                KeyTipInfoList keyTips = new KeyTipInfoList();
+                KeyTipInfoList keyTips = new();
 
                 // Grab the list of key tips for all groups
                 keyTips.AddRange(groups.GetGroupKeyTips());
@@ -324,7 +324,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return new KeyTipInfo[] { };
+                return MissingFrameWorkAPIs.Array_Empty<KeyTipInfo>();
             }
         }
         #endregion
@@ -461,7 +461,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             Rectangle layoutRect = ClientRectangle;
-            Rectangle controlRect = new Rectangle(Point.Empty, ClientSize);
+            Rectangle controlRect = new(Point.Empty, ClientSize);
 
             // Reset the the view control layout offset to be zero again
             ViewLayoutControl.LayoutOffset = Point.Empty;
@@ -475,7 +475,7 @@ namespace Krypton.Ribbon
             // Ensure context has the correct control
             if ((ViewLayoutControl.ChildControl != null) && !ViewLayoutControl.ChildControl.IsDisposed)
             {
-                using (CorrectContextControl ccc = new CorrectContextControl(context, ViewLayoutControl.ChildControl))
+                using (CorrectContextControl ccc = new(context, ViewLayoutControl.ChildControl))
                 {
                     _viewFiller.Layout(context);
                 }
@@ -645,7 +645,7 @@ namespace Krypton.Ribbon
                     if (child == _viewFiller)
                     {
                         // New clipping region is at most our own client size
-                        using (Region combineRegion = new Region(_viewClipRect))
+                        using (Region combineRegion = new(_viewClipRect))
                         {
                             // Remember the current clipping region
                             Region clipRegion = context.Graphics.Clip.Clone();

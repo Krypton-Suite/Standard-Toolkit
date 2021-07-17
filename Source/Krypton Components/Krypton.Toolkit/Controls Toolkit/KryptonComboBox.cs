@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
             private readonly KryptonComboBox _kryptonComboBox;
             private PaletteTripleToPalette _palette;
             private ViewDrawButton _viewButton;
-            private Nullable<bool> _appThemed;
+            private bool? _appThemed;
             private bool _mouseTracking;
             private bool _mouseOver;
             #endregion
@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
                                         FormatFlags = StringFormatFlags.NoWrap,
                                         Trimming = StringTrimming.None,
                                         // Use the correct prefix setting
-                                        HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None
+                                        HotkeyPrefix = HotkeyPrefix.None
                                     };
 
 
@@ -843,14 +843,14 @@ namespace Krypton.Toolkit
         private ButtonStyle _dropButtonStyle;
         private PaletteBackStyle _dropBackStyle;
         private InputControlStyle _inputControlStyle;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private readonly FixedContentValue _contentValues;
         private ButtonStyle _style;
         private readonly ViewDrawButton _drawButton;
         private readonly ViewDrawPanel _drawPanel;
         private Padding _layoutPadding;
         private IntPtr _screenDC;
-        private ButtonSpecAny _toolTipSpec;
+        private readonly ButtonSpecAny _toolTipSpec;
         private VisualPopupToolTip _toolTip;
         private bool _firstTimePaint;
         private bool _trackingMouseEnter;
@@ -1261,7 +1261,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public bool IsInitialized
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             private set;
         }
@@ -1273,7 +1273,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public bool IsInitializing
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             private set;
         }

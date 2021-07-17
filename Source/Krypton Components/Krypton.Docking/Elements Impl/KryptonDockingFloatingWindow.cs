@@ -298,7 +298,7 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Generate event so the floating window customization can be reversed.
-                FloatingWindowEventArgs floatingWindowArgs = new FloatingWindowEventArgs(FloatingWindow, this);
+                FloatingWindowEventArgs floatingWindowArgs = new(FloatingWindow, this);
                 dockingManager.RaiseFloatingWindowRemoved(floatingWindowArgs);
             }
 

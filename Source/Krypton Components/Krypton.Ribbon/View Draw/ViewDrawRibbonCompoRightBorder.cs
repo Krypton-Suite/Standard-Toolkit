@@ -76,7 +76,7 @@ namespace Krypton.Ribbon
                     try
                     {
                         // Create structure that will be populated by call to WM_GETTITLEBARINFOEX
-                        PI.TITLEBARINFOEX tbi = new PI.TITLEBARINFOEX();
+                        PI.TITLEBARINFOEX tbi = new();
                         tbi.cbSize = (uint) Marshal.SizeOf(tbi);
 
                         // Ask the window for the title bar information

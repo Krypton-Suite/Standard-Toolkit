@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("How far to inset buttons from the header edge.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int ButtonEdgeInset
         {
             get => _buttonEdgeInset;
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used around each button on the header.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding ButtonPadding
         {
             get => _buttonPadding;

@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use with a checked menu item.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Checked
         {
             get => _checked;
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image for use with an indeterminate menu item.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Indeterminate
         {
             get => _indeterminate;
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Image indicating a sub-menu on a context menu item.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image SubMenu
         {
             get => _subMenu;

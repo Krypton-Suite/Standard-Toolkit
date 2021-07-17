@@ -477,16 +477,13 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (TrackBarSize)
+                return TrackBarSize switch
                 {
-                    case PaletteTrackBarSize.Small:
-                        return _tickSizeSmall;
-                    default:
-                    case PaletteTrackBarSize.Medium:
-                        return _tickSizeMedium;
-                    case PaletteTrackBarSize.Large:
-                        return _tickSizeLarge;
-                }
+                    PaletteTrackBarSize.Small => _tickSizeSmall,
+                    PaletteTrackBarSize.Medium => _tickSizeMedium,
+                    PaletteTrackBarSize.Large => _tickSizeLarge,
+                    _ => _tickSizeMedium
+                };
             }
         }
 

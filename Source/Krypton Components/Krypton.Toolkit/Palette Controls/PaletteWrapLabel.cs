@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Font for drawing the label text.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Font Font
         {
             get => _font;
@@ -81,8 +81,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Color for the text.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color TextColor
         {
             get => _textColor;
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Text rendering hint for the content text.")]
         [DefaultValue(typeof(PaletteTextHint), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextHint Hint
         {
             get => _hint;

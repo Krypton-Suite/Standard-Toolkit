@@ -16,8 +16,8 @@
 namespace Krypton.Toolkit
 {
     /// <summary>Creates the blur effect for windows.</summary>
-    /// <seealso cref="System.Windows.Forms.NativeWindow" />
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="NativeWindow" />
+    /// <seealso cref="IDisposable" />
     public class VisualBlur : NativeWindow, IDisposable
     {
         #region Instance Fields
@@ -65,6 +65,7 @@ namespace Krypton.Toolkit
         {
             DestroyHandle();
             _blurredForm.Dispose();
+            GC.SuppressFinalize(this);
         }
         #endregion
 

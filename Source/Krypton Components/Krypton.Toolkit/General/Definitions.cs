@@ -239,7 +239,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the reason for the context menu being closed.
         /// </summary>
-        Nullable<ToolStripDropDownCloseReason> ProviderCloseReason { get; set; }
+        ToolStripDropDownCloseReason? ProviderCloseReason { get; set; }
 
         /// <summary>
         /// Gets and sets the horizontal setting used to position the menu.

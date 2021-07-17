@@ -483,7 +483,7 @@ namespace Krypton.Toolkit
                                                               Boolean enabled,
                                                               bool keyboardActivated)
         {
-            return new(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated);
+            return new VisualContextMenu(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated);
         }
 
         /// <summary>

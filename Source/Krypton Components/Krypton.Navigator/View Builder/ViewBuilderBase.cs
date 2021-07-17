@@ -522,7 +522,7 @@ namespace Krypton.Navigator
                     if ((first == null) && wrap)
                     {
                         // Are we allowed to wrap around?
-                        CtrlTabCancelEventArgs ce = new CtrlTabCancelEventArgs(true);
+                        CtrlTabCancelEventArgs ce = new(true);
                         Navigator.OnCtrlTabWrap(ce);
 
                         if (ce.Cancel)
@@ -561,7 +561,7 @@ namespace Krypton.Navigator
                         if ((next == null) && wrap)
                         {
                             // Are we allowed to wrap around?
-                            CtrlTabCancelEventArgs ce = new CtrlTabCancelEventArgs(true);
+                            CtrlTabCancelEventArgs ce = new(true);
                             Navigator.OnCtrlTabWrap(ce);
 
                             if (ce.Cancel)
@@ -623,7 +623,7 @@ namespace Krypton.Navigator
                     if ((first == null) && wrap)
                     {
                         // Are we allowed to wrap around?
-                        CtrlTabCancelEventArgs ce = new CtrlTabCancelEventArgs(false);
+                        CtrlTabCancelEventArgs ce = new(false);
                         Navigator.OnCtrlTabWrap(ce);
 
                         if (ce.Cancel)
@@ -662,7 +662,7 @@ namespace Krypton.Navigator
                         if ((previous == null) && wrap)
                         {
                             // Are we allowed to wrap around?
-                            CtrlTabCancelEventArgs ce = new CtrlTabCancelEventArgs(false);
+                            CtrlTabCancelEventArgs ce = new(false);
                             Navigator.OnCtrlTabWrap(ce);
 
                             if (ce.Cancel)

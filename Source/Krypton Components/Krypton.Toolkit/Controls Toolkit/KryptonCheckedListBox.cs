@@ -565,7 +565,7 @@ namespace Krypton.Toolkit
             /// </summary>
             public override DrawMode DrawMode
             {
-                get { return DrawMode.OwnerDrawVariable; }
+                get => DrawMode.OwnerDrawVariable;
                 set { }
             }
 
@@ -586,7 +586,7 @@ namespace Krypton.Toolkit
             /// <returns>A ListBox.ObjectCollection that represents the new item collection.</returns>
             protected override ObjectCollection CreateItemCollection()
             {
-                return new(this);
+                return new ObjectCollection(this);
             }
 
             /// <summary>
@@ -794,7 +794,7 @@ namespace Krypton.Toolkit
                                                                                         BindingFlags.NonPublic |
                                                                                         BindingFlags.GetField);
 
-                        _innerArray = pi.GetValue(Items, new object[] { });
+                        _innerArray = pi.GetValue(Items, MissingFrameWorkAPIs.Array_Empty<object>());
                     }
 
                     return _innerArray;
@@ -968,7 +968,9 @@ namespace Krypton.Toolkit
 
             private void WmKeyDown(ref Message m)
             {
+#pragma warning disable IDE0066 // Convert switch statement to expression
                 switch ((int)m.WParam.ToInt64())
+#pragma warning restore IDE0066 // Convert switch statement to expression
                 {
                     case 0x21:
                     case 0x22:
@@ -1026,7 +1028,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawButton _drawButton;
         private readonly InternalCheckedListBox _listBox;
         private readonly FixedContentValue _contentValues;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private ButtonStyle _style;
         private readonly IntPtr _screenDC;
         private int _lastSelectedIndex;
@@ -1523,34 +1525,17 @@ namespace Krypton.Toolkit
         /// Gets or sets the selection mode of the KryptonCheckedListBox control.
         /// </summary>
         [Category("Behavior")]
-        [Description("Indicates if the checked list box is to be single-select or not selectable.")]
+        [Description("Indicates if the checked list box is to be single-select or not selectable. (Multi## not supported)")]
         [DefaultValue(typeof(CheckedSelectionMode), "One")]
         public virtual CheckedSelectionMode SelectionMode
         {
-            get
-            {
-                switch (_listBox.SelectionMode)
-                {
-                    default:
-                    case System.Windows.Forms.SelectionMode.None:
-                        return CheckedSelectionMode.None;
-                    case System.Windows.Forms.SelectionMode.One:
-                        return CheckedSelectionMode.One;
-                }
-            }
+            get => _listBox.SelectionMode == System.Windows.Forms.SelectionMode.One
+                    ? CheckedSelectionMode.One
+                    : CheckedSelectionMode.None;
 
-            set
-            {
-                switch (value)
-                {
-                    case CheckedSelectionMode.None:
-                        _listBox.SelectionMode = System.Windows.Forms.SelectionMode.None;
-                        break;
-                    case CheckedSelectionMode.One:
-                        _listBox.SelectionMode = System.Windows.Forms.SelectionMode.One;
-                        break;
-                }
-            }
+            set => _listBox.SelectionMode = (value == CheckedSelectionMode.One)
+                    ? System.Windows.Forms.SelectionMode.One
+                    : System.Windows.Forms.SelectionMode.None;
         }
 
         /// <summary>
@@ -1574,6 +1559,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
+        // ReSharper disable once MemberCanBeProtected.Global
         public virtual ListBox.ObjectCollection Items => _listBox.Items;
 
         /// <summary>

@@ -82,6 +82,7 @@ namespace Krypton.Toolkit
         {
             // Dispose of the associated element hierarchy
             _root?.Dispose();
+            GC.SuppressFinalize(this);
         }
         #endregion
 
@@ -105,7 +106,7 @@ namespace Krypton.Toolkit
         public ViewBase Root
         {
             [DebuggerStepThrough]
-            get { return _root; }
+            get => _root;
 
             set
             {

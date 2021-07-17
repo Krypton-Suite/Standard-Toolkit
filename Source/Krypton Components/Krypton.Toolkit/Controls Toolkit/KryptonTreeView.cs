@@ -141,10 +141,10 @@ namespace Krypton.Toolkit
                     _miRI = typeof(TreeView).GetMethod("ResetIndent",
                                                         BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                         null, CallingConventions.HasThis,
-                                                        new Type[] { }, null);
+                                                        MissingFrameWorkAPIs.Array_Empty<Type>(), null);
                 }
 
-                _miRI.Invoke(this, new object[] { });
+                _miRI.Invoke(this, MissingFrameWorkAPIs.Array_Empty<object>());
             }
             #endregion
 
@@ -309,24 +309,19 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideCheckedPressed;
         private readonly PaletteNodeOverride _overrideNormalNode;
         private readonly PaletteRedirectTreeView _redirectImages;
-        private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
         private readonly ViewDrawButton _drawButton;
         private readonly ViewDrawCheckBox _drawCheckBox;
-        private readonly ViewLayoutCenter _layoutCheckBox;
-        private readonly ViewLayoutSeparator _layoutCheckBoxAfter;
         private readonly ViewLayoutStack _layoutCheckBoxStack;
         private readonly ViewLayoutDocker _layoutDocker;
         private readonly ViewLayoutStack _layoutImageStack;
-        private readonly ViewLayoutCenter _layoutImageCenter;
         private readonly ViewLayoutCenter _layoutImageCenterState;
         private readonly ViewLayoutSeparator _layoutImage;
         private readonly ViewLayoutSeparator _layoutImageState;
-        private readonly ViewLayoutSeparator _layoutImageAfter;
         private readonly InternalTreeView _treeView;
         private readonly FixedContentValue _contentValues;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private ButtonStyle _style;
         private readonly IntPtr _screenDC;
         private bool _itemHeightDefault;
@@ -566,25 +561,25 @@ namespace Krypton.Toolkit
 
             // Create the check box image drawer and place inside element so it is always centered
             _drawCheckBox = new ViewDrawCheckBox(_redirectImages);
-            _layoutCheckBox = new ViewLayoutCenter
+            ViewLayoutCenter layoutCheckBox = new()
             {
                 _drawCheckBox
             };
-            _layoutCheckBoxAfter = new ViewLayoutSeparator(3, 0);
+            ViewLayoutSeparator layoutCheckBoxAfter = new(3, 0);
             _layoutCheckBoxStack = new ViewLayoutStack(true)
             {
-                _layoutCheckBox,
-                _layoutCheckBoxAfter
+                layoutCheckBox,
+                layoutCheckBoxAfter
             };
 
             // Stack used to layout the location of the node image
             _layoutImage = new ViewLayoutSeparator(0, 0);
-            _layoutImageAfter = new ViewLayoutSeparator(3, 0);
-            _layoutImageCenter = new ViewLayoutCenter(_layoutImage);
+            ViewLayoutSeparator layoutImageAfter = new(3, 0);
+            ViewLayoutCenter layoutImageCenter = new(_layoutImage);
             _layoutImageStack = new ViewLayoutStack(true)
             {
-                _layoutImageCenter,
-                _layoutImageAfter
+                layoutImageCenter,
+                layoutImageAfter
             };
             _layoutImageState = new ViewLayoutSeparator(16, 16);
             _layoutImageCenterState = new ViewLayoutCenter(_layoutImageState);
@@ -644,7 +639,7 @@ namespace Krypton.Toolkit
             };
 
             // Create inner view for placing inside the drawing docker
-            _drawDockerInner = new ViewLayoutDocker
+            ViewLayoutDocker drawDockerInner = new()
             {
                 { _layoutFill, ViewDockStyle.Fill }
             };
@@ -652,7 +647,7 @@ namespace Krypton.Toolkit
             // Create view for the control border and background
             _drawDockerOuter = new ViewDrawDocker(StateNormal.Back, StateNormal.Border)
             {
-                { _drawDockerInner, ViewDockStyle.Fill }
+                { drawDockerInner, ViewDockStyle.Fill }
             };
 
             // Create the view manager instance
