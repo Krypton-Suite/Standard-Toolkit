@@ -389,7 +389,7 @@ namespace Krypton.Toolkit
                                 // Exclude border from being drawn, we need to take off another 2 pixels from all edges
                                 PI.IntersectClipRect(hdc, rect.left + 2, rect.top + 2, rect.right - 2, rect.bottom - 2);
 
-                                if (!_kryptonComboBox.CueHint.IsDefault
+                                if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
                                     && string.IsNullOrEmpty(_kryptonComboBox.Text)
                                 )
                                 {

@@ -1142,7 +1142,7 @@ namespace Krypton.Toolkit
         public static Control GetControlWithFocus(Control control)
         {
             // Does the provided control have the focus?
-            if (control.Focused && !(control is IContainedInputControl))
+            if (control.Focused && control is not IContainedInputControl)
             {
                 return control;
             }
