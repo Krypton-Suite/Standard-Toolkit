@@ -32,3 +32,12 @@ global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 
 global using Krypton.Toolkit;
+
+using System.Runtime.CompilerServices;
+
+[assembly: CLSCompliant(true)]
+[assembly: ComVisible(false)]
+[assembly: Dependency("System", LoadHint.Always)]
+[assembly: Dependency("System.Drawing", LoadHint.Always)]
+[assembly: Dependency("System.Windows.Forms", LoadHint.Always)]
+[assembly: Dependency("Krypton.Toolkit", LoadHint.Always)]

@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
                         base.WndProc(ref m);
                         break;
                     case PI.WM_.PAINT:
-                        if (!string.IsNullOrWhiteSpace(_kryptonRichTextBox.CueHint.CueHintText)
+                        if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonRichTextBox.CueHint.CueHintText)
                             && (_kryptonRichTextBox.TextLength == 0)
                         )
                         {
@@ -2331,7 +2331,7 @@ namespace Krypton.Toolkit
 
         private void OnRichTextBoxTextChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(CueHint.CueHintText)
+            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(CueHint.CueHintText)
                 && TextLength <= 1)
             {
                 // Needed to prevent character turds being left behind

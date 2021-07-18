@@ -27,11 +27,18 @@ global using System.Globalization;
 global using System.IO;
 global using System.Reflection;
 global using System.Runtime.InteropServices;
-global using System.Security.Permissions;
 global using System.Text;
-global using System.Threading;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 global using System.Windows.Forms.VisualStyles;
 
 global using Krypton.Toolkit;
+
+using System.Runtime.CompilerServices;
+
+[assembly: CLSCompliant(true)]
+[assembly: ComVisible(false)]
+[assembly: Dependency("System", LoadHint.Always)]
+[assembly: Dependency("System.Drawing", LoadHint.Always)]
+[assembly: Dependency("System.Windows.Forms", LoadHint.Always)]
+[assembly: Dependency("Krypton.Toolkit", LoadHint.Always)]

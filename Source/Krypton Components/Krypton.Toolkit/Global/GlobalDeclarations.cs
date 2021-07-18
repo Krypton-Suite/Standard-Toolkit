@@ -35,7 +35,6 @@ global using System.Runtime.InteropServices;
 global using System.Runtime.Serialization;
 global using System.Runtime.Serialization.Formatters.Binary;
 global using System.Security;
-global using System.Security.Permissions;
 global using System.Security.Principal;
 global using System.Text;
 global using System.Text.RegularExpressions;
@@ -45,9 +44,17 @@ global using System.Windows.Forms.Design;
 global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
-global using System.Xml.Serialization;
 
 global using Krypton.Toolkit.Global;
 global using Krypton.Toolkit.Properties;
 
 global using Microsoft.Win32;
+
+
+[assembly: CLSCompliant(true)]
+[assembly: ComVisible(false)]
+[assembly: Dependency("System", LoadHint.Always)]
+[assembly: Dependency("System.Drawing", LoadHint.Always)]
+[assembly: Dependency("System.Windows.Forms", LoadHint.Always)]
+[assembly: Dependency("Krypton.Toolkit", LoadHint.Always)]
+

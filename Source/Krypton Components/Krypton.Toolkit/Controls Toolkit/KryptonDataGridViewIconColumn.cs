@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
         }
     }
 
-    public class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconCell
+    public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconCell
     {
         #region Instance Fields
 
