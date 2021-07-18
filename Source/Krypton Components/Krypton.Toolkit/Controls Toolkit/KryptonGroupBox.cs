@@ -49,6 +49,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonGroupBox()
         {
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+
             // Set default values
             _captionStyle = LabelStyle.GroupBoxCaption;
             _captionEdge = VisualOrientation.Top;
