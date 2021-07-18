@@ -131,18 +131,24 @@ namespace Krypton.Navigator
             Rectangle childRect = ClientRectangle;
 
             // Find the amount of rounding to apply
+            int tempRounding = Convert.ToInt32(Rounding);
+
             float rounding = Rounding;
 
             // Apply the rounding in the appropriate orientation
             if ((Orientation == VisualOrientation.Top) || (Orientation == VisualOrientation.Bottom))
             {
-                childRect.Width -= Convert.ToInt32(rounding) * 2;
-                childRect.X += Convert.ToInt32(rounding);
+                childRect.Width -= tempRounding * 2;
+                childRect.X += tempRounding;
+
+                rounding = (float)tempRounding;
             }
             else
             {
-                childRect.Height -= Convert.ToInt32(rounding) * 2;
-                childRect.Y += Convert.ToInt32(rounding);
+                childRect.Height -= tempRounding * 2;
+                childRect.Y += tempRounding;
+
+                rounding = (float)tempRounding;
             }
 
             // Inform each child to layout inside the reduced rectangle
