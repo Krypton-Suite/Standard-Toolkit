@@ -41,6 +41,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonGroup()
         {
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+
             // Create the palette storage
             StateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
             StateDisabled = new PaletteDouble(StateCommon, NeedPaintDelegate);
