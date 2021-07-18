@@ -22,6 +22,9 @@
         <UseWindowsForms>true</UseWindowsForms>
         <LangVersion>preview</LangVersion>
         <PlatformTarget>AnyCPU</PlatformTarget>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
 
     <ItemGroup>

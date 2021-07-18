@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
                             Size borderSize = SystemInformation.BorderSize;
                             rect.left -= (borderSize.Width + 1);
 
-                            if (!_kryptonTextBox.CueHint.IsDefault
+                            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText)
                                 && string.IsNullOrEmpty(_kryptonTextBox.Text)
                             )
                             {

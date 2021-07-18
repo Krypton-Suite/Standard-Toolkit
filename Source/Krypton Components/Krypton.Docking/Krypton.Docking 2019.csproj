@@ -15,13 +15,16 @@
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Docking</RootNamespace>
         <AssemblyName>Krypton.Docking</AssemblyName>
-        <StartupObject></StartupObject>
         <SignAssembly>false</SignAssembly>
         <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
+        <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>
         <LangVersion>preview</LangVersion>
         <PlatformTarget>AnyCPU</PlatformTarget>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
 
     <ItemGroup>
