@@ -32,6 +32,7 @@ namespace Krypton.Toolkit
         private bool _fixed;
         private ViewBase _enableDependantView;
         private Rectangle _clientRect;
+        private RectangleF _clientRectF;
         private PaletteState _fixedState;
         private PaletteState _elementState;
 
@@ -168,6 +169,13 @@ namespace Krypton.Toolkit
             [DebuggerStepThrough]
             get => _clientRect;
             set => _clientRect = value;
+        }
+
+        public virtual RectangleF ClientRectangleF
+        {
+            [DebuggerStepThrough]
+            get => _clientRectF;
+            set => _clientRectF = value;
         }
 
         /// <summary>

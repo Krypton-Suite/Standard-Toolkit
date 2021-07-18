@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             : this(null, control, control, null, renderer, control.Size)
         {
         }
-        
+
         /// <summary>
         /// Initialize a new instance of the ViewContext class.
         /// </summary>
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// <param name="alignControl">Control used for aligning elements.</param>
         /// <param name="renderer">Rendering provider.</param>
         public ViewLayoutContext(ViewManager manager,
-                                 Control control, 
+                                 Control control,
                                  Control alignControl,
                                  IRenderer renderer)
             : this(manager, control, alignControl, null, renderer, control.Size)
@@ -112,6 +112,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the available display area.
         /// </summary>
         public Rectangle DisplayRectangle { get; set; }
+
+        public RectangleF DisplayRectangleF { get; set; }
 
         #endregion
     }

@@ -106,6 +106,13 @@ These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
+* Remove the internal class Called `KryptonDataGridViewIconColumn` from design use #27
+- Put back the removed `CLSCompliant` and `ComVisible` assembly flags for backwards compatibility
+- Update the projects to comply/use the latest analysers
+* _Something to do with TreeGridViews_
+* _Scollbars_
+* RichTextBox now allows CueHint Text
+* ComboBox now allows CueHint Text
 * Implement [#197](https://github.com/Krypton-Suite/Standard-Toolkit/issues/197), Rounding should use `float` or `double` instead of `int`. Rounding now accepts `float` values
 * New logo for both canary and stable builds
 * Fixed [#138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/138), `KryptonListView` throws a `System.Resources.MissingManifestResourceException`
