@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
             : this(null)
         {
         }
-        
+
         /// <summary>
         /// Initialize a new instance of the PaletteRedirect class.
         /// </summary>
@@ -322,8 +322,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Integer rounding.</returns>
-        public virtual int GetBorderRounding(PaletteBorderStyle style, PaletteState state)
+        /// <returns>Float rounding.</returns>
+        public virtual float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
         {
             return _target.GetBorderRounding(style, state);
         }
@@ -483,7 +483,7 @@ namespace Krypton.Toolkit
         {
             return _target.GetContentShortTextPrefix(style, state);
         }
-        
+
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for short text.
         /// </summary>
@@ -692,7 +692,7 @@ namespace Krypton.Toolkit
         {
             return _target.GetContentLongTextPrefix(style, state);
         }
-        
+
         /// <summary>
         /// Gets the horizontal relative alignment of the long text.
         /// </summary>
@@ -848,7 +848,7 @@ namespace Krypton.Toolkit
         {
             return _target.GetMetricInt(state, metric);
         }
-        
+
         /// <summary>
         /// Gets a boolean metric value.
         /// </summary>
@@ -1210,7 +1210,7 @@ namespace Krypton.Toolkit
         {
             return _target.GetRibbonMinimizeBarLight(state);
         }
-        
+
         /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
@@ -1271,7 +1271,7 @@ namespace Krypton.Toolkit
             return _target.GetRibbonQATButtonLight(state);
         }
         #endregion
-        
+
         #region RibbonBack
         /// <summary>
         /// Gets the method used to draw the background of a ribbon item.

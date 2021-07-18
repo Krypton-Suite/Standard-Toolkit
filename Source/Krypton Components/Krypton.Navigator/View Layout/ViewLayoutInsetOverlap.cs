@@ -67,12 +67,12 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the rounding value to apply on the edges.
         /// </summary>
-        public int Rounding
+        public float Rounding
         {
             get
             {
                 // Get the rounding and width values for the border
-                int rounding = _drawCanvas.PaletteBorder.GetBorderRounding(_drawCanvas.State);
+                float rounding = _drawCanvas.PaletteBorder.GetBorderRounding(_drawCanvas.State);
                 int width = _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
 
                 // We have to add half the width as that increases the rounding effect
@@ -99,17 +99,17 @@ namespace Krypton.Navigator
             Debug.Assert(context != null);
 
             // Get the preferred size requested by the children
-            Size size =  base.GetPreferredSize(context);
+            Size size = base.GetPreferredSize(context);
 
             // Apply the rounding in the appropriate orientation
             if ((Orientation == VisualOrientation.Top) || (Orientation == VisualOrientation.Bottom))
             {
-                size.Width += Rounding * 2;
+                size.Width += Convert.ToInt32(Rounding) * 2;
                 size.Height += BorderWidth;
             }
             else
             {
-                size.Height += Rounding * 2;
+                size.Height += Convert.ToInt32(Rounding) * 2;
                 size.Width += BorderWidth;
             }
 
@@ -131,18 +131,18 @@ namespace Krypton.Navigator
             Rectangle childRect = ClientRectangle;
 
             // Find the amount of rounding to apply
-            int rounding = Rounding;
+            float rounding = Rounding;
 
             // Apply the rounding in the appropriate orientation
             if ((Orientation == VisualOrientation.Top) || (Orientation == VisualOrientation.Bottom))
             {
-                childRect.Width -= rounding * 2;
-                childRect.X += rounding;
+                childRect.Width -= Convert.ToInt32(rounding) * 2;
+                childRect.X += Convert.ToInt32(rounding);
             }
             else
             {
-                childRect.Height -= rounding * 2;
-                childRect.Y += rounding;
+                childRect.Height -= Convert.ToInt32(rounding) * 2;
+                childRect.Y += Convert.ToInt32(rounding);
             }
 
             // Inform each child to layout inside the reduced rectangle

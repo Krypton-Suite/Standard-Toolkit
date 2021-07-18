@@ -178,7 +178,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public int CornerRadius
+        public float CornerRadius
         {
             get => _treeView.StateCommon.Border.Rounding;
 
@@ -196,7 +196,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the node corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public int NodeCornerRadius
+        public float NodeCornerRadius
         {
             get => _treeView.StateCommon.Node.Border.Rounding;
 

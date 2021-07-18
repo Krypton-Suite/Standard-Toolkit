@@ -3366,7 +3366,7 @@ namespace Krypton.Toolkit
                                                   IPaletteBorder paletteBorder,
                                                   PaletteState state)
         {
-            int rounding = paletteBorder.GetBorderRounding(state);
+            float rounding = paletteBorder.GetBorderRounding(state);
 
             // If the border takes up some visual space
             if (paletteBorder.GetBorderWidth(state) > 0)
@@ -3844,7 +3844,7 @@ namespace Krypton.Toolkit
                                                          Rectangle rect,
                                                          PaletteDrawBorders borders,
                                                          int borderWidth,
-                                                         int borderRounding,
+                                                         float borderRounding,
                                                          bool smoothing,
                                                          int variant)
         {
@@ -3854,7 +3854,7 @@ namespace Krypton.Toolkit
             if ((rect.Width > 0) && (rect.Height > 0))
             {
                 // Only use a rounding that will fit inside the rect
-                int rounding = Math.Min(borderRounding, Math.Min(rect.Width / 2, rect.Height / 2) - borderWidth);
+                float rounding = Math.Min(borderRounding, Math.Min(rect.Width / 2, rect.Height / 2) - borderWidth);
 
                 // Shrink the rect by half the width of the pen, because the pen will 
                 // draw half the distance overlapping each side of the centre anyway.
@@ -3885,8 +3885,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Find the width/height of the arc box
-                int arcLength = rounding * 2;
-                int arcLength1 = arcLength + 1;
+                float arcLength = rounding * 2;
+                float arcLength1 = arcLength + 1;
 
                 // If drawing all the four borders use a single routine
                 if (CommonHelper.HasAllBorders(borders))
@@ -3953,10 +3953,10 @@ namespace Krypton.Toolkit
                                                     GraphicsPath borderPath,
                                                     Rectangle rect,
                                                     int width,
-                                                    int rounding,
+                                                    float rounding,
                                                     bool forBorder,
-                                                    int arcLength,
-                                                    int arcLength1)
+                                                    float arcLength,
+                                                    float arcLength1)
         {
             // If there is no room for any rounding effect...
             if (rounding <= 0)
@@ -4088,7 +4088,7 @@ namespace Krypton.Toolkit
                                                      PaletteDrawBorders borders,
                                                      GraphicsPath borderPath,
                                                      Rectangle rect,
-                                                     int arcLength,
+                                                     float arcLength,
                                                      int variant)
         {
             // Reduce the width and height by 1 pixel for drawing into rectangle
@@ -4198,7 +4198,7 @@ namespace Krypton.Toolkit
                                                            PaletteDrawBorders borders,
                                                            GraphicsPath borderPath,
                                                            Rectangle rect,
-                                                           int arcLength,
+                                                           float arcLength,
                                                            int variant)
         {
             // Reduce the width and height by 1 pixel for drawing into rectangle
@@ -4289,7 +4289,7 @@ namespace Krypton.Toolkit
                                                          PaletteDrawBorders borders,
                                                          GraphicsPath borderPath,
                                                          Rectangle rect,
-                                                         int arcLength)
+                                                         float arcLength)
         {
             // We create the path using a floating point rectangle
             RectangleF rectF = new(rect.X, rect.Y, rect.Width, rect.Height);

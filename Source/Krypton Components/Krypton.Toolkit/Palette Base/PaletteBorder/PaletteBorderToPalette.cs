@@ -162,10 +162,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public int GetBorderRounding(PaletteState state)
-        {
-            return _palette.GetBorderRounding(BorderStyle, state);
-        }
+        public float GetBorderRounding(PaletteState state) => _palette.GetBorderRounding(BorderStyle, state);
         #endregion
 
         #region Image

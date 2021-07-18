@@ -36,7 +36,9 @@ namespace Krypton.Toolkit
 
         private object _param;
 
-        private int _blurRadius, _cornerRadius;
+        private int _blurRadius;
+
+        private float _cornerRadius;
 
         private IWin32Window _owner;
 
@@ -107,7 +109,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius of the KryptonMessageBox.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description("Defines the corner radius of the KryptonMessageBox.")]
-        public int CornerRadius { get => _cornerRadius; set => _cornerRadius = value; }
+        public float CornerRadius { get => _cornerRadius; set => _cornerRadius = value; }
 
         /// <summary>Gets or sets the owner.</summary>
         /// <value>The owner.</value>

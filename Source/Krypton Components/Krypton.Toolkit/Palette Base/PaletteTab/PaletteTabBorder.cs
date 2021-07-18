@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int Rounding
+        public new float Rounding
         {
             get => base.Rounding;
             set => base.Rounding = value;

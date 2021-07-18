@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             _backup = backup;
         }
         #endregion
-        
+
         #region Apply
         /// <summary>
         /// Gets and sets a value indicating if override should be applied.
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         public bool Override { get; set; }
 
         #endregion
-        
+
         #region OverrideState
         /// <summary>
         /// Gets and sets the override palette state to use.
@@ -310,11 +310,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public override int GetBorderRounding(PaletteState state)
+        public override float GetBorderRounding(PaletteState state)
         {
             if (Apply)
             {
-                int ret = _primary.GetBorderRounding(Override ? OverrideState : state);
+                float ret = _primary.GetBorderRounding(Override ? OverrideState : state);
 
                 if (ret == -1)
                 {

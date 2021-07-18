@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         public void SetInherit(IPaletteBorder paletteBorder)
         {
             Debug.Assert(paletteBorder != null);
-            _inherit = paletteBorder; 
+            _inherit = paletteBorder;
         }
         #endregion
 
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public override int GetBorderRounding(PaletteState state) => _inherit.GetBorderRounding(state);
+        public override float GetBorderRounding(PaletteState state) => _inherit.GetBorderRounding(state);
 
         /// <summary>
         /// Gets a border image.

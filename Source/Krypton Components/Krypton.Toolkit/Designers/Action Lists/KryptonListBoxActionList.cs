@@ -195,7 +195,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public int CornerRadius
+        public float CornerRadius
         {
             get => _listBox.StateCommon.Border.Rounding;
 
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the item corner radius.</summary>
         /// <value>The item corner radius.</value>
         [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public int ItemCornerRounding
+        public float ItemCornerRounding
         {
             get => _listBox.StateCommon.Item.Border.Rounding;
 
