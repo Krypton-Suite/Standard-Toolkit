@@ -16,12 +16,15 @@ namespace Krypton.Toolkit
     public class GlobalStaticValues
     {
         // Used for 'Material' themes
-        public const int MATERIAL_THEME_CORNER_ROUNDING_VALUE = -1;
+        public const float MATERIAL_THEME_CORNER_ROUNDING_VALUE = -1;
 
         // Used for the default control corners
-        public const int PRIMARY_CORNER_ROUNDING_VALUE = -1;
+        public const float PRIMARY_CORNER_ROUNDING_VALUE = -1;
+
+        // Used for text controls
+        public const float PRIMARY_CORNER_TEXT_CONTROLS_ROUNDING_VALUE = -1;
 
         // Used for nodes etc
-        public const int SECONDARY_CORNER_ROUNDING_VALUE = -1;
+        public const float SECONDARY_CORNER_ROUNDING_VALUE = -1;
     }
 }
