@@ -67,15 +67,12 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the rounding value to apply on the edges.
         /// </summary>
-        public int Rounding
+        public float Rounding
         {
             get
             {
                 // Get the rounding and width values for the border
-
-                // TODO: Does this need to be a float?
-
-                int rounding = (int)_drawCanvas.PaletteBorder.GetBorderRounding(_drawCanvas.State);
+                float rounding = _drawCanvas.PaletteBorder.GetBorderRounding(_drawCanvas.State);
                 int width = _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
 
                 // We have to add half the width as that increases the rounding effect
@@ -131,27 +128,25 @@ namespace Krypton.Navigator
             ClientRectangle = context.DisplayRectangle;
 
             // Find the rectangle available to each child by removing the rounding
-            Rectangle childRect = ClientRectangle;
-
-            RectangleF childRectF;
+            RectangleF childRectF = ClientRectangle;
 
             // Find the amount of rounding to apply
-            int rounding = Rounding;
+            float rounding = Rounding;
 
             // Apply the rounding in the appropriate orientation
             if ((Orientation == VisualOrientation.Top) || (Orientation == VisualOrientation.Bottom))
             {
-                childRect.Width -= rounding * 2;
-                childRect.X += rounding;
+                childRectF.Width -= rounding * 2;
+                childRectF.X += rounding;
             }
             else
             {
-                childRect.Height -= rounding * 2;
-                childRect.Y += rounding;
+                childRectF.Height -= rounding * 2;
+                childRectF.Y += rounding;
             }
 
-            // Convert childRect to a RectangleF
-            childRectF = new RectangleF(childRect.X, childRect.Y, childRect.Width, childRect.Height);
+            // Convert childRectF to a 'int' Rectangle
+            Rectangle childRect = new Rectangle((int)childRectF.X, (int)childRectF.Y, (int)childRectF.Width, (int)childRectF.Height);
 
             // Inform each child to layout inside the reduced rectangle
             foreach (ViewBase child in this)
