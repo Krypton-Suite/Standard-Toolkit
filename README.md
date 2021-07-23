@@ -82,7 +82,7 @@ Follow the links to see the different objects and layouts that this framework al
 Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 6. Please note that these packages are larger than the lite packages.
 
 ## Lite
-These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
+These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 
 =======
 
@@ -131,7 +131,7 @@ These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 * Implemented [#79](https://github.com/Krypton-Suite/Standard-Toolkit/issues/79), Customise 'Hint' Font
 * Fixed [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
 * Fixed [#71](https://github.com/Krypton-Suite/Standard-Toolkit/issues/71), No design support while using Krypton.Ribbon in .NET 5/6 
-* Fixed [#54](https://github.com/Krypton-Suite/Standard-Toolkit/issues/54), .Net5 Winform Project - Dropping a KLabel onto a KGroup or KGroupBox causes an Exception in Designer
+* Fixed [#54](https://github.com/Krypton-Suite/Standard-Toolkit/issues/54), .Net5 WinForm Project - Dropping a KLabel onto a KGroup or KGroupBox causes an Exception in Designer
 
 =======
 
