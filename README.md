@@ -53,21 +53,6 @@
 | <img src="https://img.shields.io/badge/Module-Workspace-green.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace.Signed?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 | <img src="https://img.shields.io/badge/Module-Workspace Lite-green.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace.Lite.Signed?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
 
-## Long Term Support
-
-| Module Name | Current Version | Github License | 
-|---|---|---|
-| <img src="https://img.shields.io/badge/Module-Toolkit-00ACED.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Toolkit.LTS?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Toolkit Lite-00ACED.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Toolkit.Lite.LTS?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Docking-00ACED.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Docking.LTS?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Docking Lite-00ACED.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Docking.Lite.LTS?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Navigator-00ACED.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Navigator.LTS?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Navigator Lite-00ACED.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Navigator.Lite.LTS?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Ribbon-00ACED.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Ribbon.LTS?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Ribbon Lite-00ACED.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Ribbon.Lite.LTS?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Workspace-00ACED.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace.LTS?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-| <img src="https://img.shields.io/badge/Module-Workspace Lite-00ACED.svg?style=flat-square" /> | ![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace.Lite.LTS?label=Version&logo=nuget&style=flat-square) | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
-
 =======
 
 # <img src="https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/blob/master/Assets/PNG/Help/Help_1_48_x_48.png" /><a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html">Online Help</a>
@@ -97,7 +82,7 @@ Follow the links to see the different objects and layouts that this framework al
 Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 6. Please note that these packages are larger than the lite packages.
 
 ## Lite
-These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
+These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 
 =======
 
@@ -106,13 +91,15 @@ These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
-* Remove the internal class Called `KryptonDataGridViewIconColumn` from design use #27
+* Fixed [#202](https://github.com/Krypton-Suite/Standard-Toolkit/issues/202), `KryptonGroup` transparency
+* Remove the internal class Called `KryptonDataGridViewIconColumn` from design use [#27](https://github.com/Krypton-Suite/Standard-Toolkit/issues/27)
 - Put back the removed `CLSCompliant` and `ComVisible` assembly flags for backwards compatibility
 - Update the projects to comply/use the latest analysers
 * _Something to do with TreeGridViews_
 * _Scollbars_
 * RichTextBox now allows CueHint Text
 * ComboBox now allows CueHint Text
+* Implement [#197](https://github.com/Krypton-Suite/Standard-Toolkit/issues/197), Rounding should use `float` or `double` instead of `int`. Rounding now accepts `float` values
 * New logo for both canary and stable builds
 * Fixed [#138](https://github.com/Krypton-Suite/Standard-Toolkit/issues/138), `KryptonListView` throws a `System.Resources.MissingManifestResourceException`
     - If you want a standard List then use ListBox or CheckedListBox
@@ -144,7 +131,7 @@ These packages only support .NET Framework >= 4.5, .NET Core 3.1 and .NET 6.
 * Implemented [#79](https://github.com/Krypton-Suite/Standard-Toolkit/issues/79), Customise 'Hint' Font
 * Fixed [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
 * Fixed [#71](https://github.com/Krypton-Suite/Standard-Toolkit/issues/71), No design support while using Krypton.Ribbon in .NET 5/6 
-* Fixed [#54](https://github.com/Krypton-Suite/Standard-Toolkit/issues/54), .Net5 Winform Project - Dropping a KLabel onto a KGroup or KGroupBox causes an Exception in Designer
+* Fixed [#54](https://github.com/Krypton-Suite/Standard-Toolkit/issues/54), .Net5 WinForm Project - Dropping a KLabel onto a KGroup or KGroupBox causes an Exception in Designer
 
 =======
 

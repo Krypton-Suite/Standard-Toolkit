@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         /// <returns>Renderer to use for drawing palette settings.</returns>
         public abstract IRenderer GetRenderer();
         #endregion
-        
+
         #region Back
         /// <summary>
         /// Gets a value indicating if background should be drawn.
@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
         public abstract float GetBackColorAngle(PaletteBackStyle style, PaletteState state);
-            
+
         /// <summary>
         /// Gets a background image.
         /// </summary>
@@ -245,8 +245,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Integer rounding.</returns>
-        public abstract int GetBorderRounding(PaletteBorderStyle style, PaletteState state);
+        /// <returns>Float rounding.</returns>
+        public abstract float GetBorderRounding(PaletteBorderStyle style, PaletteState state);
 
         /// <summary>
         /// Gets a border image.
@@ -505,7 +505,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
         public abstract PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteContentStyle style, PaletteState state);
-        
+
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for long text.
         /// </summary>
@@ -636,7 +636,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public abstract int GetMetricInt(PaletteState state, PaletteMetricInt metric);
 
-            /// <summary>
+        /// <summary>
         /// Gets a boolean metric value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
@@ -660,7 +660,7 @@ namespace Krypton.Toolkit
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public abstract Image GetTreeViewImage(bool expanded);
-        
+
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
         /// </summary>
@@ -1253,7 +1253,7 @@ namespace Krypton.Toolkit
                                         Color color2, float percent2,
                                         Color color3, float percent3)
         {
-            return CommonHelper.MergeColors(color1, percent1, 
+            return CommonHelper.MergeColors(color1, percent1,
                                             color2, percent2,
                                             color3, percent3);
         }
@@ -1342,7 +1342,7 @@ namespace Krypton.Toolkit
         {
             OnUserPreferenceChanged(this, new UserPreferenceChangedEventArgs(UserPreferenceCategory.General));
         }
-        
+
         /// <summary>
         /// Handle a change in the user preferences.
         /// </summary>

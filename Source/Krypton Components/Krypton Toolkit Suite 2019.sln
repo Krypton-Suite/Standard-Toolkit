@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.31410.223
+VisualStudioVersion = 16.0.31507.150
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{942DAEF7-509F-4BB7-B1DD-CBC28949CCF6}"
 	ProjectSection(SolutionItems) = preProject
@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{7639F185-EAEE-4483-BE71-7EC62EDDBEA9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Docking 2019", "Krypton.Docking\Krypton.Docking 2019.csproj", "{AEEC4AA6-23F5-4B53-B3CB-305DDC4085A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Navigator 2019", "Krypton.Navigator\Krypton.Navigator 2019.csproj", "{0D932DC6-53EA-4DE7-903C-C2E404505CAC}"
 EndProject
@@ -54,16 +52,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2022", "2022", "{B0DAF0D5-5
 		..\..\Documents\Build System\2022\run.cmd = ..\..\Documents\Build System\2022\run.cmd
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Docking 2019", "Krypton.Docking\Krypton.Docking 2019.csproj", "{408B2F95-0322-4EEF-9A1B-889B7759976B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AEEC4AA6-23F5-4B53-B3CB-305DDC4085A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AEEC4AA6-23F5-4B53-B3CB-305DDC4085A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AEEC4AA6-23F5-4B53-B3CB-305DDC4085A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AEEC4AA6-23F5-4B53-B3CB-305DDC4085A4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D932DC6-53EA-4DE7-903C-C2E404505CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0D932DC6-53EA-4DE7-903C-C2E404505CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D932DC6-53EA-4DE7-903C-C2E404505CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -80,12 +76,15 @@ Global
 		{F379A7A0-66CC-4295-90E6-2471433D12B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F379A7A0-66CC-4295-90E6-2471433D12B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F379A7A0-66CC-4295-90E6-2471433D12B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{408B2F95-0322-4EEF-9A1B-889B7759976B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{408B2F95-0322-4EEF-9A1B-889B7759976B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{408B2F95-0322-4EEF-9A1B-889B7759976B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{408B2F95-0322-4EEF-9A1B-889B7759976B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AEEC4AA6-23F5-4B53-B3CB-305DDC4085A4} = {7639F185-EAEE-4483-BE71-7EC62EDDBEA9}
 		{0D932DC6-53EA-4DE7-903C-C2E404505CAC} = {7639F185-EAEE-4483-BE71-7EC62EDDBEA9}
 		{28E83440-1BEC-4D48-B4EA-D85E30638BDD} = {7639F185-EAEE-4483-BE71-7EC62EDDBEA9}
 		{43C7CFAF-03AB-47BD-A60D-1F3C5A3B68D5} = {7639F185-EAEE-4483-BE71-7EC62EDDBEA9}
@@ -93,6 +92,7 @@ Global
 		{8EC65998-9433-4A2D-8376-FB35DAC73B16} = {942DAEF7-509F-4BB7-B1DD-CBC28949CCF6}
 		{5DDF2C46-7125-4AFE-A1A8-AB97E12BCE39} = {942DAEF7-509F-4BB7-B1DD-CBC28949CCF6}
 		{B0DAF0D5-5C54-4551-A0EE-BC3CF3F98F68} = {5DDF2C46-7125-4AFE-A1A8-AB97E12BCE39}
+		{408B2F95-0322-4EEF-9A1B-889B7759976B} = {7639F185-EAEE-4483-BE71-7EC62EDDBEA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		BuildVersion_StartDate = 2000/1/1

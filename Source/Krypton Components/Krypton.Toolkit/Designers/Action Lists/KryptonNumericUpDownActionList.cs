@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public int CornerRadius
+        public float CornerRadius
         {
             get => _numericUpDown.StateCommon.Border.Rounding;
 

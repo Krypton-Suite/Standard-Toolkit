@@ -67,12 +67,12 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the rounding value to apply on the edges.
         /// </summary>
-        public int Rounding
+        public float Rounding
         {
             get
             {
                 // Get the rounding and width values for the border
-                int rounding = _drawCanvas.PaletteBorder.GetBorderRounding(_drawCanvas.State);
+                float rounding = _drawCanvas.PaletteBorder.GetBorderRounding(_drawCanvas.State);
                 int width = _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
 
                 // We have to add half the width as that increases the rounding effect
@@ -99,17 +99,17 @@ namespace Krypton.Navigator
             Debug.Assert(context != null);
 
             // Get the preferred size requested by the children
-            Size size =  base.GetPreferredSize(context);
+            Size size = base.GetPreferredSize(context);
 
             // Apply the rounding in the appropriate orientation
             if ((Orientation == VisualOrientation.Top) || (Orientation == VisualOrientation.Bottom))
             {
-                size.Width += Rounding * 2;
+                size.Width += Convert.ToInt32(Rounding) * 2;
                 size.Height += BorderWidth;
             }
             else
             {
-                size.Height += Rounding * 2;
+                size.Height += Convert.ToInt32(Rounding) * 2;
                 size.Width += BorderWidth;
             }
 
@@ -128,32 +128,40 @@ namespace Krypton.Navigator
             ClientRectangle = context.DisplayRectangle;
 
             // Find the rectangle available to each child by removing the rounding
-            Rectangle childRect = ClientRectangle;
+            RectangleF childRectF = ClientRectangle;
 
             // Find the amount of rounding to apply
-            int rounding = Rounding;
+            float rounding = Rounding;
 
             // Apply the rounding in the appropriate orientation
             if ((Orientation == VisualOrientation.Top) || (Orientation == VisualOrientation.Bottom))
             {
-                childRect.Width -= rounding * 2;
-                childRect.X += rounding;
+                childRectF.Width -= rounding * 2;
+                childRectF.X += rounding;
             }
             else
             {
-                childRect.Height -= rounding * 2;
-                childRect.Y += rounding;
+                childRectF.Height -= rounding * 2;
+                childRectF.Y += rounding;
             }
+
+            // Convert childRectF to a 'int' Rectangle
+            Rectangle childRect = new Rectangle((int)childRectF.X, (int)childRectF.Y, (int)childRectF.Width, (int)childRectF.Height);
 
             // Inform each child to layout inside the reduced rectangle
             foreach (ViewBase child in this)
             {
                 context.DisplayRectangle = childRect;
+
+                context.DisplayRectangleF = childRectF;
+
                 child.Layout(context);
             }
 
             // Remember the set context to the size we were given
             context.DisplayRectangle = ClientRectangle;
+
+            context.DisplayRectangleF = ClientRectangleF;
         }
         #endregion
     }

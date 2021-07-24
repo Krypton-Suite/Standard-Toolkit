@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
             public PaletteRectangleAlign BorderColorAlign;
             public float BorderColorAngle;
             public int BorderWidth;
-            public int BorderRounding;
+            public float BorderRounding;
             public Image BorderImage;
             public PaletteImageStyle BorderImageStyle;
             public PaletteRectangleAlign BorderImageAlign;
@@ -614,7 +614,7 @@ namespace Krypton.Toolkit
         [Description("How much to round the border corners.")]
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         [RefreshProperties(RefreshProperties.All)]
-        public int Rounding
+        public float Rounding
         {
             get
             {
@@ -659,7 +659,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public int GetBorderRounding(PaletteState state) => Rounding != -1 ? Rounding : _inherit.GetBorderRounding(state);
+        public float GetBorderRounding(PaletteState state) => Rounding != -1 ? Rounding : _inherit.GetBorderRounding(state);
         #endregion
 
         #region Image

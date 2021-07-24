@@ -875,8 +875,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Integer rounding.</returns>
-        public int GetBorderRounding(PaletteBorderStyle style, PaletteState state)
+        /// <returns>Float rounding.</returns>
+        public float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
         {
             // Find the correct destination in the palette and pass on request
             return GetPaletteBorder(style, state).GetBorderRounding(state);

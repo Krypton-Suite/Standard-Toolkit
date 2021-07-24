@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public override int GetBorderRounding(PaletteState state) => _redirect.GetBorderRounding(Style, state);
+        public override float GetBorderRounding(PaletteState state) => _redirect.GetBorderRounding(Style, state);
 
         /// <summary>
         /// Gets a border image from the redirector.

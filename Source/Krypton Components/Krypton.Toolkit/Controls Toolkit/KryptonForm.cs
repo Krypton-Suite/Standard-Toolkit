@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
         private StatusStrip _statusStrip;
         private Bitmap _cacheBitmap;
         private Icon _cacheIcon;
-        private int _cornerRoundingRadius;
+        private float _cornerRoundingRadius;
         private Control _activeControl;
         private KryptonManager _internalKryptonManager;
         private KryptonPalette _internalKryptonPalette;
@@ -609,7 +609,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner rounding radius.</summary>
         /// <value>The corner rounding radius.</value>
         [DefaultValue(-1), Description("Defines the corner roundness on the current window (-1 is the default look).")]
-        public int CornerRoundingRadius { get => _cornerRoundingRadius; set { _cornerRoundingRadius = value; Invalidate(); } }
+        public float CornerRoundingRadius { get => _cornerRoundingRadius; set { _cornerRoundingRadius = value; Invalidate(); } }
 
         /// <summary>Gets or sets the active control on the container control.</summary>
         [DefaultValue(null), Description("Defines an active control for this window.")]
