@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
             _redirector = CreateRedirector();
 
             // Default properties
-            SetLabelStyle(LabelStyle.NormalControl);
+            SetLabelStyle(LabelStyle.NormalPanel);
             AutoSize = true;
             TabStop = false;
         }
@@ -242,6 +242,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Label style.")]
+        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _labelStyle;
@@ -257,9 +258,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalControl);
+        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalPanel);
 
-        private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalControl;
+        private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalPanel;
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -620,19 +621,13 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        private PaletteRedirect CreateRedirector()
-        {
-            return new PaletteRedirect(_palette);
-        }
+        private PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
 
         /// <summary>
         /// Update the view elements based on the requested label style.
         /// </summary>
         /// <param name="style">New label style.</param>
-        private void SetLabelStyle(LabelStyle style)
-        {
-            _labelContentStyle = CommonHelper.ContentStyleFromLabelStyle(style);
-        }
+        private void SetLabelStyle(LabelStyle style) => _labelContentStyle = CommonHelper.ContentStyleFromLabelStyle(style);
 
         /// <summary>
         /// Update global event attachments.
