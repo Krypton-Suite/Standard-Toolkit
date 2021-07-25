@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -2089,24 +2087,15 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-
-                return (DesignMode
-                        || AlwaysActive
-                        || ContainsFocus
-                        || _mouseOver
-                        || _comboBox.MouseOver
-                        || _subclassEdit is { MouseOver: true }
-                    );
-            }
-        }
+        public bool IsActive =>
+            _fixedActive != null
+                ? _fixedActive.Value
+                : DesignMode
+                  || AlwaysActive
+                  || ContainsFocus
+                  || _mouseOver
+                  || _comboBox.MouseOver
+                  || _subclassEdit is { MouseOver: true };
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -2794,12 +2783,7 @@ namespace Krypton.Toolkit
 
         internal PaletteInputControlTripleStates GetComboBoxTripleState()
         {
-            if (Enabled)
-            {
-                return IsActive ? StateActive.ComboBox : StateNormal.ComboBox;
-            }
-
-            return StateDisabled.ComboBox;
+            return Enabled ? IsActive ? StateActive.ComboBox : StateNormal.ComboBox : StateDisabled.ComboBox;
         }
 
         private int PreferredHeight

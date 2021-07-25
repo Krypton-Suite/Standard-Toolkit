@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -262,8 +260,8 @@ namespace Krypton.Navigator
         public new PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
-            get { return base.PaletteMode; }
-            set { throw new OperationCanceledException("Cannot change PaletteMode property"); }
+            get => base.PaletteMode;
+            set => throw new OperationCanceledException("Cannot change PaletteMode property");
         }
 
         /// <summary>
@@ -275,8 +273,8 @@ namespace Krypton.Navigator
         public new IPalette Palette
         {
             [DebuggerStepThrough]
-            get { return base.Palette; }
-            set { throw new OperationCanceledException("Cannot change PaletteMode property"); }
+            get => base.Palette;
+            set => throw new OperationCanceledException("Cannot change PaletteMode property");
         }
 
         /// <summary>
@@ -296,7 +294,7 @@ namespace Krypton.Navigator
         public virtual PaletteNavigatorRedirect StateCommon
         {
             [DebuggerStepThrough]
-            get { return _stateCommon; }
+            get => _stateCommon;
         }
 
         private bool ShouldSerializeStateCommon()
@@ -313,7 +311,7 @@ namespace Krypton.Navigator
         public virtual PaletteNavigator StateDisabled
         {
             [DebuggerStepThrough]
-            get { return _stateDisabled; }
+            get => _stateDisabled;
         }
 
         private bool ShouldSerializeStateDisabled()
@@ -330,7 +328,7 @@ namespace Krypton.Navigator
         public virtual PaletteNavigator StateNormal
         {
             [DebuggerStepThrough]
-            get { return _stateNormal; }
+            get => _stateNormal;
         }
 
         private bool ShouldSerializeStateNormal()
@@ -418,14 +416,14 @@ namespace Krypton.Navigator
         public override string Text
         {
             [DebuggerStepThrough]
-            get { return base.Text; }
+            get => base.Text;
 
             set
             {
                 if (base.Text != value)
                 {
                     base.Text = value;
-                    OnAppearancePropertyChanged("Text");
+                    OnAppearancePropertyChanged(nameof(Text));
                 }
             }
         }
@@ -441,14 +439,14 @@ namespace Krypton.Navigator
         public virtual string TextTitle
         {
             [DebuggerStepThrough]
-            get { return _textTitle; }
+            get => _textTitle;
 
             set
             {
                 if (_textTitle != value)
                 {
                     _textTitle = value;
-                    OnAppearancePropertyChanged("TextTitle");
+                    OnAppearancePropertyChanged(nameof(TextTitle));
                 }
             }
         }
@@ -472,14 +470,14 @@ namespace Krypton.Navigator
         public virtual string TextDescription
         {
             [DebuggerStepThrough]
-            get { return _textDescription; }
+            get => _textDescription;
 
             set
             {
                 if (_textDescription != value)
                 {
                     _textDescription = value;
-                    OnAppearancePropertyChanged("TextDescription");
+                    OnAppearancePropertyChanged(nameof(TextDescription));
                 }
             }
         }
@@ -487,10 +485,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TextDescription property to its default value.
         /// </summary>
-        public void ResetTextDescription()
-        {
-            TextDescription = null;
-        }
+        public void ResetTextDescription() => TextDescription = null;
 
         /// <summary>
         /// Gets and sets the small image for the page.
@@ -502,14 +497,14 @@ namespace Krypton.Navigator
         public virtual Image ImageSmall
         {
             [DebuggerStepThrough]
-            get { return _imageSmall; }
+            get => _imageSmall;
 
             set
             {
                 if (_imageSmall != value)
                 {
                     _imageSmall = value;
-                    OnAppearancePropertyChanged("ImageSmall");
+                    OnAppearancePropertyChanged(nameof(ImageSmall));
                 }
             }
         }
@@ -532,14 +527,14 @@ namespace Krypton.Navigator
         public virtual Image ImageMedium
         {
             [DebuggerStepThrough]
-            get { return _imageMedium; }
+            get => _imageMedium;
 
             set
             {
                 if (_imageMedium != value)
                 {
                     _imageMedium = value;
-                    OnAppearancePropertyChanged("ImageMedium");
+                    OnAppearancePropertyChanged(nameof(ImageMedium));
                 }
             }
         }
@@ -562,14 +557,14 @@ namespace Krypton.Navigator
         public virtual Image ImageLarge
         {
             [DebuggerStepThrough]
-            get { return _imageLarge; }
+            get => _imageLarge;
 
             set
             {
                 if (_imageLarge != value)
                 {
                     _imageLarge = value;
-                    OnAppearancePropertyChanged("ImageLarge");
+                    OnAppearancePropertyChanged(nameof(ImageLarge));
                 }
             }
         }
@@ -598,7 +593,7 @@ namespace Krypton.Navigator
                 if (_toolTipImage != value)
                 {
                     _toolTipImage = value;
-                    OnAppearancePropertyChanged("ToolTipImage");
+                    OnAppearancePropertyChanged(nameof(ToolTipImage));
                 }
             }
         }
@@ -632,23 +627,17 @@ namespace Krypton.Navigator
                 if (_toolTipImageTransparentColor != value)
                 {
                     _toolTipImageTransparentColor = value;
-                    OnAppearancePropertyChanged("ToolTipImageTransparentColor");
+                    OnAppearancePropertyChanged(nameof(ToolTipImageTransparentColor));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipImageTransparentColor()
-        {
-            return ToolTipImageTransparentColor != Color.Empty;
-        }
+        private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != Color.Empty;
 
         /// <summary>
         /// Resets the ToolTipImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetToolTipImageTransparentColor()
-        {
-            ToolTipImageTransparentColor = Color.Empty;
-        }
+        public void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = Color.Empty;
 
         /// <summary>
         /// Gets and sets the page tooltip title text.
@@ -667,23 +656,18 @@ namespace Krypton.Navigator
                 if (_toolTipTitle != value)
                 {
                     _toolTipTitle = value;
-                    OnAppearancePropertyChanged("ToolTipTitle");
+                    OnAppearancePropertyChanged(nameof(ToolTipTitle));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipTitle()
-        {
-            return ToolTipTitle != string.Empty;
-        }
+        private bool ShouldSerializeToolTipTitle() => ToolTipTitle != string.Empty;
 
         /// <summary>
         /// Resets the ToolTipTitle property to its default value.
         /// </summary>
         public void ResetToolTipTitle()
-        {
-            ToolTipTitle = string.Empty;
-        }
+        => ToolTipTitle = string.Empty;
 
         /// <summary>
         /// Gets and sets the page tooltip body text.
@@ -702,23 +686,17 @@ namespace Krypton.Navigator
                 if (_toolTipBody != value)
                 {
                     _toolTipBody = value;
-                    OnAppearancePropertyChanged("ToolTipBody");
+                    OnAppearancePropertyChanged(nameof(ToolTipBody));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipBody()
-        {
-            return ToolTipBody != string.Empty;
-        }
+        private bool ShouldSerializeToolTipBody() => ToolTipBody != string.Empty;
 
         /// <summary>
         /// Resets the ToolTipBody property to its default value.
         /// </summary>
-        public void ResetToolTipBody()
-        {
-            ToolTipBody = string.Empty;
-        }
+        public void ResetToolTipBody() => ToolTipBody = string.Empty;
 
         /// <summary>
         /// Gets and sets the tooltip label style.
@@ -735,23 +713,17 @@ namespace Krypton.Navigator
                 if (_toolTipStyle != value)
                 {
                     _toolTipStyle = value;
-                    OnAppearancePropertyChanged("ToolTipStyle");
+                    OnAppearancePropertyChanged(nameof(ToolTipStyle));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipStyle()
-        {
-            return ToolTipStyle != LabelStyle.ToolTip;
-        }
+        private bool ShouldSerializeToolTipStyle() => ToolTipStyle != LabelStyle.ToolTip;
 
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.
         /// </summary>
-        public void ResetToolTipStyle()
-        {
-            ToolTipStyle = LabelStyle.ToolTip;
-        }
+        public void ResetToolTipStyle() => ToolTipStyle = LabelStyle.ToolTip;
 
         /// <summary>
         /// Gets and sets the unique name of the page.
@@ -761,19 +733,16 @@ namespace Krypton.Navigator
         public virtual string UniqueName
         {
             [DebuggerStepThrough]
-            get { return _uniqueName; }
+            get => _uniqueName;
 
             [DebuggerStepThrough]
-            set { _uniqueName = value; }
+            set => _uniqueName = value;
         }
 
         /// <summary>
         /// Resets the UniqueName property to its default value.
         /// </summary>
-        public void ResetUniqueName()
-        {
-            UniqueName = CommonHelper.UniqueString;
-        }
+        public void ResetUniqueName() => UniqueName = CommonHelper.UniqueString;
 
         /// <summary>
         /// Fix the control to a particular palette state.
@@ -1143,7 +1112,7 @@ namespace Krypton.Navigator
         public Control KryptonParentContainer
         {
             [DebuggerStepThrough]
-            get { return ViewManager.AlignControl; }
+            get => ViewManager.AlignControl;
         }
 
         /// <summary>
@@ -1385,7 +1354,7 @@ namespace Krypton.Navigator
         {
             if (!Enabled)
             {
-                OnAppearancePropertyChanged("Palette");
+                OnAppearancePropertyChanged(nameof(Palette));
                 OnNeedPaint(this, e);
             }
         }
@@ -1399,7 +1368,7 @@ namespace Krypton.Navigator
         {
             if (Enabled)
             {
-                OnAppearancePropertyChanged("Palette");
+                OnAppearancePropertyChanged(nameof(Palette));
                 OnNeedPaint(this, e);
             }
         }

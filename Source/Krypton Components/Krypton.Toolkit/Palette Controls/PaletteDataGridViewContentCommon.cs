@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -103,14 +101,7 @@ namespace Krypton.Toolkit
         /// <returns>Font value.</returns>
         public override Font GetContentShortTextFont(PaletteState state)
         {
-            if (_font != null)
-            {
-                return _font;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextFont(state);
-            }
+            return _font != null ? _font : Inherit.GetContentShortTextFont(state);
         }
         #endregion
 
@@ -145,14 +136,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextH(PaletteState state)
         {
-            if (_textH != PaletteRelativeAlign.Inherit)
-            {
-                return _textH;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextH(state);
-            }
+            return _textH != PaletteRelativeAlign.Inherit ? _textH : Inherit.GetContentShortTextH(state);
         }
         #endregion
 
@@ -187,14 +171,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextV(PaletteState state)
         {
-            if (_textV != PaletteRelativeAlign.Inherit)
-            {
-                return _textV;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextV(state);
-            }
+            return _textV != PaletteRelativeAlign.Inherit ? _textV : Inherit.GetContentShortTextV(state);
         }
         #endregion
 

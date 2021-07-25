@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -612,14 +610,9 @@ namespace Krypton.Toolkit
 
         private Rectangle SplitRectangleFromPoint(Point pt)
         {
-            if (_separatorOrientation == Orientation.Vertical)
-            {
-                return SplitRectangleFromPoint(pt, Target.ClientWidth);
-            }
-            else
-            {
-                return SplitRectangleFromPoint(pt, Target.ClientHeight);
-            }
+            return _separatorOrientation == Orientation.Vertical
+                ? SplitRectangleFromPoint(pt, Target.ClientWidth)
+                : SplitRectangleFromPoint(pt, Target.ClientHeight);
         }
 
         private Rectangle SplitRectangleFromPoint(Point pt, int length)

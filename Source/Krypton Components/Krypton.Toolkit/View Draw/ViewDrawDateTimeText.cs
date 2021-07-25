@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -27,7 +25,7 @@ namespace Krypton.Toolkit
 
             private int _activeFragment;
             private FormatFragmentList _fragments;
-            private String _inputDigits;
+            private string _inputDigits;
             private readonly KryptonDateTimePicker _dateTimePicker;
             private readonly NeedPaintHandler _needPaint;
             private readonly ViewDrawDateTimeText _timeText;
@@ -90,17 +88,7 @@ namespace Krypton.Toolkit
             /// </summary>
             public string ActiveFragment
             {
-                get
-                {
-                    if (!HasActiveFragment)
-                    {
-                        return String.Empty;
-                    }
-                    else
-                    {
-                        return _fragments[_activeFragment].FragFormat;
-                    }
-                }
+                get => !HasActiveFragment ? string.Empty : _fragments[_activeFragment].FragFormat;
 
                 set
                 {
@@ -349,14 +337,7 @@ namespace Krypton.Toolkit
             public DateTime Increment(bool forward)
             {
                 // Pass request onto the fragment itself
-                if (_activeFragment >= 0)
-                {
-                    return _fragments[_activeFragment].Increment(DateTime, forward);
-                }
-                else
-                {
-                    return DateTime;
-                }
+                return _activeFragment >= 0 ? _fragments[_activeFragment].Increment(DateTime, forward) : DateTime;
             }
 
             /// <summary>
@@ -367,14 +348,7 @@ namespace Krypton.Toolkit
             public DateTime AMPM(bool am)
             {
                 // Pass request onto the fragment itself
-                if (_activeFragment >= 0)
-                {
-                    return _fragments[_activeFragment].AMPM(DateTime, am);
-                }
-                else
-                {
-                    return DateTime;
-                }
+                return _activeFragment >= 0 ? _fragments[_activeFragment].AMPM(DateTime, am) : DateTime;
             }
 
             /// <summary>
@@ -897,14 +871,7 @@ namespace Krypton.Toolkit
             /// <returns>Display string.</returns>
             public virtual string GetDisplay(DateTime dt)
             {
-                if (FragFormat.Length == 1)
-                {
-                    return dt.ToString("\\" + FragFormat);
-                }
-                else
-                {
-                    return dt.ToString(FragFormat);
-                }
+                return FragFormat.Length == 1 ? dt.ToString("\\" + FragFormat) : dt.ToString(FragFormat);
             }
 
             /// <summary>
@@ -990,19 +957,14 @@ namespace Krypton.Toolkit
                             return true;
                     }
 
-                    if (FragFormat.StartsWith("h") || 
+                    return FragFormat.StartsWith("h") || 
                         FragFormat.StartsWith("H") ||
                         FragFormat.StartsWith("m") ||
                         FragFormat.StartsWith("s") ||
                         FragFormat.StartsWith("t") ||
                         FragFormat.StartsWith("f") ||
                         FragFormat.StartsWith("F") ||
-                        FragFormat.StartsWith("y"))
-                    {
-                        return true;
-                    }
-
-                    return false; 
+                        FragFormat.StartsWith("y");
                 }
             }
 
@@ -1053,12 +1015,7 @@ namespace Krypton.Toolkit
                         return 2;
                     }
 
-                    if (FragFormat.StartsWith("y"))
-                    {
-                        return 4;
-                    }
-
-                    return base.InputDigits;
+                    return FragFormat.StartsWith("y") ? 4 : base.InputDigits;
                 }
             }
 
@@ -1736,13 +1693,11 @@ namespace Krypton.Toolkit
             {
                 return _dateTimePicker.EffectiveMinDate(_dateTimePicker.MinDate);
             }
-            else if (dt > _dateTimePicker.EffectiveMaxDate(_dateTimePicker.MaxDate))
-            {
-                return _dateTimePicker.EffectiveMaxDate(_dateTimePicker.MaxDate);
-            }
             else
             {
-                return dt;
+                return dt > _dateTimePicker.EffectiveMaxDate(_dateTimePicker.MaxDate)
+                    ? _dateTimePicker.EffectiveMaxDate(_dateTimePicker.MaxDate)
+                    : dt;
             }
         }
 
@@ -1759,14 +1714,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                if (_dateTimePicker.IsActive)
-                {
-                    return _dateTimePicker.StateActive.PaletteContent.GetContentShortTextFont(PaletteState.Normal);
-                }
-                else
-                {
-                    return _dateTimePicker.StateNormal.PaletteContent.GetContentShortTextFont(PaletteState.Normal);
-                }
+                return _dateTimePicker.IsActive
+                    ? _dateTimePicker.StateActive.PaletteContent.GetContentShortTextFont(PaletteState.Normal)
+                    : _dateTimePicker.StateNormal.PaletteContent.GetContentShortTextFont(PaletteState.Normal);
             }
         }
 
@@ -1778,14 +1728,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                if (_dateTimePicker.IsActive)
-                {
-                    return _dateTimePicker.StateActive.PaletteContent.GetContentShortTextColor1(PaletteState.Normal);
-                }
-                else
-                {
-                    return _dateTimePicker.StateNormal.PaletteContent.GetContentShortTextColor1(PaletteState.Normal);
-                }
+                return _dateTimePicker.IsActive
+                    ? _dateTimePicker.StateActive.PaletteContent.GetContentShortTextColor1(PaletteState.Normal)
+                    : _dateTimePicker.StateNormal.PaletteContent.GetContentShortTextColor1(PaletteState.Normal);
             }
         }
 
@@ -1797,14 +1742,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                if (_dateTimePicker.IsActive)
-                {
-                    return _dateTimePicker.StateActive.PaletteBack.GetBackColor1(PaletteState.Normal);
-                }
-                else
-                {
-                    return _dateTimePicker.StateNormal.PaletteBack.GetBackColor1(PaletteState.Normal);
-                }
+                return _dateTimePicker.IsActive
+                    ? _dateTimePicker.StateActive.PaletteBack.GetBackColor1(PaletteState.Normal)
+                    : _dateTimePicker.StateNormal.PaletteBack.GetBackColor1(PaletteState.Normal);
             }
         }
 

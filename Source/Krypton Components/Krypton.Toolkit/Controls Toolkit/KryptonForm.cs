@@ -596,13 +596,9 @@ namespace Krypton.Toolkit
             {
                 return FormWindowState.Minimized;
             }
-            else if ((style & PI.WS_.MAXIMIZE) != 0)
-            {
-                return FormWindowState.Maximized;
-            }
             else
             {
-                return FormWindowState.Normal;
+                return (style & PI.WS_.MAXIMIZE) != 0 ? FormWindowState.Maximized : FormWindowState.Normal;
             }
         }
 
@@ -1112,12 +1108,7 @@ namespace Krypton.Toolkit
                             return (IntPtr)PI.HT.TOPLEFT;
                         }
 
-                        if (pt.Y >= (Height - HT_CORNER))
-                        {
-                            return (IntPtr)PI.HT.BOTTOMLEFT;
-                        }
-
-                        return (IntPtr)PI.HT.LEFT;
+                        return pt.Y >= (Height - HT_CORNER) ? (IntPtr)PI.HT.BOTTOMLEFT : (IntPtr)PI.HT.LEFT;
                     }
 
                     // Is point over the right border?
@@ -1128,12 +1119,7 @@ namespace Krypton.Toolkit
                             return (IntPtr)PI.HT.TOPRIGHT;
                         }
 
-                        if (pt.Y >= (Height - HT_CORNER))
-                        {
-                            return (IntPtr)PI.HT.BOTTOMRIGHT;
-                        }
-
-                        return (IntPtr)PI.HT.RIGHT;
+                        return pt.Y >= (Height - HT_CORNER) ? (IntPtr)PI.HT.BOTTOMRIGHT : (IntPtr)PI.HT.RIGHT;
                     }
 
                     // Is point over the bottom border?
@@ -1144,12 +1130,7 @@ namespace Krypton.Toolkit
                             return (IntPtr)PI.HT.BOTTOMLEFT;
                         }
 
-                        if (pt.X >= (Width - HT_CORNER))
-                        {
-                            return (IntPtr)PI.HT.BOTTOMRIGHT;
-                        }
-
-                        return (IntPtr)PI.HT.BOTTOM;
+                        return pt.X >= (Width - HT_CORNER) ? (IntPtr)PI.HT.BOTTOMRIGHT : (IntPtr)PI.HT.BOTTOM;
                     }
 
                     // Is point over the top border?
@@ -1160,12 +1141,7 @@ namespace Krypton.Toolkit
                             return (IntPtr)PI.HT.TOPLEFT;
                         }
 
-                        if (pt.X >= (Width - HT_CORNER))
-                        {
-                            return (IntPtr)PI.HT.TOPRIGHT;
-                        }
-
-                        return (IntPtr)PI.HT.TOP;
+                        return pt.X >= (Width - HT_CORNER) ? (IntPtr)PI.HT.TOPRIGHT : (IntPtr)PI.HT.TOP;
                     }
                 }
 

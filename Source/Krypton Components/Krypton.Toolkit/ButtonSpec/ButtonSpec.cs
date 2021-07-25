@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -963,14 +961,7 @@ namespace Krypton.Toolkit
                 image = Image;
             }
 
-            if ((image != null) || !AllowInheritImage)
-            {
-                return image;
-            }
-            else
-            {
-                return palette.GetButtonSpecImage(ProtectedType, state);
-            }
+            return (image != null) || !AllowInheritImage ? image : palette.GetButtonSpecImage(ProtectedType, state);
         }
 
         /// <summary>
@@ -984,13 +975,9 @@ namespace Krypton.Toolkit
             {
                 return KryptonCommand.ImageTransparentColor;
             }
-            else if (ImageTransparentColor != Color.Empty)
-            {
-                return ImageTransparentColor;
-            }
             else
             {
-                return palette.GetButtonSpecImageTransparentColor(ProtectedType);
+                return ImageTransparentColor != Color.Empty ? ImageTransparentColor : palette.GetButtonSpecImageTransparentColor(ProtectedType);
             }
         }
 
@@ -1005,13 +992,9 @@ namespace Krypton.Toolkit
             {
                 return KryptonCommand.Text;
             }
-            else if ((Text.Length > 0) || !AllowInheritText)
-            {
-                return Text;
-            }
             else
             {
-                return palette.GetButtonSpecShortText(ProtectedType);
+                return (Text.Length > 0) || !AllowInheritText ? Text : palette.GetButtonSpecShortText(ProtectedType);
             }
         }
 
@@ -1026,14 +1009,7 @@ namespace Krypton.Toolkit
             {
                 return KryptonCommand.ExtraText;
             }
-            if ((ExtraText.Length > 0) || !AllowInheritExtraText)
-            {
-                return ExtraText;
-            }
-            else
-            {
-                return palette.GetButtonSpecLongText(ProtectedType);
-            }
+            return (ExtraText.Length > 0) || !AllowInheritExtraText ? ExtraText : palette.GetButtonSpecLongText(ProtectedType);
         }
 
         /// <summary>
@@ -1043,14 +1019,9 @@ namespace Krypton.Toolkit
         /// <returns>Tooltip title string.</returns>
         public virtual string GetToolTipTitle(IPalette palette)
         {
-            if (!string.IsNullOrEmpty(ToolTipTitle) || !AllowInheritToolTipTitle)
-            {
-                return ToolTipTitle;
-            }
-            else
-            {
-                return palette.GetButtonSpecToolTipTitle(ProtectedType);
-            }
+            return !string.IsNullOrEmpty(ToolTipTitle) || !AllowInheritToolTipTitle
+                ? ToolTipTitle
+                : palette.GetButtonSpecToolTipTitle(ProtectedType);
         }
 
         /// <summary>

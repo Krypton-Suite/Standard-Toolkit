@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -353,7 +351,7 @@ namespace Krypton.Ribbon
             Component component = _ribbon.DesignerComponentFromPoint(pt);
 
             // We are only interested in the contained components and not the ribbon control
-            if ((component != null) && !(component is Control))
+            if ((component != null) && component is not System.Windows.Forms.Control)
             {
                 // Get the designer for the component
                 IDesigner designer = _designerHost.GetDesigner(component);

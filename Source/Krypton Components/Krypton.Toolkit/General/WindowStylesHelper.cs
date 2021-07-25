@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -125,18 +123,7 @@ namespace Krypton.Toolkit
 
         public uint WinExStyle { get; set; }
 
-        public bool IsEmpty
-        {
-            get
-            {
-                if (WinStyle == 0)
-                {
-                    return WinExStyle == 0;
-                }
-
-                return false;
-            }
-        }
+        public bool IsEmpty => WinStyle == 0 ? WinExStyle == 0 : false;
 
         public bool Border
         {
@@ -265,12 +252,7 @@ namespace Krypton.Toolkit
                     return false;
                 }
 
-                if ((WinStyle & 4194304) == 0)
-                {
-                    return (WinExStyle & 1) != 0;
-                }
-
-                return true;
+                return (WinStyle & 4194304) == 0 ? (WinExStyle & 1) != 0 : true;
             }
         }
 
@@ -304,18 +286,6 @@ namespace Krypton.Toolkit
             set => WinExStyle |= 33554432;
         }
 
-        public bool Framed
-        {
-            get
-            {
-                if ((WinStyle & 12845056) == 0)
-                {
-                    return (WinExStyle & 513) != 0;
-                }
-
-                return true;
-            }
-        }
-
+        public bool Framed => (WinStyle & 12845056) == 0 ? (WinExStyle & 513) != 0 : true;
     }
 }

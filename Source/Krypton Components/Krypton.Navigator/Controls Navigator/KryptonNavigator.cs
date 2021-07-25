@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -779,7 +777,7 @@ namespace Krypton.Navigator
                 if (_pageBackStyle != value)
                 {
                     _pageBackStyle = value;
-                    OnViewBuilderPropertyChanged("PageBackStyle");
+                    OnViewBuilderPropertyChanged(nameof(PageBackStyle));
                 }
             }
         }
@@ -992,9 +990,9 @@ namespace Krypton.Navigator
                 while (view != null)
                 {
                     // If the view is associated with a page then return that page
-                    if (view.Component is KryptonPage)
+                    if (view.Component is KryptonPage page)
                     {
-                        return (KryptonPage)view.Component;
+                        return page;
                     }
 
                     view = view.Parent;

@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -110,14 +108,7 @@ namespace Krypton.Toolkit
             /// <returns>-1 if not found; otherwise index position.</returns>
             public int IndexOf(object item)
             {
-                if (item is int i)
-                {
-                    return IndexOf(i);
-                }
-                else
-                {
-                    return -1;
-                }
+                return item is int i ? IndexOf(i) : -1;
             }
 
             /// <summary>
@@ -290,12 +281,9 @@ namespace Krypton.Toolkit
             internal CheckState GetCheckedState(int index)
             {
                 bool state = InnerArrayGetState(index, _checkedItemMask);
-                if (InnerArrayGetState(index, _indeterminateItemMask))
-                {
-                    return CheckState.Indeterminate;
-                }
-
-                return state ? CheckState.Checked : CheckState.Unchecked;
+                return InnerArrayGetState(index, _indeterminateItemMask)
+                    ? CheckState.Indeterminate
+                    : state ? CheckState.Checked : CheckState.Unchecked;
             }
 
             internal void SetCheckedState(int index, CheckState value)
@@ -1850,12 +1838,9 @@ namespace Krypton.Toolkit
         public CheckState GetItemCheckState(int index)
         {
             // Check index actually exists
-            if ((index < 0) || (index >= Items.Count))
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "index out of range");
-            }
-
-            return CheckedItems.GetCheckedState(index);
+            return (index < 0) || (index >= Items.Count)
+                ? throw new ArgumentOutOfRangeException(nameof(index), "index out of range")
+                : CheckedItems.GetCheckedState(index);
         }
 
         /// <summary>
@@ -2042,20 +2027,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver);
-                }
-            }
-        }
+        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.
@@ -2366,14 +2338,7 @@ namespace Krypton.Toolkit
 
         private IPaletteDouble GetDoubleState()
         {
-            if (Enabled)
-            {
-                return IsActive ? StateActive : StateNormal;
-            }
-            else
-            {
-                return StateDisabled;
-            }
+            return Enabled ? IsActive ? StateActive : StateNormal : StateDisabled;
         }
 
         private void OnListBoxDrawItem(object sender, DrawItemEventArgs e)

@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -386,17 +384,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         public override string Text
         {
-            get
-            {
-                if ((ValueNullable == null) || (ValueNullable == DBNull.Value))
-                {
-                    return string.Empty;
-                }
-                else
-                {
-                    return _drawText.ToString();
-                }
-            }
+            get => (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _drawText.ToString();
 
             set { }
         }
@@ -1441,20 +1429,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive || ContainsFocus || IsMouseOver);
-                }
-            }
-        }
+        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || IsMouseOver;
 
         /// <summary>
         /// Gets a value indicating if the mouse is over the control.
@@ -2503,7 +2478,7 @@ namespace Krypton.Toolkit
                                                                PaletteRedirect redirector,
                                                                PaletteRedirectContextMenu redirectorImages,
                                                                KryptonContextMenuCollection items,
-                                                               Boolean enabled,
+                                                               bool enabled,
                                                                bool keyboardActivated)
         {
             return new VisualContextMenuDTP(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated, _dropScreenRect);

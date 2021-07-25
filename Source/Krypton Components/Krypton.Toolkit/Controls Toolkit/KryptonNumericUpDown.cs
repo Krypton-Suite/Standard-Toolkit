@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -744,14 +742,9 @@ namespace Krypton.Toolkit
                         }
                     }
 
-                    if (NumericUpDown.IsActive || (NumericUpDown.IsFixedActive && (NumericUpDown.InputControlStyle == InputControlStyle.Standalone)))
-                    {
-                        return NumericUpDown.InputControlStyle == InputControlStyle.Standalone ? PaletteState.CheckedNormal : PaletteState.CheckedTracking;
-                    }
-                    else
-                    {
-                        return PaletteState.Normal;
-                    }
+                    return NumericUpDown.IsActive || (NumericUpDown.IsFixedActive && (NumericUpDown.InputControlStyle == InputControlStyle.Standalone))
+                        ? NumericUpDown.InputControlStyle == InputControlStyle.Standalone ? PaletteState.CheckedNormal : PaletteState.CheckedTracking
+                        : PaletteState.Normal;
                 }
                 else
                 {
@@ -1166,7 +1159,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the amount to increment or decrement one each button click.")]
-        [DefaultValue(typeof(Decimal), "1")]
+        [DefaultValue(typeof(decimal), "1")]
         public decimal Increment
         {
             get => _numericUpDown.Increment;
@@ -1179,7 +1172,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("Indicates the maximum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(Decimal), "100")]
+        [DefaultValue(typeof(decimal), "100")]
         public decimal Maximum
         {
             get => _numericUpDown.Maximum;
@@ -1192,7 +1185,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("Indicates the minimum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(Decimal), "0")]
+        [DefaultValue(typeof(decimal), "0")]
         public decimal Minimum
         {
             get => _numericUpDown.Minimum;
@@ -1217,7 +1210,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("The current value of the numeric up-down control.")]
-        [DefaultValue(typeof(Decimal), "0")]
+        [DefaultValue(typeof(decimal), "0")]
         [Bindable(true)]
         public decimal Value
         {
@@ -1478,23 +1471,13 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive ||
-                            ContainsFocus || _mouseOver || _numericUpDown.MouseOver ||
-                           ((_subclassEdit != null) && (_subclassEdit.MouseOver)) ||
-                           ((_subclassButtons != null) && (_subclassButtons.MouseOver)));
-                }
-            }
-        }
+        public bool IsActive =>
+            _fixedActive != null
+                ? _fixedActive.Value
+                : DesignMode || AlwaysActive ||
+                  ContainsFocus || _mouseOver || _numericUpDown.MouseOver ||
+                  ((_subclassEdit != null) && (_subclassEdit.MouseOver)) ||
+                  ((_subclassButtons != null) && (_subclassButtons.MouseOver));
 
         /// <summary>
         /// Sets input focus to the control.

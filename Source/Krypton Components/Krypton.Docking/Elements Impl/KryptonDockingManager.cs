@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -3114,7 +3112,7 @@ namespace Krypton.Docking
             foreach (KryptonPage page in pages)
             {
                 // You cannot drag a store page
-                if (!(page is KryptonStorePage))
+                if (page is not KryptonStorePage)
                 {
                     // Cannot drag a null page reference
                     if (page == null)
@@ -3167,7 +3165,7 @@ namespace Krypton.Docking
                                 List<KryptonPage> appendPages = new List<KryptonPage>();
                                 foreach (KryptonPage page in pages)
                                 {
-                                    if (!(page is KryptonStorePage) && (page != firstFloatingPage) && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
+                                    if (page is not KryptonStorePage && (page != firstFloatingPage) && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
                                     {
                                         appendUniqueNames.Add(page.UniqueName);
                                         appendPages.Add(page);
@@ -3205,7 +3203,7 @@ namespace Krypton.Docking
                             List<KryptonPage> appendPages = new List<KryptonPage>();
                             foreach (KryptonPage page in pages)
                             {
-                                if (!(page is KryptonStorePage) && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
+                                if (page is not KryptonStorePage && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
                                 {
                                     appendUniqueNames.Add(page.UniqueName);
                                     appendPages.Add(page);
@@ -3255,7 +3253,7 @@ namespace Krypton.Docking
             {
                 foreach (KryptonPage page in cell.Pages)
                 {
-                    if (!(page is KryptonStorePage) && page.LastVisibleSet)
+                    if (page is not KryptonStorePage && page.LastVisibleSet)
                     {
                         pages.Add(page);
                     }

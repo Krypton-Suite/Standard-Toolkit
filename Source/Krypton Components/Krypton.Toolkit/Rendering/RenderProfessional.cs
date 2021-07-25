@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -166,7 +164,7 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabContextOffice2010))
+                if (memento is not MementoRibbonTabContextOffice2010)
                 {
                     memento?.Dispose();
 

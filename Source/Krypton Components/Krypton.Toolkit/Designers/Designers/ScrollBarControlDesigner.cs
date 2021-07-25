@@ -36,15 +36,12 @@ namespace Krypton.Toolkit
                        (ScrollBarOrientation)propDescriptor.GetValue(Component);
 
                     // if vertical orientation
-                    if (orientation == ScrollBarOrientation.VERTICAL)
-                    {
-                        return SelectionRules.Visible
+                    return orientation == ScrollBarOrientation.VERTICAL
+                        ? SelectionRules.Visible
                            | SelectionRules.Moveable
                            | SelectionRules.BottomSizeable
-                           | SelectionRules.TopSizeable;
-                    }
-
-                    return SelectionRules.Visible | SelectionRules.Moveable
+                           | SelectionRules.TopSizeable
+                        : SelectionRules.Visible | SelectionRules.Moveable
                        | SelectionRules.LeftSizeable | SelectionRules.RightSizeable;
                 }
 

@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -332,14 +330,7 @@ namespace Krypton.Toolkit
         /// <param name="state">PaletteState for which image is required.</param>
         public override Image GetDropDownButtonImage(PaletteState state)
         {
-            if (state != PaletteState.Disabled)
-            {
-                return _silverDropDownButton;
-            }
-            else
-            {
-                return base.GetDropDownButtonImage(state);
-            }
+            return state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
         }
 
         /// <summary>
@@ -365,44 +356,16 @@ namespace Krypton.Toolkit
             switch (style)
             {
                 case PaletteButtonSpecStyle.FormClose:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _silverCloseI;
-                    }
-                    else
-                    {
-                        return _silverCloseA;
-                    }
+                    return state == PaletteState.Disabled ? _silverCloseI : _silverCloseA;
 
                 case PaletteButtonSpecStyle.FormMin:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _silverMinI;
-                    }
-                    else
-                    {
-                        return _silverMinA;
-                    }
+                    return state == PaletteState.Disabled ? _silverMinI : _silverMinA;
 
                 case PaletteButtonSpecStyle.FormMax:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _silverMaxI;
-                    }
-                    else
-                    {
-                        return _silverMaxA;
-                    }
+                    return state == PaletteState.Disabled ? _silverMaxI : _silverMaxA;
 
                 case PaletteButtonSpecStyle.FormRestore:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _silverRestoreI;
-                    }
-                    else
-                    {
-                        return _silverRestoreA;
-                    }
+                    return state == PaletteState.Disabled ? _silverRestoreI : _silverRestoreA;
 
                 default:
                     return base.GetButtonSpecImage(style, state);

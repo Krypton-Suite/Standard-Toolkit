@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -99,10 +97,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the orientation of the separator.
         /// </summary>
-        public Orientation SeparatorOrientation
-        {
-            get => Navigator.Outlook.Orientation == Orientation.Vertical ? Orientation.Horizontal : Orientation.Vertical;
-        }
+        public Orientation SeparatorOrientation => Navigator.Outlook.Orientation == Orientation.Vertical ? Orientation.Horizontal : Orientation.Vertical;
 
         /// <summary>
         /// Can the separator be moved by the user.
@@ -1296,9 +1291,11 @@ namespace Krypton.Navigator
             // Find the first visible button on the overflow bar
             foreach (ViewBase child in _viewOverflowLayout)
             {
-                if (child.Visible && (child is ViewDrawNavOutlookOverflow))
+                if (child.Visible 
+                    && (child is ViewDrawNavOutlookOverflow overflow)
+                    )
                 {
-                    return (ViewDrawNavOutlookOverflow)child;
+                    return overflow;
                 }
             }
 
@@ -2216,10 +2213,11 @@ namespace Krypton.Navigator
             // Find the last visible button on the stack bar
             foreach (ViewBase child in _viewLayout.Reverse())
             {
-                if (child.Visible && (child is ViewDrawNavOutlookStack))
+                if (child.Visible && 
+                    (child is ViewDrawNavOutlookStack checkButton)
+                    )
                 {
                     // Cast to correct type
-                    ViewDrawNavOutlookStack checkButton = (ViewDrawNavOutlookStack)child;
 
                     // Search for the page that is represented by this check button
                     foreach (KryptonPage page in _pageStackLookup.Keys)

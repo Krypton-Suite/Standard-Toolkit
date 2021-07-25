@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -762,17 +760,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public virtual int AdjacentGap
         {
-            get
-            {
-                if (_storage == null)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return _storage.ContentAdjacentGap;
-                }
-            }
+            get => _storage == null ? -1 : _storage.ContentAdjacentGap;
 
             set
             {

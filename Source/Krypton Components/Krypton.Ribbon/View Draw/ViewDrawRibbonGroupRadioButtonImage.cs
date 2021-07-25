@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -79,8 +77,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Enabled
         {
-            get { return _drawRadioButton.Enabled; }
-            set { _drawRadioButton.Enabled = value; }
+            get => _drawRadioButton.Enabled;
+            set => _drawRadioButton.Enabled = value;
         }
         #endregion
 
@@ -90,8 +88,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool Checked
         {
-            get { return _drawRadioButton.CheckState; }
-            set { _drawRadioButton.CheckState = value; }
+            get => _drawRadioButton.CheckState;
+            set => _drawRadioButton.CheckState = value;
         }
         #endregion
 
@@ -101,8 +99,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool Tracking
         {
-            get { return _drawRadioButton.Tracking; }
-            set { _drawRadioButton.Tracking = value; }
+            get => _drawRadioButton.Tracking;
+            set => _drawRadioButton.Tracking = value;
         }
         #endregion
 
@@ -112,8 +110,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool Pressed
         {
-            get { return _drawRadioButton.Pressed; }
-            set { _drawRadioButton.Pressed = value; }
+            get => _drawRadioButton.Pressed;
+            set => _drawRadioButton.Pressed = value;
         }
         #endregion
 

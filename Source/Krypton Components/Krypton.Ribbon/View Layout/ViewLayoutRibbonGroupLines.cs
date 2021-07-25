@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -539,7 +537,7 @@ namespace Krypton.Ribbon
                     // Are we positioning a cluster?
                     if (child is ViewLayoutRibbonGroupCluster clusterChild)
                     {
-                        clusterChild.StartSeparator = (previousChild != null) && !(previousChild is ViewLayoutRibbonGroupCluster);
+                        clusterChild.StartSeparator = (previousChild != null) && previousChild is not ViewLayoutRibbonGroupCluster;
                         clusterChild.EndSeparator = true;
                     }
 
@@ -987,7 +985,7 @@ namespace Krypton.Ribbon
                     if (child is ViewLayoutRibbonGroupCluster clusterChild1)
                     {
                         // Inform cluster if it is immediatley after another cluster (and so potentially needs a separator)
-                        clusterChild1.StartSeparator = (previousChild != null) && !(previousChild is ViewLayoutRibbonGroupCluster);
+                        clusterChild1.StartSeparator = (previousChild != null) && previousChild is not ViewLayoutRibbonGroupCluster;
                         clusterChild1.EndSeparator = false;
                     }
 
@@ -1074,7 +1072,7 @@ namespace Krypton.Ribbon
                     if (child is ViewLayoutRibbonGroupCluster clusterChild1)
                     {
                         // Inform cluster if it is immediatley after another item and so needs a start separator
-                        clusterChild1.StartSeparator = (previousChild != null) && !(previousChild is ViewLayoutRibbonGroupCluster);
+                        clusterChild1.StartSeparator = (previousChild != null) && previousChild is not ViewLayoutRibbonGroupCluster;
                         clusterChild1.EndSeparator = false;
                     }
 

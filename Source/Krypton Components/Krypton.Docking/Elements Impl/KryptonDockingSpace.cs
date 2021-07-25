@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -258,7 +256,7 @@ namespace Krypton.Docking
                         // Update visible state of pages that are not placeholders
                         foreach (KryptonPage page in uniqueNames
                             .Select(uniqueName => SpaceControl.PageForUniqueName(uniqueName))
-                            .Where(page => (page != null) && !(page is KryptonStorePage)))
+                            .Where(page => (page != null) && page is not KryptonStorePage))
                         {
                             page.Visible = newVisible;
                         }
@@ -276,7 +274,7 @@ namespace Krypton.Docking
                     {
                         // If the named page exists and is not placeholder then remove it
                         KryptonPage removePage = SpaceControl.PageForUniqueName(uniqueName);
-                        if ((removePage != null) && !(removePage is KryptonStorePage))
+                        if ((removePage != null) && removePage is not KryptonStorePage)
                         {
                             // Find the cell that contains the target so we can remove the page
                             KryptonWorkspaceCell cell = SpaceControl.CellForPage(removePage);
@@ -305,7 +303,7 @@ namespace Krypton.Docking
                             {
                                 // Only remove the actual page and not placeholders
                                 KryptonPage page = cell.Pages[i];
-                                if ((page != null) && !(page is KryptonStorePage))
+                                if ((page != null) && page is not KryptonStorePage)
                                 {
                                     cell.Pages.RemoveAt(i);
 
@@ -328,7 +326,7 @@ namespace Krypton.Docking
                     {
                         // Swap pages that are not placeholders to become placeholders
                         KryptonPage page = SpaceControl.PageForUniqueName(uniqueName);
-                        if ((page != null) && !(page is KryptonStorePage))
+                        if ((page != null) && page is not KryptonStorePage)
                         {
                             // Replace the existing page with a placeholder that has the same unique name
                             KryptonWorkspaceCell cell = SpaceControl.CellForPage(page);
@@ -349,7 +347,7 @@ namespace Krypton.Docking
                             {
                                 // Swap pages that are not placeholders to become placeholders
                                 KryptonPage page = cell.Pages[i];
-                                if ((page != null) && !(page is KryptonStorePage))
+                                if ((page != null) && page is not KryptonStorePage)
                                 {
                                     // Replace the existing page with a placeholder that has the same unique name
                                     KryptonStorePage placeholder = new(page.UniqueName, _storeName);
@@ -461,7 +459,7 @@ namespace Krypton.Docking
                     {
                         // Return the definitive answer 'true' if the control contains the named page
                         KryptonPage page = SpaceControl.PageForUniqueName(uniqueName);
-                        if ((page != null) && !(page is KryptonStorePage))
+                        if ((page != null) && page is not KryptonStorePage)
                         {
                             return true;
                         }
@@ -481,7 +479,7 @@ namespace Krypton.Docking
                     {
                         // If we have the requested page then return the visible state of the page
                         KryptonPage page = SpaceControl.PageForUniqueName(uniqueName);
-                        if ((page != null) && !(page is KryptonStorePage))
+                        if ((page != null) && page is not KryptonStorePage)
                         {
                             return page.LastVisibleSet;
                         }
@@ -507,7 +505,7 @@ namespace Krypton.Docking
                     {
                         // If we have the requested name page and it is not a placeholder then we have found it
                         KryptonPage page = SpaceControl.PageForUniqueName(uniqueName);
-                        if ((page != null) && !(page is KryptonStorePage))
+                        if ((page != null) && page is not KryptonStorePage)
                         {
                             return page;
                         }
@@ -548,7 +546,7 @@ namespace Krypton.Docking
                                 {
                                     // Only add real pages and not placeholders
                                     KryptonPage page = cell.Pages[i];
-                                    if ((page != null) && !(page is KryptonStorePage))
+                                    if ((page != null) && page is not KryptonStorePage)
                                     {
                                         pages.Add(page);
                                     }
@@ -622,7 +620,7 @@ namespace Krypton.Docking
                 // Only interested in visible pages that are not placeholders
                 foreach (KryptonPage page in cell.Pages)
                 {
-                    if (!(page is KryptonStorePage) && page.LastVisibleSet)
+                    if (page is not KryptonStorePage && page.LastVisibleSet)
                     {
                         pages.Add(page);
                     }

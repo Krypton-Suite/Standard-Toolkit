@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -69,7 +67,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new(Int32.MaxValue, Int32.MaxValue);
+        } = new(int.MaxValue, int.MaxValue);
 
         /// <summary>
         /// Gets access to the global null rectangle value.
@@ -78,7 +76,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new(Int32.MaxValue, Int32.MaxValue, 0, 0);
+        } = new(int.MaxValue, int.MaxValue, 0, 0);
 
         /// <summary>
         /// Color matrix used to adjust colors to look disabled.

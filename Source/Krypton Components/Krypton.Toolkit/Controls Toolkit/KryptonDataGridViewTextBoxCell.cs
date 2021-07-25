@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -29,7 +27,7 @@ namespace Krypton.Toolkit
         [ThreadStatic]
         private static KryptonTextBox _paintingTextBox;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewTextBoxEditingControl);
-        private static readonly Type _defaultValueType = typeof(String);
+        private static readonly Type _defaultValueType = typeof(string);
 
         #endregion
 
@@ -334,12 +332,9 @@ namespace Krypton.Toolkit
 
         private bool OwnsEditingTextBox(int rowIndex)
         {
-            if ((rowIndex == -1) || (DataGridView == null))
-            {
-                return false;
-            }
-
-            return (DataGridView.EditingControl is KryptonDataGridViewTextBoxEditingControl control)
+            return (rowIndex == -1) || (DataGridView == null)
+                ? false
+                : (DataGridView.EditingControl is KryptonDataGridViewTextBoxEditingControl control)
                    && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
         }
 

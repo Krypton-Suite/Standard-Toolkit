@@ -219,10 +219,7 @@ namespace Krypton.Toolkit
                 else
                     ib.StartPosition = FormStartPosition.CenterParent;
 
-                if (ib.ShowDialog(showOwner) == DialogResult.OK)
-                    return ib.InputResponse;
-                else
-                    return string.Empty;
+                return ib.ShowDialog(showOwner) == DialogResult.OK ? ib.InputResponse : string.Empty;
             }
         }
 

@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -66,23 +64,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
         /// </summary>
-        public override SelectionRules SelectionRules
-        {
-            get
-            {
-                // If the panel is inside our Krypton group container then prevent 
-                // user changing the size or location of the group panel instance
-                if ((Control.Parent is KryptonGroup) ||
-                    (Control.Parent is KryptonHeaderGroup))
-                {
-                    return (SelectionRules.None | SelectionRules.Locked);
-                }
-                else
-                {
-                    return SelectionRules.None;
-                }
-            }
-        }
+        public override SelectionRules SelectionRules =>
+            // If the panel is inside our Krypton group container then prevent 
+            // user changing the size or location of the group panel instance
+            (Control.Parent is KryptonGroup) ||
+            (Control.Parent is KryptonHeaderGroup)
+                ? SelectionRules.None | SelectionRules.Locked
+                : SelectionRules.None;
 
         /// <summary>
         /// Gets a list of SnapLine objects representing significant alignment points for this control.

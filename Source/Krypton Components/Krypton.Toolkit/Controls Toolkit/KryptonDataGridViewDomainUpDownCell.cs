@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -27,7 +25,7 @@ namespace Krypton.Toolkit
         private const DataGridViewContentAlignment ANY_RIGHT = DataGridViewContentAlignment.TopRight | DataGridViewContentAlignment.MiddleRight | DataGridViewContentAlignment.BottomRight;
         private const DataGridViewContentAlignment ANY_CENTER = DataGridViewContentAlignment.TopCenter | DataGridViewContentAlignment.MiddleCenter | DataGridViewContentAlignment.BottomCenter;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewDomainUpDownEditingControl);
-        private static readonly Type _defaultValueType = typeof(String);
+        private static readonly Type _defaultValueType = typeof(string);
         private static readonly Size _sizeLarge = new(10000, 10000);
         #endregion
 
@@ -264,12 +262,9 @@ namespace Krypton.Toolkit
 
         private bool OwnsEditingDomainUpDown(int rowIndex)
         {
-            if ((rowIndex == -1) || (DataGridView == null))
-            {
-                return false;
-            }
-
-            return (DataGridView.EditingControl is KryptonDataGridViewDomainUpDownEditingControl control)
+            return (rowIndex == -1) || (DataGridView == null)
+                ? false
+                : (DataGridView.EditingControl is KryptonDataGridViewDomainUpDownEditingControl control)
                    && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
         }
 
@@ -286,13 +281,9 @@ namespace Krypton.Toolkit
             {
                 return HorizontalAlignment.Right;
             }
-            else if ((align & ANY_CENTER) != 0)
-            {
-                return HorizontalAlignment.Center;
-            }
             else
             {
-                return HorizontalAlignment.Left;
+                return (align & ANY_CENTER) != 0 ? HorizontalAlignment.Center : HorizontalAlignment.Left;
             }
         }
         #endregion

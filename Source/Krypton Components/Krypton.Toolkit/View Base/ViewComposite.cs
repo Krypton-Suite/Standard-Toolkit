@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -240,14 +238,7 @@ namespace Krypton.Toolkit
         public override bool Contains(ViewBase item)
         {
             // Let type safe collection perform operation
-            if (_views != null)
-            {
-                return _views.Contains(item);
-            }
-            else
-            {
-                return false;
-            }
+            return _views != null ? _views.Contains(item) : false;
         }
 
         /// <summary>
@@ -308,20 +299,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the number of views in collection.
         /// </summary>
-        public override int Count 
-        {
-            get 
-            {
-                if (_views != null)
-                {
-                    return _views.Count;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
+        public override int Count => _views != null ? _views.Count : 0;
 
         /// <summary>
         /// Determines the index of the specified view in the collection.
@@ -331,14 +309,7 @@ namespace Krypton.Toolkit
         public override int IndexOf(ViewBase item)
         {
             // Let type safe collection perform operation
-            if (_views != null)
-            {
-                return _views.IndexOf(item);
-            }
-            else
-            {
-                return -1;
-            }
+            return _views != null ? _views.IndexOf(item) : -1;
         }
 
         /// <summary>
@@ -425,14 +396,7 @@ namespace Krypton.Toolkit
         public override IEnumerator<ViewBase> GetEnumerator()
         {
             // Use the boilerplate enumerator exposed from the IList<T>
-            if (_views != null)
-            {
-                return _views.GetEnumerator();
-            }
-            else
-            {
-                return new List<ViewBase>().GetEnumerator();
-            }
+            return _views != null ? _views.GetEnumerator() : (IEnumerator<ViewBase>)new List<ViewBase>().GetEnumerator();
         }
 
         /// <summary>

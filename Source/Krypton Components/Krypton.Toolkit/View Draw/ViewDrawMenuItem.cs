@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -246,20 +244,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct enabled state to use from the menu item.
         /// </summary>
-        public bool ResolveEnabled
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.Enabled;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.Enabled;
-                }
-            }
-        }
+        public bool ResolveEnabled => _cachedCommand != null ? _cachedCommand.Enabled : KryptonContextMenuItem.Enabled;
+
         #endregion
 
         #region ResolveImage
@@ -272,14 +258,7 @@ namespace Krypton.Toolkit
             {
                 if (_cachedCommand != null)
                 {
-                    if (KryptonContextMenuItem.LargeKryptonCommandImage)
-                    {
-                        return _cachedCommand.ImageLarge;
-                    }
-                    else
-                    {
-                        return _cachedCommand.ImageSmall;
-                    }
+                    return KryptonContextMenuItem.LargeKryptonCommandImage ? _cachedCommand.ImageLarge : _cachedCommand.ImageSmall;
                 }
                 else
                 {
@@ -293,100 +272,40 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image transparent color to use from the menu item.
         /// </summary>
-        public Color ResolveImageTransparentColor
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.ImageTransparentColor;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.ImageTransparentColor;
-                }
-            }
-        }
+        public Color ResolveImageTransparentColor => _cachedCommand != null ? _cachedCommand.ImageTransparentColor : KryptonContextMenuItem.ImageTransparentColor;
+
         #endregion
 
         #region ResolveText
         /// <summary>
         /// Resolves the correct text string to use from the menu item.
         /// </summary>
-        public string ResolveText
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.Text;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.Text;
-                }
-            }
-        }
+        public string ResolveText => _cachedCommand != null ? _cachedCommand.Text : KryptonContextMenuItem.Text;
+
         #endregion
 
         #region ResolveExtraText
         /// <summary>
         /// Resolves the correct extra text string to use from the menu item.
         /// </summary>
-        public string ResolveExtraText
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.ExtraText;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.ExtraText;
-                }
-            }
-        }
+        public string ResolveExtraText => _cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuItem.ExtraText;
+
         #endregion
 
         #region ResolveChecked
         /// <summary>
         /// Resolves the correct checked to use from the menu item.
         /// </summary>
-        public bool ResolveChecked
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.Checked;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.Checked;
-                }
-            }
-        }
+        public bool ResolveChecked => _cachedCommand != null ? _cachedCommand.Checked : KryptonContextMenuItem.Checked;
+
         #endregion
 
         #region ResolveCheckState
         /// <summary>
         /// Resolves the correct check state to use from the menu item.
         /// </summary>
-        public CheckState ResolveCheckState
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.CheckState;
-                }
-                else
-                {
-                    return KryptonContextMenuItem.CheckState;
-                }
-            }
-        }
+        public CheckState ResolveCheckState => _cachedCommand != null ? _cachedCommand.CheckState : KryptonContextMenuItem.CheckState;
+
         #endregion
 
         #region PointInSubMenu

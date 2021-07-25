@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -5700,14 +5698,7 @@ namespace Krypton.Toolkit
                 // How much border space to allocate per button edge
                 int buttonBorder = (chromeBorders.Top - allocatedHeight - 10) / 2;
 
-                if (buttonBorder > 0)
-                {
-                    return new Padding(buttonBorder);
-                }
-                else
-                {
-                    return Padding.Empty;
-                }
+                return buttonBorder > 0 ? new Padding(buttonBorder) : Padding.Empty;
             }
 
             return original;
@@ -5748,7 +5739,7 @@ namespace Krypton.Toolkit
         private static KryptonForm OwningKryptonForm(Control c)
         {
             // Climb chain looking for the Krypton Form instance
-            while ((c != null) && !(c is KryptonForm))
+            while ((c != null) && c is not KryptonForm)
             {
                 c = c.Parent;
             }
@@ -6370,13 +6361,9 @@ namespace Krypton.Toolkit
                     {
                         return CheckBoxState.UncheckedPressed;
                     }
-                    else if (tracking)
-                    {
-                        return CheckBoxState.UncheckedHot;
-                    }
                     else
                     {
-                        return CheckBoxState.UncheckedNormal;
+                        return tracking ? CheckBoxState.UncheckedHot : CheckBoxState.UncheckedNormal;
                     }
 
                 case CheckState.Checked:
@@ -6388,13 +6375,9 @@ namespace Krypton.Toolkit
                     {
                         return CheckBoxState.CheckedPressed;
                     }
-                    else if (tracking)
-                    {
-                        return CheckBoxState.CheckedHot;
-                    }
                     else
                     {
-                        return CheckBoxState.CheckedNormal;
+                        return tracking ? CheckBoxState.CheckedHot : CheckBoxState.CheckedNormal;
                     }
 
                 case CheckState.Indeterminate:
@@ -6406,13 +6389,9 @@ namespace Krypton.Toolkit
                     {
                         return CheckBoxState.MixedPressed;
                     }
-                    else if (tracking)
-                    {
-                        return CheckBoxState.MixedHot;
-                    }
                     else
                     {
-                        return CheckBoxState.MixedNormal;
+                        return tracking ? CheckBoxState.MixedHot : CheckBoxState.MixedNormal;
                     }
             }
         }
@@ -6432,13 +6411,9 @@ namespace Krypton.Toolkit
                 {
                     return RadioButtonState.CheckedPressed;
                 }
-                else if (tracking)
-                {
-                    return RadioButtonState.CheckedHot;
-                }
                 else
                 {
-                    return RadioButtonState.CheckedNormal;
+                    return tracking ? RadioButtonState.CheckedHot : RadioButtonState.CheckedNormal;
                 }
             }
             else
@@ -6451,13 +6426,9 @@ namespace Krypton.Toolkit
                 {
                     return RadioButtonState.UncheckedPressed;
                 }
-                else if (tracking)
-                {
-                    return RadioButtonState.UncheckedHot;
-                }
                 else
                 {
-                    return RadioButtonState.UncheckedNormal;
+                    return tracking ? RadioButtonState.UncheckedHot : RadioButtonState.UncheckedNormal;
                 }
             }
         }
@@ -8054,7 +8025,7 @@ namespace Krypton.Toolkit
                 MementoRibbonTabTracking2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabTracking2010))
+                if (memento is not MementoRibbonTabTracking2010)
                 {
                     memento?.Dispose();
 
@@ -8331,7 +8302,7 @@ namespace Krypton.Toolkit
                 MementoRibbonTabTracking2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabTracking2010))
+                if (memento is not MementoRibbonTabTracking2010)
                 {
                     memento?.Dispose();
 
@@ -8621,7 +8592,7 @@ namespace Krypton.Toolkit
                 MementoRibbonTabGlowing cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabGlowing))
+                if (memento is not MementoRibbonTabGlowing)
                 {
                     memento?.Dispose();
 
@@ -8941,7 +8912,7 @@ namespace Krypton.Toolkit
                 MementoRibbonTabSelected2007 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabSelected2007))
+                if (memento is not MementoRibbonTabSelected2007)
                 {
                     memento?.Dispose();
 
@@ -9246,7 +9217,7 @@ namespace Krypton.Toolkit
                 MementoRibbonTabSelected2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabSelected2010))
+                if (memento is not MementoRibbonTabSelected2010)
                 {
                     memento?.Dispose();
 
@@ -9619,7 +9590,7 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextSelected cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabContextSelected))
+                if (memento is not MementoRibbonTabContextSelected)
                 {
                     memento?.Dispose();
 
@@ -9936,7 +9907,7 @@ namespace Krypton.Toolkit
                 MementoRibbonTabHighlight cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabHighlight))
+                if (memento is not MementoRibbonTabHighlight)
                 {
                     memento?.Dispose();
 
@@ -10213,7 +10184,7 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContext cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabContext))
+                if (memento is not MementoRibbonTabContext)
                 {
                     memento?.Dispose();
 
@@ -10296,7 +10267,7 @@ namespace Krypton.Toolkit
                 MementoRibbonAppButton cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonAppButton))
+                if (memento is not MementoRibbonAppButton)
                 {
                     memento?.Dispose();
 
@@ -10620,7 +10591,7 @@ namespace Krypton.Toolkit
                 MementoRibbonAppTab cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonAppTab))
+                if (memento is not MementoRibbonAppTab)
                 {
                     memento?.Dispose();
 
@@ -10731,7 +10702,7 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupNormalBorder cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonGroupNormalBorder))
+                if (memento is not MementoRibbonGroupNormalBorder)
                 {
                     memento?.Dispose();
 
@@ -10850,7 +10821,7 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupNormalBorderSep cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonGroupNormalBorderSep))
+                if (memento is not MementoRibbonGroupNormalBorderSep)
                 {
                     memento?.Dispose();
 
@@ -10956,7 +10927,7 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupNormalTitle cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonGroupNormalTitle))
+                if (memento is not MementoRibbonGroupNormalTitle)
                 {
                     memento?.Dispose();
 
@@ -11018,7 +10989,7 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupCollapsedBorder cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonGroupCollapsedBorder))
+                if (memento is not MementoRibbonGroupCollapsedBorder)
                 {
                     memento?.Dispose();
 
@@ -11101,7 +11072,7 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupCollapsedFrameBorder cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonGroupCollapsedFrameBorder))
+                if (memento is not MementoRibbonGroupCollapsedFrameBorder)
                 {
                     memento?.Dispose();
 
@@ -11168,7 +11139,7 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupGradientOne cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonGroupGradientOne))
+                if (memento is not MementoRibbonGroupGradientOne)
                 {
                     memento?.Dispose();
 
@@ -11222,7 +11193,7 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupGradientTwo cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonGroupGradientTwo))
+                if (memento is not MementoRibbonGroupGradientTwo)
                 {
                     memento?.Dispose();
 
@@ -11283,7 +11254,7 @@ namespace Krypton.Toolkit
                 MementoRibbonQATMinibar cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonQATMinibar))
+                if (memento is not MementoRibbonQATMinibar)
                 {
                     memento?.Dispose();
 
@@ -11411,7 +11382,7 @@ namespace Krypton.Toolkit
                 MementoRibbonQATMinibar cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonQATMinibar))
+                if (memento is not MementoRibbonQATMinibar)
                 {
                     memento?.Dispose();
 
@@ -11531,7 +11502,7 @@ namespace Krypton.Toolkit
                 MementoRibbonLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonLinear))
+                if (memento is not MementoRibbonLinear)
                 {
                     memento?.Dispose();
 
@@ -11577,7 +11548,7 @@ namespace Krypton.Toolkit
                 MementoRibbonLinearBorder cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonLinearBorder))
+                if (memento is not MementoRibbonLinearBorder)
                 {
                     memento?.Dispose();
 
@@ -11637,7 +11608,7 @@ namespace Krypton.Toolkit
                 MementoRibbonAppButtonInner cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonAppButtonInner))
+                if (memento is not MementoRibbonAppButtonInner)
                 {
                     memento?.Dispose();
 
@@ -11688,7 +11659,7 @@ namespace Krypton.Toolkit
                 MementoRibbonAppButtonOuter cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonAppButtonOuter))
+                if (memento is not MementoRibbonAppButtonOuter)
                 {
                     memento?.Dispose();
 
@@ -11753,7 +11724,7 @@ namespace Krypton.Toolkit
                 MementoRibbonQATFullbarRound cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonQATFullbarRound))
+                if (memento is not MementoRibbonQATFullbarRound)
                 {
                     memento?.Dispose();
 
@@ -11837,7 +11808,7 @@ namespace Krypton.Toolkit
                 MementoRibbonQATFullbarSquare cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonQATFullbarSquare))
+                if (memento is not MementoRibbonQATFullbarSquare)
                 {
                     memento?.Dispose();
 
@@ -11894,7 +11865,7 @@ namespace Krypton.Toolkit
                 MementoRibbonQATOverflow cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonQATOverflow))
+                if (memento is not MementoRibbonQATOverflow)
                 {
                     memento?.Dispose();
 

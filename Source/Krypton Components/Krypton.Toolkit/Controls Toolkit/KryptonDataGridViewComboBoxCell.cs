@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -25,7 +23,7 @@ namespace Krypton.Toolkit
         [ThreadStatic]
         private static KryptonComboBox _paintingComboBox;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewComboBoxEditingControl);
-        private static readonly Type _defaultValueType = typeof(String);
+        private static readonly Type _defaultValueType = typeof(string);
         private static readonly Size _sizeLarge = new(10000, 10000);
         #endregion
 
@@ -499,12 +497,9 @@ namespace Krypton.Toolkit
 
         private bool OwnsEditingComboBox(int rowIndex)
         {
-            if ((rowIndex == -1) || (DataGridView == null))
-            {
-                return false;
-            }
-
-            return (DataGridView.EditingControl is KryptonDataGridViewComboBoxEditingControl control)
+            return (rowIndex == -1) || (DataGridView == null)
+                ? false
+                : (DataGridView.EditingControl is KryptonDataGridViewComboBoxEditingControl control)
                    && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
         }
 

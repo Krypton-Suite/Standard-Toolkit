@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -165,20 +163,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the current scroll position.
         /// </summary>
-        public int ScrollPosition
-        {
-            get
-            {
-                if (_scrollBar != null)
-                {
-                    return _scrollBar.Value;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
+        public int ScrollPosition => _scrollBar != null ? _scrollBar.Value : 0;
+
         #endregion
 
         #region Layout

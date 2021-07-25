@@ -375,14 +375,7 @@ namespace Krypton.Toolkit
 
         private IPaletteDouble GetDoubleState()
         {
-            if (Enabled)
-            {
-                return IsActive ? StateActive : StateNormal;
-            }
-            else
-            {
-                return StateDisabled;
-            }
+            return Enabled ? IsActive ? StateActive : StateNormal : StateDisabled;
         }
 
         /// <summary>Raises the <see cref="E:System.Windows.Forms.ListView.DrawItem">DrawItem</see> event.</summary>
