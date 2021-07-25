@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -126,7 +126,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the page tooltip image.
         /// </summary>
-        public Image ToolTipImage
+        public Bitmap ToolTipImage
         {
             get => _page.ToolTipImage;
 
@@ -143,7 +143,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the small page image.
         /// </summary>
-        public Image ImageSmall
+        public Bitmap ImageSmall
         {
             get => _page.ImageSmall;
 
@@ -160,7 +160,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the medium page image.
         /// </summary>
-        public Image ImageMedium
+        public Bitmap ImageMedium
         {
             get => _page.ImageMedium;
 
@@ -177,7 +177,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the large page image.
         /// </summary>
-        public Image ImageLarge
+        public Bitmap ImageLarge
         {
             get => _page.ImageLarge;
 

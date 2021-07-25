@@ -2,6 +2,7 @@
 {
     public class KryptonFormDesigner : ParentControlDesigner
     {
+        /*
         #region Variables
         private DesignerVerbCollection _verbs;
 
@@ -9,7 +10,7 @@
         private IComponentChangeService _service;
 
         // TODO: When is this assigned to ?
-        private KryptonPalette _palette;
+        //private KryptonPalette _palette;
         #endregion
 
         public override DesignerVerbCollection Verbs => _verbs ?? (_verbs = new DesignerVerbCollection { new DesignerVerb("Reset to Defaults", OnVerbReset),
@@ -59,5 +60,6 @@
         {
             _palette?.Export();
         }
+        */
     }
 }

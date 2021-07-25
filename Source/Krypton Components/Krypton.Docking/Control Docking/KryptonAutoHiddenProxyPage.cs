@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -94,7 +94,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the small image for the page.
         /// </summary>
-        public override Image ImageSmall
+        public override Bitmap ImageSmall
         {
             get => Page.ImageSmall;
             set => Page.ImageSmall = value;
@@ -103,7 +103,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the medium image for the page.
         /// </summary>
-        public override Image ImageMedium
+        public override Bitmap ImageMedium
         {
             get => Page.ImageMedium;
             set => Page.ImageMedium = value;
@@ -112,7 +112,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the large image for the page.
         /// </summary>
-        public override Image ImageLarge
+        public override Bitmap ImageLarge
         {
             get => Page.ImageLarge;
             set => Page.ImageLarge = value;
@@ -121,7 +121,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the page tooltip image.
         /// </summary>
-        public override Image ToolTipImage
+        public override Bitmap ToolTipImage
         {
             get => Page.ToolTipImage;
             set => Page.ToolTipImage = value;

@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -1641,115 +1641,7 @@ namespace Krypton.Toolkit
             // Return as a managed point type
             return new Point(clientPt.x, clientPt.y);
         }
-
-        /// <summary>
-        /// Only persist the provided name/value pair as an Xml attribute if the value is not null or empty.
-        /// </summary>
-        /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name="name">Attribute name.</param>
-        /// <param name="value">Attribute value.</param>
-        public static void TextToXmlAttribute(XmlWriter xmlWriter,
-                                              string name,
-                                              string value)
-        {
-            TextToXmlAttribute(xmlWriter, name, value, string.Empty);
-        }
-
-        /// <summary>
-        /// Only persist the provided name/value pair as an Xml attribute if the value is not null/empty and not the default.
-        /// </summary>
-        /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name="name">Attribute name.</param>
-        /// <param name="value">Attribute value.</param>
-        /// <param name="def">Default value.</param>
-        public static void TextToXmlAttribute(XmlWriter xmlWriter,
-                                              string name,
-                                              string value,
-                                              string def)
-        {
-            if (!string.IsNullOrEmpty(value) && (value != def))
-            {
-                xmlWriter.WriteAttributeString(name, value);
-            }
-        }
-
-        /// <summary>
-        /// Read the named attribute value but if no attribute is found then an empty string.
-        /// </summary>
-        /// <param name="xmlReader">Xml reader to load information from.</param>
-        /// <param name="name">Attribute name.</param>
-        /// <returns></returns>
-        public static string XmlAttributeToText(XmlReader xmlReader,
-                                                string name)
-        {
-            return XmlAttributeToText(xmlReader, name, string.Empty);
-        }
-
-        /// <summary>
-        /// Read the named attribute value but if no attribute is found then return the provided default.
-        /// </summary>
-        /// <param name="xmlReader">Xml reader to load information from.</param>
-        /// <param name="name">Attribute name.</param>
-        /// <param name="def">Default value.</param>
-        /// <returns></returns>
-        public static string XmlAttributeToText(XmlReader xmlReader,
-                                                string name,
-                                                string def)
-        {
-            try
-            {
-                string ret = xmlReader.GetAttribute(name) ?? def;
-
-                return ret;
-            }
-            catch
-            {
-                return def;
-            }
-        }
-
-        /// <summary>
-        /// Convert a Image to a culture invariant string value.
-        /// </summary>
-        /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name="name">Name of image to save.</param>
-        /// <param name="image">Image to persist.</param>
-        public static void ImageToXmlCData(XmlWriter xmlWriter, 
-                                           string name,
-                                           Image image)
-        {
-            // Only store if we have an actual image to persist
-            if (image != null)
-            {
-                // Convert the Image into base64 so it can be used in xml
-                MemoryStream memory = new();
-                BinaryFormatter formatter = new();
-                formatter.Serialize(memory, image);
-                string base64 = Convert.ToBase64String(memory.ToArray());
-
-                // Store the base64 Hex as a CDATA inside the element
-                xmlWriter.WriteStartElement(name);
-                xmlWriter.WriteCData(base64);
-                xmlWriter.WriteEndElement();
-            }
-        }
-
-        /// <summary>
-        /// Convert a culture invariant string value into an Image.
-        /// </summary>
-        /// <param name="xmlReader">Xml reader to load information from.</param>
-        /// <returns>Image that was recreated.</returns>
-        public static Image XmlCDataToImage(XmlReader xmlReader)
-        {
-            // Convert the content of the element into base64
-            byte[] bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());
-
-            // Convert the bytes back into an Image
-            MemoryStream memory = new(bytes);
-            BinaryFormatter formatter = new();
-            return (Image)formatter.Deserialize(memory);
-        }
-
+        
         /// <summary>
         /// Gets a reference to the currently active floating window.
         /// </summary>

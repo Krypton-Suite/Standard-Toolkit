@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -755,9 +755,9 @@ namespace Krypton.Docking
                 if (page.AreFlagsSet(KryptonPageFlags.AllowConfigSave))
                 {
                     xmlWriter.WriteStartElement("KP");
-                    CommonHelper.TextToXmlAttribute(xmlWriter, @"UN", page.UniqueName);
-                    CommonHelper.TextToXmlAttribute(xmlWriter, @"S", CommonHelper.BoolToString(page is KryptonStorePage));
-                    CommonHelper.TextToXmlAttribute(xmlWriter, @"V", CommonHelper.BoolToString(page.LastVisibleSet), @"True");
+                    XmlHelper.TextToXmlAttribute(xmlWriter, @"UN", page.UniqueName);
+                    XmlHelper.TextToXmlAttribute(xmlWriter, @"S", CommonHelper.BoolToString(page is KryptonStorePage));
+                    XmlHelper.TextToXmlAttribute(xmlWriter, @"V", CommonHelper.BoolToString(page.LastVisibleSet), @"True");
 
                     // Give event handlers a chance to save custom data with the page
                     xmlWriter.WriteStartElement(@"CPD");
@@ -822,9 +822,9 @@ namespace Krypton.Docking
                     }
 
                     // Get the unique name of the page
-                    string uniqueName = CommonHelper.XmlAttributeToText(xmlReader, @"UN");
-                    bool boolStore = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"S"));
-                    bool boolVisible = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"V", @"True"));
+                    string uniqueName = XmlHelper.XmlAttributeToText(xmlReader, @"UN");
+                    bool boolStore = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"S"));
+                    bool boolVisible = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"V", @"True"));
 
                     // If the entry is for just a placeholder...
                     KryptonPage page;
