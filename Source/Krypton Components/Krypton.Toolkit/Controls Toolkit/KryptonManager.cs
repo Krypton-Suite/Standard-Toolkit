@@ -53,7 +53,9 @@ namespace Krypton.Toolkit
         private static PaletteSparkleOrange _paletteSparkleOrange;
         private static PaletteSparklePurple _paletteSparklePurple;
         private static PaletteOffice365Black _paletteOffice365Black;
+        private static PaletteOffice365BlackAlt _paletteOffice365BlackAlt;
         private static PaletteOffice365Blue _paletteOffice365Blue;
+        private static PaletteOffice365BlueAlt _paletteOffice365BlueAlt;
         private static PaletteOffice365Silver _paletteOffice365Silver;
         private static PaletteOffice365White _paletteOffice365White;
         private static RenderStandard _renderStandard;
@@ -457,8 +459,12 @@ namespace Krypton.Toolkit
                         return PaletteSparklePurple;
                     case PaletteModeManager.Office365Black:
                         return PaletteOffice365Black;
+                    case PaletteModeManager.Office365BlackAlt:
+                        return PaletteOffice365BlackAlt;
                     case PaletteModeManager.Office365Blue:
                         return PaletteOffice365Blue;
+                    case PaletteModeManager.Office365BlueAlt:
+                        return PaletteOffice365BlueAlt;
                     case PaletteModeManager.Office365Silver:
                         return PaletteOffice365Silver;
                     case PaletteModeManager.Office365White:
@@ -521,6 +527,10 @@ namespace Krypton.Toolkit
                     return PaletteSparklePurple;
                 case PaletteMode.Office365Black:
                     return PaletteOffice365Black;
+                case PaletteMode.Office365BlackAlt:
+                    return PaletteOffice365BlackAlt;
+                case PaletteMode.Office365BlueAlt:
+                    return PaletteOffice365BlueAlt;
                 case PaletteMode.Office365Blue:
                     return PaletteOffice365Blue;
                 case PaletteMode.Office365Silver:
@@ -607,6 +617,8 @@ namespace Krypton.Toolkit
         /// </value>
         public static PaletteOffice365Black PaletteOffice365Black => _paletteOffice365Black ?? (_paletteOffice365Black = new PaletteOffice365Black());
 
+        public static PaletteOffice365BlackAlt PaletteOffice365BlackAlt => _paletteOffice365BlackAlt ?? (_paletteOffice365BlackAlt = new PaletteOffice365BlackAlt());
+
         /// <summary>
         /// Gets the palette office365 blue.
         /// </summary>
@@ -614,6 +626,8 @@ namespace Krypton.Toolkit
         /// The palette office365 blue.
         /// </value>
         public static PaletteOffice365Blue PaletteOffice365Blue => _paletteOffice365Blue ?? (_paletteOffice365Blue = new PaletteOffice365Blue());
+
+        public static PaletteOffice365BlueAlt PaletteOffice365BlueAlt => _paletteOffice365BlueAlt ?? (_paletteOffice365BlueAlt = new PaletteOffice365BlueAlt());
 
         /// <summary>
         /// Gets the palette office365 silver.
