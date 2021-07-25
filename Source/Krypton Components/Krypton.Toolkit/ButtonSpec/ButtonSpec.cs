@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
                 if (_image != value)
                 {
                     _image = value;
-                    OnButtonSpecPropertyChanged(@"Image");
+                    OnButtonSpecPropertyChanged(nameof(Image));
                 }
             }
         }
@@ -664,7 +664,7 @@ namespace Krypton.Toolkit
                 if (_colorMap != value)
                 {
                     _colorMap = value;
-                    OnButtonSpecPropertyChanged(@"ColorMap");
+                    OnButtonSpecPropertyChanged(nameof(ColorMap));
                 }
             }
         }
@@ -700,7 +700,7 @@ namespace Krypton.Toolkit
                 if (_style != value)
                 {
                     _style = value;
-                    OnButtonSpecPropertyChanged(@"Style");
+                    OnButtonSpecPropertyChanged(nameof(Style));
                 }
             }
         }
@@ -736,7 +736,7 @@ namespace Krypton.Toolkit
                 if (_orientation != value)
                 {
                     _orientation = value;
-                    OnButtonSpecPropertyChanged(@"Orientation");
+                    OnButtonSpecPropertyChanged(nameof(Orientation));
                 }
             }
         }
@@ -772,7 +772,7 @@ namespace Krypton.Toolkit
                 if (_edge != value)
                 {
                     _edge = value;
-                    OnButtonSpecPropertyChanged(@"Edge");
+                    OnButtonSpecPropertyChanged(nameof(Edge));
                 }
             }
         }
@@ -836,7 +836,7 @@ namespace Krypton.Toolkit
                     }
 
                     _command = value;
-                    OnButtonSpecPropertyChanged("KryptonCommand");
+                    OnButtonSpecPropertyChanged(nameof(KryptonCommand));
 
                     if (_command != null)
                     {

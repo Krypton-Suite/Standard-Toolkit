@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -268,9 +268,9 @@ namespace Krypton.Docking
 		/// <param name="page">Reference to page.</param>
 		public override void WritePageElement(XmlWriter xmlWriter, KryptonPage page)
 		{
-			CommonHelper.TextToXmlAttribute(xmlWriter, "UN", page.UniqueName);
-			CommonHelper.TextToXmlAttribute(xmlWriter, "S", CommonHelper.BoolToString(page is KryptonStorePage));
-			CommonHelper.TextToXmlAttribute(xmlWriter, "V", CommonHelper.BoolToString(page.LastVisibleSet), "True");
+			XmlHelper.TextToXmlAttribute(xmlWriter, "UN", page.UniqueName);
+			XmlHelper.TextToXmlAttribute(xmlWriter, "S", CommonHelper.BoolToString(page is KryptonStorePage));
+			XmlHelper.TextToXmlAttribute(xmlWriter, "V", CommonHelper.BoolToString(page.LastVisibleSet), "True");
 		}
 
 		/// <summary>
@@ -310,15 +310,15 @@ namespace Krypton.Docking
 			if (page != null)
 			{
 				// If this is a store page then recreate as a store page type
-				if (CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, "S")))
+				if (CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, "S")))
 				{
 					page = new KryptonStorePage(page.UniqueName, _storeName);
 				}
 				else
 				{
 					// Only some values if the actual page and not if it is a store page
-					page.UniqueName = CommonHelper.XmlAttributeToText(xmlReader, "UN");
-					page.Visible = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, "V", "True"));
+					page.UniqueName = XmlHelper.XmlAttributeToText(xmlReader, "UN");
+					page.Visible = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, "V", "True"));
 				}
 			}
 

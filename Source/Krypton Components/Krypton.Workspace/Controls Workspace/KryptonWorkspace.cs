@@ -2,14 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
  */
 #endregion
-
 
 namespace Krypton.Workspace
 {
@@ -2124,15 +2123,15 @@ namespace Krypton.Workspace
             xmlWriter.WriteAttributeString(@"UN", cell.UniqueName);
             xmlWriter.WriteAttributeString(@"S", cell.WorkspaceStarSize.PersistString);
             xmlWriter.WriteAttributeString(@"NM", cell.NavigatorMode.ToString());
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"UM", CommonHelper.BoolToString(cell.UseMnemonic), @"True");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"ATF", CommonHelper.BoolToString(cell.AllowTabFocus), @"False");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"APD", CommonHelper.BoolToString(cell.AllowPageDrag), @"True");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"AR", CommonHelper.BoolToString(cell.AllowResizing), @"False");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"E", CommonHelper.BoolToString(cell.Enabled), @"True");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"V", CommonHelper.BoolToString(cell.LastVisibleSet), @"True");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"DOR", CommonHelper.BoolToString(cell.DisposeOnRemove), @"True");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"MINS", CommonHelper.SizeToString(cell.MinimumSize), @"0, 0");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"MAXS", CommonHelper.SizeToString(cell.MaximumSize), @"0, 0");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"UM", CommonHelper.BoolToString(cell.UseMnemonic), @"True");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"ATF", CommonHelper.BoolToString(cell.AllowTabFocus), @"False");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"APD", CommonHelper.BoolToString(cell.AllowPageDrag), @"True");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"AR", CommonHelper.BoolToString(cell.AllowResizing), @"False");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"E", CommonHelper.BoolToString(cell.Enabled), @"True");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"V", CommonHelper.BoolToString(cell.LastVisibleSet), @"True");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"DOR", CommonHelper.BoolToString(cell.DisposeOnRemove), @"True");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"MINS", CommonHelper.SizeToString(cell.MinimumSize), @"0, 0");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"MAXS", CommonHelper.SizeToString(cell.MaximumSize), @"0, 0");
 
             // Remember which page was the active one
             xmlWriter.WriteAttributeString(@"SP", cell.SelectedPage != null ? cell.SelectedPage.UniqueName : @"(null)");
@@ -2151,17 +2150,18 @@ namespace Krypton.Workspace
             cell.WorkspaceStarSize.PersistString = xmlReader.GetAttribute(@"S");
             string selectedPageUniqueName = xmlReader.GetAttribute(@"SP");
             cell.NavigatorMode = (NavigatorMode)Enum.Parse(typeof(NavigatorMode), xmlReader.GetAttribute(@"NM"));
-            cell.UseMnemonic = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"UM", @"True"));
-            cell.AllowTabFocus = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"ATF", @"False"));
-            cell.AllowPageDrag = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"APD", @"True"));
-            cell.AllowResizing = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"AR", @"False"));
-            cell.Enabled = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"E", @"True"));
-            cell.Visible = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"V", @"True"));
-            cell.DisposeOnRemove = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"DOR", @"True"));
-            cell.MinimumSize = CommonHelper.StringToSize(CommonHelper.XmlAttributeToText(xmlReader, @"MINS", @"0, 0"));
-            cell.MaximumSize = CommonHelper.StringToSize(CommonHelper.XmlAttributeToText(xmlReader, @"MAXS", @"0, 0"));
+            cell.UseMnemonic = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"UM", @"True"));
+            cell.AllowTabFocus = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"ATF", @"False"));
+            cell.AllowPageDrag = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"APD", @"True"));
+            cell.AllowResizing = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"AR", @"False"));
+            cell.Enabled = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"E", @"True"));
+            cell.Visible = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"V", @"True"));
+            cell.DisposeOnRemove = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"DOR", @"True"));
+            cell.MinimumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MINS", @"0, 0"));
+            cell.MaximumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MAXS", @"0, 0"));
             return selectedPageUniqueName;
         }
+
 
         /// <summary>
         /// Write sequence details to xml during save process.
@@ -2195,32 +2195,33 @@ namespace Krypton.Workspace
         public virtual void WritePageElement(XmlWriter xmlWriter, KryptonPage page)
         {
             // Write values that can be stored as attributes
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"T", page.Text);
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"TT", page.TextTitle);
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"TD", page.TextDescription);
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"TTB", page.ToolTipBody);
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"TTITC", CommonHelper.ColorToString(page.ToolTipImageTransparentColor));
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"TTS", page.ToolTipStyle.ToString(), "ToolTip");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"TTT", page.ToolTipTitle);
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"UN", page.UniqueName);
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"E", CommonHelper.BoolToString(page.Enabled), "True");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"V", CommonHelper.BoolToString(page.LastVisibleSet), "True");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"MINS", CommonHelper.SizeToString(page.MinimumSize), "50, 50");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"MAXS", CommonHelper.SizeToString(page.MaximumSize), "0, 0");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"AHSS", CommonHelper.SizeToString(page.AutoHiddenSlideSize), "150, 150");
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"F", page.Flags.ToString());
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"T", page.Text);
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"TT", page.TextTitle);
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"TD", page.TextDescription);
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"TTB", page.ToolTipBody);
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"TTITC", CommonHelper.ColorToString(page.ToolTipImageTransparentColor));
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"TTS", page.ToolTipStyle.ToString(), "ToolTip");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"TTT", page.ToolTipTitle);
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"UN", page.UniqueName);
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"E", CommonHelper.BoolToString(page.Enabled), "True");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"V", CommonHelper.BoolToString(page.LastVisibleSet), "True");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"MINS", CommonHelper.SizeToString(page.MinimumSize), "50, 50");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"MAXS", CommonHelper.SizeToString(page.MaximumSize), "0, 0");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"AHSS", CommonHelper.SizeToString(page.AutoHiddenSlideSize), "150, 150");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"F", page.Flags.ToString());
 
             //Seb
             //TODO store object instead of strings
-            CommonHelper.TextToXmlAttribute(xmlWriter, @"TAG", page.Tag?.ToString());
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"TAG", page.Tag?.ToString());
             //End Seb
 
             // Write out images as child elements
-            CommonHelper.ImageToXmlCData(xmlWriter, @"IS", page.ImageSmall);
-            CommonHelper.ImageToXmlCData(xmlWriter, @"IM", page.ImageMedium);
-            CommonHelper.ImageToXmlCData(xmlWriter, @"IL", page.ImageLarge);
-            CommonHelper.ImageToXmlCData(xmlWriter, @"TTI", page.ToolTipImage);
+            XmlHelper.ImageToXmlCData(xmlWriter, @"IS", page.ImageSmall);
+            XmlHelper.ImageToXmlCData(xmlWriter, @"IM", page.ImageMedium);
+            XmlHelper.ImageToXmlCData(xmlWriter, @"IL", page.ImageLarge);
+            XmlHelper.ImageToXmlCData(xmlWriter, @"TTI", page.ToolTipImage);
         }
+
 
         /// <summary>
         /// Read page details from xml during load process.
@@ -2259,23 +2260,23 @@ namespace Krypton.Workspace
             if (page != null)
             {
                 // Read values that can be stored as attributes
-                page.Text = CommonHelper.XmlAttributeToText(xmlReader, @"T");
-                page.TextTitle = CommonHelper.XmlAttributeToText(xmlReader, @"TT");
-                page.TextDescription = CommonHelper.XmlAttributeToText(xmlReader, @"TD");
-                page.ToolTipBody = CommonHelper.XmlAttributeToText(xmlReader, @"TTB");
-                page.ToolTipImageTransparentColor = CommonHelper.StringToColor(CommonHelper.XmlAttributeToText(xmlReader, @"TTITC"));
-                page.ToolTipStyle = (LabelStyle)Enum.Parse(typeof(LabelStyle), CommonHelper.XmlAttributeToText(xmlReader, @"TTS", @"ToolTip"));
-                page.ToolTipTitle = CommonHelper.XmlAttributeToText(xmlReader, @"TTT");
-                page.UniqueName = CommonHelper.XmlAttributeToText(xmlReader, @"UN");
-                page.Enabled = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"E", @"True"));
-                page.Visible = CommonHelper.StringToBool(CommonHelper.XmlAttributeToText(xmlReader, @"V", @"True"));
-                page.MinimumSize = CommonHelper.StringToSize(CommonHelper.XmlAttributeToText(xmlReader, @"MINS", @"50, 50"));
-                page.MaximumSize = CommonHelper.StringToSize(CommonHelper.XmlAttributeToText(xmlReader, @"MAXS", @"0, 0"));
-                page.AutoHiddenSlideSize = CommonHelper.StringToSize(CommonHelper.XmlAttributeToText(xmlReader, @"AHSS", @"150, 150"));
-                page.Flags = int.Parse(CommonHelper.XmlAttributeToText(xmlReader, @"F", page.Flags.ToString()));
+                page.Text = XmlHelper.XmlAttributeToText(xmlReader, @"T");
+                page.TextTitle = XmlHelper.XmlAttributeToText(xmlReader, @"TT");
+                page.TextDescription = XmlHelper.XmlAttributeToText(xmlReader, @"TD");
+                page.ToolTipBody = XmlHelper.XmlAttributeToText(xmlReader, @"TTB");
+                page.ToolTipImageTransparentColor = CommonHelper.StringToColor(XmlHelper.XmlAttributeToText(xmlReader, @"TTITC"));
+                page.ToolTipStyle = (LabelStyle)Enum.Parse(typeof(LabelStyle), XmlHelper.XmlAttributeToText(xmlReader, @"TTS", @"ToolTip"));
+                page.ToolTipTitle = XmlHelper.XmlAttributeToText(xmlReader, @"TTT");
+                page.UniqueName = XmlHelper.XmlAttributeToText(xmlReader, @"UN");
+                page.Enabled = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"E", @"True"));
+                page.Visible = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"V", @"True"));
+                page.MinimumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MINS", @"50, 50"));
+                page.MaximumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MAXS", @"0, 0"));
+                page.AutoHiddenSlideSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"AHSS", @"150, 150"));
+                page.Flags = int.Parse(XmlHelper.XmlAttributeToText(xmlReader, @"F", page.Flags.ToString()));
 
                 //Seb
-                page.Tag = CommonHelper.XmlAttributeToText(xmlReader, @"TAG", null);
+                page.Tag = XmlHelper.XmlAttributeToText(xmlReader, @"TAG", null);
                 //End Seb
             }
 
@@ -4194,9 +4195,9 @@ namespace Krypton.Workspace
             return dict;
         }
 
-        private Image ReadOptionalImageElement(XmlReader xmlReader, string name)
+        private Bitmap ReadOptionalImageElement(XmlReader xmlReader, string name)
         {
-            Image retImage = null;
+            Bitmap retImage = null;
 
             // Is the optional element present?
             if (xmlReader.Name == name)
@@ -4204,21 +4205,22 @@ namespace Krypton.Workspace
                 // Move to the contained CData element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException("An element was expected but could not be read in.");
+                    throw new ArgumentException(@"An element was expected but could not be read in.");
                 }
 
                 // Load the image from the elements contained data
-                retImage = CommonHelper.XmlCDataToImage(xmlReader);
+                retImage = XmlHelper.XmlCDataToImage(xmlReader);
 
                 // Read past the end of optional element                   
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException("An element was expected but could not be read in.");
+                    throw new ArgumentException(@"An element was expected but could not be read in.");
                 }
             }
 
             return retImage;
         }
+
         #endregion
     }
 }

@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -52,10 +52,10 @@ namespace Krypton.Navigator
         private string _toolTipTitle;
         private string _toolTipBody;
         private string _uniqueName;
-        private Image _imageSmall;
-        private Image _imageMedium;
-        private Image _imageLarge;
-        private Image _toolTipImage;
+        private Bitmap _imageSmall;
+        private Bitmap _imageMedium;
+        private Bitmap _imageLarge;
+        private Bitmap _toolTipImage;
         private Color _toolTipImageTransparentColor;
         private bool _setVisible;
         private LabelStyle _toolTipStyle;
@@ -159,7 +159,7 @@ namespace Krypton.Navigator
         /// <param name="text">Initial text.</param>
         /// <param name="imageSmall">Initial small image.</param>
         /// <param name="uniqueName">Initial unique name.</param>
-        public KryptonPage(string text, Image imageSmall, string uniqueName)
+        public KryptonPage(string text, Bitmap imageSmall, string uniqueName)
         {
             // Default properties
             Text = text;
@@ -494,7 +494,7 @@ namespace Krypton.Navigator
         [Description("The small image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Image ImageSmall
+        public virtual Bitmap ImageSmall
         {
             [DebuggerStepThrough]
             get => _imageSmall;
@@ -524,7 +524,7 @@ namespace Krypton.Navigator
         [Description("The medium image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Image ImageMedium
+        public virtual Bitmap ImageMedium
         {
             [DebuggerStepThrough]
             get => _imageMedium;
@@ -554,7 +554,7 @@ namespace Krypton.Navigator
         [Description("The large image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Image ImageLarge
+        public virtual Bitmap ImageLarge
         {
             [DebuggerStepThrough]
             get => _imageLarge;
@@ -584,7 +584,7 @@ namespace Krypton.Navigator
         [Category("Appearance")]
         [Description("Page tooltip image.")]
         [DefaultValue(null)]
-        public virtual Image ToolTipImage
+        public virtual Bitmap ToolTipImage
         {
             get => _toolTipImage;
 

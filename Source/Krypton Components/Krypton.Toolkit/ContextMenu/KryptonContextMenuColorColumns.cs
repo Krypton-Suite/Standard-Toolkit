@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
                 if (_autoClose != value)
                 {
                     _autoClose = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AutoClose"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AutoClose)));
                 }
             }
         }
@@ -209,7 +209,7 @@ namespace Krypton.Toolkit
                 if (_colorScheme != value)
                 {
                     SetColorScheme(value);
-                    OnPropertyChanged(new PropertyChangedEventArgs("ColorScheme"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ColorScheme)));
                 }
             }
         }
@@ -231,7 +231,7 @@ namespace Krypton.Toolkit
                 {
                     _selectedColor = value;
                     OnSelectedColorChanged(new ColorEventArgs(_selectedColor));
-                    OnPropertyChanged(new PropertyChangedEventArgs("SelectedColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(SelectedColor)));
                 }
             }
         }
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
                 if (_blockSize != value)
                 {
                     _blockSize = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("BlockSize"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(BlockSize)));
                 }
             }
         }
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
                 if (_groupNonFirstRows != value)
                 {
                     _groupNonFirstRows = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("GroupNonFirstRows"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(GroupNonFirstRows)));
                 }
             }
         }
