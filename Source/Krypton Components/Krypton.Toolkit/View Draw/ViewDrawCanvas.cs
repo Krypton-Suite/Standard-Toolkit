@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -231,17 +229,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteDrawBorders MaxBorderEdges
         {
-            get
-            {
-                if (_borderForced == null)
-                {
-                    return PaletteDrawBorders.All;
-                }
-                else
-                {
-                    return _borderForced.MaxBorderEdges;
-                }
-            }
+            get => _borderForced == null ? PaletteDrawBorders.All : _borderForced.MaxBorderEdges;
 
             set 
             {
@@ -285,17 +273,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteGraphicsHint ForceGraphicsHint
         {
-            get
-            {
-                if (_borderForced == null)
-                {
-                    return PaletteGraphicsHint.Inherit;
-                }
-                else
-                {
-                    return _borderForced.ForceGraphicsHint;
-                }
-            }
+            get => _borderForced == null ? PaletteGraphicsHint.Inherit : _borderForced.ForceGraphicsHint;
 
             set 
             {

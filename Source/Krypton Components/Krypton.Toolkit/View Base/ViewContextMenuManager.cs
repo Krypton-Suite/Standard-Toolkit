@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -423,14 +421,7 @@ namespace Krypton.Toolkit
         public bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt)
         {
             // Do we have a current target we can ask?
-            if (_target != null)
-            {
-                return _target.DoesStackedClientMouseDownBecomeCurrent(pt);
-            }
-            else
-            {
-                return true;
-            }
+            return _target != null ? _target.DoesStackedClientMouseDownBecomeCurrent(pt) : true;
         }
         #endregion
 

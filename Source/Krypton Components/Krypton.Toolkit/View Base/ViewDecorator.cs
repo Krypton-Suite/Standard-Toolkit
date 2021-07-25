@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -373,14 +371,7 @@ namespace Krypton.Toolkit
         public override bool MouseDown(Point pt, MouseButtons button)
         {
             // Bubble event up to the parent
-            if (Parent != null)
-            {
-                return Parent.MouseDown(pt, button);
-            }
-            else
-            {
-                return false;
-            }
+            return Parent != null ? Parent.MouseDown(pt, button) : false;
         }
 
         /// <summary>
@@ -434,14 +425,7 @@ namespace Krypton.Toolkit
         public override bool KeyUp(KeyEventArgs e)
         {
             // Bubble event up to the parent
-            if (Parent != null)
-            {
-                return Parent.KeyUp(e);
-            }
-            else
-            {
-                return false;
-            }
+            return Parent != null ? Parent.KeyUp(e) : false;
         }
         #endregion
 

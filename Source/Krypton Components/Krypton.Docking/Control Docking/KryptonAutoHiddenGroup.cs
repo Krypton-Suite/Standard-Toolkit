@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -87,7 +85,7 @@ namespace Krypton.Docking
             // Create a list of pages that have not yet store placeholders
             foreach(KryptonPage page in Pages)
             {
-                if (!(page is KryptonStorePage))
+                if (page is not KryptonStorePage)
                 {
                     uniqueNames.Add(page.UniqueName);
                 }
@@ -106,7 +104,7 @@ namespace Krypton.Docking
             {
                 // If a matching page exists and it is not a store placeholder already
                 KryptonPage page = Pages[uniqueName];
-                if ((page != null) && !(page is KryptonStorePage))
+                if ((page != null) && page is not KryptonStorePage)
                 {
                     // Notify that we are storing a page, so handlers can ensure it will be unique to the auto hidden location
                     OnStoringPage(new UniqueNameEventArgs(page.UniqueName));

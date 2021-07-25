@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -163,14 +161,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public InheritBool GetContentDraw(PaletteState state)
         {
-            if (Draw != InheritBool.Inherit)
-            {
-                return Draw;
-            }
-            else
-            {
-                return Inherit.GetContentDraw(state);
-            }
+            return Draw != InheritBool.Inherit ? Draw : Inherit.GetContentDraw(state);
         }
         #endregion
 
@@ -290,14 +281,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteTextHint value.</returns>
         public PaletteTextHint GetContentShortTextHint(PaletteState state)
         {
-            if (_hint != PaletteTextHint.Inherit)
-            {
-                return _hint;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextHint(state);
-            }
+            return _hint != PaletteTextHint.Inherit ? _hint : Inherit.GetContentShortTextHint(state);
         }
 
         #endregion
@@ -344,14 +328,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteTextTrim value.</returns>
         public PaletteTextTrim GetContentShortTextTrim(PaletteState state)
         {
-            if (_trim != PaletteTextTrim.Inherit)
-            {
-                return _trim;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextTrim(state);
-            }
+            return _trim != PaletteTextTrim.Inherit ? _trim : Inherit.GetContentShortTextTrim(state);
         }
         #endregion
 
@@ -409,14 +386,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteState state)
         {
-            if (_multiLineH != PaletteRelativeAlign.Inherit)
-            {
-                return _multiLineH;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextMultiLineH(state);
-            }
+            return _multiLineH != PaletteRelativeAlign.Inherit ? _multiLineH : Inherit.GetContentShortTextMultiLineH(state);
         }
         #endregion
 
@@ -450,14 +420,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public InheritBool GetContentShortTextMultiLine(PaletteState state)
         {
-            if (_multiLine != InheritBool.Inherit)
-            {
-                return _multiLine;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextMultiLine(state);
-            }
+            return _multiLine != InheritBool.Inherit ? _multiLine : Inherit.GetContentShortTextMultiLine(state);
         }
         #endregion
 
@@ -492,14 +455,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public Color GetContentShortTextColor1(PaletteState state)
         {
-            if (_color1 != Color.Empty)
-            {
-                return _color1;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextColor1(state);
-            }
+            return _color1 != Color.Empty ? _color1 : Inherit.GetContentShortTextColor1(state);
         }
         #endregion
 
@@ -533,14 +489,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public Color GetContentShortTextColor2(PaletteState state)
         {
-            if (_color2 != Color.Empty)
-            {
-                return _color2;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextColor2(state);
-            }
+            return _color2 != Color.Empty ? _color2 : Inherit.GetContentShortTextColor2(state);
         }
         #endregion
 
@@ -574,14 +523,7 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public PaletteColorStyle GetContentShortTextColorStyle(PaletteState state)
         {
-            if (_colorStyle != PaletteColorStyle.Inherit)
-            {
-                return _colorStyle;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextColorStyle(state);
-            }
+            return _colorStyle != PaletteColorStyle.Inherit ? _colorStyle : Inherit.GetContentShortTextColorStyle(state);
         }
         #endregion
 
@@ -615,14 +557,7 @@ namespace Krypton.Toolkit
         /// <returns>Color alignment style.</returns>
         public PaletteRectangleAlign GetContentShortTextColorAlign(PaletteState state)
         {
-            if (_colorAlign != PaletteRectangleAlign.Inherit)
-            {
-                return _colorAlign;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextColorAlign(state);
-            }
+            return _colorAlign != PaletteRectangleAlign.Inherit ? _colorAlign : Inherit.GetContentShortTextColorAlign(state);
         }
         #endregion
 
@@ -656,14 +591,7 @@ namespace Krypton.Toolkit
         /// <returns>Angle used for color drawing.</returns>
         public float GetContentShortTextColorAngle(PaletteState state)
         {
-            if (_colorAngle != -1)
-            {
-                return _colorAngle;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextColorAngle(state);
-            }
+            return _colorAngle != -1 ? _colorAngle : Inherit.GetContentShortTextColorAngle(state);
         }
         #endregion
 
@@ -697,14 +625,7 @@ namespace Krypton.Toolkit
         /// <returns>Image instance.</returns>
         public Image GetContentShortTextImage(PaletteState state)
         {
-            if (_image != null)
-            {
-                return _image;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextImage(state);
-            }
+            return _image != null ? _image : Inherit.GetContentShortTextImage(state);
         }
         #endregion
 
@@ -738,14 +659,7 @@ namespace Krypton.Toolkit
         /// <returns>Image style value.</returns>
         public PaletteImageStyle GetContentShortTextImageStyle(PaletteState state)
         {
-            if (_imageStyle != PaletteImageStyle.Inherit)
-            {
-                return _imageStyle;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextImageStyle(state);
-            }
+            return _imageStyle != PaletteImageStyle.Inherit ? _imageStyle : Inherit.GetContentShortTextImageStyle(state);
         }
         #endregion
 
@@ -779,14 +693,7 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public PaletteRectangleAlign GetContentShortTextImageAlign(PaletteState state)
         {
-            if (_imageAlign != PaletteRectangleAlign.Inherit)
-            {
-                return _imageAlign;
-            }
-            else
-            {
-                return Inherit.GetContentShortTextImageAlign(state);
-            }
+            return _imageAlign != PaletteRectangleAlign.Inherit ? _imageAlign : Inherit.GetContentShortTextImageAlign(state);
         }
         #endregion
 

@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -86,7 +84,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if ((value != null) && !(value is KryptonDataGridViewLinkCell))
+                if ((value != null) && value is not KryptonDataGridViewLinkCell)
                 {
                     throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewLinkCell");
                 }
@@ -173,15 +171,10 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(LinkBehavior), "AlwaysUnderline")]
         public LinkBehavior LinkBehavior
         {
-            get
-            {
-                if (CellTemplate == null)
-                {
-                    throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
-                }
-
-                return ((KryptonDataGridViewLinkCell)CellTemplate).LinkBehavior;
-            }
+            get =>
+                CellTemplate == null
+                    ? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required")
+                    : ((KryptonDataGridViewLinkCell)CellTemplate).LinkBehavior;
             set
             {
                 if (!LinkBehavior.Equals(value))
@@ -213,15 +206,10 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool TrackVisitedState
         {
-            get
-            {
-                if (CellTemplate == null)
-                {
-                    throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
-                }
-
-                return ((KryptonDataGridViewLinkCell)CellTemplate).TrackVisitedState;
-            }
+            get =>
+                CellTemplate == null
+                    ? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required")
+                    : ((KryptonDataGridViewLinkCell)CellTemplate).TrackVisitedState;
             set
             {
                 if (TrackVisitedState != value)
@@ -251,15 +239,10 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool UseColumnTextForLinkValue
         {
-            get
-            {
-                if (CellTemplate == null)
-                {
-                    throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
-                }
-
-                return ((KryptonDataGridViewLinkCell)CellTemplate).UseColumnTextForLinkValue;
-            }
+            get =>
+                CellTemplate == null
+                    ? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required")
+                    : ((KryptonDataGridViewLinkCell)CellTemplate).UseColumnTextForLinkValue;
 
             set
             {

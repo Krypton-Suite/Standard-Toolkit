@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -103,15 +101,10 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(int), "32767")]
         public int MaxInputLength
         {
-            get
-            {
-                if (TextBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException("KryptonDataGridViewTextBoxColumn cell template required");
-                }
-
-                return TextBoxCellTemplate.MaxInputLength;
-            }
+            get =>
+                TextBoxCellTemplate == null
+                    ? throw new InvalidOperationException("KryptonDataGridViewTextBoxColumn cell template required")
+                    : TextBoxCellTemplate.MaxInputLength;
 
             set
             {
@@ -155,7 +148,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if ((value != null) && !(value is KryptonDataGridViewTextBoxCell))
+                if ((value != null) && value is not KryptonDataGridViewTextBoxCell)
                 {
                     throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewTextBoxCell");
                 }
@@ -181,15 +174,10 @@ namespace Krypton.Toolkit
         [Description("Indicates whether the text in the editing control can span more than one line.")]
         public bool Multiline
         {
-            get
-            {
-                if (TextBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return TextBoxCellTemplate.Multiline;
-            }
+            get =>
+                TextBoxCellTemplate == null
+                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : TextBoxCellTemplate.Multiline;
             set
             {
                 if (TextBoxCellTemplate == null)
@@ -224,15 +212,10 @@ namespace Krypton.Toolkit
         [Description("Indicates whether the editing control uses the multiline string editor widget.")]
         public bool MultilineStringEditor
         {
-            get
-            {
-                if (TextBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return TextBoxCellTemplate.MultilineStringEditor;
-            }
+            get =>
+                TextBoxCellTemplate == null
+                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : TextBoxCellTemplate.MultilineStringEditor;
             set
             {
                 if (TextBoxCellTemplate == null)

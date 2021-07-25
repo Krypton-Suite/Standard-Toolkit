@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -68,7 +66,7 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -123,7 +121,7 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -177,7 +175,7 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -493,7 +491,7 @@ namespace Krypton.Toolkit
                 MementoBackGlassThreeEdge cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackGlassThreeEdge))
+                if (memento is not MementoBackGlassThreeEdge)
                 {
                     memento?.Dispose();
 
@@ -703,7 +701,7 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -761,7 +759,7 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -818,7 +816,7 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -864,7 +862,7 @@ namespace Krypton.Toolkit
             {
                 MementoTriple cache;
 
-                if (!(memento is MementoTriple))
+                if (memento is not MementoTriple)
                 {
                     memento?.Dispose();
 
@@ -916,7 +914,7 @@ namespace Krypton.Toolkit
             {
                 MementoTriple cache;
 
-                if (!(memento is MementoTriple))
+                if (memento is not MementoTriple)
                 {
                     memento?.Dispose();
 
@@ -970,7 +968,7 @@ namespace Krypton.Toolkit
             {
                 MementoTriple cache;
 
-                if (!(memento is MementoTriple))
+                if (memento is not MementoTriple)
                 {
                     memento?.Dispose();
 
@@ -1021,7 +1019,7 @@ namespace Krypton.Toolkit
         {
             MementoDouble cache;
 
-            if (!(memento is MementoDouble))
+            if (memento is not MementoDouble)
             {
                 memento?.Dispose();
 
@@ -1040,7 +1038,7 @@ namespace Krypton.Toolkit
             MementoBackLinearRadial cacheThis;
 
             // Access a cache instance and decide if cache resources need generating
-            if (!(cache.second is MementoBackLinearRadial))
+            if (cache.second is not MementoBackLinearRadial)
             {
                 cache.second?.Dispose();
 
@@ -1134,7 +1132,7 @@ namespace Krypton.Toolkit
         {
             MementoDouble cache;
 
-            if (!(memento is MementoDouble))
+            if (memento is not MementoDouble)
             {
                 memento?.Dispose();
 
@@ -1158,7 +1156,7 @@ namespace Krypton.Toolkit
             MementoBackGlassRadial cacheThis;
 
             // Access a cache instance and decide if cache resources need generating
-            if (!(cache.second is MementoBackGlassRadial))
+            if (cache.second is not MementoBackGlassRadial)
             {
                 cache.second?.Dispose();
 
@@ -1277,7 +1275,7 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -1301,7 +1299,7 @@ namespace Krypton.Toolkit
                 MementoBackGlassCenter cacheThis;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(cache.second is MementoBackGlassCenter))
+                if (cache.second is not MementoBackGlassCenter)
                 {
                     cache.second?.Dispose();
 
@@ -1354,7 +1352,7 @@ namespace Krypton.Toolkit
                 MementoBackGlassFade cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackGlassFade))
+                if (memento is not MementoBackGlassFade)
                 {
                     memento?.Dispose();
 
@@ -1470,7 +1468,7 @@ namespace Krypton.Toolkit
                 MementoBackGlassLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackGlassLinear))
+                if (memento is not MementoBackGlassLinear)
                 {
                     memento?.Dispose();
 
@@ -1578,7 +1576,7 @@ namespace Krypton.Toolkit
                 MementoBackGlassBasic cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackGlassBasic))
+                if (memento is not MementoBackGlassBasic)
                 {
                     memento?.Dispose();
 
@@ -1675,7 +1673,7 @@ namespace Krypton.Toolkit
                 MementoBackLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackLinear))
+                if (memento is not MementoBackLinear)
                 {
                     memento?.Dispose();
 
@@ -1733,7 +1731,7 @@ namespace Krypton.Toolkit
                 MementoBackDarkEdge cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackDarkEdge))
+                if (memento is not MementoBackDarkEdge)
                 {
                     memento?.Dispose();
 

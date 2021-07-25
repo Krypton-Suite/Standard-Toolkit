@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -1400,16 +1398,12 @@ namespace Krypton.Toolkit
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            SetWindowTheme(Handle, "DarkMode_Explorer", null);
+            PI.SetWindowTheme(Handle, @"DarkMode_Explorer", null);
 
             base.OnHandleCreated(e);
         }
         #endregion
 
-        #region Calls
-        [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
-        public static extern int SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
-        #endregion
 
     }
 }

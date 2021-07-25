@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -456,7 +454,7 @@ namespace Krypton.Docking
                     {
                         // Swap pages that are not placeholders to become placeholders
                         KryptonPage page = pageCollection[uniqueName];
-                        if ((page != null) && !(page is KryptonStorePage))
+                        if ((page != null) && page is not KryptonStorePage)
                         {
                             // Replace the existing page with a placeholder that has the same unique name
                             KryptonStorePage placeholder = new(uniqueName, _storeName);
@@ -471,7 +469,7 @@ namespace Krypton.Docking
                     {
                         // Swap pages that are not placeholders to become placeholders
                         KryptonPage page = pageCollection[i];
-                        if ((page != null) && !(page is KryptonStorePage))
+                        if ((page != null) && page is not KryptonStorePage)
                         {
                             // Replace the existing page with a placeholder that has the same unique name
                             KryptonStorePage placeholder = new(page.UniqueName, _storeName);
@@ -531,7 +529,7 @@ namespace Krypton.Docking
                     {
                         // Return the definitive answer 'true' if the control contains the named page
                         KryptonPage page = DockableNavigatorControl.Pages[uniqueName];
-                        if ((page != null) && !(page is KryptonStorePage))
+                        if ((page != null) && page is not KryptonStorePage)
                         {
                             return true;
                         }
@@ -551,7 +549,7 @@ namespace Krypton.Docking
                     {
                         // If we have the requested page then return the visible state of the page
                         KryptonPage page = DockableNavigatorControl.Pages[uniqueName];
-                        if ((page != null) && !(page is KryptonStorePage))
+                        if ((page != null) && page is not KryptonStorePage)
                         {
                             return page.LastVisibleSet;
                         }
@@ -577,7 +575,7 @@ namespace Krypton.Docking
                     {
                         // If we have the requested name page and it is not a placeholder then we have found it
                         KryptonPage page = DockableNavigatorControl.Pages[uniqueName];
-                        if ((page != null) && !(page is KryptonStorePage))
+                        if ((page != null) && page is not KryptonStorePage)
                         {
                             return page;
                         }
@@ -611,7 +609,7 @@ namespace Krypton.Docking
                             {
                                 // Only add real pages and not placeholders
                                 KryptonPage page = DockableNavigatorControl.Pages[i];
-                                if ((page != null) && !(page is KryptonStorePage))
+                                if ((page != null) && page is not KryptonStorePage)
                                 {
                                     pages.Add(page);
                                 }
@@ -661,7 +659,7 @@ namespace Krypton.Docking
         public override DockingLocation FindPageLocation(string uniqueName)
         {
             KryptonPage page = DockableNavigatorControl.Pages[uniqueName];
-            if ((page != null) && !(page is KryptonStorePage))
+            if ((page != null) && page is not KryptonStorePage)
             {
                 return DockingLocation.Navigator;
             }
@@ -679,7 +677,7 @@ namespace Krypton.Docking
         public override IDockingElement FindPageElement(string uniqueName)
         {
             KryptonPage page = DockableNavigatorControl.Pages[uniqueName];
-            if ((page != null) && !(page is KryptonStorePage))
+            if ((page != null) && page is not KryptonStorePage)
             {
                 return this;
             }
@@ -954,7 +952,7 @@ namespace Krypton.Docking
             List<KryptonPage> pages = new List<KryptonPage>();
             foreach (KryptonPage page in e.Pages)
             {
-                if (!(page is KryptonStorePage) && DockableNavigatorControl.Pages.Contains(page))
+                if (page is not KryptonStorePage && DockableNavigatorControl.Pages.Contains(page))
                 {
                     pages.Add(page);
                 }

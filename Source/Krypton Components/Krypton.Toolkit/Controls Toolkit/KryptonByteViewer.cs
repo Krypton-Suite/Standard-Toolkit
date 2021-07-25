@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -225,7 +223,7 @@ namespace Krypton.Toolkit
         {
             int num = _dataBuf.Length;
             char[] array = new char[num + 1];
-            num = MultiByteToWideChar(0, 0, _dataBuf, num, array, num);
+            num = PI.MultiByteToWideChar(0, 0, _dataBuf, num, array, num);
             array[num] = '\0';
             for (int i = 0; i < num; i++)
             {
@@ -587,11 +585,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Internal
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
-        private static extern int MultiByteToWideChar(int codePage, int dwFlags, byte[] lpMultiByteStr,
-            int cchMultiByte, char[] lpWideCharStr, int cchWideChar);
-        #endregion
     }
 }
 #endif // NETFRAMEWORK 

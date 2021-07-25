@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -79,8 +77,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Enabled
         {
-            get { return _drawCheckBox.Enabled; }
-            set { _drawCheckBox.Enabled = value; }
+            get => _drawCheckBox.Enabled;
+            set => _drawCheckBox.Enabled = value;
         }
         #endregion
 
@@ -90,8 +88,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public CheckState CheckState
         {
-            get { return _drawCheckBox.CheckState; }
-            set { _drawCheckBox.CheckState = value; }
+            get => _drawCheckBox.CheckState;
+            set => _drawCheckBox.CheckState = value;
         }
         #endregion
 
@@ -101,8 +99,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool Tracking
         {
-            get { return _drawCheckBox.Tracking; }
-            set { _drawCheckBox.Tracking = value; }
+            get => _drawCheckBox.Tracking;
+            set => _drawCheckBox.Tracking = value;
         }
         #endregion
 
@@ -112,8 +110,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool Pressed
         {
-            get { return _drawCheckBox.Pressed; }
-            set { _drawCheckBox.Pressed = value; }
+            get => _drawCheckBox.Pressed;
+            set => _drawCheckBox.Pressed = value;
         }
         #endregion
 

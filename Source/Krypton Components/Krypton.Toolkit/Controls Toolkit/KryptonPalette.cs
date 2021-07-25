@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -628,14 +626,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public InheritBool GetAllowFormChrome()
         {
-            if (AllowFormChrome == InheritBool.Inherit)
-            {
-                return _basePalette.GetAllowFormChrome();
-            }
-            else
-            {
-                return AllowFormChrome;
-            }
+            return AllowFormChrome == InheritBool.Inherit ? _basePalette.GetAllowFormChrome() : AllowFormChrome;
         }
         #endregion
 
@@ -1699,14 +1690,7 @@ namespace Krypton.Toolkit
             }
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetCheckBoxImage(enabled, checkState, tracking, pressed);
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage == null ? _redirector.GetCheckBoxImage(enabled, checkState, tracking, pressed) : retImage;
         }
 
         /// <summary>
@@ -1768,14 +1752,7 @@ namespace Krypton.Toolkit
             }
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetRadioButtonImage(enabled, checkState, tracking, pressed);
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage == null ? _redirector.GetRadioButtonImage(enabled, checkState, tracking, pressed) : retImage;
         }
 
         /// <summary>
@@ -1809,14 +1786,7 @@ namespace Krypton.Toolkit
             }
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetDropDownButtonImage(state);
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage == null ? _redirector.GetDropDownButtonImage(state) : retImage;
         }
 
         /// <summary>
@@ -1828,14 +1798,7 @@ namespace Krypton.Toolkit
             Image retImage = _images.ContextMenu.Checked;
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetContextMenuCheckedImage();
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage == null ? _redirector.GetContextMenuCheckedImage() : retImage;
         }
 
         /// <summary>
@@ -1847,14 +1810,7 @@ namespace Krypton.Toolkit
             Image retImage = _images.ContextMenu.Indeterminate;
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetContextMenuIndeterminateImage();
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage == null ? _redirector.GetContextMenuIndeterminateImage() : retImage;
         }
 
         /// <summary>
@@ -1866,14 +1822,7 @@ namespace Krypton.Toolkit
             Image retImage = _images.ContextMenu.SubMenu;
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetContextMenuSubMenuImage();
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage == null ? _redirector.GetContextMenuSubMenuImage() : retImage;
         }
 
         /// <summary>
@@ -1926,14 +1875,7 @@ namespace Krypton.Toolkit
             }
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetGalleryButtonImage(button, state);
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage == null ? _redirector.GetGalleryButtonImage(button, state) : retImage;
         }
         #endregion
 
@@ -4251,13 +4193,11 @@ namespace Krypton.Toolkit
             {
                 return @"PaletteDragFeedback";
             }
-            else if (t.Equals(typeof(PaletteRibbonShape)))
-            {
-                return @"PaletteRibbonShape";
-            }
             else
             {
-                throw new ApplicationException($"Unrecognised type '{t}' for export.");
+                return t.Equals(typeof(PaletteRibbonShape))
+                    ? @"PaletteRibbonShape"
+                    : throw new ApplicationException($"Unrecognised type '{t}' for export.");
             }
         }
 

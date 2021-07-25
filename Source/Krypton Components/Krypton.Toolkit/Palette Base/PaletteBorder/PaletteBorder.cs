@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -502,17 +500,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public float ColorAngle
         {
-            get
-            {
-                if (_storage == null)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return _storage.BorderColorAngle;
-                }
-            }
+            get => _storage == null ? -1 : _storage.BorderColorAngle;
 
             set
             {
@@ -559,17 +547,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public int Width
         {
-            get
-            {
-                if (_storage == null)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return _storage.BorderWidth;
-                }
-            }
+            get => _storage == null ? -1 : _storage.BorderWidth;
 
             set
             {
@@ -616,17 +594,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public float Rounding
         {
-            get
-            {
-                if (_storage == null)
-                {
-                    return GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-                }
-                else
-                {
-                    return _storage.BorderRounding;
-                }
-            }
+            get => _storage == null ? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE : _storage.BorderRounding;
 
             set
             {

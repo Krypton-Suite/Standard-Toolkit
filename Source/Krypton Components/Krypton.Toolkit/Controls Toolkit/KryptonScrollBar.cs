@@ -24,11 +24,6 @@ namespace Krypton.Toolkit
         #region fields
 
         /// <summary>
-        /// Redraw const.
-        /// </summary>
-        private const int SETREDRAW = 11;
-
-        /// <summary>
         /// Indicates many changes to the scrollbar are happening, so stop painting till finished.
         /// </summary>
         private bool _inUpdate;
@@ -436,7 +431,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void BeginUpdate()
         {
-            SendMessage(Handle, SETREDRAW, false, 0);
+            PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)0/*false*/, IntPtr.Zero);
             _inUpdate = true;
         }
 
@@ -445,7 +440,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void EndUpdate()
         {
-            SendMessage(Handle, SETREDRAW, true, 0);
+            PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1/*true*/, IntPtr.Zero);
             _inUpdate = false;
             SetUpScrollBar();
             Refresh();
@@ -1009,22 +1004,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region misc methods
-
-        /// <summary>
-        /// Sends a message.
-        /// </summary>
-        /// <param name="wnd">The handle of the control.</param>
-        /// <param name="msg">The message as int.</param>
-        /// <param name="param">param - true or false.</param>
-        /// <param name="lparam">Additional parameter.</param>
-        /// <returns>0 or error code.</returns>
-        /// <remarks>Needed for sending the stop/start drawing of the control.</remarks>
-        [DllImport("user32.dll")]
-        private static extern int SendMessage(
-           IntPtr wnd,
-           int msg,
-           bool param,
-           int lparam);
 
         /// <summary>
         /// Sets up the scrollbar.

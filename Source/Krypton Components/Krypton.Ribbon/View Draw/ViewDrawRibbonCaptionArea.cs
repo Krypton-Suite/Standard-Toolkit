@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -790,20 +788,16 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the single reference to the application button controller.
         /// </summary>
-        public AppButtonController AppButtonController
-        {
-            get { return _appButtonController; }
-        }
+        public AppButtonController AppButtonController => _appButtonController;
+
         #endregion
 
         #region AppTabController
         /// <summary>
         /// Gets the single reference to the application tab controller.
         /// </summary>
-        public AppTabController AppTabController
-        {
-            get { return _appTabController; }
-        }
+        public AppTabController AppTabController => _appTabController;
+
         #endregion
 
         #region HookToolTipHandling
@@ -823,7 +817,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool PreventIntegration
         {
-            get { return _preventIntegration; }
+            get => _preventIntegration;
 
             set
             {
@@ -843,15 +837,11 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the drawing of the border before or after children.
         /// </summary>
-        public override bool DrawBorderLast
-        {
-            get
-            {
-                // We need to draw the border before contents, so that the application button
-                // and any context information draw over the top of the border
-                return false;
-            }
-        }
+        public override bool DrawBorderLast =>
+            // We need to draw the border before contents, so that the application button
+            // and any context information draw over the top of the border
+            false;
+
         #endregion
 
         #region AppButtonChanged
@@ -950,10 +940,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets a value indicating if the ribbon is integrated into the custom chrome.
         /// </summary>
-        public bool UsingCustomChrome
-        {
-            get { return _integrated; }
-        }
+        public bool UsingCustomChrome => _integrated;
+
         #endregion
 
         #region RedrawCustomChrome
@@ -972,20 +960,16 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets a value indicating if drawing on the composition element.
         /// </summary>
-        public bool DrawCaptionOnComposition
-        {
-            get { return UsingCustomChrome && KryptonForm.ApplyComposition; }
-        }
+        public bool DrawCaptionOnComposition => UsingCustomChrome && KryptonForm.ApplyComposition;
+
         #endregion
 
         #region KryptonForm
         /// <summary>
         /// Gets access to the integration form.
         /// </summary>
-        public KryptonForm KryptonForm
-        {
-            get { return _kryptonForm; }
-        }
+        public KryptonForm KryptonForm => _kryptonForm;
+
         #endregion
 
         #region RealWindowBorders
@@ -1009,10 +993,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the layout view used for the context titles.
         /// </summary>
-        public ViewLayoutRibbonContextTitles ContextTitles
-        {
-            get { return _contextTiles; }
-        }
+        public ViewLayoutRibbonContextTitles ContextTitles => _contextTiles;
+
         #endregion
 
         #region PerformFormChromeCheck
@@ -1080,7 +1062,7 @@ namespace Krypton.Ribbon
         protected NeedPaintHandler NeedPaintDelegate
         {
             [DebuggerStepThrough]
-            get { return _needPaintDelegate; }
+            get => _needPaintDelegate;
         }
 
         /// <summary>

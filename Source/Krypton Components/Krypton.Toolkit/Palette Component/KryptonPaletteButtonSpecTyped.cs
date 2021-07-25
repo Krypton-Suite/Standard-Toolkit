@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -268,12 +266,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeColorMap()
         {
-            if (ColorMap != Color.Empty)
-            {
-                return true;
-            }
-
-            return false;
+            return ColorMap != Color.Empty;
         }
 
         /// <summary>
@@ -447,12 +440,7 @@ namespace Krypton.Toolkit
                 image = Image;
             }
 
-            if ((image != null) || !AllowInheritImage)
-            {
-                return image;
-            }
-
-            return base.GetButtonSpecImage(style, state);
+            return (image != null) || !AllowInheritImage ? image : base.GetButtonSpecImage(style, state);
         }
 
         /// <summary>
@@ -478,14 +466,7 @@ namespace Krypton.Toolkit
         /// <returns>String value.</returns>
         public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
         {
-            if ((ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle)
-            {
-                return ToolTipTitle;
-            }
-            else
-            {
-                return base.GetButtonSpecToolTipTitle(style);
-            }
+            return (ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
         }
 
         /// <summary>

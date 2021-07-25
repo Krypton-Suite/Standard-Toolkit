@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -308,10 +306,9 @@ namespace Krypton.Ribbon
             foreach (ViewBase child in this)
             {
                 // Only interested in visible ribbon tabs
-                if (child.Visible && (child is ViewDrawRibbonTab))
+                if (child.Visible && (child is ViewDrawRibbonTab viewTab))
                 {
                     // Cast to correct type of view element
-                    ViewDrawRibbonTab viewTab = (ViewDrawRibbonTab)child;
 
                     // Is this element for the currently selected tab?
                     if (viewTab.RibbonTab == _ribbon.SelectedTab)

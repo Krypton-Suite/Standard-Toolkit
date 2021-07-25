@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -745,14 +743,9 @@ namespace Krypton.Toolkit
                         }
                     }
 
-                    if (DomainUpDown.IsActive || (DomainUpDown.IsFixedActive && (DomainUpDown.InputControlStyle == InputControlStyle.Standalone)))
-                    {
-                        return DomainUpDown.InputControlStyle == InputControlStyle.Standalone ? PaletteState.CheckedNormal : PaletteState.CheckedTracking;
-                    }
-                    else
-                    {
-                        return PaletteState.Normal;
-                    }
+                    return DomainUpDown.IsActive || (DomainUpDown.IsFixedActive && (DomainUpDown.InputControlStyle == InputControlStyle.Standalone))
+                        ? DomainUpDown.InputControlStyle == InputControlStyle.Standalone ? PaletteState.CheckedNormal : PaletteState.CheckedTracking
+                        : PaletteState.Normal;
                 }
                 else
                 {
@@ -1382,23 +1375,13 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive ||
-                            ContainsFocus || _mouseOver || _domainUpDown.MouseOver ||
-                           ((_subclassEdit != null) && (_subclassEdit.MouseOver)) ||
-                           ((_subclassButtons != null) && (_subclassButtons.MouseOver)));
-                }
-            }
-        }
+        public bool IsActive =>
+            _fixedActive != null
+                ? _fixedActive.Value
+                : DesignMode || AlwaysActive ||
+                  ContainsFocus || _mouseOver || _domainUpDown.MouseOver ||
+                  ((_subclassEdit != null) && (_subclassEdit.MouseOver)) ||
+                  ((_subclassButtons != null) && (_subclassButtons.MouseOver));
 
         /// <summary>
         /// Sets input focus to the control.

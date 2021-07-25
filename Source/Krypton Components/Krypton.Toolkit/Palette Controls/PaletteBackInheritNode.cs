@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -55,14 +53,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetBackDraw(PaletteState state)
         {
-            if ((TreeNode != null) && (TreeNode.BackColor != Color.Empty))
-            {
-                return InheritBool.True;
-            }
-            else
-            {
-                return _inherit.GetBackDraw(state);
-            }
+            return (TreeNode != null) && (TreeNode.BackColor != Color.Empty) ? InheritBool.True : _inherit.GetBackDraw(state);
         }
 
         /// <summary>
@@ -82,14 +73,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor1(PaletteState state)
         {
-            if ((TreeNode != null) && (TreeNode.BackColor != Color.Empty))
-            {
-                return TreeNode.BackColor;
-            }
-            else
-            {
-                return _inherit.GetBackColor1(state);
-            }
+            return (TreeNode != null) && (TreeNode.BackColor != Color.Empty) ? TreeNode.BackColor : _inherit.GetBackColor1(state);
         }
 
         /// <summary>
@@ -99,14 +83,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor2(PaletteState state)
         {
-            if ((TreeNode != null) && (TreeNode.BackColor != Color.Empty))
-            {
-                return TreeNode.BackColor;
-            }
-            else
-            {
-                return _inherit.GetBackColor2(state);
-            }
+            return (TreeNode != null) && (TreeNode.BackColor != Color.Empty) ? TreeNode.BackColor : _inherit.GetBackColor2(state);
         }
 
         /// <summary>

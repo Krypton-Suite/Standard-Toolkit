@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -126,80 +124,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image to use from the menu item.
         /// </summary>
-        public Image ResolveImage
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.ImageSmall;
-                }
-                else
-                {
-                    return KryptonContextMenuLinkLabel.Image;
-                }
-            }
-        }
+        public Image ResolveImage => _cachedCommand != null ? _cachedCommand.ImageSmall : KryptonContextMenuLinkLabel.Image;
+
         #endregion
 
         #region ResolveImageTransparentColor
         /// <summary>
         /// Resolves the correct image transparent color to use from the menu item.
         /// </summary>
-        public Color ResolveImageTransparentColor
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.ImageTransparentColor;
-                }
-                else
-                {
-                    return KryptonContextMenuLinkLabel.ImageTransparentColor;
-                }
-            }
-        }
+        public Color ResolveImageTransparentColor => _cachedCommand != null ? _cachedCommand.ImageTransparentColor : KryptonContextMenuLinkLabel.ImageTransparentColor;
+
         #endregion
 
         #region ResolveText
         /// <summary>
         /// Resolves the correct text string to use from the menu item.
         /// </summary>
-        public string ResolveText
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.Text;
-                }
-                else
-                {
-                    return KryptonContextMenuLinkLabel.Text;
-                }
-            }
-        }
+        public string ResolveText => _cachedCommand != null ? _cachedCommand.Text : KryptonContextMenuLinkLabel.Text;
+
         #endregion
 
         #region ResolveExtraText
         /// <summary>
         /// Resolves the correct extra text string to use from the menu item.
         /// </summary>
-        public string ResolveExtraText
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.ExtraText;
-                }
-                else
-                {
-                    return KryptonContextMenuLinkLabel.ExtraText;
-                }
-            }
-        }
+        public string ResolveExtraText => _cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuLinkLabel.ExtraText;
+
         #endregion
 
         #region Focused

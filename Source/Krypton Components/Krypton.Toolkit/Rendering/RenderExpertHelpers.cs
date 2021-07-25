@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -67,7 +65,7 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -117,7 +115,7 @@ namespace Krypton.Toolkit
                     MementoBackExpertShadow cache;
 
                     // Access a cache instance and decide if cache resources need generating
-                    if (!(memento is MementoBackExpertShadow))
+                    if (memento is not MementoBackExpertShadow)
                     {
                         memento?.Dispose();
 
@@ -208,7 +206,7 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -260,7 +258,7 @@ namespace Krypton.Toolkit
                     MementoBackExpertSquareHighlight cache;
 
                     // Access a cache instance and decide if cache resources need generating
-                    if (!(memento is MementoBackExpertSquareHighlight))
+                    if (memento is not MementoBackExpertSquareHighlight)
                     {
                         memento?.Dispose();
 
@@ -347,7 +345,7 @@ namespace Krypton.Toolkit
                 MementoBackSolid cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackSolid))
+                if (memento is not MementoBackSolid)
                 {
                     memento?.Dispose();
 
@@ -393,7 +391,7 @@ namespace Krypton.Toolkit
                 MementoBackExpertChecked cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackExpertChecked))
+                if (memento is not MementoBackExpertChecked)
                 {
                     memento?.Dispose();
 

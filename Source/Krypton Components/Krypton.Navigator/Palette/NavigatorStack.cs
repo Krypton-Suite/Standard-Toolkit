@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -141,7 +139,7 @@ namespace Krypton.Navigator
                 if (_stackAnimation != value)
                 {
                     _stackAnimation = value;
-                    _navigator.OnViewBuilderPropertyChanged("StackAnimation");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(StackAnimation));
                 }
             }
         }
@@ -172,7 +170,7 @@ namespace Krypton.Navigator
                 if (_stackOrientation != value)
                 {
                     _stackOrientation = value;
-                    _navigator.OnViewBuilderPropertyChanged("StackOrientation");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(StackOrientation));
                 }
             }
         }
@@ -203,7 +201,7 @@ namespace Krypton.Navigator
                 if (_stackAlignment != value)
                 {
                     _stackAlignment = value;
-                    _navigator.OnViewBuilderPropertyChanged("StackAlignment");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(StackAlignment));
                 }
             }
         }

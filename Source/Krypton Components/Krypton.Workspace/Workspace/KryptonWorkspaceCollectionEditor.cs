@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -703,7 +701,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets access to the associated workspace cell item.
                 /// </summary>
-                public Component Item => (PageItem != null ? PageItem : (CellItem != null ? CellItem : (Component)SequenceItem));
+                public Component Item => PageItem ?? (CellItem ?? (Component)SequenceItem);
 
                 /// <summary>
                 /// Gets access to the associated workspace cell item.
@@ -814,7 +812,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 public string Name
                 {
-                    get { return null; }
+                    get => null;
                     set { }
                 }
                 #endregion

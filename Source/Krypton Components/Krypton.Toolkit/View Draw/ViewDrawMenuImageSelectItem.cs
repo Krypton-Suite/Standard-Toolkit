@@ -7,8 +7,6 @@
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -160,14 +158,7 @@ namespace Krypton.Toolkit
         /// <returns>Image value.</returns>
         public virtual Image GetImage(PaletteState state)
         {
-            if ((_imageList != null) && (_imageIndex >= 0))
-            {
-                return _imageList.Images[_imageIndex];
-            }
-            else
-            {
-                return null;
-            }
+            return (_imageList != null) && (_imageIndex >= 0) ? _imageList.Images[_imageIndex] : null;
         }
 
         /// <summary>
