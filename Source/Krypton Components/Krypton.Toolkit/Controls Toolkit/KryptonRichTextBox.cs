@@ -317,7 +317,6 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
         private bool _firstPaint;
-        private bool _enableDarkMode;
         #endregion
 
         #region Events
@@ -536,8 +535,6 @@ namespace Krypton.Toolkit
             {
                 _richTextBox.Font = StateActive.PaletteContent.GetContentShortTextFont(PaletteState.Tracking);
             }
-
-            _enableDarkMode = false;
         }
 
         /// <summary>
@@ -1866,12 +1863,6 @@ namespace Krypton.Toolkit
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
         }
-
-        /// <summary>
-        /// Toggles between 'dark' and 'light' mode.
-        /// </summary>
-        [DefaultValue(false), Description("Toggles between 'dark' & 'light' mode.")]
-        public bool EnableDarkMode { get => _enableDarkMode; set { _enableDarkMode = value; Invalidate(); } }
         #endregion
 
         #region Protected
@@ -2237,19 +2228,6 @@ namespace Krypton.Toolkit
             {
                 _firstPaint = false;
                 ForceControlLayout();
-            }
-
-            if (_enableDarkMode)
-            {
-                StateCommon.Back.Color1 = Color.FromArgb(38, 38, 38);
-
-                StateCommon.Content.Color1 = Color.White;
-            }
-            else
-            {
-                StateCommon.Back.Color1 = Color.Empty;
-
-                StateCommon.Content.Color1 = Color.Empty;
             }
 
             base.OnPaint(e);

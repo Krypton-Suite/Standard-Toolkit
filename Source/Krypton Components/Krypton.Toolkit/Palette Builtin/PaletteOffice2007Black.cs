@@ -221,11 +221,13 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(255, 213, 141),    // GridSheetRowSelected
                                                                       Color.FromArgb(188, 195, 209),    // GridDataCellBorder
                                                                       Color.FromArgb(194, 217, 240),    // GridDataCellSelected
-                                                                      Color.Black,                      // InputControlTextNormal
+                                                                      //Color.Black,          
+                                                                      Color.FromArgb(255, 255, 255),    // InputControlTextNormal
                                                                       Color.FromArgb(172, 168, 153),    // InputControlTextDisabled
                                                                       Color.FromArgb(137, 137, 137),    // InputControlBorderNormal
                                                                       Color.FromArgb(204, 204, 204),    // InputControlBorderDisabled
-                                                                      Color.White,                      // InputControlBackNormal
+                                                                      //Color.White,
+                                                                      Color.FromArgb(38, 38, 38),       // InputControlBackNormal
                                                                       SystemColors.Control,             // InputControlBackDisabled
                                                                       Color.FromArgb(232, 232, 232),    // InputControlBackInactive
                                                                       Color.FromArgb(124, 124, 124),    // InputDropDownNormal1
@@ -258,7 +260,7 @@ namespace Krypton.Toolkit
                                                                       Color.Empty,                      // RibbonGroupBorder4
                                                                       Color.FromArgb(225, 225, 225),    // RibbonDropArrowLight
                                                                       Color.FromArgb(103, 103, 103),    // RibbonDropArrowDark
-                                                                    };        
+                                                                    };
         #endregion
 
         #region Identity
@@ -291,10 +293,10 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteOffice2007Black class.
         /// </summary>
         public PaletteOffice2007Black()
-            : base(_schemeColors, 
-                   _checkBoxList, 
-                   _galleryButtonList, 
-                   _radioButtonArray, 
+            : base(_schemeColors,
+                   _checkBoxList,
+                   _galleryButtonList,
+                   _radioButtonArray,
                    _trackBarColors)
         {
         }
