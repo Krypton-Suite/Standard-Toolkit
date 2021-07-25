@@ -2104,10 +2104,14 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Black,
 
+        Office2007BlackAlt,
+
         /// <summary>
         /// Specifies the Blue color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Blue,
+
+        Office2010BlueAlt,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 2010 appearance.
@@ -2124,6 +2128,8 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2010Black,
 
+        Office2010BlackAlt,
+
         /// <summary>
         /// Specifies the Office 2013 palette appearance.
         /// </summary>
@@ -2139,10 +2145,14 @@ namespace Krypton.Toolkit
         /// </summary>
         Office365Black,
 
+        Office365BlackAlt,
+
         /// <summary>
         /// Specifies the Blue color variant of the Office 365 appearance.
         /// </summary>
         Office365Blue,
+
+        Office365BlueAlt,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 365 appearance.
@@ -2223,10 +2233,14 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Black,
 
+        Office2007BlackAlt,
+
         /// <summary>
         /// Specifies the Blue color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Blue,
+
+        Office2010BlueAlt,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 2010 appearance.
@@ -2243,6 +2257,8 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2010Black,
 
+        Office2010BlackAlt,
+
         /// <summary>
         /// Specifies the Office 2013 appearance.
         /// </summary>
@@ -2258,10 +2274,14 @@ namespace Krypton.Toolkit
         /// </summary>
         Office365Black,
 
+        Office365BlackAlt,
+
         /// <summary>
         /// Specifies the Blue color variant of the Office 365 appearance.
         /// </summary>
         Office365Blue,
+
+        Office365BlueAlt,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 365 appearance.

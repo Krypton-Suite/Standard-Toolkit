@@ -40,9 +40,12 @@ namespace Krypton.Toolkit
         private static PaletteOffice2007Silver _paletteOffice2007Silver;
         private static PaletteOffice2007White _paletteOffice2007White;
         private static PaletteOffice2007Black _paletteOffice2007Black;
+        private static PaletteOffice2007BlackAlt _paletteOffice2007BlackAlt;
         private static PaletteOffice2010Blue _paletteOffice2010Blue;
+        private static PaletteOffice2010BlueAlt _paletteOffice2010BlueAlt;
         private static PaletteOffice2010White _paletteOffice2010White;
         private static PaletteOffice2010Black _paletteOffice2010Black;
+        private static PaletteOffice2010BlackAlt _paletteOffice2010BlackAlt;
         private static PaletteOffice2010Silver _paletteOffice2010Silver;
         private static PaletteOffice2013 _paletteOffice2013;
         private static PaletteOffice2013White _paletteOffice2013White;
@@ -428,14 +431,20 @@ namespace Krypton.Toolkit
                         return PaletteOffice2007White;
                     case PaletteModeManager.Office2007Black:
                         return PaletteOffice2007Black;
+                    case PaletteModeManager.Office2007BlackAlt:
+                        return PaletteOffice2007BlackAlt;
                     case PaletteModeManager.Office2010Blue:
                         return PaletteOffice2010Blue;
+                    case PaletteModeManager.Office2010BlueAlt:
+                        return PaletteOffice2010BlueAlt;
                     case PaletteModeManager.Office2010Silver:
                         return PaletteOffice2010Silver;
                     case PaletteModeManager.Office2010White:
                         return PaletteOffice2010White;
                     case PaletteModeManager.Office2010Black:
                         return PaletteOffice2010Black;
+                    case PaletteModeManager.Office2010BlackAlt:
+                        return PaletteOffice2010BlackAlt;
                     case PaletteModeManager.Office2013:
                         return PaletteOffice2013;
                     case PaletteModeManager.Office2013White:
@@ -486,14 +495,20 @@ namespace Krypton.Toolkit
                     return PaletteOffice2007White;
                 case PaletteMode.Office2007Black:
                     return PaletteOffice2007Black;
+                case PaletteMode.Office2007BlackAlt:
+                    return PaletteOffice2007BlackAlt;
                 case PaletteMode.Office2010Blue:
                     return PaletteOffice2010Blue;
+                case PaletteMode.Office2010BlueAlt:
+                    return PaletteOffice2010BlueAlt;
                 case PaletteMode.Office2010Silver:
                     return PaletteOffice2010Silver;
                 case PaletteMode.Office2010White:
                     return PaletteOffice2010White;
                 case PaletteMode.Office2010Black:
                     return PaletteOffice2010Black;
+                case PaletteMode.Office2010BlackAlt:
+                    return PaletteOffice2010BlackAlt;
                 case PaletteMode.Office2013:
                     return PaletteOffice2013;
                 case PaletteMode.Office2013White:
@@ -551,10 +566,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public static PaletteOffice2007Black PaletteOffice2007Black => _paletteOffice2007Black ?? (_paletteOffice2007Black = new PaletteOffice2007Black());
 
+        public static PaletteOffice2007BlackAlt PaletteOffice2007BlackAlt => _paletteOffice2007BlackAlt ?? (_paletteOffice2007BlackAlt = new PaletteOffice2007BlackAlt());
+
         /// <summary>
         /// Gets the single instance of the Blue variant Office 2010 palette.
         /// </summary>
         public static PaletteOffice2010Blue PaletteOffice2010Blue => _paletteOffice2010Blue ?? (_paletteOffice2010Blue = new PaletteOffice2010Blue());
+
+        public static PaletteOffice2010BlueAlt PaletteOffice2010BlueAlt => _paletteOffice2010BlueAlt ?? (_paletteOffice2010BlueAlt = new PaletteOffice2010BlueAlt());
 
         /// <summary>
         /// Gets the single instance of the Silver variant Office 2010 palette.
@@ -565,6 +584,8 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the Black variant Office 2010 palette.
         /// </summary>
         public static PaletteOffice2010Black PaletteOffice2010Black => _paletteOffice2010Black ?? (_paletteOffice2010Black = new PaletteOffice2010Black());
+
+        public static PaletteOffice2010BlackAlt PaletteOffice2010BlackAlt => _paletteOffice2010BlackAlt ?? (_paletteOffice2010BlackAlt = new PaletteOffice2010BlackAlt());
 
         public static PaletteOffice2010White PaletteOffice2010White => _paletteOffice2010White ?? (_paletteOffice2010White = new PaletteOffice2010White());
 

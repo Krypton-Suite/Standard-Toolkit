@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Black color scheme variant of the Office 2007 palette.
     /// </summary>
-    public class PaletteOffice2007Black : PaletteOffice2007Base
+    public class PaletteOffice2007BlackAlt : PaletteOffice2007Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -221,11 +221,11 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(255, 213, 141),    // GridSheetRowSelected
                                                                       Color.FromArgb(188, 195, 209),    // GridDataCellBorder
                                                                       Color.FromArgb(194, 217, 240),    // GridDataCellSelected
-                                                                      Color.Black,                                     // InputControlTextNormal
+                                                                      Color.FromArgb(255, 255, 255),    // InputControlTextNormal
                                                                       Color.FromArgb(172, 168, 153),    // InputControlTextDisabled
                                                                       Color.FromArgb(137, 137, 137),    // InputControlBorderNormal
                                                                       Color.FromArgb(204, 204, 204),    // InputControlBorderDisabled
-                                                                      Color.White,                                     // InputControlBackNormal
+                                                                      Color.FromArgb(38, 38, 38),       // InputControlBackNormal
                                                                       SystemColors.Control,             // InputControlBackDisabled
                                                                       Color.FromArgb(232, 232, 232),    // InputControlBackInactive
                                                                       Color.FromArgb(124, 124, 124),    // InputDropDownNormal1
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static PaletteOffice2007Black()
+        static PaletteOffice2007BlackAlt()
         {
             _checkBoxList = new ImageList
             {
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteOffice2007Black class.
         /// </summary>
-        public PaletteOffice2007Black()
+        public PaletteOffice2007BlackAlt()
             : base(_schemeColors,
                    _checkBoxList,
                    _galleryButtonList,
