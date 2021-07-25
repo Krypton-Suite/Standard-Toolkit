@@ -156,6 +156,25 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>
+        /// Toggles between 'dark' and 'light' mode.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool EnableDarkMode
+        {
+            get => _richTextBox.EnableDarkMode;
+
+            set
+            {
+                if (_richTextBox.EnableDarkMode != value)
+                {
+                    _service.OnComponentChanged(_richTextBox, null, _richTextBox.EnableDarkMode, value);
+
+                    _richTextBox.EnableDarkMode = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -177,6 +196,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
                 actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "Modifies the font of the control."));
                 actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem("EnableDarkMode", "Enable Dark Mode", "Appearance", "Toggles between 'dark' and 'light' mode."));
                 actions.Add(new DesignerActionHeaderItem("TextBox"));
                 actions.Add(new DesignerActionPropertyItem("Multiline", "Multiline", "TextBox", "Should text span multiple lines."));
                 actions.Add(new DesignerActionPropertyItem("WordWrap", "WordWrap", "TextBox", "Should words be wrapped over multiple lines."));

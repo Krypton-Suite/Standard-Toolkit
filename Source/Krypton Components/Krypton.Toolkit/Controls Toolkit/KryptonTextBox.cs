@@ -347,6 +347,7 @@ namespace Krypton.Toolkit
         private bool _trackingMouseEnter;
         private int _cachedHeight;
         private bool _multilineStringEditor;
+        private bool _enableDarkMode;
         private readonly ButtonSpecAny _editorButton;
         #endregion
 
@@ -536,6 +537,8 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
+
+            _enableDarkMode = false;
         }
 
         private void OnTextBoxClick(object sender, EventArgs e)
@@ -1397,6 +1400,12 @@ namespace Krypton.Toolkit
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
         }
+
+        /// <summary>
+        /// Toggles between 'dark' and 'light' mode.
+        /// </summary>
+        [DefaultValue(false), Description("Toggles between 'dark' & 'light' mode.")]
+        public bool EnableDarkMode { get => _enableDarkMode; set { _enableDarkMode = value; Invalidate(); } }
         #endregion
 
         #region Protected
@@ -1735,6 +1744,28 @@ namespace Krypton.Toolkit
 
             // Add adjust actual height to match new setting
             AdjustHeight(false);
+        }
+
+        /// <summary>
+        /// Raises the Paint event.
+        /// </summary>
+        /// <param name="e">A PaintEventArgs containing the event data.</param>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (_enableDarkMode)
+            {
+                StateCommon.Back.Color1 = Color.FromArgb(38, 38, 38);
+
+                StateCommon.Content.Color1 = Color.White;
+            }
+            else
+            {
+                StateCommon.Back.Color1 = Color.Empty;
+
+                StateCommon.Content.Color1 = Color.Empty;
+            }
+
+            base.OnPaint(e);
         }
 
         /// <summary>
