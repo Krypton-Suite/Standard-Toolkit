@@ -2087,6 +2087,8 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Blue,
 
+        Office2007BlueAlt,
+
         /// <summary>
         /// Specifies the Silver color variant of the Office 2007 appearance.
         /// </summary>
@@ -2203,6 +2205,8 @@ namespace Krypton.Toolkit
         /// Specifies the Blue color variant of the Office 2007 appearance.
         /// </summary>
         Office2007Blue,
+
+        Office2007BlueAlt,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 2007 appearance.

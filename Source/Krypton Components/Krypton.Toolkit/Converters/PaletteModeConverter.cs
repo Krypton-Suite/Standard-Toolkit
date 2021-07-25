@@ -22,6 +22,7 @@ namespace Krypton.Toolkit
         private readonly Pair[] _pairs = new Pair[] { new(PaletteMode.ProfessionalSystem,    "Professional - System"),
                                              new(PaletteMode.ProfessionalOffice2003,"Professional - Office 2003"),
                                              new(PaletteMode.Office2007Blue,        "Office 2007 - Blue"),
+                                             new(PaletteMode.Office2007BlueAlt,     "Office 2007 - Blue (Alternative)"),
                                              new(PaletteMode.Office2007Silver,      "Office 2007 - Silver"),
                                              new(PaletteMode.Office2007White,       "Office 2007 - White"),
                                              new(PaletteMode.Office2007Black,       "Office 2007 - Black"),

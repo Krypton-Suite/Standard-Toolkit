@@ -36,6 +36,7 @@ namespace Krypton.Toolkit
         private static PaletteProfessionalOffice2003 _paletteProfessionalOffice2003;
         private static PaletteProfessionalSystem _paletteProfessionalSystem;
         private static PaletteOffice2007Blue _paletteOffice2007Blue;
+        private static PaletteOffice2007BlueAlt _paletteOffice2007BlueAlt;
         private static PaletteOffice2007Silver _paletteOffice2007Silver;
         private static PaletteOffice2007White _paletteOffice2007White;
         private static PaletteOffice2007Black _paletteOffice2007Black;
@@ -419,6 +420,8 @@ namespace Krypton.Toolkit
                         return PaletteProfessionalOffice2003;
                     case PaletteModeManager.Office2007Blue:
                         return PaletteOffice2007Blue;
+                    case PaletteModeManager.Office2007BlueAlt:
+                        return PaletteOffice2007BlueAlt;
                     case PaletteModeManager.Office2007Silver:
                         return PaletteOffice2007Silver;
                     case PaletteModeManager.Office2007White:
@@ -475,6 +478,8 @@ namespace Krypton.Toolkit
                     return PaletteProfessionalOffice2003;
                 case PaletteMode.Office2007Blue:
                     return PaletteOffice2007Blue;
+                case PaletteMode.Office2007BlueAlt:
+                    return PaletteOffice2007BlueAlt;
                 case PaletteMode.Office2007Silver:
                     return PaletteOffice2007Silver;
                 case PaletteMode.Office2007White:
@@ -531,6 +536,8 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the Blue variant Office 2007 palette.
         /// </summary>
         public static PaletteOffice2007Blue PaletteOffice2007Blue => _paletteOffice2007Blue ?? (_paletteOffice2007Blue = new PaletteOffice2007Blue());
+
+        public static PaletteOffice2007BlueAlt PaletteOffice2007BlueAlt => _paletteOffice2007BlueAlt ?? (_paletteOffice2007BlueAlt = new PaletteOffice2007BlueAlt());
 
         /// <summary>
         /// Gets the single instance of the Silver variant Office 2007 palette.
