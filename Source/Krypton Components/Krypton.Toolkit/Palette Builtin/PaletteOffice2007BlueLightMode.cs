@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Blue color scheme variant of the Office 2007 palette.
     /// </summary>
-    public class PaletteOffice2007BlueAlt : PaletteOffice2007Base
+    public class PaletteOffice2007BlueLightMode : PaletteOffice2007Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -256,7 +256,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static PaletteOffice2007BlueAlt()
+        static PaletteOffice2007BlueLightMode()
         {
             _checkBoxList = new ImageList
             {
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteOffice2007Blue class.
         /// </summary>
-        public PaletteOffice2007BlueAlt()
+        public PaletteOffice2007BlueLightMode()
             : base(_schemeColors,
                    _checkBoxList,
                    _galleryButtonList,

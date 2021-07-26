@@ -13,7 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class PaletteOffice365BlueAlt : PaletteOffice365Base
+    public class PaletteOffice365BlueLightMode : PaletteOffice365Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructors
-        static PaletteOffice365BlueAlt()
+        static PaletteOffice365BlueLightMode()
         {
             _checkBoxList = new ImageList
             {
@@ -291,7 +291,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initializes a new instance of the PaletteOffice365Blue class.
         /// </summary>
-        public PaletteOffice365BlueAlt() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteOffice365BlueLightMode() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
 
         }

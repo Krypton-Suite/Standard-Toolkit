@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Black color scheme variant of the Office 2007 palette.
     /// </summary>
-    public class PaletteOffice2007BlackAlt : PaletteOffice2007Base
+    public class PaletteOffice2007BlackDarkMode : PaletteOffice2007Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static PaletteOffice2007BlackAlt()
+        static PaletteOffice2007BlackDarkMode()
         {
             _checkBoxList = new ImageList
             {
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteOffice2007Black class.
         /// </summary>
-        public PaletteOffice2007BlackAlt()
+        public PaletteOffice2007BlackDarkMode()
             : base(_schemeColors,
                    _checkBoxList,
                    _galleryButtonList,

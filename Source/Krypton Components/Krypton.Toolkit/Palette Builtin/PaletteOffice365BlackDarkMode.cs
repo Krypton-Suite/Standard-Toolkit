@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public class PaletteOffice365BlackAlt : PaletteOffice365Base
+    public class PaletteOffice365BlackDarkMode : PaletteOffice365Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructors
-        static PaletteOffice365BlackAlt()
+        static PaletteOffice365BlackDarkMode()
         {
             _checkBoxList = new ImageList
             {
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initializes a new instance of the <see cref="PaletteOffice365Black"/> class.
         /// </summary>
-        public PaletteOffice365BlackAlt() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteOffice365BlackDarkMode() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
 
         }

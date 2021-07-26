@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Black color scheme variant of the Office 2010 palette.
     /// </summary>
-    public class PaletteOffice2010BlackAlt : PaletteOffice2010Base
+    public class PaletteOffice2010BlackDarkMode : PaletteOffice2010Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static PaletteOffice2010BlackAlt()
+        static PaletteOffice2010BlackDarkMode()
         {
             _checkBoxList = new ImageList
             {
@@ -301,7 +301,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteOffice2010Black class.
         /// </summary>
-        public PaletteOffice2010BlackAlt()
+        public PaletteOffice2010BlackDarkMode()
             : base(_schemeColors,
                    _checkBoxList,
                    _galleryButtonList,

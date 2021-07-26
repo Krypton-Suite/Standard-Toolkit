@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Blue color scheme variant of the Office 2010 palette.
     /// </summary>
-    public class PaletteOffice2010BlueAlt : PaletteOffice2010Base
+    public class PaletteOffice2010BlueLightMode : PaletteOffice2010Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static PaletteOffice2010BlueAlt()
+        static PaletteOffice2010BlueLightMode()
         {
             _checkBoxList = new ImageList
             {
@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteOffice2010Blue class.
         /// </summary>
-        public PaletteOffice2010BlueAlt()
+        public PaletteOffice2010BlueLightMode()
             : base(_schemeColors,
                    _checkBoxList,
                    _galleryButtonList,

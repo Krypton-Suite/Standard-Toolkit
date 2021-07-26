@@ -2061,6 +2061,7 @@ namespace Krypton.Toolkit
     #endregion
 
     #region Enum PaletteMode
+    // TODO: Update documentation
     /// <summary>
     /// Specifies the palette applied when drawing.
     /// </summary>
@@ -2087,7 +2088,7 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Blue,
 
-        Office2007BlueAlt,
+        Office2007BlueLightMode,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 2007 appearance.
@@ -2104,14 +2105,14 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Black,
 
-        Office2007BlackAlt,
+        Office2007BlackDarkMode,
 
         /// <summary>
         /// Specifies the Blue color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Blue,
 
-        Office2010BlueAlt,
+        Office2010BlueLightMode,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 2010 appearance.
@@ -2128,7 +2129,7 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2010Black,
 
-        Office2010BlackAlt,
+        Office2010BlackDarkMode,
 
         /// <summary>
         /// Specifies the Office 2013 palette appearance.
@@ -2145,14 +2146,14 @@ namespace Krypton.Toolkit
         /// </summary>
         Office365Black,
 
-        Office365BlackAlt,
+        Office365BlackDarkMode,
 
         /// <summary>
         /// Specifies the Blue color variant of the Office 365 appearance.
         /// </summary>
         Office365Blue,
 
-        Office365BlueAlt,
+        Office365BlueLightMode,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 365 appearance.
@@ -2195,6 +2196,7 @@ namespace Krypton.Toolkit
         Custom
     }
 
+    // TODO: Update documentation
     /// <summary>
     /// Specifies the palette requested at the global level.
     /// </summary>
@@ -2216,7 +2218,7 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Blue,
 
-        Office2007BlueAlt,
+        Office2007BlueLightMode,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 2007 appearance.
@@ -2233,14 +2235,14 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Black,
 
-        Office2007BlackAlt,
+        Office2007BlackDarkMode,
 
         /// <summary>
         /// Specifies the Blue color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Blue,
 
-        Office2010BlueAlt,
+        Office2010BlueLightMode,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 2010 appearance.
@@ -2257,7 +2259,7 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2010Black,
 
-        Office2010BlackAlt,
+        Office2010BlackDarkMode,
 
         /// <summary>
         /// Specifies the Office 2013 appearance.
@@ -2274,14 +2276,14 @@ namespace Krypton.Toolkit
         /// </summary>
         Office365Black,
 
-        Office365BlackAlt,
+        Office365BlackDarkMode,
 
         /// <summary>
         /// Specifies the Blue color variant of the Office 365 appearance.
         /// </summary>
         Office365Blue,
 
-        Office365BlueAlt,
+        Office365BlueLightMode,
 
         /// <summary>
         /// Specifies the Silver color variant of the Office 365 appearance.
