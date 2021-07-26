@@ -13,7 +13,10 @@
 
 namespace Krypton.Toolkit
 {
-    public class PaletteOffice365BlueLightMode : PaletteOffice365Base
+    /// <summary>
+    /// Provides the Blue color scheme variant of the Office 2010 palette.
+    /// </summary>
+    public class PaletteOffice2010BlueDarkMode : PaletteOffice2010Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -33,7 +36,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(63, 101, 152)        // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 30,  57,  91),    // TextLabelControl
+        private static readonly Color[] _schemeColors = { Color.FromArgb(30,  57,  91),    // TextLabelControl
                                                                       Color.FromArgb( 30,  57,  91),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(171, 186, 208),    // ButtonNormalBorder
@@ -213,7 +216,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(168, 168, 168),    // InputControlTextDisabled
                                                                       Color.FromArgb(177, 192, 214),    // InputControlBorderNormal
                                                                       Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled
-                                                                      Color.FromArgb(201, 222, 245),    // InputControlBackNormal
+                                                                      Color.FromArgb(126, 154, 188),    // InputControlBackNormal
                                                                       Color.FromArgb(240, 240, 240),    // InputControlBackDisabled
                                                                       Color.FromArgb(237, 245, 253),    // InputControlBackInactive
                                                                       Color.Black,                      // InputDropDownNormal1
@@ -262,8 +265,8 @@ namespace Krypton.Toolkit
         };
         #endregion
 
-        #region Constructors
-        static PaletteOffice365BlueLightMode()
+        #region Identity
+        static PaletteOffice2010BlueDarkMode()
         {
             _checkBoxList = new ImageList
             {
@@ -289,20 +292,23 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initializes a new instance of the PaletteOffice365Blue class.
+        /// Initialize a new instance of the PaletteOffice2010Blue class.
         /// </summary>
-        public PaletteOffice365BlueLightMode() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteOffice2010BlueDarkMode()
+            : base(_schemeColors,
+                   _checkBoxList,
+                   _galleryButtonList,
+                   _radioButtonArray,
+                   _trackBarColors)
         {
-
         }
         #endregion
 
-        #region Images        
+        #region Images
         /// <summary>
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        /// <returns></returns>
         public override Image GetDropDownButtonImage(PaletteState state)
         {
             return state != PaletteState.Disabled ? _blueDropDownButton : base.GetDropDownButtonImage(state);
@@ -311,25 +317,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
-        /// <returns>
-        /// Appropriate image for drawing; otherwise null.
-        /// </returns>
+        /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public override Image GetContextMenuSubMenuImage()
         {
             return _contextMenuSubMenu;
         }
         #endregion
 
-        #region ButtonSpec        
+        #region ButtonSpec
         /// <summary>
         /// Gets the image to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
-        /// <returns>
-        /// Image value.
-        /// </returns>
-        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state)
+        /// <returns>Image value.</returns>
+        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
+                                                 PaletteState state)
         {
             switch (style)
             {

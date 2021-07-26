@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(245, 210,  87),    // GridSheetRowSelected
                                                                       Color.FromArgb(218, 220, 221),    // GridDataCellBorder
                                                                       Color.FromArgb(183, 219, 255),    // GridDataCellSelected
-                                                                      Color.Black,                      // InputControlTextNormal
+                                                                      Color.FromArgb( 30,  57,  91),    // InputControlTextNormal
                                                                       Color.FromArgb(168, 168, 168),    // InputControlTextDisabled
                                                                       Color.FromArgb(177, 192, 214),    // InputControlBorderNormal
                                                                       Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled

@@ -2088,6 +2088,8 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Blue,
 
+        Office2007BlueDarkMode,
+
         Office2007BlueLightMode,
 
         /// <summary>
@@ -2111,6 +2113,8 @@ namespace Krypton.Toolkit
         /// Specifies the Blue color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Blue,
+
+        Office2010BlueDarkMode,
 
         Office2010BlueLightMode,
 
@@ -2152,6 +2156,8 @@ namespace Krypton.Toolkit
         /// Specifies the Blue color variant of the Office 365 appearance.
         /// </summary>
         Office365Blue,
+
+        Office365BlueDarkMode,
 
         Office365BlueLightMode,
 
@@ -2218,6 +2224,8 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Blue,
 
+        Office2007BlueDarkMode,
+
         Office2007BlueLightMode,
 
         /// <summary>
@@ -2241,6 +2249,8 @@ namespace Krypton.Toolkit
         /// Specifies the Blue color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Blue,
+
+        Office2010BlueDarkMode,
 
         Office2010BlueLightMode,
 
@@ -2282,6 +2292,8 @@ namespace Krypton.Toolkit
         /// Specifies the Blue color variant of the Office 365 appearance.
         /// </summary>
         Office365Blue,
+
+        Office365BlueDarkMode,
 
         Office365BlueLightMode,
 

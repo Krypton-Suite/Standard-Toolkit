@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Blue color scheme variant of the Office 2007 palette.
     /// </summary>
-    public class PaletteOffice2007BlueLightMode : PaletteOffice2007Base
+    public class PaletteOffice2007BlueDarkMode : PaletteOffice2007Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(63, 101, 152)        // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 21,  66, 139),    // TextLabelControl
+        private static readonly Color[] _schemeColors = { Color.FromArgb(21,  66, 139),    // TextLabelControl
                                                                       Color.FromArgb( 21,  66, 139),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(161, 189, 207),    // ButtonNormalBorder
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(172, 168, 153),    // InputControlTextDisabled
                                                                       Color.FromArgb(171, 193, 222),    // InputControlBorderNormal
                                                                       Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled
-                                                                      Color.FromArgb(201, 222, 245),    // InputControlBackNormal
+                                                                      Color.FromArgb(134, 179, 236),    // InputControlBackNormal
                                                                       SystemColors.Control,             // InputControlBackDisabled
                                                                       Color.FromArgb(234, 242, 251),    // InputControlBackInactive
                                                                       Color.FromArgb( 86, 125, 177),    // InputDropDownNormal1
@@ -256,7 +256,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static PaletteOffice2007BlueLightMode()
+        static PaletteOffice2007BlueDarkMode()
         {
             _checkBoxList = new ImageList
             {
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteOffice2007Blue class.
         /// </summary>
-        public PaletteOffice2007BlueLightMode()
+        public PaletteOffice2007BlueDarkMode()
             : base(_schemeColors,
                    _checkBoxList,
                    _galleryButtonList,

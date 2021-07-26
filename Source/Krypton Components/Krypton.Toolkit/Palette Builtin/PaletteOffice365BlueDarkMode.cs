@@ -13,7 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class PaletteOffice365BlueLightMode : PaletteOffice365Base
+    public class PaletteOffice365BlueDarkMode : PaletteOffice365Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(63, 101, 152)        // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 30,  57,  91),    // TextLabelControl
+        private static readonly Color[] _schemeColors = { Color.FromArgb(30,  57,  91),    // TextLabelControl
                                                                       Color.FromArgb( 30,  57,  91),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(171, 186, 208),    // ButtonNormalBorder
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(168, 168, 168),    // InputControlTextDisabled
                                                                       Color.FromArgb(177, 192, 214),    // InputControlBorderNormal
                                                                       Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled
-                                                                      Color.FromArgb(201, 222, 245),    // InputControlBackNormal
+                                                                      Color.FromArgb(126, 154, 188),    // InputControlBackNormal
                                                                       Color.FromArgb(240, 240, 240),    // InputControlBackDisabled
                                                                       Color.FromArgb(237, 245, 253),    // InputControlBackInactive
                                                                       Color.Black,                      // InputDropDownNormal1
@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructors
-        static PaletteOffice365BlueLightMode()
+        static PaletteOffice365BlueDarkMode()
         {
             _checkBoxList = new ImageList
             {
@@ -291,7 +291,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initializes a new instance of the PaletteOffice365Blue class.
         /// </summary>
-        public PaletteOffice365BlueLightMode() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteOffice365BlueDarkMode() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
 
         }
