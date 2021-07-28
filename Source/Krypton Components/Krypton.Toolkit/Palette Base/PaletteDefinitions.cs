@@ -2097,6 +2097,10 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Silver,
 
+        Office2007SilverDarkMode,
+
+        Office2007SilverLightMode,
+
         /// <summary>
         /// Specifies the White color variant of the Office 2007 appearance.
         /// </summary>
@@ -2122,6 +2126,10 @@ namespace Krypton.Toolkit
         /// Specifies the Silver color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Silver,
+
+        Office2010SilverDarkMode,
+
+        Office2010SilverLightMode,
 
         /// <summary>
         /// Specifies the White color variant of the Office 2010 appearance.
@@ -2165,6 +2173,10 @@ namespace Krypton.Toolkit
         /// Specifies the Silver color variant of the Office 365 appearance.
         /// </summary>
         Office365Silver,
+
+        Office365SilverDarkMode,
+
+        Office365SilverLightMode,
 
         /// <summary>
         /// Specifies the White color variant of the Office 365 appearance.
@@ -2233,6 +2245,10 @@ namespace Krypton.Toolkit
         /// </summary>
         Office2007Silver,
 
+        Office2007SilverDarkMode,
+
+        Office2007SilverLightMode,
+
         /// <summary>
         /// Specifies the White color variant of the Office 2007 appearance.
         /// </summary>
@@ -2258,6 +2274,10 @@ namespace Krypton.Toolkit
         /// Specifies the Silver color variant of the Office 2010 appearance.
         /// </summary>
         Office2010Silver,
+
+        Office2010SilverDarkMode,
+
+        Office2010SilverLightMode,
 
         /// <summary>
         /// Specifies the White color variant of the Office 2010 appearance.
@@ -2301,6 +2321,10 @@ namespace Krypton.Toolkit
         /// Specifies the Silver color variant of the Office 365 appearance.
         /// </summary>
         Office365Silver,
+
+        Office365SilverDarkMode,
+
+        Office365SilverLightMode,
 
         /// <summary>
         /// Specifies the White color variant of the Office 365 appearance.
