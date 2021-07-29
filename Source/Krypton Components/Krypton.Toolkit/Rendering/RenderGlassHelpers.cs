@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -68,11 +62,11 @@ namespace Krypton.Toolkit
                                                       GraphicsPath path,
                                                       IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -123,11 +117,11 @@ namespace Krypton.Toolkit
                                                       GraphicsPath path,
                                                       IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -177,11 +171,11 @@ namespace Krypton.Toolkit
                                                     GraphicsPath path,
                                                     IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -491,13 +485,13 @@ namespace Krypton.Toolkit
                                                          GraphicsPath path,
                                                          IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 bool generate = true;
                 MementoBackGlassThreeEdge cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackGlassThreeEdge))
+                if (memento is not MementoBackGlassThreeEdge)
                 {
                     memento?.Dispose();
 
@@ -565,7 +559,7 @@ namespace Krypton.Toolkit
                                                             GraphicsPath path, 
                                                             IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 // Draw the inside area
                 return DrawBackGlassLinear(rect, rect,
@@ -597,7 +591,7 @@ namespace Krypton.Toolkit
                                                               GraphicsPath path,
                                                               IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 // Draw the inside area as a glass effect
                 return DrawBackGlassRadial(rect, backColor1, backColor2,
@@ -625,7 +619,7 @@ namespace Krypton.Toolkit
                                                              GraphicsPath path,
                                                              IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 // Draw the inside areas as a glass effect
                 return DrawBackGlassRadial(rect, backColor1, backColor2,
@@ -653,7 +647,7 @@ namespace Krypton.Toolkit
                                                                      GraphicsPath path,
                                                                      IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 // Draw the inside areas as a glass effect
                 return DrawBackGlassRadial(rect, backColor1, backColor2,
@@ -681,7 +675,7 @@ namespace Krypton.Toolkit
                                                              GraphicsPath path,
                                                              IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 // Draw the inside areas as a glass effect
                 return DrawBackGlassRadial(rect, backColor1, backColor2,
@@ -703,11 +697,11 @@ namespace Krypton.Toolkit
                                                               float glassPercent,
                                                               IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -720,7 +714,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Get the drawing rectangle for the path
-                RectangleF drawRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+                RectangleF drawRect = new(rect.X, rect.Y, rect.Width, rect.Height);
 
                 // Draw the border as a lighter version of the inside
                 cache.first = DrawBackGlassLinear(drawRect, drawRect,
@@ -761,11 +755,11 @@ namespace Krypton.Toolkit
                                                               float glassPercent,
                                                               IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -778,7 +772,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Get the drawing rectangle for the path
-                RectangleF drawRect = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+                RectangleF drawRect = new(rect.X, rect.Y, rect.Width, rect.Height);
 
                 // Draw the border as a lighter version of the inside
                 cache.first = DrawBackGlassLinear(drawRect, drawRect,
@@ -818,11 +812,11 @@ namespace Krypton.Toolkit
                                                                 float glassPercent,
                                                                 IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -864,11 +858,11 @@ namespace Krypton.Toolkit
                                                                float glassPercent,
                                                                IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoTriple cache;
 
-                if (!(memento is MementoTriple))
+                if (memento is not MementoTriple)
                 {
                     memento?.Dispose();
 
@@ -916,11 +910,11 @@ namespace Krypton.Toolkit
                                                                float glassPercent,
                                                                IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoTriple cache;
 
-                if (!(memento is MementoTriple))
+                if (memento is not MementoTriple)
                 {
                     memento?.Dispose();
 
@@ -970,11 +964,11 @@ namespace Krypton.Toolkit
                                                                        float glassPercent,
                                                                        IDisposable memento)
         {
-            using (Clipping clip = new Clipping(context.Graphics, path))
+            using (Clipping clip = new(context.Graphics, path))
             {
                 MementoTriple cache;
 
-                if (!(memento is MementoTriple))
+                if (memento is not MementoTriple)
                 {
                     memento?.Dispose();
 
@@ -1025,7 +1019,7 @@ namespace Krypton.Toolkit
         {
             MementoDouble cache;
 
-            if (!(memento is MementoDouble))
+            if (memento is not MementoDouble)
             {
                 memento?.Dispose();
 
@@ -1044,7 +1038,7 @@ namespace Krypton.Toolkit
             MementoBackLinearRadial cacheThis;
 
             // Access a cache instance and decide if cache resources need generating
-            if (!(cache.second is MementoBackLinearRadial))
+            if (cache.second is not MementoBackLinearRadial)
             {
                 cache.second?.Dispose();
 
@@ -1138,7 +1132,7 @@ namespace Krypton.Toolkit
         {
             MementoDouble cache;
 
-            if (!(memento is MementoDouble))
+            if (memento is not MementoDouble)
             {
                 memento?.Dispose();
 
@@ -1162,7 +1156,7 @@ namespace Krypton.Toolkit
             MementoBackGlassRadial cacheThis;
 
             // Access a cache instance and decide if cache resources need generating
-            if (!(cache.second is MementoBackGlassRadial))
+            if (cache.second is not MementoBackGlassRadial)
             {
                 cache.second?.Dispose();
 
@@ -1182,24 +1176,15 @@ namespace Krypton.Toolkit
                 cacheThis.Dispose();
 
                 // Find the bottom area rectangle
-                RectangleF mainRect;
 
-                switch (orientation)
+                RectangleF mainRect = orientation switch
                 {
-                    case VisualOrientation.Right:
-                        mainRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height);
-                        break;
-                    case VisualOrientation.Left:
-                        mainRect = new RectangleF(glassRect.Right + 1, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height);
-                        break;
-                    case VisualOrientation.Bottom:
-                        mainRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, drawRect.Height - glassRect.Height - 1);
-                        break;
-                    case VisualOrientation.Top:
-                    default:
-                        mainRect = new RectangleF(drawRect.X, glassRect.Bottom + 1, drawRect.Width, drawRect.Height - glassRect.Height - 1);
-                        break;
-                }
+                    VisualOrientation.Right => new RectangleF(drawRect.X, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height),
+                    VisualOrientation.Left => new RectangleF(glassRect.Right + 1, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height),
+                    VisualOrientation.Bottom => new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, drawRect.Height - glassRect.Height - 1),
+                    VisualOrientation.Top => new RectangleF(drawRect.X, glassRect.Bottom + 1, drawRect.Width, drawRect.Height - glassRect.Height - 1),
+                    _ => new RectangleF(drawRect.X, glassRect.Bottom + 1, drawRect.Width, drawRect.Height - glassRect.Height - 1)
+                };
 
                 RectangleF doubleRect;
 
@@ -1290,7 +1275,7 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (!(memento is MementoDouble))
+                if (memento is not MementoDouble)
                 {
                     memento?.Dispose();
 
@@ -1314,7 +1299,7 @@ namespace Krypton.Toolkit
                 MementoBackGlassCenter cacheThis;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(cache.second is MementoBackGlassCenter))
+                if (cache.second is not MementoBackGlassCenter)
                 {
                     cache.second?.Dispose();
 
@@ -1367,7 +1352,7 @@ namespace Krypton.Toolkit
                 MementoBackGlassFade cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackGlassFade))
+                if (memento is not MementoBackGlassFade)
                 {
                     memento?.Dispose();
 
@@ -1389,7 +1374,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // Create gradient rect from the drawing rect
-                    RectangleF gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 2);
+                    RectangleF gradientRect = new(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 2);
 
                     // Cannot draw a zero sized rectangle
                     if ((gradientRect.Width > 0) && (gradientRect.Height > 0))
@@ -1438,7 +1423,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Create gradient rectangles
-                    RectangleF glassGradientRect = new RectangleF(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2, glassRect.Height + 2);
+                    RectangleF glassGradientRect = new(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2, glassRect.Height + 2);
 
                     // Cannot draw a zero sized rectangle
                     if ((glassRect.Width > 0) && (glassRect.Height > 0) &&
@@ -1483,7 +1468,7 @@ namespace Krypton.Toolkit
                 MementoBackGlassLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackGlassLinear))
+                if (memento is not MementoBackGlassLinear)
                 {
                     memento?.Dispose();
 
@@ -1545,8 +1530,8 @@ namespace Krypton.Toolkit
                     cache.mainRect = mainRect;
 
                     // Create gradient rectangles
-                    RectangleF glassGradientRect = new RectangleF(cache.glassRect.X - 1, cache.glassRect.Y - 1, cache.glassRect.Width + 2, cache.glassRect.Height + 2);
-                    RectangleF mainGradientRect = new RectangleF(cache.mainRect.X - 1, cache.mainRect.Y - 1, cache.mainRect.Width + 2, cache.mainRect.Height + 2);
+                    RectangleF glassGradientRect = new(cache.glassRect.X - 1, cache.glassRect.Y - 1, cache.glassRect.Width + 2, cache.glassRect.Height + 2);
+                    RectangleF mainGradientRect = new(cache.mainRect.X - 1, cache.mainRect.Y - 1, cache.mainRect.Width + 2, cache.mainRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
                     if ((cache.glassRect.Width > 0) && (cache.glassRect.Height > 0) &&
@@ -1591,7 +1576,7 @@ namespace Krypton.Toolkit
                 MementoBackGlassBasic cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackGlassBasic))
+                if (memento is not MementoBackGlassBasic)
                 {
                     memento?.Dispose();
 
@@ -1651,7 +1636,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Gradient rectangle is always a little bigger to prevent tiling at edges
-                    RectangleF glassGradientRect = new RectangleF(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2, glassRect.Height + 2);
+                    RectangleF glassGradientRect = new(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2, glassRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
                     if ((glassGradientRect.Width > 0) && (glassGradientRect.Height > 0))
@@ -1688,7 +1673,7 @@ namespace Krypton.Toolkit
                 MementoBackLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackLinear))
+                if (memento is not MementoBackLinear)
                 {
                     memento?.Dispose();
 
@@ -1708,7 +1693,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     // Create rectangle that covers the enter area
-                    RectangleF gradientRect = new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 2);
+                    RectangleF gradientRect = new(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 2);
 
                     // Cannot draw a zero length rectangle
                     if ((gradientRect.Width > 0) && (gradientRect.Height > 0))
@@ -1746,7 +1731,7 @@ namespace Krypton.Toolkit
                 MementoBackDarkEdge cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoBackDarkEdge))
+                if (memento is not MementoBackDarkEdge)
                 {
                     memento?.Dispose();
 
@@ -1805,7 +1790,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Create rectangle that covers the enter area
-                        RectangleF gradientRect = new RectangleF(drawRect.X - 0.5f, drawRect.Y - 0.5f, drawRect.Width + 1, drawRect.Height + 1);
+                        RectangleF gradientRect = new(drawRect.X - 0.5f, drawRect.Y - 0.5f, drawRect.Width + 1, drawRect.Height + 1);
 
                         // Cannot draw a zero length rectangle
                         if ((gradientRect.Width > 0) && (gradientRect.Height > 0))
@@ -1835,18 +1820,14 @@ namespace Krypton.Toolkit
 
         private static float AngleFromOrientation(VisualOrientation orientation)
         {
-            switch (orientation)
+            return orientation switch
             {
-                case VisualOrientation.Bottom:
-                    return 270f;
-                case VisualOrientation.Left:
-                    return 0f;
-                case VisualOrientation.Right:
-                    return 180;
-                case VisualOrientation.Top:
-                default:
-                    return 90f;
-            }
+                VisualOrientation.Bottom => 270f,
+                VisualOrientation.Left => 0f,
+                VisualOrientation.Right => 180,
+                VisualOrientation.Top => 90f,
+                _ => 90f
+            };
         }
 
         private static void ModifyRectByEdges(ref Rectangle rect,

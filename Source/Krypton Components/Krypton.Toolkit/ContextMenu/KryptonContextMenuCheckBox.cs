@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -182,7 +176,7 @@ namespace Krypton.Toolkit
                 if (_autoClose != value)
                 {
                     _autoClose = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AutoClose"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AutoClose)));
                 }
             }
         }
@@ -204,7 +198,7 @@ namespace Krypton.Toolkit
                 if (_text != value)
                 {
                     _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Text"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
                 }
             }
         }
@@ -226,7 +220,7 @@ namespace Krypton.Toolkit
                 if (_extraText != value)
                 {
                     _extraText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ExtraText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ExtraText)));
                 }
             }
         }
@@ -248,7 +242,7 @@ namespace Krypton.Toolkit
                 if (_image != value)
                 {
                     _image = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Image"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Image)));
                 }
             }
         }
@@ -269,7 +263,7 @@ namespace Krypton.Toolkit
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageTransparentColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageTransparentColor)));
                 }
             }
         }
@@ -296,7 +290,7 @@ namespace Krypton.Toolkit
                 {
                     _style = value;
                     SetCheckBoxStyle(_style);
-                    OnPropertyChanged(new PropertyChangedEventArgs("LabelStyle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LabelStyle)));
                 }
             }
         }
@@ -332,7 +326,7 @@ namespace Krypton.Toolkit
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Enabled"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Enabled)));
                 }
             }
         }
@@ -360,7 +354,7 @@ namespace Krypton.Toolkit
                     // Generate events
                     OnCheckedChanged(EventArgs.Empty);
                     OnCheckStateChanged(EventArgs.Empty);
-                    OnPropertyChanged(new PropertyChangedEventArgs("Checked"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Checked)));
                 }
             }
         }
@@ -394,7 +388,7 @@ namespace Krypton.Toolkit
                     }
 
                     OnCheckStateChanged(EventArgs.Empty);
-                    OnPropertyChanged(new PropertyChangedEventArgs("CheckState"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CheckState)));
                 }
             }
         }
@@ -415,7 +409,7 @@ namespace Krypton.Toolkit
                 if (_autoCheck != value)
                 {
                     _autoCheck = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AutoCheck"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AutoCheck)));
                 }
             }
         }
@@ -436,7 +430,7 @@ namespace Krypton.Toolkit
                 if (_threeState != value)
                 {
                     _threeState = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ThreeState"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ThreeState)));
                 }
             }
         }
@@ -513,7 +507,7 @@ namespace Krypton.Toolkit
                 if (_command != value)
                 {
                     _command = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("KryptonCommand"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(KryptonCommand)));
                 }
             }
         }

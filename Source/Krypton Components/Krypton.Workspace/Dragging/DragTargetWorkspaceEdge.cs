@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
 
 namespace Krypton.Workspace
 {
@@ -88,7 +78,7 @@ namespace Krypton.Workspace
         public override bool PerformDrop(Point screenPt, PageDragEndData data)
         {
             // Transfer the dragged pages into a new cell
-            KryptonWorkspaceCell cell = new KryptonWorkspaceCell();
+            KryptonWorkspaceCell cell = new();
             KryptonPage page = ProcessDragEndData(Workspace, cell, data);
 
             // If no pages are transferred then we do nothing and no longer need cell instance
@@ -104,7 +94,7 @@ namespace Krypton.Workspace
                     (!dropHorizontal && (Workspace.Root.Orientation == Orientation.Horizontal)))
                 {
                     // Create a new sequence and place all existing root items into it
-                    KryptonWorkspaceSequence sequence = new KryptonWorkspaceSequence(Workspace.Root.Orientation);
+                    KryptonWorkspaceSequence sequence = new(Workspace.Root.Orientation);
                     for (int i = Workspace.Root.Children.Count - 1; i >= 0; i--)
                     {
                         Component child = Workspace.Root.Children[i];

@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -125,14 +121,7 @@ namespace Krypton.Toolkit
         /// <returns>Font value.</returns>
         public override Font GetContentShortTextFont(PaletteState state)
         {
-            if (TreeNode?.NodeFont != null)
-            {
-                return TreeNode.NodeFont;
-            }
-            else
-            {
-                return _inherit.GetContentShortTextFont(state);
-            }
+            return TreeNode?.NodeFont != null ? TreeNode.NodeFont : _inherit.GetContentShortTextFont(state);
         }
 
         /// <summary>
@@ -142,14 +131,7 @@ namespace Krypton.Toolkit
         /// <returns>Font value.</returns>
         public override Font GetContentShortTextNewFont(PaletteState state)
         {
-            if (TreeNode?.NodeFont != null)
-            {
-                return TreeNode.NodeFont;
-            }
-            else
-            {
-                return _inherit.GetContentShortTextNewFont(state);
-            }
+            return TreeNode?.NodeFont != null ? TreeNode.NodeFont : _inherit.GetContentShortTextNewFont(state);
         }
 
         /// <summary>
@@ -229,14 +211,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetContentShortTextColor1(PaletteState state)
         {
-            if ((TreeNode != null) && (TreeNode.ForeColor != Color.Empty))
-            {
-                return TreeNode.ForeColor;
-            }
-            else
-            {
-                return _inherit.GetContentShortTextColor1(state);
-            }
+            return (TreeNode != null) && (TreeNode.ForeColor != Color.Empty) ? TreeNode.ForeColor : _inherit.GetContentShortTextColor1(state);
         }
 
         /// <summary>
@@ -246,14 +221,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetContentShortTextColor2(PaletteState state)
         {
-            if ((TreeNode != null) && (TreeNode.ForeColor != Color.Empty))
-            {
-                return TreeNode.ForeColor;
-            }
-            else
-            {
-                return _inherit.GetContentShortTextColor2(state);
-            }
+            return (TreeNode != null) && (TreeNode.ForeColor != Color.Empty) ? TreeNode.ForeColor : _inherit.GetContentShortTextColor2(state);
         }
 
         /// <summary>
@@ -324,14 +292,9 @@ namespace Krypton.Toolkit
         public override Font GetContentLongTextFont(PaletteState state)
         {
 
-            if ((TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongNodeFont != null))
-            {
-                return kryptonNode.LongNodeFont;
-            }
-            else
-            {
-                return _inherit.GetContentLongTextFont(state);
-            }
+            return (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongNodeFont != null)
+                ? kryptonNode.LongNodeFont
+                : _inherit.GetContentLongTextFont(state);
         }
 
         /// <summary>
@@ -422,14 +385,9 @@ namespace Krypton.Toolkit
         public override Color GetContentLongTextColor1(PaletteState state)
         {
 
-            if ((TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != Color.Empty))
-            {
-                return kryptonNode.LongForeColor;
-            }
-            else
-            {
-                return _inherit.GetContentLongTextColor1(state);
-            }
+            return (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != Color.Empty)
+                ? kryptonNode.LongForeColor
+                : _inherit.GetContentLongTextColor1(state);
         }
 
         /// <summary>
@@ -440,14 +398,9 @@ namespace Krypton.Toolkit
         public override Color GetContentLongTextColor2(PaletteState state)
         {
 
-            if ((TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != Color.Empty))
-            {
-                return kryptonNode.LongForeColor;
-            }
-            else
-            {
-                return _inherit.GetContentLongTextColor2(state);
-            }
+            return (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongForeColor != Color.Empty)
+                ? kryptonNode.LongForeColor
+                : _inherit.GetContentLongTextColor2(state);
         }
 
         /// <summary>

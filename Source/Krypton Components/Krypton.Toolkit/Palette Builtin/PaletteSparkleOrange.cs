@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -312,15 +308,15 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Properties.Resources.CBSparkleOrange);
-            _radioButtonArray = new Image[]{Properties.Resources.RBSparkleD,
-                                            Properties.Resources.RBSparkleN,
-                                            Properties.Resources.RBSparkleOrangeT,
-                                            Properties.Resources.RBSparkleOrangeP,
-                                            Properties.Resources.RBSparkleDC,
-                                            Properties.Resources.RBSparkleOrangeNC,
-                                            Properties.Resources.RBSparkleOrangeTC,
-                                            Properties.Resources.RBSparkleOrangePC};
+            _checkBoxList.Images.AddStrip(Resources.CBSparkleOrange);
+            _radioButtonArray = new Image[]{Resources.RBSparkleD,
+                                            Resources.RBSparkleN,
+                                            Resources.RBSparkleOrangeT,
+                                            Resources.RBSparkleOrangeP,
+                                            Resources.RBSparkleDC,
+                                            Resources.RBSparkleOrangeNC,
+                                            Resources.RBSparkleOrangeTC,
+                                            Resources.RBSparkleOrangePC};
         }
 
         /// <summary>

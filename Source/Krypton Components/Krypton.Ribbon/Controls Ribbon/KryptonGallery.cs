@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -28,7 +20,7 @@ namespace Krypton.Ribbon
     [ToolboxBitmap(typeof(KryptonGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
     [DefaultEvent("SelectedIndexChanged")]
     [DefaultProperty("SelectedIndex")]
-    [Designer(typeof(Krypton.Ribbon.KryptonGalleryDesigner))]
+    [Designer(typeof(KryptonGalleryDesigner))]
     [DesignerCategory("code")]
     [Description("Select from a group of possible images.")]
     public class KryptonGallery : VisualSimpleBase
@@ -44,7 +36,7 @@ namespace Krypton.Ribbon
         private ImageList _imageList;
         private readonly ViewLayoutDocker _layoutDocker;
         private readonly ViewDrawDocker _drawDocker;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private Size _preferredItemSize;
         private bool _mouseOver;
         private bool _alwaysActive;
@@ -54,7 +46,7 @@ namespace Krypton.Ribbon
         private int _trackingIndex;
         private int _cacheTrackingIndex;
         private int _eventTrackingIndex;
-        private readonly Timer _trackingEventTimer;
+        private readonly System.Windows.Forms.Timer _trackingEventTimer;
         private KryptonContextMenu _dropMenu;
         private EventHandler _finishDelegate;
         #endregion
@@ -106,7 +98,7 @@ namespace Krypton.Ribbon
             _dropMinItemWidth = 3;
 
             // Timer used to generate tracking change event
-            _trackingEventTimer = new Timer
+            _trackingEventTimer = new System.Windows.Forms.Timer
             {
                 Interval = 120
             };
@@ -702,7 +694,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(240, 30);
+        protected override Size DefaultSize => new(240, 30);
 
         /// <summary>
         /// Process Windows-based messages.
@@ -822,7 +814,7 @@ namespace Krypton.Ribbon
             // If there are no ranges defined, just add a single entry showing all enties
             if (DropButtonRanges.Count == 0)
             {
-                KryptonContextMenuImageSelect imageSelect = new KryptonContextMenuImageSelect
+                KryptonContextMenuImageSelect imageSelect = new()
                 {
                     ImageList = ImageList,
                     ImageIndexStart = 0,
@@ -845,7 +837,7 @@ namespace Krypton.Ribbon
                     // Only add a heading if the heading text is not empty
                     if (!string.IsNullOrEmpty(range.Heading))
                     {
-                        KryptonContextMenuHeading heading = new KryptonContextMenuHeading
+                        KryptonContextMenuHeading heading = new()
                         {
                             Text = range.Heading
                         };
@@ -853,7 +845,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Add the image select for the range
-                    KryptonContextMenuImageSelect imageSelect = new KryptonContextMenuImageSelect
+                    KryptonContextMenuImageSelect imageSelect = new()
                     {
                         ImageList = ImageList,
                         ImageIndexStart = Math.Max(0, range.ImageIndexStart),
@@ -866,7 +858,7 @@ namespace Krypton.Ribbon
             }
 
             // Give event handler a change to modify the menu
-            GalleryDropMenuEventArgs args = new GalleryDropMenuEventArgs(_dropMenu);
+            GalleryDropMenuEventArgs args = new(_dropMenu);
             OnGalleryDropMenu(args);
 
             if (!args.Cancel && CommonHelper.ValidKryptonContextMenu(args.KryptonContextMenu))

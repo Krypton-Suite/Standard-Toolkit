@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroup), "ToolboxBitmaps.KryptonRibbonGroup.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupDesigner))]
+    [Designer(typeof(KryptonRibbonGroupDesigner))]
     [DefaultEvent("DialogBoxLauncherClick")]
     [DefaultProperty("TextLine1")]
     [DesignerCategory("code")]
@@ -89,14 +81,14 @@ namespace Krypton.Ribbon
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event EventHandler DesignTimeAddSeparator;
-        
+
         /// <summary>
         /// Occurs when the design time wants to add a gallery.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event EventHandler DesignTimeAddGallery;
-        
+
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
@@ -150,7 +142,7 @@ namespace Krypton.Ribbon
             base.Dispose(disposing);
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets access to the owning ribbon control.
@@ -205,7 +197,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Ribbon group display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Group")]
         public string TextLine1
         {
@@ -234,7 +226,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Ribbon group display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -303,7 +295,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Group image when collapsed.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _image;
@@ -450,7 +442,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonGroupContainerCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupContainerCollection Items { get; }
 

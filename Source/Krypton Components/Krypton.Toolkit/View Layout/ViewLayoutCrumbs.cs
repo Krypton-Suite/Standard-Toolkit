@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -145,7 +138,7 @@ namespace Krypton.Toolkit
             SyncBreadCrumbs();
 
             // Positioning rectangle is our client rectangle reduced by control padding
-            Rectangle layoutRect = new Rectangle(ClientLocation.X + _kryptonBreadCrumb.Padding.Left,
+            Rectangle layoutRect = new(ClientLocation.X + _kryptonBreadCrumb.Padding.Left,
                                                  ClientLocation.Y + _kryptonBreadCrumb.Padding.Top,
                                                  ClientWidth - _kryptonBreadCrumb.Padding.Horizontal,
                                                  ClientHeight - _kryptonBreadCrumb.Padding.Vertical);
@@ -350,7 +343,7 @@ namespace Krypton.Toolkit
             };
 
             // Create controller for operating the button
-            ButtonController crumbButtonController = new ButtonController(_overflowButton, _needPaintDelegate)
+            ButtonController crumbButtonController = new(_overflowButton, _needPaintDelegate)
             {
                 Tag = this,
                 BecomesFixed = true
@@ -386,7 +379,7 @@ namespace Krypton.Toolkit
                     };
 
                     // Create controller for operating the button
-                    ButtonController crumbButtonController = new ButtonController(crumbButton, _needPaintDelegate)
+                    ButtonController crumbButtonController = new(crumbButton, _needPaintDelegate)
                     {
                         Tag = item,
                         BecomesFixed = true
@@ -427,7 +420,7 @@ namespace Krypton.Toolkit
                 if (viewButton.DropDown && viewButton.SplitRectangle.Contains(e.Location))
                 {
                     // Create a context menu with a items collection
-                    KryptonContextMenu kcm = new KryptonContextMenu
+                    KryptonContextMenu kcm = new()
                     {
 
                         // Use same palette settings for context menu as the main control
@@ -439,7 +432,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Add an items collection as the root item of the context menu
-                    KryptonContextMenuItems items = new KryptonContextMenuItems();
+                    KryptonContextMenuItems items = new();
                     kcm.Items.Add(items);
 
                     // Store lookup between each menu item and the crumb it represents. Prevents
@@ -450,7 +443,7 @@ namespace Krypton.Toolkit
                     // Create a new menu item to represent each child crumb
                     foreach (KryptonBreadCrumbItem childCrumb in breadCrumb.Items)
                     {
-                        KryptonContextMenuItem childMenu = new KryptonContextMenuItem();
+                        KryptonContextMenuItem childMenu = new();
 
                         // Store 1-to-1 association
                         _menuItemToCrumb.Add(childMenu, childCrumb);
@@ -466,7 +459,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Allow the user a chance to alter the menu contents or cancel it entirely
-                    BreadCrumbMenuArgs bcma = new BreadCrumbMenuArgs(breadCrumb, kcm, KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
+                    BreadCrumbMenuArgs bcma = new(breadCrumb, kcm, KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
                     _kryptonBreadCrumb.OnCrumbDropDown(bcma);
 
                     // Is there still the need to show a menu that is not empty?
@@ -541,7 +534,7 @@ namespace Krypton.Toolkit
                 ButtonController controller = viewButton.MouseController as ButtonController;
 
                 // Create a context menu with a items collection
-                KryptonContextMenu kcm = new KryptonContextMenu
+                KryptonContextMenu kcm = new()
                 {
 
                     // Use same palette settings for context menu as the main control
@@ -553,7 +546,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Add an items collection as the root item of the context menu
-                KryptonContextMenuItems items = new KryptonContextMenuItems();
+                KryptonContextMenuItems items = new();
                 kcm.Items.Add(items);
 
                 // Store lookup between each menu item and the crumb it represents. Prevents
@@ -568,7 +561,7 @@ namespace Krypton.Toolkit
                     if (!this[i].Visible)
                     {
                         KryptonBreadCrumbItem childCrumb = _buttonToCrumb[(ViewDrawButton)this[i]];
-                        KryptonContextMenuItem childMenu = new KryptonContextMenuItem();
+                        KryptonContextMenuItem childMenu = new();
 
                         // Store 1-to-1 association
                         _menuItemToCrumb.Add(childMenu, childCrumb);
@@ -600,7 +593,7 @@ namespace Krypton.Toolkit
                         firstRoot = false;
                     }
 
-                    KryptonContextMenuItem childMenu = new KryptonContextMenuItem();
+                    KryptonContextMenuItem childMenu = new();
 
                     // Store 1-to-1 association
                     _menuItemToCrumb.Add(childMenu, childCrumb);
@@ -616,7 +609,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Allow the user a chance to alter the menu contents or cancel it entirely
-                ContextPositionMenuArgs cpma = new ContextPositionMenuArgs(kcm, KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
+                ContextPositionMenuArgs cpma = new(kcm, KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
                 _kryptonBreadCrumb.OnOverflowDropDown(cpma);
 
                 // Is there still the need to show a menu that is not empty?

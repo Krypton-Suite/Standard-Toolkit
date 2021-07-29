@@ -1,20 +1,54 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-   
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <Choose>
+        <When Condition="'$(TFMs)' == 'all'">
+            <PropertyGroup>
+                <TargetFrameworks>net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <TargetFrameworks>net48;net5.0-windows;net6.0-windows</TargetFrameworks>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
     <PropertyGroup>
-        <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <TargetFrameworks Condition="'$(TFMs)' == 'all'">net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Workspace</RootNamespace>
         <AssemblyName>Krypton.Workspace</AssemblyName>
-        <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <SignAssembly>false</SignAssembly>
         <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+        <ApplicationIcon>Krypton.ico</ApplicationIcon>
+        <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>
+        <LangVersion>preview</LangVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>4.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>5.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>6.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'" />
+        <!--TODO: Need to specify version here-->
+    </ItemGroup>
+
     <PropertyGroup>
-        <PackageId>Krypton.Workspace</PackageId>
+        <PackageId>Krypton.Workspace.Canary</PackageId>
         <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the workspace module.</Description>
     </PropertyGroup>
 
@@ -38,12 +72,6 @@
         <Compile Remove="Palette Demo\WorkspacePageMenuBase.cs" />
         <Compile Remove="Palette Install\WorkspacePageMenuBase.cs" />
     </ItemGroup>
-    <ItemGroup>
-        <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.1'">
-        <Reference Include="System.Design" />
-    </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Workspace.xml</DocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
@@ -51,9 +79,15 @@
     <PropertyGroup>
         <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
-    <PropertyGroup>
-        <AssemblyVersion>6.0.2106.2</AssemblyVersion>
-        <FileVersion>6.0.2106.2</FileVersion>
-    </PropertyGroup>
+
+  <!--Handle AssemblyInfo-->
+  <PropertyGroup>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
+    <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
+    <AssemblyVersion>6.1.2108</AssemblyVersion>
+    <FileVersion>6.1.2108</FileVersion>
+  </PropertyGroup>
 
 </Project>

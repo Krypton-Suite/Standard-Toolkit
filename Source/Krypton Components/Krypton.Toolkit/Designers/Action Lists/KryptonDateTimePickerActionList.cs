@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -162,8 +156,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the corner radius.</summary>
         /// <value>The corner radius.</value>
-        [DefaultValue(-1)]
-        public int CornerRadius
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRadius
         {
             get => _dateTimePicker.StateCommon.Border.Rounding;
 
@@ -187,7 +181,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            DesignerActionItemCollection actions = new();
 
             // This can be null when deleting a control instance at design time
             if (_dateTimePicker != null)

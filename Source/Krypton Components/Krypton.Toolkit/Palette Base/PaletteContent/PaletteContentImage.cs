@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -97,7 +93,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative horizontal alignment of content image.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageH
         {
             get => _storage?.ContentImageH ?? PaletteRelativeAlign.Inherit;
@@ -137,7 +133,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative vertical alignment of content image.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageV
         {
             get => _storage?.ContentImageV ?? PaletteRelativeAlign.Inherit;
@@ -177,7 +173,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Effect applied to drawing the image.")]
         [DefaultValue(typeof(PaletteImageEffect), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteImageEffect Effect
         {
             get => _storage?.ContentEffect ?? PaletteImageEffect.Inherit;
@@ -216,8 +212,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Color to remap in the image.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorMap
         {
             get => _storage?.ContentImageColorMap ?? Color.Empty;
@@ -256,8 +252,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Color to use in place of the image map.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorTo
         {
             get => _storage?.ContentImageColorTo ?? Color.Empty;

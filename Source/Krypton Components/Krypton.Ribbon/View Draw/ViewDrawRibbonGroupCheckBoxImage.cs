@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -57,7 +51,7 @@ namespace Krypton.Ribbon
             _large = large;
 
             // Use redirector to get the check box images and redirect to parent palette
-            PaletteRedirectCheckBox redirectImages = new PaletteRedirectCheckBox(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.CheckBox);
+            PaletteRedirectCheckBox redirectImages = new(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.CheckBox);
 
             // Create drawing element
             _drawCheckBox = new ViewDrawCheckBox(redirectImages);
@@ -83,8 +77,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Enabled
         {
-            get { return _drawCheckBox.Enabled; }
-            set { _drawCheckBox.Enabled = value; }
+            get => _drawCheckBox.Enabled;
+            set => _drawCheckBox.Enabled = value;
         }
         #endregion
 
@@ -94,8 +88,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public CheckState CheckState
         {
-            get { return _drawCheckBox.CheckState; }
-            set { _drawCheckBox.CheckState = value; }
+            get => _drawCheckBox.CheckState;
+            set => _drawCheckBox.CheckState = value;
         }
         #endregion
 
@@ -105,8 +99,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool Tracking
         {
-            get { return _drawCheckBox.Tracking; }
-            set { _drawCheckBox.Tracking = value; }
+            get => _drawCheckBox.Tracking;
+            set => _drawCheckBox.Tracking = value;
         }
         #endregion
 
@@ -116,8 +110,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool Pressed
         {
-            get { return _drawCheckBox.Pressed; }
-            set { _drawCheckBox.Pressed = value; }
+            get => _drawCheckBox.Pressed;
+            set => _drawCheckBox.Pressed = value;
         }
         #endregion
 
@@ -138,7 +132,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Get the size of the check box when it is drawn
-            Rectangle checkBoxRect = new Rectangle(Point.Empty, _drawCheckBox.GetPreferredSize(context));
+            Rectangle checkBoxRect = new(Point.Empty, _drawCheckBox.GetPreferredSize(context));
 
             // Decide on correct position within our rectangle
             if (_large)

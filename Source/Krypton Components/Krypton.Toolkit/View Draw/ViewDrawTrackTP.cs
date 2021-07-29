@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -46,13 +40,13 @@ namespace Krypton.Toolkit
             Add(ViewDrawTrackPosition);
 
             // Use controller for the entire track area
-            TrackBarController tbController = new TrackBarController(this);
+            TrackBarController tbController = new(this);
             drawTrackBar.MouseController = tbController;
             drawTrackBar.KeyController = tbController;
             drawTrackBar.SourceController = tbController;
 
             // Use controller for dragging the position indicator
-            TrackPositionController tpController = new TrackPositionController(this);
+            TrackPositionController tpController = new(this);
             ViewDrawTrackPosition.MouseController = tpController;
         }
 

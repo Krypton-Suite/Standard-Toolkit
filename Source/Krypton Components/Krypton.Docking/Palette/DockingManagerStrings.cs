@@ -2,23 +2,18 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.ComponentModel;
-using Krypton.Toolkit;
 
 namespace Krypton.Docking
 {
     /// <summary>
-    /// Storage for docking managee strings.
+    /// Storage for docking manager strings.
     /// </summary>
     public class DockingManagerStrings : Storage
     {
@@ -94,7 +89,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the auto hide button tooltip.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Auto Hide")]
         [Localizable(true)]
         public string TextAutoHide
@@ -106,7 +101,7 @@ namespace Krypton.Docking
                 if (_textAutoHide != value)
                 {
                     _textAutoHide = value;
-                    OnPropertyChanged("TextAutoHide");
+                    OnPropertyChanged(nameof(TextAutoHide));
                 }
             }
         }
@@ -114,10 +109,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Resets the TextAutoHide property to its default value.
         /// </summary>
-        public void ResetTextAutoHide()
-        {
-            TextAutoHide = DEFAULT_TEXT_AUTO_HIDE;
-        }
+        public void ResetTextAutoHide() => TextAutoHide = DEFAULT_TEXT_AUTO_HIDE;
         #endregion
 
         #region TextClose
@@ -126,7 +118,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the close button tooltip.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Close")]
         [Localizable(true)]
         public string TextClose
@@ -138,7 +130,7 @@ namespace Krypton.Docking
                 if (_textClose != value)
                 {
                     _textClose = value;
-                    OnPropertyChanged("TextClose");
+                    OnPropertyChanged(nameof(TextClose));
                 }
             }
         }
@@ -146,10 +138,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Resets the TextClose property to its default value.
         /// </summary>
-        public void ResetTextClose()
-        {
-            TextClose = DEFAULT_TEXT_CLOSE;
-        }
+        public void ResetTextClose() => TextClose = DEFAULT_TEXT_CLOSE;
         #endregion
 
         #region TextCloseAllButThis
@@ -158,7 +147,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the 'close all but this' button tooltip.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Close All But This")]
         [Localizable(true)]
         public string TextCloseAllButThis
@@ -170,7 +159,7 @@ namespace Krypton.Docking
                 if (_textCloseAllButThis != value)
                 {
                     _textCloseAllButThis = value;
-                    OnPropertyChanged("TextCloseAllButThis");
+                    OnPropertyChanged(nameof(TextCloseAllButThis));
                 }
             }
         }
@@ -178,10 +167,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Resets the TextCloseAllButThis property to its default value.
         /// </summary>
-        public void ResetTextCloseAllButThis()
-        {
-            TextCloseAllButThis = DEFAULT_TEXT_CLOSE_ALL_BUT_THIS;
-        }
+        public void ResetTextCloseAllButThis() => TextCloseAllButThis = DEFAULT_TEXT_CLOSE_ALL_BUT_THIS;
         #endregion
 
         #region TextDock
@@ -190,7 +176,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the dock menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Dock")]
         [Localizable(true)]
         public string TextDock
@@ -202,7 +188,7 @@ namespace Krypton.Docking
                 if (_textDock != value)
                 {
                     _textDock = value;
-                    OnPropertyChanged("TextDock");
+                    OnPropertyChanged(nameof(TextDock));
                 }
             }
         }
@@ -210,10 +196,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Resets the TextDock property to its default value.
         /// </summary>
-        public void ResetTextDock()
-        {
-            TextDock = DEFAULT_TEXT_DOCK;
-        }
+        public void ResetTextDock() => TextDock = DEFAULT_TEXT_DOCK;
         #endregion
 
         #region TextFloat
@@ -222,7 +205,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the float menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Float")]
         [Localizable(true)]
         public string TextFloat
@@ -234,7 +217,7 @@ namespace Krypton.Docking
                 if (_textFloat != value)
                 {
                     _textFloat = value;
-                    OnPropertyChanged("TextFloat");
+                    OnPropertyChanged(nameof(TextFloat));
                 }
             }
         }
@@ -242,10 +225,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Resets the TextFloat property to its default value.
         /// </summary>
-        public void ResetTextFloat()
-        {
-            TextFloat = DEFAULT_TEXT_DOCK;
-        }
+        public void ResetTextFloat() => TextFloat = DEFAULT_TEXT_DOCK;
         #endregion
 
         #region TextHide
@@ -254,7 +234,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the hide menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Hide")]
         [Localizable(true)]
         public string TextHide
@@ -266,7 +246,7 @@ namespace Krypton.Docking
                 if (_textHide != value)
                 {
                     _textHide = value;
-                    OnPropertyChanged("TextHide");
+                    OnPropertyChanged(nameof(TextHide));
                 }
             }
         }
@@ -274,10 +254,8 @@ namespace Krypton.Docking
         /// <summary>
         /// Resets the TextHide property to its default value.
         /// </summary>
-        public void ResetTextHide()
-        {
-            TextHide = DEFAULT_TEXT_DOCK;
-        }
+        public void ResetTextHide() => TextHide = DEFAULT_TEXT_DOCK;
+
         #endregion
 
         #region TextTabbedDocument
@@ -286,7 +264,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the tabbed document menu item.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Tabbed Document")]
         [Localizable(true)]
         public string TextTabbedDocument
@@ -298,7 +276,7 @@ namespace Krypton.Docking
                 if (_textTabbedDocument != value)
                 {
                     _textTabbedDocument = value;
-                    OnPropertyChanged("TextTabbedDocument");
+                    OnPropertyChanged(nameof(TextTabbedDocument));
                 }
             }
         }
@@ -306,10 +284,8 @@ namespace Krypton.Docking
         /// <summary>
         /// Resets the TextTabbedDocument property to its default value.
         /// </summary>
-        public void ResetTextTabbedDocument()
-        {
-            TextTabbedDocument = DEFAULT_TEXT_TABBED_DOCUMENT;
-        }
+        public void ResetTextTabbedDocument() => TextTabbedDocument = DEFAULT_TEXT_TABBED_DOCUMENT;
+
         #endregion
 
         #region TextWindowLocation
@@ -318,7 +294,7 @@ namespace Krypton.Docking
         /// </summary>
         [Category("Visuals")]
         [Description("Text to use for the drop down button tooltip.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Window Position")]
         [Localizable(true)]
         public string TextWindowLocation
@@ -330,7 +306,7 @@ namespace Krypton.Docking
                 if (_textWindowLocation != value)
                 {
                     _textWindowLocation = value;
-                    OnPropertyChanged("TextWindowLocation");
+                    OnPropertyChanged(nameof(TextWindowLocation));
                 }
             }
         }
@@ -338,10 +314,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Resets the TextWindowLocation property to its default value.
         /// </summary>
-        public void ResetTextWindowLocation()
-        {
-            TextWindowLocation = DEFAULT_TEXT_WINDOW_LOCATION;
-        }
+        public void ResetTextWindowLocation() => TextWindowLocation = DEFAULT_TEXT_WINDOW_LOCATION;
         #endregion
 
         #region Protected

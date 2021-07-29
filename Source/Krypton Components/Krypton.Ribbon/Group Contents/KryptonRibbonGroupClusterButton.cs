@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupClusterButton), "ToolboxBitmaps.KryptonRibbonGroupClusterButton.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupClusterButtonDesigner))]
+    [Designer(typeof(KryptonRibbonGroupClusterButtonDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("Click")]
@@ -121,7 +112,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button display text line.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine
         {
@@ -167,7 +158,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Small button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageSmall
         {
             get => _imageSmall;
@@ -335,7 +326,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -371,7 +362,7 @@ namespace Krypton.Ribbon
         {
             get => _contextMenuStrip;
 
-            set 
+            set
             {
                 if (value != _contextMenuStrip)
                 {
@@ -526,7 +517,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
+        public override ViewBase CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint)
         {
             return new ViewDrawRibbonGroupClusterButton(ribbon, this, needPaint);
@@ -597,6 +588,8 @@ namespace Krypton.Ribbon
                     break;
                 case "Checked":
                     OnPropertyChanged("Checked");
+                    break;
+                default:
                     break;
             }
         }
@@ -675,7 +668,7 @@ namespace Krypton.Ribbon
                     {
                         if (KryptonContextMenu != null)
                         {
-                            ContextMenuArgs contextArgs = new ContextMenuArgs(KryptonContextMenu);
+                            ContextMenuArgs contextArgs = new(KryptonContextMenu);
 
                             // Generate an event giving a chance for the krypton context menu strip to 
                             // be shown to be provided/modified or the action even to be cancelled
@@ -708,7 +701,7 @@ namespace Krypton.Ribbon
                         }
                         else if (ContextMenuStrip != null)
                         {
-                            ContextMenuArgs contextArgs = new ContextMenuArgs(ContextMenuStrip);
+                            ContextMenuArgs contextArgs = new(ContextMenuStrip);
 
                             // Generate an event giving a chance for the context menu strip to be
                             // shown to be provided/modified or the action even to be cancelled

@@ -2,25 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -45,16 +34,21 @@ namespace Krypton.Navigator
             // Perform common base class initializating
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // The resizing handles around the control need to change depending on the
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
             // do not get the resizing handles, otherwise you do.
             AutoResizeHandles = true;
 
             // Remember references to components involved in design
-            _page = (KryptonPage)component;
+            _page = component as KryptonPage;
+            if (_page != null)
+            {
 
-            // Hook into page events
-            _page.FlagsChanged += OnPageFlagsChanged;
+                // Hook into page events
+                _page.FlagsChanged += OnPageFlagsChanged;
+            }
 
             // Acquire service interfaces
             _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
@@ -95,7 +89,7 @@ namespace Krypton.Navigator
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the navigator specific list
@@ -130,8 +124,8 @@ namespace Krypton.Navigator
         /// </summary>
         public override SelectionRules SelectionRules
         {
-            get 
-            { 
+            get
+            {
                 // If inside a navigator then prevent resizing of the page
                 if (ParentNavigator != null)
                 {
@@ -149,7 +143,7 @@ namespace Krypton.Navigator
         /// </summary>
         public bool CanPaint
         {
-            get 
+            get
             {
                 // Only draw the glyph for the selected page
                 if (ParentNavigator != null)
@@ -218,7 +212,7 @@ namespace Krypton.Navigator
         #region Implementation
         private void OnEditFlags(object sender, EventArgs e)
         {
-            KryptonPageFormEditFlags editFlags = new KryptonPageFormEditFlags(_page);
+            KryptonPageFormEditFlags editFlags = new(_page);
             editFlags.ShowDialog();
         }
 
@@ -239,7 +233,7 @@ namespace Krypton.Navigator
                 Control parent = _page.Parent;
 
                 // Search parent chain looking for navigator instance
-                while(parent != null)
+                while (parent != null)
                 {
                     if (parent is KryptonNavigator navigator)
                     {
@@ -256,7 +250,7 @@ namespace Krypton.Navigator
         private void DrawBorder(Graphics graphics)
         {
             // Create a pen for drawing
-            using (Pen borderPen = new Pen(SystemColors.ControlDarkDark))
+            using (Pen borderPen = new(SystemColors.ControlDarkDark))
             {
                 // Always draw the border dashed
                 borderPen.DashStyle = DashStyle.Dash;

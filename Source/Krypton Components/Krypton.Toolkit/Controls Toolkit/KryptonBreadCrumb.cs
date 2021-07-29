@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -108,7 +102,7 @@ namespace Krypton.Toolkit
             RootItem = new KryptonBreadCrumbItem("Root");
             RootItem.PropertyChanged += OnCrumbItemChanged;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
 
             // Create storage objects
             ButtonSpecs = new BreadCrumbButtonSpecCollection(this);
@@ -204,7 +198,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public bool IsInitialized
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             private set;
         }
@@ -216,7 +210,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public bool IsInitializing
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             private set;
         }
@@ -303,8 +297,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -633,7 +627,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(200, 28);
+        protected override Size DefaultSize => new(200, 28);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -755,7 +749,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -770,11 +764,11 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						if (AllowButtonSpecToolTipPriority)
-						{
-							_visualBasePopupToolTip?.Dispose();
-						}
+
+                        if (AllowButtonSpecToolTipPriority)
+                        {
+                            visualBasePopupToolTip?.Dispose();
+                        }
 
                         // Create the actual tooltip popup object
                         _visualPopupToolTip = new VisualPopupToolTip(Redirector,

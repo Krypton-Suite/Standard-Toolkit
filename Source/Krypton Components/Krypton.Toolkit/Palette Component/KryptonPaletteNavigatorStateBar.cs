@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -109,7 +104,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used around the bar when displaying tabs.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingTabs
         {
             get => _barPaddingTabs;
@@ -141,7 +136,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used around the bar when placed inside the group.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingInside
         {
             get => _barPaddingInside;
@@ -173,7 +168,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used around the bar when placed outside the group.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingOutside
         {
             get => _barPaddingOutside;
@@ -205,7 +200,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used around the bar when placed on its own.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingOnly
         {
             get => _barPaddingOnly;
@@ -237,7 +232,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding used around each button on the button bar.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding ButtonPadding
         {
             get => _buttonPadding;
@@ -269,7 +264,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("How far to inset buttons from the control edge.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int ButtonEdgeOutside
         {
             get => _buttonEdgeOutside;
@@ -301,7 +296,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("How far to inset buttons from the button bar.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int ButtonEdgeInside
         {
             get => _buttonEdgeInside;
@@ -333,7 +328,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Spacing gap between each check button.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int CheckButtonGap
         {
             get => _checkButtonGap;
@@ -365,7 +360,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Spacing gap between each ribbon tab.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public int RibbonTabGap
         {
             get => _ribbonTabGap;

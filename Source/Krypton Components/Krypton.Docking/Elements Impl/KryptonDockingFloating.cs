@@ -2,22 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.Xml;
-using System.Windows.Forms;
-using System.ComponentModel;
-using Krypton.Toolkit;
-using Krypton.Navigator;
 
 namespace Krypton.Docking
 {
@@ -142,8 +133,8 @@ namespace Krypton.Docking
         private KryptonDockingFloatingWindow CreateFloatingWindow(string name)
         {
             // Create a floatspace and floating window for hosting the floatspace
-            KryptonDockingFloatspace floatSpaceElement = new KryptonDockingFloatspace("Floatspace");
-            KryptonDockingFloatingWindow floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
+            KryptonDockingFloatspace floatSpaceElement = new("Floatspace");
+            KryptonDockingFloatingWindow floatingWindowElement = new(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
             floatingWindowElement.Disposed += OnDockingFloatingWindowDisposed;
             InternalAdd(floatingWindowElement);
 
@@ -152,8 +143,8 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Generate events so the floating window/dockspace appearance can be customized
-                FloatingWindowEventArgs floatingWindowArgs = new FloatingWindowEventArgs(floatingWindowElement.FloatingWindow, floatingWindowElement);
-                FloatspaceEventArgs floatSpaceArgs = new FloatspaceEventArgs(floatSpaceElement.FloatspaceControl, floatSpaceElement);
+                FloatingWindowEventArgs floatingWindowArgs = new(floatingWindowElement.FloatingWindow, floatingWindowElement);
+                FloatspaceEventArgs floatSpaceArgs = new(floatSpaceElement.FloatspaceControl, floatSpaceElement);
                 dockingManager.RaiseFloatingWindowAdding(floatingWindowArgs);
                 dockingManager.RaiseFloatspaceAdding(floatSpaceArgs);
             }

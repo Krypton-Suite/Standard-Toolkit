@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -28,10 +21,10 @@ namespace Krypton.Toolkit
         #region Static Fields
         [ThreadStatic]
         private static KryptonDateTimePicker _paintingDateTime;
-        private static readonly DateTimeConverter _dtc = new DateTimeConverter();
+        private static readonly DateTimeConverter _dtc = new();
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewDateTimePickerEditingControl);
         private static readonly Type _defaultValueType = typeof(DateTime);
-        private static readonly Size _sizeLarge = new Size(10000, 10000);
+        private static readonly Size _sizeLarge = new(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -541,7 +534,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                if ((!(initialFormattedValue is string initialFormattedValueStr)) || string.IsNullOrEmpty(initialFormattedValueStr))
+                if ((initialFormattedValue is not string initialFormattedValueStr) || string.IsNullOrEmpty(initialFormattedValueStr))
                 {
                     dateTime.ValueNullable = null;
                 }
@@ -737,7 +730,7 @@ namespace Krypton.Toolkit
         private void OnButtonClick(object sender, EventArgs e)
         {
             KryptonDataGridViewDateTimePickerColumn dateTimeColumn = OwningColumn as KryptonDataGridViewDateTimePickerColumn;
-            DataGridViewButtonSpecClickEventArgs args = new DataGridViewButtonSpecClickEventArgs(dateTimeColumn, this, (ButtonSpecAny)sender);
+            DataGridViewButtonSpecClickEventArgs args = new(dateTimeColumn, this, (ButtonSpecAny)sender);
             dateTimeColumn.PerfomButtonSpecClick(args);
         }
 
@@ -786,12 +779,9 @@ namespace Krypton.Toolkit
 
         private bool OwnsEditingDateTimePicker(int rowIndex)
         {
-            if ((rowIndex == -1) || (DataGridView == null))
-            {
-                return false;
-            }
-
-            return (DataGridView.EditingControl is KryptonDataGridViewDateTimePickerEditingControl control) 
+            return (rowIndex == -1) || (DataGridView == null)
+                ? false
+                : (DataGridView.EditingControl is KryptonDataGridViewDateTimePickerEditingControl control)
                    && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
         }
 

@@ -2,26 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Collections.Generic;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
 
 namespace Krypton.Workspace
 {
@@ -140,7 +128,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category("Appearance")]
                 [DefaultValue(null)]
-                public Image ImageSmall
+                public Bitmap ImageSmall
                 {
                     get => _item.ImageSmall;
                     set => _item.ImageSmall = value;
@@ -151,7 +139,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category("Appearance")]
                 [DefaultValue(null)]
-                public Image ImageMedium
+                public Bitmap ImageMedium
                 {
                     get => _item.ImageMedium;
                     set => _item.ImageMedium = value;
@@ -162,7 +150,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category("Appearance")]
                 [DefaultValue(null)]
-                public Image ImageLarge
+                public Bitmap ImageLarge
                 {
                     get => _item.ImageLarge;
                     set => _item.ImageLarge = value;
@@ -173,7 +161,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category("Appearance")]
                 [DefaultValue(null)]
-                public Image ToolTipImage
+                public Bitmap ToolTipImage
                 {
                     get => _item.ToolTipImage;
                     set => _item.ToolTipImage = value;
@@ -713,7 +701,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets access to the associated workspace cell item.
                 /// </summary>
-                public Component Item => (PageItem != null ? PageItem : (CellItem != null ? CellItem : (Component)SequenceItem));
+                public Component Item => PageItem ?? (CellItem ?? (Component)SequenceItem);
 
                 /// <summary>
                 /// Gets access to the associated workspace cell item.
@@ -824,7 +812,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 public string Name
                 {
-                    get { return null; }
+                    get => null;
                     set { }
                 }
                 #endregion
@@ -1759,7 +1747,7 @@ namespace Krypton.Workspace
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
-                DictItemBase dictItems = new DictItemBase();
+                DictItemBase dictItems = new();
 
                 foreach (Component item in items)
                 {
@@ -1796,7 +1784,7 @@ namespace Krypton.Workspace
             private void AddMenuTreeNode(Component item, MenuTreeNode parent)
             {
                 // Create a node to match the item
-                MenuTreeNode node = new MenuTreeNode(item);
+                MenuTreeNode node = new(item);
 
                 // Add to either root or parent node
                 if (parent != null)

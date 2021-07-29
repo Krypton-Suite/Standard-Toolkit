@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -348,7 +342,7 @@ namespace Krypton.Toolkit
                 case Keys.Space:
                     if (_layout.ItemEnabled)
                     {
-                        Point pt = new Point(int.MaxValue, int.MaxValue);
+                        Point pt = new(int.MaxValue, int.MaxValue);
                         OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
                         UpdateTargetState(pt);
                     }
@@ -420,12 +414,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(c));
             }
 
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
-            return false;
+            return e == null ? throw new ArgumentNullException(nameof(e)) : false;
         }
         #endregion
 
@@ -504,7 +493,7 @@ namespace Krypton.Toolkit
         protected virtual void UpdateTargetState(Point pt)
         {
             // By default the button is in the normal state
-            PaletteState newState = PaletteState.Normal;
+            PaletteState newState;
 
             // If the button is disabled then show as disabled
             if (!_target.Enabled)

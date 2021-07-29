@@ -2,13 +2,11 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -38,24 +36,24 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(PaletteButtonStyle.Inherit,           "Inherit"),
-            new Pair(PaletteButtonStyle.Standalone,        "Standalone"),
-            new Pair(PaletteButtonStyle.Alternate,         "Alternate"),
-            new Pair(PaletteButtonStyle.LowProfile,        "Low Profile"),
-            new Pair(PaletteButtonStyle.BreadCrumb,        "BreadCrumb"),
-            new Pair(PaletteButtonStyle.Cluster,           "Cluster"),  
-            new Pair(PaletteButtonStyle.NavigatorStack,    "Navigator Stack"),  
-            new Pair(PaletteButtonStyle.NavigatorOverflow, "Navigator Overflow"),  
-            new Pair(PaletteButtonStyle.NavigatorMini,     "Navigator Mini"),  
-            new Pair(PaletteButtonStyle.InputControl,      "Input Control"),  
-            new Pair(PaletteButtonStyle.ListItem,          "List Item"),  
-            new Pair(PaletteButtonStyle.Form,              "Form"),  
-            new Pair(PaletteButtonStyle.FormClose,         "Form Close"),  
-            new Pair(PaletteButtonStyle.ButtonSpec,        "ButtonSpec"),  
-            new Pair(PaletteButtonStyle.Command,           "Command"),  
-            new Pair(PaletteButtonStyle.Custom1,           "Custom1"),
-            new Pair(PaletteButtonStyle.Custom2,           "Custom2"),
-            new Pair(PaletteButtonStyle.Custom3,           "Custom3") };
+        { new(PaletteButtonStyle.Inherit,           "Inherit"),
+            new(PaletteButtonStyle.Standalone,        "Standalone"),
+            new(PaletteButtonStyle.Alternate,         "Alternate"),
+            new(PaletteButtonStyle.LowProfile,        "Low Profile"),
+            new(PaletteButtonStyle.BreadCrumb,        "BreadCrumb"),
+            new(PaletteButtonStyle.Cluster,           "Cluster"),  
+            new(PaletteButtonStyle.NavigatorStack,    "Navigator Stack"),  
+            new(PaletteButtonStyle.NavigatorOverflow, "Navigator Overflow"),  
+            new(PaletteButtonStyle.NavigatorMini,     "Navigator Mini"),  
+            new(PaletteButtonStyle.InputControl,      "Input Control"),  
+            new(PaletteButtonStyle.ListItem,          "List Item"),  
+            new(PaletteButtonStyle.Form,              "Form"),  
+            new(PaletteButtonStyle.FormClose,         "Form Close"),  
+            new(PaletteButtonStyle.ButtonSpec,        "ButtonSpec"),  
+            new(PaletteButtonStyle.Command,           "Command"),  
+            new(PaletteButtonStyle.Custom1,           "Custom1"),
+            new(PaletteButtonStyle.Custom2,           "Custom2"),
+            new(PaletteButtonStyle.Custom3,           "Custom3") };
 
         #endregion
     }

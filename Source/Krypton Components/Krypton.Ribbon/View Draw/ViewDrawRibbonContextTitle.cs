@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Toolkit;
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace Krypton.Ribbon
 {
@@ -167,7 +158,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // We always extend an extra pixel downwards to draw over the containers border
-            Rectangle adjustRect = new Rectangle(ClientRectangle.X, ClientRectangle.Y, ClientWidth, ClientHeight + 1);
+            Rectangle adjustRect = new(ClientRectangle.X, ClientRectangle.Y, ClientWidth, ClientHeight + 1);
 
             // Get the client rect of the parent
             Rectangle parentRect = Parent.ClientRectangle;
@@ -219,8 +210,8 @@ namespace Krypton.Ribbon
             // Office 2010 draws a shadow effect of the text
             if (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365)
             {
-                Rectangle shadowTextRect1 = new Rectangle(_textRect.X - 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
-                Rectangle shadowTextRect2 = new Rectangle(_textRect.X + 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
+                Rectangle shadowTextRect1 = new(_textRect.X - 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
+                Rectangle shadowTextRect2 = new(_textRect.X + 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
 
                 _contentProvider.OverrideTextColor = Color.FromArgb(128, ControlPaint.Dark(GetRibbonBackColor1(PaletteState.Normal)));
 
@@ -266,8 +257,8 @@ namespace Krypton.Ribbon
                 // Use renderer to draw the tab background
                 _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
 
-                Rectangle shadowTextRect1 = new Rectangle(_textRect.X - 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
-                Rectangle shadowTextRect2 = new Rectangle(_textRect.X + 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
+                Rectangle shadowTextRect1 = new(_textRect.X - 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
+                Rectangle shadowTextRect2 = new(_textRect.X + 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
 
                 _contentProvider.OverrideTextColor = Color.FromArgb(128, ControlPaint.Dark(GetRibbonBackColor1(PaletteState.Normal)));
 
@@ -432,7 +423,7 @@ namespace Krypton.Ribbon
         {
             // Convert the clipping rectangle from floating to int version
             RectangleF rectClipF = context.Graphics.ClipBounds;
-            Rectangle rectClip = new Rectangle((int)rectClipF.X, (int)rectClipF.Y,
+            Rectangle rectClip = new((int)rectClipF.X, (int)rectClipF.Y,
                                                (int)rectClipF.Width, (int)rectClipF.Height);
 
             // No point drawing unless some of the client fits into the clipping area
@@ -442,7 +433,7 @@ namespace Krypton.Ribbon
                 IntPtr gDC = context.Graphics.GetHdc();
                 IntPtr mDC = PI.CreateCompatibleDC(gDC);
 
-                PI.BITMAPINFO bmi = new PI.BITMAPINFO();
+                PI.BITMAPINFO bmi = new();
                 bmi.biSize = (uint)Marshal.SizeOf(bmi);
                 bmi.biWidth = ClientWidth;
                 bmi.biHeight = -ClientHeight;
@@ -457,10 +448,10 @@ namespace Krypton.Ribbon
                 // To call the renderer we need to convert from Win32 HDC to Graphics object
                 using (Graphics bitmapG = Graphics.FromHdc(mDC))
                 {
-                    Rectangle renderClientRect = new Rectangle(0, 0, ClientWidth, ClientHeight);
+                    Rectangle renderClientRect = new(0, 0, ClientWidth, ClientHeight);
 
                     // Create new render context that uses the bitmap graphics instance
-                    using (RenderContext bitmapContext = new RenderContext(context.Control,
+                    using (RenderContext bitmapContext = new(context.Control,
                                                                            bitmapG,
                                                                            renderClientRect,
                                                                            context.Renderer))
@@ -475,17 +466,17 @@ namespace Krypton.Ribbon
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state
-                VisualStyleRenderer renderer = new VisualStyleRenderer(VisualStyleElement.Window.Caption.Active);
+                VisualStyleRenderer renderer = new(VisualStyleElement.Window.Caption.Active);
 
                 // Create structures needed for theme drawing call
-                PI.RECT textBounds = new PI.RECT
+                PI.RECT textBounds = new()
                 {
                     left = TEXT_SIDE_GAP_COMPOSITION,
                     top = 0,
                     right = ClientWidth - (TEXT_SIDE_GAP_COMPOSITION * 2),
                     bottom = ClientHeight
                 };
-                PI.DTTOPTS dttOpts = new PI.DTTOPTS
+                PI.DTTOPTS dttOpts = new()
                 {
                     dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
                     dwFlags = PI.DTT_COMPOSITED | PI.DTT_GLOWSIZE | PI.DTT_TEXTCOLOR,

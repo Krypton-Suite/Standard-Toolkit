@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Toolkit.Properties;
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Security.Permissions;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -138,7 +130,6 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="m">Message to process.</param>
         /// <returns>True to suppress message dispatch; false otherwise.</returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public bool PreFilterMessage(ref Message m)
         {
             // Prevent mouse messages from activating any application windows

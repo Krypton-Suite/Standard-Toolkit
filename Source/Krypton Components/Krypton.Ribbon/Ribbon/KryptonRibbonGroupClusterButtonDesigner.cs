@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -68,20 +59,17 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonButton = (KryptonRibbonGroupClusterButton)component;
-            _ribbonButton.DesignTimeContextMenu += OnContextMenu;
+            _ribbonButton = component as KryptonRibbonGroupClusterButton;
+            if (_ribbonButton != null)
+            {
+                _ribbonButton.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -141,7 +129,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move Cluster Button Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move Cluster Button Last", OnMoveLast);
                 _deleteButtonVerb = new DesignerVerb("Delete Cluster Button", OnDeleteButton);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                          _moveNextVerb, _moveLastVerb, _deleteButtonVerb });
             }
 
@@ -271,10 +259,7 @@ namespace Krypton.Ribbon
                 finally
                 {
                     // If we managed to create the transaction, then do it
-                    if (transaction != null)
-                    {
-                        transaction.Commit();
-                    }
+                    transaction?.Commit();
                 }
             }
         }
@@ -306,10 +291,7 @@ namespace Krypton.Ribbon
                 finally
                 {
                     // If we managed to create the transaction, then do it
-                    if (transaction != null)
-                    {
-                        transaction.Commit();
-                    }
+                    transaction?.Commit();
                 }
             }
         }

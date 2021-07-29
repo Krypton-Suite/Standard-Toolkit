@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Reflection;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -78,9 +70,11 @@ namespace Krypton.Toolkit
                             FieldInfo fiC = mcsType.GetField("close", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
                             if ((fiM != null) && (fiR != null) && (fiC != null))
                             {
+#pragma warning disable IDE0019 // Use pattern matching
                                 ToolStripMenuItem m = fiM.GetValue(mcs) as ToolStripMenuItem;
                                 ToolStripMenuItem r = fiR.GetValue(mcs) as ToolStripMenuItem;
                                 ToolStripMenuItem c = fiC.GetValue(mcs) as ToolStripMenuItem;
+#pragma warning restore IDE0019 // Use pattern matching
                                 if ((m != null) && (r != null) && (c != null))
                                 {
                                     // Compare the event provided image with the internal cached ones to discover the type of pendant button we are drawing
@@ -108,24 +102,22 @@ namespace Krypton.Toolkit
                                         // Finally we actually have an image to draw!
                                         if (paletteImage != null)
                                         {
-                                            using (ImageAttributes attribs = new ImageAttributes())
+                                            using ImageAttributes attribs = new();
+                                            // Setup mapping to make required color transparent
+                                            ColorMap remap = new()
                                             {
-                                                // Setup mapping to make required color transparent
-                                                ColorMap remap = new ColorMap
-                                                {
-                                                    OldColor = transparentColor,
-                                                    NewColor = Color.Transparent
-                                                };
-                                                attribs.SetRemapTable(new ColorMap[] { remap });
+                                                OldColor = transparentColor,
+                                                NewColor = Color.Transparent
+                                            };
+                                            attribs.SetRemapTable(new ColorMap[] { remap });
 
-                                                // Phew, actually draw the darn thing
-                                                e.Graphics.DrawImage(paletteImage, e.ImageRectangle,
-                                                                     0, 0, e.Image.Width, e.Image.Height,
-                                                                     GraphicsUnit.Pixel, attribs);
+                                            // Phew, actually draw the darn thing
+                                            e.Graphics.DrawImage(paletteImage, e.ImageRectangle,
+                                                0, 0, e.Image.Width, e.Image.Height,
+                                                GraphicsUnit.Pixel, attribs);
 
-                                                // Do not let base class draw system defined image
-                                                return;
-                                            }
+                                            // Do not let base class draw system defined image
+                                            return;
                                         }
                                     }
                                 }
@@ -147,7 +139,7 @@ namespace Krypton.Toolkit
         protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
         {
             // D0 not draw the annoying status strip single line that is not needed
-            if (!(e.ToolStrip is StatusStrip))
+            if (e.ToolStrip is not StatusStrip)
             {
                 base.OnRenderToolStripBorder(e);
             }

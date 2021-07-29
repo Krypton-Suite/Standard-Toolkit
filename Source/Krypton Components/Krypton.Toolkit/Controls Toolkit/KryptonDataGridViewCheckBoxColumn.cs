@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Text;
-using System.Windows.Forms;
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedMember.Global
 
@@ -45,7 +37,7 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewCheckBoxColumn(bool threeState)
             : base(new KryptonDataGridViewCheckBoxCell(threeState))
         {
-            DataGridViewCellStyle style = new DataGridViewCellStyle
+            DataGridViewCellStyle style = new()
             {
                 Alignment = DataGridViewContentAlignment.MiddleCenter
             };
@@ -67,7 +59,7 @@ namespace Krypton.Toolkit
         /// <returns>A String that represents the current Object.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder(0x40);
+            StringBuilder builder = new(0x40);
             builder.Append("KryptonDataGridViewCheckBoxColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -91,7 +83,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if ((value != null) && !(value is KryptonDataGridViewCheckBoxCell))
+                if ((value != null) && value is not KryptonDataGridViewCheckBoxCell)
                 {
                     throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewCheckBoxCell");
                 }
@@ -108,15 +100,10 @@ namespace Krypton.Toolkit
         [TypeConverter(typeof(StringConverter))]
         public object FalseValue
         {
-            get
-            {
-                if (CheckBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required");
-                }
-
-                return CheckBoxCellTemplate.FalseValue;
-            }
+            get =>
+                CheckBoxCellTemplate == null
+                    ? throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required")
+                    : CheckBoxCellTemplate.FalseValue;
             set
             {
                 if (FalseValue != value)
@@ -148,15 +135,10 @@ namespace Krypton.Toolkit
         [TypeConverter(typeof(StringConverter))]
         public object IndeterminateValue
         {
-            get
-            {
-                if (CheckBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required");
-                }
-
-                return CheckBoxCellTemplate.IndeterminateValue;
-            }
+            get =>
+                CheckBoxCellTemplate == null
+                    ? throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required")
+                    : CheckBoxCellTemplate.IndeterminateValue;
             set
             {
                 if (IndeterminateValue != value)
@@ -188,15 +170,10 @@ namespace Krypton.Toolkit
         [TypeConverter(typeof(StringConverter))]
         public object TrueValue
         {
-            get
-            {
-                if (CheckBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required");
-                }
-
-                return CheckBoxCellTemplate.TrueValue;
-            }
+            get =>
+                CheckBoxCellTemplate == null
+                    ? throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required")
+                    : CheckBoxCellTemplate.TrueValue;
             set
             {
                 if (TrueValue != value)
@@ -227,15 +204,10 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool ThreeState
         {
-            get
-            {
-                if (CheckBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required");
-                }
-
-                return CheckBoxCellTemplate.ThreeState;
-            }
+            get =>
+                CheckBoxCellTemplate == null
+                    ? throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required")
+                    : CheckBoxCellTemplate.ThreeState;
             set
             {
                 if (ThreeState != value)

@@ -2,25 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Xml;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
 
 namespace Krypton.Workspace
 {
@@ -30,7 +19,7 @@ namespace Krypton.Workspace
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonWorkspaceSequence), "ToolboxBitmaps.KryptonWorkspaceSequence.bmp")]
     [TypeConverter(typeof(KryptonWorkspaceSequenceConverter))]
-    [Designer(typeof(Krypton.Workspace.KryptonWorkspaceSequenceDesigner))]
+    [Designer(typeof(KryptonWorkspaceSequenceDesigner))]
     [DesignTimeVisible(false)]
     [DesignerCategory("code")]
     [DefaultProperty("Children")]
@@ -119,7 +108,7 @@ namespace Krypton.Workspace
             return Orientation + " (" + Children.Count.ToString() + " Children)";
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets access to the collection of child workspace items.
@@ -127,7 +116,7 @@ namespace Krypton.Workspace
         [Category("Workspace")]
         [Description("Collection of child workspace items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Workspace.KryptonWorkspaceCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonWorkspaceCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonWorkspaceCollection Children { get; }
 
@@ -205,9 +194,9 @@ namespace Krypton.Workspace
         [Description("The unique name of the workspace sequence.")]
         public string UniqueName
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             set;
         }
 
@@ -314,7 +303,7 @@ namespace Krypton.Workspace
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Size WorkspaceMinSize
         {
-            get 
+            get
             {
                 Size minSize = Size.Empty;
 
@@ -343,7 +332,7 @@ namespace Krypton.Workspace
                     }
                 }
 
-                return minSize; 
+                return minSize;
             }
         }
 
@@ -356,7 +345,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                Size maxSize = new Size(int.MaxValue, int.MaxValue);
+                Size maxSize = new(int.MaxValue, int.MaxValue);
 
                 // Search all children for the smallest defined maximum
                 foreach (Component component in Children)
@@ -423,7 +412,7 @@ namespace Krypton.Workspace
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool WorkspaceAllowResizing
         {
-            get 
+            get
             {
                 // If any child says no resizing then we cannot be resized
                 foreach (Component component in Children)
@@ -445,7 +434,7 @@ namespace Krypton.Workspace
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool WorkspaceVisible
         {
-            get 
+            get
             {
                 // Only if we are visible do we need to check the children
                 if (Visible)
@@ -461,7 +450,7 @@ namespace Krypton.Workspace
                 }
 
                 // If we set invisible or all the children are invisible then don't show
-                return false; 
+                return false;
             }
         }
 
@@ -499,7 +488,7 @@ namespace Krypton.Workspace
 
             // Terminate the workspace element        
             xmlWriter.WriteEndElement();
-        }        
+        }
 
         /// <summary>
         /// Request this sequence load and recreate children.
@@ -507,7 +496,7 @@ namespace Krypton.Workspace
         /// <param name="workspace">Reference to owning workspace instance.</param>
         /// <param name="xmlReader">Xml reader for loading information.</param>
         /// <param name="existingPages">Dictionary on existing pages before load.</param>
-        public void LoadFromXml(KryptonWorkspace workspace, 
+        public void LoadFromXml(KryptonWorkspace workspace,
                                 XmlReader xmlReader,
                                 UniqueNameToPage existingPages)
         {
@@ -535,12 +524,12 @@ namespace Krypton.Workspace
                     switch (xmlReader.Name)
                     {
                         case "WS":
-                            KryptonWorkspaceSequence sequence = new KryptonWorkspaceSequence();
+                            KryptonWorkspaceSequence sequence = new();
                             sequence.LoadFromXml(workspace, xmlReader, existingPages);
                             Children.Add(sequence);
                             break;
                         case "WC":
-                            KryptonWorkspaceCell cell = new KryptonWorkspaceCell();
+                            KryptonWorkspaceCell cell = new();
                             cell.LoadFromXml(workspace, xmlReader, existingPages);
                             Children.Add(cell);
                             break;
@@ -580,7 +569,7 @@ namespace Krypton.Workspace
                     cell.DebugOutput(indent + 1);
                 }
             }
-        }        
+        }
         #endregion
 
         #region Protected

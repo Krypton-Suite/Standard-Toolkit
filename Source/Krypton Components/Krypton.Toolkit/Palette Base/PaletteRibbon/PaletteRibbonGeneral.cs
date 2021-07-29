@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -162,7 +157,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Text alignment for the ribbon context text.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ContextTextAlign
         {
             get => _contextTextAlign;
@@ -202,7 +197,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Font for the ribbon context text.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Font ContextTextFont
         {
             get => _contextTextFont;
@@ -239,7 +234,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Color used for ribbon context text.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color ContextTextColor
         {
             get => _contextTextColor;
@@ -278,7 +273,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Dark disabled color for ribbon glyphs.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color DisabledDark
         {
             get => _disabledDarkColor;
@@ -316,7 +311,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Light disabled color for ribbon glyphs.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color DisabledLight
         {
             get => _disabledLightColor;
@@ -354,7 +349,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ribbon group dialog launcher button dark color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color GroupDialogDark
         {
             get => _dialogDarkColor;
@@ -393,7 +388,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ribbon group dialog launcher button light color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color GroupDialogLight
         {
             get => _dialogLightColor;
@@ -432,7 +427,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ribbon drop arrow dark color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color DropArrowDark
         {
             get => _dropArrowDarkColor;
@@ -470,7 +465,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ribbon drop arrow light color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color DropArrowLight
         {
             get => _dropArrowLightColor;
@@ -509,7 +504,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ribbon group separator dark color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color GroupSeparatorDark
         {
             get => _groupSeparatorDark;
@@ -548,7 +543,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ribbon group separator light color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color GroupSeparatorLight
         {
             get => _groupSeparatorLight;
@@ -587,7 +582,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ribbon minimize bar dark color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color MinimizeBarDarkColor
         {
             get => _minimizeBarDarkColor;
@@ -626,7 +621,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ribbon minimize bar light color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color MinimizeBarLightColor
         {
             get => _minimizeBarLightColor;
@@ -701,7 +696,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ribbon tab separator color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color TabSeparatorColor
         {
             get => _tabSeparatorColor;
@@ -740,7 +735,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Ribbon tab context separator color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color TabSeparatorContextColor
         {
             get => _tabSeparatorContextColor;
@@ -780,7 +775,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Font for the ribbon text.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Font TextFont
         {
             get => _textFont;
@@ -817,7 +812,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Rendering hint for the text font.")]
         [DefaultValue(typeof(PaletteTextHint), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteTextHint TextHint
         {
             get => _textHint;
@@ -855,7 +850,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Quick access toolbar extra button dark color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color QATButtonDarkColor
         {
             get => _qatButtonDarkColor;
@@ -894,7 +889,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Quick access toolbar extra button light color.")]
         [DefaultValue(typeof(Color), "")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Color QATButtonLightColor
         {
             get => _qatButtonLightColor;

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -25,10 +19,10 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonGroupsArea : ViewDrawPanel
     {
         #region Static Fields
-        private static readonly Padding _preferredNormalPadding = new Padding(0, 0, 1, 0);
-        private static readonly Padding _preferredMinimizedPadding = new Padding(0, 1, 1, 0);
-        private static readonly Padding _layoutNormalPadding = new Padding(0, -1, 1, 1);
-        private static readonly Padding _layoutMinimizedPadding = new Padding(0, 0, 1, 1);
+        private static readonly Padding _preferredNormalPadding = new(0, 0, 1, 0);
+        private static readonly Padding _preferredMinimizedPadding = new(0, 1, 1, 0);
+        private static readonly Padding _layoutNormalPadding = new(0, -1, 1, 1);
+        private static readonly Padding _layoutMinimizedPadding = new(0, 0, 1, 1);
         #endregion
 
         #region Instance Fields
@@ -101,7 +95,7 @@ namespace Krypton.Ribbon
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
             // Get the preferred size of the contained content
-            Size preferredSize = new Size(0, _ribbon.CalculatedValues.GroupsHeight);
+            Size preferredSize = new(0, _ribbon.CalculatedValues.GroupsHeight);
 
             // Add on the padding we need around edges
             if (_ribbon.RealMinimizedMode)

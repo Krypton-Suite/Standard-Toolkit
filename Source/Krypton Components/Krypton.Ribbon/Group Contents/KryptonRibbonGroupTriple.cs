@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTriple), "ToolboxBitmaps.KryptonRibbonGroupTriple.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupTripleDesigner))]
+    [Designer(typeof(KryptonRibbonGroupTripleDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -118,7 +110,7 @@ namespace Krypton.Ribbon
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event EventHandler DesignTimeAddComboBox;
-        
+
         /// <summary>
         /// Occurs when the design time wants to add a numeric up down.
         /// </summary>
@@ -194,7 +186,7 @@ namespace Krypton.Ribbon
             base.Dispose(disposing);
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets access to the owning ribbon control.
@@ -206,8 +198,8 @@ namespace Krypton.Ribbon
         {
             get => base.Ribbon;
 
-            set 
-            { 
+            set
+            {
                 base.Ribbon = value;
 
                 // Forward the reference to all children (just in case the children
@@ -229,8 +221,8 @@ namespace Krypton.Ribbon
         {
             get => base.RibbonTab;
 
-            set 
-            { 
+            set
+            {
                 base.RibbonTab = value;
 
                 // Forward the reference to all children (just in case the children
@@ -252,7 +244,7 @@ namespace Krypton.Ribbon
         {
             get => _itemAlignment;
 
-            set             
+            set
             {
                 if (_itemAlignment != value)
                 {
@@ -388,7 +380,7 @@ namespace Krypton.Ribbon
         {
             get => _itemSizeMin;
 
-            set 
+            set
             {
                 if (_itemSizeMin != value)
                 {
@@ -468,7 +460,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group triple items.")]
         [MergableProperty(false)]
-        [Editor(typeof(Krypton.Ribbon.KryptonRibbonGroupTripleCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonRibbonGroupTripleCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupTripleCollection Items { get; }
 

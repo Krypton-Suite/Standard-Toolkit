@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -63,7 +58,7 @@ namespace Krypton.Toolkit
             : this(null)
         {
         }
-        
+
         /// <summary>
         /// Initialize a new instance of the PaletteRedirect class.
         /// </summary>
@@ -325,8 +320,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Integer rounding.</returns>
-        public virtual int GetBorderRounding(PaletteBorderStyle style, PaletteState state)
+        /// <returns>Float rounding.</returns>
+        public virtual float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
         {
             return _target.GetBorderRounding(style, state);
         }
@@ -486,7 +481,7 @@ namespace Krypton.Toolkit
         {
             return _target.GetContentShortTextPrefix(style, state);
         }
-        
+
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for short text.
         /// </summary>
@@ -695,7 +690,7 @@ namespace Krypton.Toolkit
         {
             return _target.GetContentLongTextPrefix(style, state);
         }
-        
+
         /// <summary>
         /// Gets the horizontal relative alignment of the long text.
         /// </summary>
@@ -851,7 +846,7 @@ namespace Krypton.Toolkit
         {
             return _target.GetMetricInt(state, metric);
         }
-        
+
         /// <summary>
         /// Gets a boolean metric value.
         /// </summary>
@@ -1213,7 +1208,7 @@ namespace Krypton.Toolkit
         {
             return _target.GetRibbonMinimizeBarLight(state);
         }
-        
+
         /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
@@ -1274,7 +1269,7 @@ namespace Krypton.Toolkit
             return _target.GetRibbonQATButtonLight(state);
         }
         #endregion
-        
+
         #region RibbonBack
         /// <summary>
         /// Gets the method used to draw the background of a ribbon item.

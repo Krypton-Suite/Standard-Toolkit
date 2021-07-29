@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.IO;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -40,7 +35,7 @@ namespace Krypton.Toolkit
         /// <param name="icon">The icon.</param>
         /// <param name="className">Name of the class.</param>
         /// <param name="methodSignature">The method signature.</param>
-        public static void CaptureException(Exception exception, string title = @"Exception Caught", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Error, string className = "", string methodSignature = "")
+        public static void CaptureException(Exception exception, string title = @"Exception Caught", MessageBoxButtons buttons = MessageBoxButtons.OK, KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.ERROR, string className = "", string methodSignature = "")
         {
             if (className != "")
             {
@@ -74,7 +69,7 @@ namespace Krypton.Toolkit
                     File.Create(fileName);
                 }
 
-                StreamWriter writer = new StreamWriter(fileName);
+                StreamWriter writer = new(fileName);
 
                 writer.Write(exc.ToString());
 
@@ -103,7 +98,7 @@ namespace Krypton.Toolkit
                     File.Create(fileName);
                 }
 
-                StreamWriter writer = new StreamWriter(fileName);
+                StreamWriter writer = new(fileName);
 
                 writer.Write(exc.StackTrace);
 

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -76,7 +70,7 @@ namespace Krypton.Toolkit
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;
         private ButtonStyle _dropButtonStyle;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private DateTimePickerFormat _format;
         private DateTime _maxDateTime;
         private DateTime _minDateTime;
@@ -190,7 +184,7 @@ namespace Krypton.Toolkit
             IsDropped = false;
             IsMouseOver = false;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
             CalendarShowToday = true;
             CalendarShowTodayCircle = true;
             CalendarCloseOnTodayClick = false;
@@ -229,7 +223,7 @@ namespace Krypton.Toolkit
 
             // Add a checkbox to the left of the text area
             Images = new CheckBoxImages(NeedPaintDelegate);
-            PaletteRedirectCheckBox paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
+            PaletteRedirectCheckBox paletteCheckBoxImages = new(Redirector, Images);
             InternalViewDrawCheckBox = new ViewDrawCheckBox(paletteCheckBoxImages)
             {
                 CheckState = CheckState.Checked
@@ -241,7 +235,7 @@ namespace Krypton.Toolkit
             _layoutCheckBox.Visible = false;
 
             // Need a controller for handling check box mouse input
-            CheckBoxController controller = new CheckBoxController(InternalViewDrawCheckBox, InternalViewDrawCheckBox, NeedPaintDelegate);
+            CheckBoxController controller = new(InternalViewDrawCheckBox, InternalViewDrawCheckBox, NeedPaintDelegate);
             controller.Click += OnCheckBoxClick;
             controller.Enabled = true;
             InternalViewDrawCheckBox.MouseController = controller;
@@ -390,17 +384,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         public override string Text
         {
-            get
-            {
-                if ((ValueNullable == null) || (ValueNullable == DBNull.Value))
-                {
-                    return string.Empty;
-                }
-                else
-                {
-                    return _drawText.ToString();
-                }
-            }
+            get => (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _drawText.ToString();
 
             set { }
         }
@@ -529,7 +513,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
                 }
 
                 _annualDates.Clear();
@@ -565,7 +549,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -599,10 +583,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = new DateTime[0];
-                }
+                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
 
                 _dates.Clear();
                 _dates.AddRange(value);
@@ -1303,8 +1284,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -1448,20 +1429,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive || ContainsFocus || IsMouseOver);
-                }
-            }
-        }
+        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || IsMouseOver;
 
         /// <summary>
         /// Gets a value indicating if the mouse is over the control.
@@ -1863,7 +1831,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !InRibbonDesignMode)
             {
                 // We treat positive numbers as moving upwards
-                KeyEventArgs kpea = new KeyEventArgs((e.Delta < 0) ? Keys.Down : Keys.Up);
+                KeyEventArgs kpea = new((e.Delta < 0) ? Keys.Down : Keys.Up);
 
                 // Simulate the up/down key the correct number of times
                 int detents = Math.Abs(e.Delta) / SystemInformation.MouseWheelScrollDelta;
@@ -2100,7 +2068,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(240, PreferredHeight);
+        protected override Size DefaultSize => new(240, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -2227,7 +2195,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2242,10 +2210,10 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						if (AllowButtonSpecToolTipPriority)
+
+                        if (AllowButtonSpecToolTipPriority)
                         {
-                            _visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip?.Dispose();
                         }
 
                         // Create the actual tooltip popup object
@@ -2281,7 +2249,7 @@ namespace Krypton.Toolkit
                 _dropDownMonthChanged = false;
 
                 // Create a new krypton context menu each time we drop the menu
-                DTPContextMenu kcm = new DTPContextMenu(RectangleToScreen(_buttonDropDown.ClientRectangle));
+                DTPContextMenu kcm = new(RectangleToScreen(_buttonDropDown.ClientRectangle));
 
                 // Add and setup a month calendar element
                 _kmc = new KryptonContextMenuMonthCalendar
@@ -2320,7 +2288,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Give user a change to modify the context menu or even cancel the menu entirely
-                DateTimePickerDropArgs dtpda = new DateTimePickerDropArgs(kcm,
+                DateTimePickerDropArgs dtpda = new(kcm,
                                                                           (DropDownAlign == LeftRightAlignment.Left ? KryptonContextMenuPositionH.Left : KryptonContextMenuPositionH.Right),
                                                                           KryptonContextMenuPositionV.Below);
                 // Let user examine and later values
@@ -2378,7 +2346,7 @@ namespace Krypton.Toolkit
         private void OnMonthCalendarDateChanged(object sender, DateRangeEventArgs e)
         {
             // Use the newly selected date but the exising time
-            DateTime newDt = new DateTime(e.Start.Year, e.Start.Month, e.Start.Day,
+            DateTime newDt = new(e.Start.Year, e.Start.Month, e.Start.Day,
                                           _dateTime.Hour, _dateTime.Minute, _dateTime.Second, _dateTime.Millisecond);
 
             // Range check in case the min/max have time portions and not just full days
@@ -2413,7 +2381,7 @@ namespace Krypton.Toolkit
             }
 
             // Generate the close up event and provide the menu so handlers can examine state that might have changed
-            DateTimePickerCloseArgs dtca = new DateTimePickerCloseArgs(kcm);
+            DateTimePickerCloseArgs dtca = new(kcm);
             OnCloseUp(dtca);
 
             // Notify that the month calendar changed value whilst the dropped down.
@@ -2510,7 +2478,7 @@ namespace Krypton.Toolkit
                                                                PaletteRedirect redirector,
                                                                PaletteRedirectContextMenu redirectorImages,
                                                                KryptonContextMenuCollection items,
-                                                               Boolean enabled,
+                                                               bool enabled,
                                                                bool keyboardActivated)
         {
             return new VisualContextMenuDTP(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated, _dropScreenRect);

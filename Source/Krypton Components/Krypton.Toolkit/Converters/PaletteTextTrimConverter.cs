@@ -2,13 +2,11 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -38,13 +36,13 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(PaletteTextTrim.Inherit,              "Inherit"),
-            new Pair(PaletteTextTrim.Hide,                 "Hide"),
-            new Pair(PaletteTextTrim.Character,            "Character"),
-            new Pair(PaletteTextTrim.Word,                 "Word"),
-            new Pair(PaletteTextTrim.EllipsisCharacter,    "Ellipsis Character"),
-            new Pair(PaletteTextTrim.EllipsisWord,         "Ellipsis Word"),
-            new Pair(PaletteTextTrim.EllipsisPath,         "Ellipsis Path") };
+        { new(PaletteTextTrim.Inherit,              "Inherit"),
+            new(PaletteTextTrim.Hide,                 "Hide"),
+            new(PaletteTextTrim.Character,            "Character"),
+            new(PaletteTextTrim.Word,                 "Word"),
+            new(PaletteTextTrim.EllipsisCharacter,    "Ellipsis Character"),
+            new(PaletteTextTrim.EllipsisWord,         "Ellipsis Word"),
+            new(PaletteTextTrim.EllipsisPath,         "Ellipsis Path") };
 
         #endregion
     }

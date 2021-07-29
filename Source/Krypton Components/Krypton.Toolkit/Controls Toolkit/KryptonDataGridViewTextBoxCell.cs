@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -35,7 +27,7 @@ namespace Krypton.Toolkit
         [ThreadStatic]
         private static KryptonTextBox _paintingTextBox;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewTextBoxEditingControl);
-        private static readonly Type _defaultValueType = typeof(String);
+        private static readonly Type _defaultValueType = typeof(string);
 
         #endregion
 
@@ -188,7 +180,7 @@ namespace Krypton.Toolkit
 
             if (DataGridView.EditingControl is KryptonTextBox textBox)
             {
-                if (!(initialFormattedValue is string initialFormattedValueStr))
+                if (initialFormattedValue is not string initialFormattedValueStr)
                 {
                     textBox.Text = string.Empty;
                 }
@@ -292,7 +284,7 @@ namespace Krypton.Toolkit
         private void OnButtonClick(object sender, EventArgs e)
         {
             KryptonDataGridViewTextBoxColumn textColumn = OwningColumn as KryptonDataGridViewTextBoxColumn;
-            DataGridViewButtonSpecClickEventArgs args = new DataGridViewButtonSpecClickEventArgs(textColumn, this, (ButtonSpecAny)sender);
+            DataGridViewButtonSpecClickEventArgs args = new(textColumn, this, (ButtonSpecAny)sender);
             textColumn.PerformButtonSpecClick(args);
         }
 
@@ -340,12 +332,9 @@ namespace Krypton.Toolkit
 
         private bool OwnsEditingTextBox(int rowIndex)
         {
-            if ((rowIndex == -1) || (DataGridView == null))
-            {
-                return false;
-            }
-
-            return (DataGridView.EditingControl is KryptonDataGridViewTextBoxEditingControl control)
+            return (rowIndex == -1) || (DataGridView == null)
+                ? false
+                : (DataGridView.EditingControl is KryptonDataGridViewTextBoxEditingControl control)
                    && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
         }
 

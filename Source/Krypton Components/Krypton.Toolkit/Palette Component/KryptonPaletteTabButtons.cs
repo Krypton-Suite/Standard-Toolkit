@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -50,7 +46,7 @@ namespace Krypton.Toolkit
             TabCustom3 = new KryptonPaletteTabButton(redirector, PaletteBackStyle.TabCustom3, PaletteBorderStyle.TabCustom3, PaletteContentStyle.TabCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectTriple redirectCommon = new PaletteRedirectTriple(redirector, 
+            PaletteRedirectTriple redirectCommon = new(redirector, 
                                                                              TabCommon.StateDisabled, TabCommon.StateNormal,
                                                                              TabCommon.StatePressed, TabCommon.StateTracking,
                                                                              TabCommon.StateSelected,TabCommon.OverrideFocus);

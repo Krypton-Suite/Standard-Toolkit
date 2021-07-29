@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -58,7 +48,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public KryptonRibbonGroupClusterDesigner()
         {
-        }            
+        }
         #endregion
 
         #region Public
@@ -68,22 +58,19 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonCluster = (KryptonRibbonGroupCluster)component;
-            _ribbonCluster.DesignTimeAddButton += OnAddButton;
-            _ribbonCluster.DesignTimeAddColorButton += OnAddColorButton;
-            _ribbonCluster.DesignTimeContextMenu += OnContextMenu;
+            _ribbonCluster = component as KryptonRibbonGroupCluster;
+            if (_ribbonCluster != null)
+            {
+                _ribbonCluster.DesignTimeAddButton += OnAddButton;
+                _ribbonCluster.DesignTimeAddColorButton += OnAddColorButton;
+                _ribbonCluster.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -101,7 +88,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
+                ArrayList compound = new(base.AssociatedComponents);
                 compound.AddRange(_ribbonCluster.Items);
                 return compound;
             }
@@ -162,7 +149,7 @@ namespace Krypton.Ribbon
                 _addColorButtonVerb = new DesignerVerb("Add Color Button", OnAddColorButton);
                 _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
                 _deleteClusterVerb = new DesignerVerb("Delete Cluster", OnDeleteCluster);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
                                                      _addButtonVerb, _addColorButtonVerb, _clearItemsVerb, _deleteClusterVerb });
             }
 

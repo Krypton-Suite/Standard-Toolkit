@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -178,10 +172,8 @@ namespace Krypton.Toolkit
             {
                 do
                 {
-                    KryptonContextMenuRadioButton radioButton = this[start] as KryptonContextMenuRadioButton;
-                    
                     // Exit as soon as a non-radio button is encountered
-                    if (radioButton == null)
+                    if (this[start] is not KryptonContextMenuRadioButton radioButton)
                     {
                         break;
                     }
@@ -207,7 +199,7 @@ namespace Krypton.Toolkit
 
         private ViewLayoutStack AddColumn(ViewLayoutStack columns)
         {
-            ViewLayoutStack column = new ViewLayoutStack(false);
+            ViewLayoutStack column = new(false);
             columns.Add(column);
             return column;
         }
@@ -308,7 +300,7 @@ namespace Krypton.Toolkit
                                    bool imageColumn)
         {
             // Create a pile specific to organising menu items
-            ViewLayoutMenuItemsPile menuItemPile = new ViewLayoutMenuItemsPile(provider, items, standardStyle, imageColumn);
+            ViewLayoutMenuItemsPile menuItemPile = new(provider, items, standardStyle, imageColumn);
 
             // The pile is the root item for the new column
             columns.Add(menuItemPile);

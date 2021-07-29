@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Toolkit;
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Ribbon
 {
@@ -28,8 +20,8 @@ namespace Krypton.Ribbon
                                                IRibbonViewGroupItemView
     {
         #region Static Fields
-        private static readonly Padding _largeImagePadding = new Padding(3, 2, 3, 3);
-        private static readonly Padding _smallImagePadding = new Padding(3, 3, 3, 3);
+        private static readonly Padding _largeImagePadding = new(3, 2, 3, 3);
+        private static readonly Padding _smallImagePadding = new(3, 3, 3, 3);
         #endregion
 
         #region Instance Fields
@@ -367,11 +359,11 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new ViewLayoutDocker();
+            ViewLayoutDocker contentLayout = new();
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupButtonImage(_ribbon, GroupButton, true);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -423,7 +415,7 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new ViewLayoutDocker();
+            ViewLayoutDocker contentLayout = new();
 
             // Create the image and drop down content
             _viewMediumSmallImage = new ViewDrawRibbonGroupButtonImage(_ribbon, GroupButton, false);
@@ -432,7 +424,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewMediumSmallText2Sep2 = new ViewLayoutRibbonSeparator(3, false);
             _viewMediumSmallText2Sep3 = new ViewLayoutRibbonSeparator(3, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
+            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };

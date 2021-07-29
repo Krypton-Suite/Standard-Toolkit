@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-
-using Krypton.Navigator;
-using Krypton.Workspace;
 // ReSharper disable MemberCanBeInternal
 
 namespace Krypton.Docking
@@ -78,7 +70,7 @@ namespace Krypton.Docking
                 KryptonDockingManager dockingManager = DockingManager;
                 if (dockingManager != null)
                 {
-                    DockableWorkspaceEventArgs args = new DockableWorkspaceEventArgs(DockableWorkspaceControl, this);
+                    DockableWorkspaceEventArgs args = new(DockableWorkspaceControl, this);
                     dockingManager.RaiseDockableWorkspaceAdded(args);
                 }
             }
@@ -172,7 +164,7 @@ namespace Krypton.Docking
                     }
                 }
 
-                using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+                using (DockingMultiUpdate update = new(this))
                 {
                     base.PropogateAction(DockingPropogateAction.ShowPages, uniqueNames);
                 }
@@ -184,7 +176,7 @@ namespace Krypton.Docking
         /// </summary>
         public void ShowAllPages()
         {
-            using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+            using (DockingMultiUpdate update = new(this))
             {
                 base.PropogateAction(DockingPropogateAction.ShowAllPages, (string[])null);
             }
@@ -282,7 +274,7 @@ namespace Krypton.Docking
                     }
                 }
 
-                using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+                using (DockingMultiUpdate update = new(this))
                 {
                     base.PropogateAction(DockingPropogateAction.HidePages, uniqueNames);
                 }
@@ -294,7 +286,7 @@ namespace Krypton.Docking
         /// </summary>
         public void HideAllPages()
         {
-            using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+            using (DockingMultiUpdate update = new(this))
             {
                 base.PropogateAction(DockingPropogateAction.HideAllPages, (string[])null);
             }
@@ -384,7 +376,7 @@ namespace Krypton.Docking
                 }
 
                 // Remove page details from all parts of the hierarchy
-                using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+                using (DockingMultiUpdate update = new(this))
                 {
                     base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposePages : DockingPropogateAction.RemovePages, uniqueNames);
                 }
@@ -398,7 +390,7 @@ namespace Krypton.Docking
         public void RemoveAllPages(bool disposePage)
         {
             // Remove all details about all pages from all parts of the hierarchy
-            using (DockingMultiUpdate update = new DockingMultiUpdate(this))
+            using (DockingMultiUpdate update = new(this))
             {
                 base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposeAllPages : DockingPropogateAction.RemoveAllPages, (string[])null);
             }
@@ -436,7 +428,7 @@ namespace Krypton.Docking
                                                   DragTargetList targets)
         {
             // Create list of the pages that are allowed to be dropped into this workspace
-            KryptonPageCollection pages = new KryptonPageCollection();
+            KryptonPageCollection pages = new();
             foreach (KryptonPage page in dragData.Pages)
             {
                 if (page.AreFlagsSet(KryptonPageFlags.DockingAllowWorkspace))
@@ -461,7 +453,7 @@ namespace Krypton.Docking
         public override DockingLocation FindPageLocation(string uniqueName)
         {
             KryptonPage page = DockableWorkspaceControl.PageForUniqueName(uniqueName);
-            if ((page != null) && !(page is KryptonStorePage))
+            if ((page != null) && page is not KryptonStorePage)
             {
                 return DockingLocation.Workspace;
             }
@@ -479,7 +471,7 @@ namespace Krypton.Docking
         public override IDockingElement FindPageElement(string uniqueName)
         {
             KryptonPage page = DockableWorkspaceControl.PageForUniqueName(uniqueName);
-            if ((page != null) && !(page is KryptonStorePage))
+            if ((page != null) && page is not KryptonStorePage)
             {
                 return this;
             }
@@ -535,7 +527,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockableWorkspaceEventArgs args = new DockableWorkspaceEventArgs(DockableWorkspaceControl, this);
+                DockableWorkspaceEventArgs args = new(DockableWorkspaceControl, this);
                 dockingManager.RaiseDockableWorkspaceRemoved(args);
             }
         }
@@ -550,7 +542,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockableWorkspaceCellEventArgs args = new DockableWorkspaceCellEventArgs(DockableWorkspaceControl, this, cell);
+                DockableWorkspaceCellEventArgs args = new(DockableWorkspaceControl, this, cell);
                 dockingManager.RaiseDockableWorkspaceCellAdding(args);
             }
         }
@@ -565,7 +557,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                DockableWorkspaceCellEventArgs args = new DockableWorkspaceCellEventArgs(DockableWorkspaceControl, this, cell);
+                DockableWorkspaceCellEventArgs args = new(DockableWorkspaceControl, this, cell);
                 dockingManager.RaiseDockableWorkspaceCellRemoved(args);
             }
         }
@@ -581,7 +573,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                CancelUniqueNameEventArgs args = new CancelUniqueNameEventArgs(e.Page.UniqueName, false);
+                CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
                 dockingManager.RaisePageWorkspaceRequest(args);
 
                 // Pass back the result of the event
@@ -603,7 +595,7 @@ namespace Krypton.Docking
             List<KryptonPage> pages = new List<KryptonPage>();
             foreach (KryptonPage page in e.Pages)
             {
-                if (!(page is KryptonStorePage) && (DockableWorkspaceControl.CellForPage(page) != null))
+                if (page is not KryptonStorePage && (DockableWorkspaceControl.CellForPage(page) != null))
                 {
                     pages.Add(page);
                 }

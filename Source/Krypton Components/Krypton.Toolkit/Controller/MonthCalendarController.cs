@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -172,7 +165,7 @@ namespace Krypton.Toolkit
 
                         // Enforce the maximum number of days
                         DateTime selectStart = _selectionStart;
-                        TimeSpan span = new TimeSpan(_months.Calendar.MaxSelectionCount - 1, 0, 0, 0);
+                        TimeSpan span = new(_months.Calendar.MaxSelectionCount - 1, 0, 0, 0);
                         if (selectEnd > selectStart)
                         {
                             if ((selectEnd - selectStart) > span)
@@ -276,7 +269,7 @@ namespace Krypton.Toolkit
                             if (_months.Provider.ProviderCanCloseMenu)
                             {
                                 // Ask the original context menu definition, if we can close
-                                CancelEventArgs cea = new CancelEventArgs();
+                                CancelEventArgs cea = new();
                                 _months.Provider.OnClosing(cea);
 
                                 if (!cea.Cancel)
@@ -420,7 +413,7 @@ namespace Krypton.Toolkit
                         if (_months.Provider.ProviderCanCloseMenu)
                         {
                             // Ask the original context menu definition, if we can close
-                            CancelEventArgs cea = new CancelEventArgs();
+                            CancelEventArgs cea = new();
                             _months.Provider.OnClosing(cea);
 
                             if (!cea.Cancel)

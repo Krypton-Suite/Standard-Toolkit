@@ -2,31 +2,25 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
-    internal class KeyTipControl : Form
+    internal class KeyTipControl : KryptonForm
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private List<ViewDrawRibbonKeyTip> _viewList;
         private string _prefix;
         private readonly bool _showDisabled;
+        private System.Windows.Forms.Timer _redrawTimer = null;
         #endregion
 
         #region Identity
@@ -220,7 +214,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An PaintEventArgs containing the event data.</param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            using (ViewLayoutContext layoutContext = new ViewLayoutContext(this, _ribbon.Renderer))
+            using (ViewLayoutContext layoutContext = new(this, _ribbon.Renderer))
             {
                 foreach (ViewDrawRibbonKeyTip viewKeyTip in _viewList)
                 {
@@ -257,7 +251,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            using (RenderContext renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, _ribbon.Renderer))
+            using (RenderContext renderContext = new(this, e.Graphics, e.ClipRectangle, _ribbon.Renderer))
             {
                 foreach (ViewDrawRibbonKeyTip viewKeyTip in _viewList)
                 {
@@ -274,19 +268,19 @@ namespace Krypton.Ribbon
         private void StartTimer()
         {
             // Start timer to take care of re drawing the display
-            Timer redrawTimer = new Timer
+            _redrawTimer = new System.Windows.Forms.Timer
             {
                 Interval = 1
             };
-            redrawTimer.Tick += OnRedrawTick;
-            redrawTimer.Start();
+            _redrawTimer.Tick += OnRedrawTick;
+            _redrawTimer.Start();
         }
 
         private void OnRedrawTick(object sender, EventArgs e)
         {
-            Timer redrawTimer = (Timer)sender;
-            redrawTimer.Stop();
-            redrawTimer.Dispose();
+            _redrawTimer = (System.Windows.Forms.Timer)sender;
+            _redrawTimer.Stop();
+            _redrawTimer.Dispose();
 
             // Show the window and so cause it to be redrawn
             if (!IsDisposed && (Handle != IntPtr.Zero))

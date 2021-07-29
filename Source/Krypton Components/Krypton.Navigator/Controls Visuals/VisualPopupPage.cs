@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Reflection;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -61,10 +52,10 @@ namespace Krypton.Navigator
             _page = page;
 
             // Always create the layout that positions the actual page
-            ViewLayoutPopupPage layoutPage = new ViewLayoutPopupPage(navigator, page);
+            ViewLayoutPopupPage layoutPage = new(navigator, page);
 
             // Create the internal panel used for containing content
-            ViewDrawCanvas drawGroup = new ViewDrawCanvas(navigator.StateNormal.HeaderGroup.Back,
+            ViewDrawCanvas drawGroup = new(navigator.StateNormal.HeaderGroup.Back,
                                                           navigator.StateNormal.HeaderGroup.Border,
                                                           VisualOrientation.Top)
             {
@@ -81,7 +72,7 @@ namespace Krypton.Navigator
 
                 // Put the page group inside a layout that has separators 
                 // to pad out the sizing to the border size we need
-                ViewLayoutDocker layoutDocker = new ViewLayoutDocker
+                ViewLayoutDocker layoutDocker = new()
                 {
                     { drawGroup, ViewDockStyle.Fill },
                     { new ViewLayoutSeparator(border), ViewDockStyle.Top },
@@ -142,7 +133,7 @@ namespace Krypton.Navigator
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
-            using (RenderContext context = new RenderContext(this, null, ClientRectangle, Renderer))
+            using (RenderContext context = new(this, null, ClientRectangle, Renderer))
             {
                 // Grab a path that is the outside edge of the border
                 Rectangle borderRect = ClientRectangle;
@@ -215,7 +206,7 @@ namespace Krypton.Navigator
                     break;
             }
 
-            PopupPageEventArgs e = new PopupPageEventArgs(_page,
+            PopupPageEventArgs e = new(_page,
                                                           _navigator.Pages.IndexOf(_page),
                                                           parentScreenRect);
 

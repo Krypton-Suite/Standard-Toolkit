@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -75,75 +68,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>Gets or sets the context menu strip.</summary>
-        /// <value>The context menu strip.</value>
-        public ContextMenuStrip ContextMenuStrip
-        {
-            get => _checkButton.ContextMenuStrip;
-
-            set
-            {
-                if (_checkButton.ContextMenuStrip != value)
-                {
-                    _service.OnComponentChanged(_checkButton, null, _checkButton.ContextMenuStrip, value);
-
-                    _checkButton.ContextMenuStrip = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the font.</summary>
-        /// <value>The font.</value>
-        public Font ShortTextFont
-        {
-            get => _checkButton.StateCommon.Content.ShortText.Font;
-
-            set
-            {
-                if (_checkButton.StateCommon.Content.ShortText.Font != value)
-                {
-                    _service.OnComponentChanged(_checkButton, null, _checkButton.StateCommon.Content.ShortText.Font, value);
-
-                    _checkButton.StateCommon.Content.ShortText.Font = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the font.</summary>
-        /// <value>The font.</value>
-        public Font LongTextFont
-        {
-            get => _checkButton.StateCommon.Content.LongText.Font;
-
-            set
-            {
-                if (_checkButton.StateCommon.Content.LongText.Font != value)
-                {
-                    _service.OnComponentChanged(_checkButton, null, _checkButton.StateCommon.Content.LongText.Font, value);
-
-                    _checkButton.StateCommon.Content.LongText.Font = value;
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(-1)]
-        public int CornerRadius
-        {
-            get => _checkButton.StateCommon.Border.Rounding;
-
-            set
-            {
-                if (_checkButton.StateCommon.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_checkButton, null, _checkButton.StateCommon.Border.Rounding, value);
-
-                    _checkButton.StateCommon.Border.Rounding = value;
-                }
-            }
-        }
         #endregion
 
         #region Public Override
@@ -154,7 +78,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            DesignerActionItemCollection actions = new();
 
             // This can be null when deleting a control instance at design time
             if (_checkButton != null)
@@ -164,10 +88,6 @@ namespace Krypton.Toolkit
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnCheckedClick), "Appearance"));
                 actions.Add(new DesignerActionPropertyItem("ButtonStyle", "Style", "Appearance", "Button style"));
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Button orientation"));
-                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
-                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
-                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
-                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem("Values"));
                 actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Button text"));
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Button extra text"));

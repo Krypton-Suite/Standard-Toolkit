@@ -2,25 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Xml;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
 
 namespace Krypton.Workspace
 {
@@ -29,7 +17,7 @@ namespace Krypton.Workspace
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonWorkspaceCell), "ToolboxBitmaps.KryptonWorkspaceCell.bmp")]
-    [Designer(typeof(Krypton.Workspace.KryptonWorkspaceCellDesigner))]
+    [Designer(typeof(KryptonWorkspaceCellDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Pages")]
@@ -138,7 +126,7 @@ namespace Krypton.Workspace
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override DockStyle Dock
         {
-            get { return DockStyle.None; }
+            get => DockStyle.None;
 
             set
             {
@@ -406,9 +394,9 @@ namespace Krypton.Workspace
         [Description("The unique name of the workspace cell.")]
         public string UniqueName
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             set;
         }
 
@@ -489,7 +477,7 @@ namespace Krypton.Workspace
                     if (xmlReader.Name == "KP")
                     {
                         // Load the page details and optionally recreate the page
-                        string uniqueName = CommonHelper.XmlAttributeToText(xmlReader, "UN");
+                        string uniqueName = XmlHelper.XmlAttributeToText(xmlReader, "UN");
                         KryptonPage page = workspace.ReadPageElement(xmlReader, uniqueName, existingPages);
 
                         if (xmlReader.Name != "CPD")
@@ -500,7 +488,7 @@ namespace Krypton.Workspace
                         bool finished = xmlReader.IsEmptyElement;
 
                         // Generate event so custom data can be loaded and/or the page to be added can be modified
-                        PageLoadingEventArgs plea = new PageLoadingEventArgs(workspace, page, xmlReader);
+                        PageLoadingEventArgs plea = new(workspace, page, xmlReader);
                         workspace.OnPageLoading(plea);
                         page = plea.Page;
 

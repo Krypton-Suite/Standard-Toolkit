@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Globalization;
-using System.Text;
-using System.Windows.Forms;
 // ReSharper disable UnusedMember.Global
 
 namespace Krypton.Toolkit
@@ -59,7 +49,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder(0x40);
+            StringBuilder builder = new(0x40);
             builder.Append("KryptonDataGridViewComboBoxColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -113,7 +103,7 @@ namespace Krypton.Toolkit
             set
             {
                 if ((value != null)
-                    && !(value is KryptonDataGridViewComboBoxCell)
+                    && value is not KryptonDataGridViewComboBoxCell
                     )
                 {
                     throw new InvalidCastException(@"Value provided for CellTemplate must be of type KryptonDataGridViewComboBoxCell or derive from it.");
@@ -152,15 +142,10 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
         {
-            get
-            {
-                if (ComboBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return ComboBoxCellTemplate.DropDownStyle;
-            }
+            get =>
+                ComboBoxCellTemplate == null
+                    ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : ComboBoxCellTemplate.DropDownStyle;
 
             set
             {
@@ -201,15 +186,10 @@ namespace Krypton.Toolkit
         [DefaultValue(8)]
         public int MaxDropDownItems
         {
-            get
-            {
-                if (ComboBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return ComboBoxCellTemplate.MaxDropDownItems;
-            }
+            get =>
+                ComboBoxCellTemplate == null
+                    ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : ComboBoxCellTemplate.MaxDropDownItems;
 
             set
             {
@@ -251,15 +231,10 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public int DropDownHeight
         {
-            get
-            {
-                if (ComboBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return ComboBoxCellTemplate.DropDownHeight;
-            }
+            get =>
+                ComboBoxCellTemplate == null
+                    ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : ComboBoxCellTemplate.DropDownHeight;
 
             set
             {
@@ -300,15 +275,10 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public int DropDownWidth
         {
-            get
-            {
-                if (ComboBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return ComboBoxCellTemplate.DropDownWidth;
-            }
+            get =>
+                ComboBoxCellTemplate == null
+                    ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : ComboBoxCellTemplate.DropDownWidth;
 
             set
             {
@@ -362,15 +332,10 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public AutoCompleteMode AutoCompleteMode
         {
-            get
-            {
-                if (ComboBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return ComboBoxCellTemplate.AutoCompleteMode;
-            }
+            get =>
+                ComboBoxCellTemplate == null
+                    ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : ComboBoxCellTemplate.AutoCompleteMode;
 
             set
             {
@@ -411,15 +376,10 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public AutoCompleteSource AutoCompleteSource
         {
-            get
-            {
-                if (ComboBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return ComboBoxCellTemplate.AutoCompleteSource;
-            }
+            get =>
+                ComboBoxCellTemplate == null
+                    ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : ComboBoxCellTemplate.AutoCompleteSource;
 
             set
             {
@@ -461,15 +421,10 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         public string DisplayMember
         {
-            get
-            {
-                if (ComboBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return ComboBoxCellTemplate.DisplayMember;
-            }
+            get =>
+                ComboBoxCellTemplate == null
+                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : ComboBoxCellTemplate.DisplayMember;
 
             set
             {
@@ -511,15 +466,10 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         public string ValueMember
         {
-            get
-            {
-                if (ComboBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return ComboBoxCellTemplate.ValueMember;
-            }
+            get =>
+                ComboBoxCellTemplate == null
+                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : ComboBoxCellTemplate.ValueMember;
 
             set
             {
@@ -560,15 +510,10 @@ namespace Krypton.Toolkit
         public object DataSource
         {
 
-            get
-            {
-                if (ComboBoxCellTemplate == null)
-                {
-                    throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                }
-
-                return ComboBoxCellTemplate.DataSource;
-            }
+            get =>
+                ComboBoxCellTemplate == null
+                    ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : ComboBoxCellTemplate.DataSource;
 
             set
             {

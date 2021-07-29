@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Microsoft.Win32;
-using System.Diagnostics;
-using System.Drawing;
-using System.Security;
 
 namespace Krypton.Toolkit
 {
@@ -41,8 +35,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private Color[] _colors;
-        private InheritBool _roundedEdges;
+        private readonly Color[] _colors;
+        private readonly InheritBool _roundedEdges;
         #endregion
 
         #region Identity
@@ -624,15 +618,9 @@ namespace Krypton.Toolkit
         private static void DefineFonts()
         {
             // Release existing resources
-            if (_menuToolFont != null)
-            {
-                _menuToolFont.Dispose();
-            }
+            _menuToolFont?.Dispose();
 
-            if (_statusFont != null)
-            {
-                _statusFont.Dispose();
-            }
+            _statusFont?.Dispose();
 
             // Create new font using system information
             _menuToolFont = new Font("Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);

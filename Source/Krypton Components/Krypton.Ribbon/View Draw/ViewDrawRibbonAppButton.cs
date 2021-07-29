@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,9 +19,9 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonAppButton : ViewLeaf
     {
         #region Static Fields
-        private static readonly Size SIZE_FULL = new Size(39, 39);
-        private static readonly Size SIZE_TOP = new Size(39, 22);
-        private static readonly Size SIZE_BOTTOM = new Size(39, 17);
+        private static readonly Size SIZE_FULL = new(39, 39);
+        private static readonly Size SIZE_TOP = new(39, 22);
+        private static readonly Size SIZE_BOTTOM = new(39, 17);
         #endregion
 
         #region Instance Fields
@@ -142,7 +135,7 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context) 
         {
             // New clipping region is at most our own client size
-            using (Region combineRegion = new Region(_clipRect))
+            using (Region combineRegion = new(_clipRect))
             {
                 // Remember the current clipping region
                 Region clipRegion = context.Graphics.Clip.Clone();
@@ -181,7 +174,7 @@ namespace Krypton.Ribbon
                 if (_ribbon.RibbonAppButton.AppButtonImage != null)
                 {
                     // We always draw the image a 24x24 image
-                    Rectangle imageRect = new Rectangle(ClientLocation.X + 7, ClientLocation.Y + 6, 24, 24);
+                    Rectangle imageRect = new(ClientLocation.X + 7, ClientLocation.Y + 6, 24, 24);
 
                     if (_ribbon.Enabled)
                     {
@@ -190,7 +183,7 @@ namespace Krypton.Ribbon
                     else
                     {
                         // Use a color matrix to convert to black and white
-                        using (ImageAttributes attribs = new ImageAttributes())
+                        using (ImageAttributes attribs = new())
                         {
                             attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
 

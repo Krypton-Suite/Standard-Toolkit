@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -30,7 +24,7 @@ namespace Krypton.Toolkit
         private const int WEEKS = 6;
         private const int WEEKDAYS = 7;
         private const int DAYS = 42;
-        private static readonly TimeSpan TIMESPAN_1DAY = new TimeSpan(1, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_1DAY = new(1, 0, 0, 0);
         #endregion
 
         #region Instance Fields
@@ -211,12 +205,7 @@ namespace Krypton.Toolkit
                 return _lastDay;
             }
 
-            if (retDate < _month)
-            {
-                return _month;
-            }
-
-            return retDate;
+            return retDate < _month ? _month : retDate;
         }
         #endregion
 
@@ -250,8 +239,8 @@ namespace Krypton.Toolkit
 
             int layoutXCell = ClientLocation.X;
             int layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
-            Rectangle layoutRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
-            Rectangle layoutRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            Rectangle layoutRectCell = new(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
+            Rectangle layoutRectDay = new(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
 
             // Layout each week as a row
             DateTime todayDate = _calendar.TodayDate;
@@ -383,8 +372,8 @@ namespace Krypton.Toolkit
 
             int layoutXCell = ClientLocation.X;
             int layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
-            Rectangle drawRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
-            Rectangle drawRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            Rectangle drawRectCell = new(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
+            Rectangle drawRectDay = new(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
 
             // Draw each week as a row
             DateTime todayDate = _calendar.TodayDate;

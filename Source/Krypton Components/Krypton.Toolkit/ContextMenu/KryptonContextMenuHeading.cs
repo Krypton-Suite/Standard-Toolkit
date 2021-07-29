@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -139,7 +133,7 @@ namespace Krypton.Toolkit
                 if (_text != value)
                 {
                     _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Text"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
                 }
             }
         }
@@ -162,7 +156,7 @@ namespace Krypton.Toolkit
                 if (_extraText != value)
                 {
                     _extraText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ExtraText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ExtraText)));
                 }
             }
         }
@@ -184,7 +178,7 @@ namespace Krypton.Toolkit
                 if (_image != value)
                 {
                     _image = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Image"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Image)));
                 }
             }
         }
@@ -205,7 +199,7 @@ namespace Krypton.Toolkit
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageTransparentColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageTransparentColor)));
                 }
             }
         }

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -136,7 +129,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo instances.</returns>
         public KeyTipInfo[] GetQATKeyTips()
         {
-            KeyTipInfoList keyTipList = new KeyTipInfoList();
+            KeyTipInfoList keyTipList = new();
 
             // Add all the entries for the contents
             keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm));
@@ -155,7 +148,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _borderContents.ParentControl.RectangleToScreen(_extraButton.ClientRectangle);
 
                 // The keytip should be centered on the bottom center of the view
-                Point screenPt = new Point((viewRect.Left + (viewRect.Width / 2)) - borders.Left,
+                Point screenPt = new((viewRect.Left + (viewRect.Width / 2)) - borders.Left,
                                            viewRect.Bottom - 2 - borders.Top);
 
                 // Create fixed key tip of '00' that invokes the extra button contoller

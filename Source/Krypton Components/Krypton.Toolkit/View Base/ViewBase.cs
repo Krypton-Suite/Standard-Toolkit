@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -38,6 +30,7 @@ namespace Krypton.Toolkit
         private bool _fixed;
         private ViewBase _enableDependantView;
         private Rectangle _clientRect;
+        private RectangleF _clientRectF;
         private PaletteState _fixedState;
         private PaletteState _elementState;
 
@@ -93,6 +86,7 @@ namespace Krypton.Toolkit
                 // Dispose of managed and unmanaged resources
                 Dispose(true);
             }
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -106,9 +100,6 @@ namespace Krypton.Toolkit
             {
                 // Remove reference to parent view
                 Parent = null;
-
-                // No need to call destructor once dispose has occured
-                GC.SuppressFinalize(this);
             }
 
             // Mark as disposed
@@ -149,9 +140,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool Enabled
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _enabled; }
-            set { _enabled = value; }
+            [DebuggerStepThrough]
+            get => _enabled;
+            set => _enabled = value;
         }
         #endregion
 
@@ -161,9 +152,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool Visible
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _visible; }
-            set { _visible = value; }
+            [DebuggerStepThrough]
+            get => _visible;
+            set => _visible = value;
         }
         #endregion
 
@@ -173,9 +164,16 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual Rectangle ClientRectangle
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _clientRect; }
-            set { _clientRect = value; }
+            [DebuggerStepThrough]
+            get => _clientRect;
+            set => _clientRect = value;
+        }
+
+        public virtual RectangleF ClientRectangleF
+        {
+            [DebuggerStepThrough]
+            get => _clientRectF;
+            set => _clientRectF = value;
         }
 
         /// <summary>
@@ -183,9 +181,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual Point ClientLocation
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _clientRect.Location; }
-            set { _clientRect.Location = value; }
+            [DebuggerStepThrough]
+            get => _clientRect.Location;
+            set => _clientRect.Location = value;
         }
 
         /// <summary>
@@ -193,9 +191,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual Size ClientSize
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _clientRect.Size; }
-            set { _clientRect.Size = value; }
+            [DebuggerStepThrough]
+            get => _clientRect.Size;
+            set => _clientRect.Size = value;
         }
 
         /// <summary>
@@ -203,9 +201,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual int ClientWidth
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _clientRect.Width; }
-            set { _clientRect.Width = value; }
+            [DebuggerStepThrough]
+            get => _clientRect.Width;
+            set => _clientRect.Width = value;
         }
 
         /// <summary>
@@ -213,9 +211,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual int ClientHeight
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _clientRect.Height; }
-            set { _clientRect.Height = value; }
+            [DebuggerStepThrough]
+            get => _clientRect.Height;
+            set => _clientRect.Height = value;
         }
 
         /// <summary>
@@ -223,7 +221,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public float FactorDpiX
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
@@ -232,7 +230,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public float FactorDpiY
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
@@ -295,7 +293,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public ViewBase Parent
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             set;
         }
@@ -349,8 +347,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool IsReadOnly
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return false; }
+            [DebuggerStepThrough]
+            get => false;
         }
 
         /// <summary>
@@ -408,7 +406,7 @@ namespace Krypton.Toolkit
         /// Enumerate using non-generic interface.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        [System.Diagnostics.DebuggerStepThrough]
+        [DebuggerStepThrough]
         IEnumerator IEnumerable.GetEnumerator()
         {
             // Boilerplate code to satisfy IEnumerable<T> base class.
@@ -422,7 +420,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual IMouseController MouseController
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             set;
         }
@@ -432,7 +430,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual IKeyController KeyController
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             set;
         }
@@ -442,7 +440,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual ISourceController SourceController
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             set;
         }
@@ -510,14 +508,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Bubble event up to the parent
-                if (Parent != null)
-                {
-                    return Parent.MouseDown(pt, button);
-                }
-                else
-                {
-                    return false;
-                }
+                return Parent != null ? Parent.MouseDown(pt, button) : false;
             }
         }
 
@@ -629,14 +620,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Bubble event up to the parent
-                if (Parent != null)
-                {
-                    return Parent.KeyUp(e);
-                }
-                else
-                {
-                    return false;
-                }
+                return Parent != null ? Parent.KeyUp(e) : false;
             }
         }
         #endregion
@@ -685,9 +669,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual PaletteState ElementState
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _elementState; }
-            set { _elementState = value; }
+            [DebuggerStepThrough]
+            get => _elementState;
+            set => _elementState = value;
         }
 
         /// <summary>
@@ -735,8 +719,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual PaletteState FixedState
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _fixedState; }
+            [DebuggerStepThrough]
+            get => _fixedState;
 
             set
             {
@@ -760,8 +744,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool IsFixed
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _fixed; }
+            [DebuggerStepThrough]
+            get => _fixed;
         }
         #endregion
 
@@ -771,8 +755,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual ViewBase DependantEnabledState
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _enableDependantView; }
+            [DebuggerStepThrough]
+            get => _enableDependantView;
 
             set
             {
@@ -794,8 +778,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool IsEnableDependant
         {
-            [System.Diagnostics.DebuggerStepThrough]
-            get { return _enableDependant; }
+            [DebuggerStepThrough]
+            get => _enableDependant;
         }
         #endregion
 

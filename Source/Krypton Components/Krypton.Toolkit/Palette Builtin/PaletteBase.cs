@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
@@ -90,7 +82,7 @@ namespace Krypton.Toolkit
         /// <returns>Renderer to use for drawing palette settings.</returns>
         public abstract IRenderer GetRenderer();
         #endregion
-        
+
         #region Back
         /// <summary>
         /// Gets a value indicating if background should be drawn.
@@ -147,7 +139,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
         public abstract float GetBackColorAngle(PaletteBackStyle style, PaletteState state);
-            
+
         /// <summary>
         /// Gets a background image.
         /// </summary>
@@ -251,8 +243,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Integer rounding.</returns>
-        public abstract int GetBorderRounding(PaletteBorderStyle style, PaletteState state);
+        /// <returns>Float rounding.</returns>
+        public abstract float GetBorderRounding(PaletteBorderStyle style, PaletteState state);
 
         /// <summary>
         /// Gets a border image.
@@ -511,7 +503,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
         public abstract PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteContentStyle style, PaletteState state);
-        
+
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for long text.
         /// </summary>
@@ -642,7 +634,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public abstract int GetMetricInt(PaletteState state, PaletteMetricInt metric);
 
-            /// <summary>
+        /// <summary>
         /// Gets a boolean metric value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
@@ -666,7 +658,7 @@ namespace Krypton.Toolkit
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public abstract Image GetTreeViewImage(bool expanded);
-        
+
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
         /// </summary>
@@ -1259,7 +1251,7 @@ namespace Krypton.Toolkit
                                         Color color2, float percent2,
                                         Color color3, float percent3)
         {
-            return CommonHelper.MergeColors(color1, percent1, 
+            return CommonHelper.MergeColors(color1, percent1,
                                             color2, percent2,
                                             color3, percent3);
         }
@@ -1272,7 +1264,7 @@ namespace Krypton.Toolkit
         public static Color FadedColor(Color baseColor)
         {
             // Conver to HSL space
-            ColorHSL hsl = new ColorHSL(baseColor)
+            ColorHSL hsl = new(baseColor)
             {
 
                 // Remove saturation and fix luminance
@@ -1295,7 +1287,7 @@ namespace Krypton.Toolkit
                 if (!_inputControlPadding.HasValue)
                 {
                     // Find size of a input control with and without a border
-                    TextBox tb = new TextBox
+                    TextBox tb = new()
                     {
                         BorderStyle = BorderStyle.None
                     };
@@ -1304,7 +1296,7 @@ namespace Krypton.Toolkit
                     Size ss = tb.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
 
                     // Always subtract one from top and bottom edges to account for border placed there later by Krypton
-                    Padding inputControlPadding = new Padding(0);
+                    Padding inputControlPadding = new(0);
                     int xDiff = Math.Max(0, ss.Width - sn.Width);
                     int yDiff = Math.Max(0, ss.Height - sn.Height - 2);
 
@@ -1348,7 +1340,7 @@ namespace Krypton.Toolkit
         {
             OnUserPreferenceChanged(this, new UserPreferenceChangedEventArgs(UserPreferenceCategory.General));
         }
-        
+
         /// <summary>
         /// Handle a change in the user preferences.
         /// </summary>

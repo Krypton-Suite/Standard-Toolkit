@@ -2,27 +2,21 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Toolkit;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Navigator
 {
     /// <summary>
     /// Draws a semi-transparent window to indicate a drop rectangle.
     /// </summary>
-    public class DropSolidWindow : Form
+    public class DropSolidWindow : KryptonForm
     {
         #region Instance Fields
         private readonly IPaletteDragDrop _paletteDragDrop;
@@ -113,7 +107,7 @@ namespace Krypton.Navigator
             // If we have a solid rectangle to draw
             if (!SolidRect.IsEmpty)
             {
-                using (RenderContext context = new RenderContext(this, e.Graphics, e.ClipRectangle, _renderer))
+                using (RenderContext context = new(this, e.Graphics, e.ClipRectangle, _renderer))
                 {
                     _renderer.RenderGlyph.DrawDragDropSolidGlyph(context, ClientRectangle, _paletteDragDrop);
                 }

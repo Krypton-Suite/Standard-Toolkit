@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Globalization;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -29,9 +22,9 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         private const int WEEKS = 6;
-        private static readonly TimeSpan TIMESPAN_1DAY = new TimeSpan(1, 0, 0, 0);
-        private static readonly TimeSpan TIMESPAN_6DAYS = new TimeSpan(6, 0, 0, 0);
-        private static readonly TimeSpan TIMESPAN_1WEEK = new TimeSpan(7, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_1DAY = new(1, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_6DAYS = new(6, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_1WEEK = new(7, 0, 0, 0);
         #endregion
 
         #region Instance Fields
@@ -127,7 +120,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Find the first day of the year
-                DateTime yearDay = new DateTime(value.Year, 1, 1);
+                DateTime yearDay = new(value.Year, 1, 1);
                 _weekDay = _firstDay;
 
                 // Move forewards until we hit the starting day of the year
@@ -166,7 +159,7 @@ namespace Krypton.Toolkit
             _calendar.SetBoldedOverride(false);
 
             // Layout each week number
-            Rectangle layoutRectWeek = new Rectangle(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            Rectangle layoutRectWeek = new(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
             DateTime weekDate = _weekDay;
             DateTime displayDate = _firstDay;
             for (int j = 0; j < WEEKS; j++)
@@ -216,7 +209,7 @@ namespace Krypton.Toolkit
             _calendar.SetBoldedOverride(false);
 
             // Layout each week number
-            Rectangle drawRectWeek = new Rectangle(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            Rectangle drawRectWeek = new(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
             DateTime weekDate = _weekDay;
             DateTime displayDate = _firstDay;
             for (int j = 0; j < WEEKS; j++)

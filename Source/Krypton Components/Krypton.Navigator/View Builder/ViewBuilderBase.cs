@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -529,7 +520,7 @@ namespace Krypton.Navigator
                     if ((first == null) && wrap)
                     {
                         // Are we allowed to wrap around?
-                        CtrlTabCancelEventArgs ce = new CtrlTabCancelEventArgs(true);
+                        CtrlTabCancelEventArgs ce = new(true);
                         Navigator.OnCtrlTabWrap(ce);
 
                         if (ce.Cancel)
@@ -568,7 +559,7 @@ namespace Krypton.Navigator
                         if ((next == null) && wrap)
                         {
                             // Are we allowed to wrap around?
-                            CtrlTabCancelEventArgs ce = new CtrlTabCancelEventArgs(true);
+                            CtrlTabCancelEventArgs ce = new(true);
                             Navigator.OnCtrlTabWrap(ce);
 
                             if (ce.Cancel)
@@ -630,7 +621,7 @@ namespace Krypton.Navigator
                     if ((first == null) && wrap)
                     {
                         // Are we allowed to wrap around?
-                        CtrlTabCancelEventArgs ce = new CtrlTabCancelEventArgs(false);
+                        CtrlTabCancelEventArgs ce = new(false);
                         Navigator.OnCtrlTabWrap(ce);
 
                         if (ce.Cancel)
@@ -669,7 +660,7 @@ namespace Krypton.Navigator
                         if ((previous == null) && wrap)
                         {
                             // Are we allowed to wrap around?
-                            CtrlTabCancelEventArgs ce = new CtrlTabCancelEventArgs(false);
+                            CtrlTabCancelEventArgs ce = new(false);
                             Navigator.OnCtrlTabWrap(ce);
 
                             if (ce.Cancel)
@@ -702,11 +693,9 @@ namespace Krypton.Navigator
         protected NeedPaintHandler NeedPaintDelegate
         {
             [DebuggerStepThrough]
-            get
-            {
+            get =>
                 // Only create the delegate when it is first needed
-                return _needPaintDelegate ?? (_needPaintDelegate = OnNeedPaint);
-            }
+                _needPaintDelegate ?? (_needPaintDelegate = OnNeedPaint);
         }
 
         /// <summary>

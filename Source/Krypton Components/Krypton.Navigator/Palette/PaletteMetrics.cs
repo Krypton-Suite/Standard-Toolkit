@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -65,7 +60,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Pixel inset of button specs from the edge of the page header.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(-1)]
         public int PageButtonSpecInset
         {
@@ -77,7 +72,7 @@ namespace Krypton.Navigator
                 {
                     _pageButtonSpecInset = value;
 
-                    _navigator?.OnViewBuilderPropertyChanged("PageButtonSpecInset");
+                    _navigator?.OnViewBuilderPropertyChanged(nameof(PageButtonSpecInset));
                 }
             }
         }
@@ -97,7 +92,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Pixel padding around the button specs on a page header.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Padding PageButtonSpecPadding
         {
             get => _pageButtonSpecPadding;
@@ -108,7 +103,7 @@ namespace Krypton.Navigator
                 {
                     _pageButtonSpecPadding = value;
 
-                    _navigator?.OnViewBuilderPropertyChanged("PageButtonSpecPadding");
+                    _navigator?.OnViewBuilderPropertyChanged(nameof(PageButtonSpecPadding));
                 }
             }
         }

@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -58,11 +49,7 @@ namespace Krypton.Toolkit
                 case PI.WM_.WINDOWPOSCHANGED:
                     {
                         PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
-#if NET35
-                        bool move = (structure.flags & (PI.SWP_.NOSIZE | PI.SWP_.NOMOVE)) == 0;
-#else
-                        bool move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
-#endif
+                        bool move = !MissingFrameWorkAPIs.HasFlag(structure.flags, PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
                         PositionShadowForms(move);
                         if (!move)
                         {
@@ -116,7 +103,7 @@ namespace Krypton.Toolkit
         private void FormLoaded(object sender, EventArgs e)
         {
             _allowDrawing = (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
-                            && (System.Diagnostics.Process.GetCurrentProcess().ProcessName != @"devenv");
+                            && (Process.GetCurrentProcess().ProcessName != @"devenv");
             if (_shadowForms == null)
             {
                 InitialiseShadowForms();
@@ -213,7 +200,7 @@ namespace Krypton.Toolkit
             float solidW = clientRectangle.Width + blur * 2;
             float solidH = clientRectangle.Height + blur * 2;
             float blurOffset = _shadowValues.ExtraWidth - blur;
-            Bitmap bitmap = new Bitmap(w, h);
+            Bitmap bitmap = new(w, h);
             bitmap.MakeTransparent();
             using (Graphics g = Graphics.FromImage(bitmap))
             {
@@ -226,7 +213,7 @@ namespace Krypton.Toolkit
                 // four dir gradient
                 if (blurOffset > 0)
                 {
-                    using (LinearGradientBrush brush = new LinearGradientBrush(new PointF(0, 0), new PointF(blurOffset, 0),
+                    using (LinearGradientBrush brush = new(new PointF(0, 0), new PointF(blurOffset, 0),
                         Color.Transparent, _shadowValues.Colour))
                     {
                         // Left
@@ -250,11 +237,11 @@ namespace Krypton.Toolkit
 
 
                     // four corner
-                    using (GraphicsPath gp = new GraphicsPath())
-                    using (Matrix matrix = new Matrix())
+                    using (GraphicsPath gp = new())
+                    using (Matrix matrix = new())
                     {
                         gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
-                        using (PathGradientBrush pgb = new PathGradientBrush(gp)
+                        using (PathGradientBrush pgb = new(gp)
                         {
                             CenterColor = _shadowValues.Colour,
                             SurroundColors = new[] { Color.Transparent },
@@ -356,7 +343,7 @@ namespace Krypton.Toolkit
     /// </summary>
     internal static class FlashWindowExListener
     {
-        private static readonly Dictionary<IntPtr, Form> _forms = new Dictionary<IntPtr, Form>();
+        private static readonly Dictionary<IntPtr, Form> _forms = new();
         private static readonly IntPtr _hHook;
         // Keep the HookProc delegate alive manually, such as using a class member as shown below,
         // otherwise the garbage collector will clean up the hook delegate eventually,

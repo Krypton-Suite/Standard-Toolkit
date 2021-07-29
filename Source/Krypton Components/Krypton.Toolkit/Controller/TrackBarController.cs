@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -29,7 +23,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly ViewDrawTP _drawTB;
-        private Timer _repeatTimer;
+        private System.Windows.Forms.Timer _repeatTimer;
         private bool _captured;
         private int _targetValue;
         private Point _lastMovePt;
@@ -99,7 +93,7 @@ namespace Krypton.Toolkit
                     OnRepeatTimer(_repeatTimer, EventArgs.Empty);
 
                     // Use timer to keep moving towards the target value
-                    _repeatTimer = new Timer
+                    _repeatTimer = new System.Windows.Forms.Timer
                     {
                         Interval = SystemInformation.DoubleClickTime
                     };
@@ -273,12 +267,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(c));
             }
 
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
-            return _captured;
+            return e == null ? throw new ArgumentNullException(nameof(e)) : _captured;
         }
         #endregion
 

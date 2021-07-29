@@ -2,32 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Drawing.Text;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
-using System.Xml;
 
 namespace Krypton.Toolkit
 {
@@ -64,16 +46,16 @@ namespace Krypton.Toolkit
         private static readonly int[] _daysInMonth = new int[12] { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
 
         private static int _nextId = 1000;
-        private static DateTime _baseDate = new DateTime(2000, 1, 1);
+        private static DateTime _baseDate = new(2000, 1, 1);
         private static PropertyInfo _cachedShortcutPI;
         private static PropertyInfo _cachedDesignModePI;
         private static MethodInfo _cachedShortcutMI;
         private static NullContentValues _nullContentValues;
-        private static readonly DoubleConverter _dc = new DoubleConverter();
-        private static readonly SizeConverter _sc = new SizeConverter();
-        private static readonly PointConverter _pc = new PointConverter();
-        private static readonly BooleanConverter _bc = new BooleanConverter();
-        private static readonly ColorConverter _cc = new ColorConverter();
+        private static readonly DoubleConverter _dc = new();
+        private static readonly SizeConverter _sc = new();
+        private static readonly PointConverter _pc = new();
+        private static readonly BooleanConverter _bc = new();
+        private static readonly ColorConverter _cc = new();
 
         #endregion
 
@@ -85,7 +67,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new Point(Int32.MaxValue, Int32.MaxValue);
+        } = new(int.MaxValue, int.MaxValue);
 
         /// <summary>
         /// Gets access to the global null rectangle value.
@@ -94,7 +76,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new Rectangle(Int32.MaxValue, Int32.MaxValue, 0, 0);
+        } = new(int.MaxValue, int.MaxValue, 0, 0);
 
         /// <summary>
         /// Color matrix used to adjust colors to look disabled.
@@ -103,7 +85,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new ColorMatrix(new float[][]{new float[]{0.3f,0.3f,0.3f,0,0},
+        } = new(new float[][]{new float[]{0.3f,0.3f,0.3f,0,0},
             new float[]{0.59f,0.59f,0.59f,0,0},
             new float[]{0.11f,0.11f,0.11f,0,0},
             new float[]{0,0,0,0.5f,0},
@@ -115,7 +97,7 @@ namespace Krypton.Toolkit
         public static int NextId
         {
             [DebuggerStepThrough]
-            get { return _nextId++; }
+            get => _nextId++;
         }
 
         /// <summary>
@@ -139,7 +121,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new Padding(-1);
+        } = new(-1);
 
         /// <summary>
         /// Check a short cut menu for a matching short and invoke that item if found.
@@ -442,13 +424,13 @@ namespace Krypton.Toolkit
         public static object PerformOperation(Operation op, object parameter)
         {
             // Create a modal window for showing feedback
-            using (ModalWaitDialog wait = new ModalWaitDialog())
+            using (ModalWaitDialog wait = new())
             {
                 // Create the object that runs the operation in a separate thread
-                OperationThread opThread = new OperationThread(op, parameter);
+                OperationThread opThread = new(op, parameter);
 
                 // Create the actual thread and provide thread entry point
-                Thread thread = new Thread(opThread.Run);
+                Thread thread = new(opThread.Run);
 
                 // Kick off the thread action
                 thread.Start();
@@ -884,7 +866,7 @@ namespace Krypton.Toolkit
         public static GraphicsPath RoundedRectanglePath(Rectangle rect,
                                                         int rounding)
         {
-            GraphicsPath roundedPath = new GraphicsPath();
+            GraphicsPath roundedPath = new();
 
             // Only use a rounding that will fit inside the rect
             rounding = Math.Min(rounding, Math.Min(rect.Width / 2, rect.Height / 2) - rounding);
@@ -898,7 +880,7 @@ namespace Krypton.Toolkit
             else
             {
                 // We create the path using a floating point rectangle
-                RectangleF rectF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+                RectangleF rectF = new(rect.X, rect.Y, rect.Width, rect.Height);
 
                 // The border is made of up a quarter of a circle arc, in each corner
                 int arcLength = rounding * 2;
@@ -1129,7 +1111,7 @@ namespace Krypton.Toolkit
         public static bool IsShiftKeyPressed
         {
             [DebuggerStepThrough]
-            get { return ((PI.GetKeyState(VK_SHIFT) & 0x00008000) != 0); }
+            get => ((PI.GetKeyState(VK_SHIFT) & 0x00008000) != 0);
         }
 
         /// <summary>
@@ -1138,7 +1120,7 @@ namespace Krypton.Toolkit
         public static bool IsCtrlKeyPressed
         {
             [DebuggerStepThrough]
-            get { return ((PI.GetKeyState(VK_CONTROL) & 0x00008000) != 0); }
+            get => ((PI.GetKeyState(VK_CONTROL) & 0x00008000) != 0);
         }
 
         /// <summary>
@@ -1147,7 +1129,7 @@ namespace Krypton.Toolkit
         public static bool IsAltKeyPressed
         {
             [DebuggerStepThrough]
-            get { return ((PI.GetKeyState(VK_MENU) & 0x00008000) != 0); }
+            get => ((PI.GetKeyState(VK_MENU) & 0x00008000) != 0);
         }
 
         /// <summary>
@@ -1158,7 +1140,7 @@ namespace Krypton.Toolkit
         public static Control GetControlWithFocus(Control control)
         {
             // Does the provided control have the focus?
-            if (control.Focused && !(control is IContainedInputControl))
+            if (control.Focused && control is not IContainedInputControl)
             {
                 return control;
             }
@@ -1238,7 +1220,7 @@ namespace Krypton.Toolkit
         /// <returns>Border sizing.</returns>
         public static Padding GetWindowBorders(CreateParams cp)
         {
-            PI.RECT rect = new PI.RECT
+            PI.RECT rect = new()
             {
                 // Start with a zero sized rectangle
                 left = 0,
@@ -1291,7 +1273,7 @@ namespace Krypton.Toolkit
         {
             // Grab the actual current size of the window, this is more accurate than using
             // the 'this.Size' which is out of date when performing a resize of the window.
-            PI.RECT windowRect = new PI.RECT();
+            PI.RECT windowRect = new();
             PI.GetWindowRect(handle, ref windowRect);
 
             // Create rectangle that encloses the entire window
@@ -1490,8 +1472,8 @@ namespace Krypton.Toolkit
         /// <param name="str">String to output.</param>
         public static void LogOutput(string str)
         {
-            FileInfo fi = new FileInfo(Application.ExecutablePath);
-            using (StreamWriter writer = new StreamWriter(fi.DirectoryName + "LogOutput.txt", true, Encoding.ASCII))
+            FileInfo fi = new(Application.ExecutablePath);
+            using (StreamWriter writer = new(fi.DirectoryName + "LogOutput.txt", true, Encoding.ASCII))
             {
                 writer.Write(DateTime.Now.ToLongTimeString() + " :  ");
                 writer.WriteLine(str);
@@ -1626,7 +1608,7 @@ namespace Krypton.Toolkit
         public static Point ClientMouseMessageToScreenPt(Message m)
         {
             // Extract the x and y mouse position from message
-            PI.POINTC clientPt = new PI.POINTC
+            PI.POINTC clientPt = new()
             {
                 x = PI.LOWORD((int)m.LParam),
                 y = PI.HIWORD((int)m.LParam)
@@ -1645,7 +1627,7 @@ namespace Krypton.Toolkit
             }
 
             // Convert a 0,0 point from client to screen to find offsetting
-            PI.POINTC zeroPIPt = new PI.POINTC
+            PI.POINTC zeroPIPt = new()
             {
                 x = 0,
                 y = 0
@@ -1659,115 +1641,7 @@ namespace Krypton.Toolkit
             // Return as a managed point type
             return new Point(clientPt.x, clientPt.y);
         }
-
-        /// <summary>
-        /// Only persist the provided name/value pair as an Xml attribute if the value is not null or empty.
-        /// </summary>
-        /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name="name">Attribute name.</param>
-        /// <param name="value">Attribute value.</param>
-        public static void TextToXmlAttribute(XmlWriter xmlWriter,
-                                              string name,
-                                              string value)
-        {
-            TextToXmlAttribute(xmlWriter, name, value, string.Empty);
-        }
-
-        /// <summary>
-        /// Only persist the provided name/value pair as an Xml attribute if the value is not null/empty and not the default.
-        /// </summary>
-        /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name="name">Attribute name.</param>
-        /// <param name="value">Attribute value.</param>
-        /// <param name="def">Default value.</param>
-        public static void TextToXmlAttribute(XmlWriter xmlWriter,
-                                              string name,
-                                              string value,
-                                              string def)
-        {
-            if (!string.IsNullOrEmpty(value) && (value != def))
-            {
-                xmlWriter.WriteAttributeString(name, value);
-            }
-        }
-
-        /// <summary>
-        /// Read the named attribute value but if no attribute is found then an empty string.
-        /// </summary>
-        /// <param name="xmlReader">Xml reader to load information from.</param>
-        /// <param name="name">Attribute name.</param>
-        /// <returns></returns>
-        public static string XmlAttributeToText(XmlReader xmlReader,
-                                                string name)
-        {
-            return XmlAttributeToText(xmlReader, name, string.Empty);
-        }
-
-        /// <summary>
-        /// Read the named attribute value but if no attribute is found then return the provided default.
-        /// </summary>
-        /// <param name="xmlReader">Xml reader to load information from.</param>
-        /// <param name="name">Attribute name.</param>
-        /// <param name="def">Default value.</param>
-        /// <returns></returns>
-        public static string XmlAttributeToText(XmlReader xmlReader,
-                                                string name,
-                                                string def)
-        {
-            try
-            {
-                string ret = xmlReader.GetAttribute(name) ?? def;
-
-                return ret;
-            }
-            catch
-            {
-                return def;
-            }
-        }
-
-        /// <summary>
-        /// Convert a Image to a culture invariant string value.
-        /// </summary>
-        /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name="name">Name of image to save.</param>
-        /// <param name="image">Image to persist.</param>
-        public static void ImageToXmlCData(XmlWriter xmlWriter, 
-                                           string name,
-                                           Image image)
-        {
-            // Only store if we have an actual image to persist
-            if (image != null)
-            {
-                // Convert the Image into base64 so it can be used in xml
-                MemoryStream memory = new MemoryStream();
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(memory, image);
-                string base64 = Convert.ToBase64String(memory.ToArray());
-
-                // Store the base64 Hex as a CDATA inside the element
-                xmlWriter.WriteStartElement(name);
-                xmlWriter.WriteCData(base64);
-                xmlWriter.WriteEndElement();
-            }
-        }
-
-        /// <summary>
-        /// Convert a culture invariant string value into an Image.
-        /// </summary>
-        /// <param name="xmlReader">Xml reader to load information from.</param>
-        /// <returns>Image that was recreated.</returns>
-        public static Image XmlCDataToImage(XmlReader xmlReader)
-        {
-            // Convert the content of the element into base64
-            byte[] bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());
-
-            // Convert the bytes back into an Image
-            MemoryStream memory = new MemoryStream(bytes);
-            BinaryFormatter formatter = new BinaryFormatter();
-            return (Image)formatter.Deserialize(memory);
-        }
-
+        
         /// <summary>
         /// Gets a reference to the currently active floating window.
         /// </summary>

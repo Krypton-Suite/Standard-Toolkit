@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -94,7 +87,7 @@ namespace Krypton.Toolkit
             };
 
             // Use context menu specific version of the check box controller
-            MenuCheckBoxController mcbc = new MenuCheckBoxController(provider.ProviderViewManager, _innerDocker, this, provider.ProviderNeedPaintDelegate);
+            MenuCheckBoxController mcbc = new(provider.ProviderViewManager, _innerDocker, this, provider.ProviderNeedPaintDelegate);
             mcbc.Click += OnClick;
             _innerDocker.MouseController = mcbc;
             _innerDocker.KeyController = mcbc;
@@ -181,120 +174,48 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct enabled state to use from the menu item.
         /// </summary>
-        public bool ResolveEnabled
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.Enabled;
-                }
-                else
-                {
-                    return KryptonContextMenuCheckBox.Enabled;
-                }
-            }
-        }
+        public bool ResolveEnabled => _cachedCommand != null ? _cachedCommand.Enabled : KryptonContextMenuCheckBox.Enabled;
+
         #endregion
 
         #region ResolveImage
         /// <summary>
         /// Resolves the correct image to use from the menu item.
         /// </summary>
-        public Image ResolveImage
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.ImageSmall;
-                }
-                else
-                {
-                    return KryptonContextMenuCheckBox.Image;
-                }
-            }
-        }
+        public Image ResolveImage => _cachedCommand != null ? _cachedCommand.ImageSmall : KryptonContextMenuCheckBox.Image;
+
         #endregion
 
         #region ResolveImageTransparentColor
         /// <summary>
         /// Resolves the correct image transparent color to use from the menu item.
         /// </summary>
-        public Color ResolveImageTransparentColor
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.ImageTransparentColor;
-                }
-                else
-                {
-                    return KryptonContextMenuCheckBox.ImageTransparentColor;
-                }
-            }
-        }
+        public Color ResolveImageTransparentColor => _cachedCommand != null ? _cachedCommand.ImageTransparentColor : KryptonContextMenuCheckBox.ImageTransparentColor;
+
         #endregion
 
         #region ResolveText
         /// <summary>
         /// Resolves the correct text string to use from the menu item.
         /// </summary>
-        public string ResolveText
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.Text;
-                }
-                else
-                {
-                    return KryptonContextMenuCheckBox.Text;
-                }
-            }
-        }
+        public string ResolveText => _cachedCommand != null ? _cachedCommand.Text : KryptonContextMenuCheckBox.Text;
+
         #endregion
 
         #region ResolveExtraText
         /// <summary>
         /// Resolves the correct extra text string to use from the menu item.
         /// </summary>
-        public string ResolveExtraText
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.ExtraText;
-                }
-                else
-                {
-                    return KryptonContextMenuCheckBox.ExtraText;
-                }
-            }
-        }
+        public string ResolveExtraText => _cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuCheckBox.ExtraText;
+
         #endregion
 
         #region ResolveCheckState
         /// <summary>
         /// Resolves the correct check state to use from the menu item.
         /// </summary>
-        public CheckState ResolveCheckState
-        {
-            get
-            {
-                if (_cachedCommand != null)
-                {
-                    return _cachedCommand.CheckState;
-                }
-                else
-                {
-                    return KryptonContextMenuCheckBox.CheckState;
-                }
-            }
-        }
+        public CheckState ResolveCheckState => _cachedCommand != null ? _cachedCommand.CheckState : KryptonContextMenuCheckBox.CheckState;
+
         #endregion
 
         #region KryptonContextMenuCheckBox

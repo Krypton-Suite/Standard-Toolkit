@@ -2,22 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Security.Permissions;
-using Krypton.Navigator;
-using Krypton.Toolkit;
 
 namespace Krypton.Docking
 {
@@ -32,7 +23,7 @@ namespace Krypton.Docking
         private readonly KryptonDockingManager _manager;
         private Point _offset;
         private Point _screenPt;
-        private readonly Timer _moveTimer;
+        private readonly System.Windows.Forms.Timer _moveTimer;
         private bool _addedFilter;
         private bool _monitorMouse;
         #endregion
@@ -49,7 +40,7 @@ namespace Krypton.Docking
             _offset = Point.Empty;
 
             // Use timer to ensure we do not update the display too quickly which then causes tearing
-            _moveTimer = new Timer
+            _moveTimer = new System.Windows.Forms.Timer
             {
                 Interval = 10
             };
@@ -211,7 +202,6 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="m">The message to be dispatched.</param>
         /// <returns>true to filter the message and stop it from being dispatched.</returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public bool PreFilterMessage(ref Message m)
         {
             switch (m.Msg)

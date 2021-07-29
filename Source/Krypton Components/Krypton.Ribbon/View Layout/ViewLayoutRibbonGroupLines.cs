@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -114,7 +105,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                ViewHightlightController controller = new ViewHightlightController(this, needPaint);
+                ViewHightlightController controller = new(this, needPaint);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -441,7 +432,7 @@ namespace Krypton.Ribbon
                 ((int)_ribbonLines.ItemSizeMinimum <= (int)GroupItemSize.Medium))
             {
                 ApplySize(GroupItemSize.Medium);
-                ItemSizeWidth mediumWidth = new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width);
+                ItemSizeWidth mediumWidth = new(GroupItemSize.Medium, GetPreferredSize(context).Width);
 
                 if (_ribbon.InDesignHelperMode)
                 {
@@ -467,7 +458,7 @@ namespace Krypton.Ribbon
             if (_ribbonLines.ItemSizeMinimum == GroupItemSize.Small)
             {
                 ApplySize(GroupItemSize.Small);
-                ItemSizeWidth smallWidth = new ItemSizeWidth(GroupItemSize.Small, GetPreferredSize(context).Width);
+                ItemSizeWidth smallWidth = new(GroupItemSize.Small, GetPreferredSize(context).Width);
 
                 if (_ribbon.InDesignHelperMode)
                 {
@@ -546,7 +537,7 @@ namespace Krypton.Ribbon
                     // Are we positioning a cluster?
                     if (child is ViewLayoutRibbonGroupCluster clusterChild)
                     {
-                        clusterChild.StartSeparator = (previousChild != null) && !(previousChild is ViewLayoutRibbonGroupCluster);
+                        clusterChild.StartSeparator = (previousChild != null) && previousChild is not ViewLayoutRibbonGroupCluster;
                         clusterChild.EndSeparator = true;
                     }
 
@@ -735,8 +726,8 @@ namespace Krypton.Ribbon
             // Remove all child elements
             Clear();
 
-            ItemToView regenItemToView = new ItemToView();
-            ViewToItem regenViewToItem = new ViewToItem();
+            ItemToView regenItemToView = new();
+            ViewToItem regenViewToItem = new();
 
             // Add a view element for each group item
             foreach (IRibbonGroupItem item in _ribbonLines.Items)
@@ -994,7 +985,7 @@ namespace Krypton.Ribbon
                     if (child is ViewLayoutRibbonGroupCluster clusterChild1)
                     {
                         // Inform cluster if it is immediatley after another cluster (and so potentially needs a separator)
-                        clusterChild1.StartSeparator = (previousChild != null) && !(previousChild is ViewLayoutRibbonGroupCluster);
+                        clusterChild1.StartSeparator = (previousChild != null) && previousChild is not ViewLayoutRibbonGroupCluster;
                         clusterChild1.EndSeparator = false;
                     }
 
@@ -1081,7 +1072,7 @@ namespace Krypton.Ribbon
                     if (child is ViewLayoutRibbonGroupCluster clusterChild1)
                     {
                         // Inform cluster if it is immediatley after another item and so needs a start separator
-                        clusterChild1.StartSeparator = (previousChild != null) && !(previousChild is ViewLayoutRibbonGroupCluster);
+                        clusterChild1.StartSeparator = (previousChild != null) && previousChild is not ViewLayoutRibbonGroupCluster;
                         clusterChild1.EndSeparator = false;
                     }
 

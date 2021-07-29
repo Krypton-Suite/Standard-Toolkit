@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -28,7 +20,7 @@ namespace Krypton.Ribbon
                                              IContentValues
     {
         #region Static Fields
-        private static readonly Size _viewSize = new Size(22, 22);
+        private static readonly Size _viewSize = new(22, 22);
         #endregion
 
         #region Instance Fields
@@ -58,10 +50,10 @@ namespace Krypton.Ribbon
 
             // If the source interface comes from a component then allow it to 
             // be selected at design time by clicking on the view instance
-            Component = qatButton as System.ComponentModel.Component;
+            Component = qatButton as Component;
 
             // Attach a controller to this element for the pressing of the button
-            QATButtonController controller = new QATButtonController(ribbon, this, needPaint);
+            QATButtonController controller = new(ribbon, this, needPaint);
             controller.Click += OnClick;
             SourceController = controller;
             KeyController = controller;

@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -143,7 +135,7 @@ namespace Krypton.Toolkit
                         if (_kryptonDomainUpDown.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)((long)m.LParam)) == -1)
@@ -325,7 +317,7 @@ namespace Krypton.Toolkit
                         // Mouse is over the control
                         if (!MouseOver)
                         {
-                            PI.TRACKMOUSEEVENTS tme = new PI.TRACKMOUSEEVENTS
+                            PI.TRACKMOUSEEVENTS tme = new()
                             {
 
                                 // This structure needs to know its own size in bytes
@@ -350,7 +342,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            PI.PAINTSTRUCT ps = new();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -368,7 +360,7 @@ namespace Krypton.Toolkit
                                 PaletteInputControlTripleStates states = DomainUpDown.GetTripleState();
 
                                 // Drawn entire client area in the background color
-                                using (SolidBrush backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state)))
+                                using (SolidBrush backBrush = new(states.PaletteBack.GetBackColor1(state)))
                                 {
                                     g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
                                 }
@@ -402,13 +394,13 @@ namespace Krypton.Toolkit
                                     g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state));
 
                                     // Define the string formatting requirements
-                                    StringFormat stringFormat = new StringFormat
+                                    StringFormat stringFormat = new()
                                     {
                                         LineAlignment = StringAlignment.Near,
                                         FormatFlags = StringFormatFlags.NoWrap,
                                         Trimming = StringTrimming.None,
                                         // Use the correct prefix setting
-                                        HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None
+                                        HotkeyPrefix = HotkeyPrefix.None
                                     };
 
                                     switch (states.Content.GetContentShortTextH(state))
@@ -430,14 +422,14 @@ namespace Krypton.Toolkit
                                             break;
                                     }
 
-                                    Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+                                    Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
                                     rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle,
                                         states.Content.GetContentPadding(state));
 
                                     // Draw using a solid brush
                                     try
                                     {
-                                        using (SolidBrush foreBrush = new SolidBrush(states.Content.GetContentShortTextColor1(state)))
+                                        using (SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state)))
                                         {
                                             g.DrawString(DomainUpDown.Text, states.Content.GetContentShortTextFont(state), foreBrush,
                                                 rectangle,
@@ -446,7 +438,7 @@ namespace Krypton.Toolkit
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using (SolidBrush foreBrush = new SolidBrush(DomainUpDown.ForeColor))
+                                        using (SolidBrush foreBrush = new(DomainUpDown.ForeColor))
                                         {
                                             g.DrawString(DomainUpDown.Text, DomainUpDown.Font, foreBrush, rectangle, stringFormat);
                                         }
@@ -469,7 +461,7 @@ namespace Krypton.Toolkit
                         if (DomainUpDown.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)((long)m.LParam)) == -1)
@@ -621,14 +613,14 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            PI.PAINTSTRUCT ps = new();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
-                            Rectangle clientRect = new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                            Rectangle clientRect = new(rect.left, rect.top, rect.right - rect.left,
                                 rect.bottom - rect.top);
 
                             try
@@ -650,7 +642,7 @@ namespace Krypton.Toolkit
                                         {
                                             // Drawn entire client area in the background color
                                             using (SolidBrush backBrush =
-                                                new SolidBrush(DomainUpDown.DomainUpDown.BackColor))
+                                                new(DomainUpDown.DomainUpDown.BackColor))
                                             {
                                                 g.FillRectangle(backBrush, clientRect);
                                             }
@@ -712,12 +704,12 @@ namespace Krypton.Toolkit
                 _palette.SetStyles(DomainUpDown.UpDownButtonStyle);
 
                 // Find button rectangles
-                Rectangle upRect = new Rectangle(clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height / 2);
-                Rectangle downRect = new Rectangle(clientRect.X, upRect.Bottom, clientRect.Width, clientRect.Bottom - upRect.Bottom);
+                Rectangle upRect = new(clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height / 2);
+                Rectangle downRect = new(clientRect.X, upRect.Bottom, clientRect.Width, clientRect.Bottom - upRect.Bottom);
 
                 // Position and draw the up/down buttons
-                using (ViewLayoutContext layoutContext = new ViewLayoutContext(DomainUpDown, DomainUpDown.Renderer))
-                using (RenderContext renderContext = new RenderContext(DomainUpDown, g, clientRect, DomainUpDown.Renderer))
+                using (ViewLayoutContext layoutContext = new(DomainUpDown, DomainUpDown.Renderer))
+                using (RenderContext renderContext = new(DomainUpDown, g, clientRect, DomainUpDown.Renderer))
                 {
                     // Up button
                     layoutContext.DisplayRectangle = upRect;
@@ -751,14 +743,9 @@ namespace Krypton.Toolkit
                         }
                     }
 
-                    if (DomainUpDown.IsActive || (DomainUpDown.IsFixedActive && (DomainUpDown.InputControlStyle == InputControlStyle.Standalone)))
-                    {
-                        return DomainUpDown.InputControlStyle == InputControlStyle.Standalone ? PaletteState.CheckedNormal : PaletteState.CheckedTracking;
-                    }
-                    else
-                    {
-                        return PaletteState.Normal;
-                    }
+                    return DomainUpDown.IsActive || (DomainUpDown.IsFixedActive && (DomainUpDown.InputControlStyle == InputControlStyle.Standalone))
+                        ? DomainUpDown.InputControlStyle == InputControlStyle.Standalone ? PaletteState.CheckedNormal : PaletteState.CheckedTracking
+                        : PaletteState.Normal;
                 }
                 else
                 {
@@ -800,7 +787,7 @@ namespace Krypton.Toolkit
         private ButtonStyle _upDownButtonStyle;
         private SubclassEdit _subclassEdit;
         private SubclassButtons _subclassButtons;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private bool _forcedLayout;
         private bool _mouseOver;
         private bool _alwaysActive;
@@ -896,7 +883,7 @@ namespace Krypton.Toolkit
             _cachedHeight = -1;
             _alwaysActive = true;
             AllowButtonSpecToolTips = false;
-			AllowButtonSpecToolTipPriority = false;
+            AllowButtonSpecToolTipPriority = false;
 
             // Create storage properties
             ButtonSpecs = new DomainUpDownButtonSpecCollection(this);
@@ -1296,8 +1283,8 @@ namespace Krypton.Toolkit
         [Description("Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
-		
-		/// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -1388,23 +1375,13 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive ||
-                            ContainsFocus || _mouseOver || _domainUpDown.MouseOver ||
-                           ((_subclassEdit != null) && (_subclassEdit.MouseOver)) ||
-                           ((_subclassButtons != null) && (_subclassButtons.MouseOver)));
-                }
-            }
-        }
+        public bool IsActive =>
+            _fixedActive != null
+                ? _fixedActive.Value
+                : DesignMode || AlwaysActive ||
+                  ContainsFocus || _mouseOver || _domainUpDown.MouseOver ||
+                  ((_subclassEdit != null) && (_subclassEdit.MouseOver)) ||
+                  ((_subclassButtons != null) && (_subclassButtons.MouseOver));
 
         /// <summary>
         /// Sets input focus to the control.
@@ -1792,7 +1769,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(120, PreferredHeight);
+        protected override Size DefaultSize => new(120, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -2048,7 +2025,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2063,10 +2040,10 @@ namespace Krypton.Toolkit
                     {
                         // Remove any currently showing tooltip
                         _visualPopupToolTip?.Dispose();
-						
-						if (AllowButtonSpecToolTipPriority)
+
+                        if (AllowButtonSpecToolTipPriority)
                         {
-                            _visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip?.Dispose();
                         }
 
                         // Create the actual tooltip popup object

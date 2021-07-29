@@ -2,22 +2,16 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 
-namespace Krypton.Toolkit.General
+namespace Krypton.Toolkit
 {
     /// <summary>
     /// Manages the drawing of Shadows
@@ -28,7 +22,7 @@ namespace Krypton.Toolkit.General
         private readonly VisualForm _parentForm;
         private readonly BlurValues _blurValues;
         private VisualBlur _visualBlur;
-        private Timer _detectIsActiveTimer;
+        private readonly System.Windows.Forms.Timer _detectIsActiveTimer;
         #endregion
 
         #region Identity
@@ -39,7 +33,7 @@ namespace Krypton.Toolkit.General
             _blurValues = blurValues;
 
             _parentForm.Closing += KryptonFormOnClosing;
-            _detectIsActiveTimer = new Timer { Enabled = false, Interval = 200 };
+            _detectIsActiveTimer = new System.Windows.Forms.Timer { Enabled = false, Interval = 200 };
             _detectIsActiveTimer.Tick += DetectIsTopMost;
 
             _blurValues.EnableBlurChanged += BlurValues_EnableBlurChanged;
@@ -67,6 +61,8 @@ namespace Krypton.Toolkit.General
                     {
                         RemoveBlur();
                     }
+                    break;
+                default:
                     break;
             }
         }
@@ -111,14 +107,14 @@ namespace Krypton.Toolkit.General
             visited.Add(_visualBlur.Handle);
 
 
-            PI.RECT thisRect = new PI.RECT();
+            PI.RECT thisRect = new();
             PI.GetWindowRect(hWnd, ref thisRect);
 
             while ((hWnd = PI.GetWindow(hWnd, PI.GetWindowType.GW_HWNDPREV)) != IntPtr.Zero
                    && !visited.Contains(hWnd))
             {
                 visited.Add(hWnd);
-                PI.RECT testRect = new PI.RECT();
+                PI.RECT testRect = new();
                 if (PI.IsWindowVisible(hWnd)
                     && PI.GetWindowRect(hWnd, ref testRect)
                     && PI.IntersectRect(out _, ref thisRect, ref testRect)
@@ -196,8 +192,8 @@ namespace Krypton.Toolkit.General
 
         private static Bitmap TakeSnapshot(Rectangle targetRectangle)
         {
-            Bitmap bmp = new Bitmap(targetRectangle.Width, targetRectangle.Height);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
+            Bitmap bmp = new(targetRectangle.Width, targetRectangle.Height);
+            Graphics g = Graphics.FromImage(bmp);
             g.CopyFromScreen(targetRectangle.Left, targetRectangle.Top, 0, 0, bmp.Size);
             return bmp;
         }

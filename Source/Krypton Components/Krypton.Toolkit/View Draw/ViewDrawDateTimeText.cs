@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Text;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Globalization;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -35,7 +25,7 @@ namespace Krypton.Toolkit
 
             private int _activeFragment;
             private FormatFragmentList _fragments;
-            private String _inputDigits;
+            private string _inputDigits;
             private readonly KryptonDateTimePicker _dateTimePicker;
             private readonly NeedPaintHandler _needPaint;
             private readonly ViewDrawDateTimeText _timeText;
@@ -67,7 +57,7 @@ namespace Krypton.Toolkit
             /// <returns>User readable name of the instance.</returns>
             public override string ToString()
             {
-                StringBuilder ret = new StringBuilder();
+                StringBuilder ret = new();
                 foreach (FormatFragment fmt in _fragments)
                 {
                     ret.Append(fmt.GetDisplay(DateTime));
@@ -98,17 +88,7 @@ namespace Krypton.Toolkit
             /// </summary>
             public string ActiveFragment
             {
-                get
-                {
-                    if (!HasActiveFragment)
-                    {
-                        return String.Empty;
-                    }
-                    else
-                    {
-                        return _fragments[_activeFragment].FragFormat;
-                    }
-                }
+                get => !HasActiveFragment ? string.Empty : _fragments[_activeFragment].FragFormat;
 
                 set
                 {
@@ -357,14 +337,7 @@ namespace Krypton.Toolkit
             public DateTime Increment(bool forward)
             {
                 // Pass request onto the fragment itself
-                if (_activeFragment >= 0)
-                {
-                    return _fragments[_activeFragment].Increment(DateTime, forward);
-                }
-                else
-                {
-                    return DateTime;
-                }
+                return _activeFragment >= 0 ? _fragments[_activeFragment].Increment(DateTime, forward) : DateTime;
             }
 
             /// <summary>
@@ -375,14 +348,7 @@ namespace Krypton.Toolkit
             public DateTime AMPM(bool am)
             {
                 // Pass request onto the fragment itself
-                if (_activeFragment >= 0)
-                {
-                    return _fragments[_activeFragment].AMPM(DateTime, am);
-                }
-                else
-                {
-                    return DateTime;
-                }
+                return _activeFragment >= 0 ? _fragments[_activeFragment].AMPM(DateTime, am) : DateTime;
             }
 
             /// <summary>
@@ -447,7 +413,7 @@ namespace Krypton.Toolkit
                                 if (!HasActiveFragment)
                                 {
                                     // Use evnet to show that we are overflowing
-                                    CancelEventArgs cea = new CancelEventArgs();
+                                    CancelEventArgs cea = new();
                                     _timeText.OnAutoShiftOverflow(cea);
 
                                     // Event might be cancelled so check we want to overflow
@@ -493,7 +459,7 @@ namespace Krypton.Toolkit
                                 if (!HasActiveFragment)
                                 {
                                     // Use evnet to show that we are overflowing
-                                    CancelEventArgs cea = new CancelEventArgs();
+                                    CancelEventArgs cea = new();
                                     _timeText.OnAutoShiftOverflow(cea);
 
                                     // Event might be cancelled so check we want to overflow
@@ -590,7 +556,7 @@ namespace Krypton.Toolkit
                                 totalWidth = rect.Width;
                             }
 
-                            Rectangle drawText = new Rectangle(rect.X + lastTotalWidth, rect.Y, totalWidth - lastTotalWidth, rect.Height);
+                            Rectangle drawText = new(rect.X + lastTotalWidth, rect.Y, totalWidth - lastTotalWidth, rect.Height);
                             if (drawText.Width > 0)
                             {
                                 // If we need to draw a focus indication?
@@ -607,7 +573,7 @@ namespace Krypton.Toolkit
                                         }
                                         else
                                         {
-                                            using (SolidBrush fillBrush = new SolidBrush(foreColor))
+                                            using (SolidBrush fillBrush = new(foreColor))
                                             {
                                                 context.Graphics.FillRectangle(fillBrush, drawText);
                                             }
@@ -688,7 +654,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Update format with details of the ranges to measure
-                StringFormat measureFormat = new StringFormat(StringFormatFlags.FitBlackBox);
+                StringFormat measureFormat = new(StringFormatFlags.FitBlackBox);
                 measureFormat.SetMeasurableCharacterRanges(charRanges);
 
                 // Perform measuring using the output of the last fragment (last frag must be the whole output string)
@@ -703,7 +669,7 @@ namespace Krypton.Toolkit
 
             private FormatFragmentList ParseFormatToFragments(string format)
             {
-                FormatFragmentList fragList = new FormatFragmentList();
+                FormatFragmentList fragList = new();
 
                 // Grab the string used for formatting
                 int length = format.Length;
@@ -905,14 +871,7 @@ namespace Krypton.Toolkit
             /// <returns>Display string.</returns>
             public virtual string GetDisplay(DateTime dt)
             {
-                if (FragFormat.Length == 1)
-                {
-                    return dt.ToString("\\" + FragFormat);
-                }
-                else
-                {
-                    return dt.ToString(FragFormat);
-                }
+                return FragFormat.Length == 1 ? dt.ToString("\\" + FragFormat) : dt.ToString(FragFormat);
             }
 
             /// <summary>
@@ -998,19 +957,14 @@ namespace Krypton.Toolkit
                             return true;
                     }
 
-                    if (FragFormat.StartsWith("h") || 
+                    return FragFormat.StartsWith("h") || 
                         FragFormat.StartsWith("H") ||
                         FragFormat.StartsWith("m") ||
                         FragFormat.StartsWith("s") ||
                         FragFormat.StartsWith("t") ||
                         FragFormat.StartsWith("f") ||
                         FragFormat.StartsWith("F") ||
-                        FragFormat.StartsWith("y"))
-                    {
-                        return true;
-                    }
-
-                    return false; 
+                        FragFormat.StartsWith("y");
                 }
             }
 
@@ -1061,12 +1015,7 @@ namespace Krypton.Toolkit
                         return 2;
                     }
 
-                    if (FragFormat.StartsWith("y"))
-                    {
-                        return 4;
-                    }
-
-                    return base.InputDigits;
+                    return FragFormat.StartsWith("y") ? 4 : base.InputDigits;
                 }
             }
 
@@ -1343,7 +1292,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly RectangleF _measureRect = new RectangleF(0, 0, 1000, 1000);
+        private static readonly RectangleF _measureRect = new(0, 0, 1000, 1000);
         private const TextFormatFlags MEASURE_FLAGS = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding | TextFormatFlags.VerticalCenter;
         private const TextFormatFlags DRAW_LEFT_FLAGS = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding | TextFormatFlags.VerticalCenter;
 
@@ -1728,7 +1677,7 @@ namespace Krypton.Toolkit
             _formatHandler.DateTime = _dateTimePicker.Value;
 
             // Ask the format handler to perform actual rendering of the text
-            using (Clipping clipped = new Clipping(context.Graphics, ClientRectangle))
+            using (Clipping clipped = new(context.Graphics, ClientRectangle))
             {
                 _formatHandler.Render(context, GetFont(), ClientRectangle,
                                       GetTextColor(), GetBackColor(),
@@ -1744,13 +1693,11 @@ namespace Krypton.Toolkit
             {
                 return _dateTimePicker.EffectiveMinDate(_dateTimePicker.MinDate);
             }
-            else if (dt > _dateTimePicker.EffectiveMaxDate(_dateTimePicker.MaxDate))
-            {
-                return _dateTimePicker.EffectiveMaxDate(_dateTimePicker.MaxDate);
-            }
             else
             {
-                return dt;
+                return dt > _dateTimePicker.EffectiveMaxDate(_dateTimePicker.MaxDate)
+                    ? _dateTimePicker.EffectiveMaxDate(_dateTimePicker.MaxDate)
+                    : dt;
             }
         }
 
@@ -1767,14 +1714,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                if (_dateTimePicker.IsActive)
-                {
-                    return _dateTimePicker.StateActive.PaletteContent.GetContentShortTextFont(PaletteState.Normal);
-                }
-                else
-                {
-                    return _dateTimePicker.StateNormal.PaletteContent.GetContentShortTextFont(PaletteState.Normal);
-                }
+                return _dateTimePicker.IsActive
+                    ? _dateTimePicker.StateActive.PaletteContent.GetContentShortTextFont(PaletteState.Normal)
+                    : _dateTimePicker.StateNormal.PaletteContent.GetContentShortTextFont(PaletteState.Normal);
             }
         }
 
@@ -1786,14 +1728,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                if (_dateTimePicker.IsActive)
-                {
-                    return _dateTimePicker.StateActive.PaletteContent.GetContentShortTextColor1(PaletteState.Normal);
-                }
-                else
-                {
-                    return _dateTimePicker.StateNormal.PaletteContent.GetContentShortTextColor1(PaletteState.Normal);
-                }
+                return _dateTimePicker.IsActive
+                    ? _dateTimePicker.StateActive.PaletteContent.GetContentShortTextColor1(PaletteState.Normal)
+                    : _dateTimePicker.StateNormal.PaletteContent.GetContentShortTextColor1(PaletteState.Normal);
             }
         }
 
@@ -1805,14 +1742,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                if (_dateTimePicker.IsActive)
-                {
-                    return _dateTimePicker.StateActive.PaletteBack.GetBackColor1(PaletteState.Normal);
-                }
-                else
-                {
-                    return _dateTimePicker.StateNormal.PaletteBack.GetBackColor1(PaletteState.Normal);
-                }
+                return _dateTimePicker.IsActive
+                    ? _dateTimePicker.StateActive.PaletteBack.GetBackColor1(PaletteState.Normal)
+                    : _dateTimePicker.StateNormal.PaletteBack.GetBackColor1(PaletteState.Normal);
             }
         }
 

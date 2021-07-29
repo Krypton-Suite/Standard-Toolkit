@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -149,7 +145,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Should background be drawn.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
             get => _storage?.BackDraw ?? InheritBool.Inherit;
@@ -196,7 +192,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Hint for drawing graphics.")]
         [DefaultValue(typeof(PaletteGraphicsHint), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteGraphicsHint GraphicsHint
         {
             get => _storage?.BackGraphicsHint ?? PaletteGraphicsHint.Inherit;
@@ -243,8 +239,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Main background color.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color Color1
         {
             get => _storage?.BackColor1 ?? Color.Empty;
@@ -290,8 +286,8 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Secondary background color.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public Color Color2
         {
             get => _storage?.BackColor2 ?? Color.Empty;
@@ -338,7 +334,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background color drawing style.")]
         [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteColorStyle ColorStyle
         {
             get => _storage?.BackColorStyle ?? PaletteColorStyle.Inherit;
@@ -385,7 +381,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background color alignment style.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ColorAlign
         {
             get => _storage?.BackColorAlign ?? PaletteRectangleAlign.Inherit;
@@ -433,20 +429,10 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background color angle.")]
         [DefaultValue(-1f)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public float ColorAngle
         {
-            get 
-            {
-                if (_storage == null)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return _storage.BackColorAngle;
-                }
-            }
+            get => _storage == null ? -1 : _storage.BackColorAngle;
 
             set
             {
@@ -491,7 +477,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background image.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _storage?.BackImage;
@@ -538,7 +524,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background image style.")]
         [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteImageStyle ImageStyle
         {
             get => _storage?.BackImageStyle ?? PaletteImageStyle.Inherit;
@@ -587,7 +573,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Background image alignment style.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ImageAlign
         {
             get => _storage?.BackImageAlign ?? PaletteRectangleAlign.Inherit;

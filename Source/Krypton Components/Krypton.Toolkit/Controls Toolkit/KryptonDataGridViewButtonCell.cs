@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Drawing;
-using System.Reflection;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -166,7 +160,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Position the button element inside the available cell area
-                using (ViewLayoutContext layoutContext = new ViewLayoutContext(kDGV, kDGV.Renderer))
+                using (ViewLayoutContext layoutContext = new(kDGV, kDGV.Renderer))
                 {
                     // Define the available area for layout
                     layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
@@ -219,7 +213,7 @@ namespace Krypton.Toolkit
                 // Should we draw the content foreground?
                 if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
                 {
-                    using (RenderContext renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer))
+                    using (RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer))
                     {
                         // Create the view elements and palette structure
                         CreateViewAndPalettes(kDgv);
@@ -290,7 +284,7 @@ namespace Krypton.Toolkit
                         cellBounds.Height -= cellStyle.Padding.Vertical;
 
                         // Position the button element inside the available cell area
-                        using (ViewLayoutContext layoutContext = new ViewLayoutContext(kDgv, kDgv.Renderer))
+                        using (ViewLayoutContext layoutContext = new(kDgv, kDgv.Renderer))
                         {
                             // Define the available area for layout
                             layoutContext.DisplayRectangle = cellBounds;

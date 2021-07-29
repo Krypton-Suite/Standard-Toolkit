@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-
-using System.Windows.Forms.VisualStyles;
 // ReSharper disable UnusedMember.Local
 
 namespace Krypton.Toolkit
@@ -29,7 +21,6 @@ namespace Krypton.Toolkit
     {
         #region Instance Members
         private bool _saveChanges = true;
-        private readonly KryptonPanel _panel;
         private readonly KryptonTextBox _textBox;
         private readonly KryptonTextBox _owner;
         private VisualStyleRenderer _sizeGripRenderer;
@@ -104,7 +95,7 @@ namespace Krypton.Toolkit
         {
             base.OnPaint(e);
             // Paint the sizing grip.
-            using (Bitmap gripImage = new Bitmap(0x10, 0x10))
+            using (Bitmap gripImage = new(0x10, 0x10))
             {
                 using (Graphics g = Graphics.FromImage(gripImage))
                 {
@@ -216,7 +207,7 @@ namespace Krypton.Toolkit
         private bool OnNcHitTest(ref Message m)
         {
             Point clientLocation = PointToClient(Cursor.Position);
-            GripBounds gripBounds = new GripBounds(ClientRectangle);
+            GripBounds gripBounds = new(ClientRectangle);
             if (gripBounds.BottomRight.Contains(clientLocation))
             {
                 m.Result = (IntPtr)PI.HT.BOTTOMRIGHT;

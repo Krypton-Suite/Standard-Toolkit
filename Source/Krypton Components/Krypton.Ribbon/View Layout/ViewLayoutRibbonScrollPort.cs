@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -311,7 +304,7 @@ namespace Krypton.Ribbon
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
             {
-                KeyTipInfoList keyTips = new KeyTipInfoList();
+                KeyTipInfoList keyTips = new();
 
                 // Grab the list of key tips for all groups
                 keyTips.AddRange(groups.GetGroupKeyTips());
@@ -329,7 +322,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return new KeyTipInfo[] { };
+                return MissingFrameWorkAPIs.Array_Empty<KeyTipInfo>();
             }
         }
         #endregion
@@ -466,7 +459,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             Rectangle layoutRect = ClientRectangle;
-            Rectangle controlRect = new Rectangle(Point.Empty, ClientSize);
+            Rectangle controlRect = new(Point.Empty, ClientSize);
 
             // Reset the the view control layout offset to be zero again
             ViewLayoutControl.LayoutOffset = Point.Empty;
@@ -480,7 +473,7 @@ namespace Krypton.Ribbon
             // Ensure context has the correct control
             if ((ViewLayoutControl.ChildControl != null) && !ViewLayoutControl.ChildControl.IsDisposed)
             {
-                using (CorrectContextControl ccc = new CorrectContextControl(context, ViewLayoutControl.ChildControl))
+                using (CorrectContextControl ccc = new(context, ViewLayoutControl.ChildControl))
                 {
                     _viewFiller.Layout(context);
                 }
@@ -650,7 +643,7 @@ namespace Krypton.Ribbon
                     if (child == _viewFiller)
                     {
                         // New clipping region is at most our own client size
-                        using (Region combineRegion = new Region(_viewClipRect))
+                        using (Region combineRegion = new(_viewClipRect))
                         {
                             // Remember the current clipping region
                             Region clipRegion = context.Graphics.Clip.Clone();

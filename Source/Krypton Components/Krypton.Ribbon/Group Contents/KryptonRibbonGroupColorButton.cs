@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -28,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupColorButton), "ToolboxBitmaps.KryptonRibbonGroupColorButton.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupColorButtonDesigner))]
+    [Designer(typeof(KryptonRibbonGroupColorButtonDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedColorChanged")]
@@ -198,7 +188,7 @@ namespace Krypton.Ribbon
             _itemMoreColors = new KryptonContextMenuItem("&More Colors...", OnClickMoreColors);
             _itemsMoreColors = new KryptonContextMenuItems();
             _itemsMoreColors.Items.Add(_itemMoreColors);
-            _kryptonContextMenu.Items.AddRange(new KryptonContextMenuItemBase[] { _separatorTheme, _headingTheme, _colorsTheme, 
+            _kryptonContextMenu.Items.AddRange(new KryptonContextMenuItemBase[] { _separatorTheme, _headingTheme, _colorsTheme,
                                                                                   _separatorStandard, _headingStandard, _colorsStandard,
                                                                                   _separatorRecent, _headingRecent, _colorsRecent,
                                                                                   _separatorNoColor, _itemsNoColor,
@@ -294,7 +284,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Small color button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageSmall
         {
             get => _imageSmall;
@@ -321,7 +311,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Large color button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageLarge
         {
             get => _imageLarge;
@@ -348,7 +338,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Color button display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Color")]
         public string TextLine1
         {
@@ -371,7 +361,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Color button display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -738,7 +728,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -890,7 +880,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
+        public override ViewBase CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint)
         {
             return new ViewDrawRibbonGroupColorButton(ribbon, this, needPaint);
@@ -967,6 +957,8 @@ namespace Krypton.Ribbon
                     break;
                 case "Checked":
                     OnPropertyChanged("Checked");
+                    break;
+                default:
                     break;
             }
         }
@@ -1047,7 +1039,7 @@ namespace Krypton.Ribbon
                         {
                             UpdateContextMenu();
 
-                            ContextMenuArgs contextArgs = new ContextMenuArgs(_kryptonContextMenu);
+                            ContextMenuArgs contextArgs = new(_kryptonContextMenu);
 
                             // Generate an event giving a chance for the krypton context menu strip to 
                             // be shown to be provided/modified or the action even to be cancelled
@@ -1258,7 +1250,7 @@ namespace Krypton.Ribbon
                 }
 
                 // If this color valid and so possible to become a recent color
-                if ((color != null) && !color.Equals(Color.Empty))
+                if ((color != Color.Empty) && !color.Equals(Color.Empty))
                 {
                     bool found = false;
                     foreach (Color recentColor in _recentColors)
@@ -1380,14 +1372,14 @@ namespace Krypton.Ribbon
         private void OnClickMoreColors(object sender, EventArgs e)
         {
             // Give user a chance to cancel showing the standard more colors dialog
-            CancelEventArgs cea = new CancelEventArgs();
+            CancelEventArgs cea = new();
             OnMoreColors(cea);
 
             // If not instructed to cancel then...
             if (!cea.Cancel)
             {
                 // Use a standard color dialog for the selection of custom colors
-                ColorDialog cd = new ColorDialog
+                ColorDialog cd = new()
                 {
                     Color = SelectedColor,
                     FullOpen = true

@@ -2,13 +2,11 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -38,21 +36,21 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(LabelStyle.NormalControl,     "Normal (Control)"),
-            new Pair(LabelStyle.BoldControl,       "Bold (Control)"),
-            new Pair(LabelStyle.ItalicControl,     "Italic (Control)"),
-            new Pair(LabelStyle.TitleControl,      "Title (Control)"),
-            new Pair(LabelStyle.NormalPanel,       "Normal (Panel)"),
-            new Pair(LabelStyle.BoldPanel,         "Bold (Panel)"),
-            new Pair(LabelStyle.ItalicPanel,       "Italic (Panel)"),
-            new Pair(LabelStyle.TitlePanel,        "Title (Panel)"),
-            new Pair(LabelStyle.GroupBoxCaption,   "Caption (Panel)"),
-            new Pair(LabelStyle.ToolTip,           "ToolTip"), 
-            new Pair(LabelStyle.SuperTip,          "SuperTip"), 
-            new Pair(LabelStyle.KeyTip,            "KeyTip"), 
-            new Pair(LabelStyle.Custom1,           "Custom1"), 
-            new Pair(LabelStyle.Custom2,           "Custom2"), 
-            new Pair(LabelStyle.Custom3,           "Custom3") };
+        { new(LabelStyle.NormalControl,     "Normal (Control)"),
+            new(LabelStyle.BoldControl,       "Bold (Control)"),
+            new(LabelStyle.ItalicControl,     "Italic (Control)"),
+            new(LabelStyle.TitleControl,      "Title (Control)"),
+            new(LabelStyle.NormalPanel,       "Normal (Panel)"),
+            new(LabelStyle.BoldPanel,         "Bold (Panel)"),
+            new(LabelStyle.ItalicPanel,       "Italic (Panel)"),
+            new(LabelStyle.TitlePanel,        "Title (Panel)"),
+            new(LabelStyle.GroupBoxCaption,   "Caption (Panel)"),
+            new(LabelStyle.ToolTip,           "ToolTip"), 
+            new(LabelStyle.SuperTip,          "SuperTip"), 
+            new(LabelStyle.KeyTip,            "KeyTip"), 
+            new(LabelStyle.Custom1,           "Custom1"), 
+            new(LabelStyle.Custom2,           "Custom2"), 
+            new(LabelStyle.Custom3,           "Custom3") };
 
         #endregion
     }

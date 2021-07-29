@@ -2,25 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -48,7 +37,7 @@ namespace Krypton.Ribbon
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
             // do not get the resizing handles, otherwise you do.
             AutoResizeHandles = true;
-        }            
+        }
         #endregion
 
         #region Public
@@ -58,25 +47,21 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
-            // Cast to correct type
-            _ribbon = (KryptonRibbon)component;
+            Debug.Assert(component != null);
 
-            // Hook into ribbon events
-            _ribbon.GetViewManager().MouseUpProcessed += OnRibbonMouseUp;
-            _ribbon.GetViewManager().DoubleClickProcessed += OnRibbonDoubleClick;
-            _ribbon.SelectedTabChanged += OnSelectedTabChanged;
-            _ribbon.DesignTimeAddTab += OnAddTab;
+            // Cast to correct type
+            _ribbon = component as KryptonRibbon;
+            if (_ribbon != null)
+            {
+                // Hook into ribbon events
+                _ribbon.GetViewManager().MouseUpProcessed += OnRibbonMouseUp;
+                _ribbon.GetViewManager().DoubleClickProcessed += OnRibbonDoubleClick;
+                _ribbon.SelectedTabChanged += OnSelectedTabChanged;
+                _ribbon.DesignTimeAddTab += OnAddTab;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -107,7 +92,7 @@ namespace Krypton.Ribbon
             get
             {
                 // Create a new collection for both values
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
+                ArrayList compound = new(base.AssociatedComponents);
 
                 compound.AddRange(_ribbon.ButtonSpecs);
                 compound.AddRange(_ribbon.QATButtons);
@@ -134,7 +119,7 @@ namespace Krypton.Ribbon
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the ribbon specific list
@@ -184,7 +169,7 @@ namespace Krypton.Ribbon
                     _ribbon.GetViewManager().DoubleClickProcessed -= OnRibbonDoubleClick;
                     _ribbon.SelectedTabChanged -= OnSelectedTabChanged;
                     _ribbon.DesignTimeAddTab -= OnAddTab;
-                    
+
                     // Unhook from events
                     _changeService.ComponentRemoving -= OnComponentRemoving;
                     _changeService.ComponentChanged -= OnComponentChanged;
@@ -349,7 +334,7 @@ namespace Krypton.Ribbon
             if (component != null)
             {
                 // Select the component
-                ArrayList selectionList = new ArrayList
+                ArrayList selectionList = new()
                 {
                     component
                 };
@@ -366,7 +351,7 @@ namespace Krypton.Ribbon
             Component component = _ribbon.DesignerComponentFromPoint(pt);
 
             // We are only interested in the contained components and not the ribbon control
-            if ((component != null) && !(component is Control))
+            if ((component != null) && component is not System.Windows.Forms.Control)
             {
                 // Get the designer for the component
                 IDesigner designer = _designerHost.GetDesigner(component);

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -59,11 +52,12 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonLabel()
         {
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             // The label cannot take the focus
             SetStyle(ControlStyles.Selectable, false);
 
             // Set default properties
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             _useMnemonic = true;
             _orientation = VisualOrientation.Top;
             _target = null;
@@ -74,7 +68,7 @@ namespace Krypton.Toolkit
             Values.TextChanged += OnLabelTextChanged;
 
             // Create palette redirector
-            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalControl);
+            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
 
             // Create the palette provider
             StateCommon = new PaletteContent(_paletteCommonRedirect, NeedPaintDelegate);
@@ -152,10 +146,7 @@ namespace Krypton.Toolkit
         }
 
         private bool ShouldSerializeText()
-        {
-            // Never serialize, let the label values serialize instead
-            return false;
-        }
+        => false;
 
         /// <summary>
         /// Resets the Text property to its default value.
@@ -190,15 +181,23 @@ namespace Krypton.Toolkit
             }
         }
 
+        private bool ShouldSerializeOrientation()
+        => (_orientation != VisualOrientation.Top);
+
+        private void ResetOrientation()
+        {
+            _orientation = VisualOrientation.Top;
+        }
+
         /// <summary>
         /// Gets and sets the label style.
         /// </summary>
         [Category("Visuals")]
         [Description("Label style.")]
+        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _style;
-
             set
             {
                 if (_style != value)
@@ -210,15 +209,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeLabelStyle()
-        {
-            return (LabelStyle != LabelStyle.NormalControl);
-        }
+        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalPanel);
 
-        private void ResetLabelStyle()
-        {
-            LabelStyle = LabelStyle.NormalControl;
-        }
+        private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalPanel;
 
         /// <summary>
         /// Gets access to the label content.
@@ -228,10 +221,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public LabelValues Values { get; }
 
-        private bool ShouldSerializeValues()
-        {
-            return !Values.IsDefault;
-        }
+        private bool ShouldSerializeValues() => !Values.IsDefault;
 
         /// <summary>
         /// Gets access to the common label appearance that other states can override.
@@ -241,10 +231,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled label appearance entries.
@@ -254,10 +241,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal label appearance entries.
@@ -267,10 +251,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
@@ -372,10 +353,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return KryptonCommand?.ImageSmall ?? Values.GetImage(state);
-        }
+        public Image GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -400,10 +378,7 @@ namespace Krypton.Toolkit
         /// Update the view elements based on the requested label style.
         /// </summary>
         /// <param name="style">New label style.</param>
-        protected virtual void SetLabelStyle(LabelStyle style)
-        {
-            _paletteCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
-        }
+        protected virtual void SetLabelStyle(LabelStyle style) => _paletteCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
 
         /// <summary>
         /// Processes a mnemonic character.
@@ -422,7 +397,7 @@ namespace Krypton.Toolkit
                     if (EnabledTarget)
                     {
                         // Do we have a target that can take the focus
-                        if ((Target != null) && Target.CanFocus)
+                        if (Target is { CanFocus: true })
                         {
                             Target.Focus();
                             return true;
@@ -445,7 +420,7 @@ namespace Krypton.Toolkit
             if (EnabledTarget)
             {
                 // Do we have a target that can take the focus
-                if ((Target != null) && Target.CanFocus)
+                if (Target is { CanFocus: true })
                 {
                     Target.Focus();
                 }
@@ -514,7 +489,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(90, 25);
+        protected override Size DefaultSize => new(90, 25);
 
         /// <summary>
         /// Work out if this control needs to paint transparent areas.
@@ -528,10 +503,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnLabelTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(EventArgs.Empty);
-        }
+        private void OnLabelTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
         #endregion
     }
 }

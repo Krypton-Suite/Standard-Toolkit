@@ -2,27 +2,21 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
     /// <summary>
     /// Draws a window containing square docking indicators.
     /// </summary>
-    public class DropDockingIndicatorsSquare : Form,
+    public class DropDockingIndicatorsSquare : KryptonForm,
                                                IDropDockingIndicator
     {
         #region Instance Fields
@@ -182,7 +176,7 @@ namespace Krypton.Navigator
         #region Implementation
         private void DropIndicators_Paint(object sender, PaintEventArgs e)
         {
-            using(RenderContext context = new RenderContext(this, e.Graphics, e.ClipRectangle, _renderer))
+            using(RenderContext context = new(this, e.Graphics, e.ClipRectangle, _renderer))
             {
                 _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Square);
             }
@@ -191,7 +185,7 @@ namespace Krypton.Navigator
         private void DrawPath(Graphics g, Color baseColor, GraphicsPath path)
         {
             // Draw a smooth outline around the circle
-            using(Pen outline = new Pen(baseColor))
+            using(Pen outline = new(baseColor))
             {
                 g.DrawPath(outline, path);
             }

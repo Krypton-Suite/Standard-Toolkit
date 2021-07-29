@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,7 +19,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDesignGroupContainer : ViewDrawRibbonDesignBase
     {
         #region Static Fields
-        private static readonly Padding _padding = new Padding(1, 0, 0, 0);
+        private static readonly Padding _padding = new(1, 0, 0, 0);
         private static readonly ImageList _imageList;
         #endregion
 
@@ -116,10 +109,10 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuTriple = new ToolStripMenuItem("Add Triple", null, OnAddTriple);
-                ToolStripMenuItem menuLines = new ToolStripMenuItem("Add Lines", null, OnAddLines);
-                ToolStripMenuItem menuSeparator = new ToolStripMenuItem("Add Separator", null, OnAddSeparator);
-                ToolStripMenuItem menuGallery = new ToolStripMenuItem("Add Gallery", null, OnAddGallery);
+                ToolStripMenuItem menuTriple = new("Add Triple", null, OnAddTriple);
+                ToolStripMenuItem menuLines = new("Add Lines", null, OnAddLines);
+                ToolStripMenuItem menuSeparator = new("Add Separator", null, OnAddSeparator);
+                ToolStripMenuItem menuGallery = new("Add Gallery", null, OnAddGallery);
 
                 // Assign correct images
                 menuTriple.ImageIndex = 0;

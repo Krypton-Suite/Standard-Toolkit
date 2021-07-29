@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -34,7 +26,7 @@ namespace Krypton.Ribbon
         #region Static Fields
 
         private const int EMPTY_WIDTH = 48;
-        private static readonly Padding _padding = new Padding(1, 0, 1, 1);
+        private static readonly Padding _padding = new(1, 0, 1, 1);
         #endregion
 
         #region Instance Fields
@@ -513,7 +505,7 @@ namespace Krypton.Ribbon
             // entry which is the minimum width of a group
             if (retSizes.Count == 0)
             {
-                retSizes.Add(new GroupSizeWidth(EMPTY_WIDTH, new ItemSizeWidth[] { }));
+                retSizes.Add(new GroupSizeWidth(EMPTY_WIDTH, MissingFrameWorkAPIs.Array_Empty<ItemSizeWidth>()));
             }
 
             // If adding the extra design time entry
@@ -694,7 +686,7 @@ namespace Krypton.Ribbon
             // Remove all child elements
             Clear();
 
-            ContainerToView regenerate = new ContainerToView();
+            ContainerToView regenerate = new();
 
             // Add a view element for each group item
             foreach (KryptonRibbonGroupContainer container in _ribbonGroup.Items)

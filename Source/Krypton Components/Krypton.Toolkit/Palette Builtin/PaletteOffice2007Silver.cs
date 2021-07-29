@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -26,16 +22,16 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _silverDropDownButton = Properties.Resources.SilverDropDownButton;
-        private static readonly Image _silverCloseA = Properties.Resources.SilverButtonCloseA;
-        private static readonly Image _silverCloseI = Properties.Resources.SilverButtonCloseI;
-        private static readonly Image _silverMaxA = Properties.Resources.SilverButtonMaxA;
-        private static readonly Image _silverMaxI = Properties.Resources.SilverButtonMaxI;
-        private static readonly Image _silverMinA = Properties.Resources.SilverButtonMinA;
-        private static readonly Image _silverMinI = Properties.Resources.SilverButtonMinI;
-        private static readonly Image _silverRestoreA = Properties.Resources.SilverButtonRestoreA;
-        private static readonly Image _silverRestoreI = Properties.Resources.SilverButtonRestoreI;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources.SilverContextMenuSub;
+        private static readonly Image _silverDropDownButton = Resources.SilverDropDownButton;
+        private static readonly Image _silverCloseA = Resources.SilverButtonCloseA;
+        private static readonly Image _silverCloseI = Resources.SilverButtonCloseI;
+        private static readonly Image _silverMaxA = Resources.SilverButtonMaxA;
+        private static readonly Image _silverMaxI = Resources.SilverButtonMaxI;
+        private static readonly Image _silverMinA = Resources.SilverButtonMinA;
+        private static readonly Image _silverMinI = Resources.SilverButtonMinI;
+        private static readonly Image _silverRestoreA = Resources.SilverButtonRestoreA;
+        private static readonly Image _silverRestoreI = Resources.SilverButtonRestoreI;
+        private static readonly Image _contextMenuSubMenu = Resources.SilverContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(130, 130, 130),      // Tick marks
                                                                         Color.FromArgb(156, 160, 165),      // Top track
                                                                         Color.FromArgb(226, 220, 235),      // Bottom track
@@ -267,22 +263,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Properties.Resources.CB2007Silver);
+            _checkBoxList.Images.AddStrip(Resources.CB2007Silver);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Properties.Resources.GallerySilverBlack);
-            _radioButtonArray = new Image[]{Properties.Resources.RB2007BlueD,
-                                            Properties.Resources.RB2007SilverN,
-                                            Properties.Resources.RB2007SilverT,
-                                            Properties.Resources.RB2007SilverP,
-                                            Properties.Resources.RB2007BlueDC,
-                                            Properties.Resources.RB2007SilverNC,
-                                            Properties.Resources.RB2007SilverTC,
-                                            Properties.Resources.RB2007SilverPC};
+            _galleryButtonList.Images.AddStrip(Resources.GallerySilverBlack);
+            _radioButtonArray = new Image[]{Resources.RB2007BlueD,
+                                            Resources.RB2007SilverN,
+                                            Resources.RB2007SilverT,
+                                            Resources.RB2007SilverP,
+                                            Resources.RB2007BlueDC,
+                                            Resources.RB2007SilverNC,
+                                            Resources.RB2007SilverTC,
+                                            Resources.RB2007SilverPC};
         }
 
         /// <summary>
@@ -324,14 +320,7 @@ namespace Krypton.Toolkit
         /// <param name="state">PaletteState for which image is required.</param>
         public override Image GetDropDownButtonImage(PaletteState state)
         {
-            if (state != PaletteState.Disabled)
-            {
-                return _silverDropDownButton;
-            }
-            else
-            {
-                return base.GetDropDownButtonImage(state);
-            }
+            return state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
         }
 
         /// <summary>
@@ -357,44 +346,16 @@ namespace Krypton.Toolkit
             switch (style)
             {
                 case PaletteButtonSpecStyle.FormClose:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _silverCloseI;
-                    }
-                    else
-                    {
-                        return _silverCloseA;
-                    }
+                    return state == PaletteState.Disabled ? _silverCloseI : _silverCloseA;
 
                 case PaletteButtonSpecStyle.FormMin:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _silverMinI;
-                    }
-                    else
-                    {
-                        return _silverMinA;
-                    }
+                    return state == PaletteState.Disabled ? _silverMinI : _silverMinA;
 
                 case PaletteButtonSpecStyle.FormMax:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _silverMaxI;
-                    }
-                    else
-                    {
-                        return _silverMaxA;
-                    }
+                    return state == PaletteState.Disabled ? _silverMaxI : _silverMaxA;
 
                 case PaletteButtonSpecStyle.FormRestore:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _silverRestoreI;
-                    }
-                    else
-                    {
-                        return _silverRestoreA;
-                    }
+                    return state == PaletteState.Disabled ? _silverRestoreI : _silverRestoreA;
 
                 default:
                     return base.GetButtonSpecImage(style, state);

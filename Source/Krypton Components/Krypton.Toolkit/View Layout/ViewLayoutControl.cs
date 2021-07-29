@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -236,7 +230,7 @@ namespace Krypton.Toolkit
                 UpdateParent(context.Control);
 
                 // Ensure context has the correct control
-                using (CorrectContextControl ccc = new CorrectContextControl(context, ChildControl))
+                using (CorrectContextControl ccc = new(context, ChildControl))
                 {
                     // Ask the view for its preferred size
                     if (ChildView != null)
@@ -267,7 +261,7 @@ namespace Krypton.Toolkit
             if (ChildControl != null)
             {
                 // Ensure context has the correct control
-                using (CorrectContextControl ccc = new CorrectContextControl(context, ChildControl))
+                using (CorrectContextControl ccc = new(context, ChildControl))
                 {
                     // We take on all the available display area
                     ClientRectangle = context.DisplayRectangle;

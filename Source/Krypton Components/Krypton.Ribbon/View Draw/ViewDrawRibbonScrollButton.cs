@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -127,8 +120,8 @@ namespace Krypton.Ribbon
                 if (_ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderDraw(State) == InheritBool.True)
                 {
                     // Draw the border shadow
-                    using (AntiAlias aa = new AntiAlias(context.Graphics))
-                       using (SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(16, Color.Black)))
+                    using (AntiAlias aa = new(context.Graphics))
+                       using (SolidBrush shadowBrush = new(Color.FromArgb(16, Color.Black)))
                        {
                            context.Graphics.FillPath(shadowBrush, shadowPath);
                        }
@@ -159,8 +152,8 @@ namespace Krypton.Ribbon
                     Color borderColor = _ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderColor1(State);
 
                     // Draw the border last to overlap the background
-                    using (AntiAlias aa = new AntiAlias(context.Graphics))
-                        using (Pen borderPen = new Pen(borderColor))
+                    using (AntiAlias aa = new(context.Graphics))
+                        using (Pen borderPen = new(borderColor))
                         {
                             context.Graphics.DrawPath(borderPen, borderPath);
                         }
@@ -172,7 +165,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private GraphicsPath CreateBorderPath(Rectangle rect)
         {
-            GraphicsPath path = new GraphicsPath();
+            GraphicsPath path = new();
 
             switch (Orientation)
             {
@@ -217,7 +210,7 @@ namespace Krypton.Ribbon
         {
             // Create path that describes the arrow in orientation needed
             using (GraphicsPath arrowPath = CreateArrowPath(rect))
-                using (SolidBrush arrowBrush = new SolidBrush(textColor))
+                using (SolidBrush arrowBrush = new(textColor))
                 {
                     g.FillPath(arrowBrush, arrowPath);
                 }
@@ -241,7 +234,7 @@ namespace Krypton.Ribbon
             }
 
             // Create triangle using a series of lines
-            GraphicsPath path = new GraphicsPath();
+            GraphicsPath path = new();
 
             switch (Orientation)
             {

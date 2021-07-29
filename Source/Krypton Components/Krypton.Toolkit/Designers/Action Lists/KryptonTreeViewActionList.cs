@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel.Design;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -177,6 +172,42 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets the corner radius.</summary>
+        /// <value>The corner radius.</value>
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRadius
+        {
+            get => _treeView.StateCommon.Border.Rounding;
+
+            set
+            {
+                if (_treeView.StateCommon.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_treeView, null, _treeView.StateCommon.Border.Rounding, value);
+
+                    _treeView.StateCommon.Border.Rounding = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the node corner radius.</summary>
+        /// <value>The corner radius.</value>
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float NodeCornerRadius
+        {
+            get => _treeView.StateCommon.Node.Border.Rounding;
+
+            set
+            {
+                if (_treeView.StateCommon.Node.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_treeView, null, _treeView.StateCommon.Node.Border.Rounding, value);
+
+                    _treeView.StateCommon.Node.Border.Rounding = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -187,7 +218,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            DesignerActionItemCollection actions = new();
 
             // This can be null when deleting a control instance at design time
             if (_treeView != null)
@@ -200,6 +231,8 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("ItemStyle", "Item Style", "Appearance", "How to display tree items."));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
+                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem("NodeCornerRadius", "Node Corner Rounding Radius", "Appearance", "The corner rounding radius of the node."));
                 actions.Add(new DesignerActionHeaderItem("Behavior"));
                 actions.Add(new DesignerActionPropertyItem("Sorted", "Sorted", "Behavior", "Should items be sorted according to string."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));

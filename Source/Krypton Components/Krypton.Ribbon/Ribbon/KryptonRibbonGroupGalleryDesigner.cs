@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -72,34 +62,31 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonGallery = (KryptonRibbonGroupGallery)component;
-            _ribbonGallery.GalleryDesigner = this;
+            _ribbonGallery = component as KryptonRibbonGroupGallery;
+            if (_ribbonGallery != null)
+            {
+                _ribbonGallery.GalleryDesigner = this;
 
-            // Update designer properties with actual starting values
-            Visible = _ribbonGallery.Visible;
-            Enabled = _ribbonGallery.Enabled;
+                // Update designer properties with actual starting values
+                Visible = _ribbonGallery.Visible;
+                Enabled = _ribbonGallery.Enabled;
 
-            // Update visible/enabled to always be showing/enabled at design time
-            _ribbonGallery.Visible = true;
-            _ribbonGallery.Enabled = true;
+                // Update visible/enabled to always be showing/enabled at design time
+                _ribbonGallery.Visible = true;
+                _ribbonGallery.Enabled = true;
 
-            // Tell the embedded gallery it is in design mode
-            _ribbonGallery.Gallery.InRibbonDesignMode = true;
+                // Tell the embedded gallery it is in design mode
+                _ribbonGallery.Gallery.InRibbonDesignMode = true;
 
-            // Hook into events
-            _ribbonGallery.DesignTimeContextMenu += OnContextMenu;
+                // Hook into events
+                _ribbonGallery.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -124,8 +111,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is enabled.
         /// </summary>
-        public bool DesignEnabled 
-        { 
+        public bool DesignEnabled
+        {
             get => Enabled;
             set => Enabled = value;
         }
@@ -133,7 +120,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is visible.
         /// </summary>
-        public bool DesignVisible 
+        public bool DesignVisible
         {
             get => Visible;
             set => Visible = value;
@@ -227,7 +214,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move Gallery Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move Gallery Last", OnMoveLast);
                 _deleteGalleryVerb = new DesignerVerb("Delete Gallery", OnDeleteGallery);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteGalleryVerb });
             }
 
@@ -444,7 +431,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonGallery?.Ribbon != null)
             {
-            _changeService.OnComponentChanged(_ribbonGallery, null, _ribbonGallery.MaximumSize, GroupItemSize.Large);
+                _changeService.OnComponentChanged(_ribbonGallery, null, _ribbonGallery.MaximumSize, GroupItemSize.Large);
                 _ribbonGallery.MaximumSize = GroupItemSize.Large;
             }
         }

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -147,12 +140,7 @@ namespace Krypton.Toolkit
             // If the item is enabled and the mouse is over the sub menu area, then return false
             // because we do not want pressed it to cause the context menu to become current. This
             // cause the showing sub menu to be dismissed.
-            if (_menuItem.ItemEnabled)
-            {
-                return !_menuItem.PointInSubMenu(pt);
-            }
-
-            return true;
+            return _menuItem.ItemEnabled ? !_menuItem.PointInSubMenu(pt) : true;
         }
         #endregion
 
@@ -376,12 +364,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(c));
             }
 
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
-            return false;
+            return e == null ? throw new ArgumentNullException(nameof(e)) : false;
         }
         #endregion
 
@@ -443,7 +426,7 @@ namespace Krypton.Toolkit
                 if (_menuItem.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new CancelEventArgs();
+                    CancelEventArgs cea = new();
                     _menuItem.Closing(cea);
 
                     if (!cea.Cancel)

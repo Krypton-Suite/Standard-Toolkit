@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -25,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupNumericUpDown), "ToolboxBitmaps.KryptonRibbonGroupNumericUpDown.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupNumericUpDownDesigner))]
+    [Designer(typeof(KryptonRibbonGroupNumericUpDownDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("ValueChanged")]
@@ -255,7 +248,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Data")]
         [Description("Indicates the amount to increment or decrement one each button click.")]
-        [DefaultValue(typeof(Decimal), "1")]
+        [DefaultValue(typeof(decimal), "1")]
         public decimal Increment
         {
             get => NumericUpDown.Increment;
@@ -268,7 +261,7 @@ namespace Krypton.Ribbon
         [Category("Data")]
         [Description("Indicates the maximum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(Decimal), "100")]
+        [DefaultValue(typeof(decimal), "100")]
         public decimal Maximum
         {
             get => NumericUpDown.Maximum;
@@ -281,7 +274,7 @@ namespace Krypton.Ribbon
         [Category("Data")]
         [Description("Indicates the minimum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(Decimal), "0")]
+        [DefaultValue(typeof(decimal), "0")]
         public decimal Minimum
         {
             get => NumericUpDown.Minimum;
@@ -306,7 +299,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("The current value of the numeric up-down control.")]
-        [DefaultValue(typeof(Decimal), "0")]
+        [DefaultValue(typeof(decimal), "0")]
         [Bindable(true)]
         public decimal Value
         {
@@ -505,8 +498,8 @@ namespace Krypton.Ribbon
             get => NumericUpDown.AllowButtonSpecToolTips;
             set => NumericUpDown.AllowButtonSpecToolTips = value;
         }
-		
-		 /// <summary>
+
+        /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
         [Category("Visuals")]
@@ -536,7 +529,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMaximum
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 
@@ -548,7 +541,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMinimum
         {
-            get { return GroupItemSize.Small; }
+            get => GroupItemSize.Small;
             set { }
         }
 
@@ -579,7 +572,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon ribbon, 
+        public override ViewBase CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint)
         {
             return new ViewDrawRibbonGroupNumericUpDown(ribbon, this, needPaint);

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -38,7 +32,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawSeparator _drawSeparator;
         private readonly SeparatorController _separatorController;
         private Orientation _orientation;
-        private Timer _redrawTimer;
+        private System.Windows.Forms.Timer _redrawTimer;
         private Point _designLastPt;
         private int _splitterWidth;
 
@@ -162,7 +156,7 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDocker);
 
             // Use timer to redraw after windows messages are processed
-            _redrawTimer = new Timer
+            _redrawTimer = new System.Windows.Forms.Timer
             {
                 Interval = 1
             };
@@ -503,7 +497,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Fire event to recover the rectangle of allowed separator movement
-                SplitterMoveRectMenuArgs args = new SplitterMoveRectMenuArgs(Rectangle.Empty);
+                SplitterMoveRectMenuArgs args = new(Rectangle.Empty);
                 OnSplitterMoveRect(args);
 
                 return Orientation == Orientation.Horizontal
@@ -522,7 +516,7 @@ namespace Krypton.Toolkit
         public bool SeparatorMoving(Point mouse, Point splitter)
         {
             // Fire the event that indicates the splitter is being moved
-            SplitterCancelEventArgs e = new SplitterCancelEventArgs(mouse.X, mouse.Y, splitter.X, splitter.Y);
+            SplitterCancelEventArgs e = new(mouse.X, mouse.Y, splitter.X, splitter.Y);
             OnSplitterMoving(e);
 
             // Tell caller if the movement should be cancelled or not
@@ -538,7 +532,7 @@ namespace Krypton.Toolkit
         public void SeparatorMoved(Point mouse, Point splitter)
         {
             // Fire the event that indicates the splitter has finished being moved
-            SplitterEventArgs e = new SplitterEventArgs(mouse.X, mouse.Y, splitter.X, splitter.Y);
+            SplitterEventArgs e = new(mouse.X, mouse.Y, splitter.X, splitter.Y);
             OnSplitterMoved(e);
 
             _redrawTimer?.Start();
@@ -613,7 +607,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(5, 5);
+        protected override Size DefaultSize => new(5, 5);
 
         /// <summary>
         /// Raises the Initialized event.

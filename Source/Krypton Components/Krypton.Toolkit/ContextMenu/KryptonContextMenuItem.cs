@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -247,12 +240,12 @@ namespace Krypton.Toolkit
         {
             get => _text;
 
-            set 
+            set
             {
                 if (_text != value)
                 {
                     _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Text"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
                 }
             }
         }
@@ -271,12 +264,12 @@ namespace Krypton.Toolkit
         {
             get => _extraText;
 
-            set 
+            set
             {
                 if (_extraText != value)
                 {
                     _extraText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ExtraText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ExtraText)));
                 }
             }
         }
@@ -294,12 +287,12 @@ namespace Krypton.Toolkit
         {
             get => _image;
 
-            set 
+            set
             {
                 if (_image != value)
                 {
                     _image = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Image"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Image)));
                 }
             }
         }
@@ -316,12 +309,12 @@ namespace Krypton.Toolkit
         {
             get => _imageTransparentColor;
 
-            set 
+            set
             {
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageTransparentColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageTransparentColor)));
                 }
             }
         }
@@ -343,12 +336,12 @@ namespace Krypton.Toolkit
         {
             get => _shortcutKeys;
 
-            set 
+            set
             {
                 if (_shortcutKeys != value)
                 {
                     _shortcutKeys = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ShortcutKeys"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ShortcutKeys)));
                 }
             }
         }
@@ -364,12 +357,12 @@ namespace Krypton.Toolkit
         {
             get => _autoClose;
 
-            set 
+            set
             {
                 if (_autoClose != value)
                 {
                     _autoClose = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AutoClose"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AutoClose)));
                 }
             }
         }
@@ -385,7 +378,7 @@ namespace Krypton.Toolkit
         {
             get => _splitSubMenu;
 
-            set 
+            set
             {
                 if (_splitSubMenu != value)
                 {
@@ -406,7 +399,7 @@ namespace Krypton.Toolkit
         {
             get => _checkOnClick;
 
-            set 
+            set
             {
                 if (_checkOnClick != value)
                 {
@@ -428,7 +421,7 @@ namespace Krypton.Toolkit
         {
             get => _showShortcutKeys;
 
-            set 
+            set
             {
                 if (_showShortcutKeys != value)
                 {
@@ -449,7 +442,7 @@ namespace Krypton.Toolkit
         {
             get => _largeKryptonCommandImage;
 
-            set 
+            set
             {
                 if (_largeKryptonCommandImage != value)
                 {
@@ -471,7 +464,7 @@ namespace Krypton.Toolkit
         {
             get => _shortcutKeyDisplayString;
 
-            set 
+            set
             {
                 if (_shortcutKeyDisplayString != value)
                 {
@@ -494,7 +487,7 @@ namespace Krypton.Toolkit
         {
             get => (CheckState != CheckState.Unchecked);
 
-            set 
+            set
             {
                 // Are we currently checked?
                 bool areChecked = (CheckState != CheckState.Unchecked);
@@ -534,7 +527,7 @@ namespace Krypton.Toolkit
         {
             get => _checkState;
 
-            set 
+            set
             {
                 if (_checkState != value)
                 {
@@ -575,7 +568,7 @@ namespace Krypton.Toolkit
         {
             get => _enabled;
 
-            set 
+            set
             {
                 if (_enabled != value)
                 {
@@ -672,7 +665,7 @@ namespace Krypton.Toolkit
             {
                 // Grab current state from command or ourself
                 CheckState state = (KryptonCommand == null ? CheckState : KryptonCommand.CheckState);
-                
+
                 // Find new state
                 switch (state)
                 {

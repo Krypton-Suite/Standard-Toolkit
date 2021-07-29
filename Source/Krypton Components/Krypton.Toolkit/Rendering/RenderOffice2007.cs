@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -83,7 +76,7 @@ namespace Krypton.Toolkit
                                                         Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using (SolidBrush drawBrush = new SolidBrush(lightColor))
+            using (SolidBrush drawBrush = new(lightColor))
             {
                 context.Graphics.FillRectangle(drawBrush, displayRect);
             }
@@ -109,7 +102,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            KryptonOffice2007Renderer renderer = new KryptonOffice2007Renderer(colorPalette.ColorTable)
+            KryptonOffice2007Renderer renderer = new(colorPalette.ColorTable)
             {
 
                 // Seup the need to use rounded corners
@@ -139,7 +132,7 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (!(memento is MementoRibbonTabContextOffice))
+                if (memento is not MementoRibbonTabContextOffice)
                 {
                     memento?.Dispose();
 
@@ -158,16 +151,16 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    Rectangle borderRect = new Rectangle(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+                    Rectangle borderRect = new(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
                     cache.fillRect = new Rectangle(rect.X + 1, rect.Y, rect.Width - 2, rect.Height - 1);
 
-                    LinearGradientBrush borderBrush = new LinearGradientBrush(borderRect, c1, Color.Transparent, 270f)
+                    LinearGradientBrush borderBrush = new(borderRect, c1, Color.Transparent, 270f)
                     {
                         Blend = _ribbonGroup5Blend
                     };
                     cache.borderPen = new Pen(borderBrush);
 
-                    LinearGradientBrush underlineBrush = new LinearGradientBrush(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
+                    LinearGradientBrush underlineBrush = new(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
                     {
                         Blend = _ribbonGroup7Blend
                     };

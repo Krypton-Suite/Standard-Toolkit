@@ -2,25 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
@@ -49,8 +38,8 @@ namespace Krypton.Toolkit
         private readonly SimpleCall _refreshCall;
         private readonly SimpleCall _layoutCall;
         private KryptonContextMenu _kryptonContextMenu;
-        protected VisualPopupToolTip _visualBasePopupToolTip;
-        private ToolTipManager _toolTipManager;
+        protected VisualPopupToolTip visualBasePopupToolTip;
+        private readonly ToolTipManager _toolTipManager;
         #endregion
 
         #region Events
@@ -1195,7 +1184,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)((long)m.LParam)) == -1)
@@ -1252,12 +1241,12 @@ namespace Krypton.Toolkit
                 // Remember the new palette
                 _palette = palette;
 
-                // Get the renderer associated with the palette
-                Renderer = _palette.GetRenderer();
-
                 // Hook to new palette events
                 if (_palette != null)
                 {
+                    // Get the renderer associated with the palette
+                    Renderer = _palette.GetRenderer();
+
                     _palette.PalettePaint += OnPaletteNeedPaint;
                     _palette.ButtonSpecChanged += OnButtonSpecChanged;
                     _palette.BasePaletteChanged += OnBaseChanged;
@@ -1374,19 +1363,19 @@ namespace Krypton.Toolkit
                     )
                 {
                     // Remove any currently showing tooltip
-                    _visualBasePopupToolTip?.Dispose();
+                    visualBasePopupToolTip?.Dispose();
 
                     // Create the actual tooltip popup object
                     // ReSharper disable once UseObjectOrCollectionInitializer
-                    _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
+                    visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
                         ToolTipValues,
                         Renderer,
                         PaletteBackStyle.ControlToolTip,
                         PaletteBorderStyle.ControlToolTip,
                         CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle));
 
-                    _visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
-                    _visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
+                    visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                    visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
                 }
             }
         }
@@ -1394,7 +1383,7 @@ namespace Krypton.Toolkit
         private void OnCancelToolTip(object sender, EventArgs e)
         {
             // Remove any currently showing tooltip
-            _visualBasePopupToolTip?.Dispose();
+            visualBasePopupToolTip?.Dispose();
         }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
@@ -1404,21 +1393,17 @@ namespace Krypton.Toolkit
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
-            _visualBasePopupToolTip = null;
+            visualBasePopupToolTip = null;
         }
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            SetWindowTheme(Handle, "DarkMode_Explorer", null);
+            PI.SetWindowTheme(Handle, @"DarkMode_Explorer", null);
 
             base.OnHandleCreated(e);
         }
         #endregion
 
-        #region Calls
-        [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
-        public static extern int SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
-        #endregion
 
     }
 }

@@ -2,13 +2,11 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -38,12 +36,12 @@ namespace Krypton.Toolkit
         /// Gets an array of lookup pairs.
         /// </summary>
         protected override Pair[] Pairs { get; } =
-        { new Pair(SeparatorStyle.LowProfile,            "Low Profile"),
-            new Pair(SeparatorStyle.HighProfile,           "High Profile"),  
-            new Pair(SeparatorStyle.HighInternalProfile,   "High Internal Profile"),  
-            new Pair(SeparatorStyle.Custom1,               "Custom1"),
-            new Pair(SeparatorStyle.Custom2,               "Custom2"),
-            new Pair(SeparatorStyle.Custom3,               "Custom3")
+        { new(SeparatorStyle.LowProfile,            "Low Profile"),
+            new(SeparatorStyle.HighProfile,           "High Profile"),  
+            new(SeparatorStyle.HighInternalProfile,   "High Internal Profile"),  
+            new(SeparatorStyle.Custom1,               "Custom1"),
+            new(SeparatorStyle.Custom2,               "Custom2"),
+            new(SeparatorStyle.Custom3,               "Custom3")
 
         };
 

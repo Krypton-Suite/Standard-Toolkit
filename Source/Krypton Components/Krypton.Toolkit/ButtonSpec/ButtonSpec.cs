@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
 // ReSharper disable MemberCanBeInternal
 // ReSharper disable MemberCanBeProtected.Global
 
@@ -193,7 +185,7 @@ namespace Krypton.Toolkit
                 if (_image != value)
                 {
                     _image = value;
-                    OnButtonSpecPropertyChanged(@"Image");
+                    OnButtonSpecPropertyChanged(nameof(Image));
                 }
             }
         }
@@ -219,7 +211,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button image transparent color.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -378,7 +370,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("ToolTip")]
         [Description("Button image transparent color.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ToolTipImageTransparentColor
         {
             get => _toolTipImageTransparentColor;
@@ -662,7 +654,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Image color to remap to container foreground.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ColorMap
         {
             get => _colorMap;
@@ -672,7 +664,7 @@ namespace Krypton.Toolkit
                 if (_colorMap != value)
                 {
                     _colorMap = value;
-                    OnButtonSpecPropertyChanged(@"ColorMap");
+                    OnButtonSpecPropertyChanged(nameof(ColorMap));
                 }
             }
         }
@@ -708,7 +700,7 @@ namespace Krypton.Toolkit
                 if (_style != value)
                 {
                     _style = value;
-                    OnButtonSpecPropertyChanged(@"Style");
+                    OnButtonSpecPropertyChanged(nameof(Style));
                 }
             }
         }
@@ -734,7 +726,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Defines the button orientation.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteButtonOrientation Orientation
         {
             get => _orientation;
@@ -744,7 +736,7 @@ namespace Krypton.Toolkit
                 if (_orientation != value)
                 {
                     _orientation = value;
-                    OnButtonSpecPropertyChanged(@"Orientation");
+                    OnButtonSpecPropertyChanged(nameof(Orientation));
                 }
             }
         }
@@ -770,7 +762,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("The header edge to display the button against.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeEdgeAlign Edge
         {
             get => _edge;
@@ -780,7 +772,7 @@ namespace Krypton.Toolkit
                 if (_edge != value)
                 {
                     _edge = value;
-                    OnButtonSpecPropertyChanged(@"Edge");
+                    OnButtonSpecPropertyChanged(nameof(Edge));
                 }
             }
         }
@@ -803,7 +795,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("ContextMenuStrip to show when the button is pressed.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public ContextMenuStrip ContextMenuStrip { get; set; }
 
@@ -816,7 +808,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("KryptonContextMenu to show when the button is pressed.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu { get; set; }
 
@@ -828,7 +820,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Command associated with the button.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public virtual KryptonCommand KryptonCommand
         {
@@ -844,7 +836,7 @@ namespace Krypton.Toolkit
                     }
 
                     _command = value;
-                    OnButtonSpecPropertyChanged("KryptonCommand");
+                    OnButtonSpecPropertyChanged(nameof(KryptonCommand));
 
                     if (_command != null)
                     {
@@ -969,14 +961,7 @@ namespace Krypton.Toolkit
                 image = Image;
             }
 
-            if ((image != null) || !AllowInheritImage)
-            {
-                return image;
-            }
-            else
-            {
-                return palette.GetButtonSpecImage(ProtectedType, state);
-            }
+            return (image != null) || !AllowInheritImage ? image : palette.GetButtonSpecImage(ProtectedType, state);
         }
 
         /// <summary>
@@ -990,13 +975,9 @@ namespace Krypton.Toolkit
             {
                 return KryptonCommand.ImageTransparentColor;
             }
-            else if (ImageTransparentColor != Color.Empty)
-            {
-                return ImageTransparentColor;
-            }
             else
             {
-                return palette.GetButtonSpecImageTransparentColor(ProtectedType);
+                return ImageTransparentColor != Color.Empty ? ImageTransparentColor : palette.GetButtonSpecImageTransparentColor(ProtectedType);
             }
         }
 
@@ -1011,13 +992,9 @@ namespace Krypton.Toolkit
             {
                 return KryptonCommand.Text;
             }
-            else if ((Text.Length > 0) || !AllowInheritText)
-            {
-                return Text;
-            }
             else
             {
-                return palette.GetButtonSpecShortText(ProtectedType);
+                return (Text.Length > 0) || !AllowInheritText ? Text : palette.GetButtonSpecShortText(ProtectedType);
             }
         }
 
@@ -1032,14 +1009,7 @@ namespace Krypton.Toolkit
             {
                 return KryptonCommand.ExtraText;
             }
-            if ((ExtraText.Length > 0) || !AllowInheritExtraText)
-            {
-                return ExtraText;
-            }
-            else
-            {
-                return palette.GetButtonSpecLongText(ProtectedType);
-            }
+            return (ExtraText.Length > 0) || !AllowInheritExtraText ? ExtraText : palette.GetButtonSpecLongText(ProtectedType);
         }
 
         /// <summary>
@@ -1049,14 +1019,9 @@ namespace Krypton.Toolkit
         /// <returns>Tooltip title string.</returns>
         public virtual string GetToolTipTitle(IPalette palette)
         {
-            if (!string.IsNullOrEmpty(ToolTipTitle) || !AllowInheritToolTipTitle)
-            {
-                return ToolTipTitle;
-            }
-            else
-            {
-                return palette.GetButtonSpecToolTipTitle(ProtectedType);
-            }
+            return !string.IsNullOrEmpty(ToolTipTitle) || !AllowInheritToolTipTitle
+                ? ToolTipTitle
+                : palette.GetButtonSpecToolTipTitle(ProtectedType);
         }
 
         /// <summary>

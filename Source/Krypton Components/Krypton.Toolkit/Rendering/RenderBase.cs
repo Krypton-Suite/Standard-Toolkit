@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -37,51 +27,51 @@ namespace Krypton.Toolkit
                                        IRenderGlyph
     {
         #region Static Fields
-        private static readonly object _threadLock = new object();
+        private static readonly object _threadLock = new();
 
-        private static readonly ColorMatrix _matrixGrayScale = new ColorMatrix(new float[][]{new float[]{0.3f,0.3f,0.3f,0,0},
+        private static readonly ColorMatrix _matrixGrayScale = new(new float[][]{new float[]{0.3f,0.3f,0.3f,0,0},
                                                                                              new float[]{0.59f,0.59f,0.59f,0,0},
                                                                                              new float[]{0.11f,0.11f,0.11f,0,0},
                                                                                              new float[]{0,0,0,1,0},
                                                                                              new float[]{0,0,0,0,1}});
 
-        private static readonly ColorMatrix _matrixGrayScaleRed = new ColorMatrix(new float[][]{new float[]{1,0,0,0,0},
+        private static readonly ColorMatrix _matrixGrayScaleRed = new(new float[][]{new float[]{1,0,0,0,0},
                                                                                                 new float[]{0,0.59f,0.59f,0,0},
                                                                                                 new float[]{0,0.11f,0.11f,0,0},
                                                                                                 new float[]{0,0,0,1,0},
                                                                                                 new float[]{0,0,0,0,1}});
 
-        private static readonly ColorMatrix _matrixGrayScaleGreen = new ColorMatrix(new float[][]{new float[]{0.3f,0,0.3f,0,0},
+        private static readonly ColorMatrix _matrixGrayScaleGreen = new(new float[][]{new float[]{0.3f,0,0.3f,0,0},
                                                                                                   new float[]{0,1,0,0,0},
                                                                                                   new float[]{0.11f,0,0.11f,0,0},
                                                                                                   new float[]{0,0,0,1,0},
                                                                                                   new float[]{0,0,0,0,1}});
 
-        private static readonly ColorMatrix _matrixGrayScaleBlue = new ColorMatrix(new float[][]{new float[]{0.3f,0.3f,0,0,0},
+        private static readonly ColorMatrix _matrixGrayScaleBlue = new(new float[][]{new float[]{0.3f,0.3f,0,0,0},
                                                                                                  new float[]{0.59f,0.59f,0,0,0},
                                                                                                  new float[]{0,0,1,0,0},
                                                                                                  new float[]{0,0,0,1,0},
                                                                                                  new float[]{0,0,0,0,1}});
 
-        private static readonly ColorMatrix _matrixLight = new ColorMatrix(new float[][]{new float[]{1,0,0,0,0},
+        private static readonly ColorMatrix _matrixLight = new(new float[][]{new float[]{1,0,0,0,0},
                                                                                          new float[]{0,1,0,0,0},
                                                                                          new float[]{0,0,1,0,0},
                                                                                          new float[]{0,0,0,1,0},
                                                                                          new float[]{0.1f,0.1f,0.1f,0,1}});
 
-        private static readonly ColorMatrix _matrixLightLight = new ColorMatrix(new float[][]{new float[]{1,0,0,0,0},
+        private static readonly ColorMatrix _matrixLightLight = new(new float[][]{new float[]{1,0,0,0,0},
                                                                                               new float[]{0,1,0,0,0},
                                                                                               new float[]{0,0,1,0,0},
                                                                                               new float[]{0,0,0,1,0},
                                                                                               new float[]{0.2f,0.2f,0.2f,0,1}});
 
-        private static readonly ColorMatrix _matrixDark = new ColorMatrix(new float[][]{new float[]{1,0,0,0,0},
+        private static readonly ColorMatrix _matrixDark = new(new float[][]{new float[]{1,0,0,0,0},
                                                                                         new float[]{0,1,0,0,0},
                                                                                         new float[]{0,0,1,0,0},
                                                                                         new float[]{0,0,0,1,0},
                                                                                         new float[]{-0.1f,-0.1f,-0.1f,0,1}});
 
-        private static readonly ColorMatrix _matrixDarkDark = new ColorMatrix(new float[][]{new float[]{1,0,0,0,0},
+        private static readonly ColorMatrix _matrixDarkDark = new(new float[][]{new float[]{1,0,0,0,0},
                                                                                             new float[]{0,1,0,0,0},
                                                                                             new float[]{0,0,1,0,0},
                                                                                             new float[]{0,0,0,1,0},
@@ -95,7 +85,7 @@ namespace Krypton.Toolkit
         public IRenderBorder RenderStandardBorder 
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -104,7 +94,7 @@ namespace Krypton.Toolkit
         public IRenderBack RenderStandardBack
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -113,7 +103,7 @@ namespace Krypton.Toolkit
         public IRenderContent RenderStandardContent
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -122,7 +112,7 @@ namespace Krypton.Toolkit
         public IRenderTabBorder RenderTabBorder
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -131,7 +121,7 @@ namespace Krypton.Toolkit
         public IRenderRibbon RenderRibbon
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -140,7 +130,7 @@ namespace Krypton.Toolkit
         public IRenderGlyph RenderGlyph 
         {
             [DebuggerStepThrough]
-            get { return this; }
+            get => this;
         }
 
         /// <summary>
@@ -973,7 +963,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Use image attributes class to modify image drawing for effects
-                ImageAttributes attribs = new ImageAttributes();
+                ImageAttributes attribs = new();
 
                 switch (effect)
                 {
@@ -1019,7 +1009,7 @@ namespace Krypton.Toolkit
                     // Create remapping for the transparent color
                     if (remapTransparent != Color.Empty)
                     {
-                        ColorMap remap = new ColorMap
+                        ColorMap remap = new()
                         {
                             OldColor = remapTransparent,
                             NewColor = Color.Transparent
@@ -1030,7 +1020,7 @@ namespace Krypton.Toolkit
                     // Create remapping from source to target colors
                     if ((remapColor != Color.Empty) && (remapNew != Color.Empty))
                     {
-                        ColorMap remap = new ColorMap
+                        ColorMap remap = new()
                         {
                             OldColor = remapColor,
                             NewColor = remapNew

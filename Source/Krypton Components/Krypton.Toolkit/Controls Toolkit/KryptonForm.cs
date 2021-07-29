@@ -2,51 +2,24 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Security.Principal;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    #region Enumerations
-    /// <summary>
-    /// Used for wrapping the administrator title text
-    /// </summary>
-    // ReSharper disable IdentifierTypo
-    public enum BracketType
-    {
-        /// <summary>A curly bracket.</summary>
-        CURLYBRACKET,
-        /// <summary>A curved bracket.</summary>
-        CURVEDBRACKET,
-        /// <summary>A square bracket.</summary>
-        SQUAREBRACKET,
-        /// <summary>No bracket.</summary>
-        NOBRACKET
-    }
-    // ReSharper restore IdentifierTypo
-    #endregion
-
     /// <summary>
     /// Draws the window chrome using a Krypton palette.
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonForm), "ToolboxBitmaps.KryptonForm.bmp")]
     [Description("Draws the window chrome using a Krypton palette.")]
+    [Designer(typeof(KryptonFormDesigner))]
     public class KryptonForm : VisualForm,
                                IContentValues
     {
@@ -87,7 +60,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly Size CAPTION_ICON_SIZE = new Size(16, 16);
+        private static readonly Size CAPTION_ICON_SIZE = new(16, 16);
         private const int HT_CORNER = 8;
         // Drop shadow
         private const int CS_DROPSHADOW = 0x00020000;
@@ -111,7 +84,6 @@ namespace Krypton.Toolkit
         private FormWindowState _lastWindowState;
         private string _textExtra;
         private string _oldText;
-        private string _administratorText;
         private static bool _isInAdministratorMode;
         private bool _allowFormChrome;
         private bool _allowStatusStripMerge;
@@ -120,12 +92,13 @@ namespace Krypton.Toolkit
         private bool _lastNotNormal;
         private bool _useDropShadow;
         private bool _disableCloseButton;
-        private bool _appendAdministratorText;
         private StatusStrip _statusStrip;
         private Bitmap _cacheBitmap;
         private Icon _cacheIcon;
-        private BracketType _bracketType;
-        private int _cornerRoundingRadius;
+        private float _cornerRoundingRadius;
+        private Control _activeControl;
+        private KryptonManager _internalKryptonManager;
+        private KryptonPalette _internalKryptonPalette;
         #endregion
 
         #region Identity
@@ -207,7 +180,7 @@ namespace Krypton.Toolkit
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
 
-            // Hook into globalstatic events
+            // Hook into global static events
             KryptonManager.GlobalAllowFormChromeChanged += OnGlobalAllowFormChromeChanged;
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -227,8 +200,12 @@ namespace Krypton.Toolkit
 
             //DisableCloseButton = false;
 
-            // Set the CornerRoundingRadius to '-1', default value
-            CornerRoundingRadius = -1;
+            // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
+            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _internalKryptonManager = new KryptonManager();
+
+            _internalKryptonPalette = new KryptonPalette();
         }
 
         /// <summary>
@@ -617,24 +594,47 @@ namespace Krypton.Toolkit
             {
                 return FormWindowState.Minimized;
             }
-            else if ((style & PI.WS_.MAXIMIZE) != 0)
-            {
-                return FormWindowState.Maximized;
-            }
             else
             {
-                return FormWindowState.Normal;
+                return (style & PI.WS_.MAXIMIZE) != 0 ? FormWindowState.Maximized : FormWindowState.Normal;
             }
         }
 
-        /// <summary>
-        /// Gets or sets the corner rounding radius.
-        /// </summary>
-        /// <value>
-        /// The corner rounding radius.
-        /// </value>
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
         [DefaultValue(-1), Description("Defines the corner roundness on the current window (-1 is the default look).")]
-        public int CornerRoundingRadius { get => _cornerRoundingRadius; set { _cornerRoundingRadius = value; Invalidate(); } }
+        public float CornerRoundingRadius { get => _cornerRoundingRadius; set { _cornerRoundingRadius = value; Invalidate(); } }
+
+        /// <summary>Gets or sets the active control on the container control.</summary>
+        [DefaultValue(null), Description("Defines an active control for this window.")]
+        public Control ActiveControl
+        {
+            get => _activeControl;
+
+            set
+            {
+                if (_activeControl != value)
+                {
+                    _activeControl = value;
+
+                    _activeControl.Focus();
+                }
+                else
+                {
+                    _activeControl.Focus();
+                }
+            }
+        }
+
+        /// <summary>Gets the internal krypton manager.</summary>
+        /// <value>The internal krypton manager.</value>
+        [Description("Manages the current theme.")]
+        public KryptonManager KryptonManager { get => _internalKryptonManager; private set => _internalKryptonManager = value; }
+
+        /// <summary>Gets the internal krypton palette.</summary>
+        /// <value>The internal krypton palette.</value>
+        [Description("Create a custom theme palette.")]
+        public KryptonPalette KryptonPalette { get => _internalKryptonPalette; private set => _internalKryptonPalette = value; }
         #endregion
 
         #region Public Chrome
@@ -758,7 +758,7 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Convert to a bitmap for use in drawing (get the 16x16 version if available)
-                    using (Icon temp = new Icon(_cacheIcon, new Size(16, 16)))
+                    using (Icon temp = new(_cacheIcon, new Size(16, 16)))
                     {
                         _cacheBitmap = temp.ToBitmap();
                     }
@@ -783,7 +783,7 @@ namespace Krypton.Toolkit
                     if (_cacheBitmap.Size != CAPTION_ICON_SIZE)
                     {
                         // Create a resized version of the bitmap
-                        Bitmap resizedBitmap = new Bitmap(_cacheBitmap, CAPTION_ICON_SIZE);
+                        Bitmap resizedBitmap = new(_cacheBitmap, CAPTION_ICON_SIZE);
 
                         // Must gracefully remove unused resources!
                         _cacheBitmap.Dispose();
@@ -1036,7 +1036,7 @@ namespace Krypton.Toolkit
                 return (IntPtr)PI.HT.CLIENT;
             }
 
-            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+            using (ViewLayoutContext context = new(this, Renderer))
             {
                 // Discover if the form icon is being displayed
                 if (_drawContent.IsImageDisplayed(context))
@@ -1106,12 +1106,7 @@ namespace Krypton.Toolkit
                             return (IntPtr)PI.HT.TOPLEFT;
                         }
 
-                        if (pt.Y >= (Height - HT_CORNER))
-                        {
-                            return (IntPtr)PI.HT.BOTTOMLEFT;
-                        }
-
-                        return (IntPtr)PI.HT.LEFT;
+                        return pt.Y >= (Height - HT_CORNER) ? (IntPtr)PI.HT.BOTTOMLEFT : (IntPtr)PI.HT.LEFT;
                     }
 
                     // Is point over the right border?
@@ -1122,12 +1117,7 @@ namespace Krypton.Toolkit
                             return (IntPtr)PI.HT.TOPRIGHT;
                         }
 
-                        if (pt.Y >= (Height - HT_CORNER))
-                        {
-                            return (IntPtr)PI.HT.BOTTOMRIGHT;
-                        }
-
-                        return (IntPtr)PI.HT.RIGHT;
+                        return pt.Y >= (Height - HT_CORNER) ? (IntPtr)PI.HT.BOTTOMRIGHT : (IntPtr)PI.HT.RIGHT;
                     }
 
                     // Is point over the bottom border?
@@ -1138,12 +1128,7 @@ namespace Krypton.Toolkit
                             return (IntPtr)PI.HT.BOTTOMLEFT;
                         }
 
-                        if (pt.X >= (Width - HT_CORNER))
-                        {
-                            return (IntPtr)PI.HT.BOTTOMRIGHT;
-                        }
-
-                        return (IntPtr)PI.HT.BOTTOM;
+                        return pt.X >= (Width - HT_CORNER) ? (IntPtr)PI.HT.BOTTOMRIGHT : (IntPtr)PI.HT.BOTTOM;
                     }
 
                     // Is point over the top border?
@@ -1154,12 +1139,7 @@ namespace Krypton.Toolkit
                             return (IntPtr)PI.HT.TOPLEFT;
                         }
 
-                        if (pt.X >= (Width - HT_CORNER))
-                        {
-                            return (IntPtr)PI.HT.TOPRIGHT;
-                        }
-
-                        return (IntPtr)PI.HT.TOP;
+                        return pt.X >= (Width - HT_CORNER) ? (IntPtr)PI.HT.TOPRIGHT : (IntPtr)PI.HT.TOP;
                     }
                 }
 
@@ -1376,7 +1356,7 @@ namespace Krypton.Toolkit
                     if (NeedLayout || (GetDefinedIcon() != _cacheIcon))
                     {
                         // Ask the view to perform a layout
-                        using (ViewLayoutContext context = new ViewLayoutContext(ViewManager,
+                        using (ViewLayoutContext context = new(ViewManager,
                                                                                  this,
                                                                                  RealWindowRectangle,
                                                                                  Renderer))
@@ -1398,7 +1378,7 @@ namespace Krypton.Toolkit
                             _regionWindowState = WindowState;
 
                             // Get the path for the border so we can shape the form using it
-                            using (RenderContext context = new RenderContext(this, null, Bounds, Renderer))
+                            using (RenderContext context = new(this, null, Bounds, Renderer))
                             {
                                 using (GraphicsPath path = _drawDocker.GetOuterBorderPath(context))
                                 {
@@ -1457,7 +1437,7 @@ namespace Krypton.Toolkit
                 Padding padding = RealWindowBorders;
 
                 // Reduce the Bounds by the padding on all but the top
-                Rectangle maximizedRect = new Rectangle(padding.Left, padding.Left,
+                Rectangle maximizedRect = new(padding.Left, padding.Left,
                                                         Width - padding.Horizontal,
                                                         Height - padding.Left - padding.Bottom);
 
@@ -1565,7 +1545,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -1768,7 +1748,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                WindowsPrincipal principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+                WindowsPrincipal principal = new(WindowsIdentity.GetCurrent());
 
                 bool hasAdministrativeRights = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
@@ -1797,7 +1777,7 @@ namespace Krypton.Toolkit
         /// <param name="value">if set to <c>true</c> [value].</param>
         public static void SetIsInAdministratorMode(bool value)
         {
-            KryptonForm form = new KryptonForm();
+            KryptonForm form = new();
 
             //form.IsInAdministratorMode = value;
         }
@@ -1806,7 +1786,7 @@ namespace Krypton.Toolkit
         /// <returns>IsInAdministratorMode</returns>
         public static bool GetIsInAdministratorMode()
         {
-            KryptonForm form = new KryptonForm();
+            KryptonForm form = new();
 
             return form.IsInAdministratorMode;
         }

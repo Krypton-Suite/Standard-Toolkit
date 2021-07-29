@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -101,34 +91,31 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonTriple = (KryptonRibbonGroupTriple)component;
-            _ribbonTriple.DesignTimeAddButton += OnAddButton;
-            _ribbonTriple.DesignTimeAddColorButton += OnAddColorButton;
-            _ribbonTriple.DesignTimeAddCheckBox += OnAddCheckBox;
-            _ribbonTriple.DesignTimeAddRadioButton += OnAddRadioButton;
-            _ribbonTriple.DesignTimeAddLabel += OnAddLabel;
-            _ribbonTriple.DesignTimeAddCustomControl += OnAddCustomControl;
-            _ribbonTriple.DesignTimeAddTextBox += OnAddTextBox;
-            _ribbonTriple.DesignTimeAddMaskedTextBox += OnAddMaskedTextBox;
-            _ribbonTriple.DesignTimeAddRichTextBox += OnAddRichTextBox;
-            _ribbonTriple.DesignTimeAddComboBox += OnAddComboBox;
-            _ribbonTriple.DesignTimeAddNumericUpDown += OnAddNumericUpDown;
-            _ribbonTriple.DesignTimeAddDomainUpDown += OnAddDomainUpDown;
-            _ribbonTriple.DesignTimeAddDateTimePicker += OnAddDateTimePicker;
-            _ribbonTriple.DesignTimeAddTrackBar += OnAddTrackBar;
-            _ribbonTriple.DesignTimeContextMenu += OnContextMenu;
+            _ribbonTriple = component as KryptonRibbonGroupTriple;
+            if (_ribbonTriple != null)
+            {
+                _ribbonTriple.DesignTimeAddButton += OnAddButton;
+                _ribbonTriple.DesignTimeAddColorButton += OnAddColorButton;
+                _ribbonTriple.DesignTimeAddCheckBox += OnAddCheckBox;
+                _ribbonTriple.DesignTimeAddRadioButton += OnAddRadioButton;
+                _ribbonTriple.DesignTimeAddLabel += OnAddLabel;
+                _ribbonTriple.DesignTimeAddCustomControl += OnAddCustomControl;
+                _ribbonTriple.DesignTimeAddTextBox += OnAddTextBox;
+                _ribbonTriple.DesignTimeAddMaskedTextBox += OnAddMaskedTextBox;
+                _ribbonTriple.DesignTimeAddRichTextBox += OnAddRichTextBox;
+                _ribbonTriple.DesignTimeAddComboBox += OnAddComboBox;
+                _ribbonTriple.DesignTimeAddNumericUpDown += OnAddNumericUpDown;
+                _ribbonTriple.DesignTimeAddDomainUpDown += OnAddDomainUpDown;
+                _ribbonTriple.DesignTimeAddDateTimePicker += OnAddDateTimePicker;
+                _ribbonTriple.DesignTimeAddTrackBar += OnAddTrackBar;
+                _ribbonTriple.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -146,7 +133,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
+                ArrayList compound = new(base.AssociatedComponents);
                 compound.AddRange(_ribbonTriple.Items);
                 return compound;
             }
@@ -232,7 +219,7 @@ namespace Krypton.Ribbon
                 _addTrackBarVerb = new DesignerVerb("Add TrackBar", OnAddTrackBar);
                 _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
                 _deleteTripleVerb = new DesignerVerb("Delete Triple", OnDeleteTriple);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
                                                      _addButtonVerb, _addColorButtonVerb, _addCheckBoxVerb, _addComboBoxVerb, _addCustomControlVerb, _addDateTimePickerVerb, _addDomainUpDownVerb, _addLabelVerb, _addNumericUpDownVerb, _addRadioButtonVerb, _addRichTextBoxVerb, _addTextBoxVerb, _addTrackBarVerb, _addMaskedTextBoxVerb, _clearItemsVerb, _deleteTripleVerb });
             }
 
@@ -993,7 +980,7 @@ namespace Krypton.Ribbon
                     _addDateTimePickerMenu = new ToolStripMenuItem("Add DateTimePicker", Properties.Resources.KryptonRibbonGroupDateTimePicker, OnAddDateTimePicker);
                     _addTrackBarMenu = new ToolStripMenuItem("Add TrackBar", Properties.Resources.KryptonRibbonGroupTrackBar, OnAddTrackBar);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
-                    _deleteTripleMenu = new ToolStripMenuItem("Delete Triple", Properties.Resources.delete2, OnDeleteTriple);                    
+                    _deleteTripleMenu = new ToolStripMenuItem("Delete Triple", Properties.Resources.delete2, OnDeleteTriple);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, _maximumSizeMenu, _minimumSizeMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
@@ -1078,7 +1065,7 @@ namespace Krypton.Ribbon
                     if (group != _ribbonTriple.RibbonGroup)
                     {
                         // Create menu item for the group
-                        ToolStripMenuItem groupMenuItem = new ToolStripMenuItem
+                        ToolStripMenuItem groupMenuItem = new()
                         {
                             Text = group.TextLine1 + " " + group.TextLine2,
                             Tag = group

@@ -2,28 +2,18 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonHeaderGroupDesigner : ParentControlDesigner
+    public class KryptonHeaderGroupDesigner : ParentControlDesigner
     {
         #region Instance Fields
         private bool _lastHitTest;
@@ -61,16 +51,10 @@ namespace Krypton.Toolkit
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
+
+            Debug.Assert(component != null);
 
             // Cast to correct type
             _headerGroup = component as KryptonHeaderGroup;
@@ -107,7 +91,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override ICollection AssociatedComponents
         {
-            get 
+            get
             {
                 // Get the set of components from the base class
                 ICollection baseComponents = base.AssociatedComponents;
@@ -120,7 +104,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Create a new collection for both values
-                    ArrayList compound = new ArrayList(baseComponents);
+                    ArrayList compound = new(baseComponents);
 
                     // Add all the button specs to the end
                     compound.AddRange(_headerGroup.ButtonSpecs);
@@ -149,14 +133,7 @@ namespace Krypton.Toolkit
         public override ControlDesigner InternalControlDesigner(int internalControlIndex)
         {
             // Get the control designer for the requested indexed child control
-            if ((_headerGroup != null) && (internalControlIndex == 0))
-            {
-                return (ControlDesigner)_designerHost.GetDesigner(_headerGroup.Panel);
-            }
-            else
-            {
-                return null;
-            }
+            return (_headerGroup != null) && (internalControlIndex == 0) ? (ControlDesigner)_designerHost.GetDesigner(_headerGroup.Panel) : null;
         }
 
         /// <summary>
@@ -173,7 +150,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the header group specific list
@@ -224,7 +201,7 @@ namespace Krypton.Toolkit
             _headerGroup?.DesignerMouseLeave();
 
             base.OnMouseLeave();
-        }        
+        }
         #endregion
 
         #region Implementation
@@ -241,7 +218,7 @@ namespace Krypton.Toolkit
                     _headerGroup.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new ArrayList
+                    ArrayList selectionList = new()
                     {
                         component
                     };

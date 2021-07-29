@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,11 +19,11 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonQATBorder  : ViewComposite
     {
         #region Static Fields
-        private static readonly Padding _minibarBorderPaddingOverlap = new Padding(8, 2, 11, 2);
-        private static readonly Padding _minibarBorderPaddingNoOverlap = new Padding(17, 2, 11, 2);
-        private static readonly Padding _fullbarBorderPadding_2007 = new Padding(1, 3, 2, 2);
-        private static readonly Padding _fullbarBorderPadding_2010 = new Padding(2);
-        private static readonly Padding _noBorderPadding = new Padding(1, 0, 1, 0);
+        private static readonly Padding _minibarBorderPaddingOverlap = new(8, 2, 11, 2);
+        private static readonly Padding _minibarBorderPaddingNoOverlap = new(17, 2, 11, 2);
+        private static readonly Padding _fullbarBorderPadding_2007 = new(1, 3, 2, 2);
+        private static readonly Padding _fullbarBorderPadding_2010 = new(2);
+        private static readonly Padding _noBorderPadding = new(1, 0, 1, 0);
         private const int QAT_BUTTON_WIDTH = 22;
         private const int QAT_HEIGHT_MINI = 26;
         private const int QAT_HEIGHT_FULL = 27;

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -116,7 +109,7 @@ namespace Krypton.Toolkit
         public IPaletteBack PaletteBack
         {
             [DebuggerStepThrough]
-            get { return _paletteBack; }
+            get => _paletteBack;
         }
         #endregion
 
@@ -127,7 +120,7 @@ namespace Krypton.Toolkit
         public IPaletteBorder PaletteBorder
         {
             [DebuggerStepThrough]
-            get { return _paletteBorder; }
+            get => _paletteBorder;
         }
         #endregion
 
@@ -138,7 +131,7 @@ namespace Krypton.Toolkit
         public IPaletteMetric PaletteMetric
         {
             [DebuggerStepThrough]
-            get { return _paletteMetric; }
+            get => _paletteMetric;
         }
         #endregion
 
@@ -236,17 +229,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteDrawBorders MaxBorderEdges
         {
-            get
-            {
-                if (_borderForced == null)
-                {
-                    return PaletteDrawBorders.All;
-                }
-                else
-                {
-                    return _borderForced.MaxBorderEdges;
-                }
-            }
+            get => _borderForced == null ? PaletteDrawBorders.All : _borderForced.MaxBorderEdges;
 
             set 
             {
@@ -290,17 +273,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteGraphicsHint ForceGraphicsHint
         {
-            get
-            {
-                if (_borderForced == null)
-                {
-                    return PaletteGraphicsHint.Inherit;
-                }
-                else
-                {
-                    return _borderForced.ForceGraphicsHint;
-                }
-            }
+            get => _borderForced == null ? PaletteGraphicsHint.Inherit : _borderForced.ForceGraphicsHint;
 
             set 
             {
@@ -554,7 +527,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Create a new region the same as the existing clipping region
-                    Region combineRegion = new Region(borderPath);
+                    Region combineRegion = new(borderPath);
 
                     // Reduce clipping region down by our border path
                     combineRegion.Intersect(_clipRegion);

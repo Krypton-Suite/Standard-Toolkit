@@ -2,36 +2,21 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading;
-using System.Windows.Forms;
-using System.Xml;
 
 namespace Krypton.Toolkit
 {
     /// <summary>
     /// Define and modify a palette for styling Krypton controls.
     /// </summary>
-    [ToolboxItem(true)]
+    [ToolboxItem(true)] // TODO: Keep it set to true for the time being, as I haven't figured out how to move the `KryptonPaletteDesigner` items over to `KryptonForm` yet
     [ToolboxBitmap(typeof(KryptonPalette), "ToolboxBitmaps.KryptonPalette.bmp")]
     [DefaultEvent("PalettePaint")]
     [DefaultProperty("BasePaletteMode")]
@@ -41,8 +26,8 @@ namespace Krypton.Toolkit
     public class KryptonPalette : Component, IPalette
     {
         #region Type Definitions
-        private class ImageDictionary : Dictionary<Image, string> { };
-        private class ImageReverseDictionary : Dictionary<string, Image> { };
+        private class ImageDictionary : Dictionary<Bitmap, string> { }
+        private class ImageReverseDictionary : Dictionary<string, Bitmap> { }
         #endregion
 
         #region Static Fields
@@ -56,38 +41,9 @@ namespace Krypton.Toolkit
         private IPalette _basePalette;
         private PaletteMode _basePaletteMode;
         private InheritBool _allowFormChrome;
-        private PaletteRedirect _redirector;
-        private PaletteRedirectCommon _redirectCommon;
-        private KryptonPaletteCheckButtons _buttons;
-        private KryptonPaletteButtonSpecs _buttonSpecs;
-        private KryptonPaletteCalendarDay _calendarDay;
-        private KryptonPaletteCargo _cargo;
-        private KryptonPaletteCommon _common;
-        private KryptonPaletteContextMenu _contextMenu;
-        private KryptonPaletteControls _controls;
-        private PaletteDragDrop _dragDrop;
-        private KryptonPaletteForms _forms;
-        private KryptonPaletteGrids _grids;
-        private KryptonPaletteHeaders _headers;
-        private KryptonPaletteHeaderGroup _headerGroup;
-        private KryptonPaletteImages _images;
-        private KryptonPaletteInputControls _inputControls;
-        private KryptonPaletteLabels _labels;
-        private KryptonPaletteNavigator _navigator;
-        private KryptonPalettePanels _panels;
-        private KryptonPaletteRibbon _ribbon;
-        private KryptonPaletteSeparators _separators;
-        private KryptonPaletteTabButtons _tabs;
-        private KryptonPaletteTrackBar _trackBar;
-        private KryptonPaletteTMS _toolMenuStatus;
-        private NeedPaintHandler _needPaintDelegate;
-        private NeedPaintHandler _needTMSPaintDelegate;
-        private string _customisedKryptonPaletteFilePath;
-
-        #region Property Grid Variables
-
-        #endregion
-
+        private readonly PaletteRedirect _redirector;
+        private readonly PaletteRedirectCommon _redirectCommon;
+        private readonly NeedPaintHandler _needPaintDelegate;
         #endregion
 
         #region Events
@@ -135,11 +91,10 @@ namespace Krypton.Toolkit
         {
             // Setup the need paint delegate
             _needPaintDelegate = OnNeedPaint;
-            _needTMSPaintDelegate = OnMenuToolStatusPaint;
 
             // Set the default palette/palette mode
-            _basePalette = KryptonManager.GetPaletteForMode(PaletteMode.Office2010Blue);
-            _basePaletteMode = PaletteMode.Office2010Blue;
+            _basePalette = KryptonManager.GetPaletteForMode(PaletteMode.Office365Blue);
+            _basePaletteMode = PaletteMode.Office365Blue;
 
             // Set the default renderer
             _baseRenderer = null;
@@ -152,36 +107,36 @@ namespace Krypton.Toolkit
             _allowFormChrome = InheritBool.Inherit;
 
             // Create the storage for the common states
-            _common = new KryptonPaletteCommon(_redirector, _needPaintDelegate);
+            Common = new KryptonPaletteCommon(_redirector, _needPaintDelegate);
 
             // Create redirector so other storage inherits from common states
             _redirectCommon = new PaletteRedirectCommon(_redirector, Common.StateDisabled, Common.StateOthers);
 
             // Create the storage objects
-            _buttons = new KryptonPaletteCheckButtons(_redirectCommon, _needPaintDelegate);
-            _buttonSpecs = new KryptonPaletteButtonSpecs(_redirector);
-            _calendarDay = new KryptonPaletteCalendarDay(_redirector, _needPaintDelegate);
-            _cargo = new KryptonPaletteCargo(_needPaintDelegate);
-            _controls = new KryptonPaletteControls(_redirectCommon, _needPaintDelegate);
-            _contextMenu = new KryptonPaletteContextMenu(_redirectCommon, _needPaintDelegate);
-            _dragDrop = new PaletteDragDrop(_redirectCommon, _needPaintDelegate);
-            _forms = new KryptonPaletteForms(_redirectCommon, _needPaintDelegate);
-            _grids = new KryptonPaletteGrids(_redirectCommon, _needPaintDelegate);
-            _headers = new KryptonPaletteHeaders(_redirectCommon, _needPaintDelegate);
-            _headerGroup = new KryptonPaletteHeaderGroup(_redirector, _needPaintDelegate);
-            _images = new KryptonPaletteImages(_redirectCommon, _needPaintDelegate);
-            _inputControls = new KryptonPaletteInputControls(_redirectCommon, _needPaintDelegate);
-            _labels = new KryptonPaletteLabels(_redirectCommon, _needPaintDelegate);
-            _navigator = new KryptonPaletteNavigator(_redirectCommon, _needPaintDelegate);
-            _panels = new KryptonPalettePanels(_redirectCommon, _needPaintDelegate);
-            _ribbon = new KryptonPaletteRibbon(_redirectCommon, _needPaintDelegate);
-            _separators = new KryptonPaletteSeparators(_redirectCommon, _needPaintDelegate);
-            _tabs = new KryptonPaletteTabButtons(_redirectCommon, _needPaintDelegate);
-            _trackBar = new KryptonPaletteTrackBar(_redirectCommon, _needPaintDelegate);
-            _toolMenuStatus = new KryptonPaletteTMS(this, _basePalette.ColorTable, _needTMSPaintDelegate);
+            ButtonStyles = new KryptonPaletteCheckButtons(_redirectCommon, _needPaintDelegate);
+            ButtonSpecs = new KryptonPaletteButtonSpecs(_redirector);
+            CalendarDay = new KryptonPaletteCalendarDay(_redirector, _needPaintDelegate);
+            Cargo = new KryptonPaletteCargo(_needPaintDelegate);
+            ControlStyles = new KryptonPaletteControls(_redirectCommon, _needPaintDelegate);
+            ContextMenu = new KryptonPaletteContextMenu(_redirectCommon, _needPaintDelegate);
+            DragDrop = new PaletteDragDrop(_redirectCommon, _needPaintDelegate);
+            FormStyles = new KryptonPaletteForms(_redirectCommon, _needPaintDelegate);
+            GridStyles = new KryptonPaletteGrids(_redirectCommon, _needPaintDelegate);
+            HeaderStyles = new KryptonPaletteHeaders(_redirectCommon, _needPaintDelegate);
+            HeaderGroup = new KryptonPaletteHeaderGroup(_redirector, _needPaintDelegate);
+            Images = new KryptonPaletteImages(_redirectCommon, _needPaintDelegate);
+            InputControlStyles = new KryptonPaletteInputControls(_redirectCommon, _needPaintDelegate);
+            LabelStyles = new KryptonPaletteLabels(_redirectCommon, _needPaintDelegate);
+            Navigator = new KryptonPaletteNavigator(_redirectCommon, _needPaintDelegate);
+            PanelStyles = new KryptonPalettePanels(_redirectCommon, _needPaintDelegate);
+            Ribbon = new KryptonPaletteRibbon(_redirectCommon, _needPaintDelegate);
+            SeparatorStyles = new KryptonPaletteSeparators(_redirectCommon, _needPaintDelegate);
+            TabStyles = new KryptonPaletteTabButtons(_redirectCommon, _needPaintDelegate);
+            TrackBar = new KryptonPaletteTrackBar(_redirectCommon, _needPaintDelegate);
+            ToolMenuStatus = new KryptonPaletteTMS(this, _basePalette.ColorTable, OnMenuToolStatusPaint);
 
             // Hook into the storage change events
-            _buttonSpecs.ButtonSpecChanged += OnButtonSpecChanged;
+            ButtonSpecs.ButtonSpecChanged += OnButtonSpecChanged;
 
             // Hook to palette events
             if (_basePalette != null)
@@ -257,7 +212,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeAllowFormChrome()
         {
-            return (AllowFormChrome != InheritBool.Inherit);
+            return AllowFormChrome != InheritBool.Inherit;
         }
         #endregion
 
@@ -269,11 +224,15 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteButtonSpecs ButtonSpecs => _buttonSpecs;
+        public KryptonPaletteButtonSpecs ButtonSpecs 
+        { 
+            get;
+            set;
+        }
 
         private bool ShouldSerializeButtonSpecs()
         {
-            return !_buttonSpecs.IsDefault;
+            return !ButtonSpecs.IsDefault;
         }
         #endregion
 
@@ -285,11 +244,15 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of button styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteCheckButtons ButtonStyles => _buttons;
+        public KryptonPaletteCheckButtons ButtonStyles 
+        { 
+            get;
+            set;
+        }
 
-        private bool ShouldSerializeButtons()
+        private bool ShouldSerializeButtonStyles()
         {
-            return !_buttons.IsDefault;
+            return !ButtonStyles.IsDefault;
         }
         #endregion
 
@@ -301,11 +264,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of the calendar day.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteCalendarDay CalendarDay => _calendarDay;
+        public KryptonPaletteCalendarDay CalendarDay { get; set; }
 
         private bool ShouldSerializeCalendarDay()
         {
-            return !_calendarDay.IsDefault;
+            return !CalendarDay.IsDefault;
         }
         #endregion
 
@@ -317,11 +280,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Set of user supplied values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteCargo Cargo => _cargo;
+        public KryptonPaletteCargo Cargo { get; set; }
 
         private bool ShouldSerializeCargo()
         {
-            return !_cargo.IsDefault;
+            return !Cargo.IsDefault;
         }
         #endregion
 
@@ -333,11 +296,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining common appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteCommon Common => _common;
+        public KryptonPaletteCommon Common { get; set; }
 
         private bool ShouldSerializeCommon()
         {
-            return !_common.IsDefault;
+            return !Common.IsDefault;
         }
         #endregion
 
@@ -349,11 +312,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of control styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteControls ControlStyles => _controls;
+        public KryptonPaletteControls ControlStyles { get; set; }
 
         private bool ShouldSerializeControlStyles()
         {
-            return !_controls.IsDefault;
+            return !ControlStyles.IsDefault;
         }
         #endregion
 
@@ -365,11 +328,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of context menus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteContextMenu ContextMenu => _contextMenu;
+        public KryptonPaletteContextMenu ContextMenu { get; set; }
 
         private bool ShouldSerializeContextMenu()
         {
-            return !_contextMenu.IsDefault;
+            return !ContextMenu.IsDefault;
         }
         #endregion
 
@@ -381,11 +344,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of drag and drop.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDragDrop DragDrop => _dragDrop;
+        public PaletteDragDrop DragDrop { get; set; }
 
         private bool ShouldSerializeDragDrop()
         {
-            return !_dragDrop.IsDefault;
+            return !DragDrop.IsDefault;
         }
         #endregion
 
@@ -397,11 +360,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of form styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteForms FormStyles => _forms;
+        public KryptonPaletteForms FormStyles { get; set; }
 
         private bool ShouldSerializeFormStyles()
         {
-            return !_forms.IsDefault;
+            return !FormStyles.IsDefault;
         }
         #endregion
 
@@ -413,11 +376,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining HeaderGroup appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteHeaderGroup HeaderGroup => _headerGroup;
+        public KryptonPaletteHeaderGroup HeaderGroup { get; set; }
 
         private bool ShouldSerializeHeaderGroup()
         {
-            return !_headerGroup.IsDefault;
+            return !HeaderGroup.IsDefault;
         }
         #endregion
 
@@ -429,11 +392,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of header styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteHeaders HeaderStyles => _headers;
+        public KryptonPaletteHeaders HeaderStyles { get; set; }
 
         private bool ShouldSerializeHeaders()
         {
-            return !_headers.IsDefault;
+            return !HeaderStyles.IsDefault;
         }
         #endregion
 
@@ -445,11 +408,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of grid styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteGrids GridStyles => _grids;
+        public KryptonPaletteGrids GridStyles { get; set; }
 
         private bool ShouldSerializeGridStyles()
         {
-            return !_grids.IsDefault;
+            return !GridStyles.IsDefault;
         }
         #endregion
 
@@ -461,11 +424,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteImages Images => _images;
+        public KryptonPaletteImages Images { get; set; }
 
         private bool ShouldSerializeImages()
         {
-            return !_images.IsDefault;
+            return !Images.IsDefault;
         }
         #endregion
 
@@ -477,11 +440,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining input controls.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteInputControls InputControlStyles => _inputControls;
+        public KryptonPaletteInputControls InputControlStyles { get; set; }
 
-        private bool ShouldSerializeInputControls()
+        private bool ShouldSerializeInputControlStyles()
         {
-            return !_inputControls.IsDefault;
+            return !InputControlStyles.IsDefault;
         }
         #endregion
 
@@ -493,11 +456,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of label styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteLabels LabelStyles => _labels;
+        public KryptonPaletteLabels LabelStyles { get; set; }
 
-        private bool ShouldSerializeLabels()
+        private bool ShouldSerializeLabelStyles()
         {
-            return !_labels.IsDefault;
+            return !LabelStyles.IsDefault;
         }
         #endregion
 
@@ -509,11 +472,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining Navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteNavigator Navigator => _navigator;
+        public KryptonPaletteNavigator Navigator { get; set; }
 
         private bool ShouldSerializeNavigator()
         {
-            return !_navigator.IsDefault;
+            return !Navigator.IsDefault;
         }
         #endregion
 
@@ -525,11 +488,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of panel styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPalettePanels PanelStyles => _panels;
+        public KryptonPalettePanels PanelStyles { get; set; }
 
-        private bool ShouldSerializePanels()
+        private bool ShouldSerializePanelStyles()
         {
-            return !_panels.IsDefault;
+            return !PanelStyles.IsDefault;
         }
         #endregion
 
@@ -541,11 +504,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of ribbon.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteRibbon Ribbon => _ribbon;
+        public KryptonPaletteRibbon Ribbon { get; set; }
 
         private bool ShouldSerializeRibbon()
         {
-            return !_ribbon.IsDefault;
+            return !Ribbon.IsDefault;
         }
         #endregion
 
@@ -557,11 +520,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of separator styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteSeparators SeparatorStyles => _separators;
+        public KryptonPaletteSeparators SeparatorStyles { get; set; }
 
-        private bool ShouldSerializeSeparators()
+        private bool ShouldSerializeSeparatorStyles()
         {
-            return !_separators.IsDefault;
+            return !SeparatorStyles.IsDefault;
         }
         #endregion
 
@@ -573,11 +536,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance of tab styles.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteTabButtons TabStyles => _tabs;
+        public KryptonPaletteTabButtons TabStyles { get; set; }
 
         private bool ShouldSerializeTabStyles()
         {
-            return !_tabs.IsDefault;
+            return !TabStyles.IsDefault;
         }
         #endregion
 
@@ -589,11 +552,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Overrides for defining appearance for the track bar.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteTrackBar TrackBar => _trackBar;
+        public KryptonPaletteTrackBar TrackBar { get; set;  }
 
         private bool ShouldSerializeTrackBar()
         {
-            return !_trackBar.IsDefault;
+            return !TrackBar.IsDefault;
         }
         #endregion
 
@@ -605,11 +568,11 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Colors associated with tool, menu and status strips.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonPaletteTMS ToolMenuStatus => _toolMenuStatus;
+        public KryptonPaletteTMS ToolMenuStatus { get; set; }
 
         private bool ShouldSerializeToolMenuStatus()
         {
-            return !_toolMenuStatus.IsDefault;
+            return !ToolMenuStatus.IsDefault;
         }
         #endregion
 
@@ -619,20 +582,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Renderer to use for drawing palette settings.</returns>
         public IRenderer GetRenderer()
+        => _baseRenderMode switch
         {
-            switch (_baseRenderMode)
-            {
-                case RendererMode.Inherit:
-                    // Pass request onto the base palette
-                    return _basePalette.GetRenderer();
-                case RendererMode.Custom:
-                    // Return the custom interface assigned to us
-                    return _baseRenderer;
-                default:
-                    // All other values are fixed renderers, so get the correct one from manager
-                    return KryptonManager.GetRendererForMode(_baseRenderMode);
-            }
-        }
+            RendererMode.Inherit => _basePalette.GetRenderer(),
+            RendererMode.Custom => _baseRenderer,
+            _ => KryptonManager.GetRendererForMode(_baseRenderMode)
+        };
         #endregion
 
         #region IPalette
@@ -640,17 +595,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if KryptonForm instances should show custom chrome.
         /// </summary>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetAllowFormChrome()
-        {
-            if (AllowFormChrome == InheritBool.Inherit)
-            {
-                return _basePalette.GetAllowFormChrome();
-            }
-            else
-            {
-                return AllowFormChrome;
-            }
-        }
+        public InheritBool GetAllowFormChrome() => AllowFormChrome == InheritBool.Inherit ? _basePalette.GetAllowFormChrome() : AllowFormChrome;
         #endregion
 
         #region IPalette Back
@@ -660,11 +605,9 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetBackDraw(PaletteBackStyle style, PaletteState state)
-        {
+        public InheritBool GetBackDraw(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            return GetPaletteBack(style, state).GetBackDraw(state);
-        }
+            GetPaletteBack(style, state).GetBackDraw(state);
 
         /// <summary>
         /// Gets the graphics drawing hint for the background.
@@ -672,11 +615,9 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
-        public PaletteGraphicsHint GetBackGraphicsHint(PaletteBackStyle style, PaletteState state)
-        {
+        public PaletteGraphicsHint GetBackGraphicsHint(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            return GetPaletteBack(style, state).GetBackGraphicsHint(state);
-        }
+            GetPaletteBack(style, state).GetBackGraphicsHint(state);
 
         /// <summary>
         /// Gets the first background color.
@@ -684,11 +625,9 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor1(PaletteBackStyle style, PaletteState state)
-        {
+        public Color GetBackColor1(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            return GetPaletteBack(style, state).GetBackColor1(state);
-        }
+            GetPaletteBack(style, state).GetBackColor1(state);
 
         /// <summary>
         /// Gets the second back color.
@@ -696,11 +635,9 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor2(PaletteBackStyle style, PaletteState state)
-        {
+        public Color GetBackColor2(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            return GetPaletteBack(style, state).GetBackColor2(state);
-        }
+            GetPaletteBack(style, state).GetBackColor2(state);
 
         /// <summary>
         /// Gets the color background drawing style.
@@ -708,11 +645,9 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
-        {
+        public PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            return GetPaletteBack(style, state).GetBackColorStyle(state);
-        }
+            GetPaletteBack(style, state).GetBackColorStyle(state);
 
         /// <summary>
         /// Gets the color alignment.
@@ -721,10 +656,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
         public PaletteRectangleAlign GetBackColorAlign(PaletteBackStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBack(style, state).GetBackColorAlign(state);
-        }
+        => GetPaletteBack(style, state).GetBackColorAlign(state);
 
         /// <summary>
         /// Gets the color background angle.
@@ -732,11 +664,9 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetBackColorAngle(PaletteBackStyle style, PaletteState state)
-        {
+        public float GetBackColorAngle(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            return GetPaletteBack(style, state).GetBackColorAngle(state);
-        }
+            GetPaletteBack(style, state).GetBackColorAngle(state);
 
         /// <summary>
         /// Gets a background image.
@@ -745,10 +675,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
         public Image GetBackImage(PaletteBackStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBack(style, state).GetBackImage(state);
-        }
+        => GetPaletteBack(style, state).GetBackImage(state);
 
         /// <summary>
         /// Gets the background image style.
@@ -757,10 +684,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
         public PaletteImageStyle GetBackImageStyle(PaletteBackStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBack(style, state).GetBackImageStyle(state);
-        }
+        => GetPaletteBack(style, state).GetBackImageStyle(state);
 
         /// <summary>
         /// Gets the image alignment.
@@ -769,10 +693,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
         public PaletteRectangleAlign GetBackImageAlign(PaletteBackStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBack(style, state).GetBackImageAlign(state);
-        }
+        => GetPaletteBack(style, state).GetBackImageAlign(state);
         #endregion
 
         #region IPalette Border
@@ -783,10 +704,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <returns>InheritBool value.</returns>
         public InheritBool GetBorderDraw(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderDraw(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderDraw(state);
 
         /// <summary>
         /// Gets a value indicating which borders to draw.
@@ -795,10 +713,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteDrawBorders value.</returns>
         public PaletteDrawBorders GetBorderDrawBorders(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderDrawBorders(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderDrawBorders(state);
 
         /// <summary>
         /// Gets the graphics drawing hint for the border.
@@ -807,10 +722,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
         public PaletteGraphicsHint GetBorderGraphicsHint(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderGraphicsHint(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderGraphicsHint(state);
 
         /// <summary>
         /// Gets the first border color.
@@ -819,10 +731,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetBorderColor1(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderColor1(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderColor1(state);
 
         /// <summary>
         /// Gets the second border color.
@@ -831,10 +740,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetBorderColor2(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderColor2(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderColor2(state);
 
         /// <summary>
         /// Gets the color border drawing style.
@@ -843,10 +749,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
         public PaletteColorStyle GetBorderColorStyle(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderColorStyle(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderColorStyle(state);
 
         /// <summary>
         /// Gets the color border alignment.
@@ -855,10 +758,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
         public PaletteRectangleAlign GetBorderColorAlign(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderColorAlign(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderColorAlign(state);
 
         /// <summary>
         /// Gets the color border angle.
@@ -867,10 +767,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
         public float GetBorderColorAngle(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderColorAngle(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderColorAngle(state);
 
         /// <summary>
         /// Gets the border width.
@@ -879,22 +776,16 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Integer width.</returns>
         public int GetBorderWidth(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderWidth(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderWidth(state);
 
         /// <summary>
         /// Gets the border corner rounding.
         /// </summary>
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Integer rounding.</returns>
-        public int GetBorderRounding(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderRounding(state);
-        }
+        /// <returns>Float rounding.</returns>
+        public float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
+        => GetPaletteBorder(style, state).GetBorderRounding(state);
 
         /// <summary>
         /// Gets a border image.
@@ -903,10 +794,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
         public Image GetBorderImage(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderImage(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderImage(state);
 
         /// <summary>
         /// Gets the border image style.
@@ -915,10 +803,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
         public PaletteImageStyle GetBorderImageStyle(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderImageStyle(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderImageStyle(state);
 
         /// <summary>
         /// Gets the image border alignment.
@@ -927,10 +812,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
         public PaletteRectangleAlign GetBorderImageAlign(PaletteBorderStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteBorder(style, state).GetBorderImageAlign(state);
-        }
+        => GetPaletteBorder(style, state).GetBorderImageAlign(state);
         #endregion
 
         #region IPalette Content
@@ -941,10 +823,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
         public InheritBool GetContentDraw(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentDraw(state);
-        }
+        => GetPaletteContent(style, state).GetContentDraw(state);
 
         /// <summary>
         /// Gets a value indicating if content should be drawn with focus indication.
@@ -953,10 +832,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
         public InheritBool GetContentDrawFocus(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentDrawFocus(state);
-        }
+        => GetPaletteContent(style, state).GetContentDrawFocus(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of the image.
@@ -965,10 +841,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentImageH(state);
-        }
+        => GetPaletteContent(style, state).GetContentImageH(state);
 
         /// <summary>
         /// Gets the vertical relative alignment of the image.
@@ -977,10 +850,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentImageV(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentImageV(state);
-        }
+        => GetPaletteContent(style, state).GetContentImageV(state);
 
         /// <summary>
         /// Gets the effect applied to drawing of the image.
@@ -989,10 +859,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteImageEffect value.</returns>
         public PaletteImageEffect GetContentImageEffect(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentImageEffect(state);
-        }
+        => GetPaletteContent(style, state).GetContentImageEffect(state);
 
         /// <summary>
         /// Gets the image color to remap into another color.
@@ -1001,10 +868,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetContentImageColorMap(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentImageColorMap(state);
-        }
+        => GetPaletteContent(style, state).GetContentImageColorMap(state);
 
         /// <summary>
         /// Gets the color to use in place of the image map color.
@@ -1013,10 +877,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetContentImageColorTo(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentImageColorTo(state);
-        }
+        => GetPaletteContent(style, state).GetContentImageColorTo(state);
 
         /// <summary>
         /// Gets the font for the short text.
@@ -1025,10 +886,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextFont(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextFont(state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
@@ -1037,10 +895,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public Font GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextFont(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -1049,10 +904,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
         public PaletteTextHint GetContentShortTextHint(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextHint(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextHint(state);
 
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for short text.
@@ -1061,10 +913,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
         public InheritBool GetContentShortTextMultiLine(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextMultiLine(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextMultiLine(state);
 
         /// <summary>
         /// Gets the text trimming to use for short text.
@@ -1073,10 +922,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
         public PaletteTextTrim GetContentShortTextTrim(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextTrim(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextTrim(state);
 
         /// <summary>
         /// Gets the prefix drawing setting for short text.
@@ -1085,10 +931,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
         public PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextPrefix(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextPrefix(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of the short text.
@@ -1097,10 +940,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextH(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextH(state);
 
         /// <summary>
         /// Gets the vertical relative alignment of the short text.
@@ -1109,10 +949,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentShortTextV(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextV(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextV(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of multiline short text.
@@ -1121,10 +958,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextMultiLineH(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextMultiLineH(state);
 
         /// <summary>
         /// Gets the first back color for the short text.
@@ -1133,10 +967,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextColor1(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextColor1(state);
 
         /// <summary>
         /// Gets the second back color for the short text.
@@ -1145,10 +976,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetContentShortTextColor2(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextColor2(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextColor2(state);
 
         /// <summary>
         /// Gets the color drawing style for the short text.
@@ -1157,10 +985,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
         public PaletteColorStyle GetContentShortTextColorStyle(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextColorStyle(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextColorStyle(state);
 
         /// <summary>
         /// Gets the color alignment for the short text.
@@ -1169,10 +994,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
         public PaletteRectangleAlign GetContentShortTextColorAlign(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextColorAlign(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextColorAlign(state);
 
         /// <summary>
         /// Gets the color background angle for the short text.
@@ -1181,10 +1003,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
         public float GetContentShortTextColorAngle(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextColorAngle(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextColorAngle(state);
 
         /// <summary>
         /// Gets a background image for the short text.
@@ -1193,10 +1012,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
         public Image GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextImage(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextImage(state);
 
         /// <summary>
         /// Gets the background image style.
@@ -1205,10 +1021,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
         public PaletteImageStyle GetContentShortTextImageStyle(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextImageStyle(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextImageStyle(state);
 
         /// <summary>
         /// Gets the image alignment for the short text.
@@ -1217,10 +1030,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
         public PaletteRectangleAlign GetContentShortTextImageAlign(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentShortTextImageAlign(state);
-        }
+        => GetPaletteContent(style, state).GetContentShortTextImageAlign(state);
 
         /// <summary>
         /// Gets the font for the long text.
@@ -1229,10 +1039,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextFont(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextFont(state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
@@ -1241,10 +1048,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public Font GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextFont(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.
@@ -1253,10 +1057,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>TextRenderingHint value.</returns>
         public PaletteTextHint GetContentLongTextHint(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextHint(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextHint(state);
 
         /// <summary>
         /// Gets the prefix drawing setting for long text.
@@ -1265,10 +1066,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
         public PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextPrefix(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextPrefix(state);
 
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for long text.
@@ -1277,10 +1075,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
         public InheritBool GetContentLongTextMultiLine(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextMultiLine(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextMultiLine(state);
 
         /// <summary>
         /// Gets the text trimming to use for long text.
@@ -1289,10 +1084,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
         public PaletteTextTrim GetContentLongTextTrim(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextTrim(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextTrim(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of the long text.
@@ -1301,10 +1093,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentLongTextH(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextH(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextH(state);
 
         /// <summary>
         /// Gets the vertical relative alignment of the long text.
@@ -1313,10 +1102,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentLongTextV(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextV(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextV(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of multiline long text.
@@ -1325,10 +1111,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentLongTextMultiLineH(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextMultiLineH(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextMultiLineH(state);
 
         /// <summary>
         /// Gets the first back color for the long text.
@@ -1337,10 +1120,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetContentLongTextColor1(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextColor1(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextColor1(state);
 
         /// <summary>
         /// Gets the second back color for the long text.
@@ -1349,10 +1129,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetContentLongTextColor2(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextColor2(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextColor2(state);
 
         /// <summary>
         /// Gets the color drawing style for the long text.
@@ -1361,10 +1138,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
         public PaletteColorStyle GetContentLongTextColorStyle(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextColorStyle(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextColorStyle(state);
 
         /// <summary>
         /// Gets the color alignment for the long text.
@@ -1373,10 +1147,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
         public PaletteRectangleAlign GetContentLongTextColorAlign(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextColorAlign(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextColorAlign(state);
 
         /// <summary>
         /// Gets the color background angle for the long text.
@@ -1385,10 +1156,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
         public float GetContentLongTextColorAngle(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextColorAngle(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextColorAngle(state);
 
         /// <summary>
         /// Gets a background image for the long text.
@@ -1397,10 +1165,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
         public Image GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextImage(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the background image style for the long text.
@@ -1409,10 +1174,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
         public PaletteImageStyle GetContentLongTextImageStyle(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextImageStyle(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextImageStyle(state);
 
         /// <summary>
         /// Gets the image alignment for the long text.
@@ -1421,10 +1183,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
         public PaletteRectangleAlign GetContentLongTextImageAlign(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentLongTextImageAlign(state);
-        }
+        => GetPaletteContent(style, state).GetContentLongTextImageAlign(state);
 
         /// <summary>
         /// Gets the padding between the border and content drawing.
@@ -1433,10 +1192,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
         public Padding GetContentPadding(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentPadding(state);
-        }
+        => GetPaletteContent(style, state).GetContentPadding(state);
 
         /// <summary>
         /// Gets the padding between adjacent content items.
@@ -1445,10 +1201,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Integer value.</returns>
         public int GetContentAdjacentGap(PaletteContentStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteContent(style, state).GetContentAdjacentGap(state);
-        }
+        => GetPaletteContent(style, state).GetContentAdjacentGap(state);
         #endregion
 
         #region IPalette Metric
@@ -1497,10 +1250,9 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
         {
-            switch (metric)
+            if (metric == PaletteMetricBool.HeaderGroupOverlay)
             {
-                case PaletteMetricBool.HeaderGroupOverlay:
-                    return HeaderGroup.StateCommon.GetMetricBool(state, metric);
+                return HeaderGroup.StateCommon.GetMetricBool(state, metric);
             }
 
             // Otherwise use base instance for the value instead
@@ -1624,13 +1376,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public Image GetTreeViewImage(bool expanded)
-        {
+        public Image GetTreeViewImage(bool expanded) =>
             // Not found, then inherit from target
-            Image retImage = (expanded ? _images.TreeView.Minus : _images.TreeView.Plus) ?? _redirector.GetTreeViewImage(expanded);
-
-            return retImage;
-        }
+            (expanded ? Images.TreeView.Minus : Images.TreeView.Plus) ?? _redirector.GetTreeViewImage(expanded);
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -1650,77 +1398,67 @@ namespace Krypton.Toolkit
                 case CheckState.Unchecked:
                     if (!enabled)
                     {
-                        retImage = _images.CheckBox.UncheckedDisabled;
+                        retImage = Images.CheckBox.UncheckedDisabled;
                     }
                     else if (pressed)
                     {
-                        retImage = _images.CheckBox.UncheckedPressed;
+                        retImage = Images.CheckBox.UncheckedPressed;
                     }
                     else if (tracking)
                     {
-                        retImage = _images.CheckBox.UncheckedTracking;
+                        retImage = Images.CheckBox.UncheckedTracking;
                     }
                     else
                     {
-                        retImage = _images.CheckBox.UncheckedNormal;
+                        retImage = Images.CheckBox.UncheckedNormal;
                     }
 
                     break;
                 case CheckState.Checked:
                     if (!enabled)
                     {
-                        retImage = _images.CheckBox.CheckedDisabled;
+                        retImage = Images.CheckBox.CheckedDisabled;
                     }
                     else if (pressed)
                     {
-                        retImage = _images.CheckBox.CheckedPressed;
+                        retImage = Images.CheckBox.CheckedPressed;
                     }
                     else if (tracking)
                     {
-                        retImage = _images.CheckBox.CheckedTracking;
+                        retImage = Images.CheckBox.CheckedTracking;
                     }
                     else
                     {
-                        retImage = _images.CheckBox.CheckedNormal;
+                        retImage = Images.CheckBox.CheckedNormal;
                     }
 
                     break;
                 case CheckState.Indeterminate:
                     if (!enabled)
                     {
-                        retImage = _images.CheckBox.IndeterminateDisabled;
+                        retImage = Images.CheckBox.IndeterminateDisabled;
                     }
                     else if (pressed)
                     {
-                        retImage = _images.CheckBox.IndeterminatePressed;
+                        retImage = Images.CheckBox.IndeterminatePressed;
                     }
                     else if (tracking)
                     {
-                        retImage = _images.CheckBox.IndeterminateTracking;
+                        retImage = Images.CheckBox.IndeterminateTracking;
                     }
                     else
                     {
-                        retImage = _images.CheckBox.IndeterminateNormal;
+                        retImage = Images.CheckBox.IndeterminateNormal;
                     }
 
                     break;
             }
 
             // Use common image as the last resort
-            if (retImage == null)
-            {
-                retImage = _images.CheckBox.Common;
-            }
+            retImage ??= Images.CheckBox.Common;
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetCheckBoxImage(enabled, checkState, tracking, pressed);
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage ?? _redirector.GetCheckBoxImage(enabled, checkState, tracking, pressed);
         }
 
         /// <summary>
@@ -1740,56 +1478,46 @@ namespace Krypton.Toolkit
             {
                 if (!enabled)
                 {
-                    retImage = _images.RadioButton.UncheckedDisabled;
+                    retImage = Images.RadioButton.UncheckedDisabled;
                 }
                 else if (pressed)
                 {
-                    retImage = _images.RadioButton.UncheckedPressed;
+                    retImage = Images.RadioButton.UncheckedPressed;
                 }
                 else if (tracking)
                 {
-                    retImage = _images.RadioButton.UncheckedTracking;
+                    retImage = Images.RadioButton.UncheckedTracking;
                 }
                 else
                 {
-                    retImage = _images.RadioButton.UncheckedNormal;
+                    retImage = Images.RadioButton.UncheckedNormal;
                 }
             }
             else
             {
                 if (!enabled)
                 {
-                    retImage = _images.RadioButton.CheckedDisabled;
+                    retImage = Images.RadioButton.CheckedDisabled;
                 }
                 else if (pressed)
                 {
-                    retImage = _images.RadioButton.CheckedPressed;
+                    retImage = Images.RadioButton.CheckedPressed;
                 }
                 else if (tracking)
                 {
-                    retImage = _images.RadioButton.CheckedTracking;
+                    retImage = Images.RadioButton.CheckedTracking;
                 }
                 else
                 {
-                    retImage = _images.RadioButton.CheckedNormal;
+                    retImage = Images.RadioButton.CheckedNormal;
                 }
             }
 
             // Use common image as the last resort
-            if (retImage == null)
-            {
-                retImage = _images.RadioButton.Common;
-            }
+            retImage ??= Images.RadioButton.Common;
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetRadioButtonImage(enabled, checkState, tracking, pressed);
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage ?? _redirector.GetRadioButtonImage(enabled, checkState, tracking, pressed);
         }
 
         /// <summary>
@@ -1803,34 +1531,24 @@ namespace Krypton.Toolkit
             switch (state)
             {
                 case PaletteState.Disabled:
-                    retImage = _images.DropDownButton.Disabled;
+                    retImage = Images.DropDownButton.Disabled;
                     break;
                 case PaletteState.Normal:
-                    retImage = _images.DropDownButton.Normal;
+                    retImage = Images.DropDownButton.Normal;
                     break;
                 case PaletteState.Tracking:
-                    retImage = _images.DropDownButton.Tracking;
+                    retImage = Images.DropDownButton.Tracking;
                     break;
                 case PaletteState.Pressed:
-                    retImage = _images.DropDownButton.Pressed;
+                    retImage = Images.DropDownButton.Pressed;
                     break;
             }
 
             // Use common image as the last resort
-            if (retImage == null)
-            {
-                retImage = _images.DropDownButton.Common;
-            }
+            retImage ??= Images.DropDownButton.Common;
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetDropDownButtonImage(state);
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage ?? _redirector.GetDropDownButtonImage(state);
         }
 
         /// <summary>
@@ -1839,17 +1557,10 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public Image GetContextMenuCheckedImage()
         {
-            Image retImage = _images.ContextMenu.Checked;
+            Image retImage = Images.ContextMenu.Checked;
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetContextMenuCheckedImage();
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage ?? _redirector.GetContextMenuCheckedImage();
         }
 
         /// <summary>
@@ -1858,17 +1569,10 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public Image GetContextMenuIndeterminateImage()
         {
-            Image retImage = _images.ContextMenu.Indeterminate;
+            Image retImage = Images.ContextMenu.Indeterminate;
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetContextMenuIndeterminateImage();
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage ?? _redirector.GetContextMenuIndeterminateImage();
         }
 
         /// <summary>
@@ -1877,17 +1581,10 @@ namespace Krypton.Toolkit
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
         public Image GetContextMenuSubMenuImage()
         {
-            Image retImage = _images.ContextMenu.SubMenu;
+            Image retImage = Images.ContextMenu.SubMenu;
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetContextMenuSubMenuImage();
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage ?? _redirector.GetContextMenuSubMenuImage();
         }
 
         /// <summary>
@@ -1901,18 +1598,18 @@ namespace Krypton.Toolkit
             Image retImage = null;
 
             // Grab the compound object for the required button
-            KryptonPaletteImagesGalleryButton images = null;
+            KryptonPaletteImagesGalleryButton images;
             switch (button)
             {
                 case PaletteRibbonGalleryButton.Up:
-                    images = _images.GalleryButtons.Up;
+                    images = Images.GalleryButtons.Up;
                     break;
                 case PaletteRibbonGalleryButton.Down:
-                    images = _images.GalleryButtons.Down;
+                    images = Images.GalleryButtons.Down;
                     break;
                 default:
                     //case PaletteRibbonGalleryButton.DropDown:
-                    images = _images.GalleryButtons.DropDown;
+                    images = Images.GalleryButtons.DropDown;
                     break;
             }
 
@@ -1934,20 +1631,10 @@ namespace Krypton.Toolkit
             }
 
             // Use common image if the state specific image is not available
-            if (retImage == null)
-            {
-                retImage = images.Common;
-            }
+            retImage ??= images.Common;
 
             // If nothing found then use the base palette
-            if (retImage == null)
-            {
-                return _redirector.GetGalleryButtonImage(button, state);
-            }
-            else
-            {
-                return retImage;
-            }
+            return retImage ?? _redirector.GetGalleryButtonImage(button, state);
         }
         #endregion
 
@@ -1958,9 +1645,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>Icon value.</returns>
         public Icon GetButtonSpecIcon(PaletteButtonSpecStyle style)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecIcon(style);
-        }
+        => GetPaletteButtonSpec(style).GetButtonSpecIcon(style);
 
         /// <summary>
         /// Gets the image to display for the button.
@@ -1968,11 +1653,8 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public Image GetButtonSpecImage(PaletteButtonSpecStyle style,
-                                        PaletteState state)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecImage(style, state);
-        }
+        public Image GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state)
+        => GetPaletteButtonSpec(style).GetButtonSpecImage(style, state);
 
         /// <summary>
         /// Gets the image transparent color.
@@ -1980,9 +1662,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>Color value.</returns>
         public Color GetButtonSpecImageTransparentColor(PaletteButtonSpecStyle style)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecImageTransparentColor(style);
-        }
+        => GetPaletteButtonSpec(style).GetButtonSpecImageTransparentColor(style);
 
         /// <summary>
         /// Gets the short text to display for the button.
@@ -1990,9 +1670,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
         public string GetButtonSpecShortText(PaletteButtonSpecStyle style)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecShortText(style);
-        }
+        => GetPaletteButtonSpec(style).GetButtonSpecShortText(style);
 
         /// <summary>
         /// Gets the long text to display for the button.
@@ -2000,9 +1678,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
         public string GetButtonSpecLongText(PaletteButtonSpecStyle style)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecLongText(style);
-        }
+        => GetPaletteButtonSpec(style).GetButtonSpecLongText(style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.
@@ -2010,9 +1686,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
         public string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecToolTipTitle(style);
-        }
+        => GetPaletteButtonSpec(style).GetButtonSpecToolTipTitle(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.
@@ -2020,9 +1694,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>Color value.</returns>
         public Color GetButtonSpecColorMap(PaletteButtonSpecStyle style)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecColorMap(style);
-        }
+        => GetPaletteButtonSpec(style).GetButtonSpecColorMap(style);
 
         /// <summary>
         /// Gets the button style used for drawing the button.
@@ -2030,9 +1702,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteButtonStyle value.</returns>
         public PaletteButtonStyle GetButtonSpecStyle(PaletteButtonSpecStyle style)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecStyle(style);
-        }
+        => GetPaletteButtonSpec(style).GetButtonSpecStyle(style);
 
         /// <summary>
         /// Get the location for the button.
@@ -2040,9 +1710,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>HeaderLocation value.</returns>
         public HeaderLocation GetButtonSpecLocation(PaletteButtonSpecStyle style)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecLocation(style);
-        }
+        => GetPaletteButtonSpec(style).GetButtonSpecLocation(style);
 
         /// <summary>
         /// Gets the edge to position the button against.
@@ -2050,9 +1718,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteRelativeEdgeAlign value.</returns>
         public PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecEdge(style);
-        }
+        => GetPaletteButtonSpec(style).GetButtonSpecEdge(style);
 
         /// <summary>
         /// Gets the button orientation.
@@ -2060,9 +1726,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteButtonOrientation value.</returns>
         public PaletteButtonOrientation GetButtonSpecOrientation(PaletteButtonSpecStyle style)
-        {
-            return GetPaletteButtonSpec(style).GetButtonSpecOrientation(style);
-        }
+        => GetPaletteButtonSpec(style).GetButtonSpecOrientation(style);
         #endregion
 
         #region IPalette RibbonGeneral
@@ -2071,20 +1735,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Ribbon shape value.</returns>
         public PaletteRibbonShape GetRibbonShape()
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral().GetRibbonShape();
-        }
+        => GetPaletteRibbonGeneral().GetRibbonShape();
 
         /// <summary>
         /// Gets the text alignment for the ribbon context text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public virtual PaletteRelativeAlign GetRibbonContextTextAlign(PaletteState state)
-        {
-            return GetPaletteRibbonGeneral().GetRibbonContextTextAlign(state);
-        }
+        public virtual PaletteRelativeAlign GetRibbonContextTextAlign(PaletteState state) => GetPaletteRibbonGeneral().GetRibbonContextTextAlign(state);
 
         /// <summary>
         /// Gets the font for the ribbon context text.
@@ -2092,10 +1750,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public Font GetRibbonContextTextFont(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral().GetRibbonContextTextFont(state);
-        }
+        => GetPaletteRibbonGeneral().GetRibbonContextTextFont(state);
 
         /// <summary>
         /// Gets the color for the ribbon context text.
@@ -2103,10 +1758,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public Color GetRibbonContextTextColor(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral().GetRibbonContextTextColor(state);
-        }
+        => GetPaletteRibbonGeneral().GetRibbonContextTextColor(state);
 
         /// <summary>
         /// Gets the dark disabled color used for ribbon glyphs.
@@ -2114,10 +1766,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonDisabledDark(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonDisabledDark(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonDisabledDark(state);
 
         /// <summary>
         /// Gets the light disabled color used for ribbon glyphs.
@@ -2125,10 +1774,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonDisabledLight(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonDisabledLight(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonDisabledLight(state);
 
         /// <summary>
         /// Gets the color for the drop arrow light.
@@ -2136,10 +1782,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonDropArrowLight(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonDropArrowLight(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonDropArrowLight(state);
 
         /// <summary>
         /// Gets the color for the drop arrow dark.
@@ -2147,10 +1790,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonDropArrowDark(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonDropArrowDark(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonDropArrowDark(state);
 
         /// <summary>
         /// Gets the color for the dialog launcher dark.
@@ -2158,10 +1798,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonGroupDialogDark(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonGroupDialogDark(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonGroupDialogDark(state);
 
         /// <summary>
         /// Gets the color for the dialog launcher light.
@@ -2169,10 +1806,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonGroupDialogLight(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonGroupDialogLight(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonGroupDialogLight(state);
 
         /// <summary>
         /// Gets the color for the group separator dark.
@@ -2180,10 +1814,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonGroupSeparatorDark(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonGroupSeparatorDark(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonGroupSeparatorDark(state);
 
         /// <summary>
         /// Gets the color for the group separator light.
@@ -2191,10 +1822,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonGroupSeparatorLight(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonGroupSeparatorLight(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonGroupSeparatorLight(state);
 
         /// <summary>
         /// Gets the color for the minimize bar dark.
@@ -2202,10 +1830,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonMinimizeBarDark(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonMinimizeBarDark(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonMinimizeBarDark(state);
 
         /// <summary>
         /// Gets the color for the minimize bar light.
@@ -2213,10 +1838,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonMinimizeBarLight(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonMinimizeBarLight(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonMinimizeBarLight(state);
 
         /// <summary>
         /// Gets the font for the ribbon text.
@@ -2224,10 +1846,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public Font GetRibbonTextFont(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonTextFont(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonTextFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.
@@ -2235,10 +1854,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
         public PaletteTextHint GetRibbonTextHint(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonTextHint(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonTextHint(state);
 
         /// <summary>
         /// Gets the color for the tab separator.
@@ -2246,19 +1862,14 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonTabSeparatorColor(PaletteState state)
-        {
-            return GetPaletteRibbonGeneral(state).GetRibbonTabSeparatorColor(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonTabSeparatorColor(state);
 
         /// <summary>
         /// Gets the color for the tab context separators.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetRibbonTabSeparatorContextColor(PaletteState state)
-        {
-            return GetPaletteRibbonGeneral(state).GetRibbonTabSeparatorContextColor(state);
-        }
+        public virtual Color GetRibbonTabSeparatorContextColor(PaletteState state) => GetPaletteRibbonGeneral(state).GetRibbonTabSeparatorContextColor(state);
 
         /// <summary>
         /// Gets the color for the extra QAT button dark content color.
@@ -2266,10 +1877,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonQATButtonDark(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonQATButtonDark(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonQATButtonDark(state);
 
         /// <summary>
         /// Gets the color for the extra QAT button light content color.
@@ -2277,10 +1885,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonQATButtonLight(PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonGeneral(state).GetRibbonQATButtonLight(state);
-        }
+        => GetPaletteRibbonGeneral(state).GetRibbonQATButtonLight(state);
         #endregion
 
         #region IPalette RibbonBack
@@ -2291,10 +1896,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteRibbonBackStyle value.</returns>
         public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteRibbonBackStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonBack(style, state).GetRibbonBackColorStyle(state);
-        }
+        => GetPaletteRibbonBack(style, state).GetRibbonBackColorStyle(state);
 
         /// <summary>
         /// Gets the first background color for the ribbon item.
@@ -2303,10 +1905,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonBackColor1(PaletteRibbonBackStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonBack(style, state).GetRibbonBackColor1(state);
-        }
+        => GetPaletteRibbonBack(style, state).GetRibbonBackColor1(state);
 
         /// <summary>
         /// Gets the second background color for the ribbon item.
@@ -2315,10 +1914,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonBackColor2(PaletteRibbonBackStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonBack(style, state).GetRibbonBackColor2(state);
-        }
+        => GetPaletteRibbonBack(style, state).GetRibbonBackColor2(state);
 
         /// <summary>
         /// Gets the third background color for the ribbon item.
@@ -2327,10 +1923,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonBackColor3(PaletteRibbonBackStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonBack(style, state).GetRibbonBackColor3(state);
-        }
+        => GetPaletteRibbonBack(style, state).GetRibbonBackColor3(state);
 
         /// <summary>
         /// Gets the fourth background color for the ribbon item.
@@ -2339,10 +1932,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonBackColor4(PaletteRibbonBackStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonBack(style, state).GetRibbonBackColor4(state);
-        }
+        => GetPaletteRibbonBack(style, state).GetRibbonBackColor4(state);
 
         /// <summary>
         /// Gets the fifth background color for the ribbon item.
@@ -2351,10 +1941,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonBackColor5(PaletteRibbonBackStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonBack(style, state).GetRibbonBackColor5(state);
-        }
+        => GetPaletteRibbonBack(style, state).GetRibbonBackColor5(state);
         #endregion
 
         #region IPalette RibbonText
@@ -2365,10 +1952,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetRibbonTextColor(PaletteRibbonTextStyle style, PaletteState state)
-        {
-            // Find the correct destination in the palette and pass on request
-            return GetPaletteRibbonText(style, state).GetRibbonTextColor(state);
-        }
+        => GetPaletteRibbonText(style, state).GetRibbonTextColor(state);
         #endregion
 
         #region IPalette ElementColor
@@ -2379,9 +1963,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetElementColor1(PaletteElement element, PaletteState state)
-        {
-            return GetTrackBar(element, state).GetElementColor1(state);
-        }
+        => GetTrackBar(element, state).GetElementColor1(state);
 
         /// <summary>
         /// Gets the second element color.
@@ -2390,9 +1972,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetElementColor2(PaletteElement element, PaletteState state)
-        {
-            return GetTrackBar(element, state).GetElementColor2(state);
-        }
+        => GetTrackBar(element, state).GetElementColor2(state);
 
         /// <summary>
         /// Gets the third element color.
@@ -2401,9 +1981,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetElementColor3(PaletteElement element, PaletteState state)
-        {
-            return GetTrackBar(element, state).GetElementColor3(state);
-        }
+        => GetTrackBar(element, state).GetElementColor3(state);
 
         /// <summary>
         /// Gets the fourth element color.
@@ -2412,9 +1990,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetElementColor4(PaletteElement element, PaletteState state)
-        {
-            return GetTrackBar(element, state).GetElementColor4(state);
-        }
+        => GetTrackBar(element, state).GetElementColor4(state);
 
         /// <summary>
         /// Gets the fifth element color.
@@ -2423,9 +1999,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
         public Color GetElementColor5(PaletteElement element, PaletteState state)
-        {
-            return GetTrackBar(element, state).GetElementColor5(state);
-        }
+        => GetTrackBar(element, state).GetElementColor5(state);
         #endregion
 
         #region IPalette DragDrop
@@ -2434,72 +2008,56 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Feedback enumeration value.</returns>
         public PaletteDragFeedback GetDragDropFeedback()
-        {
-            return _dragDrop.GetDragDropFeedback();
-        }
+        => DragDrop.GetDragDropFeedback();
 
         /// <summary>
         /// Gets the background color for a solid drag drop area.
         /// </summary>
         /// <returns>Color value.</returns>
         public Color GetDragDropSolidBack()
-        {
-            return _dragDrop.GetDragDropSolidBack();
-        }
+        => DragDrop.GetDragDropSolidBack();
 
         /// <summary>
         /// Gets the border color for a solid drag drop area.
         /// </summary>
         /// <returns>Color value.</returns>
         public Color GetDragDropSolidBorder()
-        {
-            return _dragDrop.GetDragDropSolidBorder();
-        }
+        => DragDrop.GetDragDropSolidBorder();
 
         /// <summary>
         /// Gets the opacity of the solid area.
         /// </summary>
         /// <returns>Opacity ranging from 0 to 1.</returns>
         public float GetDragDropSolidOpacity()
-        {
-            return _dragDrop.GetDragDropSolidOpacity();
-        }
+        => DragDrop.GetDragDropSolidOpacity();
 
         /// <summary>
         /// Gets the background color for the docking indicators area.
         /// </summary>
         /// <returns>Color value.</returns>
         public Color GetDragDropDockBack()
-        {
-            return _dragDrop.GetDragDropDockBack();
-        }
+        => DragDrop.GetDragDropDockBack();
 
         /// <summary>
         /// Gets the border color for the docking indicators area.
         /// </summary>
         /// <returns>Color value.</returns>
         public Color GetDragDropDockBorder()
-        {
-            return _dragDrop.GetDragDropDockBorder();
-        }
+        => DragDrop.GetDragDropDockBorder();
 
         /// <summary>
         /// Gets the active color for docking indicators.
         /// </summary>
         /// <returns>Color value.</returns>
         public Color GetDragDropDockActive()
-        {
-            return _dragDrop.GetDragDropDockActive();
-        }
+        => DragDrop.GetDragDropDockActive();
 
         /// <summary>
         /// Gets the inactive color for docking indicators.
         /// </summary>
         /// <returns>Color value.</returns>
         public Color GetDragDropDockInactive()
-        {
-            return _dragDrop.GetDragDropDockInactive();
-        }
+        => DragDrop.GetDragDropDockInactive();
         #endregion
 
         #region Public Methods
@@ -2508,18 +2066,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>New suspended count.</returns>
         public int SuspendUpdates()
-        {
-            return ++_suspendCount;
-        }
+        => ++_suspendCount;
 
         /// <summary>
         /// Resume the notification of drawing updates when palette values are changed.
         /// </summary>
         /// <returns>New suspended count; Updates only occur when the count reaches zero.</returns>
         public int ResumeUpdates()
-        {
-            return ResumeUpdates(true);
-        }
+        => ResumeUpdates(true);
 
         /// <summary>
         /// Resume the notification of drawing updates when palette values are changed.
@@ -2577,7 +2131,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show("Reset failed.\n\n Error:" + ex.Message,
                                     "Palette Reset",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
             }
             finally
@@ -2619,7 +2173,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show("Reset failed.\n\n Error:" + ex.Message,
                                     "Populate Values",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
             }
             finally
@@ -2635,27 +2189,28 @@ namespace Krypton.Toolkit
         /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
         public string Import()
         {
-            using (OpenFileDialog dialog = new OpenFileDialog())
+            using OpenFileDialog dialog = new();
+            // Palette files are just XML documents
+            dialog.CheckFileExists = true;
+            dialog.CheckPathExists = true;
+            dialog.DefaultExt = @"xml";
+            dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            dialog.Title = @"Load Palette";
+
+            // Get the actual file selected by the user
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                // Palette files are just XML documents
-                dialog.CheckFileExists = true;
-                dialog.CheckPathExists = true;
-                dialog.DefaultExt = @"xml";
-                dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
-                dialog.Title = @"Load Palette";
+                // Use the existing import overload that takes the target name
+                return Import(dialog.FileName, false);
+            }
 
-                // Get the actual file selected by the user
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    // Use the existing import overload that takes the target name
-                    return Import(dialog.FileName, false);
-                }
+            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(dialog.FileName))
+            {
+                // Set the file path
+                SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
-                if (dialog.FileName != null)
-                {
-                    // Set the file path
-                    SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
-                }
+                // Set the palette name
+                SetPaletteName(Path.GetFileName(dialog.FileName));
             }
 
             return string.Empty;
@@ -2666,11 +2221,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="filename">Filename to load.</param>
         /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
-        public string Import(string filename)
-        {
-            // By default the export is silent
-            return Import(filename, true);
-        }
+        public string Import(string filename) => Import(filename, true);
 
         /// <summary>
         /// Import palette settings from the specified xml file.
@@ -2678,8 +2229,7 @@ namespace Krypton.Toolkit
         /// <param name="filename">Filename to load.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
         /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
-        public string Import(string filename,
-                             bool silent)
+        public string Import(string filename, bool silent)
         {
             string ret;
 
@@ -2699,7 +2249,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show($"Import from file '{filename}' completed.",
                                     @"Palette Import",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -2709,7 +2259,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show($"Import from file '{filename}' failed.\n\n Error:{ex.Message}",
                                     @"Palette Import",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -2728,19 +2278,16 @@ namespace Krypton.Toolkit
         /// Import palette settings from the specified stream.
         /// </summary>
         /// <param name="stream">Stream that contains an XmlDocument.</param>
-        public void Import(Stream stream)
-        {
+        public void Import(Stream stream) =>
             // By default the import is silent
             Import(stream, true);
-        }
 
         /// <summary>
         /// Import palette settings from the specified stream.
         /// </summary>
         /// <param name="stream">Stream that contains an XmlDocument.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
-        public void Import(Stream stream,
-                           bool silent)
+        public void Import(Stream stream, bool silent)
         {
             try
             {
@@ -2758,7 +2305,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Import completed with success.",
                                     @"Palette Import",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -2768,7 +2315,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show(@"Import has failed.\n\n Error:" + ex.Message,
                                     @"Palette Import",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -2785,19 +2332,16 @@ namespace Krypton.Toolkit
         /// Import palette settings from the specified array of bytes.
         /// </summary>
         /// <param name="byteArray">ByteArray that was returning from exporting palette.</param>
-        public void Import(byte[] byteArray)
-        {
+        public void Import(byte[] byteArray) =>
             // By default the import is silent
             Import(byteArray, true);
-        }
 
         /// <summary>
         /// Import palette settings from the specified array of bytes.
         /// </summary>
         /// <param name="byteArray">ByteArray that was returning from exporting palette.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
-        public void Import(byte[] byteArray,
-                           bool silent)
+        public void Import(byte[] byteArray, bool silent)
         {
             try
             {
@@ -2815,7 +2359,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Import completed with success.",
                                     @"Palette Import",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -2825,7 +2369,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show(@"Import has failed.\n\n Error:" + ex.Message,
                                     @"Palette Import",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -2844,22 +2388,20 @@ namespace Krypton.Toolkit
         /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
         public string Export()
         {
-            using (SaveFileDialog dialog = new SaveFileDialog())
+            using SaveFileDialog dialog = new();
+            // Palette files are just xml documents
+            dialog.OverwritePrompt = true;
+            dialog.DefaultExt = @"xml";
+            dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            dialog.Title = @"Save Palette As";
+
+            // Get the actual file selected by the user
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                // Palette files are just xml documents
-                dialog.OverwritePrompt = true;
-                dialog.DefaultExt = @"xml";
-                dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
-                dialog.Title = @"Save Palette As";
+                SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
-                // Get the actual file selected by the user
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
-
-                    // Use the existing export overload that takes the target name
-                    return Export(dialog.FileName, true, false);
-                }
+                // Use the existing export overload that takes the target name
+                return Export(dialog.FileName, true, false);
             }
 
             return string.Empty;
@@ -2871,12 +2413,8 @@ namespace Krypton.Toolkit
         /// <param name="filename">Filename to create or overwrite.</param>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
         /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
-        public string Export(string filename,
-                             bool ignoreDefaults)
-        {
-            // By default the export is silent
-            return Export(filename, ignoreDefaults, true);
-        }
+        public string Export(string filename, bool ignoreDefaults)
+        => Export(filename, ignoreDefaults, true);
 
         /// <summary>
         /// Export palette settings to the specified xml file.
@@ -2885,9 +2423,7 @@ namespace Krypton.Toolkit
         /// <param name="ignoreDefaults">Should default values be exported.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
         /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
-        public string Export(string filename,
-                             bool ignoreDefaults,
-                             bool silent)
+        public string Export(string filename, bool ignoreDefaults, bool silent)
         {
             string ret;
 
@@ -2908,7 +2444,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show($"Export to file '{filename}' completed.",
                                     @"Palette Export",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -2918,7 +2454,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show($"Export to file '{filename}' failed.\n\n Error:{ex.Message}",
                                     @"Palette Export",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -2938,12 +2474,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="stream">Destination stream for exporting.</param>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
-        public void Export(Stream stream,
-                           bool ignoreDefaults)
-        {
+        public void Export(Stream stream, bool ignoreDefaults) =>
             // By default the export is silent
             Export(stream, ignoreDefaults, true);
-        }
 
         /// <summary>
         /// Export palette settings into a stream object.
@@ -2951,9 +2484,7 @@ namespace Krypton.Toolkit
         /// <param name="stream">Destination stream for exporting.</param>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
-        public void Export(Stream stream,
-                           bool ignoreDefaults,
-                           bool silent)
+        public void Export(Stream stream, bool ignoreDefaults, bool silent)
         {
             try
             {
@@ -2972,7 +2503,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Export completed with success.",
                                     @"Palette Export",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -2982,7 +2513,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show(@"Export has failed.\n\n Error:" + ex.Message,
                                     @"Palette Export",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -3000,18 +2531,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
         public byte[] Export(bool ignoreDefaults)
-        {
-            // By default the export is silent
-            return Export(ignoreDefaults, true);
-        }
+        => Export(ignoreDefaults, true);
 
         /// <summary>
         /// Export palette settings into an array of bytes.
         /// </summary>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
-        public byte[] Export(bool ignoreDefaults,
-                             bool silent)
+        public byte[] Export(bool ignoreDefaults, bool silent)
         {
             byte[] ret;
 
@@ -3032,7 +2559,7 @@ namespace Krypton.Toolkit
 
                     KryptonMessageBox.Show(@"Export completed with success.",
                                     @"Palette Export",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                 }
             }
             catch (Exception ex)
@@ -3042,7 +2569,7 @@ namespace Krypton.Toolkit
                     KryptonMessageBox.Show(@"Export has failed.\n\n Error:" + ex.Message,
                                     @"Palette Export",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                                    KryptonMessageBoxIcon.ERROR);
                 }
 
                 // Rethrow the exception
@@ -3059,34 +2586,28 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public Properties        
-        /// <summary>Gets or sets the customised Krypton palette file path.</summary>
+        /// <summary>Gets the customised Krypton palette file path.</summary>
         [KryptonPersist(false, false)]
         [Category("Miscellaneous")]
-        [Description("Gets or sets the customised Krypton palette file path.")]
+        [Description("Gets the customised Krypton palette file path.")]
         [DefaultValue("")]
-        public string CustomisedKryptonPaletteFilePath
-        {
-            get => _customisedKryptonPaletteFilePath;
-            set => _customisedKryptonPaletteFilePath = value;
-        }
+        [Browsable(false)]
+        public string CustomisedKryptonPaletteFilePath { get; private set; }
 
-        private bool ShouldSerializeCustomisedKryptonPaletteFilePath()
-        {
-#if NET35
-            return !string.IsNullOrEmpty(_customisedKryptonPaletteFilePath) &&  _customisedKryptonPaletteFilePath.Trim() != string.Empty;
-#else
-            return !string.IsNullOrWhiteSpace(_customisedKryptonPaletteFilePath);
-#endif
-        }
+        private bool ShouldSerializeCustomisedKryptonPaletteFilePath() => !MissingFrameWorkAPIs.IsNullOrWhiteSpace(CustomisedKryptonPaletteFilePath);
 
         /// <summary>
         /// Resets the PlacementMode property to its default value.
         /// </summary>
         public void ResetCustomisedKryptonPaletteFilePath()
-        {
-            _customisedKryptonPaletteFilePath = string.Empty;
-        }
+        => CustomisedKryptonPaletteFilePath = string.Empty;
 
+        /// <summary>Gets the palette name.</summary>
+        [KryptonPersist(false, false), 
+         Category("Miscellaneous"), 
+         Description("Gets the palette name."), 
+         DefaultValue("")]
+        public string PaletteName { get; private set; }
 
         /// <summary>
         /// Gets or sets the base palette used to inherit from.
@@ -3094,7 +2615,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false, false)]
         [Category("Visuals")]
         [Description("Base palette used to inherit from.")]
-        [DefaultValue(typeof(PaletteMode), "Office2010Blue")]
+        [DefaultValue(typeof(PaletteMode), "Office365Blue")]
         public PaletteMode BasePaletteMode
         {
             get => _basePaletteMode;
@@ -3150,18 +2671,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBasePaletteMode()
-        {
-            return (BasePaletteMode != PaletteMode.Office2010Blue);
-        }
+        private bool ShouldSerializeBasePaletteMode() => BasePaletteMode != PaletteMode.Office365Blue;
 
         /// <summary>
         /// Resets the BasePaletteMode property to its default value.
         /// </summary>
-        public void ResetBasePaletteMode()
-        {
-            BasePaletteMode = PaletteMode.Office2010Blue;
-        }
+        public void ResetBasePaletteMode() => BasePaletteMode = PaletteMode.Office365Blue;
 
         /// <summary>
         /// Gets and sets the KryptonPalette used to inherit from.
@@ -3183,7 +2698,7 @@ namespace Krypton.Toolkit
                     IPalette tempPalette = _basePalette;
 
                     // Find the new palette mode based on the incoming value
-                    _basePaletteMode = (value == null) ? PaletteMode.Office2010Blue : PaletteMode.Custom;
+                    _basePaletteMode = (value == null) ? PaletteMode.Office365Blue : PaletteMode.Custom;
                     _basePalette = value;
 
                     // If the new value creates a circular reference
@@ -3226,9 +2741,7 @@ namespace Krypton.Toolkit
         /// Resets the BasePalette property to its default value.
         /// </summary>
         public void ResetBasePalette()
-        {
-            BasePaletteMode = PaletteMode.Office2010Blue;
-        }
+        => BasePaletteMode = PaletteMode.Office365Blue;
 
         /// <summary>
         /// Gets or sets the renderer used for drawing the palette.
@@ -3281,9 +2794,7 @@ namespace Krypton.Toolkit
         /// Resets the BaseRendererMode property to its default value.
         /// </summary>
         public void ResetBaseRendererMode()
-        {
-            BaseRenderMode = RendererMode.Inherit;
-        }
+        => BaseRenderMode = RendererMode.Inherit;
 
         /// <summary>
         /// Gets and sets the custom renderer to be used with this palette.
@@ -3317,7 +2828,7 @@ namespace Krypton.Toolkit
         /// Gets access to the color table instance.
         /// </summary>
         [Browsable(false)]
-        public KryptonColorTable ColorTable => _toolMenuStatus.InternalKCT;
+        public KryptonColorTable ColorTable => ToolMenuStatus.InternalKCT;
 
         #endregion
 
@@ -3337,10 +2848,7 @@ namespace Krypton.Toolkit
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                if (PalettePaint != null)
-                {
-                    PalettePaint(this, e);
-                }
+                PalettePaint?.Invoke(this, e);
             }
         }
 
@@ -3354,10 +2862,7 @@ namespace Krypton.Toolkit
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                if (AllowFormChromeChanged != null)
-                {
-                    AllowFormChromeChanged(this, e);
-                }
+                AllowFormChromeChanged?.Invoke(this, e);
             }
         }
 
@@ -3371,10 +2876,7 @@ namespace Krypton.Toolkit
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                if (BasePaletteChanged != null)
-                {
-                    BasePaletteChanged(this, e);
-                }
+                BasePaletteChanged?.Invoke(this, e);
             }
         }
 
@@ -3388,10 +2890,7 @@ namespace Krypton.Toolkit
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                if (BaseRendererChanged != null)
-                {
-                    BaseRendererChanged(this, e);
-                }
+                BaseRendererChanged?.Invoke(this, e);
             }
         }
 
@@ -3405,10 +2904,7 @@ namespace Krypton.Toolkit
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                if (ButtonSpecChanged != null)
-                {
-                    ButtonSpecChanged(this, e);
-                }
+                ButtonSpecChanged?.Invoke(this, e);
             }
         }
         #endregion
@@ -3417,7 +2913,7 @@ namespace Krypton.Toolkit
         internal bool HasCircularReference()
         {
             // Use a dictionary as a set to check for existence
-            Dictionary<IPalette, bool> paletteSet = new Dictionary<IPalette, bool>();
+            var paletteSet = new Dictionary<IPalette, bool>();
 
             // Start processing from ourself upwards
             IPalette palette = this;
@@ -3434,27 +2930,18 @@ namespace Krypton.Toolkit
                 {
                     // Otherwise, add to the set
                     paletteSet.Add(palette, true);
-
+                    // Cast to correct type
 
                     // If this is a KryptonPalette instance
-                    if (palette is KryptonPalette)
+                    if (palette is KryptonPalette owner)
                     {
-                        // Cast to correct type
-                        KryptonPalette owner = (KryptonPalette)palette;
-
                         // Get the next palette up in hierarchy
-                        if (owner.BasePaletteMode == PaletteMode.Custom)
+                        palette = owner.BasePaletteMode switch
                         {
-                            palette = owner.BasePalette;
-                        }
-                        else if (owner.BasePaletteMode == PaletteMode.Global)
-                        {
-                            palette = KryptonManager.InternalGlobalPalette;
-                        }
-                        else
-                        {
-                            palette = null;
-                        }
+                            PaletteMode.Custom => owner.BasePalette,
+                            PaletteMode.Global => KryptonManager.InternalGlobalPalette,
+                            _ => null
+                        };
                     }
                     else
                     {
@@ -3483,26 +2970,26 @@ namespace Krypton.Toolkit
 
             // Ask each part of the palette to populate itself
             _allowFormChrome = _basePalette.GetAllowFormChrome();
-            _buttons.PopulateFromBase(Common);
-            _calendarDay.PopulateFromBase();
-            _buttonSpecs.PopulateFromBase();
-            _controls.PopulateFromBase(Common);
-            _contextMenu.PopulateFromBase(Common);
-            _dragDrop.PopulateFromBase();
-            _forms.PopulateFromBase(Common);
-            _grids.PopulateFromBase(Common);
-            _headers.PopulateFromBase(Common);
-            _headerGroup.PopulateFromBase();
-            _images.PopulateFromBase();
-            _inputControls.PopulateFromBase(Common);
-            _labels.PopulateFromBase(Common);
-            _navigator.PopulateFromBase();
-            _panels.PopulateFromBase(Common);
-            _ribbon.PopulateFromBase();
-            _separators.PopulateFromBase(Common);
-            _tabs.PopulateFromBase(Common);
-            _trackBar.PopulateFromBase();
-            _toolMenuStatus.PopulateFromBase();
+            ButtonStyles.PopulateFromBase(Common);
+            CalendarDay.PopulateFromBase();
+            ButtonSpecs.PopulateFromBase();
+            ControlStyles.PopulateFromBase(Common);
+            ContextMenu.PopulateFromBase(Common);
+            DragDrop.PopulateFromBase();
+            FormStyles.PopulateFromBase(Common);
+            GridStyles.PopulateFromBase(Common);
+            HeaderStyles.PopulateFromBase(Common);
+            HeaderGroup.PopulateFromBase();
+            Images.PopulateFromBase();
+            InputControlStyles.PopulateFromBase(Common);
+            LabelStyles.PopulateFromBase(Common);
+            Navigator.PopulateFromBase();
+            PanelStyles.PopulateFromBase(Common);
+            Ribbon.PopulateFromBase();
+            SeparatorStyles.PopulateFromBase(Common);
+            TabStyles.PopulateFromBase(Common);
+            TrackBar.PopulateFromBase();
+            ToolMenuStatus.PopulateFromBase();
 
             return null;
         }
@@ -3510,18 +2997,16 @@ namespace Krypton.Toolkit
         private object ImportFromFile(object parameter)
         {
             // Cast to correct type
-            string filename = (string)parameter;
-
-            FileInfo info = new FileInfo(filename);
+            var filename = (string)parameter;
 
             // Check the target file actually exists
-            if (!info.Exists)
+            if (!File.Exists(filename))
             {
                 throw new ArgumentException("Provided file does not exist.");
             }
 
             // Create a new xml document for storing the palette settings
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new();
 
             // Attempt to load as a valid xml document
             doc.Load(filename);
@@ -3538,7 +3023,7 @@ namespace Krypton.Toolkit
             Stream stream = (Stream)parameter;
 
             // Create a new xml document for storing the palette settings
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new();
 
             // Attempt to load from the provided stream
             doc.Load(stream);
@@ -3555,7 +3040,7 @@ namespace Krypton.Toolkit
             byte[] byteArray = (byte[])parameter;
 
             // Create a memory based stream
-            MemoryStream ms = new MemoryStream(byteArray);
+            MemoryStream ms = new(byteArray);
 
             // Perform import from the memory stream
             ImportFromStream(ms);
@@ -3622,11 +3107,11 @@ namespace Krypton.Toolkit
                 }
 
                 // Cache the images from the images element
-                ImageReverseDictionary imageCache = new ImageReverseDictionary();
+                ImageReverseDictionary imageCache = new();
 
                 // Use reflection to import the palette hierarchy
-                ImportImagesFromElement(doc, images, imageCache);
-                ImportObjectFromElement(doc, props, imageCache, this);
+                ImportImagesFromElement(images, imageCache);
+                ImportObjectFromElement(props, imageCache, this);
             }
             finally
             {
@@ -3644,7 +3129,7 @@ namespace Krypton.Toolkit
             string filename = (string)parameters[0];
             bool ignoreDefaults = (bool)parameters[1];
 
-            FileInfo info = new FileInfo(filename);
+            FileInfo info = new(filename);
 
             // Check the target directory actually exists
             if (!info.Directory.Exists)
@@ -3688,7 +3173,7 @@ namespace Krypton.Toolkit
             bool ignoreDefaults = (bool)parameters[0];
 
             // Create a memory based stream
-            MemoryStream ms = new MemoryStream();
+            MemoryStream ms = new();
 
             // Perform export into the memory stream
             ExportToStream(new object[] { ms, ignoreDefaults });
@@ -3711,7 +3196,7 @@ namespace Krypton.Toolkit
                 Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
                 // Create a new xml document for storing the palette settings
-                XmlDocument doc = new XmlDocument();
+                XmlDocument doc = new();
 
                 // Add the standard xml version number
                 doc.AppendChild(doc.CreateProcessingInstruction("xml", @"version=""1.0"""));
@@ -3735,7 +3220,7 @@ namespace Krypton.Toolkit
                 root.AppendChild(images);
 
                 // Cache any images that are found during object export
-                ImageDictionary imageCache = new ImageDictionary();
+                ImageDictionary imageCache = new();
 
                 // Use reflection to export the palette hierarchy
                 ExportObjectToElement(doc, props, imageCache, this, ignoreDefaults);
@@ -3750,8 +3235,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ImportObjectFromElement(XmlDocument doc,
-                                             XmlElement element,
+        private void ImportObjectFromElement(XmlElement element,
                                              ImageReverseDictionary imageCache,
                                              object obj)
         {
@@ -3768,10 +3252,9 @@ namespace Krypton.Toolkit
                     foreach (object attrib in prop.GetCustomAttributes(false))
                     {
                         // Is it marked with the special krypton persist marker?
-                        if (attrib is KryptonPersistAttribute)
+                        if (attrib is KryptonPersistAttribute persistAttribute)
                         {
                             // Cast attribute to the correct type
-                            KryptonPersistAttribute persist = (KryptonPersistAttribute)attrib;
 
                             // Check if there is an element matching the property
                             XmlElement childElement = (XmlElement)element.SelectSingleNode(prop.Name);
@@ -3780,25 +3263,25 @@ namespace Krypton.Toolkit
                             if (childElement != null)
                             {
                                 // Should we navigate down inside the property?
-                                if (persist.Navigate)
+                                if (persistAttribute.Navigate)
                                 {
                                     // If we can read the property value
                                     if (prop.CanRead)
                                     {
                                         // Grab the property object and recurse into it
                                         object childObj = prop.GetValue(obj, null);
-                                        ImportObjectFromElement(doc, childElement, imageCache, childObj);
+                                        ImportObjectFromElement(childElement, imageCache, childObj);
                                     }
                                 }
                                 else
                                 {
                                     // The xml element must have a type and value in order to recreate it
-                                    if (childElement.HasAttribute("Type") &&
-                                        childElement.HasAttribute("Value"))
+                                    if (childElement.HasAttribute(@"Type") &&
+                                        childElement.HasAttribute(@"Value"))
                                     {
                                         // Get the type/value attributes
-                                        string valueType = childElement.GetAttribute("Type");
-                                        string valueValue = childElement.GetAttribute("Value");
+                                        string valueType = childElement.GetAttribute(@"Type");
+                                        string valueValue = childElement.GetAttribute(@"Value");
 
                                         // We special case the loading of images
                                         if (prop.PropertyType.Equals(typeof(Image)))
@@ -3829,7 +3312,7 @@ namespace Krypton.Toolkit
 
                                             // We ignore conversion of a Font of value (none) because instead
                                             // of providing null it returns a default font value
-                                            if ((valueType != "Font") || (valueValue != "(none)"))
+                                            if ((valueType != nameof(Font)) || (valueValue != @"(none)"))
                                             {
                                                 // We need the type converter to create a string representation
                                                 TypeConverter converter = TypeDescriptor.GetConverter(StringToType(valueType));
@@ -3850,9 +3333,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ImportImagesFromElement(XmlDocument doc,
-                                             XmlElement element,
-                                             ImageReverseDictionary imageCache)
+        private void ImportImagesFromElement(XmlElement element, ImageReverseDictionary imageCache)
         {
             // Get all nodes storing images
             XmlNodeList images = element.SelectNodes("Image");
@@ -3867,14 +3348,14 @@ namespace Krypton.Toolkit
 
                     // Check the element is the expected type and has the required data
                     if ((imageElement != null) &&
-                        (imageElement.HasAttribute("Name")) &&
+                        imageElement.HasAttribute(@"Name") &&
                         (imageElement.ChildNodes.Count == 1) &&
                         (imageElement.ChildNodes[0].NodeType == XmlNodeType.CDATA))
                     {
                         try
                         {
                             // Extract the image name
-                            string name = imageElement.GetAttribute("Name");
+                            string name = imageElement.GetAttribute(@"Name");
 
                             // Grab the CDATA section that contains the base64 value
                             XmlCDataSection cdata = (XmlCDataSection)imageElement.ChildNodes[0];
@@ -3883,9 +3364,23 @@ namespace Krypton.Toolkit
                             byte[] bytes = Convert.FromBase64String(cdata.Value);
 
                             // Convert the bytes back into an Image
-                            MemoryStream memory = new MemoryStream(bytes);
-                            BinaryFormatter formatter = new BinaryFormatter();
-                            Image resurect = (Image)formatter.Deserialize(memory);
+                            MemoryStream memory = new(bytes);
+                            Bitmap resurect;
+                            try
+                            {
+                                resurect = new Bitmap(memory);
+                            }
+                            catch
+                            {
+                                // Do the old way
+                                // SYSLIB0011: BinaryFormatter serialization is obsolete
+#pragma warning disable SYSLIB0011
+                                BinaryFormatter formatter = new();
+                                var old = (Image)formatter.Deserialize(memory);
+#pragma warning restore SYSLIB0011
+                                resurect = new Bitmap(old);
+                            }
+
 
                             // Add into the lookup dictionary
                             imageCache.Add(name, resurect);
@@ -3932,7 +3427,7 @@ namespace Krypton.Toolkit
                                     // Should be test if the object contains only default values?
                                     if (ignoreDefaults)
                                     {
-                                        PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)["IsDefault"];
+                                        PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)[@"IsDefault"];
 
                                         // All compound objects are expected to have an 'IsDefault' returning a boolean
                                         if ((propertyIsDefault != null) && (propertyIsDefault.PropertyType == typeof(bool)))
@@ -3978,7 +3473,7 @@ namespace Krypton.Toolkit
                                         // Decide if the property value matches the default described by the attribute
                                         if (defaultAttrib.Value == null)
                                         {
-                                            ignore = (childObj == null);
+                                            ignore = childObj == null;
                                         }
                                         else
                                         {
@@ -3995,7 +3490,7 @@ namespace Krypton.Toolkit
                                     element.AppendChild(childElement);
 
                                     // Save the type of the property
-                                    childElement.SetAttribute("Type", TypeToString(prop.PropertyType));
+                                    childElement.SetAttribute(@"Type", TypeToString(prop.PropertyType));
 
                                     // We special case the saving of images
                                     if (prop.PropertyType.Equals(typeof(Image)))
@@ -4003,29 +3498,32 @@ namespace Krypton.Toolkit
                                         if (childObj == null)
                                         {
                                             // An empty string represents a null image value
-                                            childElement.SetAttribute("Value", "");
+                                            childElement.SetAttribute(@"Value", string.Empty);
                                         }
                                         else
                                         {
                                             // Cast to correct type
-                                            Image image = (Image)childObj;
+                                            if (childObj is not Bitmap image)
+                                            {
+                                                image = new Bitmap((Image)childObj);
+                                            }
 
                                             // Have we already encountered the image?
                                             if (imageCache.ContainsKey(image))
                                             {
                                                 // Save reference to the existing cached image
-                                                childElement.SetAttribute("Value", imageCache[image]);
+                                                childElement.SetAttribute(@"Value", imageCache[image]);
                                             }
                                             else
                                             {
                                                 // Generate a placeholder string
-                                                string imageName = "ImageCache" + (imageCache.Count + 1);
+                                                string imageName = @"ImageCache" + (imageCache.Count + 1);
 
                                                 // Add the actual image instance into the cache
                                                 imageCache.Add(image, imageName);
 
                                                 // Save the placeholder name instead of the actual image
-                                                childElement.SetAttribute("Value", imageName);
+                                                childElement.SetAttribute(@"Value", imageName);
                                             }
                                         }
                                     }
@@ -4035,7 +3533,7 @@ namespace Krypton.Toolkit
                                         TypeConverter converter = TypeDescriptor.GetConverter(prop.PropertyType);
 
                                         // Save to an invariant string so that load is not affected by culture
-                                        childElement.SetAttribute("Value", converter.ConvertToInvariantString(childObj));
+                                        childElement.SetAttribute(@"Value", converter.ConvertToInvariantString(childObj));
                                     }
                                 }
                             }
@@ -4045,23 +3543,22 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ExportImagesToElement(XmlDocument doc,
-                                           XmlElement element,
-                                           ImageDictionary imageCache)
+        private void ExportImagesToElement(XmlDocument doc, XmlElement element, ImageDictionary imageCache)
         {
             // Process each image cache entry in turn
-            foreach (KeyValuePair<Image, string> entry in imageCache)
+            foreach (var entry in imageCache)
             {
                 try
                 {
-                    // Conv ert the Image into base64 so it can be used in xml
-                    MemoryStream memory = new MemoryStream();
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    formatter.Serialize(memory, entry.Key);
+                    // Convert the Image into base64 so it can be used in xml
+                    using MemoryStream memory = new();
+
+                    entry.Key.Save(memory, entry.Key.RawFormat);
+                    memory.Position = 0;
                     string base64 = Convert.ToBase64String(memory.ToArray());
 
                     // Create and add a new xml element
-                    XmlElement imageElement = doc.CreateElement("Image");
+                    XmlElement imageElement = doc.CreateElement(@"Image");
                     imageElement.SetAttribute("Name", entry.Value);
                     element.AppendChild(imageElement);
 
@@ -4102,7 +3599,7 @@ namespace Krypton.Toolkit
                                     // Grab the property object
                                     object childObj = prop.GetValue(obj, null);
 
-                                    PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)["IsDefault"];
+                                    PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)[@"IsDefault"];
 
                                     // All compound objects are expected to have an 'IsDefault' returning a boolean
                                     if ((propertyIsDefault != null) && (propertyIsDefault.PropertyType == typeof(bool)))
@@ -4167,196 +3664,56 @@ namespace Krypton.Toolkit
             }
         }
 
-        private string TypeToString(Type t)
+        static readonly Dictionary<Type, string> _typeTests = new()
         {
-            if (t.Equals(typeof(string)))
+            [typeof(int)] = @"Int", //nameof(Int32),
+            [typeof(string)] = nameof(String),
+            [typeof(float)] = @"Single",
+            [typeof(bool)] = @"Bool",
+            [typeof(Color)] = nameof(Color),
+            [typeof(Image)] = nameof(Image),
+            [typeof(Font)] = nameof(Font),
+            [typeof(Padding)] = nameof(Padding),
+            [typeof(InheritBool)] = nameof(InheritBool),
+            [typeof(PaletteRectangleAlign)] = nameof(PaletteRectangleAlign),
+            [typeof(PaletteRelativeAlign)] = nameof(PaletteRelativeAlign),
+            [typeof(PaletteImageEffect)] = nameof(PaletteImageEffect),
+            [typeof(PaletteImageStyle)] = nameof(PaletteImageStyle),
+            [typeof(PaletteTextHint)] = nameof(PaletteTextHint),
+            [typeof(PaletteTextHotkeyPrefix)] = nameof(PaletteTextHotkeyPrefix),
+            [typeof(PaletteTextTrim)] = nameof(PaletteTextTrim),
+            [typeof(PaletteColorStyle)] = nameof(PaletteColorStyle),
+            [typeof(PaletteGraphicsHint)] = nameof(PaletteGraphicsHint),
+            [typeof(PaletteMode)] = nameof(PaletteMode),
+            [typeof(PaletteButtonStyle)] = nameof(PaletteButtonStyle),
+            [typeof(PaletteButtonOrientation)] = nameof(PaletteButtonOrientation),
+            [typeof(PaletteRelativeEdgeAlign)] = nameof(PaletteRelativeEdgeAlign),
+            [typeof(RendererMode)] = nameof(RendererMode),
+            [typeof(PaletteDrawBorders)] = nameof(PaletteDrawBorders),
+            [typeof(PaletteContentText)] = nameof(PaletteContentText),
+            [typeof(PaletteContentImage)] = nameof(PaletteContentImage),
+            [typeof(PaletteDragFeedback)] = nameof(PaletteDragFeedback),
+            [typeof(PaletteRibbonShape)] = nameof(PaletteRibbonShape)
+        };
+        private static string TypeToString(Type t)
+        {
+            if (_typeTests.TryGetValue(t, out var str))
             {
-                return "String";
+                return str;
             }
 
-            if (t.Equals(typeof(int)))
-            {
-                return "Int";
-            }
-
-            if (t.Equals(typeof(float)))
-            {
-                return "Single";
-            }
-
-            if (t.Equals(typeof(bool)))
-            {
-                return "Bool";
-            }
-
-            if (t.Equals(typeof(Color)))
-            {
-                return "Color";
-            }
-
-            if (t.Equals(typeof(Image)))
-            {
-                return "Image";
-            }
-
-            if (t.Equals(typeof(Font)))
-            {
-                return "Font";
-            }
-
-            if (t.Equals(typeof(Padding)))
-            {
-                return "Padding";
-            }
-            else if (t.Equals(typeof(InheritBool)))
-            {
-                return "InheritBool";
-            }
-            else if (t.Equals(typeof(PaletteRectangleAlign)))
-            {
-                return "PaletteRectangleAlign";
-            }
-            else if (t.Equals(typeof(PaletteRelativeAlign)))
-            {
-                return "PaletteRelativeAlign";
-            }
-            else if (t.Equals(typeof(PaletteImageEffect)))
-            {
-                return "PaletteImageEffect";
-            }
-            else if (t.Equals(typeof(PaletteImageStyle)))
-            {
-                return "PaletteImageStyle";
-            }
-            else if (t.Equals(typeof(PaletteTextHint)))
-            {
-                return "PaletteTextHint";
-            }
-            else if (t.Equals(typeof(PaletteTextHotkeyPrefix)))
-            {
-                return "PaletteTextHotkeyPrefix";
-            }
-            else if (t.Equals(typeof(PaletteTextTrim)))
-            {
-                return "PaletteTextTrim";
-            }
-            else if (t.Equals(typeof(PaletteColorStyle)))
-            {
-                return "PaletteColorStyle";
-            }
-            else if (t.Equals(typeof(PaletteGraphicsHint)))
-            {
-                return "PaletteGraphicsHint";
-            }
-            else if (t.Equals(typeof(PaletteMode)))
-            {
-                return "PaletteMode";
-            }
-            else if (t.Equals(typeof(PaletteButtonStyle)))
-            {
-                return "PaletteButtonStyle";
-            }
-            else if (t.Equals(typeof(PaletteButtonOrientation)))
-            {
-                return "PaletteButtonOrientation";
-            }
-            else if (t.Equals(typeof(PaletteRelativeEdgeAlign)))
-            {
-                return "PaletteRelativeEdgeAlign";
-            }
-            else if (t.Equals(typeof(RendererMode)))
-            {
-                return "RendererMode";
-            }
-            else if (t.Equals(typeof(PaletteDrawBorders)))
-            {
-                return "PaletteDrawBorders";
-            }
-            else if (t.Equals(typeof(PaletteContentText)))
-            {
-                return "PaletteContentText";
-            }
-            else if (t.Equals(typeof(PaletteContentImage)))
-            {
-                return "PaletteContentImage";
-            }
-            else if (t.Equals(typeof(PaletteDragFeedback)))
-            {
-                return @"PaletteDragFeedback";
-            }
-            else if (t.Equals(typeof(PaletteRibbonShape)))
-            {
-                return @"PaletteRibbonShape";
-            }
-            else
-            {
-                throw new ApplicationException($"Unrecognised type '{t}' for export.");
-            }
+            throw new ApplicationException($@"Unrecognised type '{t}' for export.");
         }
 
-        private Type StringToType(string s)
+        private static readonly Dictionary<string, Type> _stringTests = _typeTests.ToDictionary((i) => i.Value, (i) => i.Key);
+
+        private static Type StringToType(string s)
         {
-            switch (s)
+            if (_stringTests.TryGetValue(s, out var t))
             {
-                case "String":
-                    return typeof(string);
-                case "Int":
-                    return typeof(int);
-                case "Single":
-                    return typeof(float);
-                case "Bool":
-                    return typeof(bool);
-                case "Color":
-                    return typeof(Color);
-                case "Image":
-                    return typeof(Image);
-                case "Font":
-                    return typeof(Font);
-                case "Padding":
-                    return typeof(Padding);
-                case "InheritBool":
-                    return typeof(InheritBool);
-                case "PaletteRectangleAlign":
-                    return typeof(PaletteRectangleAlign);
-                case "PaletteRelativeAlign":
-                    return typeof(PaletteRelativeAlign);
-                case "PaletteImageEffect":
-                    return typeof(PaletteImageEffect);
-                case "PaletteImageStyle":
-                    return typeof(PaletteImageStyle);
-                case "PaletteTextHint":
-                    return typeof(PaletteTextHint);
-                case "PaletteTextTrim":
-                    return typeof(PaletteTextTrim);
-                case "PaletteTextHotkeyPrefix":
-                    return typeof(PaletteTextHotkeyPrefix);
-                case "PaletteColorStyle":
-                    return typeof(PaletteColorStyle);
-                case "PaletteGraphicsHint":
-                    return typeof(PaletteGraphicsHint);
-                case "PaletteMode":
-                    return typeof(PaletteMode);
-                case "PaletteButtonStyle":
-                    return typeof(PaletteButtonStyle);
-                case "PaletteButtonOrientation":
-                    return typeof(PaletteButtonOrientation);
-                case "PaletteRelativeEdgeAlign":
-                    return typeof(PaletteRelativeEdgeAlign);
-                case "RendererMode":
-                    return typeof(RendererMode);
-                case "PaletteDrawBorders":
-                    return typeof(PaletteDrawBorders);
-                case "PaletteContentText":
-                    return typeof(PaletteContentText);
-                case "PaletteContentImage":
-                    return typeof(PaletteContentImage);
-                case "PaletteDragFeedback":
-                    return typeof(PaletteDragFeedback);
-                case "PaletteRibbonShape":
-                    return typeof(PaletteRibbonShape);
-                default:
-                    throw new ApplicationException("Unrecognised type '" + s + "' for import.");
+                return t;
             }
+            throw new ApplicationException($@"Unrecognised type '{s}' for import.");
         }
         #endregion
 
@@ -4369,11 +3726,11 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _trackBar.StateNormal.Tick;
+                            return TrackBar.StateNormal.Tick;
                         case PaletteState.Disabled:
-                            return _trackBar.StateDisabled.Tick;
+                            return TrackBar.StateDisabled.Tick;
                         case PaletteState.FocusOverride:
-                            return _trackBar.OverrideFocus.Tick;
+                            return TrackBar.OverrideFocus.Tick;
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -4383,11 +3740,11 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _trackBar.StateNormal.Track;
+                            return TrackBar.StateNormal.Track;
                         case PaletteState.Disabled:
-                            return _trackBar.StateDisabled.Track;
+                            return TrackBar.StateDisabled.Track;
                         case PaletteState.FocusOverride:
-                            return _trackBar.OverrideFocus.Track;
+                            return TrackBar.OverrideFocus.Track;
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -4397,15 +3754,15 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Normal:
-                            return _trackBar.StateNormal.Position;
+                            return TrackBar.StateNormal.Position;
                         case PaletteState.Disabled:
-                            return _trackBar.StateDisabled.Position;
+                            return TrackBar.StateDisabled.Position;
                         case PaletteState.Tracking:
-                            return _trackBar.StateTracking.Position;
+                            return TrackBar.StateTracking.Position;
                         case PaletteState.Pressed:
-                            return _trackBar.StatePressed.Position;
+                            return TrackBar.StatePressed.Position;
                         case PaletteState.FocusOverride:
-                            return _trackBar.OverrideFocus.Position;
+                            return TrackBar.OverrideFocus.Position;
                         default:
                             // Should never happen!
                             Debug.Assert(false);
@@ -5411,9 +4768,9 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return button.OverrideFocus.Back;
                 case PaletteState.BoldedOverride:
-                    return _calendarDay.OverrideBolded.Back;
+                    return CalendarDay.OverrideBolded.Back;
                 case PaletteState.TodayOverride:
-                    return _calendarDay.OverrideToday.Back;
+                    return CalendarDay.OverrideToday.Back;
                 default:
                     PaletteTriple buttonState = GetPaletteButton(button, state);
                     if (buttonState != null)
@@ -5439,9 +4796,9 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return button.OverrideFocus.Border;
                 case PaletteState.BoldedOverride:
-                    return _calendarDay.OverrideBolded.Border;
+                    return CalendarDay.OverrideBolded.Border;
                 case PaletteState.TodayOverride:
-                    return _calendarDay.OverrideToday.Border;
+                    return CalendarDay.OverrideToday.Border;
                 default:
                     PaletteTriple buttonState = GetPaletteButton(button, state);
                     if (buttonState != null)
@@ -5467,9 +4824,9 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return button.OverrideFocus.Content;
                 case PaletteState.BoldedOverride:
-                    return _calendarDay.OverrideBolded.Content;
+                    return CalendarDay.OverrideBolded.Content;
                 case PaletteState.TodayOverride:
-                    return _calendarDay.OverrideToday.Content;
+                    return CalendarDay.OverrideToday.Content;
                 default:
                     PaletteTriple buttonState = GetPaletteButton(button, state);
                     if (buttonState != null)
@@ -6370,7 +5727,7 @@ namespace Krypton.Toolkit
                 _redirector.Target = _basePalette;
 
                 // Update the color table we inherit from
-                _toolMenuStatus.BaseKCT = _basePalette.ColorTable;
+                ToolMenuStatus.BaseKCT = _basePalette.ColorTable;
 
                 // Hook to new palette events
                 if (_basePalette != null)
@@ -6386,23 +5743,21 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Setters and Getters
-        /// <summary>
-        /// Sets the CustomisedKryptonPaletteFilePath to the value of customisedKryptonPaletteFilePathValue.
-        /// </summary>
+        /// <summary>Sets the CustomisedKryptonPaletteFilePath to the value of customisedKryptonPaletteFilePathValue.</summary>
         /// <param name="customisedKryptonPaletteFilePathValue">The value of customisedKryptonPaletteFilePathValue.</param>
-        public void SetCustomisedKryptonPaletteFilePath(string customisedKryptonPaletteFilePathValue)
-        {
-            CustomisedKryptonPaletteFilePath = customisedKryptonPaletteFilePathValue;
-        }
+        public void SetCustomisedKryptonPaletteFilePath(string customisedKryptonPaletteFilePathValue) => CustomisedKryptonPaletteFilePath = customisedKryptonPaletteFilePathValue;
 
-        /// <summary>
-        /// Gets the CustomisedKryptonPaletteFilePath value.
-        /// </summary>
+        /// <summary>Gets the CustomisedKryptonPaletteFilePath value.</summary>
         /// <returns>The value of customisedKryptonPaletteFilePathValue.</returns>
-        public string GetCustomisedKryptonPaletteFilePath()
-        {
-            return CustomisedKryptonPaletteFilePath;
-        }
+        public string GetCustomisedKryptonPaletteFilePath() => CustomisedKryptonPaletteFilePath;
+
+        /// <summary>Sets the PaletteName to the value of value.</summary>
+        /// <param name="value">The desired value of PaletteName.</param>
+        public void SetPaletteName(string value) => PaletteName = value;
+
+        /// <summary>Returns the value of the PaletteName.</summary>
+        /// <returns>The value of the PaletteName.</returns>
+        public string GetPaletteName() => PaletteName;
         #endregion
     }
 }

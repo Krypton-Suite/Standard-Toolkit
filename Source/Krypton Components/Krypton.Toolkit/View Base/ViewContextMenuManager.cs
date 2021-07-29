@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -31,7 +25,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private IContextMenuTarget _target;
         private IContextMenuTarget _targetSubMenu;
-        private Timer _itemDelayTimer;
+        private System.Windows.Forms.Timer _itemDelayTimer;
         #endregion
 
         #region Identity
@@ -44,7 +38,7 @@ namespace Krypton.Toolkit
             : base(control, root)
         {
             // Create timer to notify targets when the standard delay expires
-            _itemDelayTimer = new Timer
+            _itemDelayTimer = new System.Windows.Forms.Timer
             {
                 Interval = Math.Max(1, SystemInformation.MenuShowDelay)
             };
@@ -76,6 +70,7 @@ namespace Krypton.Toolkit
             }
 
             base.Dispose();
+            GC.SuppressFinalize(this);
         }
         #endregion
 
@@ -426,21 +421,14 @@ namespace Krypton.Toolkit
         public bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt)
         {
             // Do we have a current target we can ask?
-            if (_target != null)
-            {
-                return _target.DoesStackedClientMouseDownBecomeCurrent(pt);
-            }
-            else
-            {
-                return true;
-            }
+            return _target != null ? _target.DoesStackedClientMouseDownBecomeCurrent(pt) : true;
         }
         #endregion
 
         #region Implementation
         private TargetList ConstructKeyboardTargets(ViewBase root)
         {
-            TargetList targets = new TargetList();
+            TargetList targets = new();
             FindKeyboardTargets(root, targets);
             return targets;
         }

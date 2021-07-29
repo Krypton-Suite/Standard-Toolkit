@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -89,7 +85,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Staring color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageMarginGradientBegin
         {
             get => InternalKCT.InternalImageMarginGradientBegin;
@@ -117,7 +113,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Ending color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageMarginGradientEnd
         {
             get => InternalKCT.InternalImageMarginGradientEnd;
@@ -145,7 +141,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Middle color color of the gradient used in the image margin of a ToolStripDropDownMenu.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageMarginGradientMiddle
         {
             get => InternalKCT.InternalImageMarginGradientMiddle;
@@ -173,7 +169,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Starting color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageMarginRevealedGradientBegin
         {
             get => InternalKCT.InternalImageMarginRevealedGradientBegin;
@@ -201,7 +197,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Ending color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageMarginRevealedGradientEnd
         {
             get => InternalKCT.InternalImageMarginRevealedGradientEnd;
@@ -229,7 +225,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Middle color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color ImageMarginRevealedGradientMiddle
         {
             get => InternalKCT.InternalImageMarginRevealedGradientMiddle;
@@ -257,7 +253,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Color that is the border color to use on a MenuStrip.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color MenuBorder
         {
             get => InternalKCT.InternalMenuBorder;
@@ -285,7 +281,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Color to draw text for individual a ToolStripMenuItem.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color MenuItemText
         {
             get => InternalKCT.InternalMenuItemText;
@@ -313,7 +309,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Border color to use with a ToolStripMenuItem.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color MenuItemBorder
         {
             get => InternalKCT.InternalMenuItemBorder;
@@ -341,7 +337,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Starting color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color MenuItemPressedGradientBegin
         {
             get => InternalKCT.InternalMenuItemPressedGradientBegin;
@@ -369,7 +365,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Ending color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color MenuItemPressedGradientEnd
         {
             get => InternalKCT.InternalMenuItemPressedGradientEnd;
@@ -397,7 +393,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Middle color of the gradient used when a top-level ToolStripMenuItem is pressed.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color MenuItemPressedGradientMiddle
         {
             get => InternalKCT.InternalMenuItemPressedGradientMiddle;
@@ -425,7 +421,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Solid color to use when a ToolStripMenuItem other than the top-level ToolStripMenuItem is selected.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color MenuItemSelected
         {
             get => InternalKCT.InternalMenuItemSelected;
@@ -453,7 +449,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Starting color of the gradient used when the ToolStripMenuItem is selected.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color MenuItemSelectedGradientBegin
         {
             get => InternalKCT.InternalMenuItemSelectedGradientBegin;
@@ -481,7 +477,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Ending color of the gradient used when the ToolStripMenuItem is selected.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         public Color MenuItemSelectedGradientEnd
         {
             get => InternalKCT.InternalMenuItemSelectedGradientEnd;

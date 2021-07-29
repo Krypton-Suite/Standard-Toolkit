@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -149,7 +141,7 @@ namespace Krypton.Toolkit
             _headingRecent = new KryptonContextMenuHeading("Recent Colors");
             _colorsRecent = new KryptonContextMenuColorColumns(ColorScheme.None);
             _separatorNoColor = new KryptonContextMenuSeparator();
-            _itemNoColor = new KryptonContextMenuItem("&No Color", Properties.Resources.ButtonNoColor, OnClickNoColor);
+            _itemNoColor = new KryptonContextMenuItem("&No Color", Resources.ButtonNoColor, OnClickNoColor);
             _itemsNoColor = new KryptonContextMenuItems();
             _itemsNoColor.Items.Add(_itemNoColor);
             _separatorMoreColors = new KryptonContextMenuSeparator();
@@ -286,7 +278,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override ContextMenuStrip ContextMenuStrip
         {
-            get { return null; }
+            get => null;
             set { }
         }
 
@@ -298,7 +290,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override KryptonContextMenu KryptonContextMenu
         {
-            get { return null; }
+            get => null;
             set { }
         }
 
@@ -489,39 +481,26 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (_drawButton.DropDownOrientation)
+                return _drawButton.DropDownOrientation switch
                 {
-                    default:
-                    case VisualOrientation.Top:
-                        return VisualOrientation.Bottom;
-                    case VisualOrientation.Bottom:
-                        return VisualOrientation.Top;
-                    case VisualOrientation.Left:
-                        return VisualOrientation.Right;
-                    case VisualOrientation.Right:
-                        return VisualOrientation.Left;
-                }
+                    VisualOrientation.Top => VisualOrientation.Bottom,
+                    VisualOrientation.Bottom => VisualOrientation.Top,
+                    VisualOrientation.Left => VisualOrientation.Right,
+                    VisualOrientation.Right => VisualOrientation.Left,
+                    _ => VisualOrientation.Bottom
+                };
             }
 
             set
             {
-                VisualOrientation converted;
-                switch (value)
+                VisualOrientation converted = value switch
                 {
-                    default:
-                    case VisualOrientation.Bottom:
-                        converted = VisualOrientation.Top;
-                        break;
-                    case VisualOrientation.Top:
-                        converted = VisualOrientation.Bottom;
-                        break;
-                    case VisualOrientation.Right:
-                        converted = VisualOrientation.Left;
-                        break;
-                    case VisualOrientation.Left:
-                        converted = VisualOrientation.Right;
-                        break;
-                }
+                    VisualOrientation.Bottom => VisualOrientation.Top,
+                    VisualOrientation.Top => VisualOrientation.Bottom,
+                    VisualOrientation.Right => VisualOrientation.Left,
+                    VisualOrientation.Left => VisualOrientation.Right,
+                    _ => VisualOrientation.Top
+                };
 
                 if (_drawButton.DropDownOrientation != converted)
                 {
@@ -882,7 +861,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(90, 25);
+        protected override Size DefaultSize => new(90, 25);
 
         /// <summary>
         /// Gets the default Input Method Editor (IME) mode supported by this control.
@@ -1103,7 +1082,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Set of color button values.</returns>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected virtual ColorButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ColorButtonValues(needPaint);
+        protected virtual ColorButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new(needPaint);
 
         /// <summary>
         /// Gets access to the view element for the color button.
@@ -1161,7 +1140,7 @@ namespace Krypton.Toolkit
             }
 
             // Package up the context menu and positioning values we will use later
-            ContextPositionMenuArgs cpma = new ContextPositionMenuArgs(null,
+            ContextPositionMenuArgs cpma = new(null,
                                                                        _kryptonContextMenu,
                                                                        GetPositionH(),
                                                                        GetPositionV());
@@ -1223,32 +1202,26 @@ namespace Krypton.Toolkit
 
         private KryptonContextMenuPositionH GetPositionH()
         {
-            switch (DropDownOrientation)
+            return DropDownOrientation switch
             {
-                default:
-                case VisualOrientation.Bottom:
-                case VisualOrientation.Top:
-                    return KryptonContextMenuPositionH.Left;
-                case VisualOrientation.Left:
-                    return KryptonContextMenuPositionH.Before;
-                case VisualOrientation.Right:
-                    return KryptonContextMenuPositionH.After;
-            }
+                //VisualOrientation.Bottom => KryptonContextMenuPositionH.Left,
+                //VisualOrientation.Top => KryptonContextMenuPositionH.Left,
+                VisualOrientation.Left => KryptonContextMenuPositionH.Before,
+                VisualOrientation.Right => KryptonContextMenuPositionH.After,
+                _ => KryptonContextMenuPositionH.Left
+            };
         }
 
         private KryptonContextMenuPositionV GetPositionV()
         {
-            switch (DropDownOrientation)
+            return DropDownOrientation switch
             {
-                default:
-                case VisualOrientation.Bottom:
-                    return KryptonContextMenuPositionV.Below;
-                case VisualOrientation.Top:
-                    return KryptonContextMenuPositionV.Above;
-                case VisualOrientation.Left:
-                case VisualOrientation.Right:
-                    return KryptonContextMenuPositionV.Top;
-            }
+                //VisualOrientation.Bottom => KryptonContextMenuPositionV.Below,
+                VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+                VisualOrientation.Left => KryptonContextMenuPositionV.Top,
+                VisualOrientation.Right => KryptonContextMenuPositionV.Top,
+                _ => KryptonContextMenuPositionV.Below
+            };
         }
 
         private void OnContextMenuClosed(object sender, EventArgs e) => ContextMenuClosed();
@@ -1438,14 +1411,14 @@ namespace Krypton.Toolkit
         private void OnClickMoreColors(object sender, EventArgs e)
         {
             // Give user a chance to cancel showing the standard more colors dialog
-            CancelEventArgs cea = new CancelEventArgs();
+            CancelEventArgs cea = new();
             OnMoreColors(cea);
 
             // If not instructed to cancel then...
             if (!cea.Cancel)
             {
                 // Use a standard color dialog for the selection of custom colors
-                ColorDialog cd = new ColorDialog
+                ColorDialog cd = new()
                 {
                     Color = SelectedColor,
                     FullOpen = true

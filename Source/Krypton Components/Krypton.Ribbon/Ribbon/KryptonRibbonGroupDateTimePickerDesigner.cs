@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -63,34 +53,31 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonDateTimePicker = (KryptonRibbonGroupDateTimePicker)component;
-            _ribbonDateTimePicker.DateTimePickerDesigner = this;
+            _ribbonDateTimePicker = component as KryptonRibbonGroupDateTimePicker;
+            if (_ribbonDateTimePicker != null)
+            {
+                _ribbonDateTimePicker.DateTimePickerDesigner = this;
 
-            // Update designer properties with actual starting values
-            Visible = _ribbonDateTimePicker.Visible;
-            Enabled = _ribbonDateTimePicker.Enabled;
+                // Update designer properties with actual starting values
+                Visible = _ribbonDateTimePicker.Visible;
+                Enabled = _ribbonDateTimePicker.Enabled;
 
-            // Update visible/enabled to always be showing/enabled at design time
-            _ribbonDateTimePicker.Visible = true;
-            _ribbonDateTimePicker.Enabled = true;
+                // Update visible/enabled to always be showing/enabled at design time
+                _ribbonDateTimePicker.Visible = true;
+                _ribbonDateTimePicker.Enabled = true;
 
-            // Tell the embedded text box it is in design mode
-            _ribbonDateTimePicker.DateTimePicker.InRibbonDesignMode = true;
+                // Tell the embedded text box it is in design mode
+                _ribbonDateTimePicker.DateTimePicker.InRibbonDesignMode = true;
 
-            // Hook into events
-            _ribbonDateTimePicker.DesignTimeContextMenu += OnContextMenu;
+                // Hook into events
+                _ribbonDateTimePicker.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -115,8 +102,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is enabled.
         /// </summary>
-        public bool DesignEnabled 
-        { 
+        public bool DesignEnabled
+        {
             get => Enabled;
             set => Enabled = value;
         }
@@ -124,7 +111,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is visible.
         /// </summary>
-        public bool DesignVisible 
+        public bool DesignVisible
         {
             get => Visible;
             set => Visible = value;
@@ -218,7 +205,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move DateTimePicker Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move DateTimePicker Last", OnMoveLast);
                 _deleteDateTimePickerVerb = new DesignerVerb("Delete DateTimePicker", OnDeleteDateTimePicker);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteDateTimePickerVerb });
             }
 

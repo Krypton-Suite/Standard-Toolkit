@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -46,7 +42,7 @@ namespace Krypton.Toolkit
             InputControlCustom3 = new KryptonPaletteInputControl(redirector, PaletteBackStyle.InputControlCustom3, PaletteBorderStyle.InputControlCustom3, PaletteContentStyle.InputControlCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectTriple redirectCommon = new PaletteRedirectTriple(redirector, InputControlCommon.StateDisabled, InputControlCommon.StateNormal, InputControlCommon.StateActive);
+            PaletteRedirectTriple redirectCommon = new(redirector, InputControlCommon.StateDisabled, InputControlCommon.StateNormal, InputControlCommon.StateActive);
 
             // Inform the input control style to use the new redirector
             InputControlStandalone.SetRedirector(redirectCommon);

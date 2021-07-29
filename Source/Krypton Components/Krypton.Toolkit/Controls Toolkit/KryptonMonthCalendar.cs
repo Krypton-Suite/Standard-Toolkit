@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -414,7 +408,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
                 }
 
                 _annualDates.Clear();
@@ -452,7 +446,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = new DateTime[0];
+                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -484,10 +478,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = new DateTime[0];
-                }
+                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
 
                 BoldedDatesList.Clear();
                 BoldedDatesList.AddRange(value);
@@ -672,7 +663,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public SelectionRange SelectionRange
         {
-            get => new SelectionRange(SelectionStart, SelectionEnd);
+            get => new(SelectionStart, SelectionEnd);
             set => SetSelectionRange(value.Start, value.End);
         }
 
@@ -1674,7 +1665,7 @@ namespace Krypton.Toolkit
 
         private void AdjustSize(ref int width, ref int height)
         {
-            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+            using (ViewLayoutContext context = new(this, Renderer))
             {
                 // Ask back/border the size it requires
                 Size backBorderSize = _drawDocker.GetNonChildSize(context);

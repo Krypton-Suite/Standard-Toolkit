@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -24,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupSeparator), "ToolboxBitmaps.KryptonRibbonGroupSeparator.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupSeparatorDesigner))]
+    [Designer(typeof(KryptonRibbonGroupSeparatorDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -63,7 +57,7 @@ namespace Krypton.Ribbon
             _visible = true;
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the visible state of the group separator.
@@ -111,9 +105,9 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override GroupItemSize ItemSizeMaximum 
+        public override GroupItemSize ItemSizeMaximum
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 
@@ -125,7 +119,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeMinimum
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 
@@ -137,7 +131,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override GroupItemSize ItemSizeCurrent
         {
-            get { return GroupItemSize.Large; }
+            get => GroupItemSize.Large;
             set { }
         }
 

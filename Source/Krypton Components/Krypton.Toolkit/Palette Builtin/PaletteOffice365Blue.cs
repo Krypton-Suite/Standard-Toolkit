@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -23,13 +19,13 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blueDropDownButton = Properties.Resources._2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources._2010BlueContextMenuSub;
-        private static readonly Image _formCloseH = Properties.Resources._2010ButtonCloseH;
-        private static readonly Image _formClose = Properties.Resources._2010ButtonClose;
-        private static readonly Image _formMax = Properties.Resources._2010ButtonMax;
-        private static readonly Image _formMin = Properties.Resources._2010ButtonMin;
-        private static readonly Image _formRestore = Properties.Resources._2010ButtonRestore;
+        private static readonly Image _blueDropDownButton = Resources._2010BlueDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Resources._2010BlueContextMenuSub;
+        private static readonly Image _formCloseH = Resources._2010ButtonCloseH;
+        private static readonly Image _formClose = Resources._2010ButtonClose;
+        private static readonly Image _formMax = Resources._2010ButtonMax;
+        private static readonly Image _formMin = Resources._2010ButtonMin;
+        private static readonly Image _formRestore = Resources._2010ButtonRestore;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(116, 150, 194),      // Tick marks
                                                                         Color.FromArgb(116, 150, 194),      // Top track
                                                                         Color.FromArgb(152, 190, 241),      // Bottom track
@@ -274,22 +270,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Properties.Resources.CB2010Blue);
+            _checkBoxList.Images.AddStrip(Resources.CB2010Blue);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Properties.Resources.Gallery2010);
-            _radioButtonArray = new Image[]{Properties.Resources.RB2010BlueD,
-                                            Properties.Resources.RB2010BlueN,
-                                            Properties.Resources.RB2010BlueT,
-                                            Properties.Resources.RB2010BlueP,
-                                            Properties.Resources.RB2010BlueDC,
-                                            Properties.Resources.RB2010BlueNC,
-                                            Properties.Resources.RB2010BlueTC,
-                                            Properties.Resources.RB2010BluePC};
+            _galleryButtonList.Images.AddStrip(Resources.Gallery2010);
+            _radioButtonArray = new Image[]{Resources.RB2010BlueD,
+                                            Resources.RB2010BlueN,
+                                            Resources.RB2010BlueT,
+                                            Resources.RB2010BlueP,
+                                            Resources.RB2010BlueDC,
+                                            Resources.RB2010BlueNC,
+                                            Resources.RB2010BlueTC,
+                                            Resources.RB2010BluePC};
         }
 
         /// <summary>
@@ -309,14 +305,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override Image GetDropDownButtonImage(PaletteState state)
         {
-            if (state != PaletteState.Disabled)
-            {
-                return _blueDropDownButton;
-            }
-            else
-            {
-                return base.GetDropDownButtonImage(state);
-            }
+            return state != PaletteState.Disabled ? _blueDropDownButton : base.GetDropDownButtonImage(state);
         }
 
         /// <summary>

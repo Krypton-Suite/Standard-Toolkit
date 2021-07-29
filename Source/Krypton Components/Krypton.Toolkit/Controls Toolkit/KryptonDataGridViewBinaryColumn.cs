@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Text;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -29,7 +21,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private static readonly Font _defaultFont = new Font("Consolas", 9.75f);
+        private static readonly Font _defaultFont = new("Consolas", 9.75f);
 
         #endregion
 
@@ -60,7 +52,7 @@ namespace Krypton.Toolkit
         /// <returns>A String that represents the current Object.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder(0x40);
+            StringBuilder builder = new(0x40);
             builder.Append("KryptonDataGridViewBinaryColumn { Name=");
             builder.Append(Name);
             builder.Append(", Index=");
@@ -120,7 +112,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if ((value != null) && !(value is KryptonDataGridViewBinaryCell))
+                if ((value != null) && value is not KryptonDataGridViewBinaryCell)
                 {
                     throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewBinaryCell");
                 }
@@ -137,13 +129,11 @@ namespace Krypton.Toolkit
         [Description("The type of the editor widget to bring up when editing a cell's content.")]
         public Type EditorType
         {
-            get
-            {
-                if (BinaryCellTemplate == null)
-                    throw new InvalidOperationException(
-                        "Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
-                return BinaryCellTemplate.EditorType;
-            }
+            get =>
+                BinaryCellTemplate == null
+                    ? throw new InvalidOperationException(
+                        "Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    : BinaryCellTemplate.EditorType;
             set
             {
                 if (BinaryCellTemplate == null)
@@ -157,9 +147,7 @@ namespace Krypton.Toolkit
                     for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
-                        KryptonDataGridViewBinaryCell dataGridViewCell =
-                            dataGridViewRow.Cells[Index] as KryptonDataGridViewBinaryCell;
-                        if (dataGridViewCell != null)
+                        if (dataGridViewRow.Cells[Index] is KryptonDataGridViewBinaryCell dataGridViewCell)
                             dataGridViewCell.SetEditorType(rowIndex, value);
                     }
 

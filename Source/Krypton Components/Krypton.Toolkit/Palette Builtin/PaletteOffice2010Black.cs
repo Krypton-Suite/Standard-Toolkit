@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -26,18 +22,18 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blackDropDownButton = Properties.Resources._2010BlackDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources._2010BlackContextMenuSub;
-        private static readonly Image _formCloseH = Properties.Resources._2010ButtonCloseH;
-        private static readonly Image _formClose = Properties.Resources._2010ButtonCloseBlack;
-        private static readonly Image _formMax = Properties.Resources._2010ButtonMaxBlack;
-        private static readonly Image _formMin = Properties.Resources._2010ButtonMinBlack;
-        private static readonly Image _formRestore = Properties.Resources._2010ButtonRestore;
-        private static readonly Image _buttonSpecPendantClose = Properties.Resources._2010ButtonMDICloseBlack;
-        private static readonly Image _buttonSpecPendantMin = Properties.Resources._2010ButtonMDIMinBlack;
-        private static readonly Image _buttonSpecPendantRestore = Properties.Resources._2010ButtonMDIRestoreBlack;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.RibbonUp2010Black;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.RibbonDown2010Black;
+        private static readonly Image _blackDropDownButton = Resources._2010BlackDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Resources._2010BlackContextMenuSub;
+        private static readonly Image _formCloseH = Resources._2010ButtonCloseH;
+        private static readonly Image _formClose = Resources._2010ButtonCloseBlack;
+        private static readonly Image _formMax = Resources._2010ButtonMaxBlack;
+        private static readonly Image _formMin = Resources._2010ButtonMinBlack;
+        private static readonly Image _formRestore = Resources._2010ButtonRestore;
+        private static readonly Image _buttonSpecPendantClose = Resources._2010ButtonMDICloseBlack;
+        private static readonly Image _buttonSpecPendantMin = Resources._2010ButtonMDIMinBlack;
+        private static readonly Image _buttonSpecPendantRestore = Resources._2010ButtonMDIRestoreBlack;
+        private static readonly Image _buttonSpecRibbonMinimize = Resources.RibbonUp2010Black;
+        private static readonly Image _buttonSpecRibbonExpand = Resources.RibbonDown2010Black;
         private static readonly Color _disabledRibbonText = Color.FromArgb(205, 205, 205);
         private static readonly Color[] _trackBarColors = { Color.FromArgb( 17,  17,  17),      // Tick marks
                                                                         Color.FromArgb( 37,  37,  37),      // Top track
@@ -284,22 +280,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Properties.Resources.CB2010Black);
+            _checkBoxList.Images.AddStrip(Resources.CB2010Black);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Properties.Resources.Gallery2010);
-            _radioButtonArray = new Image[]{Properties.Resources.RB2010BlueD,
-                                            Properties.Resources.RB2010SilverN,
-                                            Properties.Resources.RB2010BlueT,
-                                            Properties.Resources.RB2010BlueP,
-                                            Properties.Resources.RB2010BlueDC,
-                                            Properties.Resources.RB2010SilverNC,
-                                            Properties.Resources.RB2010SilverTC,
-                                            Properties.Resources.RB2010SilverPC};
+            _galleryButtonList.Images.AddStrip(Resources.Gallery2010);
+            _radioButtonArray = new Image[]{Resources.RB2010BlueD,
+                                            Resources.RB2010SilverN,
+                                            Resources.RB2010BlueT,
+                                            Resources.RB2010BlueP,
+                                            Resources.RB2010BlueDC,
+                                            Resources.RB2010SilverNC,
+                                            Resources.RB2010SilverTC,
+                                            Resources.RB2010SilverPC};
         }
 
         /// <summary>
@@ -444,14 +440,9 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorMini:
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
-                    if (state == PaletteState.NormalDefaultOverride)
-                    {
-                        return _schemeColors[(int)SchemeOfficeColors.TextButtonChecked];
-                    }
-                    else
-                    {
-                        return _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
-                    }
+                    return state == PaletteState.NormalDefaultOverride
+                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -486,14 +477,9 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorMini:
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
-                    if (state == PaletteState.NormalDefaultOverride)
-                    {
-                        return _schemeColors[(int)SchemeOfficeColors.TextButtonChecked];
-                    }
-                    else
-                    {
-                        return _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
-                    }
+                    return state == PaletteState.NormalDefaultOverride
+                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -528,14 +514,9 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorMini:
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
-                    if (state == PaletteState.NormalDefaultOverride)
-                    {
-                        return _schemeColors[(int)SchemeOfficeColors.TextButtonChecked];
-                    }
-                    else
-                    {
-                        return _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
-                    }
+                    return state == PaletteState.NormalDefaultOverride
+                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -570,14 +551,9 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ButtonNavigatorMini:
                 case PaletteContentStyle.ButtonNavigatorStack:
                 case PaletteContentStyle.ButtonNavigatorOverflow:
-                    if (state == PaletteState.NormalDefaultOverride)
-                    {
-                        return _schemeColors[(int)SchemeOfficeColors.TextButtonChecked];
-                    }
-                    else
-                    {
-                        return _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
-                    }
+                    return state == PaletteState.NormalDefaultOverride
+                        ? _schemeColors[(int)SchemeOfficeColors.TextButtonChecked]
+                        : _schemeColors[(int)SchemeOfficeColors.ButtonNavigatorText];
 
                 case PaletteContentStyle.HeaderPrimary:
                 case PaletteContentStyle.HeaderDockInactive:
@@ -601,14 +577,7 @@ namespace Krypton.Toolkit
         /// <param name="state">PaletteState for which image is required.</param>
         public override Image GetDropDownButtonImage(PaletteState state)
         {
-            if (state != PaletteState.Disabled)
-            {
-                return _blackDropDownButton;
-            }
-            else
-            {
-                return base.GetDropDownButtonImage(state);
-            }
+            return state != PaletteState.Disabled ? _blackDropDownButton : base.GetDropDownButtonImage(state);
         }
 
         /// <summary>

@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
 
-using Krypton.Toolkit.Properties;
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Media;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMethodReturnValue.Global
@@ -51,11 +41,7 @@ namespace Krypton.Toolkit
             /// <param name="helpFilePath">Value for HelpFilePath.</param>
             /// <param name="keyword">Value for Keyword</param>
             public HelpInfo(string helpFilePath = null, string keyword = null)
-#if NET35
-            : this(helpFilePath, keyword, (!string.IsNullOrEmpty(keyword) && keyword.Trim() != string.Empty) ? HelpNavigator.Topic : HelpNavigator.TableOfContents, null)
-#else
-            : this(helpFilePath, keyword, !string.IsNullOrWhiteSpace(keyword) ? HelpNavigator.Topic : HelpNavigator.TableOfContents, null)
-#endif
+            : this(helpFilePath, keyword, !MissingFrameWorkAPIs.IsNullOrWhiteSpace(keyword) ? HelpNavigator.Topic : HelpNavigator.TableOfContents, null)
             {
 
             }
@@ -176,7 +162,12 @@ namespace Krypton.Toolkit
         private readonly string _text;
         private readonly string _caption;
         private readonly MessageBoxButtons _buttons;
-        private readonly MessageBoxIcon _icon;
+        private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
+
+        #region WinForm Compatibility
+        private readonly MessageBoxIcon _messageBoxIcon;
+        #endregion
+
         private readonly MessageBoxDefaultButton _defaultButton;
         private MessageBoxOptions _options; // TODO: What is this used for ? e.g. MessageBoxOptions.RTL
         private KryptonPanel _panelMessage;
@@ -192,8 +183,11 @@ namespace Krypton.Toolkit
         private KryptonBorderEdge _borderEdge;
         private readonly HelpInfo _helpInfo;
         // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
-        private IWin32Window _showOwner;
-        private int _cornerRadius;
+        private readonly IWin32Window _showOwner;
+        private readonly float _cornerRadius;
+        private readonly int _blurRadius;
+        private readonly bool _useBlur;
+        private readonly KryptonForm _parentWindow;
         #endregion
 
         #region Identity
@@ -203,20 +197,24 @@ namespace Krypton.Toolkit
         }
 
         private KryptonMessageBox(IWin32Window showOwner, string text, string caption,
-            MessageBoxButtons buttons, MessageBoxIcon icon,
+            MessageBoxButtons buttons, KryptonMessageBoxIcon icon,
             MessageBoxDefaultButton defaultButton, MessageBoxOptions options,
-            HelpInfo helpInfo, bool? showCtrlCopy, int? cornerRadius)
+            HelpInfo helpInfo, bool? showCtrlCopy, float? cornerRadius, bool? useBlur,
+            int? blurRadius, KryptonForm parentWindow = null)
         {
             // Store incoming values
             _text = text;
             _caption = caption;
             _buttons = buttons;
-            _icon = icon;
+            _kryptonMessageBoxIcon = icon;
             _defaultButton = defaultButton;
             _options = options;
             _helpInfo = helpInfo;
             _showOwner = showOwner;
-            _cornerRadius = cornerRadius ?? -1;
+            _cornerRadius = cornerRadius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            _useBlur = useBlur ?? false;
+            _blurRadius = blurRadius ?? 0;
+            _parentWindow = parentWindow;
 
             // Create the form contents
             InitializeComponent();
@@ -232,9 +230,95 @@ namespace Krypton.Toolkit
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
 
-            // Define a corner radius, default is -1
+            // Define a corner radius, default is GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE
             StateCommon.Border.Rounding = _cornerRadius;
+
+            // Blur window
+            if (_useBlur)
+            {
+                if (showOwner is KryptonForm)
+                {
+                    _parentWindow = (KryptonForm)showOwner;
+
+                    _parentWindow.BlurValues.EnableBlur = _useBlur;
+
+                    _parentWindow.BlurValues.BlurWhenFocusLost = _useBlur;
+
+                    _parentWindow.BlurValues.Radius = Convert.ToByte(_blurRadius);
+                }
+                else if (_parentWindow != null)
+                {
+                    _parentWindow.BlurValues.EnableBlur = _useBlur;
+
+                    _parentWindow.BlurValues.BlurWhenFocusLost = _useBlur;
+
+                    _parentWindow.BlurValues.Radius = Convert.ToByte(_blurRadius);
+                }
+            }
         }
+
+        #region WinForm Compatibility
+        private KryptonMessageBox(IWin32Window showOwner, string text, string caption,
+            MessageBoxButtons buttons, MessageBoxIcon icon,
+            MessageBoxDefaultButton defaultButton, MessageBoxOptions options,
+            HelpInfo helpInfo, bool? showCtrlCopy, float? cornerRadius, bool? useBlur,
+            int? blurRadius, KryptonForm parentWindow = null)
+        {
+            // Store incoming values
+            _text = text;
+            _caption = caption;
+            _buttons = buttons;
+            _messageBoxIcon = icon;
+            _defaultButton = defaultButton;
+            _options = options;
+            _helpInfo = helpInfo;
+            _showOwner = showOwner;
+            _cornerRadius = cornerRadius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            _useBlur = useBlur ?? false;
+            _blurRadius = blurRadius ?? 0;
+            _parentWindow = parentWindow;
+
+            // Create the form contents
+            InitializeComponent();
+
+            // Update contents to match requirements
+            UpdateText();
+            UpdateIcon();
+            UpdateButtons();
+            UpdateDefault();
+            UpdateHelp();
+            UpdateTextExtra(showCtrlCopy);
+
+            // Finally calculate and set form sizing
+            UpdateSizing(showOwner);
+
+            // Define a corner radius, default is GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE
+            StateCommon.Border.Rounding = _cornerRadius;
+
+            // Blur window
+            if (_useBlur)
+            {
+                if (showOwner is KryptonForm)
+                {
+                    _parentWindow = (KryptonForm)showOwner;
+
+                    _parentWindow.BlurValues.EnableBlur = _useBlur;
+
+                    _parentWindow.BlurValues.BlurWhenFocusLost = _useBlur;
+
+                    _parentWindow.BlurValues.Radius = Convert.ToByte(_blurRadius);
+                }
+                else if (_parentWindow != null)
+                {
+                    _parentWindow.BlurValues.EnableBlur = _useBlur;
+
+                    _parentWindow.BlurValues.BlurWhenFocusLost = _useBlur;
+
+                    _parentWindow.BlurValues.Radius = Convert.ToByte(_blurRadius);
+                }
+            }
+        }
+        #endregion
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -257,9 +341,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, string.Empty, MessageBoxButtons.OK, KryptonMessageBoxIcon.NONE, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box in front of the specified object and with the specified text.
@@ -267,9 +355,13 @@ namespace Krypton.Toolkit
         /// <param name="owner">Owner of the modal dialog box.</param>
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(owner, text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(IWin32Window owner, string text, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, string.Empty, MessageBoxButtons.OK, KryptonMessageBoxIcon.NONE, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with specified text and caption.
@@ -277,9 +369,13 @@ namespace Krypton.Toolkit
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption">The text to display in the title bar of the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, MessageBoxButtons.OK, KryptonMessageBoxIcon.NONE, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box in front of the specified object and with the specified text and caption.
@@ -288,9 +384,13 @@ namespace Krypton.Toolkit
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption">The text to display in the title bar of the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(owner, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(IWin32Window owner, string text, string caption, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, MessageBoxButtons.OK, KryptonMessageBoxIcon.NONE, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with specified text, caption, and buttons.
@@ -299,9 +399,13 @@ namespace Krypton.Toolkit
         /// <param name="caption">The text to display in the title bar of the message box.</param>
         /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, buttons, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, KryptonMessageBoxIcon.NONE, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box in front of the specified object and with the specified text, caption, and buttons.
@@ -311,10 +415,304 @@ namespace Krypton.Toolkit
         /// <param name="caption">The text to display in the title bar of the message box.</param>
         /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(owner, text, caption, buttons, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, KryptonMessageBoxIcon.NONE, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
+        /// <summary>
+        /// Displays a message box with specified text, caption, buttons, and icon.
+        /// </summary>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box in front of the specified object and with the specified text, caption, buttons, and icon.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, and default button.
+        /// </summary>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box in front of the specified object and with the specified text, caption, buttons, icon, and default button.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, and options.
+        /// </summary>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box in front of the specified object and with the specified text, caption, buttons, icon, default button, and options.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="displayHelpButton">Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.
+        /// </summary>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="displayHelpButton">Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file.
+        /// </summary>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file and HelpNavigator.
+        /// </summary>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
+        /// <param name="navigator">One of the System.Windows.Forms.HelpNavigator values.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file and Help keyword.
+        /// </summary>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
+        /// <param name="keyword">The Help keyword to display when the user clicks the Help button.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, keyword), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file and HelpNavigator.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
+        /// <param name="navigator">One of the System.Windows.Forms.HelpNavigator values.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file and Help keyword.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
+        /// <param name="keyword">The Help keyword to display when the user clicks the Help button.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, keyword), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
+        /// </summary>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
+        /// <param name="navigator">One of the System.Windows.Forms.HelpNavigator values.</param>
+        /// <param name="param">The numeric ID of the Help topic to display when the user clicks the Help button.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
+        /// <param name="navigator">One of the System.Windows.Forms.HelpNavigator values.</param>
+        /// <param name="param">The numeric ID of the Help topic to display when the user clicks the Help button.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+
+        #region WinForms Compatible
         /// <summary>
         /// Displays a message box with specified text, caption, buttons, and icon.
         /// </summary>
@@ -323,9 +721,13 @@ namespace Krypton.Toolkit
         /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon">One of the System.Windows.Forms.MessageBoxIcon values that specifies which icon to display in the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box in front of the specified object and with the specified text, caption, buttons, and icon.
@@ -336,9 +738,13 @@ namespace Krypton.Toolkit
         /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon">One of the System.Windows.Forms.MessageBoxIcon values that specifies which icon to display in the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(owner, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, and default button.
@@ -349,9 +755,13 @@ namespace Krypton.Toolkit
         /// <param name="icon">One of the System.Windows.Forms.MessageBoxIcon values that specifies which icon to display in the message box.</param>
         /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, buttons, icon, defaultButton, 0, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box in front of the specified object and with the specified text, caption, buttons, icon, and default button.
@@ -363,9 +773,13 @@ namespace Krypton.Toolkit
         /// <param name="icon">One of the System.Windows.Forms.MessageBoxIcon values that specifies which icon to display in the message box.</param>
         /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(owner, text, caption, buttons, icon, defaultButton, 0, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, 0, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, and options.
@@ -377,9 +791,13 @@ namespace Krypton.Toolkit
         /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box in front of the specified object and with the specified text, caption, buttons, icon, default button, and options.
@@ -393,9 +811,13 @@ namespace Krypton.Toolkit
         /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
         /// <param name="displayHelpButton">Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.
@@ -408,9 +830,13 @@ namespace Krypton.Toolkit
         /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
         /// <param name="displayHelpButton">Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, displayHelpButton ? new HelpInfo() : null, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file.
@@ -423,9 +849,13 @@ namespace Krypton.Toolkit
         /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
         /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath), showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file.
@@ -439,9 +869,13 @@ namespace Krypton.Toolkit
         /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
         /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath), showCtrlCopy, cornerRadius);
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file and HelpNavigator.
@@ -455,9 +889,13 @@ namespace Krypton.Toolkit
         /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
         /// <param name="navigator">One of the System.Windows.Forms.HelpNavigator values.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator), showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file and Help keyword.
@@ -471,9 +909,13 @@ namespace Krypton.Toolkit
         /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
         /// <param name="keyword">The Help keyword to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, keyword), showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, keyword), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file and HelpNavigator.
@@ -488,9 +930,13 @@ namespace Krypton.Toolkit
         /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
         /// <param name="navigator">One of the System.Windows.Forms.HelpNavigator values.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator), showCtrlCopy, cornerRadius);
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file and Help keyword.
@@ -505,9 +951,13 @@ namespace Krypton.Toolkit
         /// <param name="helpFilePath">The path and name of the Help file to display when the user clicks the Help button.</param>
         /// <param name="keyword">The Help keyword to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, keyword), showCtrlCopy, cornerRadius);
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, keyword), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
@@ -522,9 +972,13 @@ namespace Krypton.Toolkit
         /// <param name="navigator">One of the System.Windows.Forms.HelpNavigator values.</param>
         /// <param name="param">The numeric ID of the Help topic to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, cornerRadius);
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(null, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
@@ -540,20 +994,43 @@ namespace Krypton.Toolkit
         /// <param name="navigator">One of the System.Windows.Forms.HelpNavigator values.</param>
         /// <param name="param">The numeric ID of the Help topic to display when the user clicks the Help button.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
-        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is '-1'.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null, int? cornerRadius = -1) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, cornerRadius);
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null, float? cornerRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE, bool? useBlur = false,
+                                        int? blurRadius = 0, KryptonForm parentWindow = null) => InternalShow(owner, text, caption, buttons, icon, defaultButton, options, new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow);
+        #endregion
         #endregion
 
         #region Implementation
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         private static DialogResult InternalShow(IWin32Window owner,
                                                  string text, string caption,
                                                  MessageBoxButtons buttons,
-                                                 MessageBoxIcon icon,
+                                                 KryptonMessageBoxIcon icon,
                                                  MessageBoxDefaultButton defaultButton,
                                                  MessageBoxOptions options,
                                                  HelpInfo helpInfo, bool? showCtrlCopy,
-                                                 int? cornerRadius)
+                                                 float? cornerRadius, bool? useBlur,
+                                                 int? blurRadius, KryptonForm parentWindow = null)
         {
             // Check if trying to show a message box from a non-interactive process, this is not possible
             if (!SystemInformation.UserInteractive && ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) == 0))
@@ -581,13 +1058,76 @@ namespace Krypton.Toolkit
             }
 
             // Show message box window as a modal dialog and then dispose of it afterwards
-            using (KryptonMessageBox kmb = new KryptonMessageBox(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, cornerRadius))
+            using (KryptonMessageBox kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow))
             {
                 kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
                 return kmb.ShowDialog(showOwner);
             }
         }
+
+        #region WinForm Compatibility
+        /// <summary>
+        /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
+        /// </summary>
+        /// <param name="owner">Owner of the modal dialog box.</param>
+        /// <param name="text">The text to display in the message box.</param>
+        /// <param name="caption">The text to display in the title bar of the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="icon">One of the System.Windows.Forms.MessageBoxIcon values that specifies which icon to display in the message box.</param>
+        /// <param name="defaultButton">One of the System.Windows.Forms.MessageBoxDefaultButton values that specifies the default button for the message box.</param>
+        /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
+        /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
+        /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="cornerRadius">The corner radius of the <see cref="KryptonMessageBox"/>. Default and minimum value possible is 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE'.</param>
+        /// <param name="useBlur">Uses a blur effect on the 'parentWindow' if it is not null.</param>
+        /// <param name="blurRadius">The radius of the blur effect on the 'parentWindow' if it is enabled. By default, it is set to '0'.</param>
+        /// <param name="parentWindow">The window to utilise the blurring effect on. If not set as the default value (null), it'll override the 'owner' value.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        private static DialogResult InternalShow(IWin32Window owner,
+                                                 string text, string caption,
+                                                 MessageBoxButtons buttons,
+                                                 MessageBoxIcon icon,
+                                                 MessageBoxDefaultButton defaultButton,
+                                                 MessageBoxOptions options,
+                                                 HelpInfo helpInfo, bool? showCtrlCopy,
+                                                 float? cornerRadius, bool? useBlur,
+                                                 int? blurRadius, KryptonForm parentWindow = null)
+        {
+            // Check if trying to show a message box from a non-interactive process, this is not possible
+            if (!SystemInformation.UserInteractive && ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) == 0))
+            {
+                throw new InvalidOperationException("Cannot show modal dialog when non-interactive");
+            }
+
+            // Check if trying to show a message box from a service and the owner has been specified, this is not possible
+            if ((owner != null) && ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) != 0))
+            {
+                throw new ArgumentException(@"Cannot show message box from a service with an owner specified", nameof(options));
+            }
+
+            // Check if trying to show a message box from a service and help information is specified, this is not possible
+            if ((helpInfo != null) && ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) != 0))
+            {
+                throw new ArgumentException(@"Cannot show message box from a service with help specified", nameof(options));
+            }
+
+            IWin32Window showOwner = null;
+            if ((helpInfo != null) || ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) == 0))
+            {
+                // If do not have an owner passed in then get the active window and use that instead
+                showOwner = owner ?? FromHandle(PI.GetActiveWindow());
+            }
+
+            // Show message box window as a modal dialog and then dispose of it afterwards
+            using (KryptonMessageBox kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, cornerRadius, useBlur, blurRadius, parentWindow))
+            {
+                kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+                return kmb.ShowDialog(showOwner);
+            }
+        }
+        #endregion
 
         private void UpdateText()
         {
@@ -599,7 +1139,15 @@ namespace Krypton.Toolkit
         {
             if (!showCtrlCopy.HasValue)
             {
-                switch (_icon)
+                switch (_kryptonMessageBoxIcon)
+                {
+                    case KryptonMessageBoxIcon.ERROR:
+                    case KryptonMessageBoxIcon.EXCLAMATION:
+                        showCtrlCopy = true;
+                        break;
+                }
+
+                switch (_messageBoxIcon)
                 {
                     case MessageBoxIcon.Error:
                     case MessageBoxIcon.Exclamation:
@@ -616,9 +1164,9 @@ namespace Krypton.Toolkit
 
         private void UpdateIcon()
         {
-            switch (_icon)
+            switch (_kryptonMessageBoxIcon)
             {
-                case MessageBoxIcon.None:
+                case KryptonMessageBoxIcon.NONE:
                     _panelMessageIcon.Visible = false;
                     _panelMessageText.Left -= _messageIcon.Right;
 
@@ -629,21 +1177,87 @@ namespace Krypton.Toolkit
                     }
 
                     break;
-                case MessageBoxIcon.Question:
-                    _messageIcon.Image = Resources.help2;
+                case KryptonMessageBoxIcon.QUESTION:
+                    _messageIcon.Image = MessageBoxResources.Question;
                     SystemSounds.Question.Play();
                     break;
-                case MessageBoxIcon.Information:
-                    _messageIcon.Image = Resources.information;
+                case KryptonMessageBoxIcon.INFORMATION:
+                    _messageIcon.Image = MessageBoxResources.MBInformation;
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case KryptonMessageBoxIcon.WARNING:
+                    _messageIcon.Image = MessageBoxResources.Warning;
+                    SystemSounds.Exclamation.Play();
+                    break;
+                case KryptonMessageBoxIcon.ERROR:
+                    _messageIcon.Image = MessageBoxResources.Critical;
+                    SystemSounds.Hand.Play();
+                    break;
+                case KryptonMessageBoxIcon.ASTERISK:
+                    _messageIcon.Image = MessageBoxResources.Asterisk;
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case KryptonMessageBoxIcon.HAND:
+                    _messageIcon.Image = MessageBoxResources.Hand;
+                    SystemSounds.Hand.Play();
+                    break;
+                case KryptonMessageBoxIcon.STOP:
+                    _messageIcon.Image = MessageBoxResources.Stop;
+                    SystemSounds.Hand.Play();
+                    break;
+                case KryptonMessageBoxIcon.SHIELD:
+                    _messageIcon.Image = MessageBoxResources.UAC_Shield;
+                    break;
+                case KryptonMessageBoxIcon.WINDOWSLOGO:
+                    if (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 1)
+                    {
+                        // Use Windows 7 icon
+                        _messageIcon.Image = MessageBoxResources.Windows_7;
+                    }
+                    else if (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor >= 3)
+                    {
+                        // Use Windows 8/8.1/10 icon
+                        _messageIcon.Image = MessageBoxResources.Windows_10;
+                    }
+                    else
+                    {
+                        // Use Windows 11 icon
+
+                        // TODO: Windows 11 icon
+                    }
+                    break;
+            }
+
+            switch (_messageBoxIcon)
+            {
+                case MessageBoxIcon.None:
+                    _panelMessageIcon.Visible = false;
+                    _panelMessageText.Left -= _messageIcon.Right;
+
+                    // Windows XP and before will Beep, Vista and above do not!
+                    if (_osMajorVersion < 6)
+                    {
+                        SystemSounds.Beep.Play();
+                    }
+                    break;
+                case MessageBoxIcon.Question:
+                    _messageIcon.Image = MessageBoxResources.Question;
+                    SystemSounds.Question.Play();
+                    break;
+                case MessageBoxIcon.Error:
+                    _messageIcon.Image = MessageBoxResources.Critical;
+
                     SystemSounds.Asterisk.Play();
                     break;
                 case MessageBoxIcon.Warning:
-                    _messageIcon.Image = Resources.sign_warning;
+                    _messageIcon.Image = MessageBoxResources.Warning;
+
                     SystemSounds.Exclamation.Play();
                     break;
-                case MessageBoxIcon.Error:
-                    _messageIcon.Image = Resources.error;
-                    SystemSounds.Hand.Play();
+                case MessageBoxIcon.Information:
+                    _messageIcon.Image = MessageBoxResources.MBInformation;
+
+                    SystemSounds.Asterisk.Play();
                     break;
             }
         }
@@ -796,20 +1410,12 @@ namespace Krypton.Toolkit
                 {
                     mInfoMethod.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
                 }
-#if NET35
-                        if (string.IsNullOrEmpty(_helpInfo.HelpFilePath) || _helpInfo.HelpFilePath.Trim() == string.Empty)
-#else
-                if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
-#endif
+                if (MissingFrameWorkAPIs.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
                 {
                     return;
                 }
 
-#if NET35
-                        if (string.IsNullOrEmpty(_helpInfo.Keyword) || _helpInfo.Keyword.Trim() == string.Empty)
-#else
-                if (!string.IsNullOrWhiteSpace(_helpInfo.Keyword))
-#endif
+                if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_helpInfo.Keyword))
                 {
                     Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Keyword);
                 }
@@ -892,7 +1498,7 @@ namespace Krypton.Toolkit
 
             // Button1 is always visible
             Size button1Size = _button1.GetPreferredSize(Size.Empty);
-            Size maxButtonSize = new Size(button1Size.Width + GAP, button1Size.Height);
+            Size maxButtonSize = new(button1Size.Width + GAP, button1Size.Height);
 
             // If Button2 is visible
             if (_button2.Enabled)
@@ -970,7 +1576,7 @@ namespace Krypton.Toolkit
                 // Pressing Ctrl+C should copy message text into the clipboard
                 if ((e.Modifiers == Keys.Control) && (e.KeyCode == Keys.C))
                 {
-                    StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new();
 
                     sb.AppendLine("---------------------------");
                     sb.AppendLine(_caption);

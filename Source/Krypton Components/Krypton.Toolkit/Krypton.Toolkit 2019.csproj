@@ -1,8 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <Choose>
+        <When Condition="'$(TFMs)' == 'all'">
+            <PropertyGroup>
+                <TargetFrameworks>net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
     <PropertyGroup>
-        <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <TargetFrameworks Condition="'$(TFMs)' == 'all'">net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Toolkit</RootNamespace>
         <AssemblyName>Krypton.Toolkit</AssemblyName>
@@ -11,13 +20,44 @@
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>
+        <LangVersion>preview</LangVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>4.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>5.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+            <SpecificVersion>True</SpecificVersion>
+            <Version>6.0.0.0</Version>
+            <TreatAsUsed>True</TreatAsUsed>
+        </Reference>
+        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'" />
+        <!--TODO: Need to specify version here-->
+    </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>Krypton.Toolkit</PackageId>
-        <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the core module.</Description>
+        <PackageId>Krypton.Toolkit.Canary</PackageId>
     </PropertyGroup>
-
+    <Choose>
+        <When Condition="'$(TFMs)' == 'all'">
+            <PropertyGroup>
+                <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the core module.</Description>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <Description>An update to Component factory's krypton toolkit to support .NET Core 3.1, .NET 5, .NET 6, and .net 4.5 Framework. This is the core module.</Description>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
@@ -163,6 +203,11 @@
         </Compile>
         <Compile Update="Rendering\RenderStandard.cs">
             <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="Global\MessageBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>MessageBoxResources.resx</DependentUpon>
         </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
@@ -329,8 +374,11 @@
         <EmbeddedResource Remove="Toolkit\KryptonCheckButtonCollectionForm.resx" />
         <EmbeddedResource Remove="Toolkit\PaletteDrawBordersSelector.resx" />
     </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.1'">
-        <Reference Include="System.Design" />
+    <ItemGroup>
+      <EmbeddedResource Update="Global\MessageBoxResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
@@ -339,8 +387,20 @@
     <PropertyGroup>
         <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
-    <PropertyGroup>
-        <AssemblyVersion>6.0.2106.2</AssemblyVersion>
-        <FileVersion>6.0.2106.2</FileVersion>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <WarningLevel>5</WarningLevel>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <WarningLevel>5</WarningLevel>
+    </PropertyGroup>
+
+  <!--Handle AssemblyInfo-->
+  <PropertyGroup>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
+    <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
+    <AssemblyVersion>6.1.2108</AssemblyVersion>
+    <FileVersion>6.1.2108</FileVersion>
+  </PropertyGroup>
 </Project>

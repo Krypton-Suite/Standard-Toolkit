@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.ComponentModel;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Navigator
 {
@@ -104,7 +99,7 @@ namespace Krypton.Navigator
                 if (_headerStylePrimary != value)
                 {
                     _headerStylePrimary = value;
-                    _navigator.OnViewBuilderPropertyChanged("HeaderStylePrimary");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(HeaderStylePrimary));
                 }
             }
         }
@@ -126,7 +121,7 @@ namespace Krypton.Navigator
                 if (_headerStyleSecondary != value)
                 {
                     _headerStyleSecondary = value;
-                    _navigator.OnViewBuilderPropertyChanged("HeaderStyleSecondary");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(HeaderStyleSecondary));
                 }
             }
         }
@@ -148,7 +143,7 @@ namespace Krypton.Navigator
                 if (_headerStyleBar != value)
                 {
                     _headerStyleBar = value;
-                    _navigator.OnViewBuilderPropertyChanged("HeaderStyleBar");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(HeaderStyleBar));
                 }
             }
         }
@@ -170,7 +165,7 @@ namespace Krypton.Navigator
                 if (_headerPositionPrimary != value)
                 {
                     _headerPositionPrimary = value;
-                    _navigator.OnViewBuilderPropertyChanged("HeaderPositionPrimary");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(HeaderPositionPrimary));
                 }
             }
         }
@@ -192,7 +187,7 @@ namespace Krypton.Navigator
                 if (_headerPositionSecondary != value)
                 {
                     _headerPositionSecondary = value;
-                    _navigator.OnViewBuilderPropertyChanged("HeaderPositionSecondary");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(HeaderPositionSecondary));
                 }
             }
         }
@@ -214,7 +209,7 @@ namespace Krypton.Navigator
                 if (_headerPositionBar != value)
                 {
                     _headerPositionBar = value;
-                    _navigator.OnViewBuilderPropertyChanged("HeaderPositionBar");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(HeaderPositionBar));
                 }
             }
         }
@@ -236,7 +231,7 @@ namespace Krypton.Navigator
                 if (_headerVisiblePrimary != value)
                 {
                     _headerVisiblePrimary = value;
-                    _navigator.OnViewBuilderPropertyChanged("HeaderVisiblePrimary");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(HeaderVisiblePrimary));
                 }
             }
         }
@@ -258,7 +253,7 @@ namespace Krypton.Navigator
                 if (_headerVisibleSecondary != value)
                 {
                     _headerVisibleSecondary = value;
-                    _navigator.OnViewBuilderPropertyChanged("HeaderVisibleSecondary");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(HeaderVisibleSecondary));
                 }
             }
         }
@@ -280,7 +275,7 @@ namespace Krypton.Navigator
                 if (_headerVisibleBar != value)
                 {
                     _headerVisibleBar = value;
-                    _navigator.OnViewBuilderPropertyChanged("HeaderVisibleBar");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(HeaderVisibleBar));
                 }
             }
         }

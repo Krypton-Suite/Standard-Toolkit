@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -63,31 +53,28 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonCustomControl = (KryptonRibbonGroupCustomControl)component;
-            _ribbonCustomControl.CustomControlDesigner = this;
+            _ribbonCustomControl = component as KryptonRibbonGroupCustomControl;
+            if (_ribbonCustomControl != null)
+            {
+                _ribbonCustomControl.CustomControlDesigner = this;
 
-            // Update designer properties with actual starting values
-            Visible = _ribbonCustomControl.Visible;
-            Enabled = _ribbonCustomControl.Enabled;
+                // Update designer properties with actual starting values
+                Visible = _ribbonCustomControl.Visible;
+                Enabled = _ribbonCustomControl.Enabled;
 
-            // Update visible/enabled to always be showing/enabled at design time
-            _ribbonCustomControl.Visible = true;
-            _ribbonCustomControl.Enabled = true;
+                // Update visible/enabled to always be showing/enabled at design time
+                _ribbonCustomControl.Visible = true;
+                _ribbonCustomControl.Enabled = true;
 
-            // Hook into events
-            _ribbonCustomControl.DesignTimeContextMenu += OnContextMenu;
+                // Hook into events
+                _ribbonCustomControl.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -112,8 +99,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is enabled.
         /// </summary>
-        public bool DesignEnabled 
-        { 
+        public bool DesignEnabled
+        {
             get => Enabled;
             set => Enabled = value;
         }
@@ -121,7 +108,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is visible.
         /// </summary>
-        public bool DesignVisible 
+        public bool DesignVisible
         {
             get => Visible;
             set => Visible = value;
@@ -160,7 +147,7 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            Attribute[] attributes = new Attribute[0];
+            Attribute[] attributes = MissingFrameWorkAPIs.Array_Empty<Attribute>();
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
@@ -215,7 +202,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move Custom Control Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move Custom Control Last", OnMoveLast);
                 _deleteCustomControlVerb = new DesignerVerb("Delete Custom Control", OnDeleteCustomControl);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteCustomControlVerb });
             }
 
@@ -343,10 +330,7 @@ namespace Krypton.Ribbon
                 finally
                 {
                     // If we managed to create the transaction, then do it
-                    if (transaction != null)
-                    {
-                        transaction.Commit();
-                    }
+                    transaction?.Commit();
                 }
             }
         }

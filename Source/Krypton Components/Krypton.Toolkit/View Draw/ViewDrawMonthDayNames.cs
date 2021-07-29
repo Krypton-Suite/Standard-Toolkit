@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -111,7 +106,7 @@ namespace Krypton.Toolkit
             PaletteState state = (Enabled ? PaletteState.Normal : PaletteState.Disabled);
 
             // Layout the 7 day names
-            Rectangle layoutRect = new Rectangle(ClientLocation, _months.SizeDays);
+            Rectangle layoutRect = new(ClientLocation, _months.SizeDays);
             for (int i = 0, day=(int)_months.DisplayDayOfWeek; i < 7; i++, day++)
             {
                 // Define text to be drawn
@@ -147,7 +142,7 @@ namespace Krypton.Toolkit
             PaletteState state = (Enabled ? PaletteState.Normal : PaletteState.Disabled);
 
             // Draw the 7 day names
-            Rectangle drawRect = new Rectangle(ClientLocation, _months.SizeDays);
+            Rectangle drawRect = new(ClientLocation, _months.SizeDays);
             for(int i=0, day=(int)_months.DisplayDayOfWeek; i<7; i++, day++)
             {
                 // Draw using memento cached from the layout call

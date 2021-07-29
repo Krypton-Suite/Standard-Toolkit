@@ -2,20 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -28,7 +21,7 @@ namespace Krypton.Toolkit
         #region Static Fields
         private const string _defaultText = "Color";
         private static readonly string _defaultExtraText = string.Empty;
-        private static readonly Image _defaultImage = Properties.Resources.ButtonColorImageSmall;
+        private static readonly Image _defaultImage = Resources.ButtonColorImageSmall;
         #endregion
 
         #region Instance Fields
@@ -93,7 +86,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
             get => _image;
@@ -129,8 +122,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Label image transparent color.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
-        [KryptonDefaultColorAttribute()]
+        [RefreshProperties(RefreshProperties.All)]
+        [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
             get => _transparent;
@@ -191,7 +184,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         public string Text
         {
@@ -229,7 +222,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button extra text.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ExtraText
@@ -365,7 +358,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Create a copy of the source image
-                    Bitmap copyBitmap = new Bitmap(image);
+                    Bitmap copyBitmap = new(image);
 
                     // Paint over the image with a color indicator
                     using (Graphics g = Graphics.FromImage(copyBitmap))
@@ -376,7 +369,7 @@ namespace Krypton.Toolkit
                             // Indicate the absense of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
-                            using (Pen borderPen = new Pen(_emptyBorderColor))
+                            using (Pen borderPen = new(_emptyBorderColor))
                             {
                                 g.DrawRectangle(borderPen, new Rectangle(_selectedRect.X,
                                                                          _selectedRect.Y,
@@ -387,7 +380,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             // We have a valid selected color so draw a solid block of color
-                            using (SolidBrush colorBrush = new SolidBrush(_selectedColor))
+                            using (SolidBrush colorBrush = new(_selectedColor))
                             {
                                 g.FillRectangle(colorBrush, _selectedRect);
                             }

@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -63,34 +53,31 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonComboBox = (KryptonRibbonGroupComboBox)component;
-            _ribbonComboBox.ComboBoxDesigner = this;
+            _ribbonComboBox = component as KryptonRibbonGroupComboBox;
+            if (_ribbonComboBox != null)
+            {
+                _ribbonComboBox.ComboBoxDesigner = this;
 
-            // Update designer properties with actual starting values
-            Visible = _ribbonComboBox.Visible;
-            Enabled = _ribbonComboBox.Enabled;
+                // Update designer properties with actual starting values
+                Visible = _ribbonComboBox.Visible;
+                Enabled = _ribbonComboBox.Enabled;
 
-            // Update visible/enabled to always be showing/enabled at design time
-            _ribbonComboBox.Visible = true;
-            _ribbonComboBox.Enabled = true;
-            
-            // Tell the embedded text box it is in design mode
-            _ribbonComboBox.ComboBox.InRibbonDesignMode = true;
+                // Update visible/enabled to always be showing/enabled at design time
+                _ribbonComboBox.Visible = true;
+                _ribbonComboBox.Enabled = true;
 
-            // Hook into events
-            _ribbonComboBox.DesignTimeContextMenu += OnContextMenu;
+                // Tell the embedded text box it is in design mode
+                _ribbonComboBox.ComboBox.InRibbonDesignMode = true;
+
+                // Hook into events
+                _ribbonComboBox.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -115,8 +102,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is enabled.
         /// </summary>
-        public bool DesignEnabled 
-        { 
+        public bool DesignEnabled
+        {
             get => Enabled;
             set => Enabled = value;
         }
@@ -124,7 +111,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the object is visible.
         /// </summary>
-        public bool DesignVisible 
+        public bool DesignVisible
         {
             get => Visible;
             set => Visible = value;
@@ -218,7 +205,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move ComboBox Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move ComboBox Last", OnMoveLast);
                 _deleteComboBoxVerb = new DesignerVerb("Delete ComboBox", OnDeleteTextBox);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteComboBoxVerb });
             }
 

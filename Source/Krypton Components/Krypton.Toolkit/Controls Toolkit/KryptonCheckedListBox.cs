@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Reflection;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -117,14 +108,7 @@ namespace Krypton.Toolkit
             /// <returns>-1 if not found; otherwise index position.</returns>
             public int IndexOf(object item)
             {
-                if (item is int i)
-                {
-                    return IndexOf(i);
-                }
-                else
-                {
-                    return -1;
-                }
+                return item is int i ? IndexOf(i) : -1;
             }
 
             /// <summary>
@@ -297,12 +281,9 @@ namespace Krypton.Toolkit
             internal CheckState GetCheckedState(int index)
             {
                 bool state = InnerArrayGetState(index, _checkedItemMask);
-                if (InnerArrayGetState(index, _indeterminateItemMask))
-                {
-                    return CheckState.Indeterminate;
-                }
-
-                return state ? CheckState.Checked : CheckState.Unchecked;
+                return InnerArrayGetState(index, _indeterminateItemMask)
+                    ? CheckState.Indeterminate
+                    : state ? CheckState.Checked : CheckState.Unchecked;
             }
 
             internal void SetCheckedState(int index, CheckState value)
@@ -572,7 +553,7 @@ namespace Krypton.Toolkit
             /// </summary>
             public override DrawMode DrawMode
             {
-                get { return DrawMode.OwnerDrawVariable; }
+                get => DrawMode.OwnerDrawVariable;
                 set { }
             }
 
@@ -642,7 +623,7 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using (ViewLayoutContext context = new ViewLayoutContext(_viewManager, this, _kryptonCheckedListBox, _kryptonCheckedListBox.Renderer))
+                using (ViewLayoutContext context = new(_viewManager, this, _kryptonCheckedListBox, _kryptonCheckedListBox.Renderer))
                 {
                     ViewDrawPanel.Layout(context);
                 }
@@ -719,7 +700,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             // Find the item under the mouse
-                            Point mousePoint = new Point((int)m.LParam.ToInt64());
+                            Point mousePoint = new((int)m.LParam.ToInt64());
                             int mouseIndex = IndexFromPoint(mousePoint);
 
                             // If we have an actual item from the point
@@ -801,7 +782,7 @@ namespace Krypton.Toolkit
                                                                                         BindingFlags.NonPublic |
                                                                                         BindingFlags.GetField);
 
-                        _innerArray = pi.GetValue(Items, new object[] { });
+                        _innerArray = pi.GetValue(Items, MissingFrameWorkAPIs.Array_Empty<object>());
                     }
 
                     return _innerArray;
@@ -892,7 +873,7 @@ namespace Krypton.Toolkit
             #region Private
             private void WmPaint(ref Message m)
             {
-                PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                PI.PAINTSTRUCT ps = new();
 
                 // Do we need to BeginPaint or just take the given HDC?
                 IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
@@ -918,13 +899,13 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context = new ViewLayoutContext(this, _kryptonCheckedListBox.Renderer))
+                                using (ViewLayoutContext context = new(this, _kryptonCheckedListBox.Renderer))
                                 {
                                     context.DisplayRectangle = realRect;
                                     ViewDrawPanel.Layout(context);
                                 }
 
-                                using (RenderContext context = new RenderContext(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
+                                using (RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
                                 }
@@ -937,7 +918,7 @@ namespace Krypton.Toolkit
 
                                 if (Items.Count == 0)
                                 {
-                                    using (RenderContext context = new RenderContext(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
+                                    using (RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
                                     {
                                         ViewDrawPanel.Render(context);
                                     }
@@ -952,7 +933,7 @@ namespace Krypton.Toolkit
                             if (Items.Count == 0)
                             {
                                 using (Graphics g = Graphics.FromHdc(hdc))
-                                using (RenderContext context = new RenderContext(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
+                                using (RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
                                 }
@@ -975,7 +956,9 @@ namespace Krypton.Toolkit
 
             private void WmKeyDown(ref Message m)
             {
+#pragma warning disable IDE0066 // Convert switch statement to expression
                 switch ((int)m.WParam.ToInt64())
+#pragma warning restore IDE0066 // Convert switch statement to expression
                 {
                     case 0x21:
                     case 0x22:
@@ -1003,7 +986,7 @@ namespace Krypton.Toolkit
                     {
                         CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
                         CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
-                        ItemCheckEventArgs ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
+                        ItemCheckEventArgs ice = new(selectedIndex, newCheckValue, checkedState);
                         _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
                     }
                     _lastSelected = selectedIndex;
@@ -1033,7 +1016,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawButton _drawButton;
         private readonly InternalCheckedListBox _listBox;
         private readonly FixedContentValue _contentValues;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private ButtonStyle _style;
         private readonly IntPtr _screenDC;
         private int _lastSelectedIndex;
@@ -1530,34 +1513,17 @@ namespace Krypton.Toolkit
         /// Gets or sets the selection mode of the KryptonCheckedListBox control.
         /// </summary>
         [Category("Behavior")]
-        [Description("Indicates if the checked list box is to be single-select or not selectable.")]
+        [Description("Indicates if the checked list box is to be single-select or not selectable. (Multi## not supported)")]
         [DefaultValue(typeof(CheckedSelectionMode), "One")]
         public virtual CheckedSelectionMode SelectionMode
         {
-            get
-            {
-                switch (_listBox.SelectionMode)
-                {
-                    default:
-                    case System.Windows.Forms.SelectionMode.None:
-                        return CheckedSelectionMode.None;
-                    case System.Windows.Forms.SelectionMode.One:
-                        return CheckedSelectionMode.One;
-                }
-            }
+            get => _listBox.SelectionMode == System.Windows.Forms.SelectionMode.One
+                    ? CheckedSelectionMode.One
+                    : CheckedSelectionMode.None;
 
-            set
-            {
-                switch (value)
-                {
-                    case CheckedSelectionMode.None:
-                        _listBox.SelectionMode = System.Windows.Forms.SelectionMode.None;
-                        break;
-                    case CheckedSelectionMode.One:
-                        _listBox.SelectionMode = System.Windows.Forms.SelectionMode.One;
-                        break;
-                }
-            }
+            set => _listBox.SelectionMode = (value == CheckedSelectionMode.One)
+                    ? System.Windows.Forms.SelectionMode.One
+                    : System.Windows.Forms.SelectionMode.None;
         }
 
         /// <summary>
@@ -1581,6 +1547,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
+        // ReSharper disable once MemberCanBeProtected.Global
         public virtual ListBox.ObjectCollection Items => _listBox.Items;
 
         /// <summary>
@@ -1871,12 +1838,9 @@ namespace Krypton.Toolkit
         public CheckState GetItemCheckState(int index)
         {
             // Check index actually exists
-            if ((index < 0) || (index >= Items.Count))
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "index out of range");
-            }
-
-            return CheckedItems.GetCheckedState(index);
+            return (index < 0) || (index >= Items.Count)
+                ? throw new ArgumentOutOfRangeException(nameof(index), "index out of range")
+                : CheckedItems.GetCheckedState(index);
         }
 
         /// <summary>
@@ -1908,7 +1872,7 @@ namespace Krypton.Toolkit
             if (value != checkedState)
             {
                 // Give developers a chance to see and alter the change
-                ItemCheckEventArgs ice = new ItemCheckEventArgs(index, value, checkedState);
+                ItemCheckEventArgs ice = new(index, value, checkedState);
                 OnItemCheck(ice);
 
                 // If a change is still occuring
@@ -2063,20 +2027,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver);
-                }
-            }
-        }
+        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.
@@ -2354,7 +2305,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(120, 96);
+        protected override Size DefaultSize => new(120, 96);
 
         #endregion
 
@@ -2387,14 +2338,7 @@ namespace Krypton.Toolkit
 
         private IPaletteDouble GetDoubleState()
         {
-            if (Enabled)
-            {
-                return IsActive ? StateActive : StateNormal;
-            }
-            else
-            {
-                return StateDisabled;
-            }
+            return Enabled ? IsActive ? StateActive : StateNormal : StateDisabled;
         }
 
         private void OnListBoxDrawItem(object sender, DrawItemEventArgs e)
@@ -2482,7 +2426,7 @@ namespace Krypton.Toolkit
                         using (Graphics g = Graphics.FromHdc(_screenDC))
                         {
                             // Ask the view element to layout in given space, needs this before a render call
-                            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+                            using (ViewLayoutContext context = new(this, Renderer))
                             {
                                 context.DisplayRectangle = e.Bounds;
                                 _listBox.ViewDrawPanel.Layout(context);
@@ -2490,7 +2434,7 @@ namespace Krypton.Toolkit
                             }
 
                             // Ask the view element to actually draw
-                            using (RenderContext context = new RenderContext(this, g, e.Bounds, Renderer))
+                            using (RenderContext context = new(this, g, e.Bounds, Renderer))
                             {
                                 _listBox.ViewDrawPanel.Render(context);
                                 _layoutDocker.Render(context);
@@ -2519,7 +2463,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // Ask the view element to layout in given space, needs this before a render call
-            using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+            using (ViewLayoutContext context = new(this, Renderer))
             {
                 Size size = _layoutDocker.GetPreferredSize(context);
                 e.ItemWidth = size.Width;

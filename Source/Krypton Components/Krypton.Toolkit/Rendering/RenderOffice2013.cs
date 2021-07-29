@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -76,7 +69,7 @@ namespace Krypton.Toolkit
                                                         Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using (SolidBrush drawBrush = new SolidBrush(lightColor))
+            using (SolidBrush drawBrush = new(lightColor))
             {
                 context.Graphics.FillRectangle(drawBrush, displayRect);
             }
@@ -102,7 +95,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            KryptonOffice2013Renderer renderer = new KryptonOffice2013Renderer(colorPalette.ColorTable)
+            KryptonOffice2013Renderer renderer = new(colorPalette.ColorTable)
             {
 
                 // Seup the need to use rounded corners
@@ -133,12 +126,9 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || !(memento is MementoRibbonTabContextOffice2010))
+                if ((memento == null) || memento is not MementoRibbonTabContextOffice2010)
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonTabContextOffice2010(rect, c1, c2);
                     memento = cache;
@@ -202,12 +192,9 @@ namespace Krypton.Toolkit
                 MementoRibbonAppTab2013 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || !(memento is MementoRibbonAppTab2013))
+                if ((memento == null) || memento is not MementoRibbonAppTab2013)
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonAppTab2013(rect, baseColor1);
                     memento = cache;
@@ -317,12 +304,9 @@ namespace Krypton.Toolkit
                 MementoRibbonTabSelected2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || !(memento is MementoRibbonTabSelected2010))
+                if ((memento == null) || memento is not MementoRibbonTabSelected2010)
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonTabSelected2010(rect, c1, c2, c3, c4, c5, orientation);
                     memento = cache;
@@ -424,12 +408,9 @@ namespace Krypton.Toolkit
                 MementoRibbonTabTracking2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || !(memento is MementoRibbonTabTracking2010))
+                if ((memento == null) || memento is not MementoRibbonTabTracking2010)
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonTabTracking2010(rect, c1, c2, c3, c4, orientation);
                     memento = cache;

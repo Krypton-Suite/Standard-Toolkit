@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit.Utilities
 {
@@ -41,8 +37,8 @@ namespace Krypton.Toolkit.Utilities
         /// <param name="pal">KryptonPalette</param>
         public static void ScalePalette(Form frm, KryptonPalette pal)
         {
-            SizeF dpi = new SizeF();
-            SizeF scaleFactor = new SizeF();
+            SizeF dpi = new();
+            SizeF scaleFactor = new();
 
             // Get System Dpi setting. Note this does not handle per monitor Dpi
             // but should be the same Dpi as AutoScaleFont
@@ -160,15 +156,15 @@ namespace Krypton.Toolkit.Utilities
                 return img;
             }
 
-            Bitmap bmp = new Bitmap((int)(img.Width * scaleFactor.Width), (int)(img.Height * scaleFactor.Height), System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Bitmap bmp = new((int)(img.Width * scaleFactor.Width), (int)(img.Height * scaleFactor.Height), PixelFormat.Format32bppPArgb);
 
-            using (Bitmap tmpBmp = new Bitmap(img))
+            using (Bitmap tmpBmp = new(img))
             {
                 tmpBmp.MakeTransparent(Color.Magenta);
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
-                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.InterpolationMode = InterpolationMode.High;
                     g.DrawImage(tmpBmp, 0, 0, bmp.Width, bmp.Height);
                 }
             }

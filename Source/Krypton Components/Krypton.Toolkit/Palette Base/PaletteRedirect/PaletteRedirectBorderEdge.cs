@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -200,8 +196,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        /// <returns>Integer rounding.</returns>
-        public override int GetBorderRounding(PaletteBorderStyle style, PaletteState state)
+        /// <returns>Float rounding.</returns>
+        public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
         {
             return Target.GetBorderRounding(style, state);
         }
@@ -243,7 +239,7 @@ namespace Krypton.Toolkit
             PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackImageAlign(state) ?? Target.GetBorderImageAlign(style, state);
-        }    
+        }
         #endregion
 
         #region Implementation

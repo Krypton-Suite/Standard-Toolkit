@@ -2,17 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.Drawing;
 
 namespace Krypton.Toolkit
 {
@@ -55,320 +51,176 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used when the button is checked.
         /// </summary>
-        public override Color ButtonCheckedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonCheckedGradientEnd] == Color.Empty)
-                {
-                    return base.ButtonCheckedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonCheckedGradientEnd];
-                }
-            }
-        }
+        public override Color ButtonCheckedGradientEnd =>
+            _colors[(int)PaletteColorIndex.ButtonCheckedGradientEnd] == Color.Empty
+                ? base.ButtonCheckedGradientEnd
+                : _colors[(int)PaletteColorIndex.ButtonCheckedGradientEnd];
+
         #endregion
 
         #region ButtonCheckedGradientMiddle
         /// <summary>
         /// Gets the middle color of the gradient used when the button is checked.
         /// </summary>
-        public override Color ButtonCheckedGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonCheckedGradientMiddle] == Color.Empty)
-                {
-                    return base.ButtonCheckedGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonCheckedGradientMiddle];
-                }
-            }
-        }
+        public override Color ButtonCheckedGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ButtonCheckedGradientMiddle] == Color.Empty
+                ? base.ButtonCheckedGradientMiddle
+                : _colors[(int)PaletteColorIndex.ButtonCheckedGradientMiddle];
+
         #endregion
 
         #region ButtonCheckedHighlight
         /// <summary>
         /// Gets the solid color used when the button is checked.
         /// </summary>
-        public override Color ButtonCheckedHighlight
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonCheckedHighlight] == Color.Empty)
-                {
-                    return base.ButtonCheckedHighlight;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonCheckedHighlight];
-                }
-            }
-        }
+        public override Color ButtonCheckedHighlight =>
+            _colors[(int)PaletteColorIndex.ButtonCheckedHighlight] == Color.Empty
+                ? base.ButtonCheckedHighlight
+                : _colors[(int)PaletteColorIndex.ButtonCheckedHighlight];
+
         #endregion
 
         #region ButtonCheckedHighlightBorder
         /// <summary>
         /// Gets the border color to use with ButtonCheckedHighlight.
         /// </summary>
-        public override Color ButtonCheckedHighlightBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonCheckedHighlightBorder] == Color.Empty)
-                {
-                    return base.ButtonCheckedHighlightBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonCheckedHighlightBorder];
-                }
-            }
-        }
+        public override Color ButtonCheckedHighlightBorder =>
+            _colors[(int)PaletteColorIndex.ButtonCheckedHighlightBorder] == Color.Empty
+                ? base.ButtonCheckedHighlightBorder
+                : _colors[(int)PaletteColorIndex.ButtonCheckedHighlightBorder];
+
         #endregion
 
         #region ButtonPressedBorder
         /// <summary>
         /// Gets the border color to use with the ButtonPressedGradientBegin, ButtonPressedGradientMiddle, and ButtonPressedGradientEnd colors.
         /// </summary>
-        public override Color ButtonPressedBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedBorder] == Color.Empty)
-                {
-                    return base.ButtonPressedBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedBorder];
-                }
-            }
-        }
+        public override Color ButtonPressedBorder =>
+            _colors[(int)PaletteColorIndex.ButtonPressedBorder] == Color.Empty
+                ? base.ButtonPressedBorder
+                : _colors[(int)PaletteColorIndex.ButtonPressedBorder];
+
         #endregion
 
         #region ButtonPressedGradientBegin
         /// <summary>
         /// Gets the starting color of the gradient used when the button is pressed.
         /// </summary>
-        public override Color ButtonPressedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedGradientBegin] == Color.Empty)
-                {
-                    return base.ButtonPressedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedGradientBegin];
-                }
-            }
-        }
+        public override Color ButtonPressedGradientBegin =>
+            _colors[(int)PaletteColorIndex.ButtonPressedGradientBegin] == Color.Empty
+                ? base.ButtonPressedGradientBegin
+                : _colors[(int)PaletteColorIndex.ButtonPressedGradientBegin];
+
         #endregion
 
         #region ButtonPressedGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used when the button is pressed.
         /// </summary>
-        public override Color ButtonPressedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedGradientEnd] == Color.Empty)
-                {
-                    return base.ButtonPressedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedGradientEnd];
-                }
-            }
-        }
+        public override Color ButtonPressedGradientEnd =>
+            _colors[(int)PaletteColorIndex.ButtonPressedGradientEnd] == Color.Empty
+                ? base.ButtonPressedGradientEnd
+                : _colors[(int)PaletteColorIndex.ButtonPressedGradientEnd];
+
         #endregion
 
         #region ButtonPressedGradientMiddle
         /// <summary>
         /// Gets the middle color of the gradient used when the button is pressed.
         /// </summary>
-        public override Color ButtonPressedGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedGradientMiddle] == Color.Empty)
-                {
-                    return base.ButtonPressedGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedGradientMiddle];
-                }
-            }
-        }
+        public override Color ButtonPressedGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ButtonPressedGradientMiddle] == Color.Empty
+                ? base.ButtonPressedGradientMiddle
+                : _colors[(int)PaletteColorIndex.ButtonPressedGradientMiddle];
+
         #endregion
 
         #region ButtonPressedHighlight
         /// <summary>
         /// Gets the solid color used when the button is pressed.
         /// </summary>
-        public override Color ButtonPressedHighlight
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedHighlight] == Color.Empty)
-                {
-                    return base.ButtonPressedHighlight;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedHighlight];
-                }
-            }
-        }
+        public override Color ButtonPressedHighlight =>
+            _colors[(int)PaletteColorIndex.ButtonPressedHighlight] == Color.Empty
+                ? base.ButtonPressedHighlight
+                : _colors[(int)PaletteColorIndex.ButtonPressedHighlight];
+
         #endregion
 
         #region ButtonPressedHighlightBorder
         /// <summary>
         /// Gets the border color to use with ButtonPressedHighlight.
         /// </summary>
-        public override Color ButtonPressedHighlightBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedHighlightBorder] == Color.Empty)
-                {
-                    return base.ButtonPressedHighlightBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedHighlightBorder];
-                }
-            }
-        }
+        public override Color ButtonPressedHighlightBorder =>
+            _colors[(int)PaletteColorIndex.ButtonPressedHighlightBorder] == Color.Empty
+                ? base.ButtonPressedHighlightBorder
+                : _colors[(int)PaletteColorIndex.ButtonPressedHighlightBorder];
+
         #endregion
 
         #region ButtonSelectedBorder
         /// <summary>
         /// Gets the border color to use with the ButtonSelectedGradientBegin, ButtonSelectedGradientMiddle, and ButtonSelectedGradientEnd colors.
         /// </summary>
-        public override Color ButtonSelectedBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedBorder] == Color.Empty)
-                {
-                    return base.ButtonSelectedBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedBorder];
-                }
-            }
-        }
+        public override Color ButtonSelectedBorder =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedBorder] == Color.Empty
+                ? base.ButtonSelectedBorder
+                : _colors[(int)PaletteColorIndex.ButtonSelectedBorder];
+
         #endregion
 
         #region ButtonSelectedGradientBegin
         /// <summary>
         /// Gets the starting color of the gradient used when the button is selected.
         /// </summary>
-        public override Color ButtonSelectedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedGradientBegin] == Color.Empty)
-                {
-                    return base.ButtonSelectedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedGradientBegin];
-                }
-            }
-        }
+        public override Color ButtonSelectedGradientBegin =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedGradientBegin] == Color.Empty
+                ? base.ButtonSelectedGradientBegin
+                : _colors[(int)PaletteColorIndex.ButtonSelectedGradientBegin];
+
         #endregion
 
         #region ButtonSelectedGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used when the button is selected.
         /// </summary>
-        public override Color ButtonSelectedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedGradientEnd] == Color.Empty)
-                {
-                    return base.ButtonSelectedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedGradientEnd];
-                }
-            }
-        }
+        public override Color ButtonSelectedGradientEnd =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedGradientEnd] == Color.Empty
+                ? base.ButtonSelectedGradientEnd
+                : _colors[(int)PaletteColorIndex.ButtonSelectedGradientEnd];
+
         #endregion
 
         #region ButtonSelectedGradientMiddle
         /// <summary>
         /// Gets the middle color of the gradient used when the button is selected.
         /// </summary>
-        public override Color ButtonSelectedGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedGradientMiddle] == Color.Empty)
-                {
-                    return base.ButtonSelectedGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedGradientMiddle];
-                }
-            }
-        }
+        public override Color ButtonSelectedGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedGradientMiddle] == Color.Empty
+                ? base.ButtonSelectedGradientMiddle
+                : _colors[(int)PaletteColorIndex.ButtonSelectedGradientMiddle];
+
         #endregion
 
         #region ButtonSelectedHighlight
         /// <summary>
         /// Gets the solid color used when the button is selected.
         /// </summary>
-        public override Color ButtonSelectedHighlight
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedHighlight] == Color.Empty)
-                {
-                    return base.ButtonSelectedHighlight;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedHighlight];
-                }
-            }
-        }
+        public override Color ButtonSelectedHighlight =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedHighlight] == Color.Empty
+                ? base.ButtonSelectedHighlight
+                : _colors[(int)PaletteColorIndex.ButtonSelectedHighlight];
+
         #endregion
 
         #region ButtonSelectedHighlightBorder
         /// <summary>
         /// Gets the border color to use with ButtonSelectedHighlight.
         /// </summary>
-        public override Color ButtonSelectedHighlightBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedHighlightBorder] == Color.Empty)
-                {
-                    return base.ButtonSelectedHighlightBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedHighlightBorder];
-                }
-            }
-        }
+        public override Color ButtonSelectedHighlightBorder =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedHighlightBorder] == Color.Empty
+                ? base.ButtonSelectedHighlightBorder
+                : _colors[(int)PaletteColorIndex.ButtonSelectedHighlightBorder];
+
         #endregion
         #endregion
 
@@ -377,60 +229,33 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the solid color to use when the button is checked and gradients are being used.
         /// </summary>
-        public override Color CheckBackground
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.CheckBackground] == Color.Empty)
-                {
-                    return base.CheckBackground;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.CheckBackground];
-                }
-            }
-        }
+        public override Color CheckBackground =>
+            _colors[(int)PaletteColorIndex.CheckBackground] == Color.Empty
+                ? base.CheckBackground
+                : _colors[(int)PaletteColorIndex.CheckBackground];
+
         #endregion
 
         #region CheckPressedBackground
         /// <summary>
         /// Gets the solid color to use when the button is checked and selected and gradients are being used.
         /// </summary>
-        public override Color CheckPressedBackground
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.CheckPressedBackground] == Color.Empty)
-                {
-                    return base.CheckPressedBackground;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.CheckPressedBackground];
-                }
-            }
-        }
+        public override Color CheckPressedBackground =>
+            _colors[(int)PaletteColorIndex.CheckPressedBackground] == Color.Empty
+                ? base.CheckPressedBackground
+                : _colors[(int)PaletteColorIndex.CheckPressedBackground];
+
         #endregion
 
         #region CheckSelectedBackground
         /// <summary>
         /// Gets the solid color to use when the button is checked and selected and gradients are being used.
         /// </summary>
-        public override Color CheckSelectedBackground
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.CheckSelectedBackground] == Color.Empty)
-                {
-                    return base.CheckSelectedBackground;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.CheckSelectedBackground];
-                }
-            }
-        }
+        public override Color CheckSelectedBackground =>
+            _colors[(int)PaletteColorIndex.CheckSelectedBackground] == Color.Empty
+                ? base.CheckSelectedBackground
+                : _colors[(int)PaletteColorIndex.CheckSelectedBackground];
+
         #endregion
         #endregion
 
@@ -439,40 +264,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color to use for shadow effects on the grip (move handle).
         /// </summary>
-        public override Color GripDark
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.GripDark] == Color.Empty)
-                {
-                    return base.GripDark;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.GripDark];
-                }
-            }
-        }
+        public override Color GripDark => _colors[(int)PaletteColorIndex.GripDark] == Color.Empty ? base.GripDark : _colors[(int)PaletteColorIndex.GripDark];
+
         #endregion
 
         #region GripLight
         /// <summary>
         /// Gets the color to use for highlight effects on the grip (move handle).
         /// </summary>
-        public override Color GripLight
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.GripLight] == Color.Empty)
-                {
-                    return base.GripLight;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.GripLight];
-                }
-            }
-        }
+        public override Color GripLight => _colors[(int)PaletteColorIndex.GripLight] == Color.Empty ? base.GripLight : _colors[(int)PaletteColorIndex.GripLight];
+
         #endregion
         #endregion
 
@@ -481,120 +282,66 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the image margin of a ToolStripDropDownMenu.
         /// </summary>
-        public override Color ImageMarginGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginGradientBegin] == Color.Empty)
-                {
-                    return base.ImageMarginGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginGradientBegin];
-                }
-            }
-        }
+        public override Color ImageMarginGradientBegin =>
+            _colors[(int)PaletteColorIndex.ImageMarginGradientBegin] == Color.Empty
+                ? base.ImageMarginGradientBegin
+                : _colors[(int)PaletteColorIndex.ImageMarginGradientBegin];
+
         #endregion
 
         #region ImageMarginGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used in the image margin of a ToolStripDropDownMenu.
         /// </summary>
-        public override Color ImageMarginGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginGradientEnd] == Color.Empty)
-                {
-                    return base.ImageMarginGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginGradientEnd];
-                }
-            }
-        }
+        public override Color ImageMarginGradientEnd =>
+            _colors[(int)PaletteColorIndex.ImageMarginGradientEnd] == Color.Empty
+                ? base.ImageMarginGradientEnd
+                : _colors[(int)PaletteColorIndex.ImageMarginGradientEnd];
+
         #endregion
 
         #region ImageMarginGradientMiddle
         /// <summary>
         /// Gets the middle color of the gradient used in the image margin of a ToolStripDropDownMenu.
         /// </summary>
-        public override Color ImageMarginGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginGradientMiddle] == Color.Empty)
-                {
-                    return base.ImageMarginGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginGradientMiddle];
-                }
-            }
-        }
+        public override Color ImageMarginGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ImageMarginGradientMiddle] == Color.Empty
+                ? base.ImageMarginGradientMiddle
+                : _colors[(int)PaletteColorIndex.ImageMarginGradientMiddle];
+
         #endregion
 
         #region ImageMarginRevealedGradientBegin
         /// <summary>
         /// Gets the starting color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.
         /// </summary>
-        public override Color ImageMarginRevealedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginRevealedGradientBegin] == Color.Empty)
-                {
-                    return base.ImageMarginRevealedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientBegin];
-                }
-            }
-        }
+        public override Color ImageMarginRevealedGradientBegin =>
+            _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientBegin] == Color.Empty
+                ? base.ImageMarginRevealedGradientBegin
+                : _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientBegin];
+
         #endregion
 
         #region ImageMarginRevealedGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.
         /// </summary>
-        public override Color ImageMarginRevealedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginRevealedGradientEnd] == Color.Empty)
-                {
-                    return base.ImageMarginRevealedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientEnd];
-                }
-            }
-        }
+        public override Color ImageMarginRevealedGradientEnd =>
+            _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientEnd] == Color.Empty
+                ? base.ImageMarginRevealedGradientEnd
+                : _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientEnd];
+
         #endregion
 
         #region ImageMarginRevealedGradientMiddle
         /// <summary>
         /// Gets the middle color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.
         /// </summary>
-        public override Color ImageMarginRevealedGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginRevealedGradientMiddle] == Color.Empty)
-                {
-                    return base.ImageMarginRevealedGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientMiddle];
-                }
-            }
-        }
+        public override Color ImageMarginRevealedGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientMiddle] == Color.Empty
+                ? base.ImageMarginRevealedGradientMiddle
+                : _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientMiddle];
+
         #endregion
         #endregion
 
@@ -603,240 +350,126 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color that is the border color to use on a MenuStrip.
         /// </summary>
-        public override Color MenuBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuBorder] == Color.Empty)
-                {
-                    return base.MenuBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuBorder];
-                }
-            }
-        }
+        public override Color MenuBorder => _colors[(int)PaletteColorIndex.MenuBorder] == Color.Empty ? base.MenuBorder : _colors[(int)PaletteColorIndex.MenuBorder];
+
         #endregion
 
         #region MenuItemText
         /// <summary>
         /// Gets the color used to draw menu item text.
         /// </summary>
-        public override Color MenuItemText
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemText] == Color.Empty)
-                {
-                    return base.MenuItemText;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemText];
-                }
-            }
-        }
+        public override Color MenuItemText => _colors[(int)PaletteColorIndex.MenuItemText] == Color.Empty ? base.MenuItemText : _colors[(int)PaletteColorIndex.MenuItemText];
+
         #endregion
 
         #region MenuItemBorder
         /// <summary>
         /// Gets the border color to use with a ToolStripMenuItem.
         /// </summary>
-        public override Color MenuItemBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemBorder] == Color.Empty)
-                {
-                    return base.MenuItemBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemBorder];
-                }
-            }
-        }
+        public override Color MenuItemBorder =>
+            _colors[(int)PaletteColorIndex.MenuItemBorder] == Color.Empty
+                ? base.MenuItemBorder
+                : _colors[(int)PaletteColorIndex.MenuItemBorder];
+
         #endregion
 
         #region MenuItemPressedGradientBegin
         /// <summary>
         /// Gets the starting color of the gradient used when a top-level ToolStripMenuItem is pressed.
         /// </summary>
-        public override Color MenuItemPressedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemPressedGradientBegin] == Color.Empty)
-                {
-                    return base.MenuItemPressedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemPressedGradientBegin];
-                }
-            }
-        }
+        public override Color MenuItemPressedGradientBegin =>
+            _colors[(int)PaletteColorIndex.MenuItemPressedGradientBegin] == Color.Empty
+                ? base.MenuItemPressedGradientBegin
+                : _colors[(int)PaletteColorIndex.MenuItemPressedGradientBegin];
+
         #endregion
 
         #region MenuItemPressedGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used when a top-level ToolStripMenuItem is pressed.
         /// </summary>
-        public override Color MenuItemPressedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemPressedGradientEnd] == Color.Empty)
-                {
-                    return base.MenuItemPressedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemPressedGradientEnd];
-                }
-            }
-        }
+        public override Color MenuItemPressedGradientEnd =>
+            _colors[(int)PaletteColorIndex.MenuItemPressedGradientEnd] == Color.Empty
+                ? base.MenuItemPressedGradientEnd
+                : _colors[(int)PaletteColorIndex.MenuItemPressedGradientEnd];
+
         #endregion
 
         #region MenuItemPressedGradientMiddle
         /// <summary>
         /// Gets the middle color of the gradient used when a top-level ToolStripMenuItem is pressed.
         /// </summary>
-        public override Color MenuItemPressedGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemPressedGradientMiddle] == Color.Empty)
-                {
-                    return base.MenuItemPressedGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemPressedGradientMiddle];
-                }
-            }
-        }
+        public override Color MenuItemPressedGradientMiddle =>
+            _colors[(int)PaletteColorIndex.MenuItemPressedGradientMiddle] == Color.Empty
+                ? base.MenuItemPressedGradientMiddle
+                : _colors[(int)PaletteColorIndex.MenuItemPressedGradientMiddle];
+
         #endregion
 
         #region MenuItemSelected
         /// <summary>
         /// Gets the solid color to use when a ToolStripMenuItem other than the top-level ToolStripMenuItem is selected.
         /// </summary>
-        public override Color MenuItemSelected
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemSelected] == Color.Empty)
-                {
-                    return base.MenuItemSelected;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemSelected];
-                }
-            }
-        }
+        public override Color MenuItemSelected =>
+            _colors[(int)PaletteColorIndex.MenuItemSelected] == Color.Empty
+                ? base.MenuItemSelected
+                : _colors[(int)PaletteColorIndex.MenuItemSelected];
+
         #endregion
 
         #region MenuItemSelectedGradientBegin
         /// <summary>
         /// Gets the starting color of the gradient used when the ToolStripMenuItem is selected.
         /// </summary>
-        public override Color MenuItemSelectedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemSelectedGradientBegin] == Color.Empty)
-                {
-                    return base.MenuItemSelectedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemSelectedGradientBegin];
-                }
-            }
-        }
+        public override Color MenuItemSelectedGradientBegin =>
+            _colors[(int)PaletteColorIndex.MenuItemSelectedGradientBegin] == Color.Empty
+                ? base.MenuItemSelectedGradientBegin
+                : _colors[(int)PaletteColorIndex.MenuItemSelectedGradientBegin];
+
         #endregion
 
         #region MenuItemSelectedGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used when the ToolStripMenuItem is selected.
         /// </summary>
-        public override Color MenuItemSelectedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemSelectedGradientEnd] == Color.Empty)
-                {
-                    return base.MenuItemSelectedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemSelectedGradientEnd];
-                }
-            }
-        }
+        public override Color MenuItemSelectedGradientEnd =>
+            _colors[(int)PaletteColorIndex.MenuItemSelectedGradientEnd] == Color.Empty
+                ? base.MenuItemSelectedGradientEnd
+                : _colors[(int)PaletteColorIndex.MenuItemSelectedGradientEnd];
+
         #endregion
 
         #region MenuStripText
         /// <summary>
         /// Gets the color used to draw text on a menu strip.
         /// </summary>
-        public override Color MenuStripText
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuStripText] == Color.Empty)
-                {
-                    return base.MenuStripText;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuStripText];
-                }
-            }
-        }
+        public override Color MenuStripText =>
+            _colors[(int)PaletteColorIndex.MenuStripText] == Color.Empty
+                ? base.MenuStripText
+                : _colors[(int)PaletteColorIndex.MenuStripText];
+
         #endregion
 
         #region MenuStripGradientBegin
         /// <summary>
         /// Gets the starting color of the gradient used in the MenuStrip.
         /// </summary>
-        public override Color MenuStripGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuStripGradientBegin] == Color.Empty)
-                {
-                    return base.MenuStripGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuStripGradientBegin];
-                }
-            }
-        }
+        public override Color MenuStripGradientBegin =>
+            _colors[(int)PaletteColorIndex.MenuStripGradientBegin] == Color.Empty
+                ? base.MenuStripGradientBegin
+                : _colors[(int)PaletteColorIndex.MenuStripGradientBegin];
+
         #endregion
 
         #region MenuStripGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used in the MenuStrip.
         /// </summary>
-        public override Color MenuStripGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuStripGradientEnd] == Color.Empty)
-                {
-                    return base.MenuStripGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuStripGradientEnd];
-                }
-            }
-        }
+        public override Color MenuStripGradientEnd =>
+            _colors[(int)PaletteColorIndex.MenuStripGradientEnd] == Color.Empty
+                ? base.MenuStripGradientEnd
+                : _colors[(int)PaletteColorIndex.MenuStripGradientEnd];
+
         #endregion
         #endregion
 
@@ -845,60 +478,33 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
-        public override Color OverflowButtonGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.OverflowButtonGradientBegin] == Color.Empty)
-                {
-                    return base.OverflowButtonGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.OverflowButtonGradientBegin];
-                }
-            }
-        }
+        public override Color OverflowButtonGradientBegin =>
+            _colors[(int)PaletteColorIndex.OverflowButtonGradientBegin] == Color.Empty
+                ? base.OverflowButtonGradientBegin
+                : _colors[(int)PaletteColorIndex.OverflowButtonGradientBegin];
+
         #endregion
 
         #region OverflowButtonGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
-        public override Color OverflowButtonGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.OverflowButtonGradientEnd] == Color.Empty)
-                {
-                    return base.OverflowButtonGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.OverflowButtonGradientEnd];
-                }
-            }
-        }
+        public override Color OverflowButtonGradientEnd =>
+            _colors[(int)PaletteColorIndex.OverflowButtonGradientEnd] == Color.Empty
+                ? base.OverflowButtonGradientEnd
+                : _colors[(int)PaletteColorIndex.OverflowButtonGradientEnd];
+
         #endregion
 
         #region OverflowButtonGradientMiddle
         /// <summary>
         /// Gets the middle color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
-        public override Color OverflowButtonGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.OverflowButtonGradientMiddle] == Color.Empty)
-                {
-                    return base.OverflowButtonGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.OverflowButtonGradientMiddle];
-                }
-            }
-        }
+        public override Color OverflowButtonGradientMiddle =>
+            _colors[(int)PaletteColorIndex.OverflowButtonGradientMiddle] == Color.Empty
+                ? base.OverflowButtonGradientMiddle
+                : _colors[(int)PaletteColorIndex.OverflowButtonGradientMiddle];
+
         #endregion
         #endregion
 
@@ -907,40 +513,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripContainer.
         /// </summary>
-        public override Color RaftingContainerGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.RaftingContainerGradientBegin] == Color.Empty)
-                {
-                    return base.RaftingContainerGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.RaftingContainerGradientBegin];
-                }
-            }
-        }
+        public override Color RaftingContainerGradientBegin =>
+            _colors[(int)PaletteColorIndex.RaftingContainerGradientBegin] == Color.Empty
+                ? base.RaftingContainerGradientBegin
+                : _colors[(int)PaletteColorIndex.RaftingContainerGradientBegin];
+
         #endregion
 
         #region RaftingContainerGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripContainer.
         /// </summary>
-        public override Color RaftingContainerGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.RaftingContainerGradientEnd] == Color.Empty)
-                {
-                    return base.RaftingContainerGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.RaftingContainerGradientEnd];
-                }
-            }
-        }
+        public override Color RaftingContainerGradientEnd =>
+            _colors[(int)PaletteColorIndex.RaftingContainerGradientEnd] == Color.Empty
+                ? base.RaftingContainerGradientEnd
+                : _colors[(int)PaletteColorIndex.RaftingContainerGradientEnd];
+
         #endregion
         #endregion
 
@@ -949,40 +537,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color to use to for shadow effects on the ToolStripSeparator.
         /// </summary>
-        public override Color SeparatorDark
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.SeparatorDark] == Color.Empty)
-                {
-                    return base.SeparatorDark;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.SeparatorDark];
-                }
-            }
-        }
+        public override Color SeparatorDark =>
+            _colors[(int)PaletteColorIndex.SeparatorDark] == Color.Empty
+                ? base.SeparatorDark
+                : _colors[(int)PaletteColorIndex.SeparatorDark];
+
         #endregion
 
         #region SeparatorLight
         /// <summary>
         /// Gets the color to use to for highlight effects on the ToolStripSeparator.
         /// </summary>
-        public override Color SeparatorLight
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.SeparatorLight] == Color.Empty)
-                {
-                    return base.SeparatorLight;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.SeparatorLight];
-                }
-            }
-        }
+        public override Color SeparatorLight =>
+            _colors[(int)PaletteColorIndex.SeparatorLight] == Color.Empty
+                ? base.SeparatorLight
+                : _colors[(int)PaletteColorIndex.SeparatorLight];
+
         #endregion
         #endregion
 
@@ -991,60 +561,33 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color used to draw text on a status strip.
         /// </summary>
-        public override Color StatusStripText
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.StatusStripText] == Color.Empty)
-                {
-                    return base.StatusStripText;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.StatusStripText];
-                }
-            }
-        }
+        public override Color StatusStripText =>
+            _colors[(int)PaletteColorIndex.StatusStripText] == Color.Empty
+                ? base.StatusStripText
+                : _colors[(int)PaletteColorIndex.StatusStripText];
+
         #endregion
 
         #region StatusStripGradientBegin
         /// <summary>
         /// Gets the starting color of the gradient used on the StatusStrip.
         /// </summary>
-        public override Color StatusStripGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.StatusStripGradientBegin] == Color.Empty)
-                {
-                    return base.StatusStripGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.StatusStripGradientBegin];
-                }
-            }
-        }
+        public override Color StatusStripGradientBegin =>
+            _colors[(int)PaletteColorIndex.StatusStripGradientBegin] == Color.Empty
+                ? base.StatusStripGradientBegin
+                : _colors[(int)PaletteColorIndex.StatusStripGradientBegin];
+
         #endregion
 
         #region StatusStripGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used on the StatusStrip.
         /// </summary>
-        public override Color StatusStripGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.StatusStripGradientEnd] == Color.Empty)
-                {
-                    return base.StatusStripGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.StatusStripGradientEnd];
-                }
-            }
-        }
+        public override Color StatusStripGradientEnd =>
+            _colors[(int)PaletteColorIndex.StatusStripGradientEnd] == Color.Empty
+                ? base.StatusStripGradientEnd
+                : _colors[(int)PaletteColorIndex.StatusStripGradientEnd];
+
         #endregion
         #endregion
 
@@ -1053,200 +596,110 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color used to draw text on a tool strip.
         /// </summary>
-        public override Color ToolStripText
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripText] == Color.Empty)
-                {
-                    return base.ToolStripText;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripText];
-                }
-            }
-        }
+        public override Color ToolStripText =>
+            _colors[(int)PaletteColorIndex.ToolStripText] == Color.Empty
+                ? base.ToolStripText
+                : _colors[(int)PaletteColorIndex.ToolStripText];
+
         #endregion
 
         #region ToolStripBorder
         /// <summary>
         /// Gets the border color to use on the bottom edge of the ToolStrip.
         /// </summary>
-        public override Color ToolStripBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripBorder] == Color.Empty)
-                {
-                    return base.ToolStripBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripBorder];
-                }
-            }
-        }
+        public override Color ToolStripBorder =>
+            _colors[(int)PaletteColorIndex.ToolStripBorder] == Color.Empty
+                ? base.ToolStripBorder
+                : _colors[(int)PaletteColorIndex.ToolStripBorder];
+
         #endregion
 
         #region ToolStripContentPanelGradientBegin
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripContentPanel.
         /// </summary>
-        public override Color ToolStripContentPanelGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripContentPanelGradientBegin] == Color.Empty)
-                {
-                    return base.ToolStripContentPanelGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientBegin];
-                }
-            }
-        }
+        public override Color ToolStripContentPanelGradientBegin =>
+            _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientBegin] == Color.Empty
+                ? base.ToolStripContentPanelGradientBegin
+                : _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientBegin];
+
         #endregion
 
         #region ToolStripContentPanelGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripContentPanel.
         /// </summary>
-        public override Color ToolStripContentPanelGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripContentPanelGradientEnd] == Color.Empty)
-                {
-                    return base.ToolStripContentPanelGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientEnd];
-                }
-            }
-        }
+        public override Color ToolStripContentPanelGradientEnd =>
+            _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientEnd] == Color.Empty
+                ? base.ToolStripContentPanelGradientEnd
+                : _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientEnd];
+
         #endregion
 
         #region ToolStripDropDownBackground
         /// <summary>
         /// Gets the solid background color of the ToolStripDropDown.
         /// </summary>
-        public override Color ToolStripDropDownBackground
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripDropDownBackground] == Color.Empty)
-                {
-                    return base.ToolStripDropDownBackground;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripDropDownBackground];
-                }
-            }
-        }
+        public override Color ToolStripDropDownBackground =>
+            _colors[(int)PaletteColorIndex.ToolStripDropDownBackground] == Color.Empty
+                ? base.ToolStripDropDownBackground
+                : _colors[(int)PaletteColorIndex.ToolStripDropDownBackground];
+
         #endregion
 
         #region ToolStripGradientBegin
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStrip background.
         /// </summary>
-        public override Color ToolStripGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripGradientBegin] == Color.Empty)
-                {
-                    return base.ToolStripGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripGradientBegin];
-                }
-            }
-        }
+        public override Color ToolStripGradientBegin =>
+            _colors[(int)PaletteColorIndex.ToolStripGradientBegin] == Color.Empty
+                ? base.ToolStripGradientBegin
+                : _colors[(int)PaletteColorIndex.ToolStripGradientBegin];
+
         #endregion
 
         #region ToolStripGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStrip background.
         /// </summary>
-        public override Color ToolStripGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripGradientEnd] == Color.Empty)
-                {
-                    return base.ToolStripGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripGradientEnd];
-                }
-            }
-        }
+        public override Color ToolStripGradientEnd =>
+            _colors[(int)PaletteColorIndex.ToolStripGradientEnd] == Color.Empty
+                ? base.ToolStripGradientEnd
+                : _colors[(int)PaletteColorIndex.ToolStripGradientEnd];
+
         #endregion
 
         #region ToolStripGradientMiddle
         /// <summary>
         /// Gets the middle color of the gradient used in the ToolStrip background.
         /// </summary>
-        public override Color ToolStripGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripGradientMiddle] == Color.Empty)
-                {
-                    return base.ToolStripGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripGradientMiddle];
-                }
-            }
-        }
+        public override Color ToolStripGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ToolStripGradientMiddle] == Color.Empty
+                ? base.ToolStripGradientMiddle
+                : _colors[(int)PaletteColorIndex.ToolStripGradientMiddle];
+
         #endregion
 
         #region ToolStripPanelGradientBegin
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripPanel.
         /// </summary>
-        public override Color ToolStripPanelGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripPanelGradientBegin] == Color.Empty)
-                {
-                    return base.ToolStripPanelGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripPanelGradientBegin];
-                }
-            }
-        }
+        public override Color ToolStripPanelGradientBegin =>
+            _colors[(int)PaletteColorIndex.ToolStripPanelGradientBegin] == Color.Empty
+                ? base.ToolStripPanelGradientBegin
+                : _colors[(int)PaletteColorIndex.ToolStripPanelGradientBegin];
+
         #endregion
 
         #region ToolStripPanelGradientEnd
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripPanel.
         /// </summary>
-        public override Color ToolStripPanelGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripPanelGradientEnd] == Color.Empty)
-                {
-                    return base.ToolStripPanelGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripPanelGradientEnd];
-                }
-            }
-        }
+        public override Color ToolStripPanelGradientEnd =>
+            _colors[(int)PaletteColorIndex.ToolStripPanelGradientEnd] == Color.Empty
+                ? base.ToolStripPanelGradientEnd
+                : _colors[(int)PaletteColorIndex.ToolStripPanelGradientEnd];
+
         #endregion
         #endregion
     }

@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -187,7 +181,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Should content be drawn.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual InheritBool Draw
         {
             get => _storage?.ContentDraw ?? InheritBool.Inherit;
@@ -236,7 +230,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Should content be drawn with focus indication..")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual InheritBool DrawFocus
         {
             get => _storage?.ContentDrawFocus ?? InheritBool.Inherit;
@@ -680,7 +674,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Padding between the border and content drawing.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Padding Padding
         {
             get => _storage?.ContentPadding ?? CommonHelper.InheritPadding;
@@ -763,20 +757,10 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Spacing gap between adjacent content items.")]
         [DefaultValue(-1)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual int AdjacentGap
         {
-            get
-            {
-                if (_storage == null)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return _storage.ContentAdjacentGap;
-                }
-            }
+            get => _storage == null ? -1 : _storage.ContentAdjacentGap;
 
             set
             {

@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Design;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -26,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
-    [Designer(typeof(Krypton.Ribbon.KryptonRibbonGroupGalleryDesigner))]
+    [Designer(typeof(KryptonRibbonGroupGalleryDesigner))]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -80,7 +72,7 @@ namespace Krypton.Ribbon
         [Category("Action")]
         [Description("Occurs when user invokes the drop down menu.")]
         public event EventHandler<GalleryDropMenuEventArgs> GalleryDropMenu;
-        
+
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
@@ -157,7 +149,7 @@ namespace Krypton.Ribbon
             MonitorControl(Gallery);
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Access to the actual embedded KryptonGallery instance.
@@ -187,8 +179,8 @@ namespace Krypton.Ribbon
         {
             get => Gallery.SmoothScrolling;
 
-            set 
-            { 
+            set
+            {
                 Gallery.SmoothScrolling = value;
                 OnPropertyChanged("SmoothScrolling");
             }
@@ -223,7 +215,7 @@ namespace Krypton.Ribbon
         {
             get => Gallery.SelectedIndex;
 
-            set 
+            set
             {
                 if (Gallery.SelectedIndex != value)
                 {
@@ -318,7 +310,7 @@ namespace Krypton.Ribbon
         {
             get => Gallery.DropMaxItemWidth;
 
-            set 
+            set
             {
                 if (Gallery.DropMaxItemWidth != value)
                 {
@@ -338,7 +330,7 @@ namespace Krypton.Ribbon
         {
             get => Gallery.DropMinItemWidth;
 
-            set 
+            set
             {
                 if (Gallery.DropMinItemWidth != value)
                 {
@@ -402,7 +394,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Large gallery button image.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public Image ImageLarge
         {
             get => _imageLarge;
@@ -429,7 +421,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Gallery button display text line 1.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Gallery")]
         public string TextLine1
         {
@@ -458,7 +450,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Gallery button display text line 2.")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
         {
@@ -498,7 +490,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColorAttribute()]
+        [KryptonDefaultColor()]
         [Localizable(true)]
         public Color ToolTipImageTransparentColor { get; set; }
 
@@ -575,7 +567,7 @@ namespace Krypton.Ribbon
         {
             get => _enabled;
 
-            set 
+            set
             {
                 if (_enabled != value)
                 {
@@ -623,7 +615,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override GroupItemSize ItemSizeMaximum 
+        public override GroupItemSize ItemSizeMaximum
         {
             get => _itemSizeMax;
 
@@ -667,7 +659,7 @@ namespace Krypton.Ribbon
         {
             get => _itemSizeCurrent;
 
-            set 
+            set
             {
                 _itemSizeCurrent = value;
 

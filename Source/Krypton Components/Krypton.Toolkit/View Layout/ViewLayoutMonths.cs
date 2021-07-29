@@ -2,22 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Globalization;
 
 namespace Krypton.Toolkit
 {
@@ -93,7 +85,7 @@ namespace Krypton.Toolkit
             AllowButtonSpecToolTips = false;
 
             // Use a controller that can work against all the displayed months
-            MonthCalendarController controller = new MonthCalendarController(monthCalendar, viewManager, this, _needPaintDelegate);
+            MonthCalendarController controller = new(monthCalendar, viewManager, this, _needPaintDelegate);
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
@@ -678,7 +670,7 @@ namespace Krypton.Toolkit
             if (CloseOnTodayClick && (Provider != null) && Provider.ProviderCanCloseMenu)
             {
                 // Ask the original context menu definition, if we can close
-                CancelEventArgs cea = new CancelEventArgs();
+                CancelEventArgs cea = new();
                 Provider.OnClosing(cea);
 
                 if (!cea.Cancel)
@@ -783,7 +775,7 @@ namespace Krypton.Toolkit
                     // Bring the selection into the display range
                     DateTime endMonth = _displayMonth.AddMonths(months - 1);
                     DateTime oldSelEndDate = _oldSelectionEnd.Date;
-                    DateTime oldSelEndMonth = new DateTime(oldSelEndDate.Year, oldSelEndDate.Month, 1);
+                    DateTime oldSelEndMonth = new(oldSelEndDate.Year, oldSelEndDate.Month, 1);
                     if (oldSelEndMonth >= endMonth)
                     {
                         _displayMonth = oldSelEndMonth.AddMonths(-(months - 1));
@@ -840,7 +832,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(_redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(_redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

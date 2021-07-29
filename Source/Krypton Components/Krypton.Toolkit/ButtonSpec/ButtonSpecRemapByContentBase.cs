@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -68,14 +64,7 @@ namespace Krypton.Toolkit
             Color mapColor = OverrideImageColor(state);
 
             // If a map color provided then return is
-            if ((mapColor != Color.Empty) && (PaletteContent != null))
-            {
-                return mapColor;
-            }
-            else
-            {
-                return base.GetContentImageColorMap(style, state);
-            }
+            return (mapColor != Color.Empty) && (PaletteContent != null) ? mapColor : base.GetContentImageColorMap(style, state);
         }
         #endregion
 
@@ -121,14 +110,9 @@ namespace Krypton.Toolkit
         public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state)
         {
             // Do we need to override the text color
-            if (OverrideTextColor(state) && (PaletteContent != null))
-            {
-                return PaletteContent.GetContentShortTextColor1(state);
-            }
-            else
-            {
-                return base.GetContentShortTextColor1(style, state);
-            }
+            return OverrideTextColor(state) && (PaletteContent != null)
+                ? PaletteContent.GetContentShortTextColor1(state)
+                : base.GetContentShortTextColor1(style, state);
         }
         #endregion
 
@@ -142,14 +126,9 @@ namespace Krypton.Toolkit
         public override Color GetContentLongTextColor1(PaletteContentStyle style, PaletteState state)
         {
             // Do we need to override the text color
-            if (OverrideTextColor(state) && (PaletteContent != null))
-            {
-                return PaletteContent.GetContentShortTextColor1(state);
-            }
-            else
-            {
-                return base.GetContentLongTextColor1(style, state);
-            }
+            return OverrideTextColor(state) && (PaletteContent != null)
+                ? PaletteContent.GetContentShortTextColor1(state)
+                : base.GetContentLongTextColor1(style, state);
         }
         #endregion
 

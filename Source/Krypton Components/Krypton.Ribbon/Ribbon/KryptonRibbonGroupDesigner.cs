@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -65,7 +55,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public KryptonRibbonGroupDesigner()
         {
-        }            
+        }
         #endregion
 
         #region Public
@@ -75,24 +65,21 @@ namespace Krypton.Ribbon
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
+            Debug.Assert(component != null);
+
             // Cast to correct type
-            _ribbonGroup = (KryptonRibbonGroup)component;
-            _ribbonGroup.DesignTimeAddTriple += OnAddTriple;
-            _ribbonGroup.DesignTimeAddLines += OnAddLines;
-            _ribbonGroup.DesignTimeAddSeparator += OnAddSep;
-            _ribbonGroup.DesignTimeAddGallery += OnAddGallery;
-            _ribbonGroup.DesignTimeContextMenu += OnContextMenu;
+            _ribbonGroup = component as KryptonRibbonGroup;
+            if (_ribbonGroup != null)
+            {
+                _ribbonGroup.DesignTimeAddTriple += OnAddTriple;
+                _ribbonGroup.DesignTimeAddLines += OnAddLines;
+                _ribbonGroup.DesignTimeAddSeparator += OnAddSep;
+                _ribbonGroup.DesignTimeAddGallery += OnAddGallery;
+                _ribbonGroup.DesignTimeContextMenu += OnContextMenu;
+            }
 
             // Get access to the services
             _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
@@ -110,7 +97,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new ArrayList(base.AssociatedComponents);
+                ArrayList compound = new(base.AssociatedComponents);
                 compound.AddRange(_ribbonGroup.Items);
                 return compound;
             }
@@ -176,7 +163,7 @@ namespace Krypton.Ribbon
                 _addGalleryVerb = new DesignerVerb("Add Gallery", OnAddGallery);
                 _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
                 _deleteGroupVerb = new DesignerVerb("Delete Group", OnDeleteGroup);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb, 
+                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
                                                      _addTripleVerb, _addLinesVerb, _addSepVerb, _addGalleryVerb, _clearItemsVerb, _deleteGroupVerb });
             }
 
@@ -669,7 +656,7 @@ namespace Krypton.Ribbon
                     if (tab != _ribbonGroup.RibbonTab)
                     {
                         // Create menu item for the tab
-                        ToolStripMenuItem tabMenuItem = new ToolStripMenuItem
+                        ToolStripMenuItem tabMenuItem = new()
                         {
                             Text = tab.Text,
                             Tag = tab

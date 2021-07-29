@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -40,7 +33,6 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private readonly KryptonTextBox _kryptonTextBox;
             private bool _mouseOver;
-            private string _hint;
             #endregion
 
             #region Events
@@ -146,26 +138,38 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            PI.PAINTSTRUCT ps = new PI.PAINTSTRUCT();
+                            PI.PAINTSTRUCT ps = new();
 
                             // Do we need to BeginPaint or just take the given HDC?
                             IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                             // Paint the entire area in the background color
-                            using (Graphics g = Graphics.FromHdc(hdc))
+                            using Graphics g = Graphics.FromHdc(hdc);
+                            // Grab the client area of the control
+                            PI.GetClientRect(Handle, out PI.RECT rect);
+
+
+                            // Create rect for the text area
+                            Size borderSize = SystemInformation.BorderSize;
+                            rect.left -= (borderSize.Width + 1);
+
+                            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText)
+                                && string.IsNullOrEmpty(_kryptonTextBox.Text)
+                            )
                             {
-                                // Grab the client area of the control
-                                PI.GetClientRect(Handle, out PI.RECT rect);
-
-                                // Drawn entire client area in the background color
-                                using (SolidBrush backBrush = new SolidBrush(BackColor))
+                                // Go perform the drawing of the CueHint
+                                using SolidBrush backBrush = new(BackColor);
+                                _kryptonTextBox.CueHint.PerformPaint(_kryptonTextBox, g, rect, backBrush);
+                            }
+                            else
+                            {
+                                using (SolidBrush backBrush = new(BackColor))
                                 {
-                                    g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
+                                    // Draw entire client area in the background color
+                                    g.FillRectangle(backBrush,
+                                        new Rectangle(rect.left, rect.top, rect.right - rect.left,
+                                            rect.bottom - rect.top));
                                 }
-
-                                // Create rect for the text area
-                                Size borderSize = SystemInformation.BorderSize;
-                                rect.left -= (borderSize.Width + 1);
 
                                 // If enabled then let the combo draw the text area
                                 if (_kryptonTextBox.Enabled)
@@ -187,10 +191,13 @@ namespace Krypton.Toolkit
                                     // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
                                     // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
                                     // it from the device context. Resulting in blurred text.
-                                    g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(_kryptonTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(PaletteState.Disabled));
+                                    g.TextRenderingHint =
+                                        CommonHelper.PaletteTextHintToRenderingHint(
+                                            _kryptonTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(
+                                                PaletteState.Disabled));
 
                                     // Define the string formatting requirements
-                                    StringFormat stringFormat = new StringFormat
+                                    StringFormat stringFormat = new()
                                     {
                                         Trimming = StringTrimming.None,
                                         LineAlignment = StringAlignment.Near
@@ -220,7 +227,7 @@ namespace Krypton.Toolkit
                                     }
 
                                     // Use the correct prefix setting
-                                    stringFormat.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+                                    stringFormat.HotkeyPrefix = HotkeyPrefix.None;
 
                                     // Decide on the text to draw disabled
                                     string drawString = Text;
@@ -232,21 +239,21 @@ namespace Krypton.Toolkit
                                     // Draw using a solid brush
                                     try
                                     {
-                                        using (SolidBrush foreBrush = new SolidBrush(ForeColor))
-                                        {
-                                            g.DrawString(drawString, Font, foreBrush,
-                                                         new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(ForeColor);
+                                        g.DrawString(drawString, Font, foreBrush,
+                                            new RectangleF(rect.left, rect.top, rect.right - rect.left,
+                                                rect.bottom - rect.top),
+                                            stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using (SolidBrush foreBrush = new SolidBrush(ForeColor))
-                                        {
-                                            g.DrawString(drawString, _kryptonTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
-                                                         new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(ForeColor);
+                                        g.DrawString(drawString,
+                                            _kryptonTextBox.GetTripleState().PaletteContent
+                                                .GetContentShortTextFont(PaletteState.Disabled), foreBrush,
+                                            new RectangleF(rect.left, rect.top, rect.right - rect.left,
+                                                rect.bottom - rect.top),
+                                            stringFormat);
                                     }
                                 }
 
@@ -266,7 +273,7 @@ namespace Krypton.Toolkit
                         if (_kryptonTextBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)((long)m.LParam)) == -1)
@@ -300,25 +307,6 @@ namespace Krypton.Toolkit
             /// <param name="e">An EventArgs containing the event data.</param>
             protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
             #endregion
-
-            // Cue, Tip , Watermark
-            public string Hint
-            {
-                get => _hint;
-                set
-                {
-                    _hint = value;
-#if NET35
-					if (string.IsNullOrEmpty(Text) && !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty)
-#else
-                    if (string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Hint))
-#endif
-                    {
-                        PI.SendMessage(Handle, PI.EM_SETCUEBANNER, (IntPtr)1, Hint);
-                    }
-                    Refresh();
-                }
-            }
         }
 
         #endregion
@@ -351,7 +339,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private readonly InternalTextBox _textBox;
         private InputControlStyle _inputControlStyle;
-        private Nullable<bool> _fixedActive;
+        private bool? _fixedActive;
         private bool _forcedLayout;
         private bool _autoSize;
         private bool _mouseOver;
@@ -359,7 +347,7 @@ namespace Krypton.Toolkit
         private bool _trackingMouseEnter;
         private int _cachedHeight;
         private bool _multilineStringEditor;
-        private ButtonSpecAny _editorButton;
+        private readonly ButtonSpecAny _editorButton;
         #endregion
 
         #region Events
@@ -481,6 +469,7 @@ namespace Krypton.Toolkit
             StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
+            CueHint = new PaletteCueHintText(Redirector, NeedPaintDelegate);
 
             // Create the internal text box used for containing content
             _textBox = new InternalTextBox(this);
@@ -539,7 +528,7 @@ namespace Krypton.Toolkit
             // Create the button spec for the multiline editor button.
             _editorButton = new ButtonSpecAny
             {
-                Image = Properties.Resources.SelectParentControlFlipped,
+                Image = Resources.SelectParentControlFlipped,
                 Style = PaletteButtonStyle.ButtonSpec,
                 Type = PaletteButtonSpecStyle.Generic
             };
@@ -577,37 +566,37 @@ namespace Krypton.Toolkit
 
         #region Public
         /// <summary>
+        /// Gets access to the common textbox appearance entries that other states can override.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Set a watermark/prompt message for the user.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteCueHintText CueHint { get; }
+
+        /// <summary>
         /// Gets and sets control watermark.
         /// </summary>
-        [Description("Set a watermark/prompt message for the user.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
+        [Obsolete("Deprecated - Use CueHint.CueHintText")]
         public string Hint
         {
-            get => _textBox.Hint;
+            get => CueHint.CueHintText;
             set
             {
-                _textBox.Hint = value;
+                CueHint.CueHintText = value;
 
                 // Force a repaint
                 Invalidate();
             }
         }
 
-        private bool ShouldSerializeHint()
+        private bool ShouldSerializeCueHint()
         {
-#if NET35
-			return !string.IsNullOrEmpty(Hint) && Hint.Trim() != string.Empty;
-#else
-            return !string.IsNullOrWhiteSpace(Hint);
-#endif
+            return !CueHint.IsDefault;
         }
 
-
-        /// <summary>
-        /// </summary>
-        public void ResetHint()
-        {
-            Hint = string.Empty;
-        }
 
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
@@ -1293,20 +1282,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive
-        {
-            get
-            {
-                if (_fixedActive != null)
-                {
-                    return _fixedActive.Value;
-                }
-                else
-                {
-                    return (DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver);
-                }
-            }
-        }
+        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.
@@ -1711,7 +1687,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(100, PreferredHeight);
+        protected override Size DefaultSize => new(100, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
@@ -1923,7 +1899,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -1941,7 +1917,7 @@ namespace Krypton.Toolkit
 
                         if (AllowButtonSpecToolTipPriority)
                         {
-                            _visualBasePopupToolTip?.Dispose();
+                            visualBasePopupToolTip?.Dispose();
                         }
 
                         // Create the actual tooltip popup object

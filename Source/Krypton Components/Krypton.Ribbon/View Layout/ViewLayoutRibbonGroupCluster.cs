@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -84,7 +75,7 @@ namespace Krypton.Ribbon
             _endSepVisible = false;
 
             // Create palette used to supply a width to a border edge view
-            PaletteBorderEdgeRedirect borderEdgeRedirect = new PaletteBorderEdgeRedirect(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
+            PaletteBorderEdgeRedirect borderEdgeRedirect = new(_ribbon.StateCommon.RibbonGroupClusterButton.Border, needPaint);
             _paletteBorderEdge = new PaletteBorderEdge(borderEdgeRedirect, needPaint);
             _lastShape = PaletteRibbonShape.Office2007;
 
@@ -101,7 +92,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                ViewHightlightController controller = new ViewHightlightController(this, needPaint);
+                ViewHightlightController controller = new(this, needPaint);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -512,8 +503,8 @@ namespace Krypton.Ribbon
             Add(_startSep);
 
             // Create new lookups which are up to date
-            ItemToView regenView = new ItemToView();
-            ViewToEdge regenEdge = new ViewToEdge();
+            ItemToView regenView = new();
+            ViewToEdge regenEdge = new();
 
             // Cache the first and last visible children
             ViewBase viewFirst = null;
@@ -607,11 +598,7 @@ namespace Krypton.Ribbon
                             Remove(regenEdge[item]);
                         }
 
-                        // Cast to correct type
-                        ViewDrawRibbonGroupClusterButton clusterButton = item as ViewDrawRibbonGroupClusterButton;
-                        ViewDrawRibbonGroupClusterColorButton clusterColorButton = item as ViewDrawRibbonGroupClusterColorButton;
-
-                        if (clusterButton != null)
+                        if (item is ViewDrawRibbonGroupClusterButton clusterButton)
                         {
                             clusterButton.MaxBorderEdges = maxBorders;
                             clusterButton.BorderIgnoreNormal = itemEdgeIgnoreNormal;
@@ -619,7 +606,7 @@ namespace Krypton.Ribbon
                             clusterButton.DrawNonTrackingAreas = itemDrawNonTrackingAreas;
                         }
 
-                        if (clusterColorButton != null)
+                        if (item is ViewDrawRibbonGroupClusterColorButton clusterColorButton)
                         {
                             clusterColorButton.MaxBorderEdges = maxBorders;
                             clusterColorButton.BorderIgnoreNormal = itemEdgeIgnoreNormal;

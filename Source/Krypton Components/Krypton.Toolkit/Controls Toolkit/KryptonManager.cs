@@ -2,31 +2,21 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
-
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
     /// <summary>
     /// Exposes global settings that affect all the Krypton controls.
     /// </summary>
-    [ToolboxItem(true)]
+    [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonManager), "ToolboxBitmaps.KryptonManager.bmp")]
     [Designer(typeof(KryptonManagerDesigner))]
     [DefaultProperty("GlobalPaletteMode")]
@@ -143,7 +133,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Global palette applied to drawing.")]
-        [DefaultValue(typeof(PaletteModeManager), "Office2010Blue")]
+        [DefaultValue(typeof(PaletteModeManager), "Office365Blue")]
         public PaletteModeManager GlobalPaletteMode
         {
             get => InternalGlobalPaletteMode;
@@ -199,7 +189,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeGlobalPaletteMode()
         {
-            return (GlobalPaletteMode != PaletteModeManager.Office2010Blue);
+            return (GlobalPaletteMode != PaletteModeManager.Office365Blue);
         }
 
         /// <summary>
@@ -207,7 +197,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ResetGlobalPaletteMode()
         {
-            GlobalPaletteMode = PaletteModeManager.Office2010Blue;
+            GlobalPaletteMode = PaletteModeManager.Office365Blue;
         }
 
         /// <summary>
@@ -230,7 +220,7 @@ namespace Krypton.Toolkit
                     IPalette tempPalette = InternalGlobalPalette;
 
                     // Use the new values
-                    InternalGlobalPaletteMode = (value == null) ? PaletteModeManager.Office2010Blue : PaletteModeManager.Custom;
+                    InternalGlobalPaletteMode = (value == null) ? PaletteModeManager.Office365Blue : PaletteModeManager.Custom;
                     InternalGlobalPalette = value;
 
                     // If the new value creates a circular reference
@@ -275,7 +265,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ResetGlobalPalette()
         {
-            GlobalPaletteMode = PaletteModeManager.Office2010Blue;
+            GlobalPaletteMode = PaletteModeManager.Office365Blue;
         }
 
         /// <summary>
@@ -409,7 +399,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the set of global strings.
         /// </summary>
-        public static GlobalStrings Strings { get; } = new GlobalStrings();
+        public static GlobalStrings Strings { get; } = new();
 
         #endregion
 
@@ -699,7 +689,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Internal
-        internal static PaletteModeManager InternalGlobalPaletteMode { get; private set; } = PaletteModeManager.Office2010Blue;
+        internal static PaletteModeManager InternalGlobalPaletteMode { get; private set; } = PaletteModeManager.Office365Blue;
 
         internal static IPalette InternalGlobalPalette { get; private set; } = CurrentGlobalPalette;
 

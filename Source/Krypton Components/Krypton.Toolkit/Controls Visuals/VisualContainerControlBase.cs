@@ -2,24 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
-using System.Windows.Forms;
-
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
@@ -179,7 +169,7 @@ namespace Krypton.Toolkit
         public override ContextMenuStrip ContextMenuStrip
         {
             [DebuggerStepThrough]
-            get { return base.ContextMenuStrip; }
+            get => base.ContextMenuStrip;
 
             set
             {
@@ -284,7 +274,7 @@ namespace Krypton.Toolkit
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
-            get { return _paletteMode; }
+            get => _paletteMode;
 
             set
             {
@@ -338,7 +328,7 @@ namespace Krypton.Toolkit
         public IPalette Palette
         {
             [DebuggerStepThrough]
-            get { return _localPalette; }
+            get => _localPalette;
 
             set
             {
@@ -1074,7 +1064,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)((long)m.LParam)) == -1)

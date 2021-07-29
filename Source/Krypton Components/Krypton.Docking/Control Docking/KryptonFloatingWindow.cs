@@ -2,24 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using Krypton.Toolkit;
-using Krypton.Navigator;
-using Krypton.Workspace;
 
 namespace Krypton.Docking
 {
@@ -116,11 +105,11 @@ namespace Krypton.Docking
                         if (result == PI.HT.CAPTION)
                         {
                             // Extract screen position of the mouse from the message LPARAM
-                            Point screenPos = new Point(PI.LOWORD(m.LParam),
+                            Point screenPos = new(PI.LOWORD(m.LParam),
                                                         PI.HIWORD(m.LParam));
 
                             // Find the mouse offset relative to the top left of the window
-                            Point offset = new Point(screenPos.X - Location.X, screenPos.Y - Location.Y);
+                            Point offset = new(screenPos.X - Location.X, screenPos.Y - Location.Y);
 
                             // Do not intercept message if inside the max/close buttons
                             if (!HitTestMaxButton(offset) && !HitTestCloseButton(offset))

@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -115,8 +106,8 @@ namespace Krypton.Ribbon
         private void CreateContextMenuView(RibbonAppButton appButton)
         {
             // Ask the top level collection to generate the child view elements
-            KryptonContextMenuCollection topCollection = new KryptonContextMenuCollection();
-            KryptonContextMenuItems topItems = new KryptonContextMenuItems
+            KryptonContextMenuCollection topCollection = new();
+            KryptonContextMenuItems topItems = new()
             {
                 ImageColumn = false
             };
@@ -134,7 +125,7 @@ namespace Krypton.Ribbon
             if (_ribbon.RibbonAppButton.AppButtonShowRecentDocs)
             {
                 // Create a dummy vertical menu separator for separating recent documents from menu items
-                KryptonContextMenuSeparator dummySep1 = new KryptonContextMenuSeparator
+                KryptonContextMenuSeparator dummySep1 = new()
                 {
                     Horizontal = false
                 };
@@ -142,11 +133,11 @@ namespace Krypton.Ribbon
                 _viewColumns.Add(new ViewLayoutSeparator(0, _ribbon.RibbonAppButton.AppButtonMinRecentSize.Height));
 
                 // Use a layout that draws the background color of the recent docs area
-                ViewDrawRibbonAppMenuDocs recentDocsBack = new ViewDrawRibbonAppMenuDocs(_ribbon);
+                ViewDrawRibbonAppMenuDocs recentDocsBack = new(_ribbon);
                 _viewColumns.Add(recentDocsBack);
 
                 // Stack the document entries vertically
-                ViewLayoutStack documentStack = new ViewLayoutStack(false);
+                ViewLayoutStack documentStack = new(false);
                 recentDocsBack.Add(documentStack);
 
                 // Use fixed width separator to enforce a minimum width to column
@@ -156,7 +147,7 @@ namespace Krypton.Ribbon
                 documentStack.Add(new ViewDrawRibbonRecentDocs(_ribbon));
 
                 // Followed by a horizontal separator
-                KryptonContextMenuSeparator dummySep2 = new KryptonContextMenuSeparator();
+                KryptonContextMenuSeparator dummySep2 = new();
                 documentStack.Add(new ViewDrawMenuSeparator(dummySep2, _provider.ProviderStateCommon.Separator));
                 documentStack.Add(new ViewLayoutSeparator(2));
 
@@ -177,7 +168,7 @@ namespace Krypton.Ribbon
 
         private ViewDrawCanvas CreateInsideCanvas()
         {
-            ViewDrawCanvas mainBackground = new ViewDrawCanvas(_provider.ProviderStateCommon.ControlInner.Back, _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
+            ViewDrawCanvas mainBackground = new(_provider.ProviderStateCommon.ControlInner.Back, _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
             {
                 _viewColumns
             };
@@ -280,7 +271,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Sets the reason for the context menu being closed.
         /// </summary>
-        public Nullable<ToolStripDropDownCloseReason> CloseReason => _provider.ProviderCloseReason;
+        public ToolStripDropDownCloseReason? CloseReason => _provider.ProviderCloseReason;
 
         /// <summary>
         /// Show the context menu relative to the provided screen rectangle.
@@ -290,7 +281,7 @@ namespace Krypton.Ribbon
         {
             // Find the preferred size of the context menu if it could be any size it likes
             Size preferredSize = CalculatePreferredSize();
-            Rectangle preferredRect = new Rectangle(screenRect.Location, preferredSize);
+            Rectangle preferredRect = new(screenRect.Location, preferredSize);
 
             // Get the working area of the monitor that most of the screen rectangle is inside
             Rectangle workingArea = Screen.GetWorkingArea(preferredRect);
@@ -428,7 +419,7 @@ namespace Krypton.Ribbon
         /// </summary>
         protected PaletteRedirect Redirector
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
         }
 
@@ -463,7 +454,7 @@ namespace Krypton.Ribbon
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
-            using (RenderContext context = new RenderContext(this, null, ClientRectangle, Renderer))
+            using (RenderContext context = new(this, null, ClientRectangle, Renderer))
             {
 
                 // Grab a path that is the outside edge of the border
@@ -503,7 +494,7 @@ namespace Krypton.Ribbon
             try
             {
                 // Find the preferred size which fits exactly the calculated contents size
-                using (ViewLayoutContext context = new ViewLayoutContext(this, Renderer))
+                using (ViewLayoutContext context = new(this, Renderer))
                 {
                     return ViewManager.Root.GetPreferredSize(context);
                 }

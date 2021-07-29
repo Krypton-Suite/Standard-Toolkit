@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Reflection;
-using System.Windows.Forms;
-
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
@@ -90,7 +81,7 @@ namespace Krypton.Toolkit
             _redirector = CreateRedirector();
 
             // Default properties
-            SetLabelStyle(LabelStyle.NormalControl);
+            SetLabelStyle(LabelStyle.NormalPanel);
             AutoSize = true;
             TabStop = false;
         }
@@ -249,6 +240,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Label style.")]
+        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _labelStyle;
@@ -264,9 +256,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalControl);
+        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalPanel);
 
-        private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalControl;
+        private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalPanel;
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -275,7 +267,7 @@ namespace Krypton.Toolkit
         [Description("Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get => _paletteMode;
 
             set
@@ -321,7 +313,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         public IPalette Palette
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get => _localPalette;
 
             set
@@ -414,7 +406,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IRenderer Renderer
         {
-            [System.Diagnostics.DebuggerStepThrough]
+            [DebuggerStepThrough]
             get;
             private set;
         }
@@ -627,19 +619,13 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        private PaletteRedirect CreateRedirector()
-        {
-            return new PaletteRedirect(_palette);
-        }
+        private PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
 
         /// <summary>
         /// Update the view elements based on the requested label style.
         /// </summary>
         /// <param name="style">New label style.</param>
-        private void SetLabelStyle(LabelStyle style)
-        {
-            _labelContentStyle = CommonHelper.ContentStyleFromLabelStyle(style);
-        }
+        private void SetLabelStyle(LabelStyle style) => _labelContentStyle = CommonHelper.ContentStyleFromLabelStyle(style);
 
         /// <summary>
         /// Update global event attachments.
@@ -692,7 +678,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)((long)m.LParam)) == -1)

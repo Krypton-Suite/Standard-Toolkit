@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -26,7 +22,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The supported themes
         /// </summary>
-        private static string[] _supportedThemes = new string[]
+        private static readonly string[] _supportedThemes = new string[]
         {
              "Professional - System",
 
@@ -77,7 +73,8 @@ namespace Krypton.Toolkit
         /// <value>
         /// The supported theme array.
         /// </value>
-        public static string[] SupportedThemeArray { get => _supportedThemes; }
+        public static string[] SupportedThemeArray => _supportedThemes;
+
         #endregion
 
         #region Methods
@@ -172,104 +169,68 @@ namespace Krypton.Toolkit
         /// <param name="manager">The manager.</param>
         private static void ApplyTheme(string themeName, KryptonManager manager)
         {
-            if (themeName == "Custom")
+            switch (themeName)
             {
-                ApplyTheme(PaletteModeManager.Custom, manager);
-            }
-
-            if (themeName == "Professional - System")
-            {
-                ApplyTheme(PaletteModeManager.ProfessionalSystem, manager);
-            }
-
-            if (themeName == "Professional - Office 2003")
-            {
-                ApplyTheme(PaletteModeManager.ProfessionalOffice2003, manager);
-            }
-
-            if (themeName == "Office 2007 - Blue")
-            {
-                ApplyTheme(PaletteModeManager.Office2007Blue, manager);
-            }
-
-            if (themeName == "Office 2007 - Silver")
-            {
-                ApplyTheme(PaletteModeManager.Office2007Silver, manager);
-            }
-
-            if (themeName == "Office 2007 - White")
-            {
-                ApplyTheme(PaletteModeManager.Office2007White, manager);
-            }
-
-            if (themeName == "Office 2007 - Black")
-            {
-                ApplyTheme(PaletteModeManager.Office2007Black, manager);
-            }
-
-            if (themeName == "Office 2010 - Blue")
-            {
-                ApplyTheme(PaletteModeManager.Office2010Blue, manager);
-            }
-
-            if (themeName == "Office 2010 - Silver")
-            {
-                ApplyTheme(PaletteModeManager.Office2010Silver, manager);
-            }
-
-            if (themeName == "Office 2010 - White")
-            {
-                ApplyTheme(PaletteModeManager.Office2010White, manager);
-            }
-
-            if (themeName == "Office 2010 - Black")
-            {
-                ApplyTheme(PaletteModeManager.Office2010Black, manager);
-            }
-
-            if (themeName == "Office 2013")
-            {
-                ApplyTheme(PaletteModeManager.Office2013, manager);
-            }
-
-            if (themeName == "Office 2013 - White")
-            {
-                ApplyTheme(PaletteModeManager.Office2013White, manager);
-            }
-
-            if (themeName == "Sparkle - Blue")
-            {
-                ApplyTheme(PaletteModeManager.SparkleBlue, manager);
-            }
-
-            if (themeName == "Sparkle - Orange")
-            {
-                ApplyTheme(PaletteModeManager.SparkleOrange, manager);
-            }
-
-            if (themeName == "Sparkle - Purple")
-            {
-                ApplyTheme(PaletteModeManager.SparklePurple, manager);
-            }
-
-            if (themeName == "Office 365 - Black")
-            {
-                ApplyTheme(PaletteModeManager.Office365Black, manager);
-            }
-
-            if (themeName == "Office 365 - Blue")
-            {
-                ApplyTheme(PaletteModeManager.Office365Blue, manager);
-            }
-
-            if (themeName == "Office 365 - Silver")
-            {
-                ApplyTheme(PaletteModeManager.Office365Silver, manager);
-            }
-
-            if (themeName == "Office 365 - White")
-            {
-                ApplyTheme(PaletteModeManager.Office365White, manager);
+                case "Custom":
+                    ApplyTheme(PaletteModeManager.Custom, manager);
+                    break;
+                case "Professional - System":
+                    ApplyTheme(PaletteModeManager.ProfessionalSystem, manager);
+                    break;
+                case "Professional - Office 2003":
+                    ApplyTheme(PaletteModeManager.ProfessionalOffice2003, manager);
+                    break;
+                case "Office 2007 - Blue":
+                    ApplyTheme(PaletteModeManager.Office2007Blue, manager);
+                    break;
+                case "Office 2007 - Silver":
+                    ApplyTheme(PaletteModeManager.Office2007Silver, manager);
+                    break;
+                case "Office 2007 - White":
+                    ApplyTheme(PaletteModeManager.Office2007White, manager);
+                    break;
+                case "Office 2007 - Black":
+                    ApplyTheme(PaletteModeManager.Office2007Black, manager);
+                    break;
+                case "Office 2010 - Blue":
+                    ApplyTheme(PaletteModeManager.Office2010Blue, manager);
+                    break;
+                case "Office 2010 - Silver":
+                    ApplyTheme(PaletteModeManager.Office2010Silver, manager);
+                    break;
+                case "Office 2010 - White":
+                    ApplyTheme(PaletteModeManager.Office2010White, manager);
+                    break;
+                case "Office 2010 - Black":
+                    ApplyTheme(PaletteModeManager.Office2010Black, manager);
+                    break;
+                case "Office 2013":
+                    ApplyTheme(PaletteModeManager.Office2013, manager);
+                    break;
+                case "Office 2013 - White":
+                    ApplyTheme(PaletteModeManager.Office2013White, manager);
+                    break;
+                case "Sparkle - Blue":
+                    ApplyTheme(PaletteModeManager.SparkleBlue, manager);
+                    break;
+                case "Sparkle - Orange":
+                    ApplyTheme(PaletteModeManager.SparkleOrange, manager);
+                    break;
+                case "Sparkle - Purple":
+                    ApplyTheme(PaletteModeManager.SparklePurple, manager);
+                    break;
+                case "Office 365 - Black":
+                    ApplyTheme(PaletteModeManager.Office365Black, manager);
+                    break;
+                case "Office 365 - Blue":
+                    ApplyTheme(PaletteModeManager.Office365Blue, manager);
+                    break;
+                case "Office 365 - Silver":
+                    ApplyTheme(PaletteModeManager.Office365Silver, manager);
+                    break;
+                case "Office 365 - White":
+                    ApplyTheme(PaletteModeManager.Office365White, manager);
+                    break;
             }
 
             if (string.IsNullOrEmpty(themeName))
@@ -309,207 +270,57 @@ namespace Krypton.Toolkit
 
             if (manager != null)
             {
-                if (manager.GlobalPaletteMode == PaletteModeManager.Custom)
+                result = manager.GlobalPaletteMode switch
                 {
-                    result = "Custom";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.ProfessionalSystem)
-                {
-                    result = "Professional - System";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.ProfessionalOffice2003)
-                {
-                    result = "Professional - Office 2003";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2007Blue)
-                {
-                    result = "Office 2007 - Blue";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2007Silver)
-                {
-                    result = "Office 2007 - Silver";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2007White)
-                {
-                    result = "Office 2007 - White";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2007Black)
-                {
-                    result = "Office 2007 - Black";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2010Blue)
-                {
-                    result = "Office 2010 - Blue";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2010Silver)
-                {
-                    result = "Office 2010 - Silver";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2010White)
-                {
-                    result = "Office 2010 - White";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2010Black)
-                {
-                    result = "Office 2010 - Black";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2013)
-                {
-                    result = "Office 2013";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2013White)
-                {
-                    result = "Office 2013 - White";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.SparkleBlue)
-                {
-                    result = "Sparkle - Blue";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.SparkleOrange)
-                {
-                    result = "Sparkle - Orange";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.SparklePurple)
-                {
-                    result = "Sparkle - Purple";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365Blue)
-                {
-                    result = "Office 365 - Blue";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365Silver)
-                {
-                    result = "Office 365 - Silver";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365White)
-                {
-                    result = "Office 365 - White";
-                }
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365Black)
-                {
-                    result = "Office 365 - Black";
-                }
+                    PaletteModeManager.Custom => "Custom",
+                    PaletteModeManager.ProfessionalSystem => "Professional - System",
+                    PaletteModeManager.ProfessionalOffice2003 => "Professional - Office 2003",
+                    PaletteModeManager.Office2007Blue => "Office 2007 - Blue",
+                    PaletteModeManager.Office2007Silver => "Office 2007 - Silver",
+                    PaletteModeManager.Office2007White => "Office 2007 - White",
+                    PaletteModeManager.Office2007Black => "Office 2007 - Black",
+                    PaletteModeManager.Office2010Blue => "Office 2010 - Blue",
+                    PaletteModeManager.Office2010Silver => "Office 2010 - Silver",
+                    PaletteModeManager.Office2010White => "Office 2010 - White",
+                    PaletteModeManager.Office2010Black => "Office 2010 - Black",
+                    PaletteModeManager.Office2013 => "Office 2013",
+                    PaletteModeManager.Office2013White => "Office 2013 - White",
+                    PaletteModeManager.SparkleBlue => "Sparkle - Blue",
+                    PaletteModeManager.SparkleOrange => "Sparkle - Orange",
+                    PaletteModeManager.SparklePurple => "Sparkle - Purple",
+                    PaletteModeManager.Office365Blue => "Office 365 - Blue",
+                    PaletteModeManager.Office365Silver => "Office 365 - Silver",
+                    PaletteModeManager.Office365White => "Office 365 - White",
+                    PaletteModeManager.Office365Black => "Office 365 - Black",
+                    _ => result
+                };
             }
             else
             {
-                if (paletteModeManager == PaletteModeManager.Custom)
+                result = paletteModeManager switch
                 {
-                    result = "Custom";
-                }
-
-                if (paletteModeManager == PaletteModeManager.ProfessionalSystem)
-                {
-                    result = "Professional - System";
-                }
-
-                if (paletteModeManager == PaletteModeManager.ProfessionalOffice2003)
-                {
-                    result = "Professional - Office 2003";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office2007Blue)
-                {
-                    result = "Office 2007 - Blue";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office2007Silver)
-                {
-                    result = "Office 2007 - Silver";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office2007White)
-                {
-                    result = "Office 2007 - White";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office2007Black)
-                {
-                    result = "Office 2007 - Black";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office2010Blue)
-                {
-                    result = "Office 2010 - Blue";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office2010Silver)
-                {
-                    result = "Office 2010 - Silver";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office2010White)
-                {
-                    result = "Office 2010 - White";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office2010Black)
-                {
-                    result = "Office 2010 - Black";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office2013)
-                {
-                    result = "Office 2013";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office2013White)
-                {
-                    result = "Office 2013 - White";
-                }
-
-                if (paletteModeManager == PaletteModeManager.SparkleBlue)
-                {
-                    result = "Sparkle - Blue";
-                }
-
-                if (paletteModeManager == PaletteModeManager.SparkleOrange)
-                {
-                    result = "Sparkle - Orange";
-                }
-
-                if (paletteModeManager == PaletteModeManager.SparklePurple)
-                {
-                    result = "Sparkle - Purple";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office365Blue)
-                {
-                    result = "Office 365 - Blue";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office365Silver)
-                {
-                    result = "Office 365 - Silver";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office365White)
-                {
-                    result = "Office 365 - White";
-                }
-
-                if (paletteModeManager == PaletteModeManager.Office365Black)
-                {
-                    result = "Office 365 - Black";
-                }
+                    PaletteModeManager.Custom => "Custom",
+                    PaletteModeManager.ProfessionalSystem => "Professional - System",
+                    PaletteModeManager.ProfessionalOffice2003 => "Professional - Office 2003",
+                    PaletteModeManager.Office2007Blue => "Office 2007 - Blue",
+                    PaletteModeManager.Office2007Silver => "Office 2007 - Silver",
+                    PaletteModeManager.Office2007White => "Office 2007 - White",
+                    PaletteModeManager.Office2007Black => "Office 2007 - Black",
+                    PaletteModeManager.Office2010Blue => "Office 2010 - Blue",
+                    PaletteModeManager.Office2010Silver => "Office 2010 - Silver",
+                    PaletteModeManager.Office2010White => "Office 2010 - White",
+                    PaletteModeManager.Office2010Black => "Office 2010 - Black",
+                    PaletteModeManager.Office2013 => "Office 2013",
+                    PaletteModeManager.Office2013White => "Office 2013 - White",
+                    PaletteModeManager.SparkleBlue => "Sparkle - Blue",
+                    PaletteModeManager.SparkleOrange => "Sparkle - Orange",
+                    PaletteModeManager.SparklePurple => "Sparkle - Purple",
+                    PaletteModeManager.Office365Blue => "Office 365 - Blue",
+                    PaletteModeManager.Office365Silver => "Office 365 - Silver",
+                    PaletteModeManager.Office365White => "Office 365 - White",
+                    PaletteModeManager.Office365Black => "Office 365 - Black",
+                    _ => result
+                };
             }
 
             return result;
@@ -533,11 +344,11 @@ namespace Krypton.Toolkit
                 // Prompt user for palette definition
 
                 // TODO: Add silent option
-                if (silent)
-                {
+                //if (silent)
+                //{
 
-                }
-                else
+                //}
+                //else
                 {
                     palette.Import();
                 }
@@ -673,7 +484,7 @@ namespace Krypton.Toolkit
 
             string result;
 
-            PaletteModeConverter modeConverter = new PaletteModeConverter();
+            PaletteModeConverter modeConverter = new();
 
             result = modeConverter.ConvertToString(paletteMode);
 

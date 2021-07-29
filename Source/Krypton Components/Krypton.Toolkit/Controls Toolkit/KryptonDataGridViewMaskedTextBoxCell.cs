@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -32,8 +25,8 @@ namespace Krypton.Toolkit
         private const DataGridViewContentAlignment ANY_RIGHT = DataGridViewContentAlignment.TopRight | DataGridViewContentAlignment.MiddleRight | DataGridViewContentAlignment.BottomRight;
         private const DataGridViewContentAlignment ANY_CENTER = DataGridViewContentAlignment.TopCenter | DataGridViewContentAlignment.MiddleCenter | DataGridViewContentAlignment.BottomCenter;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewMaskedTextBoxEditingControl);
-        private static readonly Type _defaultValueType = typeof(String);
-        private static readonly Size _sizeLarge = new Size(10000, 10000);
+        private static readonly Type _defaultValueType = typeof(string);
+        private static readonly Size _sizeLarge = new(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -503,7 +496,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                if (!(initialFormattedValue is string initialFormattedValueStr))
+                if (initialFormattedValue is not string initialFormattedValueStr)
                 {
                     maskedTextBox.Text = string.Empty;
                 }
@@ -586,7 +579,7 @@ namespace Krypton.Toolkit
         private void OnButtonClick(object sender, EventArgs e)
         {
             KryptonDataGridViewMaskedTextBoxColumn maskedColumn = OwningColumn as KryptonDataGridViewMaskedTextBoxColumn;
-            DataGridViewButtonSpecClickEventArgs args = new DataGridViewButtonSpecClickEventArgs(maskedColumn, this, (ButtonSpecAny)sender);
+            DataGridViewButtonSpecClickEventArgs args = new(maskedColumn, this, (ButtonSpecAny)sender);
             maskedColumn.PerfomButtonSpecClick(args);
         }
 
@@ -634,12 +627,9 @@ namespace Krypton.Toolkit
 
         private bool OwnsEditingMaskedTextBox(int rowIndex)
         {
-            if ((rowIndex == -1) || (DataGridView == null))
-            {
-                return false;
-            }
-
-            return (DataGridView.EditingControl is KryptonDataGridViewMaskedTextBoxEditingControl control)
+            return (rowIndex == -1) || (DataGridView == null)
+                ? false
+                : (DataGridView.EditingControl is KryptonDataGridViewMaskedTextBoxEditingControl control)
                    && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
         }
 
@@ -800,13 +790,9 @@ namespace Krypton.Toolkit
             {
                 return HorizontalAlignment.Right;
             }
-            else if ((align & ANY_CENTER) != 0)
-            {
-                return HorizontalAlignment.Center;
-            }
             else
             {
-                return HorizontalAlignment.Left;
+                return (align & ANY_CENTER) != 0 ? HorizontalAlignment.Center : HorizontalAlignment.Left;
             }
         }
         #endregion

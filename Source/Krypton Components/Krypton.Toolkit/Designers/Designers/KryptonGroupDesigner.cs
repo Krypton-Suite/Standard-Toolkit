@@ -2,26 +2,18 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonGroupDesigner : ParentControlDesigner
+    public class KryptonGroupDesigner : ParentControlDesigner
     {
         #region Instance Fields
         private KryptonGroup _group;
@@ -35,14 +27,6 @@ namespace Krypton.Toolkit
         /// <param name="component">The IComponent to associate the designer with.</param>
         public override void Initialize(IComponent component)
         {
-            Debug.Assert(component != null);
-
-            // Validate the parameter reference
-            if (component == null)
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
-
             // Let base class do standard stuff
             base.Initialize(component);
 
@@ -83,14 +67,7 @@ namespace Krypton.Toolkit
         public override ControlDesigner InternalControlDesigner(int internalControlIndex)
         {
             // Get the control designer for the requested indexed child control
-            if ((internalControlIndex == 0) && (_group != null))
-            {
-                return (ControlDesigner)_designerHost.GetDesigner(_group.Panel);
-            }
-            else
-            {
-                return null;
-            }
+            return (internalControlIndex == 0) && (_group != null) ? (ControlDesigner)_designerHost.GetDesigner(_group.Panel) : null;
         }
 
         /// <summary>
@@ -107,7 +84,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
+                DesignerActionListCollection actionLists = new()
                 {
 
                     // Add the group specific list

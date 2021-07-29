@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
 
 namespace Krypton.Toolkit
 {
@@ -39,6 +30,8 @@ namespace Krypton.Toolkit
         {
             // Perform common base class initializating
             base.Initialize(component);
+
+            Debug.Assert(component != null);
 
             // Remember references to components involved in design
             _panel = component as KryptonSplitterPanel;
@@ -78,22 +71,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
         /// </summary>
-        public override SelectionRules SelectionRules
-        {
-            get
-            {
-                // If the panel is inside our Krypton split container then prevent 
-                // user changing the size or location of the split panel instance
-                if (Control.Parent is KryptonSplitContainer)
-                {
-                    return (SelectionRules.None | SelectionRules.Locked);
-                }
-                else
-                {
-                    return SelectionRules.None;
-                }
-            }
-        }
+        public override SelectionRules SelectionRules =>
+            // If the panel is inside our Krypton split container then prevent 
+            // user changing the size or location of the split panel instance
+            Control.Parent is KryptonSplitContainer ? SelectionRules.None | SelectionRules.Locked : SelectionRules.None;
 
         /// <summary>
         /// Should painting be performed for the selection glyph.
@@ -220,7 +201,7 @@ namespace Krypton.Toolkit
                 if (_panel.Controls.Count == 0)
                 {
                     // Then we need to draw a watermark to indicate no children
-                    using(Graphics g = _panel.CreateGraphics())
+                    using (Graphics g = _panel.CreateGraphics())
                     {
                         DrawWaterMark(g);
                     }
@@ -242,7 +223,7 @@ namespace Krypton.Toolkit
             string drawText = Control.Name;
 
             // Use a fixed font for the drawing
-            using (Font f = new Font("Arial", 8f))
+            using (Font f = new("Arial", 8f))
             {
                 try
                 {

@@ -2,27 +2,20 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
     /// <summary>Creates the blur effect for windows.</summary>
-    /// <seealso cref="System.Windows.Forms.NativeWindow" />
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="NativeWindow" />
+    /// <seealso cref="IDisposable" />
     public class VisualBlur : NativeWindow, IDisposable
     {
         #region Instance Fields
@@ -44,7 +37,7 @@ namespace Krypton.Toolkit
             // Update form properties so we do not have a border and do not show
             // in the task bar. We draw the background in Magenta and set that as
             // the transparency key so it is a see through window.
-            CreateParams cp = new CreateParams
+            CreateParams cp = new()
             {
                 // Define the screen position/size
                 X = -2,
@@ -70,6 +63,7 @@ namespace Krypton.Toolkit
         {
             DestroyHandle();
             _blurredForm.Dispose();
+            GC.SuppressFinalize(this);
         }
         #endregion
 
@@ -112,7 +106,7 @@ namespace Krypton.Toolkit
         /// </remarks>
         public void SetTargetRect(Point clientLocation, Rectangle windowBounds)
         {
-            Rectangle rect = new Rectangle(0, 0, windowBounds.Width, windowBounds.Height);
+            Rectangle rect = new(0, 0, windowBounds.Width, windowBounds.Height);
             rect.Offset(clientLocation);
             TargetRect = rect;
         }
@@ -147,10 +141,10 @@ namespace Krypton.Toolkit
                 hOldBitmap = PI.SelectObject(memDc, hBitmap);
 
                 // Set parameters for layered window update.
-                PI.SIZE newSize = new PI.SIZE(_blurredForm.Width, _blurredForm.Height);
-                PI.POINT sourceLocation = new PI.POINT(0, 0);
-                PI.POINT newLocation = new PI.POINT(TargetRect.Left, TargetRect.Top);
-                PI.BLENDFUNCTION blend = new PI.BLENDFUNCTION
+                PI.SIZE newSize = new(_blurredForm.Width, _blurredForm.Height);
+                PI.POINT sourceLocation = new(0, 0);
+                PI.POINT newLocation = new(TargetRect.Left, TargetRect.Top);
+                PI.BLENDFUNCTION blend = new()
                 {
                     BlendOp = PI.AC_SRC_OVER,
                     BlendFlags = 0,
@@ -199,7 +193,7 @@ namespace Krypton.Toolkit
         /// <summary>Gaussian blur.</summary>
         private void GaussianBlur()
         {
-            PI.BlurParams blurParams = new PI.BlurParams
+            PI.BlurParams blurParams = new()
             {
                 Radius = _blurValues.Radius,
                 ExpandEdges = false
@@ -213,7 +207,7 @@ namespace Krypton.Toolkit
                     handle = Marshal.AllocHGlobal(Marshal.SizeOf(blurParams));
                     Marshal.StructureToPtr(blurParams, handle, true);
                     PI.GdipSetEffectParameters(blurEffect, handle, (uint)Marshal.SizeOf(blurParams));
-                    PI.RECT rect = new PI.RECT
+                    PI.RECT rect = new()
                     {
                         top = 0,
                         left = 0,

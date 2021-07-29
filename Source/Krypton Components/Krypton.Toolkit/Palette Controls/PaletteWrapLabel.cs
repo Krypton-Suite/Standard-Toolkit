@@ -2,18 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
 
 namespace Krypton.Toolkit
 {
@@ -48,8 +44,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (_font == null) && 
-                                          (_textColor == Color.Empty) && 
+        public override bool IsDefault => (_font == null) &&
+                                          (_textColor == Color.Empty) &&
                                           (_hint == PaletteTextHint.Inherit);
 
         #endregion
@@ -62,7 +58,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Font for drawing the label text.")]
         [DefaultValue(null)]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Font Font
         {
             get => _font;
@@ -78,13 +74,13 @@ namespace Krypton.Toolkit
 
         #region TextColor
         /// <summary>
-        /// Gets and sets the olor for the text.
+        /// Gets and sets the color for the text.
         /// </summary>
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Color for the text.")]
-        [KryptonDefaultColorAttribute()]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [KryptonDefaultColor()]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual Color TextColor
         {
             get => _textColor;
@@ -105,7 +101,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Text rendering hint for the content text.")]
         [DefaultValue(typeof(PaletteTextHint), "Inherit")]
-        [RefreshPropertiesAttribute(RefreshProperties.All)]
+        [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextHint Hint
         {
             get => _hint;

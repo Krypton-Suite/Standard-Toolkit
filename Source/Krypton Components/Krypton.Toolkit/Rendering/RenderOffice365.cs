@@ -2,28 +2,21 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
     /// <summary>
     /// Extends the professional renderer to provide Office365 style additions.
     /// </summary>
-    /// <seealso cref="Krypton.Toolkit.RenderOffice2010" />
+    /// <seealso cref="RenderOffice2010" />
     public class RenderOffice365 : RenderOffice2010
     {
         #region Static Variables
@@ -58,7 +51,7 @@ namespace Krypton.Toolkit
             Color borderColour = paletteBack.GetBackColor1(state), lightColour = CommonHelper.MergeColors(borderColour, BORDER_PERCENT, Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using (SolidBrush drawBrush = new SolidBrush(lightColour))
+            using (SolidBrush drawBrush = new(lightColour))
             {
                 context.Graphics.FillRectangle(drawBrush, displayRect);
             }
@@ -81,7 +74,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(colourPalette));
             }
 
-            KryptonOffice365Renderer renderer = new KryptonOffice365Renderer(colourPalette.ColorTable)
+            KryptonOffice365Renderer renderer = new(colourPalette.ColorTable)
             {
                 RoundedEdges = (colourPalette.ColorTable.UseRoundedEdges != InheritBool.False)
             };
@@ -106,12 +99,9 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || !(memento is MementoRibbonTabContextOffice2010))
+                if ((memento == null) || memento is not MementoRibbonTabContextOffice2010)
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonTabContextOffice2010(rect, c1, c2);
                     memento = cache;
@@ -170,12 +160,9 @@ namespace Krypton.Toolkit
                 MementoRibbonAppTab2013 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || !(memento is MementoRibbonAppTab2013))
+                if ((memento == null) || memento is not MementoRibbonAppTab2013)
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonAppTab2013(rect, baseColor1);
                     memento = cache;
@@ -279,12 +266,9 @@ namespace Krypton.Toolkit
                 MementoRibbonTabSelected2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || !(memento is MementoRibbonTabSelected2010))
+                if ((memento == null) || memento is not MementoRibbonTabSelected2010)
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonTabSelected2010(rect, c1, c2, c3, c4, c5, orientation);
                     memento = cache;
@@ -379,12 +363,9 @@ namespace Krypton.Toolkit
                 MementoRibbonTabTracking2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || !(memento is MementoRibbonTabTracking2010))
+                if ((memento == null) || memento is not MementoRibbonTabTracking2010)
                 {
-                    if (memento != null)
-                    {
-                        memento.Dispose();
-                    }
+                    memento?.Dispose();
 
                     cache = new MementoRibbonTabTracking2010(rect, c1, c2, c3, c4, orientation);
                     memento = cache;

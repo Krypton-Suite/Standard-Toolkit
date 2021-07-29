@@ -2,27 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
-
-using Microsoft.Win32;
 
 namespace Krypton.Toolkit
 {
@@ -102,12 +89,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly Point _nullCell = new Point(-2, -2);
+        private static readonly Point _nullCell = new(-2, -2);
 
         // Cached access to private parent values
         private static PropertyInfo _piRTL;
         private static PropertyInfo _piCML;
-        private static PropertyInfo _piCG;
         private static MethodInfo _miPTB;
         private static MethodInfo _miGCI;
         private static MethodInfo _miGTTT;
@@ -115,11 +101,6 @@ namespace Krypton.Toolkit
         private static MethodInfo _miATT;
         private static MethodInfo _miGPW;
         private static MethodInfo _miGPH;
-        private static FieldInfo _fiLayout;
-        private static FieldInfo _fiColumnHeaders;
-        private static FieldInfo _fiRowHeaders;
-        private static FieldInfo _fiColumnHeadersVisible;
-        private static FieldInfo _fiRowHeadersVisible;
         #endregion
 
         #region Instance Fields
@@ -163,7 +144,7 @@ namespace Krypton.Toolkit
         private RowHeaderCache _rowCache;
         private Point _cellOver;
         private Point _cellDown;
-        private Timer _showTimer;
+        private System.Windows.Forms.Timer _showTimer;
         private bool _hideOuterBorders;
         private string _toolTipText;
         private byte _oldLocation;
@@ -274,7 +255,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new BorderStyle BorderStyle
         {
-            get { return base.BorderStyle; }
+            get => base.BorderStyle;
             set { /* Do nothing, we do not allow a border style change! */ }
         }
 
@@ -473,7 +454,7 @@ namespace Krypton.Toolkit
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
-            get { return _paletteMode; }
+            get => _paletteMode;
 
             set
             {
@@ -527,7 +508,7 @@ namespace Krypton.Toolkit
         public IPalette Palette
         {
             [DebuggerStepThrough]
-            get { return _localPalette; }
+            get => _localPalette;
 
             set
             {
@@ -724,7 +705,7 @@ namespace Krypton.Toolkit
                     // A data cell cannot become tracking or pressed
                     if ((rowIndex < 0) || (columnIndex < 0))
                     {
-                        Point cellIndex = new Point(columnIndex, rowIndex);
+                        Point cellIndex = new(columnIndex, rowIndex);
 
                         // If the user has pressed down on this cell
                         if (cellIndex.Equals(_cellDown))
@@ -869,7 +850,7 @@ namespace Krypton.Toolkit
         public Point CellOver
         {
             get => _cellOver;
-            set { _cellOver = value; }
+            set => _cellOver = value;
         }
 
         //seb
@@ -1226,12 +1207,12 @@ namespace Krypton.Toolkit
             bool rtl = RightToLeftInternal;
 
             // Use an offscreen bitmap to draw onto before blitting it to the screen
-            Rectangle tempCellBounds = new Rectangle(0, 0, e.CellBounds.Width, e.CellBounds.Height);
-            using (Bitmap tempBitmap = new Bitmap(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
+            Rectangle tempCellBounds = new(0, 0, e.CellBounds.Width, e.CellBounds.Height);
+            using (Bitmap tempBitmap = new(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
             {
                 using (Graphics tempG = Graphics.FromImage(tempBitmap))
                 {
-                    using (RenderContext renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer))
+                    using (RenderContext renderContext = new(this, tempG, tempCellBounds, Renderer))
                     {
                         // Force the border to have a specificed maximum border edge
                         _borderForced.SetInherit(paletteBorder);
@@ -1270,8 +1251,7 @@ namespace Krypton.Toolkit
                             }
 
                             // If this column supports icons, see if it has any.
-                            IIconCell iconColumn = Columns[e.ColumnIndex] as IIconCell;
-                            if (iconColumn != null)
+                            if (Columns[e.ColumnIndex] is IIconCell iconColumn)
                             {
                                 foreach (IconSpec spec in iconColumn.IconSpecs)
                                 {
@@ -1282,7 +1262,7 @@ namespace Krypton.Toolkit
                                     // Draw icon and update the remainder cell bounds left over
                                     int iconWidth = spec.Icon.Width + 5;
                                     int width = tempCellBounds.Width - iconWidth;
-                                    Rectangle iconBounds = new Rectangle(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
+                                    Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
                                         tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
                                     renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
                                     tempCellBounds = new Rectangle(tempCellBounds.X +
@@ -1349,7 +1329,7 @@ namespace Krypton.Toolkit
                                     tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
 
                                     // Calculate the icon rectangle
-                                    Rectangle iconBounds = new Rectangle(tempCellBounds.Right + 1, tempCellBounds.Top,
+                                    Rectangle iconBounds = new(tempCellBounds.Right + 1, tempCellBounds.Top,
                                                                          beforeCellBounds.Width - tempCellBounds.Width,
                                                                          tempCellBounds.Height);
 
@@ -1378,8 +1358,7 @@ namespace Krypton.Toolkit
                                 if ((e.RowIndex >= 0) && (e.ColumnIndex >= 0))
                                 {
                                     // If this cell supports icons, see if it has any.
-                                    IIconCell iconColumn = Rows[e.RowIndex].Cells[e.ColumnIndex] as IIconCell;
-                                    if (iconColumn != null)
+                                    if (Rows[e.RowIndex].Cells[e.ColumnIndex] is IIconCell iconColumn)
                                     {
                                         foreach (IconSpec spec in iconColumn.IconSpecs)
                                         {
@@ -1391,7 +1370,7 @@ namespace Krypton.Toolkit
                                             // Draw icon and update the remainder cell bounds left over
                                             int iconWidth = spec.Icon.Width + 5;
                                             int width = tempCellBounds.Width - iconWidth;
-                                            Rectangle iconBounds = new Rectangle(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
+                                            Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
                                                 tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
                                             renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
                                             tempCellBounds = new Rectangle(tempCellBounds.X +
@@ -1427,7 +1406,7 @@ namespace Krypton.Toolkit
                                     int sCount = 1;
                                     while (sindx >= 0)
                                     {
-                                        Rectangle hl_rect = new Rectangle
+                                        Rectangle hl_rect = new()
                                         {
                                             Y = e.CellBounds.Y + 2,
                                             Height = e.CellBounds.Height - 5
@@ -1487,7 +1466,7 @@ namespace Krypton.Toolkit
                                     // Use the display value of the header cell
                                     _shortTextValue.ShortText = e.FormattedValue.ToString();
 
-                                    using (ViewLayoutContext layoutContext = new ViewLayoutContext(this, Renderer))
+                                    using (ViewLayoutContext layoutContext = new(this, Renderer))
                                     {
                                         // If a column header cell...
                                         if ((e.RowIndex == -1) && (e.ColumnIndex != -1))
@@ -1601,7 +1580,7 @@ namespace Krypton.Toolkit
                         PaintTransparentBackground(graphics, clipBounds);
 
                         // Use the view manager to paint the view panel that fills the entire areas as the background
-                        using (RenderContext context = new RenderContext(this, graphics, clipBounds, Renderer))
+                        using (RenderContext context = new(this, graphics, clipBounds, Renderer))
                         {
                             ViewManager.Paint(context);
                         }
@@ -1744,7 +1723,7 @@ namespace Krypton.Toolkit
             GridStyles = new DataGridViewStyles(this);
             _columnCache = new ColumnHeaderCache();
             _rowCache = new RowHeaderCache();
-            _showTimer = new Timer
+            _showTimer = new System.Windows.Forms.Timer
             {
                 Interval = 500
             };
@@ -2423,25 +2402,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void CacheAccessToLayout()
-        {
-            // Only need to cache reflection info the first time it is needed
-            if (_fiLayout == null)
-            {
-                // Cache field info about the internal 'layout' instance
-                _fiLayout = typeof(DataGridView).GetField("layout", BindingFlags.Instance |
-                                                                    BindingFlags.NonPublic |
-                                                                    BindingFlags.GetField);
-
-                // Cache field info about the various 'layout' fields we need
-                Type layoutType = _fiLayout.GetValue(this).GetType();
-                _fiColumnHeaders = layoutType.GetField("ColumnHeaders");
-                _fiRowHeaders = layoutType.GetField("RowHeaders");
-                _fiColumnHeadersVisible = layoutType.GetField("ColumnHeadersVisible");
-                _fiRowHeadersVisible = layoutType.GetField("RowHeadersVisible");
-            }
-        }
-
         private DataGridViewCell GetCellInternal(int column, int row)
         {
             // Only need to cache reflection info the first time around
@@ -2454,23 +2414,6 @@ namespace Krypton.Toolkit
             }
 
             return (DataGridViewCell)_miGCI.Invoke(this, new object[] { column, row });
-        }
-
-        private Graphics CachedGraphics
-        {
-            get
-            {
-                // Only need to cache reflection info the first time around
-                if (_piCG == null)
-                {
-                    // Cache access to the internal get property 'CachedGraphics'
-                    _piCG = typeof(DataGridView).GetProperty("CachedGraphics", BindingFlags.Instance |
-                                                                               BindingFlags.NonPublic |
-                                                                               BindingFlags.GetField);
-                }
-
-                return (Graphics)_piCG.GetValue(this, null);
-            }
         }
 
         private string GetToolTipText(DataGridViewCell cell, int row)
@@ -2576,72 +2519,13 @@ namespace Krypton.Toolkit
         {
             if (toolTipText.Length > 0x120)
             {
-                StringBuilder builder = new StringBuilder(toolTipText.Substring(0, 0x100), 0x103);
+                StringBuilder builder = new(toolTipText.Substring(0, 0x100), 0x103);
                 builder.Append("...");
                 return builder.ToString();
             }
             return toolTipText;
         }
-
-        private Rectangle GetBackgroundClipRect()
-        {
-            Rectangle cellsRect = Rectangle.Empty;
-
-            // Ensure we have cached access to the internal layout fields
-            CacheAccessToLayout();
-
-            // Get access to the actual internal instance
-            object layout = _fiLayout.GetValue(this);
-
-            // Grab the current internal fields we need
-            Rectangle columnHeaders = (Rectangle)_fiColumnHeaders.GetValue(layout);
-            Rectangle rowHeaders = (Rectangle)_fiRowHeaders.GetValue(layout);
-            bool columnHeadersVisible = (bool)_fiColumnHeadersVisible.GetValue(layout);
-            bool rowHeadersVisible = (bool)_fiRowHeadersVisible.GetValue(layout);
-
-            // Find the width/height of the data cells area
-            int columnsWidth = Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
-            int rowsHeight = Rows.GetRowsHeight(DataGridViewElementStates.Visible);
-
-            // Add on the width/height from showing the optional headers
-            if (columnHeadersVisible)
-            {
-                rowsHeight += columnHeaders.Height;
-            }
-
-            if (rowHeadersVisible)
-            {
-                columnsWidth += rowHeaders.Width;
-            }
-            else
-            {
-                // Seems to be a bug in the base implementation such that without the row
-                // headers showing the column width is 1 too thin. So add one the extra 1
-                // pixel needed when there are no row headers showing.
-                columnsWidth++;
-            }
-
-            // If there are no rows or columns, then not much to do
-            if ((Rows.Count > 0) && (Columns.Count > 0))
-            {
-                // Set the height/width of the cells area
-                cellsRect.Height = rowsHeight;
-                cellsRect.Width = columnsWidth;
-
-                // Adjust to reflect the scrolling
-                cellsRect.Y -= VerticalScrollingOffset;
-                cellsRect.X -= HorizontalScrollingOffset;
-
-                // Adjust the rectangle if using right to left setting
-                if (RightToLeft == RightToLeft.Yes)
-                {
-                    cellsRect.X = (Width - columnsWidth) + HorizontalScrollingOffset;
-                }
-            }
-
-            return cellsRect;
-        }
-
+        
         private void SetPalette(IPalette palette)
         {
             if (palette != _palette)
@@ -2813,7 +2697,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)((long)m.LParam)) == -1)

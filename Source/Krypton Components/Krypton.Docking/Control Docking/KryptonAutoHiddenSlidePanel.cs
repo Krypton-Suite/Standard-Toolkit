@@ -2,25 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Navigator;
-using Krypton.Toolkit;
-using Krypton.Workspace;
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Security.Permissions;
-using System.Windows.Forms;
 // ReSharper disable MemberCanBeInternal
 
 namespace Krypton.Docking
@@ -56,8 +45,7 @@ namespace Krypton.Docking
         private DockingAutoHiddenShowState _state;
         private Rectangle _startRect;
         private Rectangle _endRect;
-        private Timer _slideTimer;
-        private Timer _dismissTimer;
+        private System.Windows.Forms.Timer _slideTimer, _dismissTimer;
         private bool _dismissRunning;
         private IntPtr _mouseTrackWindow;
         #endregion
@@ -129,14 +117,14 @@ namespace Krypton.Docking
             _checkMakeHidden = OnCheckMakeHidden;
 
             // We need to a timer to automate sliding in and out
-            _slideTimer = new Timer
+            _slideTimer = new System.Windows.Forms.Timer
             {
                 Interval = SLIDE_INTERVAL
             };
             _slideTimer.Tick += OnSlideTimerTick;
 
             // Timer used to delay between notification of need to slide inwards and performing actual slide
-            _dismissTimer = new Timer
+            _dismissTimer = new System.Windows.Forms.Timer
             {
                 Interval = DISMISS_INTERVAL
             };
@@ -372,7 +360,7 @@ namespace Krypton.Docking
 
             // Switch to new state and start animation timer
             _state = DockingAutoHiddenShowState.SlidingOut;
-            AutoHiddenShowingStateEventArgs args = new AutoHiddenShowingStateEventArgs(Page, _state);
+            AutoHiddenShowingStateEventArgs args = new(Page, _state);
             _slideTimer.Start();
 
             // Are we requested to set focus to the sliding in dockspace?
@@ -487,7 +475,6 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="msg">The message to be dispatched. You cannot modify this message. </param>
         /// <returns>true to filter out; false otherwise.</returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public bool PreFilterMessage(ref Message msg)
         {
             Form parentForm = FindForm();
@@ -567,7 +554,7 @@ namespace Krypton.Docking
                             _mouseTrackWindow = msg.HWnd;
 
                             // This structure needs to know its own size in bytes
-                            PI.TRACKMOUSEEVENTS tme = new PI.TRACKMOUSEEVENTS
+                            PI.TRACKMOUSEEVENTS tme = new()
                             {
                                 cbSize = (uint)Marshal.SizeOf(typeof(PI.TRACKMOUSEEVENTS)),
                                 dwHoverTime = 100,
@@ -616,7 +603,7 @@ namespace Krypton.Docking
                 {
                     // Set state so timer processing does not perform any slide action
                     _state = DockingAutoHiddenShowState.Hidden;
-                    AutoHiddenShowingStateEventArgs args = new AutoHiddenShowingStateEventArgs(Page, _state);
+                    AutoHiddenShowingStateEventArgs args = new(Page, _state);
 
                     // Remove cached references
                     Page = null;
@@ -654,7 +641,7 @@ namespace Krypton.Docking
             {
                 // Switch to sliding inwards by changing state and starting slide timer
                 _state = DockingAutoHiddenShowState.SlidingIn;
-                AutoHiddenShowingStateEventArgs args = new AutoHiddenShowingStateEventArgs(Page, _state);
+                AutoHiddenShowingStateEventArgs args = new(Page, _state);
                 _slideTimer.Start();
 
                 // If the dockspace has the focus we need to push focus elsewhere
@@ -674,7 +661,7 @@ namespace Krypton.Docking
             // Find the preferred size of the slider area by combining the separator and dockspace
             Size dockspacePreferred = Page.AutoHiddenSlideSize;
             Size separatorPreferred = SeparatorControl.GetPreferredSize(_control.Size);
-            Size slideSize = new Size(separatorPreferred.Width + dockspacePreferred.Width,
+            Size slideSize = new(separatorPreferred.Width + dockspacePreferred.Width,
                                       separatorPreferred.Height + dockspacePreferred.Height);
 
             // Find the maximum allowed size based on the owning control client area reduced by a sensible minimum
@@ -810,7 +797,7 @@ namespace Krypton.Docking
                         {
                             // When finished we no longer need the timer and enter the showing state
                             _state = DockingAutoHiddenShowState.Showing;
-                            AutoHiddenShowingStateEventArgs args = new AutoHiddenShowingStateEventArgs(Page, _state);
+                            AutoHiddenShowingStateEventArgs args = new(Page, _state);
                             OnAutoHiddenShowingStateChanged(args);
                             _slideTimer.Stop();
                         }

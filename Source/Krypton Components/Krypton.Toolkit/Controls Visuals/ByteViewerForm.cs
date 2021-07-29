@@ -2,24 +2,15 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
 #if NETFRAMEWORK //https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks
-
-using System;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.IO;
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -100,7 +91,7 @@ namespace Krypton.Toolkit
 
         private void OnClickExport(object sender, EventArgs e)
         {
-            using (SaveFileDialog sfd = new SaveFileDialog
+            using (SaveFileDialog sfd = new()
             {
                 CheckFileExists = false,
                 CheckPathExists = false,
@@ -114,7 +105,7 @@ namespace Krypton.Toolkit
                         File.WriteAllBytes(sfd.FileName, bytes);
                         // FIXME: string literal.
                         KryptonMessageBox.Show(this, $"Data exported to {sfd.FileName}", "Data Export",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBoxButtons.OK, KryptonMessageBoxIcon.INFORMATION);
                     }
                 }
             }
@@ -128,14 +119,14 @@ namespace Krypton.Toolkit
             components = new Container();
 
             _byteViewer = new KryptonByteViewer();
-            KryptonPanel bottomPanel = new KryptonPanel();
-            KryptonPanel topPanel = new KryptonPanel();
-            KryptonGroupBox groupBox = new KryptonGroupBox();
-            KryptonCheckButton unicodeButton = new KryptonCheckButton();
-            KryptonCheckButton hexButton = new KryptonCheckButton();
-            KryptonCheckButton ansiButton = new KryptonCheckButton();
-            KryptonCheckButton export = new KryptonCheckButton();
-            KryptonCheckSet displayModeCheckset = new KryptonCheckSet(components);
+            KryptonPanel bottomPanel = new();
+            KryptonPanel topPanel = new();
+            KryptonGroupBox groupBox = new();
+            KryptonCheckButton unicodeButton = new();
+            KryptonCheckButton hexButton = new();
+            KryptonCheckButton ansiButton = new();
+            KryptonCheckButton export = new();
+            KryptonCheckSet displayModeCheckset = new(components);
             ((ISupportInitialize)(topPanel)).BeginInit();
             topPanel.SuspendLayout();
             ((ISupportInitialize)(groupBox)).BeginInit();
@@ -152,16 +143,16 @@ namespace Krypton.Toolkit
             topPanel.Controls.Add(groupBox);
             topPanel.Controls.Add(export);
             topPanel.Dock = DockStyle.Top;
-            topPanel.Location = new System.Drawing.Point(0, 0);
+            topPanel.Location = new Point(0, 0);
             topPanel.Name = "topPanel";
             topPanel.Padding = new Padding(5);
-            topPanel.Size = new System.Drawing.Size(639, 65);
+            topPanel.Size = new Size(639, 65);
             topPanel.TabIndex = 0;
             // 
             // groupBox
             // 
             groupBox.AutoSize = true;
-            groupBox.Location = new System.Drawing.Point(5, 0);
+            groupBox.Location = new Point(5, 0);
             groupBox.Name = "groupBox";
             // 
             // groupBox.Panel
@@ -169,32 +160,32 @@ namespace Krypton.Toolkit
             groupBox.Panel.Controls.Add(unicodeButton);
             groupBox.Panel.Controls.Add(hexButton);
             groupBox.Panel.Controls.Add(ansiButton);
-            groupBox.Size = new System.Drawing.Size(280, 57);
+            groupBox.Size = new Size(280, 57);
             groupBox.TabIndex = 0;
             groupBox.Values.Heading = @"Display Mode";
             // 
             // unicodeButton
             // 
-            unicodeButton.Location = new System.Drawing.Point(141, 3);
+            unicodeButton.Location = new Point(141, 3);
             unicodeButton.Name = "unicodeButton";
-            unicodeButton.Size = new System.Drawing.Size(63, 25);
+            unicodeButton.Size = new Size(63, 25);
             unicodeButton.TabIndex = 3;
             unicodeButton.Values.Text = @"Unicode";
             // 
             // hexButton
             // 
             hexButton.Checked = true;
-            hexButton.Location = new System.Drawing.Point(3, 3);
+            hexButton.Location = new Point(3, 3);
             hexButton.Name = "hexButton";
-            hexButton.Size = new System.Drawing.Size(63, 25);
+            hexButton.Size = new Size(63, 25);
             hexButton.TabIndex = 2;
             hexButton.Values.Text = @"Hex";
             // 
             // ansiButton
             // 
-            ansiButton.Location = new System.Drawing.Point(72, 3);
+            ansiButton.Location = new Point(72, 3);
             ansiButton.Name = "ansiButton";
-            ansiButton.Size = new System.Drawing.Size(63, 25);
+            ansiButton.Size = new Size(63, 25);
             ansiButton.TabIndex = 1;
             ansiButton.Values.Text = @"ANSI";
             // 
@@ -209,9 +200,9 @@ namespace Krypton.Toolkit
             // 
             // export
             // 
-            export.Location = new System.Drawing.Point(535, 22);
+            export.Location = new Point(535, 22);
             export.Name = "export";
-            export.Size = new System.Drawing.Size(80, 25);
+            export.Size = new Size(80, 25);
             export.TabIndex = 4;
             export.Values.Text = @"Export...";
             export.Click += OnClickExport;
@@ -219,9 +210,9 @@ namespace Krypton.Toolkit
             // bottomPanel
             // 
             bottomPanel.Dock = DockStyle.Fill;
-            bottomPanel.Location = new System.Drawing.Point(0, 65);
+            bottomPanel.Location = new Point(0, 65);
             bottomPanel.Name = "bottomPanel";
-            bottomPanel.Size = new System.Drawing.Size(639, 401);
+            bottomPanel.Size = new Size(639, 401);
             bottomPanel.TabIndex = 1;
             bottomPanel.Controls.Add(_byteViewer);
             //
@@ -232,9 +223,9 @@ namespace Krypton.Toolkit
             // 
             // Form1
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(639, 466);
+            ClientSize = new Size(639, 466);
             Controls.Add(bottomPanel);
             Controls.Add(topPanel);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;

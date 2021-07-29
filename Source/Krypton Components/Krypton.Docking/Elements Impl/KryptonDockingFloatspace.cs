@@ -2,22 +2,13 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
-
-using System.Xml;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Krypton.Workspace;
-using Krypton.Navigator;
 
 namespace Krypton.Docking
 {
@@ -67,7 +58,7 @@ namespace Krypton.Docking
             if (FloatspaceControl.CellVisibleCount > 0)
             {
                 // Create list of the pages that are allowed to be dropped into this floatspace
-                KryptonPageCollection pages = new KryptonPageCollection();
+                KryptonPageCollection pages = new();
                 foreach (KryptonPage page in dragData.Pages)
                 {
                     if (page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
@@ -93,7 +84,7 @@ namespace Krypton.Docking
         public override DockingLocation FindPageLocation(string uniqueName)
         {
             KryptonPage page = FloatspaceControl.PageForUniqueName(uniqueName);
-            if ((page != null) && !(page is KryptonStorePage))
+            if ((page != null) && page is not KryptonStorePage)
             {
                 return DockingLocation.Floating;
             }
@@ -111,7 +102,7 @@ namespace Krypton.Docking
         public override IDockingElement FindPageElement(string uniqueName)
         {
             KryptonPage page = FloatspaceControl.PageForUniqueName(uniqueName);
-            if ((page != null) && !(page is KryptonStorePage))
+            if ((page != null) && page is not KryptonStorePage)
             {
                 return this;
             }
@@ -185,7 +176,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                FloatspaceEventArgs args = new FloatspaceEventArgs(FloatspaceControl, this);
+                FloatspaceEventArgs args = new(FloatspaceControl, this);
                 dockingManager.RaiseFloatspaceRemoved(args);
             }
 
@@ -203,7 +194,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                FloatspaceCellEventArgs args = new FloatspaceCellEventArgs(FloatspaceControl, this, cell);
+                FloatspaceCellEventArgs args = new(FloatspaceControl, this, cell);
                 dockingManager.RaiseFloatspaceCellAdding(args);
             }
         }
@@ -218,7 +209,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                FloatspaceCellEventArgs args = new FloatspaceCellEventArgs(FloatspaceControl, this, cell);
+                FloatspaceCellEventArgs args = new(FloatspaceControl, this, cell);
                 dockingManager.RaiseFloatspaceCellRemoved(args);
             }
         }
@@ -234,7 +225,7 @@ namespace Krypton.Docking
             KryptonDockingManager dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                CancelUniqueNameEventArgs args = new CancelUniqueNameEventArgs(e.Page.UniqueName, false);
+                CancelUniqueNameEventArgs args = new(e.Page.UniqueName, false);
                 dockingManager.RaisePageFloatingRequest(args);
 
                 // Pass back the result of the event
@@ -301,7 +292,7 @@ namespace Krypton.Docking
             List<KryptonPage> pages = new List<KryptonPage>();
             foreach (KryptonPage page in e.Pages)
             {
-                if (!(page is KryptonStorePage) && (FloatspaceControl.CellForPage(page) != null))
+                if (page is not KryptonStorePage && (FloatspaceControl.CellForPage(page) != null))
                 {
                     pages.Add(page);
                 }

@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -31,7 +22,7 @@ namespace Krypton.Ribbon
         #region Static Fields
 
         private const int NULL_CONTROL_WIDTH = 50;
-        private static readonly Padding _largeImagePadding = new Padding(3, 2, 3, 3);
+        private static readonly Padding _largeImagePadding = new(3, 2, 3, 3);
         #endregion
 
         #region Instance Fields
@@ -84,7 +75,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the gallery
-                ContextClickController controller = new ContextClickController();
+                ContextClickController controller = new();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -343,7 +334,7 @@ namespace Krypton.Ribbon
                     ((int)GroupGallery.ItemSizeMinimum <= (int)GroupItemSize.Medium))
                 {
                     LastGallery.InternalPreferredItemSize = new Size(GroupGallery.MediumItemCount, 1);
-                    ItemSizeWidth mediumWidth = new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width);
+                    ItemSizeWidth mediumWidth = new(GroupItemSize.Medium, GetPreferredSize(context).Width);
 
                     if (_ribbon.InDesignHelperMode)
                     {
@@ -373,7 +364,7 @@ namespace Krypton.Ribbon
                     _currentSize = GroupItemSize.Small;
 
                     // Get the width of the large button view
-                    ItemSizeWidth smallWidth = new ItemSizeWidth(GroupItemSize.Small, GetPreferredSize(context).Width);
+                    ItemSizeWidth smallWidth = new(GroupItemSize.Small, GetPreferredSize(context).Width);
 
                     if (_ribbon.InDesignHelperMode)
                     {
@@ -403,7 +394,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return new ItemSizeWidth[] { new ItemSizeWidth(GroupItemSize.Large, NULL_CONTROL_WIDTH) };
+                return new ItemSizeWidth[] { new(GroupItemSize.Large, NULL_CONTROL_WIDTH) };
             }
         }
 
@@ -575,11 +566,11 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new ViewLayoutDocker();
+            ViewLayoutDocker contentLayout = new();
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupGalleryImage(_ribbon, GroupGallery);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
+            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -713,7 +704,7 @@ namespace Krypton.Ribbon
             {
                 // We only modify the parent and visible state if processing for correct container
                 if ((GroupGallery.RibbonGroup.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
-                    (!GroupGallery.RibbonGroup.ShowingAsPopup && !(parentControl is VisualPopupGroup)))
+                    (!GroupGallery.RibbonGroup.ShowingAsPopup && parentControl is not VisualPopupGroup))
                 {
                     // If we have added the custrom control to a parent before
                     if ((LastGallery != null) && (LastParentControl != null))

@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -36,15 +29,15 @@ namespace Krypton.Toolkit
             DataGridViewContentAlignment.TopCenter | DataGridViewContentAlignment.MiddleCenter |
             DataGridViewContentAlignment.BottomCenter;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewNumericUpDownEditingControl);
-        private static readonly Type _defaultValueType = typeof(Decimal);
-        private static readonly Size _sizeLarge = new Size(10000, 10000);
+        private static readonly Type _defaultValueType = typeof(decimal);
+        private static readonly Size _sizeLarge = new(10000, 10000);
         #endregion
 
         #region Instance Fields
         private int _decimalPlaces;
-        private Decimal _increment;
-        private Decimal _minimum;
-        private Decimal _maximum;
+        private decimal _increment;
+        private decimal _minimum;
+        private decimal _maximum;
         private bool _thousandsSeparator;
         private bool _hexadecimal;
         private bool _allowDecimals;
@@ -62,17 +55,17 @@ namespace Krypton.Toolkit
             {
                 _paintingNumericUpDown = new KryptonNumericUpDown();
                 _paintingNumericUpDown.SetLayoutDisplayPadding(new Padding(0, 0, 0, -1));
-                _paintingNumericUpDown.Maximum = Decimal.MaxValue / 10;
-                _paintingNumericUpDown.Minimum = Decimal.MinValue / 10;
+                _paintingNumericUpDown.Maximum = decimal.MaxValue / 10;
+                _paintingNumericUpDown.Minimum = decimal.MinValue / 10;
                 _paintingNumericUpDown.StateCommon.Border.Width = 0;
                 _paintingNumericUpDown.StateCommon.Border.Draw = InheritBool.False;
             }
 
             // Set the default values of the properties:
             _decimalPlaces = 0;
-            _increment = Decimal.One;
-            _minimum = Decimal.Zero;
-            _maximum = (Decimal)100.0;
+            _increment = decimal.One;
+            _minimum = decimal.Zero;
+            _maximum = (decimal)100.0;
             _thousandsSeparator = false;
             _hexadecimal = false;
         }
@@ -99,7 +92,7 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool AllowDecimals
         {
-            get { return _allowDecimals; }
+            get => _allowDecimals;
             set
             {
                 if (_allowDecimals != value)
@@ -116,7 +109,7 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool TrailingZeroes
         {
-            get { return _trailingZeroes; }
+            get => _trailingZeroes;
             set
             {
                 if (_trailingZeroes != value)
@@ -170,13 +163,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The Increment property replicates the one from the KryptonNumericUpDown control
         /// </summary>
-        public Decimal Increment
+        public decimal Increment
         {
             get => _increment;
 
             set
             {
-                if (value < (Decimal)0.0)
+                if (value < (decimal)0.0)
                 {
                     throw new ArgumentOutOfRangeException("The Increment property cannot be smaller than 0.");
                 }
@@ -188,7 +181,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The Maximum property replicates the one from the KryptonNumericUpDown control
         /// </summary>
-        public Decimal Maximum
+        public decimal Maximum
         {
             get => _maximum;
 
@@ -205,7 +198,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The Minimum property replicates the one from the KryptonNumericUpDown control
         /// </summary>
-        public Decimal Minimum
+        public decimal Minimum
         {
             get => _minimum;
 
@@ -328,7 +321,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                if (!(initialFormattedValue is string initialFormattedValueStr))
+                if (initialFormattedValue is not string initialFormattedValueStr)
                 {
                     numericUpDown.Text = string.Empty;
                 }
@@ -416,13 +409,13 @@ namespace Krypton.Toolkit
             // By default, the base implementation converts the Decimal 1234.5 into the string "1234.5"
             object formattedValue = base.GetFormattedValue(value, rowIndex, ref cellStyle, valueTypeConverter, formattedValueTypeConverter, context);
             string formattedNumber = formattedValue as string;
-            if (!string.IsNullOrEmpty(formattedNumber) 
-                && (value != null) 
+            if (!string.IsNullOrEmpty(formattedNumber)
+                && (value != null)
                 && (value != DBNull.Value)
                 )
             {
-                Decimal unformattedDecimal = Convert.ToDecimal(value);
-                Decimal formattedDecimal = Convert.ToDecimal(formattedNumber);
+                decimal unformattedDecimal = Convert.ToDecimal(value);
+                decimal formattedDecimal = Convert.ToDecimal(formattedNumber);
                 if (unformattedDecimal == formattedDecimal)
                 {
                     if (!Hexadecimal && !TrailingZeroes)
@@ -464,13 +457,13 @@ namespace Krypton.Toolkit
         private void OnButtonClick(object sender, EventArgs e)
         {
             KryptonDataGridViewNumericUpDownColumn numericColumn = OwningColumn as KryptonDataGridViewNumericUpDownColumn;
-            DataGridViewButtonSpecClickEventArgs args = new DataGridViewButtonSpecClickEventArgs(numericColumn, this, (ButtonSpecAny)sender);
+            DataGridViewButtonSpecClickEventArgs args = new(numericColumn, this, (ButtonSpecAny)sender);
             numericColumn.PerfomButtonSpecClick(args);
         }
 
         private KryptonDataGridViewNumericUpDownEditingControl EditingNumericUpDown => DataGridView.EditingControl as KryptonDataGridViewNumericUpDownEditingControl;
 
-        private Decimal Constrain(Decimal value)
+        private decimal Constrain(decimal value)
         {
             if (value < _minimum)
             {
@@ -527,12 +520,9 @@ namespace Krypton.Toolkit
 
         private bool OwnsEditingNumericUpDown(int rowIndex)
         {
-            if ((rowIndex == -1) || (DataGridView == null))
-            {
-                return false;
-            }
-
-            return (DataGridView.EditingControl is KryptonDataGridViewNumericUpDownEditingControl control)
+            return (rowIndex == -1) || (DataGridView == null)
+                ? false
+                : (DataGridView.EditingControl is KryptonDataGridViewNumericUpDownEditingControl control)
                    && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
         }
 
@@ -579,7 +569,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal void SetIncrement(int rowIndex, Decimal value)
+        internal void SetIncrement(int rowIndex, decimal value)
         {
             _increment = value;
             if (OwnsEditingNumericUpDown(rowIndex))
@@ -588,7 +578,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal void SetMaximum(int rowIndex, Decimal value)
+        internal void SetMaximum(int rowIndex, decimal value)
         {
             _maximum = value;
             if (_minimum > _maximum)
@@ -599,8 +589,8 @@ namespace Krypton.Toolkit
             object cellValue = GetValue(rowIndex);
             if (cellValue != null)
             {
-                Decimal currentValue = Convert.ToDecimal(cellValue);
-                Decimal constrainedValue = Constrain(currentValue);
+                decimal currentValue = Convert.ToDecimal(cellValue);
+                decimal constrainedValue = Constrain(currentValue);
                 if (constrainedValue != currentValue)
                 {
                     SetValue(rowIndex, constrainedValue);
@@ -613,7 +603,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal void SetMinimum(int rowIndex, Decimal value)
+        internal void SetMinimum(int rowIndex, decimal value)
         {
             _minimum = value;
             if (_minimum > _maximum)
@@ -624,8 +614,8 @@ namespace Krypton.Toolkit
             object cellValue = GetValue(rowIndex);
             if (cellValue != null)
             {
-                Decimal currentValue = Convert.ToDecimal(cellValue);
-                Decimal constrainedValue = Constrain(currentValue);
+                decimal currentValue = Convert.ToDecimal(cellValue);
+                decimal constrainedValue = Constrain(currentValue);
                 if (constrainedValue != currentValue)
                 {
                     SetValue(rowIndex, constrainedValue);
@@ -649,18 +639,12 @@ namespace Krypton.Toolkit
 
         internal static HorizontalAlignment TranslateAlignment(DataGridViewContentAlignment align)
         {
-            if ((align & ANY_RIGHT) != 0)
+            return align switch
             {
-                return HorizontalAlignment.Right;
-            }
-            else if ((align & ANY_CENTER) != 0)
-            {
-                return HorizontalAlignment.Center;
-            }
-            else
-            {
-                return HorizontalAlignment.Left;
-            }
+                ANY_RIGHT => HorizontalAlignment.Right,
+                ANY_CENTER => HorizontalAlignment.Center,
+                _ => HorizontalAlignment.Left
+            };
         }
         #endregion
     }

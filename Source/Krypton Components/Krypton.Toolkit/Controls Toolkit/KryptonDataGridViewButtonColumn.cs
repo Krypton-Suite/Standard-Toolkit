@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -44,7 +35,7 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewButtonColumn()
             : base(new KryptonDataGridViewButtonCell())
         {
-            DataGridViewCellStyle style = new DataGridViewCellStyle
+            DataGridViewCellStyle style = new()
             {
                 Alignment = DataGridViewContentAlignment.MiddleCenter
             };
@@ -57,7 +48,7 @@ namespace Krypton.Toolkit
         /// <returns>A String that represents the current Object.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder(0x40);
+            StringBuilder builder = new(0x40);
             builder.Append("KryptonDataGridViewButtonColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -93,7 +84,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if ((value != null) && !(value is KryptonDataGridViewButtonCell))
+                if ((value != null) && value is not KryptonDataGridViewButtonCell)
                 {
                     throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewButtonCell");
                 }
@@ -158,15 +149,10 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool UseColumnTextForButtonValue
         {
-            get
-            {
-                if (CellTemplate == null)
-                {
-                    throw new InvalidOperationException("KryptonDataGridViewButtonColumn cell template required");
-                }
-
-                return ((KryptonDataGridViewButtonCell)CellTemplate).UseColumnTextForButtonValue;
-            }
+            get =>
+                CellTemplate == null
+                    ? throw new InvalidOperationException("KryptonDataGridViewButtonColumn cell template required")
+                    : ((KryptonDataGridViewButtonCell)CellTemplate).UseColumnTextForButtonValue;
 
             set
             {
@@ -198,15 +184,10 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(ButtonStyle), "Standalone")]
         public ButtonStyle ButtonStyle
         {
-            get
-            {
-                if (CellTemplate == null)
-                {
-                    throw new InvalidOperationException("KryptonDataGridViewButtonColumn cell template required");
-                }
-
-                return ((KryptonDataGridViewButtonCell)CellTemplate).ButtonStyle;
-            }
+            get =>
+                CellTemplate == null
+                    ? throw new InvalidOperationException("KryptonDataGridViewButtonColumn cell template required")
+                    : ((KryptonDataGridViewButtonCell)CellTemplate).ButtonStyle;
 
             set
             {
@@ -240,17 +221,14 @@ namespace Krypton.Toolkit
             }
 
             DataGridViewCellStyle defaultCellStyle = DefaultCellStyle;
-            if ((((defaultCellStyle.BackColor.IsEmpty && defaultCellStyle.ForeColor.IsEmpty) && 
-                  (defaultCellStyle.SelectionBackColor.IsEmpty && defaultCellStyle.SelectionForeColor.IsEmpty)) && 
-                 (((defaultCellStyle.Font == null) && defaultCellStyle.IsNullValueDefault) && 
-                  (defaultCellStyle.IsDataSourceNullValueDefault && string.IsNullOrEmpty(defaultCellStyle.Format)))) && 
-                ((defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture) && (defaultCellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)) && 
-                 ((defaultCellStyle.WrapMode == DataGridViewTriState.NotSet) && (defaultCellStyle.Tag == null))))
-            {
-                return !defaultCellStyle.Padding.Equals(Padding.Empty);
-            }
-            
-            return true;
+            return (((defaultCellStyle.BackColor.IsEmpty && defaultCellStyle.ForeColor.IsEmpty) &&
+                  (defaultCellStyle.SelectionBackColor.IsEmpty && defaultCellStyle.SelectionForeColor.IsEmpty)) &&
+                 (((defaultCellStyle.Font == null) && defaultCellStyle.IsNullValueDefault) &&
+                  (defaultCellStyle.IsDataSourceNullValueDefault && string.IsNullOrEmpty(defaultCellStyle.Format)))) &&
+                ((defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture) && (defaultCellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)) &&
+                 ((defaultCellStyle.WrapMode == DataGridViewTriState.NotSet) && (defaultCellStyle.Tag == null)))
+                ? !defaultCellStyle.Padding.Equals(Padding.Empty)
+                : true;
         }
 
         private void ColumnCommonChange(int columnIndex)

@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Krypton.Toolkit
 {
@@ -72,22 +67,12 @@ namespace Krypton.Toolkit
             /// <summary>
         /// Gets the starting color of the gradient used when the button is checked.
         /// </summary>
-        public override Color ButtonCheckedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonCheckedGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.ButtonCheckedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonCheckedGradientBegin];
-                }
-            }
-        }
+        public override Color ButtonCheckedGradientBegin =>
+                _colors[(int)PaletteColorIndex.ButtonCheckedGradientBegin] == Color.Empty
+                    ? BaseKCT.ButtonCheckedGradientBegin
+                    : _colors[(int)PaletteColorIndex.ButtonCheckedGradientBegin];
 
-        /// <summary>
+            /// <summary>
         /// Sets and sets the internal ButtonCheckedGradientBegin value.
         /// </summary>
         public Color InternalButtonCheckedGradientBegin
@@ -101,20 +86,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used when the button is checked.
         /// </summary>
-        public override Color ButtonCheckedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonCheckedGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.ButtonCheckedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonCheckedGradientEnd];
-                }
-            }
-        }
+        public override Color ButtonCheckedGradientEnd =>
+            _colors[(int)PaletteColorIndex.ButtonCheckedGradientEnd] == Color.Empty
+                ? BaseKCT.ButtonCheckedGradientEnd
+                : _colors[(int)PaletteColorIndex.ButtonCheckedGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal ButtonCheckedGradientEnd value.
@@ -130,20 +105,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used when the button is checked.
         /// </summary>
-        public override Color ButtonCheckedGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonCheckedGradientMiddle] == Color.Empty)
-                {
-                    return BaseKCT.ButtonCheckedGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonCheckedGradientMiddle];
-                }
-            }
-        }
+        public override Color ButtonCheckedGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ButtonCheckedGradientMiddle] == Color.Empty
+                ? BaseKCT.ButtonCheckedGradientMiddle
+                : _colors[(int)PaletteColorIndex.ButtonCheckedGradientMiddle];
 
         /// <summary>
         /// Sets and sets the internal ButtonCheckedGradientMiddle value.
@@ -159,20 +124,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the solid color used when the button is checked.
         /// </summary>
-        public override Color ButtonCheckedHighlight
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonCheckedHighlight] == Color.Empty)
-                {
-                    return BaseKCT.ButtonCheckedHighlight;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonCheckedHighlight];
-                }
-            }
-        }
+        public override Color ButtonCheckedHighlight =>
+            _colors[(int)PaletteColorIndex.ButtonCheckedHighlight] == Color.Empty
+                ? BaseKCT.ButtonCheckedHighlight
+                : _colors[(int)PaletteColorIndex.ButtonCheckedHighlight];
 
         /// <summary>
         /// Sets and sets the internal ButtonCheckedHighlight value.
@@ -188,20 +143,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border color to use with ButtonCheckedHighlight.
         /// </summary>
-        public override Color ButtonCheckedHighlightBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonCheckedHighlightBorder] == Color.Empty)
-                {
-                    return BaseKCT.ButtonCheckedHighlightBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonCheckedHighlightBorder];
-                }
-            }
-        }
+        public override Color ButtonCheckedHighlightBorder =>
+            _colors[(int)PaletteColorIndex.ButtonCheckedHighlightBorder] == Color.Empty
+                ? BaseKCT.ButtonCheckedHighlightBorder
+                : _colors[(int)PaletteColorIndex.ButtonCheckedHighlightBorder];
 
         /// <summary>
         /// Sets and sets the internal ButtonCheckedHighlightBorder value.
@@ -217,20 +162,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border color to use with the ButtonPressedGradientBegin, ButtonPressedGradientMiddle, and ButtonPressedGradientEnd colors.
         /// </summary>
-        public override Color ButtonPressedBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedBorder] == Color.Empty)
-                {
-                    return BaseKCT.ButtonPressedBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedBorder];
-                }
-            }
-        }
+        public override Color ButtonPressedBorder =>
+            _colors[(int)PaletteColorIndex.ButtonPressedBorder] == Color.Empty
+                ? BaseKCT.ButtonPressedBorder
+                : _colors[(int)PaletteColorIndex.ButtonPressedBorder];
 
         /// <summary>
         /// Sets and sets the internal ButtonPressedBorder value.
@@ -246,20 +181,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used when the button is pressed.
         /// </summary>
-        public override Color ButtonPressedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.ButtonPressedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedGradientBegin];
-                }
-            }
-        }
+        public override Color ButtonPressedGradientBegin =>
+            _colors[(int)PaletteColorIndex.ButtonPressedGradientBegin] == Color.Empty
+                ? BaseKCT.ButtonPressedGradientBegin
+                : _colors[(int)PaletteColorIndex.ButtonPressedGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal ButtonPressedGradientBegin value.
@@ -275,20 +200,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used when the button is pressed.
         /// </summary>
-        public override Color ButtonPressedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.ButtonPressedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedGradientEnd];
-                }
-            }
-        }
+        public override Color ButtonPressedGradientEnd =>
+            _colors[(int)PaletteColorIndex.ButtonPressedGradientEnd] == Color.Empty
+                ? BaseKCT.ButtonPressedGradientEnd
+                : _colors[(int)PaletteColorIndex.ButtonPressedGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal ButtonPressedGradientEnd value.
@@ -304,20 +219,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used when the button is pressed.
         /// </summary>
-        public override Color ButtonPressedGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedGradientMiddle] == Color.Empty)
-                {
-                    return BaseKCT.ButtonPressedGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedGradientMiddle];
-                }
-            }
-        }
+        public override Color ButtonPressedGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ButtonPressedGradientMiddle] == Color.Empty
+                ? BaseKCT.ButtonPressedGradientMiddle
+                : _colors[(int)PaletteColorIndex.ButtonPressedGradientMiddle];
 
         /// <summary>
         /// Sets and sets the internal ButtonPressedGradientMiddle value.
@@ -333,20 +238,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the solid color used when the button is pressed.
         /// </summary>
-        public override Color ButtonPressedHighlight
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedHighlight] == Color.Empty)
-                {
-                    return BaseKCT.ButtonPressedHighlight;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedHighlight];
-                }
-            }
-        }
+        public override Color ButtonPressedHighlight =>
+            _colors[(int)PaletteColorIndex.ButtonPressedHighlight] == Color.Empty
+                ? BaseKCT.ButtonPressedHighlight
+                : _colors[(int)PaletteColorIndex.ButtonPressedHighlight];
 
         /// <summary>
         /// Sets and sets the internal ButtonPressedHighlight value.
@@ -362,20 +257,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border color to use with ButtonPressedHighlight.
         /// </summary>
-        public override Color ButtonPressedHighlightBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonPressedHighlightBorder] == Color.Empty)
-                {
-                    return BaseKCT.ButtonPressedHighlightBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonPressedHighlightBorder];
-                }
-            }
-        }
+        public override Color ButtonPressedHighlightBorder =>
+            _colors[(int)PaletteColorIndex.ButtonPressedHighlightBorder] == Color.Empty
+                ? BaseKCT.ButtonPressedHighlightBorder
+                : _colors[(int)PaletteColorIndex.ButtonPressedHighlightBorder];
 
         /// <summary>
         /// Sets and sets the internal ButtonPressedHighlightBorder value.
@@ -391,20 +276,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border color to use with the ButtonSelectedGradientBegin, ButtonSelectedGradientMiddle, and ButtonSelectedGradientEnd colors.
         /// </summary>
-        public override Color ButtonSelectedBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedBorder] == Color.Empty)
-                {
-                    return BaseKCT.ButtonSelectedBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedBorder];
-                }
-            }
-        }
+        public override Color ButtonSelectedBorder =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedBorder] == Color.Empty
+                ? BaseKCT.ButtonSelectedBorder
+                : _colors[(int)PaletteColorIndex.ButtonSelectedBorder];
 
         /// <summary>
         /// Sets and sets the internal ButtonSelectedBorder value.
@@ -420,20 +295,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used when the button is selected.
         /// </summary>
-        public override Color ButtonSelectedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.ButtonSelectedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedGradientBegin];
-                }
-            }
-        }
+        public override Color ButtonSelectedGradientBegin =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedGradientBegin] == Color.Empty
+                ? BaseKCT.ButtonSelectedGradientBegin
+                : _colors[(int)PaletteColorIndex.ButtonSelectedGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal ButtonSelectedGradientBegin value.
@@ -449,20 +314,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used when the button is selected.
         /// </summary>
-        public override Color ButtonSelectedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.ButtonSelectedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedGradientEnd];
-                }
-            }
-        }
+        public override Color ButtonSelectedGradientEnd =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedGradientEnd] == Color.Empty
+                ? BaseKCT.ButtonSelectedGradientEnd
+                : _colors[(int)PaletteColorIndex.ButtonSelectedGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal ButtonSelectedGradientEnd value.
@@ -478,20 +333,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used when the button is selected.
         /// </summary>
-        public override Color ButtonSelectedGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedGradientMiddle] == Color.Empty)
-                {
-                    return BaseKCT.ButtonSelectedGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedGradientMiddle];
-                }
-            }
-        }
+        public override Color ButtonSelectedGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedGradientMiddle] == Color.Empty
+                ? BaseKCT.ButtonSelectedGradientMiddle
+                : _colors[(int)PaletteColorIndex.ButtonSelectedGradientMiddle];
 
         /// <summary>
         /// Sets and sets the internal ButtonSelectedGradientMiddle value.
@@ -507,20 +352,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the solid color used when the button is selected.
         /// </summary>
-        public override Color ButtonSelectedHighlight
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedHighlight] == Color.Empty)
-                {
-                    return BaseKCT.ButtonSelectedHighlight;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedHighlight];
-                }
-            }
-        }
+        public override Color ButtonSelectedHighlight =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedHighlight] == Color.Empty
+                ? BaseKCT.ButtonSelectedHighlight
+                : _colors[(int)PaletteColorIndex.ButtonSelectedHighlight];
 
         /// <summary>
         /// Sets and sets the internal ButtonSelectedHighlight value.
@@ -536,20 +371,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border color to use with ButtonSelectedHighlight.
         /// </summary>
-        public override Color ButtonSelectedHighlightBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ButtonSelectedHighlightBorder] == Color.Empty)
-                {
-                    return BaseKCT.ButtonSelectedHighlightBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ButtonSelectedHighlightBorder];
-                }
-            }
-        }
+        public override Color ButtonSelectedHighlightBorder =>
+            _colors[(int)PaletteColorIndex.ButtonSelectedHighlightBorder] == Color.Empty
+                ? BaseKCT.ButtonSelectedHighlightBorder
+                : _colors[(int)PaletteColorIndex.ButtonSelectedHighlightBorder];
 
         /// <summary>
         /// Sets and sets the internal ButtonSelectedHighlightBorder value.
@@ -567,20 +392,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the solid color to use when the button is checked and gradients are being used.
         /// </summary>
-        public override Color CheckBackground
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.CheckBackground] == Color.Empty)
-                {
-                    return BaseKCT.CheckBackground;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.CheckBackground];
-                }
-            }
-        }
+        public override Color CheckBackground =>
+            _colors[(int)PaletteColorIndex.CheckBackground] == Color.Empty
+                ? BaseKCT.CheckBackground
+                : _colors[(int)PaletteColorIndex.CheckBackground];
 
         /// <summary>
         /// Sets and sets the internal CheckBackground value.
@@ -596,20 +411,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the solid color to use when the button is checked and selected and gradients are being used.
         /// </summary>
-        public override Color CheckPressedBackground
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.CheckPressedBackground] == Color.Empty)
-                {
-                    return BaseKCT.CheckPressedBackground;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.CheckPressedBackground];
-                }
-            }
-        }
+        public override Color CheckPressedBackground =>
+            _colors[(int)PaletteColorIndex.CheckPressedBackground] == Color.Empty
+                ? BaseKCT.CheckPressedBackground
+                : _colors[(int)PaletteColorIndex.CheckPressedBackground];
 
         /// <summary>
         /// Sets and sets the internal CheckPressedBackground value.
@@ -625,20 +430,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the solid color to use when the button is checked and selected and gradients are being used.
         /// </summary>
-        public override Color CheckSelectedBackground
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.CheckSelectedBackground] == Color.Empty)
-                {
-                    return BaseKCT.CheckSelectedBackground;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.CheckSelectedBackground];
-                }
-            }
-        }
+        public override Color CheckSelectedBackground =>
+            _colors[(int)PaletteColorIndex.CheckSelectedBackground] == Color.Empty
+                ? BaseKCT.CheckSelectedBackground
+                : _colors[(int)PaletteColorIndex.CheckSelectedBackground];
 
         /// <summary>
         /// Sets and sets the internal CheckSelectedBackground value.
@@ -656,20 +451,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color to use for shadow effects on the grip (move handle).
         /// </summary>
-        public override Color GripDark
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.GripDark] == Color.Empty)
-                {
-                    return BaseKCT.GripDark;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.GripDark];
-                }
-            }
-        }
+        public override Color GripDark => _colors[(int)PaletteColorIndex.GripDark] == Color.Empty ? BaseKCT.GripDark : _colors[(int)PaletteColorIndex.GripDark];
 
         /// <summary>
         /// Sets and sets the internal GripDark value.
@@ -685,20 +467,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color to use for highlight effects on the grip (move handle).
         /// </summary>
-        public override Color GripLight
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.GripLight] == Color.Empty)
-                {
-                    return BaseKCT.GripLight;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.GripLight];
-                }
-            }
-        }
+        public override Color GripLight => _colors[(int)PaletteColorIndex.GripLight] == Color.Empty ? BaseKCT.GripLight : _colors[(int)PaletteColorIndex.GripLight];
 
         /// <summary>
         /// Sets and sets the internal GripLight value.
@@ -716,20 +485,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the image margin of a ToolStripDropDownMenu.
         /// </summary>
-        public override Color ImageMarginGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.ImageMarginGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginGradientBegin];
-                }
-            }
-        }
+        public override Color ImageMarginGradientBegin =>
+            _colors[(int)PaletteColorIndex.ImageMarginGradientBegin] == Color.Empty
+                ? BaseKCT.ImageMarginGradientBegin
+                : _colors[(int)PaletteColorIndex.ImageMarginGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal ImageMarginGradientBegin value.
@@ -745,20 +504,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the image margin of a ToolStripDropDownMenu.
         /// </summary>
-        public override Color ImageMarginGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.ImageMarginGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginGradientEnd];
-                }
-            }
-        }
+        public override Color ImageMarginGradientEnd =>
+            _colors[(int)PaletteColorIndex.ImageMarginGradientEnd] == Color.Empty
+                ? BaseKCT.ImageMarginGradientEnd
+                : _colors[(int)PaletteColorIndex.ImageMarginGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal ImageMarginGradientEnd value.
@@ -774,20 +523,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used in the image margin of a ToolStripDropDownMenu.
         /// </summary>
-        public override Color ImageMarginGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginGradientMiddle] == Color.Empty)
-                {
-                    return BaseKCT.ImageMarginGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginGradientMiddle];
-                }
-            }
-        }
+        public override Color ImageMarginGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ImageMarginGradientMiddle] == Color.Empty
+                ? BaseKCT.ImageMarginGradientMiddle
+                : _colors[(int)PaletteColorIndex.ImageMarginGradientMiddle];
 
         /// <summary>
         /// Sets and sets the internal ImageMarginGradientMiddle value.
@@ -803,20 +542,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.
         /// </summary>
-        public override Color ImageMarginRevealedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginRevealedGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.ImageMarginRevealedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientBegin];
-                }
-            }
-        }
+        public override Color ImageMarginRevealedGradientBegin =>
+            _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientBegin] == Color.Empty
+                ? BaseKCT.ImageMarginRevealedGradientBegin
+                : _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal ImageMarginRevealedGradientBegin value.
@@ -832,20 +561,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.
         /// </summary>
-        public override Color ImageMarginRevealedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginRevealedGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.ImageMarginRevealedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientEnd];
-                }
-            }
-        }
+        public override Color ImageMarginRevealedGradientEnd =>
+            _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientEnd] == Color.Empty
+                ? BaseKCT.ImageMarginRevealedGradientEnd
+                : _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal ImageMarginRevealedGradientEnd value.
@@ -861,20 +580,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used in the image margin of a ToolStripDropDownMenu when an item is revealed.
         /// </summary>
-        public override Color ImageMarginRevealedGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ImageMarginRevealedGradientMiddle] == Color.Empty)
-                {
-                    return BaseKCT.ImageMarginRevealedGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientMiddle];
-                }
-            }
-        }
+        public override Color ImageMarginRevealedGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientMiddle] == Color.Empty
+                ? BaseKCT.ImageMarginRevealedGradientMiddle
+                : _colors[(int)PaletteColorIndex.ImageMarginRevealedGradientMiddle];
 
         /// <summary>
         /// Sets and sets the internal ImageMarginRevealedGradientMiddle value.
@@ -892,20 +601,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color that is the border color to use on a MenuStrip.
         /// </summary>
-        public override Color MenuBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuBorder] == Color.Empty)
-                {
-                    return BaseKCT.MenuBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuBorder];
-                }
-            }
-        }
+        public override Color MenuBorder => _colors[(int)PaletteColorIndex.MenuBorder] == Color.Empty ? BaseKCT.MenuBorder : _colors[(int)PaletteColorIndex.MenuBorder];
 
         /// <summary>
         /// Sets and sets the internal MenuBorder value.
@@ -921,20 +617,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color used to draw menu item text.
         /// </summary>
-        public override Color MenuItemText
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemText] == Color.Empty)
-                {
-                    return BaseKCT.MenuItemText;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemText];
-                }
-            }
-        }
+        public override Color MenuItemText =>
+            _colors[(int)PaletteColorIndex.MenuItemText] == Color.Empty
+                ? BaseKCT.MenuItemText
+                : _colors[(int)PaletteColorIndex.MenuItemText];
 
         /// <summary>
         /// Sets and sets the internal MenuItemText value.
@@ -950,20 +636,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the font used to draw text on a status strip.
         /// </summary>
-        public override Font MenuStripFont
-        {
-            get
-            {
-                if (InternalMenuStripFont == null)
-                {
-                    return BaseKCT.MenuStripFont;
-                }
-                else
-                {
-                    return InternalMenuStripFont;
-                }
-            }
-        }
+        public override Font MenuStripFont => InternalMenuStripFont == null ? BaseKCT.MenuStripFont : InternalMenuStripFont;
 
         /// <summary>
         /// Sets and sets the internal MenuStripFont value.
@@ -976,20 +649,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border color to use with a ToolStripMenuItem.
         /// </summary>
-        public override Color MenuItemBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemBorder] == Color.Empty)
-                {
-                    return BaseKCT.MenuItemBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemBorder];
-                }
-            }
-        }
+        public override Color MenuItemBorder =>
+            _colors[(int)PaletteColorIndex.MenuItemBorder] == Color.Empty
+                ? BaseKCT.MenuItemBorder
+                : _colors[(int)PaletteColorIndex.MenuItemBorder];
 
         /// <summary>
         /// Sets and sets the internal MenuItemBorder value.
@@ -1005,20 +668,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used when a top-level ToolStripMenuItem is pressed.
         /// </summary>
-        public override Color MenuItemPressedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemPressedGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.MenuItemPressedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemPressedGradientBegin];
-                }
-            }
-        }
+        public override Color MenuItemPressedGradientBegin =>
+            _colors[(int)PaletteColorIndex.MenuItemPressedGradientBegin] == Color.Empty
+                ? BaseKCT.MenuItemPressedGradientBegin
+                : _colors[(int)PaletteColorIndex.MenuItemPressedGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal MenuItemPressedGradientBegin value.
@@ -1034,20 +687,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used when a top-level ToolStripMenuItem is pressed.
         /// </summary>
-        public override Color MenuItemPressedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemPressedGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.MenuItemPressedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemPressedGradientEnd];
-                }
-            }
-        }
+        public override Color MenuItemPressedGradientEnd =>
+            _colors[(int)PaletteColorIndex.MenuItemPressedGradientEnd] == Color.Empty
+                ? BaseKCT.MenuItemPressedGradientEnd
+                : _colors[(int)PaletteColorIndex.MenuItemPressedGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal MenuItemPressedGradientEnd value.
@@ -1063,20 +706,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used when a top-level ToolStripMenuItem is pressed.
         /// </summary>
-        public override Color MenuItemPressedGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemPressedGradientMiddle] == Color.Empty)
-                {
-                    return BaseKCT.MenuItemPressedGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemPressedGradientMiddle];
-                }
-            }
-        }
+        public override Color MenuItemPressedGradientMiddle =>
+            _colors[(int)PaletteColorIndex.MenuItemPressedGradientMiddle] == Color.Empty
+                ? BaseKCT.MenuItemPressedGradientMiddle
+                : _colors[(int)PaletteColorIndex.MenuItemPressedGradientMiddle];
 
         /// <summary>
         /// Sets and sets the internal MenuItemPressedGradientMiddle value.
@@ -1092,20 +725,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the solid color to use when a ToolStripMenuItem other than the top-level ToolStripMenuItem is selected.
         /// </summary>
-        public override Color MenuItemSelected
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemSelected] == Color.Empty)
-                {
-                    return BaseKCT.MenuItemSelected;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemSelected];
-                }
-            }
-        }
+        public override Color MenuItemSelected =>
+            _colors[(int)PaletteColorIndex.MenuItemSelected] == Color.Empty
+                ? BaseKCT.MenuItemSelected
+                : _colors[(int)PaletteColorIndex.MenuItemSelected];
 
         /// <summary>
         /// Sets and sets the internal MenuItemSelected value.
@@ -1121,20 +744,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used when the ToolStripMenuItem is selected.
         /// </summary>
-        public override Color MenuItemSelectedGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemSelectedGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.MenuItemSelectedGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemSelectedGradientBegin];
-                }
-            }
-        }
+        public override Color MenuItemSelectedGradientBegin =>
+            _colors[(int)PaletteColorIndex.MenuItemSelectedGradientBegin] == Color.Empty
+                ? BaseKCT.MenuItemSelectedGradientBegin
+                : _colors[(int)PaletteColorIndex.MenuItemSelectedGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal MenuItemSelectedGradientBegin value.
@@ -1150,20 +763,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used when the ToolStripMenuItem is selected.
         /// </summary>
-        public override Color MenuItemSelectedGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuItemSelectedGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.MenuItemSelectedGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuItemSelectedGradientEnd];
-                }
-            }
-        }
+        public override Color MenuItemSelectedGradientEnd =>
+            _colors[(int)PaletteColorIndex.MenuItemSelectedGradientEnd] == Color.Empty
+                ? BaseKCT.MenuItemSelectedGradientEnd
+                : _colors[(int)PaletteColorIndex.MenuItemSelectedGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal MenuItemSelectedGradientEnd value.
@@ -1179,20 +782,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color used to draw text on a menu strip.
         /// </summary>
-        public override Color MenuStripText
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuStripText] == Color.Empty)
-                {
-                    return BaseKCT.MenuStripText;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuStripText];
-                }
-            }
-        }
+        public override Color MenuStripText =>
+            _colors[(int)PaletteColorIndex.MenuStripText] == Color.Empty
+                ? BaseKCT.MenuStripText
+                : _colors[(int)PaletteColorIndex.MenuStripText];
 
         /// <summary>
         /// Sets and sets the internal MenuStripText value.
@@ -1208,20 +801,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the MenuStrip.
         /// </summary>
-        public override Color MenuStripGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuStripGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.MenuStripGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuStripGradientBegin];
-                }
-            }
-        }
+        public override Color MenuStripGradientBegin =>
+            _colors[(int)PaletteColorIndex.MenuStripGradientBegin] == Color.Empty
+                ? BaseKCT.MenuStripGradientBegin
+                : _colors[(int)PaletteColorIndex.MenuStripGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal MenuStripGradientBegin value.
@@ -1237,20 +820,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the MenuStrip.
         /// </summary>
-        public override Color MenuStripGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.MenuStripGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.MenuStripGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.MenuStripGradientEnd];
-                }
-            }
-        }
+        public override Color MenuStripGradientEnd =>
+            _colors[(int)PaletteColorIndex.MenuStripGradientEnd] == Color.Empty
+                ? BaseKCT.MenuStripGradientEnd
+                : _colors[(int)PaletteColorIndex.MenuStripGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal MenuStripGradientEnd value.
@@ -1268,20 +841,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
-        public override Color OverflowButtonGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.OverflowButtonGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.OverflowButtonGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.OverflowButtonGradientBegin];
-                }
-            }
-        }
+        public override Color OverflowButtonGradientBegin =>
+            _colors[(int)PaletteColorIndex.OverflowButtonGradientBegin] == Color.Empty
+                ? BaseKCT.OverflowButtonGradientBegin
+                : _colors[(int)PaletteColorIndex.OverflowButtonGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal OverflowButtonGradientBegin value.
@@ -1297,20 +860,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
-        public override Color OverflowButtonGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.OverflowButtonGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.OverflowButtonGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.OverflowButtonGradientEnd];
-                }
-            }
-        }
+        public override Color OverflowButtonGradientEnd =>
+            _colors[(int)PaletteColorIndex.OverflowButtonGradientEnd] == Color.Empty
+                ? BaseKCT.OverflowButtonGradientEnd
+                : _colors[(int)PaletteColorIndex.OverflowButtonGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal OverflowButtonGradientEnd value.
@@ -1326,20 +879,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
-        public override Color OverflowButtonGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.OverflowButtonGradientMiddle] == Color.Empty)
-                {
-                    return BaseKCT.OverflowButtonGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.OverflowButtonGradientMiddle];
-                }
-            }
-        }
+        public override Color OverflowButtonGradientMiddle =>
+            _colors[(int)PaletteColorIndex.OverflowButtonGradientMiddle] == Color.Empty
+                ? BaseKCT.OverflowButtonGradientMiddle
+                : _colors[(int)PaletteColorIndex.OverflowButtonGradientMiddle];
 
         /// <summary>
         /// Sets and sets the internal OverflowButtonGradientMiddle value.
@@ -1357,20 +900,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripContainer.
         /// </summary>
-        public override Color RaftingContainerGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.RaftingContainerGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.RaftingContainerGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.RaftingContainerGradientBegin];
-                }
-            }
-        }
+        public override Color RaftingContainerGradientBegin =>
+            _colors[(int)PaletteColorIndex.RaftingContainerGradientBegin] == Color.Empty
+                ? BaseKCT.RaftingContainerGradientBegin
+                : _colors[(int)PaletteColorIndex.RaftingContainerGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal RaftingContainerGradientBegin value.
@@ -1386,20 +919,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripContainer.
         /// </summary>
-        public override Color RaftingContainerGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.RaftingContainerGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.RaftingContainerGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.RaftingContainerGradientEnd];
-                }
-            }
-        }
+        public override Color RaftingContainerGradientEnd =>
+            _colors[(int)PaletteColorIndex.RaftingContainerGradientEnd] == Color.Empty
+                ? BaseKCT.RaftingContainerGradientEnd
+                : _colors[(int)PaletteColorIndex.RaftingContainerGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal RaftingContainerGradientEnd value.
@@ -1417,20 +940,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color to use to for shadow effects on the ToolStripSeparator.
         /// </summary>
-        public override Color SeparatorDark
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.SeparatorDark] == Color.Empty)
-                {
-                    return BaseKCT.SeparatorDark;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.SeparatorDark];
-                }
-            }
-        }
+        public override Color SeparatorDark =>
+            _colors[(int)PaletteColorIndex.SeparatorDark] == Color.Empty
+                ? BaseKCT.SeparatorDark
+                : _colors[(int)PaletteColorIndex.SeparatorDark];
 
         /// <summary>
         /// Sets and sets the internal SeparatorDark value.
@@ -1446,20 +959,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color to use to for highlight effects on the ToolStripSeparator.
         /// </summary>
-        public override Color SeparatorLight
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.SeparatorLight] == Color.Empty)
-                {
-                    return BaseKCT.SeparatorLight;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.SeparatorLight];
-                }
-            }
-        }
+        public override Color SeparatorLight =>
+            _colors[(int)PaletteColorIndex.SeparatorLight] == Color.Empty
+                ? BaseKCT.SeparatorLight
+                : _colors[(int)PaletteColorIndex.SeparatorLight];
 
         /// <summary>
         /// Sets and sets the internal SeparatorLight value.
@@ -1477,20 +980,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color used to draw text on a status strip.
         /// </summary>
-        public override Color StatusStripText
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.StatusStripText] == Color.Empty)
-                {
-                    return BaseKCT.StatusStripText;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.StatusStripText];
-                }
-            }
-        }
+        public override Color StatusStripText =>
+            _colors[(int)PaletteColorIndex.StatusStripText] == Color.Empty
+                ? BaseKCT.StatusStripText
+                : _colors[(int)PaletteColorIndex.StatusStripText];
 
         /// <summary>
         /// Sets and sets the internal StatusStripText value.
@@ -1506,20 +999,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the font used to draw text on a status strip.
         /// </summary>
-        public override Font StatusStripFont
-        {
-            get
-            {
-                if (InternalStatusStripFont == null)
-                {
-                    return BaseKCT.StatusStripFont;
-                }
-                else
-                {
-                    return InternalStatusStripFont;
-                }
-            }
-        }
+        public override Font StatusStripFont => InternalStatusStripFont == null ? BaseKCT.StatusStripFont : InternalStatusStripFont;
 
         /// <summary>
         /// Sets and sets the internal StatusStripFont value.
@@ -1532,20 +1012,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used on the StatusStrip.
         /// </summary>
-        public override Color StatusStripGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.StatusStripGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.StatusStripGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.StatusStripGradientBegin];
-                }
-            }
-        }
+        public override Color StatusStripGradientBegin =>
+            _colors[(int)PaletteColorIndex.StatusStripGradientBegin] == Color.Empty
+                ? BaseKCT.StatusStripGradientBegin
+                : _colors[(int)PaletteColorIndex.StatusStripGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal StatusStripGradientBegin value.
@@ -1561,20 +1031,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used on the StatusStrip.
         /// </summary>
-        public override Color StatusStripGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.StatusStripGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.StatusStripGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.StatusStripGradientEnd];
-                }
-            }
-        }
+        public override Color StatusStripGradientEnd =>
+            _colors[(int)PaletteColorIndex.StatusStripGradientEnd] == Color.Empty
+                ? BaseKCT.StatusStripGradientEnd
+                : _colors[(int)PaletteColorIndex.StatusStripGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal StatusStripGradientEnd value.
@@ -1592,20 +1052,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color used to draw text on a tool strip.
         /// </summary>
-        public override Color ToolStripText
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripText] == Color.Empty)
-                {
-                    return BaseKCT.ToolStripText;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripText];
-                }
-            }
-        }
+        public override Color ToolStripText =>
+            _colors[(int)PaletteColorIndex.ToolStripText] == Color.Empty
+                ? BaseKCT.ToolStripText
+                : _colors[(int)PaletteColorIndex.ToolStripText];
 
         /// <summary>
         /// Sets and sets the internal ToolStripText value.
@@ -1621,20 +1071,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the font used to draw text on a tool strip.
         /// </summary>
-        public override Font ToolStripFont
-        {
-            get
-            {
-                if (InternalToolStripFont == null)
-                {
-                    return BaseKCT.ToolStripFont;
-                }
-                else
-                {
-                    return InternalToolStripFont;
-                }
-            }
-        }
+        public override Font ToolStripFont => InternalToolStripFont == null ? BaseKCT.ToolStripFont : InternalToolStripFont;
 
         /// <summary>
         /// Sets and sets the internal ToolStripFont value.
@@ -1647,20 +1084,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border color to use on the bottom edge of the ToolStrip.
         /// </summary>
-        public override Color ToolStripBorder
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripBorder] == Color.Empty)
-                {
-                    return BaseKCT.ToolStripBorder;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripBorder];
-                }
-            }
-        }
+        public override Color ToolStripBorder =>
+            _colors[(int)PaletteColorIndex.ToolStripBorder] == Color.Empty
+                ? BaseKCT.ToolStripBorder
+                : _colors[(int)PaletteColorIndex.ToolStripBorder];
 
         /// <summary>
         /// Sets and sets the internal ToolStripBorder value.
@@ -1676,20 +1103,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripContentPanel.
         /// </summary>
-        public override Color ToolStripContentPanelGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripContentPanelGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.ToolStripContentPanelGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientBegin];
-                }
-            }
-        }
+        public override Color ToolStripContentPanelGradientBegin =>
+            _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientBegin] == Color.Empty
+                ? BaseKCT.ToolStripContentPanelGradientBegin
+                : _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal ToolStripContentPanelGradientBegin value.
@@ -1705,20 +1122,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripContentPanel.
         /// </summary>
-        public override Color ToolStripContentPanelGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripContentPanelGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.ToolStripContentPanelGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientEnd];
-                }
-            }
-        }
+        public override Color ToolStripContentPanelGradientEnd =>
+            _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientEnd] == Color.Empty
+                ? BaseKCT.ToolStripContentPanelGradientEnd
+                : _colors[(int)PaletteColorIndex.ToolStripContentPanelGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal ToolStripContentPanelGradientEnd value.
@@ -1734,20 +1141,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the solid background color of the ToolStripDropDown.
         /// </summary>
-        public override Color ToolStripDropDownBackground
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripDropDownBackground] == Color.Empty)
-                {
-                    return BaseKCT.ToolStripDropDownBackground;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripDropDownBackground];
-                }
-            }
-        }
+        public override Color ToolStripDropDownBackground =>
+            _colors[(int)PaletteColorIndex.ToolStripDropDownBackground] == Color.Empty
+                ? BaseKCT.ToolStripDropDownBackground
+                : _colors[(int)PaletteColorIndex.ToolStripDropDownBackground];
 
         /// <summary>
         /// Sets and sets the internal ToolStripDropDownBackground value.
@@ -1763,20 +1160,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStrip background.
         /// </summary>
-        public override Color ToolStripGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.ToolStripGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripGradientBegin];
-                }
-            }
-        }
+        public override Color ToolStripGradientBegin =>
+            _colors[(int)PaletteColorIndex.ToolStripGradientBegin] == Color.Empty
+                ? BaseKCT.ToolStripGradientBegin
+                : _colors[(int)PaletteColorIndex.ToolStripGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal ToolStripGradientBegin value.
@@ -1792,20 +1179,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStrip background.
         /// </summary>
-        public override Color ToolStripGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.ToolStripGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripGradientEnd];
-                }
-            }
-        }
+        public override Color ToolStripGradientEnd =>
+            _colors[(int)PaletteColorIndex.ToolStripGradientEnd] == Color.Empty
+                ? BaseKCT.ToolStripGradientEnd
+                : _colors[(int)PaletteColorIndex.ToolStripGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal ToolStripGradientEnd value.
@@ -1821,20 +1198,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used in the ToolStrip background.
         /// </summary>
-        public override Color ToolStripGradientMiddle
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripGradientMiddle] == Color.Empty)
-                {
-                    return BaseKCT.ToolStripGradientMiddle;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripGradientMiddle];
-                }
-            }
-        }
+        public override Color ToolStripGradientMiddle =>
+            _colors[(int)PaletteColorIndex.ToolStripGradientMiddle] == Color.Empty
+                ? BaseKCT.ToolStripGradientMiddle
+                : _colors[(int)PaletteColorIndex.ToolStripGradientMiddle];
 
         /// <summary>
         /// Sets and sets the internal ToolStripGradientMiddle value.
@@ -1850,20 +1217,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripPanel.
         /// </summary>
-        public override Color ToolStripPanelGradientBegin
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripPanelGradientBegin] == Color.Empty)
-                {
-                    return BaseKCT.ToolStripPanelGradientBegin;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripPanelGradientBegin];
-                }
-            }
-        }
+        public override Color ToolStripPanelGradientBegin =>
+            _colors[(int)PaletteColorIndex.ToolStripPanelGradientBegin] == Color.Empty
+                ? BaseKCT.ToolStripPanelGradientBegin
+                : _colors[(int)PaletteColorIndex.ToolStripPanelGradientBegin];
 
         /// <summary>
         /// Sets and sets the internal ToolStripPanelGradientBegin value.
@@ -1879,20 +1236,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripPanel.
         /// </summary>
-        public override Color ToolStripPanelGradientEnd
-        {
-            get
-            {
-                if (_colors[(int)PaletteColorIndex.ToolStripPanelGradientEnd] == Color.Empty)
-                {
-                    return BaseKCT.ToolStripPanelGradientEnd;
-                }
-                else
-                {
-                    return _colors[(int)PaletteColorIndex.ToolStripPanelGradientEnd];
-                }
-            }
-        }
+        public override Color ToolStripPanelGradientEnd =>
+            _colors[(int)PaletteColorIndex.ToolStripPanelGradientEnd] == Color.Empty
+                ? BaseKCT.ToolStripPanelGradientEnd
+                : _colors[(int)PaletteColorIndex.ToolStripPanelGradientEnd];
 
         /// <summary>
         /// Sets and sets the internal ToolStripPanelGradientEnd value.
@@ -1909,20 +1256,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if rounded egdes are required.
         /// </summary>
-        public override InheritBool UseRoundedEdges
-        {
-            get
-            {
-                if (InternalUseRoundedEdges == InheritBool.Inherit)
-                {
-                    return BaseKCT.UseRoundedEdges;
-                }
-                else
-                {
-                    return InternalUseRoundedEdges;
-                }
-            }
-        }
+        public override InheritBool UseRoundedEdges => InternalUseRoundedEdges == InheritBool.Inherit ? BaseKCT.UseRoundedEdges : InternalUseRoundedEdges;
 
         /// <summary>
         /// Sets and sets the internal UseRoundedEdges value.

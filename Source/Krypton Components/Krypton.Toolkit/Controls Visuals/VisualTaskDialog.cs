@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -243,20 +236,20 @@ namespace Krypton.Toolkit
                         _panelMainText.Left -= _messageIcon.Right;
                         break;
                     case MessageBoxIcon.Question:
-                        _messageIcon.Image = Properties.Resources.help2;
-                        System.Media.SystemSounds.Question.Play();
+                        _messageIcon.Image = Resources.help2;
+                        SystemSounds.Question.Play();
                         break;
                     case MessageBoxIcon.Information:
-                        _messageIcon.Image = Properties.Resources.information;
-                        System.Media.SystemSounds.Asterisk.Play();
+                        _messageIcon.Image = Resources.information;
+                        SystemSounds.Asterisk.Play();
                         break;
                     case MessageBoxIcon.Warning:
-                        _messageIcon.Image = Properties.Resources.sign_warning;
-                        System.Media.SystemSounds.Exclamation.Play();
+                        _messageIcon.Image = Resources.sign_warning;
+                        SystemSounds.Exclamation.Play();
                         break;
                     case MessageBoxIcon.Error:
-                        _messageIcon.Image = Properties.Resources.error;
-                        System.Media.SystemSounds.Hand.Play();
+                        _messageIcon.Image = Resources.error;
+                        SystemSounds.Hand.Play();
                         break;
                 }
             }
@@ -277,7 +270,7 @@ namespace Krypton.Toolkit
                 foreach (KryptonTaskDialogCommand command in _radioButtons)
                 {
                     // Create and add a new radio button instance
-                    KryptonRadioButton button = new KryptonRadioButton
+                    KryptonRadioButton button = new()
                     {
                         LabelStyle = LabelStyle.NormalPanel
                     };
@@ -305,7 +298,7 @@ namespace Krypton.Toolkit
                 maxButtonSize.Width = Math.Min(Math.Max(maxButtonSize.Width, 150), 400);
 
                 // Position the radio buttons in a vertical stack and size owning panel
-                Point offset = new Point(BUTTON_GAP - 1, 2);
+                Point offset = new(BUTTON_GAP - 1, 2);
                 foreach (KryptonRadioButton button in _panelMainRadio.Controls)
                 {
                     button.Location = offset;
@@ -333,7 +326,7 @@ namespace Krypton.Toolkit
                 foreach (KryptonTaskDialogCommand command in _commandButtons)
                 {
                     // Create and add a new button instance
-                    KryptonButton button = new KryptonButton
+                    KryptonButton button = new()
                     {
                         ButtonStyle = ButtonStyle.Command
                     };
@@ -360,7 +353,7 @@ namespace Krypton.Toolkit
                 maxButtonSize.Width = Math.Min(Math.Max(maxButtonSize.Width, 150), 400);
 
                 // Position the buttons in a vertical stack and size owning panel
-                Point offset = new Point(BUTTON_GAP - 1, 2);
+                Point offset = new(BUTTON_GAP - 1, 2);
                 foreach (KryptonButton button in _panelMainCommands.Controls)
                 {
                     button.Location = offset;
@@ -528,16 +521,16 @@ namespace Krypton.Toolkit
                         _iconFooter.Visible = false;
                         break;
                     case MessageBoxIcon.Question:
-                        _iconFooter.Image = Properties.Resources.help2Small;
+                        _iconFooter.Image = Resources.help2Small;
                         break;
                     case MessageBoxIcon.Information:
-                        _iconFooter.Image = Properties.Resources.informationSmall;
+                        _iconFooter.Image = Resources.informationSmall;
                         break;
                     case MessageBoxIcon.Warning:
-                        _iconFooter.Image = Properties.Resources.sign_warningSmall;
+                        _iconFooter.Image = Resources.sign_warningSmall;
                         break;
                     case MessageBoxIcon.Error:
-                        _iconFooter.Image = Properties.Resources.errorSmall;
+                        _iconFooter.Image = Resources.errorSmall;
                         break;
                 }
             }
@@ -599,7 +592,7 @@ namespace Krypton.Toolkit
 
                 int h = (int)Math.Min(messageContentSize.Height, dispSize.Height * 0.6);
                 int w = (int)Math.Min(messageContentSize.Width, dispSize.Width * 0.6);
-                Size sz = new Size(w, h);
+                Size sz = new(w, h);
                 if (messageContentSize != sz)
                 {
                     messageContentSize = sz;
@@ -794,7 +787,7 @@ namespace Krypton.Toolkit
             {
                 _panelButtons.Visible = true;
 
-                Size panelButtonSize = new Size((maxButtonSize.Width * numButtons) + (BUTTON_GAP * (numButtons + 1)), maxButtonSize.Height + (BUTTON_GAP * 2));
+                Size panelButtonSize = new((maxButtonSize.Width * numButtons) + (BUTTON_GAP * (numButtons + 1)), maxButtonSize.Height + (BUTTON_GAP * 2));
 
                 if (!checkboxSize.IsEmpty)
                 {
@@ -952,7 +945,7 @@ namespace Krypton.Toolkit
                 if ((e.Modifiers == Keys.Control)
                     && (e.KeyCode == Keys.C))
                 {
-                    StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new();
 
                     sb.AppendLine("---------------------------");
                     sb.AppendLine(_windowTitle);

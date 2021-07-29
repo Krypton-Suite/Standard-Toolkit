@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Design;
-using System.Windows.Forms;
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace Krypton.Toolkit
@@ -43,9 +36,8 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand _command;
-        private bool _isDefault;
-        private bool _useMnemonic;
-        private bool _wasEnabled;
+        private bool _alwaysUseSetText, _isDefault, _useMnemonic, _wasEnabled;
+        private string _persistentText;
         #endregion
 
         #region Events
@@ -122,6 +114,9 @@ namespace Krypton.Toolkit
 
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawButton);
+
+            // Always preserve the text, if the DialogResult value has been changed
+            _alwaysUseSetText = true;
         }
         #endregion
 
@@ -232,6 +227,18 @@ namespace Krypton.Toolkit
         {
             ButtonStyle = ButtonStyle.Standalone;
         }
+
+        [DefaultValue(true), Description("Always use the set text, even if the 'DialogResult' value has been changed. (Note: You can manage the 'DialogResult' string values via the KryptonManager on the parent KryptonForm.)")]
+        public bool AlwaysUseSetText { get => _alwaysUseSetText; set => _alwaysUseSetText = value; }
+
+        private bool ShouldSerializeAlwaysUseSetText() => (AlwaysUseSetText != _alwaysUseSetText);
+
+        private bool ResetAlwaysUseSetText() => AlwaysUseSetText = true;
+
+        /// <summary>Gets the persistent text.</summary>
+        /// <value>The persistent text.</value>
+        [Description("Stores the button text.")]
+        public string PersistentText { get => _persistentText; private set => _persistentText = value; }
 
         /// <summary>
         /// Gets access to the button content.
@@ -501,7 +508,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(90, 25);
+        protected override Size DefaultSize => new(90, 25);
 
         /// <summary>
         /// Gets the default Input Method Editor (IME) mode supported by this control.
@@ -616,6 +623,105 @@ namespace Krypton.Toolkit
         {
             _buttonController.RemoveFixed();
         }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+            {
+                PreserveText(Text);
+            }
+
+            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText) && DialogResult == DialogResult.None)
+            {
+                Text = _persistentText;
+            }
+
+            if (DialogResult == DialogResult.Abort)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.Abort;
+                }
+            }
+
+            if (DialogResult == DialogResult.Cancel)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.Cancel;
+                }
+            }
+
+            if (DialogResult == DialogResult.OK)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.OK;
+                }
+            }
+
+            if (DialogResult == DialogResult.Yes)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.Yes;
+                }
+            }
+
+            if (DialogResult == DialogResult.No)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.No;
+                }
+            }
+
+            if (DialogResult == DialogResult.Retry)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.Retry;
+                }
+            }
+
+            if (DialogResult == DialogResult.Ignore)
+            {
+                if (_alwaysUseSetText && MissingFrameWorkAPIs.IsNullOrWhiteSpace(_persistentText))
+                {
+                    Text = _persistentText;
+                }
+                else
+                {
+                    Text = KryptonManager.Strings.Ignore;
+                }
+            }
+
+            base.OnPaint(e);
+        }
         #endregion
 
         #region Protected Virtual
@@ -708,6 +814,18 @@ namespace Krypton.Toolkit
             if (CanFocus)
             {
                 Focus();
+            }
+        }
+        #endregion
+
+        #region Preserve Text
+        /// <summary>Preserves the button text.</summary>
+        /// <param name="buttonText">The text to preserve.</param>
+        public void PreserveText(string buttonText)
+        {
+            if (_alwaysUseSetText)
+            {
+                PersistentText = buttonText;
             }
         }
         #endregion

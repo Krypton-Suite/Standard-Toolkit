@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -276,7 +269,7 @@ namespace Krypton.Ribbon
             Size popupSize;
 
             // Get the preferred size of the groups area, we only really want the height
-            using (ViewLayoutContext context = new ViewLayoutContext(_ribbon, Renderer))
+            using (ViewLayoutContext context = new(_ribbon, Renderer))
             {
                 popupSize = drawMinimizedPanel.GetPreferredSize(context);
             }
@@ -289,7 +282,7 @@ namespace Krypton.Ribbon
             Rectangle parentTabsRect = _ribbon.RectangleToScreen(tabsArea.ClientRectangle);
 
             // Default popup is placed below the ribbon
-            Rectangle popupRect = new Rectangle(parentRibbonRect.X, parentTabsRect.Bottom - 1, popupSize.Width, popupSize.Height);
+            Rectangle popupRect = new(parentRibbonRect.X, parentTabsRect.Bottom - 1, popupSize.Width, popupSize.Height);
 
             // Get the view element for the currently selected tab
             ViewDrawRibbonTab viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);

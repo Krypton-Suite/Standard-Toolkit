@@ -2,19 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Reflection;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -99,7 +94,7 @@ namespace Krypton.Toolkit
                 bool pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                 // Find out the requested size of the check box drawing
-                using (ViewLayoutContext viewContent = new ViewLayoutContext(kDGV, kDGV.Renderer))
+                using (ViewLayoutContext viewContent = new(kDGV, kDGV.Renderer))
                 {
                     Size checkBoxSize = kDGV.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent,
                         kDGV.Redirector,
@@ -184,12 +179,12 @@ namespace Krypton.Toolkit
                     bool tracking = mouseCell && MouseInContentBoundsInternal;
                     bool pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
-                    using (RenderContext renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer))
+                    using (RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer))
                     {
                         Size checkBoxSize;
 
                         // Find out the requested size of the check box drawing
-                        using (ViewLayoutContext viewContent = new ViewLayoutContext(kDgv, kDgv.Renderer))
+                        using (ViewLayoutContext viewContent = new(kDgv, kDgv.Renderer))
                         {
                             checkBoxSize = renderContext.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent, 
                                 kDgv.Redirector,

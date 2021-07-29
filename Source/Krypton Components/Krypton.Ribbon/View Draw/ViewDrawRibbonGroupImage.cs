@@ -2,20 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.Diagnostics;
-using Krypton.Toolkit;
 
 namespace Krypton.Ribbon
 {
@@ -27,9 +21,9 @@ namespace Krypton.Ribbon
     {
         #region Static Fields
         //TODO dpi aware !! 
-        private static readonly Size _viewSize_2007 = new Size(30, 31);
-        private static readonly Size _viewSize_2010 = new Size(31, 31);
-        private static readonly Size _imageSize = new Size(16, 16);
+        private static readonly Size _viewSize_2007 = new(30, 31);
+        private static readonly Size _viewSize_2010 = new(31, 31);
+        private static readonly Size _imageSize = new(16, 16);
         private const int IMAGE_OFFSET_X = 7;
         private const int IMAGE_OFFSET_Y_2007 = 4;
         private const int IMAGE_OFFSET_Y_2010 = 7;
@@ -195,7 +189,7 @@ namespace Krypton.Ribbon
             if (_ribbonGroup.Image != null)
             {
                 // Determine the rectangle for the fixed size of image drawing
-                Rectangle drawRect = new Rectangle(new Point(ClientLocation.X + IMAGE_OFFSET_X,
+                Rectangle drawRect = new(new Point(ClientLocation.X + IMAGE_OFFSET_X,
                                                              ClientLocation.Y + _offsetY),
                                                    _imageSize);
 

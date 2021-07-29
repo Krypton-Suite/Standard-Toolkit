@@ -2,23 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using Krypton.Toolkit;
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace Krypton.Ribbon
 {
@@ -30,10 +21,10 @@ namespace Krypton.Ribbon
     {
         #region Static Fields
         private static readonly string _empty = "<Empty>";
-        private static readonly Padding _preferredBorder2007 = new Padding(12, 3, 12, 1);
-        private static readonly Padding _preferredBorder2010 = new Padding(8, 4, 8, 3);
-        private static readonly Padding _layoutBorder2007 = new Padding(4, 3, 4, 1);
-        private static readonly Padding _layoutBorder2010 = new Padding(1, 4, 0, 3);
+        private static readonly Padding _preferredBorder2007 = new(12, 3, 12, 1);
+        private static readonly Padding _preferredBorder2010 = new(8, 4, 8, 3);
+        private static readonly Padding _layoutBorder2007 = new(4, 3, 4, 1);
+        private static readonly Padding _layoutBorder2010 = new(1, 4, 0, 3);
         private static readonly Blend _contextBlend2007;
         private static readonly Blend _contextBlend2010;
         #endregion
@@ -115,7 +106,7 @@ namespace Krypton.Ribbon
             _contentProvider = new RibbonTabToContent(_paletteGeneral, _paletteContextCurrent);
 
             // Use a controller to change state because of mouse movement
-            RibbonTabController controller = new RibbonTabController(Ribbon, this, _needPaint);
+            RibbonTabController controller = new(Ribbon, this, _needPaint);
             controller.Click += OnTabClicked;
             controller.ContextClick += OnTabContextClicked;
             MouseController = controller;
@@ -528,15 +519,15 @@ namespace Krypton.Ribbon
                 Color sepColor = _paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
 
                 Rectangle parentRect = Parent.ClientRectangle;
-                Rectangle contextRect = new Rectangle(ClientRectangle.X - 1, parentRect.Y, ClientRectangle.Width + 2, parentRect.Height);
-                Rectangle gradientRect = new Rectangle(ClientRectangle.X - 1, parentRect.Y - 1, ClientRectangle.Width + 2, parentRect.Height + 2);
+                Rectangle contextRect = new(ClientRectangle.X - 1, parentRect.Y, ClientRectangle.Width + 2, parentRect.Height);
+                Rectangle gradientRect = new(ClientRectangle.X - 1, parentRect.Y - 1, ClientRectangle.Width + 2, parentRect.Height + 2);
 
-                using (LinearGradientBrush sepBrush = new LinearGradientBrush(gradientRect, sepColor, Color.Transparent, 90f))
+                using (LinearGradientBrush sepBrush = new(gradientRect, sepColor, Color.Transparent, 90f))
                 {
                     // We need to customize the way the color blends over the background
                     sepBrush.Blend = _contextBlend2007;
 
-                    using (Pen sepPen = new Pen(sepBrush))
+                    using (Pen sepPen = new(sepBrush))
                     {
                         if (cts.IsFirstTab(this))
                         {
@@ -560,17 +551,17 @@ namespace Krypton.Ribbon
             Color lightC2 = ControlPaint.Light(c2);
             Color c3 = CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f);
 
-            Rectangle contextRect = new Rectangle(ClientRectangle.X - 1, ClientRectangle.Y - 1, ClientRectangle.Width + 2, ClientRectangle.Height + 1);
-            Rectangle fillRect = new Rectangle(ClientRectangle.X - 2, ClientRectangle.Y - 1, ClientRectangle.Width + 4, ClientRectangle.Height);
+            Rectangle contextRect = new(ClientRectangle.X - 1, ClientRectangle.Y - 1, ClientRectangle.Width + 2, ClientRectangle.Height + 1);
+            Rectangle fillRect = new(ClientRectangle.X - 2, ClientRectangle.Y - 1, ClientRectangle.Width + 4, ClientRectangle.Height);
 
-            using (LinearGradientBrush outerBrush = new LinearGradientBrush(contextRect, c1, Color.Transparent, 90f),
-                                       innerBrush = new LinearGradientBrush(contextRect, c3, Color.Transparent, 90f),
-                                       fillBrush = new LinearGradientBrush(contextRect, Color.FromArgb(64, lightC2), Color.Transparent, 90f))
+            using (LinearGradientBrush outerBrush = new(contextRect, c1, Color.Transparent, 90f),
+                                       innerBrush = new(contextRect, c3, Color.Transparent, 90f),
+                                       fillBrush = new(contextRect, Color.FromArgb(64, lightC2), Color.Transparent, 90f))
             {
                 fillBrush.Blend = _contextBlend2010;
 
-                using (Pen outerPen = new Pen(outerBrush),
-                           innerPen = new Pen(innerBrush))
+                using (Pen outerPen = new(outerBrush),
+                           innerPen = new(innerBrush))
                 {
                     if (cts.IsFirstTab(this))
                     {

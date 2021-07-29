@@ -2,21 +2,14 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
  *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
-using System.Drawing;
-using System.Windows.Forms;
-
-using Krypton.Navigator;
-using Krypton.Toolkit;
 
 namespace Krypton.Workspace
 {
@@ -90,7 +83,7 @@ namespace Krypton.Workspace
                 if (dragEndData.Navigator == Cell)
                 {
                     // Create list of all the visible pages in the cell
-                    KryptonPageCollection visiblePages = new KryptonPageCollection();
+                    KryptonPageCollection visiblePages = new();
                     foreach (KryptonPage page in Cell.Pages)
                     {
                         if (page.LastVisibleSet)
@@ -138,7 +131,7 @@ namespace Krypton.Workspace
             if (Cell.WorkspaceParent is KryptonWorkspaceSequence parent)
             {
                 // Transfer the dragged pages into a new cell
-                KryptonWorkspaceCell cell = new KryptonWorkspaceCell();
+                KryptonWorkspaceCell cell = new();
                 KryptonPage page = ProcessDragEndData(Workspace, cell, data);
 
                 // If no pages are transferred then we do nothing and no longer need cell instance
@@ -159,7 +152,7 @@ namespace Krypton.Workspace
                             : Orientation.Horizontal;
 
                         // Create a new sequence and transfer the target cell into it
-                        KryptonWorkspaceSequence sequence = new KryptonWorkspaceSequence(sequenceOrientation);
+                        KryptonWorkspaceSequence sequence = new(sequenceOrientation);
                         int index = parent.Children.IndexOf(Cell);
                         parent.Children.RemoveAt(index);
                         sequence.Children.Add(Cell);
