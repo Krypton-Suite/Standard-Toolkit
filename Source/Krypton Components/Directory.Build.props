@@ -8,9 +8,9 @@
   
   <!--Version information-->
   <PropertyGroup>
-    <AssemblyVersion>6.0.2108.1</AssemblyVersion>
-    <FileVersion>6.0.2108.1</FileVersion>
-    <Version>6.0.2108.1</Version>
+    <AssemblyVersion>6.0.2108</AssemblyVersion>
+    <FileVersion>6.0.2108</FileVersion>
+    <Version>6.0.2108</Version>
   </PropertyGroup>
   
   <PropertyGroup>
