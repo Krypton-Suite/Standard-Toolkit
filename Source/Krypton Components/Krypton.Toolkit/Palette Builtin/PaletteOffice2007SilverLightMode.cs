@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(80, 81, 82)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 56,  63,  70),    // TextLabelControl
+        private static readonly Color[] _schemeColors = { Color.FromArgb(56,  63,  70),    // TextLabelControl
                                                                       Color.FromArgb( 56,  63,  70),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(141, 148, 157),    // ButtonNormalBorder1
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(245, 199, 149),    // GridSheetRowSelected
                                                                       Color.FromArgb(188, 195, 209),    // GridDataCellBorder
                                                                       Color.FromArgb(194, 217, 240),    // GridDataCellSelected
-                                                                      Color.FromArgb(165, 173, 192),    // InputControlTextNormal
+                                                                      Color.FromArgb(56,  63,  70),    // InputControlTextNormal
                                                                       Color.FromArgb(172, 168, 153),    // InputControlTextDisabled
                                                                       Color.FromArgb(169, 177, 184),    // InputControlBorderNormal
                                                                       Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled
