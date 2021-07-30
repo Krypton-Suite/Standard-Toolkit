@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Black color scheme variant of the Office 2007 palette.
     /// </summary>
-    public class PaletteOffice2007Black : PaletteOffice2007Base
+    public class PaletteOffice2007BlackDarkMode : PaletteOffice2007Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -45,8 +45,9 @@ namespace Krypton.Toolkit
                                                                         Color.Empty,                        // Outside position
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 76,  83,  92),    // TextLabelControl
-                                                                      Color.FromArgb( 70,  70,  70),    // TextButtonNormal
+        private static readonly Color[] _schemeColors = { Color.White,    // TextLabelControl
+                                                                      //Color.FromArgb( 70,  70,  70),
+                                                                      Color.White,                                     // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(137, 135, 133),    // ButtonNormalBorder1
                                                                       Color.FromArgb(127, 125, 123),    // ButtonNormalBorder2
@@ -221,11 +222,11 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(255, 213, 141),    // GridSheetRowSelected
                                                                       Color.FromArgb(188, 195, 209),    // GridDataCellBorder
                                                                       Color.FromArgb(194, 217, 240),    // GridDataCellSelected
-                                                                      Color.Black,                                     // InputControlTextNormal
+                                                                      Color.FromArgb(255, 255, 255),    // InputControlTextNormal
                                                                       Color.FromArgb(172, 168, 153),    // InputControlTextDisabled
                                                                       Color.FromArgb(137, 137, 137),    // InputControlBorderNormal
                                                                       Color.FromArgb(204, 204, 204),    // InputControlBorderDisabled
-                                                                      Color.White,                                     // InputControlBackNormal
+                                                                      Color.FromArgb(38, 38, 38),       // InputControlBackNormal
                                                                       SystemColors.Control,             // InputControlBackDisabled
                                                                       Color.FromArgb(232, 232, 232),    // InputControlBackInactive
                                                                       Color.FromArgb(124, 124, 124),    // InputDropDownNormal1
@@ -262,7 +263,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static PaletteOffice2007Black()
+        static PaletteOffice2007BlackDarkMode()
         {
             _checkBoxList = new ImageList
             {
@@ -290,7 +291,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteOffice2007Black class.
         /// </summary>
-        public PaletteOffice2007Black()
+        public PaletteOffice2007BlackDarkMode()
             : base(_schemeColors,
                    _checkBoxList,
                    _galleryButtonList,

@@ -13,6 +13,13 @@
     <Version>6.0.2108</Version>
   </PropertyGroup>
   
+  <!--Version information-->
+  <PropertyGroup>
+    <AssemblyVersion>6.0.2108</AssemblyVersion>
+    <FileVersion>6.0.2108</FileVersion>
+    <Version>6.0.2108</Version>
+  </PropertyGroup>
+  
   <PropertyGroup>
     <!-- common project data -->
 	  <Version>$(LibraryVersion)</Version>

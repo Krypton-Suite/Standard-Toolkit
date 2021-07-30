@@ -347,6 +347,7 @@ namespace Krypton.Toolkit
         private bool _trackingMouseEnter;
         private int _cachedHeight;
         private bool _multilineStringEditor;
+        private bool _enableDarkMode;
         private readonly ButtonSpecAny _editorButton;
         #endregion
 
@@ -1735,6 +1736,15 @@ namespace Krypton.Toolkit
 
             // Add adjust actual height to match new setting
             AdjustHeight(false);
+        }
+
+        /// <summary>
+        /// Raises the Paint event.
+        /// </summary>
+        /// <param name="e">A PaintEventArgs containing the event data.</param>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
         }
 
         /// <summary>
