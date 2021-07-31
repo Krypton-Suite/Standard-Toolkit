@@ -347,7 +347,6 @@ namespace Krypton.Toolkit
         private bool _trackingMouseEnter;
         private int _cachedHeight;
         private bool _multilineStringEditor;
-        private bool _enableDarkMode;
         private readonly ButtonSpecAny _editorButton;
         #endregion
 
