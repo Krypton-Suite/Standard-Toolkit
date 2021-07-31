@@ -90,7 +90,7 @@ These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 
 =======
 
-<!--## 2021-08-01 Build 2108 - August 2021 (Canary)
+## 2021-08-01 Build 2108 - August 2021 (Canary)
 * Fixed [#150](https://github.com/Krypton-Suite/Standard-Toolkit/issues/150)
  - Make sure that the `NormalPanel` is the default style
  - Also Fixed the WrapLabel Style not being set correctly
@@ -132,7 +132,7 @@ These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 * Implemented [#79](https://github.com/Krypton-Suite/Standard-Toolkit/issues/79), Customise 'Hint' Font
 * Fixed [#77](https://github.com/Krypton-Suite/Standard-Toolkit/issues/77), When using KryptonInputBox focus is not on the edit box when it is shown
 * Fixed [#71](https://github.com/Krypton-Suite/Standard-Toolkit/issues/71), No design support while using Krypton.Ribbon in .NET 5/6 
-* Fixed [#54](https://github.com/Krypton-Suite/Standard-Toolkit/issues/54), .Net5 WinForm Project - Dropping a KLabel onto a KGroup or KGroupBox causes an Exception in Designer-->
+* Fixed [#54](https://github.com/Krypton-Suite/Standard-Toolkit/issues/54), .Net5 WinForm Project - Dropping a KLabel onto a KGroup or KGroupBox causes an Exception in Designer
 
 =======
 
