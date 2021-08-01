@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public class PaletteOffice365Black : PaletteOffice365Base
+    public class PaletteOffice365BlackDarkMode : PaletteOffice365Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 76,  83,  92),    // TextLabelControl
+        private static readonly Color[] _schemeColors = { Color.White,    // TextLabelControl
                                                                       Color.Black,                      // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(106, 106, 106),    // ButtonNormalBorder1
@@ -219,11 +219,11 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(245, 210,  87),    // GridSheetRowSelected
                                                                       Color.FromArgb(218, 220, 221),    // GridDataCellBorder
                                                                       Color.FromArgb(183, 219, 255),    // GridDataCellSelected
-                                                                      Color.Black,                                     // InputControlTextNormal
+                                                                      Color.FromArgb(255, 255, 255),    // InputControlTextNormal
                                                                       Color.FromArgb(168, 168, 168),    // InputControlTextDisabled
                                                                       Color.FromArgb(132, 132, 132),    // InputControlBorderNormal
                                                                       Color.FromArgb(187, 187, 187),    // InputControlBorderDisabled
-                                                                      Color.FromArgb(255, 255, 255),    // InputControlBackNormal
+                                                                      Color.FromArgb(38, 38, 38),       // InputControlBackNormal
                                                                       Color.FromArgb(240, 240, 240),    // InputControlBackDisabled
                                                                       Color.FromArgb(192, 192, 192),    // InputControlBackInactive
                                                                       Color.Black,                      // InputDropDownNormal1
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructors
-        static PaletteOffice365Black()
+        static PaletteOffice365BlackDarkMode()
         {
             _checkBoxList = new ImageList
             {
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initializes a new instance of the <see cref="PaletteOffice365Black"/> class.
         /// </summary>
-        public PaletteOffice365Black() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteOffice365BlackDarkMode() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
 
         }

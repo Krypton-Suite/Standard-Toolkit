@@ -91,6 +91,7 @@ These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
+* Implement [#207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/207), 'DarkMode' for `KryptonRichTextBox`/`KryptonTextBox` (Sparkle theme updates to come)
 * Fixed [#150](https://github.com/Krypton-Suite/Standard-Toolkit/issues/150)
  - Make sure that the `NormalPanel` is the default style
  - Also Fixed the WrapLabel Style not being set correctly

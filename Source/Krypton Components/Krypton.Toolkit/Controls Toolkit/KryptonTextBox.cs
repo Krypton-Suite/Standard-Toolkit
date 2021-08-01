@@ -1738,6 +1738,15 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
+        /// Raises the Paint event.
+        /// </summary>
+        /// <param name="e">A PaintEventArgs containing the event data.</param>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+        }
+
+        /// <summary>
         /// Raises the TabStop event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
