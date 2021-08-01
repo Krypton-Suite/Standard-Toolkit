@@ -137,7 +137,7 @@ These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 
 =======
 
-## 2021-06-2x - Build 2106.2 - June 2021 (Update 2)
+## 2021-06-26 - Build 2106.2 - June 2021 (Update 2)
 * Fixed [#167](https://github.com/Krypton-Suite/Standard-Toolkit/issues/167), Latest Canary of `KryptonInputBox` is not useable!! 
 
 =======
