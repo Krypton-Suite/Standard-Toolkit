@@ -49,7 +49,7 @@
 
     <PropertyGroup>
         <PackageId>Krypton.Workspace.Canary</PackageId>
-        <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the workspace module.</Description>
+        <Description>This is the workspace module.</Description>
     </PropertyGroup>
 
     <PropertyGroup>
