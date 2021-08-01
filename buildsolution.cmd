@@ -30,6 +30,8 @@ set msbuildpath=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBu
 goto build
 
 :build
+@echo Started: %date% %time%
+@echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
 "%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
@@ -42,6 +44,8 @@ if /I "%INPUT%"=="n" goto break
 
 :createpackages
 build.cmd Pack
+@echo Build Completed: %date% %time%
 
 :break
 pause
+@echo Build Completed: %date% %time%
