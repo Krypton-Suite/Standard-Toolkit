@@ -48,7 +48,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>Krypton.Docking.Canary</PackageId>
+        <PackageId>Krypton.Docking</PackageId>
         <Description>This is the docking module.</Description>
     </PropertyGroup>
 

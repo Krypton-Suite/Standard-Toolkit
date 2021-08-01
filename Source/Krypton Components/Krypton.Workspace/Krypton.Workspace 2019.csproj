@@ -48,7 +48,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>Krypton.Workspace.Canary</PackageId>
+        <PackageId>Krypton.Workspace</PackageId>
         <Description>This is the workspace module.</Description>
     </PropertyGroup>
 

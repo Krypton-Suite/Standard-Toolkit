@@ -48,7 +48,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>Krypton.Navigator.Canary</PackageId>
+        <PackageId>Krypton.Navigator</PackageId>
         <Description>This is the navigator module.</Description>
     </PropertyGroup>
 

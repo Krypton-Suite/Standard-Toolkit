@@ -48,7 +48,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>Krypton.Ribbon.Canary</PackageId>
+        <PackageId>Krypton.Ribbon</PackageId>
         <Description>This is the ribbon module.</Description>
     </PropertyGroup>
 

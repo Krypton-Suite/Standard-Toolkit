@@ -44,7 +44,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>Krypton.Toolkit.Canary</PackageId>
+        <PackageId>Krypton.Toolkit</PackageId>
         <Description>This is the core toolkit module.</Description>
     </PropertyGroup>
   
