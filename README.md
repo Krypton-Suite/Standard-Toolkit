@@ -227,5 +227,5 @@ These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 * Support for all frameworks .NET 3.5 to 4.8 inclusive
 * Support for .NET Core LTS (currently 3.1)
 * Changed `490` to `500`
-* Builds from now on will be labelled as `YYMM`
+* Builds from now on will be labeled as `YYMM`
 
