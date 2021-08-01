@@ -28,6 +28,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <!-- This may not be neded, as this dll does not have "designers" -->
         <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
             <SpecificVersion>True</SpecificVersion>
             <Version>4.0.0.0</Version>
