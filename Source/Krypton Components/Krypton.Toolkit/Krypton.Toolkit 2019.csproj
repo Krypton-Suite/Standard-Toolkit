@@ -45,19 +45,9 @@
 
     <PropertyGroup>
         <PackageId>Krypton.Toolkit.Canary</PackageId>
+        <Description>This is the core toolkit module.</Description>
     </PropertyGroup>
-    <Choose>
-        <When Condition="'$(TFMs)' == 'all'">
-            <PropertyGroup>
-                <Description>This is the core module.</Description>
-            </PropertyGroup>
-        </When>
-        <Otherwise>
-            <PropertyGroup>
-                <Description>This is the core module.</Description>
-            </PropertyGroup>
-        </Otherwise>
-    </Choose>
+  
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
