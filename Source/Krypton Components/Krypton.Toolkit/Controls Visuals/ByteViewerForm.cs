@@ -11,6 +11,8 @@
 #endregion
 
 #if NETFRAMEWORK //https://docs.microsoft.com/en-us/dotnet/standard/frameworks#how-to-specify-target-frameworks
+//using System.ComponentModel.Design;
+
 namespace Krypton.Toolkit
 {
     /// <summary>

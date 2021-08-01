@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonDataGridView), "ToolboxBitmaps.KryptonDataGridView.bmp")]
     [DesignerCategory("code")]
-    [Designer(typeof(KryptonDataGridViewDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDataGridViewDesigner, Krypton.Toolkit")]
     [Description("Display rows and columns of data of a grid you can customize.")]
     public class KryptonDataGridView : DataGridView
     {

@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonTrackBar), "ToolboxBitmaps.KryptonTrackBar.bmp")]
     [DefaultEvent("ValueChanged")]
     [DefaultProperty("Value")]
-    [Designer(typeof(KryptonTrackBarDesigner))]
+    [Designer("Krypton.Toolkit.KryptonTrackBarDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Allow user to scroll between a range of values.")]
     public class KryptonTrackBar : VisualSimpleBase

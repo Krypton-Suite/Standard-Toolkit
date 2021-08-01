@@ -11,6 +11,7 @@
 #endregion
 
 
+#nullable enable
 namespace Krypton.Toolkit
 {
     /// <summary>

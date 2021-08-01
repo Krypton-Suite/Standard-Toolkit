@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("CheckedChanged")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("CheckState")]
-    [Designer(typeof(KryptonCheckBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonCheckBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Allow user to set or clear the associated option.")]
     public class KryptonCheckBox : VisualSimpleBase, IContentValues
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Text;

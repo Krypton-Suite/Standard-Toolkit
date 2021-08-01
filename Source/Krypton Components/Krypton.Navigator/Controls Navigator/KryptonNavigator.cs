@@ -20,7 +20,7 @@ namespace Krypton.Navigator
     [ToolboxBitmap(typeof(KryptonNavigator), "ToolboxBitmaps.KryptonNavigator.bmp")]
     [DefaultEvent("SelectedIndexChanged")]
     [DefaultProperty("Pages")]
-    [Designer(typeof(KryptonNavigatorDesigner))]
+    [Designer("Krypton.Navigator.KryptonNavigatorDesigner, Krypton.Navigator")]
     [DesignerCategory("code")]
     [Description("Allows navigation between pages.")]
     [Docking(DockingBehavior.Ask)]

@@ -7,7 +7,7 @@
         </When>
         <Otherwise>
             <PropertyGroup>
-                <TargetFrameworks>net48;net5.0-windows;net6.0-windows</TargetFrameworks>
+                <TargetFrameworks>net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
             </PropertyGroup>
         </Otherwise>
     </Choose>
@@ -31,20 +31,29 @@
         <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
             <SpecificVersion>True</SpecificVersion>
             <Version>4.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
         </Reference>
         <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
             <SpecificVersion>True</SpecificVersion>
             <Version>5.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
         </Reference>
         <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
             <SpecificVersion>True</SpecificVersion>
             <Version>6.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
         </Reference>
-        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'" />
-        <!--TODO: Need to specify version here-->
+        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'">
+            <!--TODO: Need to specify version here-->
+            <!--<Version>6.0.0.0</Version>-->
+        </Reference>
+        <Reference Include="System.Drawing.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+            <!-- Needed for `ParentControlDesigner ` as this was moved from `System.Design`-->
+            <SpecificVersion>True</SpecificVersion>
+            <Version>5.0.0.0</Version>
+        </Reference>
+        <Reference Include="System.Drawing.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+            <!-- Needed for `ParentControlDesigner ` as this was moved from `System.Design`-->
+            <SpecificVersion>True</SpecificVersion>
+            <Version>6.0.0.0</Version>
+        </Reference>
     </ItemGroup>
 
     <PropertyGroup>

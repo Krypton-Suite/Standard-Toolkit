@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonWrapLabel), "ToolboxBitmaps.KryptonWrapLabel.bmp")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
-    [Designer(typeof(KryptonWrapLabelDesigner))]
+    [Designer("Krypton.Toolkit.KryptonWrapLabelDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Displays descriptive information.")]
     public sealed class KryptonWrapLabel : Label

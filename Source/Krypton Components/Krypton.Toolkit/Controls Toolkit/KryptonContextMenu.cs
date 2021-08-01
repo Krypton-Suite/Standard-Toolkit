@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("Opening")]
     [DefaultProperty("PaletteMode")]
     [DesignerCategory("code")]
-    [Designer(typeof(KryptonContextMenuDesigner))]
+    [Designer("Krypton.Toolkit.KryptonContextMenuDesigner, Krypton.Toolkit")]
     [Description("Displays a shortcut menu in popup window.")]
     public class KryptonContextMenu : Component
     {

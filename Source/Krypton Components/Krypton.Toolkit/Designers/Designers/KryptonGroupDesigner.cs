@@ -13,7 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class KryptonGroupDesigner : ParentControlDesigner
+    internal class KryptonGroupDesigner : ParentControlDesigner
     {
         #region Instance Fields
         private KryptonGroup _group;
