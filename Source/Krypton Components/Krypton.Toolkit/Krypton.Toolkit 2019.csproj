@@ -7,7 +7,7 @@
         </When>
         <Otherwise>
             <PropertyGroup>
-                <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+                <TargetFrameworks>net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
             </PropertyGroup>
         </Otherwise>
     </Choose>
@@ -23,24 +23,34 @@
         <LangVersion>preview</LangVersion>
         <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
+
     <ItemGroup>
         <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
             <SpecificVersion>True</SpecificVersion>
             <Version>4.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
         </Reference>
         <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
             <SpecificVersion>True</SpecificVersion>
             <Version>5.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
         </Reference>
         <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
             <SpecificVersion>True</SpecificVersion>
             <Version>6.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
         </Reference>
-        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'" />
-        <!--TODO: Need to specify version here-->
+        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'">
+            <!--TODO: Need to specify version here-->
+            <!--<Version>6.0.0.0</Version>-->
+        </Reference>
+        <Reference Include="System.Drawing.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+            <!-- Needed for `ParentControlDesigner ` as this was moved from `System.Design`-->
+            <SpecificVersion>True</SpecificVersion>
+            <Version>5.0.0.0</Version>
+        </Reference>
+        <Reference Include="System.Drawing.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+            <!-- Needed for `ParentControlDesigner ` as this was moved from `System.Design`-->
+            <SpecificVersion>True</SpecificVersion>
+            <Version>6.0.0.0</Version>
+        </Reference>
     </ItemGroup>
 
     <PropertyGroup>
@@ -80,7 +90,6 @@
         <Compile Update="Designers\Other\PaletteDrawBordersSelector.cs">
             <SubType>UserControl</SubType>
         </Compile>
-        <Compile Update="Controls Toolkit\KryptonByteViewer.cs" />
         <Compile Update="Controls Toolkit\KryptonBreadCrumbItem.cs">
             <SubType>Component</SubType>
         </Compile>
@@ -205,9 +214,9 @@
             <SubType>Component</SubType>
         </Compile>
         <Compile Update="Global\MessageBoxResources.Designer.cs">
-          <DesignTime>True</DesignTime>
-          <AutoGen>True</AutoGen>
-          <DependentUpon>MessageBoxResources.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
         </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
@@ -233,6 +242,10 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
         <Content Include="Krypton.ico" Pack="false" />
+        <None Include="Controls Toolkit\KryptonByteViewer.cs" />
+        <None Include="Controls Toolkit\KryptonDataGridViewBinaryCell.cs" />
+        <None Include="Controls Toolkit\KryptonDataGridViewBinaryColumn.cs" />
+        <None Include="Controls Visuals\ByteViewerForm.cs" />
         <None Include="Resources\BlackButtonCloseA.bmp" />
         <None Include="Resources\BlackDropDownButton.png" />
         <None Include="Resources\BlueDropDownButton.png" />
@@ -275,7 +288,11 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonLinkLabel.bmp" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Remove="Controls Toolkit\KryptonByteViewer.cs" />
+        <Compile Remove="Controls Toolkit\KryptonDataGridViewBinaryCell.cs" />
+        <Compile Remove="Controls Toolkit\KryptonDataGridViewBinaryColumn.cs" />
         <Compile Remove="Controls Toolkit\KryptonInputBoxNew.cs" />
+        <Compile Remove="Controls Visuals\ByteViewerForm.cs" />
         <Compile Remove="Toolkit\KryptonBorderEdgeActionList.cs" />
         <Compile Remove="Toolkit\KryptonBorderEdgeDesigner.cs" />
         <Compile Remove="Toolkit\KryptonBreadCrumbActionList.cs" />
@@ -375,10 +392,10 @@
         <EmbeddedResource Remove="Toolkit\PaletteDrawBordersSelector.resx" />
     </ItemGroup>
     <ItemGroup>
-      <EmbeddedResource Update="Global\MessageBoxResources.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
+        <EmbeddedResource Update="Global\MessageBoxResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
@@ -394,13 +411,13 @@
         <WarningLevel>5</WarningLevel>
     </PropertyGroup>
 
-  <!--Handle AssemblyInfo-->
-  <PropertyGroup>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
-    <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
-    <AssemblyVersion>6.1.2108</AssemblyVersion>
-    <FileVersion>6.1.2108</FileVersion>
-  </PropertyGroup>
+    <!--Handle AssemblyInfo-->
+    <PropertyGroup>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <NeutralLanguage>en</NeutralLanguage>
+        <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
+        <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
+        <AssemblyVersion>6.1.2108</AssemblyVersion>
+        <FileVersion>6.1.2108</FileVersion>
+    </PropertyGroup>
 </Project>

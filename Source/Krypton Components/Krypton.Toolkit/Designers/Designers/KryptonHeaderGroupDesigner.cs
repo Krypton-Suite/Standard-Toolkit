@@ -13,7 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class KryptonHeaderGroupDesigner : ParentControlDesigner
+    internal class KryptonHeaderGroupDesigner : ParentControlDesigner
     {
         #region Instance Fields
         private bool _lastHitTest;

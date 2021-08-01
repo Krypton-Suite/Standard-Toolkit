@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("SelectedItemChanged")]
     [DefaultProperty("Items")]
     [DefaultBindingProperty("SelectedItem")]
-    [Designer(typeof(KryptonDomainUpDownDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDomainUpDownDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Represents a Windows spin box (also known as an up-down control) that displays string values.")]
     public class KryptonDomainUpDown : VisualControlBase,
@@ -1087,7 +1087,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
         [Localizable(true)]
         public DomainUpDown.DomainUpDownItemCollection Items => DomainUpDown.Items;
 
