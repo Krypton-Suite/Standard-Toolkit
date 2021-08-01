@@ -125,7 +125,7 @@ These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 * Fixed [#99](https://github.com/Krypton-Suite/Standard-Toolkit/issues/99), There is no need to replace some functions in `KryptonCheckButtonActionList`
 * Documentation [#97](https://github.com/Krypton-Suite/Standard-Toolkit/issues/97), Add descriptions & documentation
 * Implemented [#93](https://github.com/Krypton-Suite/Standard-Toolkit/issues/93), For a `KryptonMessageBox`: Please describe difference between ***owner*** and ***parentWindow*** parameters
-* Fixed [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92), **Many* Items cannot be Dragged and dropped onto a Form in Designer
+* Fixed [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92), **Many** Items cannot be Dragged and dropped onto a Form in Designer
 * Fixed [#91](https://github.com/Krypton-Suite/Standard-Toolkit/issues/91), Cannot add items to KryptonGroupBox in designer
 * Fixed [#84](https://github.com/Krypton-Suite/Standard-Toolkit/issues/84), Multi-Line Text Box does not support Hint
 * Implemented [#82](https://github.com/Krypton-Suite/Standard-Toolkit/issues/82), ComboBox Should be able to have *Hint's*
@@ -137,8 +137,8 @@ These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 
 =======
 
-## 2021-06-2x - Build 2106.2 - June 2021 (Update 2)
-* Fixed [#167](https://github.com/Krypton-Suite/Standard-Toolkit/issues/167), Latest Canary of `KryptonInputBox` is not useable!! 
+## 2021-06-26 - Build 2106.2 - June 2021 (Update 2)
+* Fixed [#167](https://github.com/Krypton-Suite/Standard-Toolkit/issues/167), Latest Canary of `KryptonInputBox` is not usable!! 
 
 =======
 
@@ -227,5 +227,5 @@ These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 * Support for all frameworks .NET 3.5 to 4.8 inclusive
 * Support for .NET Core LTS (currently 3.1)
 * Changed `490` to `500`
-* Builds from now on will be labelled as `YYMM`
+* Builds from now on will be labeled as `YYMM`
 

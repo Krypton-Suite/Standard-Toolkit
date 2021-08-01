@@ -57,8 +57,8 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>Krypton.Ribbon.Canary</PackageId>
-        <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the ribbon module.</Description>
+        <PackageId>Krypton.Ribbon</PackageId>
+        <Description>This is the ribbon module.</Description>
     </PropertyGroup>
 
     <PropertyGroup>

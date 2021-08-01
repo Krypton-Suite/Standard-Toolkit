@@ -54,20 +54,10 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageId>Krypton.Toolkit.Canary</PackageId>
+        <PackageId>Krypton.Toolkit</PackageId>
+        <Description>This is the core toolkit module.</Description>
     </PropertyGroup>
-    <Choose>
-        <When Condition="'$(TFMs)' == 'all'">
-            <PropertyGroup>
-                <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the core module.</Description>
-            </PropertyGroup>
-        </When>
-        <Otherwise>
-            <PropertyGroup>
-                <Description>An update to Component factory's krypton toolkit to support .NET Core 3.1, .NET 5, .NET 6, and .net 4.5 Framework. This is the core module.</Description>
-            </PropertyGroup>
-        </Otherwise>
-    </Choose>
+  
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
