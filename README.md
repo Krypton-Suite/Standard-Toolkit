@@ -86,7 +86,7 @@ These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 
 =======
 
-<a href=""><img src="https://img.shields.io/badge/Version History-Changelog-brightgreen.svg?style=flat-square" /></a>
+<a href="https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/Documents/Help/Changelog.md"><img src="https://img.shields.io/badge/Version History-Changelog-brightgreen.svg?style=flat-square" /></a>
 
 =======
 
