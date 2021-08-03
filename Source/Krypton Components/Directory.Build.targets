@@ -4,6 +4,11 @@
     -->
 
     <PropertyGroup>
+      <AssemblyVersion>6.0.2109</AssemblyVersion>
+      <FileVersion>6.0.2109</FileVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Canary.Lite</PackageId>
         <Description Condition="'$(TFMs)' == 'lite'">
           An update to Component factory's krypton toolkit to support .NET Core 3.1, .NET 5, .NET 6, and .net 4.8 Framework. $(Description)

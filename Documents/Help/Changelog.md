@@ -1,14 +1,28 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
+## 2101-09-0x - Build 2109 - September 2021 (Canary)
+* Implement [#212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/212), The `KryptonPropertyGrid` should be moved into the `Standard-Toolkit`
+* Centralised `AsssemblyInfo` and `Version` information
+* Implemented [#223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/223), Can the build also echo out the DateTime, after the time elapsed
+* Fixed [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92), **Many** Items cannot be Dragged and dropped onto a Form in Designer (Second patch)
+    - As the "Designers" use text based references, then only need to include dlls derived from  `ParentControlDesigner`
+    - Resolves [Bug]: **Many** Items cannot be Dragged and dropped onto a Form in Designer
+* Remove the `Typeof` in the designer attributes and use text to prevent "Pre-Loading" of the wrong `System.Designer.dll` in Multi-Target projects
+* Sort out the reference assemblies information to ensure correct loading of controls in designer
+* Remove references to V2.0.0.0 of the System.Design when using the `MultilineStringEditor`
+* Remove nullable messages caused by `CS8618`
+
+=======
+
 ## 2021-08-02 Build 2108 - August 2021 (Canary)
 * Implement [#207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/207), 'DarkMode' for `KryptonRichTextBox`/`KryptonTextBox` (Sparkle theme updates to come)
-* Fixed [#150](https://github.com/Krypton-Suite/Standard-Toolkit/issues/150)
- - Make sure that the `NormalPanel` is the default style
- - Also Fixed the WrapLabel Style not being set correctly
+* Fixed [#150](https://github.com/Krypton-Suite/Standard-Toolkit/issues/150), Change the Default type of Theme for A KryptonLabel to be "Normal- Panel"
+    - Make sure that the `NormalPanel` is the default style
+    - Also Fixed the WrapLabel Style not being set correctly
 * Fixed [#202](https://github.com/Krypton-Suite/Standard-Toolkit/issues/202), `KryptonGroup` transparency
 * Remove the internal class Called `KryptonDataGridViewIconColumn` from design use [#27](https://github.com/Krypton-Suite/Standard-Toolkit/issues/27)
-- Put back the removed `CLSCompliant` and `ComVisible` assembly flags for backwards compatibility
-- Update the projects to comply/use the latest analysers
+    - Put back the removed `CLSCompliant` and `ComVisible` assembly flags for backwards compatibility
+    - Update the projects to comply/use the latest analysers
 * RichTextBox now allows CueHint Text
 * ComboBox now allows CueHint Text
 * Implement [#197](https://github.com/Krypton-Suite/Standard-Toolkit/issues/197), Rounding should use `float` or `double` instead of `int`. Rounding now accepts `float` values
@@ -113,7 +127,7 @@
 * Implemented [#8](https://github.com/Krypton-Suite/Standard-Toolkit/issues/8), Is it possible to only minimize FloatingWindow in DockingManager?
 * Fix for [#9](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9), Cannot place `KryptonStatusStrip` on a Form
 * Fix for [#12](https://github.com/Krypton-Suite/Standard-Toolkit/issues/12), AllowButtonSpecToolTipPriority 
-  * If the parent Item has tooltips, and the button spec has tooltips, then the default is show both when hovering over the button spec. This can be disabled by setting AllowButtonSpecTooltipPriority to true, so that only 1 tooltip is displayed when hovering over any part of the control.
+    - If the parent Item has tooltips, and the button spec has tooltips, then the default is show both when hovering over the button spec. This can be disabled by setting AllowButtonSpecTooltipPriority to true, so that only 1 tooltip is displayed when hovering over any part of the control.
 
 =======
 
