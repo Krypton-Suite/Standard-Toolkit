@@ -1,14 +1,16 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
 ## 2101-09-0x - Build 2109 - September 2021 (Canary)
-* Fixed [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92) (Second patch)
+* Implement [#212](https://github.com/Krypton-Suite/Standard-Toolkit/issues/212), The `KryptonPropertyGrid` should be moved into the `Standard-Toolkit`
+* Centralised `AsssemblyInfo` and `Version` information
+* Implemented [#223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/223), Can the build also echo out the DateTime, after the time elapsed
+* Fixed [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92), **Many** Items cannot be Dragged and dropped onto a Form in Designer (Second patch)
   - As the "Designers" use text based references, then only need to include dlls derived from  `ParentControlDesigner`
   - Resolves [Bug]: **Many** Items cannot be Dragged and dropped onto a Form in Designer
 * Remove the `Typeof` in the designer attributes and use text to prevent "Pre-Loading" of the wrong `System.Designer.dll` in Multi-Target projects
 * Sort out the reference assemblies information to ensure correct loading of controls in designer
 * Remove references to V2.0.0.0 of the System.Design when using the `MultilineStringEditor`
 * Remove nullable messages caused by `CS8618`
-* Implemented [#223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/223), Can the build also echo out the DateTime, after the time elapsed
 
 =======
 

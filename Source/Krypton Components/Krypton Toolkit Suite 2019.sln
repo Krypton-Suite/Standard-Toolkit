@@ -1,10 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31507.150
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31521.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{942DAEF7-509F-4BB7-B1DD-CBC28949CCF6}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
+		..\..\Documents\Help\Changelog.md = ..\..\Documents\Help\Changelog.md
 		..\..\Directory.Build.props = ..\..\Directory.Build.props
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
@@ -95,7 +96,7 @@ Global
 		{408B2F95-0322-4EEF-9A1B-889B7759976B} = {7639F185-EAEE-4483-BE71-7EC62EDDBEA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {ECEA7A85-0CA8-47A4-93BE-6AA896E9749D}
 		BuildVersion_StartDate = 2000/1/1
+		SolutionGuid = {ECEA7A85-0CA8-47A4-93BE-6AA896E9749D}
 	EndGlobalSection
 EndGlobal
