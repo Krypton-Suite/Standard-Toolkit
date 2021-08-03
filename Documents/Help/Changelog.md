@@ -4,7 +4,7 @@
 * Fixed [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92) (Second patch)
   - As the "Designers" use text based references, then only need to include dlls derived from  `ParentControlDesigner`
   - Resolves [Bug]: **Many** Items cannot be Dragged and dropped onto a Form in Designer
-* Remove the `Typeof` in the designer attributes and use text to prevent "Pre-Loading" of the wrong system.Designer dll in Multi-Target projects
+* Remove the `Typeof` in the designer attributes and use text to prevent "Pre-Loading" of the wrong `System.Designer.dll` in Multi-Target projects
 * Sort out the reference assemblies information to ensure correct loading of controls in designer
 * Remove references to V2.0.0.0 of the System.Design when using the `MultilineStringEditor`
 * Remove nullable messages caused by `CS8618`
