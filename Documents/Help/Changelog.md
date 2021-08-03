@@ -8,6 +8,8 @@
 * Sort out the reference assemblies information to ensure correct loading of controls in designer
 * Remove references to V2.0.0.0 of the System.Design when using the `MultilineStringEditor`
 * Remove nullable messages caused by `CS8618`
+* Implemented [#223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/223), Can the build also echo out the DateTime, after the time elapsed
+
 =======
 
 ## 2021-08-01 Build 2108 - August 2021 (Canary)
