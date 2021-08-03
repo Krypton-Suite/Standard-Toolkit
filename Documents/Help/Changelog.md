@@ -14,7 +14,7 @@
 
 ## 2021-08-02 Build 2108 - August 2021 (Canary)
 * Implement [#207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/207), 'DarkMode' for `KryptonRichTextBox`/`KryptonTextBox` (Sparkle theme updates to come)
-* Fixed [#150](https://github.com/Krypton-Suite/Standard-Toolkit/issues/150)
+* Fixed [#150](https://github.com/Krypton-Suite/Standard-Toolkit/issues/150), Change the Default type of Theme for A KryptonLabel to be "Normal- Panel"
   - Make sure that the `NormalPanel` is the default style
   - Also Fixed the WrapLabel Style not being set correctly
 * Fixed [#202](https://github.com/Krypton-Suite/Standard-Toolkit/issues/202), `KryptonGroup` transparency
