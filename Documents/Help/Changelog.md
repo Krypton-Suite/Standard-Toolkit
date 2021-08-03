@@ -12,15 +12,15 @@
 
 =======
 
-## 2021-08-01 Build 2108 - August 2021 (Canary)
+## 2021-08-02 Build 2108 - August 2021 (Canary)
 * Implement [#207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/207), 'DarkMode' for `KryptonRichTextBox`/`KryptonTextBox` (Sparkle theme updates to come)
 * Fixed [#150](https://github.com/Krypton-Suite/Standard-Toolkit/issues/150)
- - Make sure that the `NormalPanel` is the default style
- - Also Fixed the WrapLabel Style not being set correctly
+  - Make sure that the `NormalPanel` is the default style
+  - Also Fixed the WrapLabel Style not being set correctly
 * Fixed [#202](https://github.com/Krypton-Suite/Standard-Toolkit/issues/202), `KryptonGroup` transparency
 * Remove the internal class Called `KryptonDataGridViewIconColumn` from design use [#27](https://github.com/Krypton-Suite/Standard-Toolkit/issues/27)
-- Put back the removed `CLSCompliant` and `ComVisible` assembly flags for backwards compatibility
-- Update the projects to comply/use the latest analysers
+  - Put back the removed `CLSCompliant` and `ComVisible` assembly flags for backwards compatibility
+  - Update the projects to comply/use the latest analysers
 * RichTextBox now allows CueHint Text
 * ComboBox now allows CueHint Text
 * Implement [#197](https://github.com/Krypton-Suite/Standard-Toolkit/issues/197), Rounding should use `float` or `double` instead of `int`. Rounding now accepts `float` values
