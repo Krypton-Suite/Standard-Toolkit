@@ -91,6 +91,7 @@ These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
 =======
 
 ## 2021-08-03 Build 2108.1 - August 2021 (Canary Update 1)
+* Fixed [#230](https://github.com/Krypton-Suite/Standard-Toolkit/issues/230), ThemeManager does not populate with the new "Light / Dark" themes
 * Fixed [#229](https://github.com/Krypton-Suite/Standard-Toolkit/issues/229), Cannot set button text programatically
 * Fixed [#225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/225), Cannot set text of a button in designer 
 
