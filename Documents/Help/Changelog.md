@@ -1,6 +1,6 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
-## 2101-0x-0x - Build 2108.1 - xxx 2021 (Canary)
+## 2101-09-0x - Build 2109 - September 2021 (Canary)
 * Fixed [#92](https://github.com/Krypton-Suite/Standard-Toolkit/issues/92) (Second patch)
   - As the "Designers" use text based references, then only need to include dlls derived from  `ParentControlDesigner`
   - Resolves [Bug]: **Many** Items cannot be Dragged and dropped onto a Form in Designer
