@@ -17,6 +17,12 @@
 
 =======
 
+## 2021-08-03 Build 2108.1 - August 2021 (Canary Update 1)
+* Fixed [#229](https://github.com/Krypton-Suite/Standard-Toolkit/issues/229), Cannot set button text programatically
+* Fixed [#225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/225), Cannot set text of a button in designer 
+
+=======
+
 ## 2021-08-02 Build 2108 - August 2021 (Canary)
 * Implement [#207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/207), 'DarkMode' for `KryptonRichTextBox`/`KryptonTextBox` (Sparkle theme updates to come)
 * Fixed [#150](https://github.com/Krypton-Suite/Standard-Toolkit/issues/150), Change the Default type of Theme for A KryptonLabel to be "Normal- Panel"
