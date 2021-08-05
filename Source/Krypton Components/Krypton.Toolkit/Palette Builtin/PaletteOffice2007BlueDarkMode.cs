@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CB2007Blue);
+            _checkBoxList.Images.AddStrip(Resources.CBSparkle);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
@@ -271,14 +271,14 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(Resources.GalleryBlue);
-            _radioButtonArray = new Image[]{Resources.RB2007BlueD,
-                                            Resources.RB2007BlueN,
-                                            Resources.RB2007BlueT,
-                                            Resources.RB2007BlueP,
-                                            Resources.RB2007BlueDC,
-                                            Resources.RB2007BlueNC,
-                                            Resources.RB2007BlueTC,
-                                            Resources.RB2007BluePC};
+            _radioButtonArray = new Image[]{Resources.RBSparkleD,
+                                            Resources.RBSparkleN,
+                                            Resources.RBSparkleT,
+                                            Resources.RBSparkleP,
+                                            Resources.RBSparkleDC,
+                                            Resources.RBSparkleNC,
+                                            Resources.RBSparkleTC,
+                                            Resources.RBSparklePC};
         }
 
         /// <summary>
