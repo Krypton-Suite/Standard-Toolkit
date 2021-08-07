@@ -68,6 +68,8 @@ Follow the links to see the different objects and layouts that this framework al
 
 <a href="https://discord.gg/CRjF6fY" alt="Join our Krypton Toolkit community Discord server"><img src="https://img.shields.io/badge/Discord-Join%20our%20server-7289DA?logo=discord&style=flat-square" /></a>
 
+<!--[![Discord](https://discord.com/api/guilds/620577714889424916/widget.json)](https://discord.gg/CRjF6fY)-->
+
 =======
 
 # Project & item templates
