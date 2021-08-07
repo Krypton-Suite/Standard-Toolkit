@@ -54,10 +54,10 @@ namespace Krypton.Toolkit
             this._messageText.Font = new System.Drawing.Font("Segoe UI", 9F);
             this._messageText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             this._messageText.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
-            this._messageText.Location = new System.Drawing.Point(62, 0);
+            this._messageText.Location = new System.Drawing.Point(64, 0);
             this._messageText.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this._messageText.Name = "_messageText";
-            this._messageText.Size = new System.Drawing.Size(182, 51);
+            this._messageText.Size = new System.Drawing.Size(180, 51);
             this._messageText.Text = "Message Text";
             this._messageText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -68,8 +68,8 @@ namespace Krypton.Toolkit
             this._messageIcon.Location = new System.Drawing.Point(10, 5);
             this._messageIcon.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
             this._messageIcon.Name = "_messageIcon";
-            this._messageIcon.Size = new System.Drawing.Size(42, 41);
-            this._messageIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this._messageIcon.Size = new System.Drawing.Size(44, 41);
+            this._messageIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this._messageIcon.TabIndex = 0;
             this._messageIcon.TabStop = false;
             // 
@@ -207,7 +207,6 @@ namespace Krypton.Toolkit
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }

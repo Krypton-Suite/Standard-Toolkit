@@ -437,8 +437,6 @@ namespace Krypton.Toolkit
             // Find size of icon area plus the text area added together
             if (_messageIcon.Image != null)
             {
-                //_messageIcon.Width = _messageIcon.Image.Width;
-                //_messageIcon.Height = Math.Max(_messageIcon.Image.Height, textSize.Height);
                 return new Size(textSize.Width +_messageIcon.Width, Math.Max(_messageIcon.Height + 10, textSize.Height));
             }
 
