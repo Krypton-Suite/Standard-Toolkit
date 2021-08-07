@@ -471,7 +471,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Tooltip style for the group button.")]
-        [DefaultValue(typeof(LabelStyle), "SuperTip")]
+        //[DefaultValue(typeof(LabelStyle), "SuperTip")]
         public LabelStyle ToolTipStyle { get; set; }
 
         /// <summary>
@@ -585,7 +585,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [DefaultValue(typeof(GroupItemSize), "Large")]
+        //[DefaultValue(typeof(GroupItemSize), "Large")]
         [RefreshProperties(RefreshProperties.All)]
         public GroupItemSize MaximumSize
         {
@@ -601,7 +601,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [DefaultValue(typeof(GroupItemSize), "Small")]
+        //[DefaultValue(typeof(GroupItemSize), "Small")]
         [RefreshProperties(RefreshProperties.All)]
         public GroupItemSize MinimumSize
         {

@@ -304,7 +304,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Rendering hint for the text font.")]
-        [DefaultValue(typeof(PaletteTextHint), "Inherit")]
+        //[DefaultValue(typeof(PaletteTextHint), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteTextHint TextHint
         {

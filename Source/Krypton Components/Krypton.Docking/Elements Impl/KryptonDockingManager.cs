@@ -1456,7 +1456,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the default request action to use for a close.
         /// </summary>
-        [DefaultValue(typeof(DockingCloseRequest), "HidePage")]
+        //[DefaultValue(typeof(DockingCloseRequest), "HidePage")]
         public DockingCloseRequest DefaultCloseRequest { get; set; }
 
         /// <summary>

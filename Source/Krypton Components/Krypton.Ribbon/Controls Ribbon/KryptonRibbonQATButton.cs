@@ -248,7 +248,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Tooltip style for the quick access toolbar button.")]
-        [DefaultValue(typeof(LabelStyle), "ToolTip")]
+        //[DefaultValue(typeof(LabelStyle), "ToolTip")]
         public LabelStyle ToolTipStyle { get; set; }
 
         /// <summary>

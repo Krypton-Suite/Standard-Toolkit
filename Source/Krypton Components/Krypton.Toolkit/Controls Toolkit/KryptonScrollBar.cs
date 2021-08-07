@@ -365,7 +365,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Gets or sets the border color.")]
-        [DefaultValue(typeof(Color), "93, 140, 201")]
+        //[DefaultValue(typeof(Color), "93, 140, 201")]
         public Color BorderColor
         {
             get => _borderColor;
@@ -383,7 +383,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Gets or sets the border color in disabled state.")]
-        [DefaultValue(typeof(Color), "Gray")]
+        //[DefaultValue(typeof(Color), "Gray")]
         public Color DisabledBorderColor
         {
             get => _disabledBorderColor;
@@ -401,7 +401,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Gets or sets the opacity of the context menu (from 0 - 1).")]
-        [DefaultValue(typeof(double), "1")]
+        //[DefaultValue(typeof(double), "1")]
         public double Opacity
         {
             get => _contextMenu.Opacity;

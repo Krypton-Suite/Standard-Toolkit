@@ -240,7 +240,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        //[DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _labelStyle;
