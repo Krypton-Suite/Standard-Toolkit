@@ -156,6 +156,11 @@
         <Compile Update="Palette Builtin\PaletteOffice2007Base.cs">
             <SubType>Component</SubType>
         </Compile>
+        <Compile Update="Properties\Resources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Rendering\RenderOffice2013.cs">
             <SubType>Component</SubType>
         </Compile>
@@ -224,7 +229,6 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
         <Content Include="Krypton.ico" Pack="false" />
-        <None Include="Controls Visuals\ByteViewerForm.cs" />
         <None Include="Resources\BlackButtonCloseA.bmp" />
         <None Include="Resources\BlackDropDownButton.png" />
         <None Include="Resources\BlueDropDownButton.png" />
@@ -271,7 +275,6 @@
         <Compile Remove="Controls Toolkit\KryptonDataGridViewBinaryCell.cs" />
         <Compile Remove="Controls Toolkit\KryptonDataGridViewBinaryColumn.cs" />
         <Compile Remove="Controls Toolkit\KryptonInputBoxNew.cs" />
-        <Compile Remove="Controls Visuals\ByteViewerForm.cs" />
         <Compile Remove="Toolkit\KryptonBorderEdgeActionList.cs" />
         <Compile Remove="Toolkit\KryptonBorderEdgeDesigner.cs" />
         <Compile Remove="Toolkit\KryptonBreadCrumbActionList.cs" />
@@ -374,6 +377,10 @@
         <EmbeddedResource Update="Global\MessageBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>
