@@ -696,7 +696,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the internal padding space.
         /// </summary>
-        [DefaultValue(typeof(Padding), "1,1,1,1")]
+        //[DefaultValue(typeof(Padding), "1,1,1,1")]
         public new Padding Padding
         {
             get => base.Padding;
@@ -842,7 +842,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates if the list box is to be single-select, multi-select or not selectable.")]
-        [DefaultValue(typeof(SelectionMode), "One")]
+        //[DefaultValue(typeof(SelectionMode), "One")]
         public virtual SelectionMode SelectionMode
         {
             get => _listBox.SelectionMode;

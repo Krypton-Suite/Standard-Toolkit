@@ -128,7 +128,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Check button style.")]
-        [DefaultValue(typeof(ButtonStyle), "NavigatorStack")]
+        //[DefaultValue(typeof(ButtonStyle), "NavigatorStack")]
         public ButtonStyle CheckButtonStyle
         {
             get => _checkButtonStyle;
@@ -150,7 +150,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Outlook overflow button style.")]
-        [DefaultValue(typeof(ButtonStyle), "NavigatorOverflow")]
+        //[DefaultValue(typeof(ButtonStyle), "NavigatorOverflow")]
         public ButtonStyle OverflowButtonStyle
         {
             get => _overflowButtonStyle;
@@ -172,7 +172,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Check button style.")]
-        [DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
+        //[DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
         public PaletteBorderStyle BorderEdgeStyle
         {
             get => _borderEdgeStyle;
@@ -195,7 +195,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Orientation for positioning stack and overflow items.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(Orientation), "Vertical")]
+        //[DefaultValue(typeof(Orientation), "Vertical")]
         public Orientation Orientation
         {
             get => _orientation;
@@ -226,7 +226,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Orientation for positioning items in the stack.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(ButtonOrientation), "Auto")]
+        //[DefaultValue(typeof(ButtonOrientation), "Auto")]
         public ButtonOrientation ItemOrientation
         {
             get => _itemOrientation;
@@ -257,7 +257,7 @@ namespace Krypton.Navigator
         [Category("Visuals")]
         [Description("Secondary header visiblity when in Outlook mode.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(InheritBool), "False")]
+        //[DefaultValue(typeof(InheritBool), "False")]
         public InheritBool HeaderSecondaryVisible
         {
             get => _headerSecondaryVisible;

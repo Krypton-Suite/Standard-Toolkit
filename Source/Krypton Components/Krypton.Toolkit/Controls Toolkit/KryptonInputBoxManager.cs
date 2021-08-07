@@ -35,12 +35,12 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the cue colour.</summary>
         /// <value>The cue colour.</value>
-        [DefaultValue(typeof(Color), "Color.Gray"), Description("Modifies the cue text colour.")]
+        //[DefaultValue(typeof(Color), "Color.Gray"), Description("Modifies the cue text colour.")]
         public Color CueColour { get => _cueColour; set => _cueColour = value; }
 
         /// <summary>Gets or sets the cue typeface.</summary>
         /// <value>The cue typeface.</value>
-        [DefaultValue(typeof(Font), "Microsoft Sans Serif, 8.25pt"), Description("The cue text typeface.")]
+        //[DefaultValue(typeof(Font), "Microsoft Sans Serif, 8.25pt"), Description("The cue text typeface.")]
         public Font CueTypeface { get => _cueTypeface; set => _cueTypeface = value; }
 
         /// <summary>Gets or sets the caption.</summary>

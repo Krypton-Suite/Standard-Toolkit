@@ -746,7 +746,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the internal padding space.
         /// </summary>
-        [DefaultValue(typeof(Padding), "1,1,1,1")]
+        //[DefaultValue(typeof(Padding), "1,1,1,1")]
         public new Padding Padding
         {
             get => base.Padding;

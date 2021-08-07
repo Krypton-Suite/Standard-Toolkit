@@ -807,7 +807,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Values")]
         [Description("Vertical and horizontal minimum sizes at which the ribbon hides itself.")]
-        [DefaultValue(typeof(Size), "300,250")]
+        //[DefaultValue(typeof(Size), "300,250")]
         public Size HideRibbonSize
         {
             get => _hideRibbonSize;
@@ -941,7 +941,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Values")]
         [Description("Determines how the quick access toolbar is displayed.")]
-        [DefaultValue(typeof(QATLocation), "Above")]
+        //[DefaultValue(typeof(QATLocation), "Above")]
         public QATLocation QATLocation
         {
             get => _qatLocation;

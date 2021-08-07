@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Appearance")]
         [Description("Defines the set of colors to use for display.")]
-        [DefaultValue(typeof(ColorScheme), "OfficeThemes")]
+        //[DefaultValue(typeof(ColorScheme), "OfficeThemes")]
         public ColorScheme ColorScheme
         {
             get => _colorScheme;
@@ -220,7 +220,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Appearance")]
         [Description("Color that has been selected by the user.")]
-        [DefaultValue(typeof(Color), "")]
+        //[DefaultValue(typeof(Color), "")]
         public Color SelectedColor
         {
             get => _selectedColor;
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Appearance")]
         [Description("Size of each color block.")]
-        [DefaultValue(typeof(Size), "13,13")]
+        //[DefaultValue(typeof(Size), "13,13")]
         public Size BlockSize
         {
             get => _blockSize;

@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Header style for a main form.")]
-        [DefaultValue(typeof(HeaderStyle), "Form")]
+        //[DefaultValue(typeof(HeaderStyle), "Form")]
         public HeaderStyle HeaderStyle
         {
             get => _headerStyle;
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Chrome group border style.")]
-        [DefaultValue(typeof(PaletteBorderStyle), "FormMain")]
+        //[DefaultValue(typeof(PaletteBorderStyle), "FormMain")]
         public PaletteBorderStyle GroupBorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -356,7 +356,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Chrome group background style.")]
-        [DefaultValue(typeof(PaletteBackStyle), "FormMain")]
+        //[DefaultValue(typeof(PaletteBackStyle), "FormMain")]
         public PaletteBackStyle GroupBackStyle
         {
             get => StateCommon.BackStyle;

@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Link label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalControl")]
+        //[DefaultValue(typeof(LabelStyle), "NormalControl")]
         public LabelStyle LabelStyle
         {
             get => _style;
@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Determines the underline behavior of the link label.")]
-        [DefaultValue(typeof(KryptonLinkBehavior), "Always Underline")]
+        //[DefaultValue(typeof(KryptonLinkBehavior), "Always Underline")]
         public KryptonLinkBehavior LinkBehavior
         {
             get => LinkBehaviorNormal.LinkBehavior;

@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Should background be drawn.")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        //[DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
@@ -191,7 +191,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Hint for drawing graphics.")]
-        [DefaultValue(typeof(PaletteGraphicsHint), "Inherit")]
+        //[DefaultValue(typeof(PaletteGraphicsHint), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteGraphicsHint GraphicsHint
         {
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Background color drawing style.")]
-        [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
+        //[DefaultValue(typeof(PaletteColorStyle), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteColorStyle ColorStyle
         {
@@ -380,7 +380,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Background color alignment style.")]
-        [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
+        //[DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ColorAlign
         {
@@ -523,7 +523,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Background image style.")]
-        [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
+        //[DefaultValue(typeof(PaletteImageStyle), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteImageStyle ImageStyle
         {
@@ -572,7 +572,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Background image alignment style.")]
-        [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
+        //[DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ImageAlign
         {

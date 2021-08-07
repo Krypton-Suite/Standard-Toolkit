@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Padding used to inset the header within the HeaderGroup.")]
-        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding HeaderPadding
         {

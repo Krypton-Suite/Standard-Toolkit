@@ -826,7 +826,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the alignment of the selection.
         /// </summary>
         [Browsable(false)]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public HorizontalAlignment SelectionAlignment
         {
@@ -1098,7 +1098,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
-        [DefaultValue(typeof(RichTextBoxScrollBars), "Both")]
+        //[DefaultValue(typeof(RichTextBoxScrollBars), "Both")]
         [Localizable(true)]
         public RichTextBoxScrollBars ScrollBars
         {

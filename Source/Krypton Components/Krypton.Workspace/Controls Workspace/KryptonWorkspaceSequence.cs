@@ -125,7 +125,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Workspace")]
         [Description("Orientation to layout the child entries.")]
-        [DefaultValue(typeof(Orientation), "Horizontal")]
+        //[DefaultValue(typeof(Orientation), "Horizontal")]
         public Orientation Orientation
         {
             get => _orientation;

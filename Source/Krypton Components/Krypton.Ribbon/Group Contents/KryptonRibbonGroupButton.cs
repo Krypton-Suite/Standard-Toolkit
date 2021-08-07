@@ -326,7 +326,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Behavior")]
         [Description("Determines how the group button operation.")]
-        [DefaultValue(typeof(GroupButtonType), "Push")]
+        //[DefaultValue(typeof(GroupButtonType), "Push")]
         public GroupButtonType ButtonType
         {
             get => _buttonType;
@@ -367,7 +367,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Tooltip style for the group button.")]
-        [DefaultValue(typeof(LabelStyle), "SuperTip")]
+        //[DefaultValue(typeof(LabelStyle), "SuperTip")]
         public LabelStyle ToolTipStyle { get; set; }
 
         /// <summary>

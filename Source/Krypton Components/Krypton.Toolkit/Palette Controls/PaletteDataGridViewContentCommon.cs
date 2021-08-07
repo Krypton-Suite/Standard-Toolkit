@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Relative horizontal alignment of content text.")]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        //[DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextH
         {
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Relative vertical alignment of content text.")]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        //[DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextV
         {
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Padding between the border and content drawing.")]
-        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding Padding
         {

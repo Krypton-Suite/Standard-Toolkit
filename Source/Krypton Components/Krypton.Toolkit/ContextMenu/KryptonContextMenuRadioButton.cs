@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Radio button label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalControl")]
+        //[DefaultValue(typeof(LabelStyle), "NormalControl")]
         public LabelStyle LabelStyle
         {
             get => _style;

@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        //[DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -338,7 +338,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("The dialog-box result produced in a modal form by clicking the button.")]
-        [DefaultValue(typeof(DialogResult), "None")]
+        //[DefaultValue(typeof(DialogResult), "None")]
         public DialogResult DialogResult { get; set; }
 
         /// <summary>

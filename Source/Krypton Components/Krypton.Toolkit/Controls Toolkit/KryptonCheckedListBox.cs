@@ -1354,7 +1354,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the internal padding space.
         /// </summary>
-        [DefaultValue(typeof(Padding), "1,1,1,1")]
+        //[DefaultValue(typeof(Padding), "1,1,1,1")]
         public new Padding Padding
         {
             get => base.Padding;
@@ -1514,7 +1514,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates if the checked list box is to be single-select or not selectable. (Multi## not supported)")]
-        [DefaultValue(typeof(CheckedSelectionMode), "One")]
+        //[DefaultValue(typeof(CheckedSelectionMode), "One")]
         public virtual CheckedSelectionMode SelectionMode
         {
             get => _listBox.SelectionMode == System.Windows.Forms.SelectionMode.One

@@ -723,7 +723,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Display mode of the control instance.")]
-        [DefaultValue(typeof(NavigatorMode), "Bar - Tab - Group")]
+        //[DefaultValue(typeof(NavigatorMode), "Bar - Tab - Group")]
         public NavigatorMode NavigatorMode
         {
             get => _mode;
@@ -767,7 +767,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Page back style.")]
-        [DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
+        //[DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
         public PaletteBackStyle PageBackStyle
         {
             get => _pageBackStyle;

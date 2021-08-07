@@ -680,7 +680,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Specifies the number of rows and columns of months displayed.")]
-        [DefaultValue(typeof(Size), "1,1")]
+        //[DefaultValue(typeof(Size), "1,1")]
         [Localizable(true)]
         public Size CalendarDimensions
         {
@@ -715,7 +715,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("First day of the week.")]
-        [DefaultValue(typeof(Day), "Default")]
+        //[DefaultValue(typeof(Day), "Default")]
         [Localizable(true)]
         public Day FirstDayOfWeek
         {
