@@ -224,9 +224,6 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
         <Content Include="Krypton.ico" Pack="false" />
-        <None Include="Controls Toolkit\KryptonByteViewer.cs" />
-        <None Include="Controls Toolkit\KryptonDataGridViewBinaryCell.cs" />
-        <None Include="Controls Toolkit\KryptonDataGridViewBinaryColumn.cs" />
         <None Include="Controls Visuals\ByteViewerForm.cs" />
         <None Include="Resources\BlackButtonCloseA.bmp" />
         <None Include="Resources\BlackDropDownButton.png" />
