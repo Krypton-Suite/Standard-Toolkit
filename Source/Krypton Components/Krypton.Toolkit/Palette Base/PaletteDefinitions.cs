@@ -2201,12 +2201,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the visual studio dark palette theme.
         /// </summary>
-        VisualStudioDark,
+        //VisualStudioDark,
 
         /// <summary>
         /// Specifies the visual studio light palette theme.
         /// </summary>
-        VisualStudioLight,
+        //VisualStudioLight,
 
         /// <summary>
         /// Specifies a custom palette be used.
@@ -2349,12 +2349,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the visual studio dark palette theme.
         /// </summary>
-        VisualStudioDark,
+        //VisualStudioDark,
 
         /// <summary>
         /// Specifies the visual studio light palette theme.
         /// </summary>
-        VisualStudioLight,
+        //VisualStudioLight,
 
         /// <summary>
         /// Specifies a custom palette be used.
