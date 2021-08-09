@@ -76,6 +76,7 @@ namespace Krypton.Toolkit.Utilities
             ScaleButtonSpecImageType(bs.FormMax, scaleFactor);
             ScaleButtonSpecImageType(bs.FormMin, scaleFactor);
             ScaleButtonSpecImageType(bs.FormRestore, scaleFactor);
+            ScaleButtonSpecImageType(bs.FormHelp, scaleFactor);
             ScaleButtonSpecImageType(bs.Generic, scaleFactor);
             ScaleButtonSpecImageType(bs.Next, scaleFactor);
             ScaleButtonSpecImageType(bs.PendantClose, scaleFactor);

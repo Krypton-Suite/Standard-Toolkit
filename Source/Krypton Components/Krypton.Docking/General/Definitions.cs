@@ -259,7 +259,7 @@ namespace Krypton.Docking
         RemovePageAndDispose,
 
         /// <summary>Specifies the named page be hidden.</summary>
-        HidePage,
+        HidePage
     }
     #endregion
 
@@ -288,7 +288,7 @@ namespace Krypton.Docking
         Custom,
 
         /// <summary>Specifies the page is not inside the docking hierarchy.</summary>
-        None,
+        None
     }
     #endregion
 
@@ -316,7 +316,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Specifies the auto hidden page is fully showing.
         /// </summary>
-        Showing,
+        Showing
     }
     #endregion
 
@@ -413,7 +413,7 @@ namespace Krypton.Docking
         ContainsStorePage,
 
         /// <summary>Specifies showing state for a named page.</summary>
-        IsPageShowing,
+        IsPageShowing
     }
     #endregion
 
@@ -424,7 +424,7 @@ namespace Krypton.Docking
     public enum DockingPropogateIntState
     {
         /// <summary>Specifies control ordering for dockspace controls.</summary>
-        DockspaceOrder,
+        DockspaceOrder
     }
     #endregion
 
@@ -435,7 +435,7 @@ namespace Krypton.Docking
     public enum DockingPropogatePageState
     {
         /// <summary>Specifies a page referenced is required for the named page.</summary>
-        PageForUniqueName,
+        PageForUniqueName
     }
     #endregion
 
@@ -458,7 +458,7 @@ namespace Krypton.Docking
         Floating,
 
         /// <summary>Specifies a list of all filler pages be created.</summary>
-        Filler,
+        Filler
     }
     #endregion
 
@@ -478,7 +478,7 @@ namespace Krypton.Docking
         Floating,
 
         /// <summary>Specifies a list of all workspace cells be created.</summary>
-        Workspace,
+        Workspace
     }
     #endregion
 }

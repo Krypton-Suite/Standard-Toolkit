@@ -31,6 +31,8 @@ namespace Krypton.Toolkit
         private static readonly Image _silverMinI = Resources.SilverButtonMinI;
         private static readonly Image _silverRestoreA = Resources.SilverButtonRestoreA;
         private static readonly Image _silverRestoreI = Resources.SilverButtonRestoreI;
+        private static readonly Image _silverHelpA = Resources.SilverButtonHelpA;
+        private static readonly Image _silverHelpI = Resources.SilverButtonHelpI;
         private static readonly Image _contextMenuSubMenu = Resources.SilverContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(130, 130, 130),      // Tick marks
                                                                         Color.FromArgb(156, 160, 165),      // Top track
@@ -251,7 +253,7 @@ namespace Krypton.Toolkit
                                                                       Color.Empty,                      // RibbonGroupBorder3
                                                                       Color.Empty,                      // RibbonGroupBorder4
                                                                       Color.Empty,                      // RibbonDropArrowLight
-                                                                      Color.Empty,                      // RibbonDropArrowDark
+                                                                      Color.Empty // RibbonDropArrowDark
                                                                 };
         #endregion
 
@@ -303,13 +305,11 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
         {
-            switch (style)
+            return style switch
             {
-                case PaletteBackStyle.HeaderForm:
-                    return PaletteColorStyle.Rounding2;
-                default:
-                    return base.GetBackColorStyle(style, state);
-            }
+                PaletteBackStyle.HeaderForm => PaletteColorStyle.Rounding2,
+                _ => base.GetBackColorStyle(style, state)
+            };
         }
         #endregion
 
@@ -343,23 +343,15 @@ namespace Krypton.Toolkit
         public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state)
         {
-            switch (style)
+            return style switch
             {
-                case PaletteButtonSpecStyle.FormClose:
-                    return state == PaletteState.Disabled ? _silverCloseI : _silverCloseA;
-
-                case PaletteButtonSpecStyle.FormMin:
-                    return state == PaletteState.Disabled ? _silverMinI : _silverMinA;
-
-                case PaletteButtonSpecStyle.FormMax:
-                    return state == PaletteState.Disabled ? _silverMaxI : _silverMaxA;
-
-                case PaletteButtonSpecStyle.FormRestore:
-                    return state == PaletteState.Disabled ? _silverRestoreI : _silverRestoreA;
-
-                default:
-                    return base.GetButtonSpecImage(style, state);
-            }
+                PaletteButtonSpecStyle.FormClose => state == PaletteState.Disabled ? _silverCloseI : _silverCloseA,
+                PaletteButtonSpecStyle.FormMin => state == PaletteState.Disabled ? _silverMinI : _silverMinA,
+                PaletteButtonSpecStyle.FormMax => state == PaletteState.Disabled ? _silverMaxI : _silverMaxA,
+                PaletteButtonSpecStyle.FormRestore => state == PaletteState.Disabled ? _silverRestoreI : _silverRestoreA,
+                PaletteButtonSpecStyle.FormHelp => state == PaletteState.Disabled ? _silverHelpI : _silverHelpA,
+                _ => base.GetButtonSpecImage(style, state)
+            };
         }
         #endregion    
     }

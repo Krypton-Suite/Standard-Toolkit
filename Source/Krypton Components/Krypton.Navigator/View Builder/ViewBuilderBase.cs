@@ -229,16 +229,11 @@ namespace Krypton.Navigator
         public virtual ButtonEnabled NextActionEnabled(DirectionButtonAction action)
         {
             // Process the requested action
-            switch (action)
+            return action switch
             {
-                case DirectionButtonAction.None:
-                case DirectionButtonAction.SelectPage:
-                    // Only enabled if the count of visible pages to the left of current page is positive
-                    return (Navigator.NextActionValid ? ButtonEnabled.True : ButtonEnabled.False);
-                default:
-                    // Action not supported so disable button
-                    return ButtonEnabled.False;
-            }
+                DirectionButtonAction.None or DirectionButtonAction.SelectPage => (Navigator.NextActionValid ? ButtonEnabled.True : ButtonEnabled.False),// Only enabled if the count of visible pages to the left of current page is positive
+                _ => ButtonEnabled.False // Action not supported so disable button
+            };
         }
 
         /// <summary>
@@ -269,16 +264,11 @@ namespace Krypton.Navigator
         public virtual ButtonEnabled PreviousActionEnabled(DirectionButtonAction action)
         {
             // Process the requested action
-            switch (action)
+            return action switch
             {
-                case DirectionButtonAction.None:
-                case DirectionButtonAction.SelectPage:
-                    // Only enabled if the count of visible pages to the left of current page is positive
-                    return (Navigator.PreviousActionValid ? ButtonEnabled.True : ButtonEnabled.False);
-                default:
-                    // Action not supported so disable button
-                    return ButtonEnabled.False;
-            }
+                DirectionButtonAction.None or DirectionButtonAction.SelectPage => (Navigator.PreviousActionValid ? ButtonEnabled.True : ButtonEnabled.False),// Only enabled if the count of visible pages to the left of current page is positive
+                _ => ButtonEnabled.False // Action not supported so disable button
+            };
         }
 
         /// <summary>

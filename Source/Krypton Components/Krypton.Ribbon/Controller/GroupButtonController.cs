@@ -795,17 +795,12 @@ namespace Krypton.Ribbon
 
         private bool ClickOnDown(Point pt)
         {
-            switch (ButtonType)
+            return ButtonType switch
             {
-                case GroupButtonType.Push:
-                case GroupButtonType.Check:
-                default:
-                    return false;
-                case GroupButtonType.DropDown:
-                    return true;
-                case GroupButtonType.Split:
-                    return _splitRectangle.Contains(pt);
-            }
+                GroupButtonType.DropDown => true,
+                GroupButtonType.Split => _splitRectangle.Contains(pt),
+                _ => false
+            };
         }
         #endregion
     }

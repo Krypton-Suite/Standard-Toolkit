@@ -1079,7 +1079,7 @@ namespace Krypton.Toolkit
             _hoverIndex = -1;
             _toolTipSpec = new ButtonSpecAny
             {
-                ToolTipStyle = LabelStyle.SuperTip,
+                ToolTipStyle = LabelStyle.SuperTip
             };
             // Create storage properties
             ButtonSpecs = new ComboBoxButtonSpecCollection(this);

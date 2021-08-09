@@ -237,40 +237,24 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (_drawButton.DropDownOrientation)
+                return _drawButton.DropDownOrientation switch
                 {
-                    default:
-                    case VisualOrientation.Top:
-                        return VisualOrientation.Bottom;
-                    case VisualOrientation.Bottom:
-                        return VisualOrientation.Top;
-                    case VisualOrientation.Left:
-                        return VisualOrientation.Right;
-                    case VisualOrientation.Right:
-                        return VisualOrientation.Left;
-                }
+                    VisualOrientation.Bottom => VisualOrientation.Top,
+                    VisualOrientation.Left => VisualOrientation.Right,
+                    VisualOrientation.Right => VisualOrientation.Left,
+                    _ => VisualOrientation.Bottom
+                };
             }
 
             set
             {
-                VisualOrientation converted;
-                switch (value)
+                var converted = value switch
                 {
-                    default:
-                    case VisualOrientation.Bottom:
-                        converted = VisualOrientation.Top;
-                        break;
-                    case VisualOrientation.Top:
-                        converted = VisualOrientation.Bottom;
-                        break;
-                    case VisualOrientation.Right:
-                        converted = VisualOrientation.Left;
-                        break;
-                    case VisualOrientation.Left:
-                        converted = VisualOrientation.Right;
-                        break;
-                }
-
+                    VisualOrientation.Top => VisualOrientation.Bottom,
+                    VisualOrientation.Right => VisualOrientation.Left,
+                    VisualOrientation.Left => VisualOrientation.Right,
+                    _ => VisualOrientation.Top
+                };
                 if (_drawButton.DropDownOrientation != converted)
                 {
                     _drawButton.DropDownOrientation = converted;
@@ -951,32 +935,22 @@ namespace Krypton.Toolkit
 
         private KryptonContextMenuPositionH GetPositionH()
         {
-            switch (DropDownOrientation)
+            return DropDownOrientation switch
             {
-                default:
-                case VisualOrientation.Bottom:
-                case VisualOrientation.Top:
-                    return KryptonContextMenuPositionH.Left;
-                case VisualOrientation.Left:
-                    return KryptonContextMenuPositionH.Before;
-                case VisualOrientation.Right:
-                    return KryptonContextMenuPositionH.After;
-            }
+                VisualOrientation.Left => KryptonContextMenuPositionH.Before,
+                VisualOrientation.Right => KryptonContextMenuPositionH.After,
+                _ => KryptonContextMenuPositionH.Left
+            };
         }
 
         private KryptonContextMenuPositionV GetPositionV()
         {
-            switch (DropDownOrientation)
+            return DropDownOrientation switch
             {
-                default:
-                case VisualOrientation.Bottom:
-                    return KryptonContextMenuPositionV.Below;
-                case VisualOrientation.Top:
-                    return KryptonContextMenuPositionV.Above;
-                case VisualOrientation.Left:
-                case VisualOrientation.Right:
-                    return KryptonContextMenuPositionV.Top;
-            }
+                VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+                VisualOrientation.Left or VisualOrientation.Right => KryptonContextMenuPositionV.Top,
+                _ => KryptonContextMenuPositionV.Below
+            };
         }
 
         private void OnContextMenuClosed(object sender, EventArgs e)

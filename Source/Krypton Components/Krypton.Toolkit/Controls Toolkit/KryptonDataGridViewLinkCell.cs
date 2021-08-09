@@ -370,19 +370,12 @@ namespace Krypton.Toolkit
                 : PaletteState.Normal;
 
             // Update with latest cell setting for the link behavior
-            switch (base.LinkBehavior)
+            _inheritBehavior.LinkBehavior = base.LinkBehavior switch
             {
-                default:
-                case LinkBehavior.AlwaysUnderline:
-                    _inheritBehavior.LinkBehavior = KryptonLinkBehavior.AlwaysUnderline;
-                    break;
-                case LinkBehavior.HoverUnderline:
-                    _inheritBehavior.LinkBehavior = KryptonLinkBehavior.HoverUnderline;
-                    break;
-                case LinkBehavior.NeverUnderline:
-                    _inheritBehavior.LinkBehavior = KryptonLinkBehavior.NeverUnderline;
-                    break;
-            }
+                LinkBehavior.HoverUnderline => KryptonLinkBehavior.HoverUnderline,
+                LinkBehavior.NeverUnderline => KryptonLinkBehavior.NeverUnderline,
+                _ => KryptonLinkBehavior.AlwaysUnderline
+            };
 
             // Use the latest defined label style
             _palette.ContentStyle = CommonHelper.ContentStyleFromLabelStyle(_labelStyle);

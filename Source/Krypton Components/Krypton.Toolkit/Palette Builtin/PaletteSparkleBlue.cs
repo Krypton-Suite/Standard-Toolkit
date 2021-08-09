@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
                                                                        Color.FromArgb(176, 196, 222),       // 34 _ribbonFrameBack3
                                                                        Color.FromArgb(82, 120, 213),        // 35 _ribbonFrameBack3
                                                                        Color.FromArgb(72, 110, 213),        // 36 _contextCheckedTabFill
-                                                                       Color.FromArgb(10, 20, 255),         // 37 _focusTabFill
+                                                                       Color.FromArgb(10, 20, 255) // 37 _focusTabFill
                                                                      };
 
         private static readonly Color[] _ribbonColors = { Color.FromArgb( 76,  83,  92),    // TextLabelControl
@@ -295,7 +295,7 @@ namespace Krypton.Toolkit
                                                                       Color.Empty,                      // RibbonTabTracking3
                                                                       Color.Empty,                      // RibbonTabTracking4
                                                                       Color.Empty,                      // RibbonGroupBorder3
-                                                                      Color.Empty,                      // RibbonGroupBorder4
+                                                                      Color.Empty // RibbonGroupBorder4
                                                                     };
         #endregion
 

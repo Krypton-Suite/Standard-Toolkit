@@ -29,6 +29,7 @@ namespace Krypton.Toolkit
         private static readonly Image _formMax = Resources._2010ButtonMaxBlack;
         private static readonly Image _formMin = Resources._2010ButtonMinBlack;
         private static readonly Image _formRestore = Resources._2010ButtonRestore;
+        private static readonly Image _formHelp = Resources._2010ButtonHelp;
         private static readonly Image _buttonSpecPendantClose = Resources._2010ButtonMDICloseBlack;
         private static readonly Image _buttonSpecPendantMin = Resources._2010ButtonMDIMinBlack;
         private static readonly Image _buttonSpecPendantRestore = Resources._2010ButtonMDIRestoreBlack;
@@ -268,7 +269,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(148, 148, 143),    // ButtonNavigatorPressed2
                                                                       Color.FromArgb( 91,  91,  91),    // ButtonNavigatorChecked1
                                                                       Color.FromArgb( 73,  73,  73),    // ButtonNavigatorChecked2
-                                                                      Color.FromArgb(201, 201, 201),    // ToolTipBottom                                                                      
+                                                                      Color.FromArgb(201, 201, 201) // ToolTipBottom                                                                      
         };
         #endregion
 
@@ -345,26 +346,19 @@ namespace Krypton.Toolkit
         /// </returns>
         public override Image GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state)
         {
-            switch (style)
+            return style switch
             {
-                case PaletteButtonSpecStyle.FormClose:
-                    switch (state)
-                    {
-                        case PaletteState.Tracking:
-                        case PaletteState.Pressed:
-                            return _formCloseH;
-                        default:
-                            return _formClose;
-                    }
-                case PaletteButtonSpecStyle.FormMin:
-                    return _formMin;
-                case PaletteButtonSpecStyle.FormMax:
-                    return _formMax;
-                case PaletteButtonSpecStyle.FormRestore:
-                    return _formRestore;
-                default:
-                    return base.GetButtonSpecImage(style, state);
-            }
+                PaletteButtonSpecStyle.FormClose => state switch
+                {
+                    PaletteState.Tracking or PaletteState.Pressed => _formCloseH,
+                    _ => _formClose
+                },
+                PaletteButtonSpecStyle.FormMin => _formMin,
+                PaletteButtonSpecStyle.FormMax => _formMax,
+                PaletteButtonSpecStyle.FormRestore => _formRestore,
+                PaletteButtonSpecStyle.FormHelp => _formHelp,
+                _ => base.GetButtonSpecImage(style, state)
+            };
         }
         #endregion
     }

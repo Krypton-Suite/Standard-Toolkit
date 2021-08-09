@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
             SELECTED = 0x0002, // The item is selected.Its appearance depends on whether it has the focus.The item will be drawn using the system colors for selection.
             OVERLAYMASK, // Mask for the bits used to specify the item's overlay image index.
             STATEIMAGEMASK = 0xF000, // Mask for the bits used to specify the item's state image index.
-            USERMASK = 0xF000, // Same as TVIS_STATEIMAGEMASK.
+            USERMASK = 0xF000 // Same as TVIS_STATEIMAGEMASK.
         }
 
         internal struct TVM_
@@ -342,7 +342,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// A standard windows Asterisk beep
             /// </summary>
-            Asterisk = 0x40,
+            Asterisk = 0x40
         }
 
         internal enum StretchBltMode
@@ -350,7 +350,7 @@ namespace Krypton.Toolkit
             STRETCH_ANDSCANS = 1,
             STRETCH_ORSCANS = 2,
             STRETCH_DELETESCANS = 3,
-            STRETCH_HALFTONE = 4,
+            STRETCH_HALFTONE = 4
         }
 
         internal enum StockObjects
@@ -374,7 +374,7 @@ namespace Krypton.Toolkit
             SYSTEM_FIXED_FONT = 16,
             DEFAULT_GUI_FONT = 17,
             DC_BRUSH = 18,
-            DC_PEN = 19,
+            DC_PEN = 19
         }
 
         internal enum SIZE_
@@ -929,7 +929,7 @@ namespace Krypton.Toolkit
             /// The coordinates for the top of the virtual screen. The virtual screen is the bounding rectangle of all display monitors. 
             /// The SM_CYVIRTUALSCREEN metric is the height of the virtual screen.
             /// </summary>
-            YVIRTUALSCREEN = 77,
+            YVIRTUALSCREEN = 77
         }
 
         internal enum ShowWindowCommands
@@ -2247,7 +2247,7 @@ namespace Krypton.Toolkit
             /// </summary>
             F_ISSECURE = 0x00000001,
             ICON = MINIMIZE,
-            ZOOM = MAXIMIZE,
+            ZOOM = MAXIMIZE
         }
         /// <summary>
         /// Non-client hit test values, HT*
@@ -3510,7 +3510,7 @@ namespace Krypton.Toolkit
             ALERT_MEDIUM = 0x08000000,  // This information is of medium priority
             ALERT_HIGH = 0x10000000,  // This information is of high priority
             PROTECTED = 0x20000000,  // access to this is restricted
-            VALID = 0x3FFFFFFF,
+            VALID = 0x3FFFFFFF
         }
 
         [StructLayout(LayoutKind.Sequential)]

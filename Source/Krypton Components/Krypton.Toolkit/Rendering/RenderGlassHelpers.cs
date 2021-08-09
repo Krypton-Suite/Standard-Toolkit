@@ -1615,25 +1615,13 @@ namespace Krypton.Toolkit
                         length = (int)(drawRect.Width * glassPercent);
                     }
 
-                    RectangleF glassRect;
-
-                    // Create rectangles that covers the glassy area
-                    switch (orientation)
+                    var glassRect = orientation switch
                     {
-                        case VisualOrientation.Left:
-                            glassRect = new RectangleF(drawRect.X, drawRect.Y, length, drawRect.Height);
-                            break;
-                        case VisualOrientation.Right:
-                            glassRect = new RectangleF(drawRect.Right - length, drawRect.Y, length, drawRect.Height);
-                            break;
-                        case VisualOrientation.Bottom:
-                            glassRect = new RectangleF(drawRect.X, drawRect.Bottom - length, drawRect.Width, length);
-                            break;
-                        case VisualOrientation.Top:
-                        default:
-                            glassRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, length);
-                            break;
-                    }
+                        VisualOrientation.Left => new RectangleF(drawRect.X, drawRect.Y, length, drawRect.Height),
+                        VisualOrientation.Right => new RectangleF(drawRect.Right - length, drawRect.Y, length, drawRect.Height),
+                        VisualOrientation.Bottom => new RectangleF(drawRect.X, drawRect.Bottom - length, drawRect.Width, length),
+                        _ => new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, length)
+                    };
 
                     // Gradient rectangle is always a little bigger to prevent tiling at edges
                     RectangleF glassGradientRect = new(glassRect.X - 1, glassRect.Y - 1, glassRect.Width + 2, glassRect.Height + 2);

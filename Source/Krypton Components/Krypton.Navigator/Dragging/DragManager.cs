@@ -430,15 +430,11 @@ namespace Krypton.Navigator
         private void ResolvePaletteRenderer()
         {
             // Resolve the correct palette instance to use
-            switch (_paletteMode)
+            _dragPalette = _paletteMode switch
             {
-                case PaletteMode.Custom:
-                    _dragPalette = _localPalette;
-                    break;
-                default:
-                    _dragPalette = KryptonManager.GetPaletteForMode(_paletteMode);
-                    break;
-            }
+                PaletteMode.Custom => _localPalette,
+                _ => KryptonManager.GetPaletteForMode(_paletteMode)
+            };
 
             // Update redirector to point at the resolved palette
             _redirector.Target = _dragPalette;
@@ -474,16 +470,11 @@ namespace Krypton.Navigator
                 }
             }
 
-            switch (dragFeedback)
+            _dragFeedback = dragFeedback switch
             {
-                case PaletteDragFeedback.Rounded:
-                case PaletteDragFeedback.Square:
-                    _dragFeedback = new DragFeedbackDocking(dragFeedback);
-                    break;
-                default:
-                    _dragFeedback = new DragFeedbackSolid();
-                    break;
-            }
+                PaletteDragFeedback.Rounded or PaletteDragFeedback.Square => new DragFeedbackDocking(dragFeedback),
+                _ => new DragFeedbackSolid()
+            };
         }
 
         private void ClearDragFeedback()

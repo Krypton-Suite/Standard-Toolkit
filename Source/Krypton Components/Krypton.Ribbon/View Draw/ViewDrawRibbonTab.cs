@@ -276,18 +276,13 @@ namespace Krypton.Ribbon
         {
             get
             {
-                switch (Ribbon.RibbonShape)
+                return Ribbon.RibbonShape switch
                 {
-                    default:
-                    case PaletteRibbonShape.Office2007:
-                        return _preferredBorder2007;
-                    case PaletteRibbonShape.Office2010:
-                        return _preferredBorder2010;
-                    case PaletteRibbonShape.Office2013:
-                        return _preferredBorder2010;
-                    case PaletteRibbonShape.Office365:
-                        return _preferredBorder2010;
-                }
+                    PaletteRibbonShape.Office2010 => _preferredBorder2010,
+                    PaletteRibbonShape.Office2013 => _preferredBorder2010,
+                    PaletteRibbonShape.Office365 => _preferredBorder2010,
+                    _ => _preferredBorder2007
+                };
             }
         }
         #endregion
@@ -300,18 +295,13 @@ namespace Krypton.Ribbon
         {
             get
             {
-                switch (Ribbon.RibbonShape)
+                return Ribbon.RibbonShape switch
                 {
-                    default:
-                    case PaletteRibbonShape.Office2007:
-                        return _layoutBorder2007;
-                    case PaletteRibbonShape.Office2010:
-                        return _layoutBorder2010;
-                    case PaletteRibbonShape.Office2013:
-                        return _layoutBorder2010;
-                    case PaletteRibbonShape.Office365:
-                        return _layoutBorder2010;
-                }
+                    PaletteRibbonShape.Office2010 => _layoutBorder2010,
+                    PaletteRibbonShape.Office2013 => _layoutBorder2010,
+                    PaletteRibbonShape.Office365 => _layoutBorder2010,
+                    _ => _layoutBorder2007
+                };
             }
         }
         #endregion

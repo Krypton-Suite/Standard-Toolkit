@@ -123,25 +123,13 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context) 
         {
-            int memento;
-
-            // Find the correct palette to use that matches the button state
-            switch (State)
+            var memento = State switch
             {
-                default:
-                case PaletteState.Normal:
-                    memento = 0;
-                    break;
-                case PaletteState.Tracking:
-                    memento = 1;
-                    break;
-                case PaletteState.Tracking | PaletteState.FocusOverride:
-                    memento = 2;
-                    break;
-                case PaletteState.Pressed:
-                    memento = 3;
-                    break;
-            }
+                PaletteState.Tracking => 1,
+                PaletteState.Tracking | PaletteState.FocusOverride => 2,
+                PaletteState.Pressed => 3,
+                _ => 0
+            };
 
             // Draw the background
             _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationTab(_ribbon.RibbonShape, context, ClientRectangle, State, 

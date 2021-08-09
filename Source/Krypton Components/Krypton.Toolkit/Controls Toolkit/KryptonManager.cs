@@ -828,18 +828,12 @@ namespace Krypton.Toolkit
                     if (palette is KryptonPalette owner)
                     {
                         // Get the next palette up in hierarchy
-                        switch (owner.BasePaletteMode)
+                        palette = owner.BasePaletteMode switch
                         {
-                            case PaletteMode.Custom:
-                                palette = owner.BasePalette;
-                                break;
-                            case PaletteMode.Global:
-                                palette = InternalGlobalPalette;
-                                break;
-                            default:
-                                palette = null;
-                                break;
-                        }
+                            PaletteMode.Custom => owner.BasePalette,
+                            PaletteMode.Global => InternalGlobalPalette,
+                            _ => null
+                        };
                     }
                     else
                     {

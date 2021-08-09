@@ -1213,33 +1213,20 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public int GetMetricInt(PaletteState state, PaletteMetricInt metric)
         {
-            switch (metric)
+            return metric switch
             {
-                case PaletteMetricInt.BarButtonEdgeInside:
-                case PaletteMetricInt.BarButtonEdgeOutside:
-                case PaletteMetricInt.CheckButtonGap:
-                case PaletteMetricInt.RibbonTabGap:
-                    return Navigator.StateCommon.Bar.GetMetricInt(state, metric);
-                case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
-                    return HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(state, metric);
-                case PaletteMetricInt.HeaderButtonEdgeInsetSecondary:
-                    return HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(state, metric);
-                case PaletteMetricInt.HeaderButtonEdgeInsetDockInactive:
-                    return HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(state, metric);
-                case PaletteMetricInt.HeaderButtonEdgeInsetDockActive:
-                    return HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(state, metric);
-                case PaletteMetricInt.HeaderButtonEdgeInsetForm:
-                    return HeaderStyles.HeaderForm.StateCommon.GetMetricInt(state, metric);
-                case PaletteMetricInt.HeaderButtonEdgeInsetCustom1:
-                    return HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(state, metric);
-                case PaletteMetricInt.HeaderButtonEdgeInsetCustom2:
-                    return HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(state, metric);
-                case PaletteMetricInt.HeaderButtonEdgeInsetCustom3:
-                    return HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(state, metric);
-            }
-
-            // Otherwise use base instance for the value instead
-            return _redirector.GetMetricInt(state, metric);
+                PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(state, metric),
+                PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(state, metric),
+                PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(state, metric),
+                PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(state, metric),
+                PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(state, metric),
+                PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(state, metric),
+                PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(state, metric),
+                PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(state, metric),
+                PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(state, metric),
+                // Otherwise use base instance for the value instead
+                _ => _redirector.GetMetricInt(state, metric)
+            };
         }
 
         /// <summary>
@@ -1596,22 +1583,12 @@ namespace Krypton.Toolkit
         public Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state)
         {
             Image retImage = null;
-
-            // Grab the compound object for the required button
-            KryptonPaletteImagesGalleryButton images;
-            switch (button)
+            KryptonPaletteImagesGalleryButton images = button switch
             {
-                case PaletteRibbonGalleryButton.Up:
-                    images = Images.GalleryButtons.Up;
-                    break;
-                case PaletteRibbonGalleryButton.Down:
-                    images = Images.GalleryButtons.Down;
-                    break;
-                default:
-                    //case PaletteRibbonGalleryButton.DropDown:
-                    images = Images.GalleryButtons.DropDown;
-                    break;
-            }
+                PaletteRibbonGalleryButton.Up => Images.GalleryButtons.Up,
+                PaletteRibbonGalleryButton.Down => Images.GalleryButtons.Down,
+                _ => Images.GalleryButtons.DropDown //case PaletteRibbonGalleryButton.DropDown:
+            };
 
             // Grab the state image from the compound object
             switch (state)
@@ -4183,6 +4160,8 @@ namespace Krypton.Toolkit
                     return ButtonSpecs.FormMax;
                 case PaletteButtonSpecStyle.FormRestore:
                     return ButtonSpecs.FormRestore;
+                case PaletteButtonSpecStyle.FormHelp:
+                    return ButtonSpecs.FormHelp;
                 case PaletteButtonSpecStyle.PendantClose:
                     return ButtonSpecs.PendantClose;
                 case PaletteButtonSpecStyle.PendantMin:

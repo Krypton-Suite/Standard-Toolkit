@@ -56,6 +56,7 @@ namespace Krypton.Toolkit
             FormMax = new KryptonPaletteButtonSpecTyped(redirector);
             FormMin = new KryptonPaletteButtonSpecTyped(redirector);
             FormRestore = new KryptonPaletteButtonSpecTyped(redirector);
+            FormHelp = new KryptonPaletteButtonSpecTyped(redirector);
             PendantClose = new KryptonPaletteButtonSpecTyped(redirector);
             PendantMin = new KryptonPaletteButtonSpecTyped(redirector);
             PendantRestore = new KryptonPaletteButtonSpecTyped(redirector);
@@ -84,6 +85,7 @@ namespace Krypton.Toolkit
             FormMax.SetRedirector(redirectCommon);
             FormMin.SetRedirector(redirectCommon);
             FormRestore.SetRedirector(redirectCommon);
+            FormHelp.SetRedirector(redirectCommon);
             PendantClose.SetRedirector(redirectCommon);
             PendantMin.SetRedirector(redirectCommon);
             PendantRestore.SetRedirector(redirectCommon);
@@ -110,6 +112,7 @@ namespace Krypton.Toolkit
             FormMax.ButtonSpecChanged += OnButtonSpecChanged;
             FormMin.ButtonSpecChanged += OnButtonSpecChanged;
             FormRestore.ButtonSpecChanged += OnButtonSpecChanged;
+            FormHelp.ButtonSpecChanged += OnButtonSpecChanged;
             PendantClose.ButtonSpecChanged += OnButtonSpecChanged;
             PendantMin.ButtonSpecChanged += OnButtonSpecChanged;
             PendantRestore.ButtonSpecChanged += OnButtonSpecChanged;
@@ -141,6 +144,7 @@ namespace Krypton.Toolkit
                                           FormMax.IsDefault &&
                                           FormMin.IsDefault &&
                                           FormRestore.IsDefault &&
+                                          FormHelp.IsDefault &&
                                           PendantClose.IsDefault &&
                                           PendantMin.IsDefault &&
                                           PendantRestore.IsDefault &&
@@ -174,6 +178,7 @@ namespace Krypton.Toolkit
             FormMax.PopulateFromBase(PaletteButtonSpecStyle.FormMax);
             FormMin.PopulateFromBase(PaletteButtonSpecStyle.FormMin);
             FormRestore.PopulateFromBase(PaletteButtonSpecStyle.FormRestore);
+            FormHelp.PopulateFromBase(PaletteButtonSpecStyle.FormRestore);
             PendantClose.PopulateFromBase(PaletteButtonSpecStyle.PendantClose);
             PendantRestore.PopulateFromBase(PaletteButtonSpecStyle.PendantRestore);
             PendantMin.PopulateFromBase(PaletteButtonSpecStyle.PendantMin);
@@ -454,6 +459,22 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeFormRestore()
         {
             return !FormRestore.IsDefault;
+        }
+        #endregion
+
+        #region FormHelp
+        /// <summary>
+        /// Gets access to the form "Help" button specification.
+        /// </summary>
+        [KryptonPersist]
+        [Category("Visuals")]
+        [Description("Overrides for defining form \"Help\" button specifications.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonPaletteButtonSpecTyped FormHelp { get; }
+
+        private bool ShouldSerializeFormHelp()
+        {
+            return !FormHelp.IsDefault;
         }
         #endregion
 

@@ -50,14 +50,11 @@ namespace Krypton.Docking
         /// <returns>Orientation value.</returns>
         public static Orientation OrientationFromDockEdge(DockingEdge edge)
         {
-            switch (edge)
+            return edge switch
             {
-                case DockingEdge.Left:
-                case DockingEdge.Right:
-                    return Orientation.Vertical;
-                default:
-                    return Orientation.Horizontal;
-            }
+                DockingEdge.Left or DockingEdge.Right => Orientation.Vertical,
+                _ => Orientation.Horizontal
+            };
         }
 
         /// <summary>

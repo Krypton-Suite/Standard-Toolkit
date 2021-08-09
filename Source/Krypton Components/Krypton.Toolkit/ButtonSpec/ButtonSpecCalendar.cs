@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// Gets the button visible value.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button visibiliy.</returns>
+        /// <returns>Button visibility.</returns>
         public override bool GetVisible(IPalette palette)
         {
             return Visible;
