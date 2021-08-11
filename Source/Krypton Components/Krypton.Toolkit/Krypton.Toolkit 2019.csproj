@@ -205,6 +205,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>MessageBoxResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\Office2007ControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2007ControlBoxResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
         </Compile>
@@ -229,7 +234,6 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
         <Content Include="Krypton.ico" Pack="false" />
-        <None Include="Resources\BlackButtonCloseA.bmp" />
         <None Include="Resources\BlackDropDownButton.png" />
         <None Include="Resources\BlueDropDownButton.png" />
         <None Include="Resources\ButtonColorImageSmall.png" />
@@ -381,6 +385,10 @@
         <EmbeddedResource Update="Properties\Resources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2007ControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2007ControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>
