@@ -573,6 +573,16 @@ namespace Krypton.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BlackContextMenuSub {
+            get {
+                object obj = ResourceManager.GetObject("BlackContextMenuSub", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BlackContextMenuSub1 {
             get {
                 object obj = ResourceManager.GetObject("BlackContextMenuSub1", resourceCulture);

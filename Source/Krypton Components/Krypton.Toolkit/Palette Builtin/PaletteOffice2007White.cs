@@ -19,18 +19,18 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _silverDropDownButton = Resources.SilverDropDownButton;
-        private static readonly Image _silverCloseA = Resources.SilverButtonCloseA;
-        private static readonly Image _silverCloseI = Resources.SilverButtonCloseI;
-        private static readonly Image _silverMaxA = Resources.SilverButtonMaxA;
-        private static readonly Image _silverMaxI = Resources.SilverButtonMaxI;
-        private static readonly Image _silverMinA = Resources.SilverButtonMinA;
-        private static readonly Image _silverMinI = Resources.SilverButtonMinI;
-        private static readonly Image _silverRestoreA = Resources.SilverButtonRestoreA;
-        private static readonly Image _silverRestoreI = Resources.SilverButtonRestoreI;
-        private static readonly Image _silverHelpA = Resources.SilverButtonHelpA;
-        private static readonly Image _silverHelpI = Resources.SilverButtonHelpI;
-        private static readonly Image _contextMenuSubMenu = Resources.SilverContextMenuSub;
+        private static readonly Image _silverDropDownButton = Properties.Resources.SilverDropDownButton;
+        private static readonly Image _silverCloseNormal = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonCloseHover;
+        private static readonly Image _silverCloseDisabled = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonCloseDisabled;
+        private static readonly Image _silverMaximiseNormal = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonMaxHover;
+        private static readonly Image _silverMaximiseDisabled = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonMaxDisabled;
+        private static readonly Image _silverMinimiseNormal = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonMinHover;
+        private static readonly Image _silverMinimiseDisabled = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonMinDisabled;
+        private static readonly Image _silverRestoreNormal = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonRestoreHover;
+        private static readonly Image _silverRestoreDisabled = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonRestoreDisabled;
+        private static readonly Image _silverHelpNormal = Resources.SilverButtonHelpA;
+        private static readonly Image _silverHelpDisabled = Resources.SilverButtonHelpI;
+        private static readonly Image _contextMenuSubMenu = Properties.Resources.SilverContextMenuSub;
         private static readonly Color[] _trackBarColors = new Color[] { Color.Red,      // Tick marks
                                                                         Color.FromArgb(166, 170, 175),      // Top track
                                                                         Color.FromArgb(226, 220, 235),      // Bottom track
@@ -275,22 +275,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CB2007Silver);
+            _checkBoxList.Images.AddStrip(Properties.Resources.CB2007Silver);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Resources.GallerySilverBlack);
-            _radioButtonArray = new Image[]{Resources.RB2007BlueD,
-                                            Resources.RB2007SilverN,
-                                            Resources.RB2007SilverT,
-                                            Resources.RB2007SilverP,
-                                            Resources.RB2007BlueDC,
-                                            Resources.RB2007SilverNC,
-                                            Resources.RB2007SilverTC,
-                                            Resources.RB2007SilverPC};
+            _galleryButtonList.Images.AddStrip(Properties.Resources.GallerySilverBlack);
+            _radioButtonArray = new Image[]{Properties.Resources.RB2007BlueD,
+                                            Properties.Resources.RB2007SilverN,
+                                            Properties.Resources.RB2007SilverT,
+                                            Properties.Resources.RB2007SilverP,
+                                            Properties.Resources.RB2007BlueDC,
+                                            Properties.Resources.RB2007SilverNC,
+                                            Properties.Resources.RB2007SilverTC,
+                                            Properties.Resources.RB2007SilverPC};
         }
 
         /// <summary>
@@ -355,11 +355,11 @@ namespace Krypton.Toolkit
         {
             return style switch
             {
-                PaletteButtonSpecStyle.FormClose => state == PaletteState.Disabled ? _silverCloseI : _silverCloseA,
-                PaletteButtonSpecStyle.FormMin => state == PaletteState.Disabled ? _silverMinI : _silverMinA,
-                PaletteButtonSpecStyle.FormMax => state == PaletteState.Disabled ? _silverMaxI : _silverMaxA,
-                PaletteButtonSpecStyle.FormRestore => state == PaletteState.Disabled ? _silverRestoreI : _silverRestoreA,
-                PaletteButtonSpecStyle.FormHelp => state == PaletteState.Disabled ? _silverHelpI : _silverHelpA,
+                PaletteButtonSpecStyle.FormClose => state == PaletteState.Disabled ? _silverCloseDisabled : _silverCloseNormal,
+                PaletteButtonSpecStyle.FormMin => state == PaletteState.Disabled ? _silverMinimiseDisabled : _silverMinimiseNormal,
+                PaletteButtonSpecStyle.FormMax => state == PaletteState.Disabled ? _silverMaximiseDisabled : _silverMaximiseNormal,
+                PaletteButtonSpecStyle.FormRestore => state == PaletteState.Disabled ? _silverRestoreDisabled : _silverRestoreNormal,
+                PaletteButtonSpecStyle.FormHelp => state == PaletteState.Disabled ? _silverHelpDisabled : _silverHelpNormal,
                 _ => base.GetButtonSpecImage(style, state)
             };
         }

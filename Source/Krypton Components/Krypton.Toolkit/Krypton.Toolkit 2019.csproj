@@ -205,6 +205,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>MessageBoxResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\GenericImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\Office2007ControlBoxResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -385,6 +390,10 @@
         <EmbeddedResource Update="Properties\Resources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GenericImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GenericImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\Office2007ControlBoxResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
