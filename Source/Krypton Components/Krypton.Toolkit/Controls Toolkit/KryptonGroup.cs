@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
                 PanelBackStyle = PaletteBackStyle.ControlClient
             };
 
-            // Create the element that fills the remainder space and remembers fill rectange
+            // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(Panel);
 
             // Create view for the control border and background

@@ -910,7 +910,7 @@ namespace Krypton.Toolkit
             _domainUpDown.Validating += OnDomainUpDownValidating;
             _domainUpDown.Validated += OnDomainUpDownValidated;
 
-            // Create the element that fills the remainder space and remembers fill rectange
+            // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_domainUpDown)
             {
                 DisplayPadding = new Padding(1, 1, 1, 0)

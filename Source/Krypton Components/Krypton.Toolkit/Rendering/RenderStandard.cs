@@ -389,7 +389,7 @@ namespace Krypton.Toolkit
             KryptonStandardRenderer renderer = new(colorPalette.ColorTable)
             {
 
-                // Seup the need to use rounded corners
+                // Setup the need to use rounded corners
                 RoundedEdges = (colorPalette.ColorTable.UseRoundedEdges != InheritBool.False)
             };
 

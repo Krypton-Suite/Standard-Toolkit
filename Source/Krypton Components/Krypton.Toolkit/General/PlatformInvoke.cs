@@ -21,7 +21,22 @@
 #pragma warning disable 649
 
 
+using System.Drawing;
+using System.Linq;
+using System.Numerics;
+using System.Runtime.Versioning;
+using System.Security.Cryptography;
+using System.Security.Policy;
+using System.Windows.Forms;
+
+using static System.ComponentModel.Design.ObjectSelectorEditor;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.AxHost;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static Krypton.Toolkit.WIN32ScrollBars;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace Krypton.Toolkit
 {
@@ -49,6 +64,7 @@ namespace Krypton.Toolkit
         /// </summary>
         internal static readonly IntPtr HWND_BOTTOM = new(1);
 
+        internal const int BM_CLICK = 0x00F5;
         #endregion
 
         #region Constants
@@ -1011,7 +1027,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// I needed some "Generic" magic to get from an enum to an int for switch and boolean operands
         /// </summary>
-            internal struct WM_
+        internal struct WM_
         {
             public const int
             // <summary>
@@ -2102,6 +2118,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Window Styles.
         /// The following styles can be specified wherever a window style is required. After the control has been created, these styles cannot be modified, except as noted.
+        /// https://www.autohotkey.com/docs/misc/Styles.htm
         /// </summary>
         internal struct WS_
         {
@@ -2183,6 +2200,33 @@ namespace Krypton.Toolkit
 
                 // <summary>The window has a vertical scroll bar.</summary>
                 VSCROLL = 0x200000;
+        }
+
+        /// <summary>
+        /// Window Styles.
+        /// The following styles can be specified wherever a window style is required. After the control has been created, these styles cannot be modified, except as noted.
+        /// https://www.autohotkey.com/docs/misc/Styles.htm
+        /// </summary>
+        internal struct BS_
+        {
+            public const uint
+            AUTO3STATE = 0x6,   // Creates a button that is the same as a three-state check box, except that the box changes its state when the user selects it.The state cycles through checked, indeterminate, and cleared.AUTOCHECKBOX = 0x3,   // Creates a button that is the same as a check box, except that the check state automatically toggles between checked and cleared each time the user selects the check box.
+            AUTOCHECKBOX = 0x3,  // Creates a button that is the same as a check box, except that the check state automatically toggles between checked and cleared each time the user selects the check box.
+            AUTORADIOBUTTON = 0x9,   // Creates a button that is the same as a radio button, except that when the user selects it, the system automatically sets the button's check state to checked and automatically sets the check state for all other buttons in the same group to cleared.
+            LEFT = 0x100,   // +/-Left.Left-aligns the text.
+            PUSHBUTTON = 0x0,   // Creates a push button that posts a WM_COMMAND message to the owner window when the user selects the button.
+            PUSHLIKE = 0x1000,   // Makes a checkbox or radio button look and act like a push button.The button looks raised when it isn't pushed or checked, and sunken when it is pushed or checked.
+            RIGHT = 0x200,   // +/-Right.Right-aligns the text.
+            RIGHTBUTTON = 0x20,   // + Right (i.e. +Right includes both BS_RIGHT and BS_RIGHTBUTTON, but -Right removes only BS_RIGHT, not BS_RIGHTBUTTON). Positions a checkbox square or radio button circle on the right side of the control's available width instead of the left.
+            BOTTOM = 0x800,   // Places the text at the bottom of the control's available height.
+            CENTER = 0x300,   // +/-Center.Centers the text horizontally within the control's available width.
+            DEFPUSHBUTTON = 0x1,   // +/-Default.Creates a push button with a heavy black border.If the button is in a dialog box, the user can select the button by pressing Enter, even when the button does not have the input focus.This style is useful for enabling the user to quickly select the most likely option.
+            MULTILINE = 0x2000,   // +/-Wrap.Wraps the text to multiple lines if the text is too long to fit on a single line in the control's available width. This also allows linefeed (`n) to start new lines of text.
+            NOTIFY = 0x4000,   // Enables a button to send BN_KILLFOCUS and BN_SETFOCUS notification codes to its parent window. Note that buttons send the BN_CLICKED notification code regardless of whether it has this style.To get BN_DBLCLK notification codes, the button must have the BS_RADIOBUTTON or BS_OWNERDRAW style.
+            TOP = 0x400,   // Places text at the top of the control's available height.
+            VCENTER = 0xC00,   // Vertically centers text in the control's available height.
+            FLAT = 0x8000,   // Specifies that the button is two-dimensional; it does not use the default shading to create a 3-D effect.
+            GROUPBOX = 0x7;   // Creates a rectangle in which other controls can be grouped. Any text associated with this style is displayed in the rectangle's upper left corner.
         }
 
         /// <summary>
@@ -2438,10 +2482,30 @@ namespace Krypton.Toolkit
 
         #region Static User32
 
+        [DllImport("user32.dll", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
+        internal delegate bool WindowEnumProc(IntPtr hwnd, IntPtr lparam);
+
+        [DllImport("user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool EnumChildWindows(IntPtr hwnd, WindowEnumProc callback, IntPtr lParam);
+
+        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+        [ResourceExposure(ResourceScope.None)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr GetDlgItem(IntPtr hWnd, int nIDDlgItem);
+
+        [DllImport(@"user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
         [DllImport(@"user32.dll", SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool GetScrollInfo(IntPtr hWnd, SB_ nBar, ref ScrollInfo lpScrollInfo);
-        
+
         [DllImport(@"user32.dll", SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int SetScrollInfo(IntPtr hwnd, SB_ nBar, ref ScrollInfo lpcScrollInfo, bool redraw);
@@ -2449,7 +2513,7 @@ namespace Krypton.Toolkit
         [DllImport(@"user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetScrollPos(IntPtr hWnd, SB_ nBar);
-        
+
         [DllImport(@"user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int SetScrollPos(IntPtr hWnd, SB_ nBar, int nPos, bool bRedraw);
@@ -2492,12 +2556,41 @@ namespace Krypton.Toolkit
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr WindowFromPoint(POINT pt);
 
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        [DllImport("user32.dll", EntryPoint = "GetWindowInfo", SetLastError = true)]
+        private static extern bool GetWindowInfoInt(IntPtr hwnd, ref WINDOWINFO pwi);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WINDOWINFO
+        {
+            public uint cbSize;
+            public RECT rcWindow;
+            public RECT rcClient;
+            public uint dwStyle;
+            public uint dwExStyle;
+            public uint dwWindowStatus;
+            public uint cxWindowBorders;
+            public uint cyWindowBorders;
+            public ushort atomWindowType;
+            public ushort wCreatorVersion;
+
+            public WINDOWINFO(int _ = 0) : this()   // Allows automatic initialization of "cbSize" with "new WINDOWINFO(null/true/false)".
+            {
+                cbSize = (uint)Marshal.SizeOf(typeof(WINDOWINFO));
+            }
+        }
+        internal static bool GetWindowInfo(IntPtr hwnd, out WINDOWINFO pwi)
+        {
+            pwi = new WINDOWINFO();
+            return GetWindowInfoInt(hwnd, ref pwi);
+        }
+
         [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint GetWindowLong(IntPtr hWnd, GWL_ nIndex);
 
         // This is aliased as a macro in 32bit Windows.
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal static IntPtr GetWindowLongPtr(IntPtr hwnd, GWL_ nIndex)
         {
             IntPtr ret = (8 == IntPtr.Size)
@@ -2510,20 +2603,77 @@ namespace Krypton.Toolkit
             return ret;
         }
 
-        [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist")]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport(@"user32.dll", EntryPoint = "GetWindowLong", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern int GetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex);
 
-        [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist")]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport(@"user32.dll", EntryPoint = "GetWindowLongPtr", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex);
+
+        internal static IntPtr SetClassLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong, bool noThrow = true)
+        {
+            IntPtr ret = (IntPtr.Size > 4)
+                ? SetClassLongPtr64(hWnd, nIndex, dwNewLong)
+                : new IntPtr(SetClassLongPtr32(hWnd, nIndex, unchecked((uint)dwNewLong.ToInt32())));
+            if (!noThrow
+            && IntPtr.Zero == ret)
+            {
+                var error = Marshal.GetLastWin32Error();
+                if (error != 0)
+                    throw new Win32Exception(error);
+            }
+            return ret;
+        }
+
+        internal static IntPtr GetClassLongPtr(IntPtr hWnd, int nIndex, bool noThrow = true)
+        {
+            IntPtr ret = (IntPtr.Size > 4)
+                ? GetClassLongPtr64(hWnd, nIndex)
+                : new IntPtr(GetClassLongPtr32(hWnd, nIndex));
+            if (!noThrow
+            && IntPtr.Zero == ret)
+            {
+                var error = Marshal.GetLastWin32Error();
+                if (error != 0)
+                    throw new Win32Exception(error);
+            }
+            return ret;
+        }
+
+        [DllImport(@"user32.dll", EntryPoint = @"GetClassLong", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        private static extern uint GetClassLongPtr32(IntPtr hWnd, int nIndex);
+
+        [DllImport(@"user32.dll", EntryPoint = @"GetClassLongPtr", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        private static extern IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll", EntryPoint = "SetClassLong")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern uint SetClassLongPtr32(IntPtr hWnd, int nIndex, uint dwNewLong);
+
+        [DllImport("user32.dll", EntryPoint = "SetClassLongPtr")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr SetClassLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
         [DllImport(@"user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool IntersectRect([Out] out RECT lprcDst, [In] ref RECT lprcSrc1, [In] ref RECT lprcSrc2);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool InvalidateRect(IntPtr hWnd, RECT rect, bool erase);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool InvalidateRect(IntPtr hWnd, IntPtr rect, bool erase);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool UpdateWindow(IntPtr hWnd);
+
 
         [DllImport(@"user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -2687,7 +2837,7 @@ namespace Krypton.Toolkit
 
         [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, [In, Out]POINTC pt, int cPoints);
+        internal static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, [In, Out] POINTC pt, int cPoints);
 
         [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -2842,6 +2992,15 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Gdi32
+
+        [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern int GdipCreateSolidFill(int color, out IntPtr brush);
+
+        [DllImport("gdiplus.dll", EntryPoint = "GdipDeleteBrush", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern int GdipDeleteBrush(HandleRef brush);
+
         [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int BitBlt(IntPtr hDestDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
@@ -2924,7 +3083,7 @@ namespace Krypton.Toolkit
 
         [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern bool GetViewportOrgEx(HandleRef hDC, [In, Out]POINTC point);
+        internal static extern bool GetViewportOrgEx(HandleRef hDC, [In, Out] POINTC point);
 
         [DllImport(@"gdi32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -2940,7 +3099,7 @@ namespace Krypton.Toolkit
 
         [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern bool SetViewportOrgEx(HandleRef hDC, int x, int y, [In, Out]POINTC point);
+        internal static extern bool SetViewportOrgEx(HandleRef hDC, int x, int y, [In, Out] POINTC point);
 
         [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -2949,6 +3108,11 @@ namespace Krypton.Toolkit
         [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int CombineRgn(HandleRef hRgn, HandleRef hRgn1, HandleRef hRgn2, int nCombineMode);
+
+        [DllImport(@"gdi32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool RoundRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nEllipseWidth, int nEllipseHeight);
+
 
         [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -3432,8 +3596,8 @@ namespace Krypton.Toolkit
         {
             public int cbSize;        // Specifies the size, in bytes, of the structure. 
             public int flags;         // Specifies the cursor state. This parameter can be one of the following values:
-                                        //    0                 The cursor is hidden.
-                                        //    CURSOR_SHOWING    The cursor is showing.
+                                      //    0                 The cursor is hidden.
+                                      //    CURSOR_SHOWING    The cursor is showing.
             public IntPtr hCursor;      // Handle to the cursor. 
             public POINT ptScreenPos;   // A POINT structure that receives the screen coordinates of the cursor. 
         }
