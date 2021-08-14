@@ -22,13 +22,13 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _silverDropDownButton = Properties.Resources._2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources._2010BlueContextMenuSub;
-        private static readonly Image _formCloseNormal = Properties.Resources._2010ButtonCloseH;
-        private static readonly Image _formCloseDisabled = Properties.Resources._2010ButtonClose;
-        private static readonly Image _formMaximum = Properties.Resources._2010ButtonMax;
-        private static readonly Image _formMinimum = Properties.Resources._2010ButtonMin;
-        private static readonly Image _formRestore = Properties.Resources._2010ButtonRestore;
+        private static readonly Image _silverDropDownButton = Resources.Office2010Arrows._2010BlueDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Resources.Office2010Arrows._2010BlueContextMenuSub;
+        private static readonly Image _formCloseNormal = Resources.Office2010ControlBoxResources._2010ButtonCloseHover;
+        private static readonly Image _formCloseDisabled = Resources.Office2010ControlBoxResources._2010ButtonCloseNormal;
+        private static readonly Image _formMaximum = Resources.Office2010ControlBoxResources._2010ButtonMaxNormal;
+        private static readonly Image _formMinimum = Resources.Office2010ControlBoxResources._2010ButtonMin;
+        private static readonly Image _formRestore = Resources.Office2010ControlBoxResources._2010ButtonRestore;
         private static readonly Image _formHelp = Resources._2010ButtonHelp;
         private static readonly Color[] _trackBarColors = new Color[] { Color.FromArgb(170, 170, 170),      // Tick marks
                                                                         Color.FromArgb(166, 170, 175),      // Top track
