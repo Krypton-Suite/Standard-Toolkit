@@ -287,7 +287,11 @@ namespace Krypton.Toolkit
 
         internal Action<Attributes /*control*/> ClickCallback { get; set; }
 
+#if NET35 || NET40
+        internal IList<Attributes> Controls => _controls;
+#else
         internal IReadOnlyList<Attributes> Controls => _controls.AsReadOnly();
+#endif
 
         private void PerformEmbedding(IntPtr hWnd)
         {
