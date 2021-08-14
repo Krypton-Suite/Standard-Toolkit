@@ -499,7 +499,7 @@ namespace Krypton.Toolkit
             _maskedTextBox.Validating += OnMaskedTextBoxValidating;
             _maskedTextBox.Validated += OnMaskedTextBoxValidated;
 
-            // Create the element that fills the remainder space and remembers fill rectange
+            // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_maskedTextBox);
 
             // Create inner view for placing inside the drawing docker

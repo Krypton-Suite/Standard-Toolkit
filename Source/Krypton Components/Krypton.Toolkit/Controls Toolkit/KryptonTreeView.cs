@@ -630,7 +630,7 @@ namespace Krypton.Toolkit
             _treeView.DrawMode = TreeViewDrawMode.OwnerDrawAll;
             _treeView.Click += OnTreeClick;  // SKC: make sure that the default click is also routed.
 
-            // Create the element that fills the remainder space and remembers fill rectange
+            // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_treeView)
             {
                 DisplayPadding = new Padding(1)

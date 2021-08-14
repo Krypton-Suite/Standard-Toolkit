@@ -535,10 +535,8 @@ namespace Krypton.Toolkit
                 if (style == ViewDockStyle.Fill)
                 {
                     // Incoming element must be a ViewLayoutDocker
-                    if (element is ViewLayoutDocker)
+                    if (element is ViewLayoutDocker docker)
                     {
-                        ViewLayoutDocker docker = element as ViewLayoutDocker;
-
                         // Remove the existing content
                         docker.Remove(_drawContent);
                         _drawHeading.Remove(docker);

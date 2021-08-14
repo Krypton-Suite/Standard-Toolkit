@@ -193,7 +193,7 @@ namespace Krypton.Ribbon
                 CreateParams cp = base.CreateParams;
                 cp.Parent = IntPtr.Zero;
                 cp.Style |= unchecked((int)PI.WS_.POPUP);
-                cp.ExStyle |= PI.WS_EX_.TOPMOST | PI.WS_EX_.TOOLWINDOW;
+                cp.ExStyle |= unchecked((int)(PI.WS_EX_.TOPMOST | PI.WS_EX_.TOOLWINDOW));
                 return cp;
             }
         }

@@ -1,6 +1,7 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
 ## 2101-09-0x - Build 2109 - September 2021 (Canary)
+* Implemented [#243](https://github.com/Krypton-Suite/Standard-Toolkit/issues/243), Font Dialog is in the Main Forms elements - Where is Kryptons' Standard themed equivalent
 * Fixed [#254](https://github.com/Krypton-Suite/Standard-Toolkit/issues/254), VisualStudio Themes should not be listed yet, as they cause an exception when used
 * Fixed [#242](https://github.com/Krypton-Suite/Standard-Toolkit/issues/242), `KryptonMessageBox` display is off the left of the display area
 * Fixed [#234](https://github.com/Krypton-Suite/Standard-Toolkit/issues/234), `KryptonDataGridViewBinary`#### Classes should **not** be in the standard toolkit
