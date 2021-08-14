@@ -58,6 +58,7 @@ namespace Krypton.Toolkit
         internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         internal static object PtrToStructure(IntPtr lparam, System.Type cls) => Marshal.PtrToStructure(lparam, cls);
+        internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld=false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
 
         #region Constants
 
@@ -1819,21 +1820,21 @@ namespace Krypton.Toolkit
             // </summary>
             IME_KEYUP = 0x0291,
             // <summary>
-            // The WM_MOUSEHOVER message is posted to a window when the cursor hovers over the client area of the window for the period of time specified in a prior call to TrackMouseEvent.
-            // </summary>
-            MOUSEHOVER = 0x02A1,
-            // <summary>
-            // The WM_MOUSELEAVE message is posted to a window when the cursor leaves the client area of the window specified in a prior call to TrackMouseEvent.
-            // </summary>
-            MOUSELEAVE = 0x02A3,
-            // <summary>
             // The WM_NCMOUSEHOVER message is posted to a window when the cursor hovers over the nonclient area of the window for the period of time specified in a prior call to TrackMouseEvent.
             // </summary>
             NCMOUSEHOVER = 0x02A0,
             // <summary>
+            // The WM_MOUSEHOVER message is posted to a window when the cursor hovers over the client area of the window for the period of time specified in a prior call to TrackMouseEvent.
+            // </summary>
+            MOUSEHOVER = 0x02A1,
+            // <summary>
             // The WM_NCMOUSELEAVE message is posted to a window when the cursor leaves the nonclient area of the window specified in a prior call to TrackMouseEvent.
             // </summary>
             NCMOUSELEAVE = 0x02A2,
+            // <summary>
+            // The WM_MOUSELEAVE message is posted to a window when the cursor leaves the client area of the window specified in a prior call to TrackMouseEvent.
+            // </summary>
+            MOUSELEAVE = 0x02A3,
             // <summary>
             // The WM_WTSSESSION_CHANGE message notifies applications of changes in session state.
             // </summary>
@@ -2473,6 +2474,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static User32
+
+        [DllImport(@"user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern int GetDlgCtrlID(IntPtr hwndCtl);
 
         [DllImport(@"user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
