@@ -13,7 +13,7 @@ namespace Krypton.Toolkit
         private readonly bool _embed;
         private readonly KryptonManager _kryptonManager;
 
-        private class Attributes
+        internal class Attributes
         {
             public IntPtr hWnd;
             public string Text;
@@ -21,6 +21,8 @@ namespace Krypton.Toolkit
             public string ClassName { get; set; }
             public Point ClientLocation { get; set; }
             public Size Size { get; set; }
+            public int DlgCtrlId { get; set; }
+            public VisualSimpleBase Button { get; set; }
         }
 
         private readonly List<Attributes> _controls = new();
@@ -107,6 +109,7 @@ namespace Krypton.Toolkit
                                         var text = new StringBuilder(64);
                                         PI.GetWindowText(control.hWnd, text, 64);
                                         control.Text = text.ToString();
+                                        control.DlgCtrlId = PI.GetDlgCtrlID(control.hWnd);
                                         var rcClient = control.WinInfo.rcClient;
                                         var lpPoint = new PI.POINT(rcClient.left, rcClient.top);
                                         PI.ScreenToClient(hWnd, ref lpPoint);
@@ -136,12 +139,15 @@ namespace Krypton.Toolkit
                                                 AutoSize = false,
                                                 Text = control.Text,
                                                 Dock = DockStyle.Fill,
-                                                LabelStyle = LabelStyle.NormalPanel
+                                                LabelStyle = LabelStyle.NormalPanel,
+                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0
                                             };
                                             panel.Controls.Add(button);
+                                            control.Button = button;
                                             button.Click += delegate (object sender, EventArgs args)
                                             {
                                                 PI.SendMessage(control.hWnd, PI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
+                                                ClickCallback?.Invoke(control);
                                             };
                                             PI.ShowWindow(control.hWnd, PI.ShowWindowCommands.SW_HIDE);
                                         }
@@ -159,16 +165,14 @@ namespace Krypton.Toolkit
                                                 AutoSize = false,
                                                 Text = control.Text,
                                                 Dock = DockStyle.Fill,
+                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0
                                             };
                                             panel.Controls.Add(button);
+                                            control.Button = button;
                                             button.Click += delegate
                                             {
                                                 PI.SendMessage(control.hWnd, PI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
-                                                //if (_embeddingDone )
-                                                //{
-                                                //    _toolBox.DialogResult = ((control.ControlType & PI.BS_.DEFPUSHBUTTON) == PI.BS_.DEFPUSHBUTTON)
-                                                //        ? DialogResult.OK : DialogResult.Cancel; 
-                                                //}
+                                                ClickCallback?.Invoke(control);
                                             };
                                             PI.ShowWindow(control.hWnd, PI.ShowWindowCommands.SW_HIDE);
 
@@ -281,9 +285,16 @@ namespace Krypton.Toolkit
             return (false, IntPtr.Zero);
         }
 
+        internal Action<Attributes /*control*/> ClickCallback { get; set; }
+
+#if NET35 || NET40
+        internal IList<Attributes> Controls => _controls;
+#else
+        internal IReadOnlyList<Attributes> Controls => _controls.AsReadOnly();
+#endif
+
         private void PerformEmbedding(IntPtr hWnd)
         {
-            _embeddingDone = true;
             var controlType = PI.GetWindowLong(hWnd, PI.GWL_.STYLE);
             controlType &= ~(PI.WS_.POPUPWINDOW | PI.WS_.CAPTION | PI.WS_.DLGFRAME | PI.WS_.OVERLAPPEDWINDOW);
             controlType |= PI.WS_.CHILD | PI.WS_.VISIBLE | PI.WS_.GROUP;
@@ -303,7 +314,8 @@ namespace Krypton.Toolkit
                 Name = text.ToString(),
                 Text = text.ToString(),
                 Location = new Point(winInfo.rcWindow.left, winInfo.rcWindow.top),
-                Padding = new Padding(0)
+                Padding = new Padding(0),
+                TopMost = true
             };
             var kryptonPanel1 = new KryptonPanel
             {
@@ -320,16 +332,13 @@ namespace Krypton.Toolkit
             PI.MoveWindow(hWnd, 0, 0, _toolBox.ClientSize.Width, _toolBox.ClientSize.Height, false);
             var toolParent = PI.GetParent(hWnd);
             PI.SetParent(hWnd, kryptonPanel1.Handle);
-            //toolBox.Closed += delegate { PI.DestroyWindow(hWnd); };
             var nativeWindow = new NativeWindow();
             nativeWindow.AssignHandle(toolParent);
             _toolBox.Show(nativeWindow);
+            _embeddingDone = true;
         }
 
-        private void ToolBox_Closed(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        internal bool EmbeddingDone => _embeddingDone;
 
         private static bool EnumerateChildWindow(IntPtr hWnd, IntPtr lParam)
         {
@@ -343,10 +352,19 @@ namespace Krypton.Toolkit
             return result;
         }
 
-        public static void DrawRoundedRectangle(Graphics g, Pen pen, Point location, Size size, int radius)
+        private static void DrawRoundedRectangle(Graphics g, Pen pen, Point location, Size size, int radius)
         {
             var roundRect = new RoundedRectangleF(size.Width, size.Height, radius, location.X, location.Y);
             g.DrawPath(pen, roundRect.Path);
+        }
+
+        internal bool SetNewPosAndClientSize(Point loc, Size size)
+        {
+            if (size == Size.Empty)
+                return false; // Probably already been triggered !
+            _toolBox.Location = loc;
+            _toolBox.ClientSize = size;
+            return true;
         }
     }
 }

@@ -2346,14 +2346,14 @@ namespace Krypton.Toolkit
         /// </summary>
         SparklePurple,
 
-        /// <summary>
-        /// Specifies the visual studio dark palette theme.
-        /// </summary>
+        // /// <summary>
+        // /// Specifies the visual studio dark palette theme.
+        // /// </summary>
         //VisualStudioDark,
 
-        /// <summary>
-        /// Specifies the visual studio light palette theme.
-        /// </summary>
+        // /// <summary>
+        // /// Specifies the visual studio light palette theme.
+        // /// </summary>
         //VisualStudioLight,
 
         /// <summary>

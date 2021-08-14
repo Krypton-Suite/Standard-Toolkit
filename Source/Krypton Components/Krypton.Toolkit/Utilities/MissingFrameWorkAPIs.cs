@@ -13,8 +13,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+// https://github.com/dotnet/designs/blob/main/accepted/2020/or-greater-defines/or-greater-defines.md
 #if NET35 || NET40
-#else // NET45_OR_GREATER || CORE
+#else // NET45_OR_GREATER || etc.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsNullOrWhiteSpace(string value)
@@ -37,7 +38,7 @@ namespace Krypton.Toolkit
         }
 
 #if NET35 || NET40
-#else // NET45_OR_GREATER || CORE
+#else // NET45_OR_GREATER || etc.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool HasFlag<T>(T source, T flags) where T : Enum
@@ -79,7 +80,7 @@ namespace Krypton.Toolkit
         }
 
 #if NET35 || NET40
-#else // NET45_OR_GREATER || CORE
+#else // NET45_OR_GREATER || etc.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Array_Empty<T>()
@@ -89,5 +90,4 @@ namespace Krypton.Toolkit
 
     }
 }
-
 
