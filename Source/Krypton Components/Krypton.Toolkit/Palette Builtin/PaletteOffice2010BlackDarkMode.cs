@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         private static readonly Image _formMaximumNormal = Resources.Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
         private static readonly Image _formMinimumNormal = Resources.Office2010ControlBoxResources._2010ButtonMinBlack;
         private static readonly Image _formRestoreNormal = Resources.Office2010ControlBoxResources._2010ButtonRestore;
-        private static readonly Image _formHelpNormal = Resources._2010ButtonHelp;
+        private static readonly Image _formHelpNormal = Resources.HelpIconResources.Office2010HelpIconBlack;
         private static readonly Image _buttonSpecPendantClose = Resources.Office2010ControlBoxResources._2010ButtonMDICloseBlack;
         private static readonly Image _buttonSpecPendantMin = Resources.Office2010ControlBoxResources._2010ButtonMDIMinBlack;
         private static readonly Image _buttonSpecPendantRestore = Resources.Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;

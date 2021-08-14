@@ -308,15 +308,15 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CBSparkleOrange);
-            _radioButtonArray = new Image[]{Resources.RBSparkleD,
-                                            Resources.RBSparkleN,
-                                            Resources.RBSparkleOrangeT,
-                                            Resources.RBSparkleOrangeP,
-                                            Resources.RBSparkleDC,
-                                            Resources.RBSparkleOrangeNC,
-                                            Resources.RBSparkleOrangeTC,
-                                            Resources.RBSparkleOrangePC};
+            _checkBoxList.Images.AddStrip(Properties.Resources.CBSparkleOrange);
+            _radioButtonArray = new Image[]{Properties.Resources.RBSparkleD,
+                Properties.Resources.RBSparkleN,
+                Properties.Resources.RBSparkleOrangeT,
+                Properties.Resources.RBSparkleOrangeP,
+                Properties.Resources.RBSparkleDC,
+                Properties.Resources.RBSparkleOrangeNC,
+                Properties.Resources.RBSparkleOrangeTC,
+                Properties.Resources.RBSparkleOrangePC};
         }
 
         /// <summary>

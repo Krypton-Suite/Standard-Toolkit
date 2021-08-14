@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         private static readonly Image _formMaximum = Resources.Office2010ControlBoxResources._2010ButtonMaxNormal;
         private static readonly Image _formMinimum = Resources.Office2010ControlBoxResources._2010ButtonMin;
         private static readonly Image _formRestore = Resources.Office2010ControlBoxResources._2010ButtonRestore;
-        private static readonly Image _formHelp = Resources._2010ButtonHelp;
+        private static readonly Image _formHelp = Resources.HelpIconResources.Office365HelpIconBlue;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(116, 150, 194),      // Tick marks
                                                                         Color.FromArgb(116, 150, 194),      // Top track
                                                                         Color.FromArgb(152, 190, 241),      // Bottom track

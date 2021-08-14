@@ -210,6 +210,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>GenericImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\HelpIconResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>HelpIconResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\Office2007ControlBoxResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -224,6 +229,11 @@
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>Office2010ControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SparkleControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparkleControlBoxResources.resx</DependentUpon>
         </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
@@ -405,6 +415,10 @@
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>GenericImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\HelpIconResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>HelpIconResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="Resources\Office2007ControlBoxResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Office2007ControlBoxResources.Designer.cs</LastGenOutput>
@@ -416,6 +430,10 @@
         <EmbeddedResource Update="Resources\Office2010ControlBoxResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Office2010ControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparkleControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparkleControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>

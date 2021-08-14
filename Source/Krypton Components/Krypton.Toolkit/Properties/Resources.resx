@@ -346,30 +346,6 @@
   <data name="GallerySilverBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GallerySilverBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SparkleButtonCloseA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonCloseI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMaxA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMaxI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMinA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMinI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonRestoreA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonRestoreI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="WhiteButtonClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhiteButtonClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1443,30 +1419,6 @@
   </data>
   <data name="sort_up_down_delete_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sort_up_down_delete_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonCloseA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonCloseI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMaxA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMaxI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMinA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMinI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonRestoreA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonRestoreI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SparkleChecked1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SparkleChecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

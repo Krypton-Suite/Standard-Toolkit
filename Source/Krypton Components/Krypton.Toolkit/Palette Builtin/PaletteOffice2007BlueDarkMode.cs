@@ -31,8 +31,8 @@ namespace Krypton.Toolkit
         private static readonly Image _blueMinimumDisabled = Resources.Office2007ControlBoxResources.Office2007BlueControlBoxButtonMinDisabled;
         private static readonly Image _blueRestoreNormal = Resources.Office2007ControlBoxResources.Office2007BlueControlBoxButtonRestoreHover;
         private static readonly Image _blueRestoreDisabled = Resources.Office2007ControlBoxResources.Office2007BlueControlBoxButtonRestoreDisabled;
-        private static readonly Image _blueHelpNormal = Resources.BlueButtonHelpA;
-        private static readonly Image _blueHelpDisabled = Resources.BlueButtonHelpI;
+        private static readonly Image _blueHelpNormal = Resources.HelpIconResources.GenericPre2010HelpIconBlue;
+        private static readonly Image _blueHelpDisabled = Resources.HelpIconResources.GenericPre2010HelpIconDisabled;
         private static readonly Image _contextMenuSubMenu = Properties.Resources.BlueContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(116, 150, 194),      // Tick marks
                                                                         Color.FromArgb(116, 150, 194),      // Top track
