@@ -20,29 +20,17 @@
 // ReSharper disable ClassNeverInstantiated.Global
 #pragma warning disable 649
 
-
-using System.Drawing;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.Versioning;
-using System.Security.Cryptography;
-using System.Security.Policy;
-using System.Windows.Forms;
-
-using static System.ComponentModel.Design.ObjectSelectorEditor;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.AxHost;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static Krypton.Toolkit.WIN32ScrollBars;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using System.Security.Permissions;
 
 namespace Krypton.Toolkit
 {
     internal class PI
     {
         #region statics
+
+        internal static readonly IntPtr InvalidIntPtr = new (-1);
+        internal static readonly IntPtr LPSTR_TEXTCALLBACK = new(-1);
+        internal static readonly HandleRef NullHandleRef = new (null, IntPtr.Zero);
 
         /// <summary>
         ///     Places the window above all non-topmost windows. The window maintains its topmost position even when it is deactivated.
@@ -66,6 +54,10 @@ namespace Krypton.Toolkit
 
         internal const int BM_CLICK = 0x00F5;
         #endregion
+
+        internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+        internal static object PtrToStructure(IntPtr lparam, System.Type cls) => Marshal.PtrToStructure(lparam, cls);
 
         #region Constants
 
@@ -2234,7 +2226,7 @@ namespace Krypton.Toolkit
         /// </summary>
         internal struct WS_EX_
         {
-            public const int
+            public const uint
                 None = 0,
                 DLGMODALFRAME = 0x00000001,
                 NOPARENTNOTIFY = 0x00000004,
@@ -2482,19 +2474,26 @@ namespace Krypton.Toolkit
 
         #region Static User32
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport(@"user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool DestroyWindow(IntPtr hWnd);
+
+        [DllImport(@"user32.dll", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+        [DllImport(@"user32.dll", SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
         internal delegate bool WindowEnumProc(IntPtr hwnd, IntPtr lparam);
 
-        [DllImport("user32.dll")]
+        [DllImport(@"user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool EnumChildWindows(IntPtr hwnd, WindowEnumProc callback, IntPtr lParam);
 
-        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
-        [ResourceExposure(ResourceScope.None)]
+        [DllImport(@"user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetDlgItem(IntPtr hWnd, int nIDDlgItem);
 
@@ -2504,11 +2503,11 @@ namespace Krypton.Toolkit
 
         [DllImport(@"user32.dll", SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern bool GetScrollInfo(IntPtr hWnd, SB_ nBar, ref ScrollInfo lpScrollInfo);
+        internal static extern bool GetScrollInfo(IntPtr hWnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpScrollInfo);
 
         [DllImport(@"user32.dll", SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern int SetScrollInfo(IntPtr hwnd, SB_ nBar, ref ScrollInfo lpcScrollInfo, bool redraw);
+        internal static extern int SetScrollInfo(IntPtr hwnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpcScrollInfo, bool redraw);
 
         [DllImport(@"user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -2989,6 +2988,49 @@ namespace Krypton.Toolkit
             ACCENT_ENABLE_BLURBEHIND = 3,
             ACCENT_INVALID_STATE = 4
         }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        internal class LOGFONT
+        {
+            public int lfHeight;
+            public int lfWidth;
+            public int lfEscapement;
+            public int lfOrientation;
+            public int lfWeight;
+            public byte lfItalic;
+            public byte lfUnderline;
+            public byte lfStrikeOut;
+            public byte lfCharSet;
+            public byte lfOutPrecision;
+            public byte lfClipPrecision;
+            public byte lfQuality;
+            public byte lfPitchAndFamily;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+            public string lfFaceName;
+
+            public LOGFONT()
+            {
+            }
+
+            public LOGFONT(PI.LOGFONT lf)
+            {
+                lfHeight = lf.lfHeight;
+                lfWidth = lf.lfWidth;
+                lfEscapement = lf.lfEscapement;
+                lfOrientation = lf.lfOrientation;
+                lfWeight = lf.lfWeight;
+                lfItalic = lf.lfItalic;
+                lfUnderline = lf.lfUnderline;
+                lfStrikeOut = lf.lfStrikeOut;
+                lfCharSet = lf.lfCharSet;
+                lfOutPrecision = lf.lfOutPrecision;
+                lfClipPrecision = lf.lfClipPrecision;
+                lfQuality = lf.lfQuality;
+                lfPitchAndFamily = lf.lfPitchAndFamily;
+                lfFaceName = lf.lfFaceName;
+            }
+        }
+
         #endregion
 
         #region Static Gdi32
@@ -3326,6 +3368,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Kernel32
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr GetModuleHandle(string modName);
+
         [DllImport(@"kernel32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetCurrentThreadId();
@@ -3343,6 +3389,35 @@ namespace Krypton.Toolkit
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern short QueryPerformanceFrequency(ref long var);
         #endregion
+
+        #region Static Comdlg32
+        [DllImport("comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        public static extern bool ChooseFont([In, Out] PI.CHOOSEFONT cf);
+
+        [CLSCompliant(false)]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        internal class CHOOSEFONT
+        {
+            public int lStructSize = Marshal.SizeOf(typeof(CHOOSEFONT));
+            public IntPtr hwndOwner;
+            public IntPtr hDC;
+            public IntPtr lpLogFont;
+            public int iPointSize;
+            public int Flags;
+            public int rgbColors;
+            public IntPtr lCustData = IntPtr.Zero;
+            internal PI.WndProc lpfnHook;
+            public string lpTemplateName;
+            public IntPtr hInstance;
+            public string lpszStyle;
+            public short nFontType;
+            public short ___MISSING_ALIGNMENT__;
+            public int nSizeMin;
+            public int nSizeMax;
+        }
+
+        #endregion Static Comdlg32
 
         #region Structures
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -3710,7 +3785,6 @@ namespace Krypton.Toolkit
             public RECT rcCloseButton;
         }
         #endregion
-
     }
 }
 

@@ -84,7 +84,7 @@ Follow the links to see the different objects and layouts that this framework al
 Only use these packages if you require to target a specific framework version between .NET 3.5 and .NET 6. Please note that these packages are larger than the lite packages.
 
 ## Lite
-These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 6.
+These packages only support .NET Framework >= 4.8, .NET Core 3.1 and .NET 5/6.
 
 =======
 

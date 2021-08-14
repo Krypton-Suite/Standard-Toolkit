@@ -10,13 +10,13 @@ namespace Krypton.Toolkit
 {
     internal class CommonDialogHandler
     {
+        private readonly bool _embed;
         private readonly KryptonManager _kryptonManager;
 
         private class Attributes
         {
             public IntPtr hWnd;
             public string Text;
-            public /*PI.WS_*/ long ControlType;
             public PI.WINDOWINFO WinInfo;
             public string ClassName { get; set; }
             public Point ClientLocation { get; set; }
@@ -29,9 +29,13 @@ namespace Krypton.Toolkit
         private readonly Color _inputFontColour;
         private IntPtr _backBrush = IntPtr.Zero;
         private readonly Font _labelFont;
+        private bool _embeddingDone;
+        private KryptonForm _toolBox;
 
-        public CommonDialogHandler()
+
+        public CommonDialogHandler(bool embed)
         {
+            _embed = embed;
             // Gain access to the global palette
             _kryptonManager = new KryptonManager();
             _backColour = _kryptonManager.GlobalPalette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
@@ -44,7 +48,7 @@ namespace Krypton.Toolkit
         {
             switch (msg)
             {
-                case PI.WM_.SHOWWINDOW:
+                case PI.WM_.INITDIALOG:
                     {
                         var childHandles = new List<IntPtr>();
                         GCHandle gch = GCHandle.Alloc(childHandles);
@@ -60,8 +64,7 @@ namespace Krypton.Toolkit
                                 {
                                     var attributes = new Attributes
                                     {
-                                        hWnd = child,
-                                        ControlType = PI.GetWindowLong(child, PI.GWL_.STYLE)
+                                        hWnd = child
                                     };
                                     PI.GetWindowInfo(child, out attributes.WinInfo);
                                     var nRet = PI.GetClassName(child, name, name.Capacity);
@@ -110,16 +113,16 @@ namespace Krypton.Toolkit
                                         control.ClientLocation = new Point(lpPoint.X, lpPoint.Y);
                                         control.Size = new Size(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
 
-                                        if ((control.ControlType & PI.BS_.GROUPBOX) == PI.BS_.GROUPBOX)
+                                        if ((control.WinInfo.dwStyle & PI.BS_.GROUPBOX) == PI.BS_.GROUPBOX)
                                         {
                                             PI.SendMessage(control.hWnd, PI.WM_.SETFONT, labelLogFont, new IntPtr(1));
                                         }
-                                        else if ((control.ControlType & PI.BS_.AUTORADIOBUTTON) == PI.BS_.AUTORADIOBUTTON)
+                                        else if ((control.WinInfo.dwStyle & PI.BS_.AUTORADIOBUTTON) == PI.BS_.AUTORADIOBUTTON)
                                         {
                                             PI.SendMessage(control.hWnd, PI.WM_.SETFONT, buttonLogFont, new IntPtr(1));
                                         }
-                                        else if (((control.ControlType & PI.BS_.AUTO3STATE) == PI.BS_.AUTO3STATE)
-                                                 || ((control.ControlType & PI.BS_.AUTOCHECKBOX) == PI.BS_.AUTOCHECKBOX))
+                                        else if (((control.WinInfo.dwStyle & PI.BS_.AUTO3STATE) == PI.BS_.AUTO3STATE)
+                                                 || ((control.WinInfo.dwStyle & PI.BS_.AUTOCHECKBOX) == PI.BS_.AUTOCHECKBOX))
                                         {
                                             var panel = new KryptonPanel
                                             {
@@ -155,14 +158,20 @@ namespace Krypton.Toolkit
                                             {
                                                 AutoSize = false,
                                                 Text = control.Text,
-                                                Dock = DockStyle.Fill
+                                                Dock = DockStyle.Fill,
                                             };
                                             panel.Controls.Add(button);
                                             button.Click += delegate
                                             {
                                                 PI.SendMessage(control.hWnd, PI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
+                                                //if (_embeddingDone )
+                                                //{
+                                                //    _toolBox.DialogResult = ((control.ControlType & PI.BS_.DEFPUSHBUTTON) == PI.BS_.DEFPUSHBUTTON)
+                                                //        ? DialogResult.OK : DialogResult.Cancel; 
+                                                //}
                                             };
                                             PI.ShowWindow(control.hWnd, PI.ShowWindowCommands.SW_HIDE);
+
                                         }
                                     }
                                     break;
@@ -170,10 +179,21 @@ namespace Krypton.Toolkit
                                     PI.SendMessage(control.hWnd, PI.WM_.SETFONT, labelLogFont, new IntPtr(1));
                                     break;
                             }
-
                         }
-                        break;
+                        if (_embed && !_embeddingDone)
+                        {
+                            PerformEmbedding(hWnd);
+                            return (true, new IntPtr(1));
+                        }
                     }
+                    break;
+                case PI.WM_.DESTROY:
+                    if (_embeddingDone)
+                    {
+                        _toolBox.Close();
+                    }
+
+                    break;
                 case PI.WM_.PAINT:
                     {
                         foreach (Attributes control in _controls)
@@ -182,12 +202,14 @@ namespace Krypton.Toolkit
                                 continue;
                             if (control.ClassName != @"button")
                                 continue;
-                            if ((control.ControlType & PI.BS_.GROUPBOX) == PI.BS_.GROUPBOX)
+                            if ((control.WinInfo.dwStyle & PI.BS_.GROUPBOX) == PI.BS_.GROUPBOX)
                             {
                                 PI.PAINTSTRUCT ps = new();
 
                                 // Do we need to BeginPaint or just take the given HDC?
                                 var hdc = PI.BeginPaint(control.hWnd, ref ps);
+                                if (hdc == IntPtr.Zero)
+                                    break;
                                 using (Graphics g = Graphics.FromHdc(hdc))
                                 {
                                     g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -257,6 +279,56 @@ namespace Krypton.Toolkit
             }
 
             return (false, IntPtr.Zero);
+        }
+
+        private void PerformEmbedding(IntPtr hWnd)
+        {
+            _embeddingDone = true;
+            var controlType = PI.GetWindowLong(hWnd, PI.GWL_.STYLE);
+            controlType &= ~(PI.WS_.POPUPWINDOW | PI.WS_.CAPTION | PI.WS_.DLGFRAME | PI.WS_.OVERLAPPEDWINDOW);
+            controlType |= PI.WS_.CHILD | PI.WS_.VISIBLE | PI.WS_.GROUP;
+            PI.SetWindowLong(hWnd, PI.GWL_.STYLE, controlType);
+            var lExStyle = PI.GetWindowLong(hWnd, PI.GWL_.EXSTYLE);
+            lExStyle &= ~(PI.WS_EX_.DLGMODALFRAME | PI.WS_EX_.CLIENTEDGE | PI.WS_EX_.STATICEDGE);
+            PI.SetWindowLong(hWnd, PI.GWL_.EXSTYLE, lExStyle);
+            PI.GetWindowInfo(hWnd, out var winInfo);
+            var text = new StringBuilder(64);
+            PI.GetWindowText(hWnd, text, 64);
+            _toolBox = new KryptonForm
+            {
+                AutoScaleMode = AutoScaleMode.None,
+                ClientSize = new Size(winInfo.rcClient.right - winInfo.rcClient.left, winInfo.rcClient.bottom - winInfo.rcClient.top),
+                FormBorderStyle = FormBorderStyle.FixedToolWindow,
+                StartPosition = FormStartPosition.Manual,
+                Name = text.ToString(),
+                Text = text.ToString(),
+                Location = new Point(winInfo.rcWindow.left, winInfo.rcWindow.top),
+                Padding = new Padding(0)
+            };
+            var kryptonPanel1 = new KryptonPanel
+            {
+                Dock = DockStyle.Fill,
+                Location = new Point(0, 0),
+                Name = "kryptonPanel1",
+                Size = _toolBox.ClientSize,
+                TabIndex = 0,
+                Margin = new Padding(0),
+                Padding = new Padding(0)
+            };
+            _toolBox.Controls.Add(kryptonPanel1);
+
+            PI.MoveWindow(hWnd, 0, 0, _toolBox.ClientSize.Width, _toolBox.ClientSize.Height, false);
+            var toolParent = PI.GetParent(hWnd);
+            PI.SetParent(hWnd, kryptonPanel1.Handle);
+            //toolBox.Closed += delegate { PI.DestroyWindow(hWnd); };
+            var nativeWindow = new NativeWindow();
+            nativeWindow.AssignHandle(toolParent);
+            _toolBox.Show(nativeWindow);
+        }
+
+        private void ToolBox_Closed(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private static bool EnumerateChildWindow(IntPtr hWnd, IntPtr lParam)

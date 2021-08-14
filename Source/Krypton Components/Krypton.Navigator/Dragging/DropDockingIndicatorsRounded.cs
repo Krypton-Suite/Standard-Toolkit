@@ -73,12 +73,11 @@ namespace Krypton.Navigator
 
                 // Set styles so that it does not have a caption bar and is above all other 
                 // windows in the ZOrder, i.e. TOPMOST
-                ExStyle = PI.WS_EX_.TOPMOST |
-                          PI.WS_EX_.TOOLWINDOW
+                ExStyle = unchecked((int)(PI.WS_EX_.TOPMOST | PI.WS_EX_.TOOLWINDOW))
             };
 
             // We are going to use per-pixel alpha blending and so need a layered window
-            cp.ExStyle |= PI.WS_EX_.LAYERED;
+            cp.ExStyle |= unchecked((int)(PI.WS_EX_.LAYERED));
 
             // Create the actual window
             CreateHandle(cp);
