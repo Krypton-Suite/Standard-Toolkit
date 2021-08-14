@@ -229,6 +229,8 @@ namespace Krypton.Toolkit
             }
             else
             {
+                // TODO: Review icons
+
                 switch (_mainIcon)
                 {
                     case MessageBoxIcon.None:
@@ -236,19 +238,19 @@ namespace Krypton.Toolkit
                         _panelMainText.Left -= _messageIcon.Right;
                         break;
                     case MessageBoxIcon.Question:
-                        _messageIcon.Image = Resources.help2;
+                        _messageIcon.Image = Properties.Resources.help2;
                         SystemSounds.Question.Play();
                         break;
                     case MessageBoxIcon.Information:
-                        _messageIcon.Image = Resources.information;
+                        _messageIcon.Image = Properties.Resources.information;
                         SystemSounds.Asterisk.Play();
                         break;
                     case MessageBoxIcon.Warning:
-                        _messageIcon.Image = Resources.sign_warning;
+                        _messageIcon.Image = Properties.Resources.sign_warning;
                         SystemSounds.Exclamation.Play();
                         break;
                     case MessageBoxIcon.Error:
-                        _messageIcon.Image = Resources.error;
+                        _messageIcon.Image = Properties.Resources.error;
                         SystemSounds.Hand.Play();
                         break;
                 }
@@ -521,16 +523,16 @@ namespace Krypton.Toolkit
                         _iconFooter.Visible = false;
                         break;
                     case MessageBoxIcon.Question:
-                        _iconFooter.Image = Resources.help2Small;
+                        _iconFooter.Image = Properties.Resources.help2Small;
                         break;
                     case MessageBoxIcon.Information:
-                        _iconFooter.Image = Resources.informationSmall;
+                        _iconFooter.Image = Properties.Resources.informationSmall;
                         break;
                     case MessageBoxIcon.Warning:
-                        _iconFooter.Image = Resources.sign_warningSmall;
+                        _iconFooter.Image = Properties.Resources.sign_warningSmall;
                         break;
                     case MessageBoxIcon.Error:
-                        _iconFooter.Image = Resources.errorSmall;
+                        _iconFooter.Image = Properties.Resources.errorSmall;
                         break;
                 }
             }

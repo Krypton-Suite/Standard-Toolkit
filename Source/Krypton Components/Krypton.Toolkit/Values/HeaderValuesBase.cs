@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
                                              IContentValues
     {
         #region Static Fields
-        private static readonly Image _defaultImage = Resources.ComponentYellow;
+        private static readonly Image _defaultImage = Properties.Resources.ComponentYellow;
         #endregion
 
         #region Instance Fields

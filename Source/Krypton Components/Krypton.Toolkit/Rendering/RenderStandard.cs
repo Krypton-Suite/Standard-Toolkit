@@ -352,21 +352,21 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta,
                 ImageSize = new Size(17, 11)
             };
-            _gridSortOrder.Images.AddStrip(Resources.GridSortOrder);
+            _gridSortOrder.Images.AddStrip(Properties.Resources.GridSortOrder);
 
             _gridRowIndicators = new ImageList
             {
                 TransparentColor = Color.Magenta,
                 ImageSize = new Size(19, 13)
             };
-            _gridRowIndicators.Images.AddStrip(Resources.GridRowIndicators);
+            _gridRowIndicators.Images.AddStrip(Properties.Resources.GridRowIndicators);
 
             _gridErrorIcon = new ImageList
             {
                 TransparentColor = Color.Magenta,
                 ImageSize = new Size(18, 17)
             };
-            _gridErrorIcon.Images.AddStrip(Resources.GridErrorIcon);
+            _gridErrorIcon.Images.AddStrip(Properties.Resources.GridErrorIcon);
         }
         #endregion
 
