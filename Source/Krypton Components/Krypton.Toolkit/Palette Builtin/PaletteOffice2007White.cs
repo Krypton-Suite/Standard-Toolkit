@@ -275,7 +275,7 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Properties.Resources.CB2007Silver);
+            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStrip2007Silver);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),

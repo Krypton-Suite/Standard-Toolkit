@@ -205,6 +205,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>MessageBoxResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\CheckBoxStripResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>CheckBoxStripResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\GenericImageResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -410,6 +415,10 @@
         <EmbeddedResource Update="Properties\Resources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\CheckBoxStripResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>CheckBoxStripResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\GenericImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>

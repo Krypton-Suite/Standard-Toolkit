@@ -308,7 +308,7 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Properties.Resources.CBSparkleOrange);
+            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStripSparkleOrange);
             _radioButtonArray = new Image[]{Properties.Resources.RBSparkleD,
                 Properties.Resources.RBSparkleN,
                 Properties.Resources.RBSparkleOrangeT,
