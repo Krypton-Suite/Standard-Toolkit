@@ -151,9 +151,6 @@
   <data name="RB2007BlueNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlueNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalButtonMinA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="BlackDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlackDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -193,9 +190,6 @@
   <data name="RB2007SilverTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007SilverTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalButtonMaxI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="GridRowIndicators" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridRowIndicators.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -232,14 +226,8 @@
   <data name="RB2007BlueTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlueTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalButtonRestoreA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SilverContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SilverContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalCloseButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalCloseButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalArrowLeftButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowLeftButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -253,17 +241,11 @@
   <data name="ButtonNoColor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ButtonNoColor.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalButtonRestoreI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RB2007BlackP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlackP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RB2007BlueDC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlueDC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMinI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RB2007BlueP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlueP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -274,17 +256,8 @@
   <data name="RB2007BlackTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlackTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalButtonCloseA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonCloseI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ButtonColorImageSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ButtonColorImageSmall.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMaxA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ComponentYellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ComponentYellow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1095,33 +1068,6 @@
   </data>
   <data name="ProfessionalArrowUpButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowUpButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonCloseA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonCloseI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMaxA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMaxI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMinA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMinI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonRestoreA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonRestoreI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalCloseButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalCloseButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalContextButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalContextButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingContextMenuItemHighlight = new(1, 0, 1, 0);
         private static readonly Padding _metricPaddingContextMenuItemsCollection = new(0, 1, 0, 1);
 
-        private static readonly Image _buttonSpecClose = Properties.Resources.ProfessionalCloseButton;
+        private static readonly Image _buttonSpecClose = Resources.ProfessionalButtonSpecResources.ProfessionalCloseButton;
         private static readonly Image _buttonSpecContext = Properties.Resources.ProfessionalContextButton;
         private static readonly Image _buttonSpecNext = Properties.Resources.ProfessionalNextButton;
         private static readonly Image _buttonSpecPrevious = Properties.Resources.ProfessionalPreviousButton;
@@ -72,14 +72,14 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecWorkspaceRestore = Properties.Resources.ProfessionalRestore;
         private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.RibbonUp2010;
         private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.RibbonDown2010;
-        private static readonly Image _systemCloseA = Properties.Resources.ProfessionalButtonCloseA;
-        private static readonly Image _systemCloseI = Properties.Resources.ProfessionalButtonCloseI;
-        private static readonly Image _systemMaxA = Properties.Resources.ProfessionalButtonMaxA;
-        private static readonly Image _systemMaxI = Properties.Resources.ProfessionalButtonMaxI;
-        private static readonly Image _systemMinA = Properties.Resources.ProfessionalButtonMinA;
-        private static readonly Image _systemMinI = Properties.Resources.ProfessionalButtonMinI;
-        private static readonly Image _systemRestoreA = Properties.Resources.ProfessionalButtonRestoreA;
-        private static readonly Image _systemRestoreI = Properties.Resources.ProfessionalButtonRestoreI;
+        private static readonly Image _systemCloseNormal = Resources.ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
+        private static readonly Image _systemCloseDisabled = Resources.ProfessionalControlBoxResources.ProfessionalButtonCloseDisabled;
+        private static readonly Image _systemMaximiseNormal = Resources.ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
+        private static readonly Image _systemMaximiseDisabled = Resources.ProfessionalControlBoxResources.ProfessionalButtonMaxDisabled;
+        private static readonly Image _systemMinimiseNormal = Resources.ProfessionalControlBoxResources.ProfessionalButtonMinNormal;
+        private static readonly Image _systemMinimiseDisabled = Resources.ProfessionalControlBoxResources.ProfessionalButtonMinDisabled;
+        private static readonly Image _systemRestoreNormal = Resources.ProfessionalControlBoxResources.ProfessionalButtonRestoreNormal;
+        private static readonly Image _systemRestoreDisabled = Resources.ProfessionalControlBoxResources.ProfessionalButtonRestoreDisabled;
         private static readonly Image _systemHelpA = Resources.HelpIconResources.GenericPre2010HelpIcon;
         private static readonly Image _systemHelpI = Resources.HelpIconResources.GenericPre2010HelpIconDisabled;
         private static readonly Image _pendantCloseA = Properties.Resources.ProfessionalPendantCloseA;
@@ -2852,16 +2852,16 @@ namespace Krypton.Toolkit
                     return state == PaletteState.Disabled ? _pendantExpandI : _pendantExpandA;
 
                 case PaletteButtonSpecStyle.FormClose:
-                    return state == PaletteState.Disabled ? _systemCloseI : _systemCloseA;
+                    return state == PaletteState.Disabled ? _systemCloseDisabled : _systemCloseNormal;
 
                 case PaletteButtonSpecStyle.FormMin:
-                    return state == PaletteState.Disabled ? _systemMinI : _systemMinA;
+                    return state == PaletteState.Disabled ? _systemMinimiseDisabled : _systemMinimiseNormal;
 
                 case PaletteButtonSpecStyle.FormMax:
-                    return state == PaletteState.Disabled ? _systemMaxI : _systemMaxA;
+                    return state == PaletteState.Disabled ? _systemMaximiseDisabled : _systemMaximiseNormal;
 
                 case PaletteButtonSpecStyle.FormRestore:
-                    return state == PaletteState.Disabled ? _systemRestoreI : _systemRestoreA;
+                    return state == PaletteState.Disabled ? _systemRestoreDisabled : _systemRestoreNormal;
 
                 case PaletteButtonSpecStyle.FormHelp:
                     return state == PaletteState.Disabled ? _systemHelpI : _systemHelpA;
