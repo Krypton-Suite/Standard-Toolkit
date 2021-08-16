@@ -20,11 +20,16 @@
 // ReSharper disable ClassNeverInstantiated.Global
 #pragma warning disable 649
 
-using System.Security.Permissions;
-
 namespace Krypton.Toolkit
 {
-    internal class PI
+    internal static class BoolExtensions
+    {
+        public static bool IsTrue(this PI.BOOL b) => b != PI.BOOL.FALSE;
+        public static bool IsFalse(this PI.BOOL b) => b == PI.BOOL.FALSE;
+        public static PI.BOOL ToBOOL(this bool b) => b ? PI.BOOL.TRUE : PI.BOOL.FALSE;
+    }
+
+    internal static partial class PI
     {
         #region statics
 
@@ -53,14 +58,26 @@ namespace Krypton.Toolkit
         internal static readonly IntPtr HWND_BOTTOM = new(1);
 
         internal const int BM_CLICK = 0x00F5;
+
+
         #endregion
 
-        internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
-
-        internal static object PtrToStructure(IntPtr lparam, System.Type cls) => Marshal.PtrToStructure(lparam, cls);
-        internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld=false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
-
         #region Constants
+
+        /// <summary>
+        ///  Blittable version of Windows BOOL type. It is convenient in situations where
+        ///  manual marshalling is required, or to avoid overhead of regular bool marshalling.
+        /// </summary>
+        /// <remarks>
+        ///  Some Windows APIs return arbitrary integer values although the return type is defined
+        ///  as BOOL. It is best to never compare BOOL to TRUE. Always use bResult != BOOL.FALSE
+        ///  or bResult == BOOL.FALSE .
+        /// </remarks>
+        internal enum BOOL : int
+        {
+            FALSE = 0,
+            TRUE = 1,
+        }
 
         #region ScrollBar
 
@@ -2396,6 +2413,12 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Methods
+
+        internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+        internal static object PtrToStructure(IntPtr lparam, System.Type cls) => Marshal.PtrToStructure(lparam, cls);
+        internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld = false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
+
         internal static int LOWORD(IntPtr value)
         {
             int int32 = ((int)value.ToInt64() & 0xFFFF);
@@ -2408,50 +2431,31 @@ namespace Krypton.Toolkit
             return (int32 > 32767) ? int32 - 65536 : int32;
         }
 
-        internal static int LOWORD(int value)
-        {
-            return (value & 0xFFFF);
-        }
+        internal static int LOWORD(int value) => (value & 0xFFFF);
 
-        internal static int HIWORD(int value)
-        {
-            return ((value >> 0x10) & 0xFFFF);
-        }
+        internal static int HIWORD(int value) => ((value >> 0x10) & 0xFFFF);
 
-        internal static int MAKELOWORD(int value)
-        {
-            return (value & 0xFFFF);
-        }
+        internal static int MAKELOWORD(int value) => (value & 0xFFFF);
 
-        internal static int MAKEHIWORD(int value)
-        {
-            return ((value & 0xFFFF) << 0x10);
-        }
+        internal static int MAKEHIWORD(int value) => ((value & 0xFFFF) << 0x10);
 
-        internal static int MakeLParam(int LoWord, int HiWord)
-        {
-            return ((HiWord << 16) | (LoWord & 0xffff));
-        }
+        internal static int MakeLParam(int LoWord, int HiWord) => ((HiWord << 16) | (LoWord & 0xffff));
+
+        public static IntPtr FromBool(bool value) => (IntPtr)(value ? BOOL.TRUE : BOOL.FALSE);
 
         /// <summary>
         /// Is the specified key currently pressed down.
         /// </summary>
         /// <param name="key">Key to test.</param>
         /// <returns>True if pressed; otherwise false.</returns>
-        internal static bool IsKeyDown(Keys key)
-        {
-            return KEY_.DOWN == (GetKeyState(key) & KEY_.DOWN);
-        }
+        internal static bool IsKeyDown(Keys key) => KEY_.DOWN == (GetKeyState(key) & KEY_.DOWN);
 
         /// <summary>
         /// Is the specified key currently toggled.
         /// </summary>
         /// <param name="key">Key to test.</param>
         /// <returns>True if toggled; otherwise false.</returns>
-        internal static bool IsKeyToggled(Keys key)
-        {
-            return KEY_.TOGGLED == (GetKeyState(key) & KEY_.TOGGLED);
-        }
+        internal static bool IsKeyToggled(Keys key) => KEY_.TOGGLED == (GetKeyState(key) & KEY_.TOGGLED);
 
         private static KEY_ GetKeyState(Keys key)
         {
@@ -2472,6 +2476,39 @@ namespace Krypton.Toolkit
             return state;
         }
         #endregion
+
+        public class ActiveX
+        {
+            public const int ALIGN_MIN = 0x0;
+            public const int ALIGN_NO_CHANGE = 0x0;
+            public const int ALIGN_TOP = 0x1;
+            public const int ALIGN_BOTTOM = 0x2;
+            public const int ALIGN_LEFT = 0x3;
+            public const int ALIGN_RIGHT = 0x4;
+            public const int ALIGN_MAX = 0x4;
+
+            public static Guid IID_IUnknown = new Guid("{00000000-0000-0000-C000-000000000046}");
+
+            private ActiveX()
+            {
+            }
+        }
+
+        internal sealed class CoTaskMemSafeHandle : SafeHandle
+        {
+            internal CoTaskMemSafeHandle() : base(IntPtr.Zero, true)
+            {
+            }
+
+            public override bool IsInvalid => IsClosed || handle == IntPtr.Zero;
+
+            protected override bool ReleaseHandle()
+            {
+                Marshal.FreeCoTaskMem(handle);
+                handle = IntPtr.Zero;
+                return true;
+            }
+        }
 
         #region Static User32
 
@@ -3328,9 +3365,35 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Ole32
+        [Flags]
+        public enum CLSCTX : uint
+        {
+            INPROC_SERVER = 0x1,
+            INPROC_HANDLER = 0x2,
+            LOCAL_SERVER = 0x4,
+            INPROC_SERVER16 = 0x8,
+            REMOTE_SERVER = 0x10,
+            INPROC_HANDLER16 = 0x20,
+            INPROC_SERVERX86 = 0x40,
+            INPROC_HANDLERX86 = 0x80,
+            ESERVER_HANDLER = 0x100,
+            NO_CODE_DOWNLOAD = 0x400,
+            NO_CUSTOM_MARSHAL = 0x1000,
+            ENABLE_CODE_DOWNLOAD = 0x2000,
+            NO_FAILURE_LOG = 0x4000,
+            DISABLE_AAA = 0x8000,
+            ENABLE_AAA = 0x10000,
+            FROM_DEFAULT_CONTEXT = 0x20000,
+        }
+
         [DllImport(@"ole32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern void CoCreateGuid(ref GUIDSTRUCT guid);
+
+        [DllImport(@"ole32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern HRESULT CoCreateInstance(ref Guid rclsid, IntPtr punkOuter, CLSCTX dwClsContext,
+            ref Guid riid, [MarshalAs(UnmanagedType.Interface)] out object ppv);
         #endregion
 
         #region Static Uxtheme

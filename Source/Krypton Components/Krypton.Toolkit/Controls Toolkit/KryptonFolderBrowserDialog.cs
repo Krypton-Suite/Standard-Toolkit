@@ -5,26 +5,25 @@
  */
 #endregion
 
+
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Represents a common dialog box that displays colours
+    /// Represents a common dialog box that displays the FolderBrowser Dialog
     /// that are currently installed on the system.
     /// </summary>
-    public class KryptonColorDialog : ColorDialog
+    public class KryptonFolderBrowserDialog : FolderBrowserDialogInternal
     {
         private readonly CommonDialogHandler _commonDialogHandler;
 
         /// <summary>
-        /// Represents a common dialog box that displays colours
+        /// Represents a common dialog box that displays the FolderBrowser Dialog
         /// that are currently installed on the system.
         /// </summary>
-        public KryptonColorDialog()
+        public KryptonFolderBrowserDialog()
         {
-            _commonDialogHandler = new CommonDialogHandler(true)
-            {
-                ClickCallback = ClickCallback
-            };
+            _commonDialogHandler = new CommonDialogHandler(true);
+            //_commonDialogHandler.ClickCallback = ClickCallback;
         }
 
         private void ClickCallback(CommonDialogHandler.Attributes originalControl)
@@ -51,30 +50,42 @@ namespace Krypton.Toolkit
         //    var ret = base.RunDialog(hWndOwner);
         //}
 
+        protected override int FolderBrowserDialog_BrowseCallbackProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
+        {
+            base.FolderBrowserDialog_BrowseCallbackProc(hWnd, msg, wparam, lparam);
+            switch ((BFFM)msg)
+            {
+                case BFFM.INITIALIZED:
+                    _commonDialogHandler.InitialiseDialog(hWnd);
+                    break;
+            }
+            return 0;
+        }
+
         /// <inheritdoc />
         protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
         {
             var (handled, retValue) = _commonDialogHandler.HookProc(hWnd, msg, wparam, lparam);
-            if (!handled
-                && (msg == PI.WM_.WINDOWPOSCHANGING)
-                && _commonDialogHandler.EmbeddingDone
-            )
-            {
-                PI.WINDOWPOS pos = (PI.WINDOWPOS)PI.PtrToStructure(lparam, typeof(PI.WINDOWPOS));
-                if ( !MissingFrameWorkAPIs.HasFlag(pos.flags, PI.SWP_.NOSIZE)
-                    && (pos.hwnd == hWnd)
-                    )
-                {
-                    handled = _commonDialogHandler.SetNewPosAndClientSize(new Point(pos.x, pos.y), new Size(pos.cx, pos.cy));
-                    if (!handled)
-                    {
-                        pos.flags |= PI.SWP_.NOSIZE;
-                        PI.StructureToPtr(pos, lparam);
-                    }
+            //if (!handled
+            //    && (msg == PI.WM_.WINDOWPOSCHANGING)
+            //    && _commonDialogHandler.EmbeddingDone
+            //)
+            //{
+            //PI.WINDOWPOS pos = (PI.WINDOWPOS)PI.PtrToStructure(lparam, typeof(PI.WINDOWPOS));
+            //    if ( !MissingFrameWorkAPIs.HasFlag(pos.flags, PI.SWP_.NOSIZE)
+            //        && (pos.hwnd == hWnd)
+            //        )
+            //    {
+            //        handled = _commonDialogHandler.SetNewPosAndClientSize(new Point(pos.x, pos.y), new Size(pos.cx, pos.cy));
+            //        if (!handled)
+            //        {
+            //            pos.flags |= PI.SWP_.NOSIZE;
+            //            PI.StructureToPtr(pos, lparam);
+            //        }
 
-                    retValue = IntPtr.Zero;
-                }
-            }
+            //        retValue = IntPtr.Zero;
+            //    }
+            //}
             return handled ? retValue :base.HookProc(hWnd, msg, wparam, lparam);
         }
 
