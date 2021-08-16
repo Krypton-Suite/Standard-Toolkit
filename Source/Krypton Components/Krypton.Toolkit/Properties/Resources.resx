@@ -121,32 +121,17 @@
   <data name="SystemContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystemContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlueButtonRestoreI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonMaxA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonRestoreA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SplitVertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SplitVertical.cur;System.Windows.Forms.Cursor, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="MdiRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlackButtonRestoreA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RB2007SilverP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007SilverP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SilverDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SilverDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CB2007Black" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2007Black.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalArrowDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowDownButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -160,20 +145,11 @@
   <data name="BlueContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlueContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlackButtonRestoreI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ProfessionalContextButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalContextButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlackButtonMinAH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMinAH.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RB2007BlueNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlueNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMinA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BlackDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlackDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -187,26 +163,11 @@
   <data name="GridSortOrder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridSortOrder.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlackButtonMaxAH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMaxAH.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ProfessionalPendantRestoreI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RB2007BlueD" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlueD.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonMaxI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonCloseA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonCloseI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonMaxA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalArrowUpButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowUpButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -223,32 +184,17 @@
   <data name="RB2007BlackT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlackT.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CB2007Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2007Silver.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ProfessionalArrowRightButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowRightButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlackButtonMinI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RB2007SilverTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007SilverTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonMinA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMaxI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GridRowIndicators" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridRowIndicators.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RB2007BlueT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlueT.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonMaxA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GridErrorIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridErrorIcon.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -268,9 +214,6 @@
   <data name="ProfessionalPendantMinA" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlackButtonMaxI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ProfessionalDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalDropDownButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -280,20 +223,11 @@
   <data name="SelectParentControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SelectParentControl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlackButtonCloseA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RB2007BlueTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlueTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalButtonRestoreA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SilverContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SilverContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalCloseButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalCloseButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalArrowLeftButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowLeftButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -307,71 +241,29 @@
   <data name="ButtonNoColor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ButtonNoColor.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalButtonRestoreI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RB2007BlackP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlackP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RB2007BlueDC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlueDC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CB2007Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2007Blue.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMinI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RB2007BlueP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlueP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonCloseI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Empty16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Empty16x16.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlueButtonMinI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RB2007BlackTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlackTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonCloseA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonCloseI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ButtonColorImageSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ButtonColorImageSmall.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlackContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMaxA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonRestoreI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ComponentYellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ComponentYellow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SilverButtonMinA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SystemIndeterminate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystemIndeterminate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonMinI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonCloseA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonMinA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalPendantMinI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -382,9 +274,6 @@
   <data name="RB2007BlackN" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2007BlackN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SilverButtonCloseI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Office2007Indeterminate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Office2007Indeterminate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -393,15 +282,6 @@
   </data>
   <data name="ProfessionalNextButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalNextButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonRestoreA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonMaxI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonCloseAH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonCloseAH.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DisabledDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DisabledDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -414,9 +294,6 @@
   </data>
   <data name="ProfessionalPendantCloseI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonRestoreAH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonRestoreAH.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="delete2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\delete2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -432,30 +309,6 @@
   </data>
   <data name="GallerySilverBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GallerySilverBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonCloseA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonCloseI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMaxA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMaxI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMinA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMinI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonRestoreA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonRestoreI" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="WhiteButtonClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhiteButtonClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -523,9 +376,6 @@
   <data name="SparkleIndeterminate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SparkleIndeterminate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CBSparkle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CBSparkle.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RBSparkleN" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RBSparkleN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -552,12 +402,6 @@
   </data>
   <data name="SparkleDropDownOutlineButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SparkleDropDownOutlineButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CBSparkleOrange" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CBSparkleOrange.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CBSparklePurple" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CBSparklePurple.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RBSparkleOrangeNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RBSparkleOrangeNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -655,59 +499,11 @@
   <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\add.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_2010ButtonCloseH" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonCloseH.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMax" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMax.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonCloseBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonCloseBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMaxBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMaxBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMinBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMinBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonRestoreBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonRestoreBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RibbonDown2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RibbonDown2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RibbonUp2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RibbonUp2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDICloseBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDICloseBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIMax" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIMax.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIMaxBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIMaxBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIMin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIMinBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIMinBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIRestoreBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIRestoreBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RibbonDown2010Black" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RibbonDown2010Black.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -720,9 +516,6 @@
   </data>
   <data name="MdiRibbonMinimize" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiRibbonMinimize.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="WhitePendantRibbonExpand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhitePendantRibbonExpand.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -741,15 +534,6 @@
   </data>
   <data name="ProfessionalPendantMinimizeI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantMinimizeI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CB2010Black" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2010Black.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CB2010Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2010Blue.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CB2010Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2010Silver.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RB2010BlueN" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RB2010BlueN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -789,18 +573,6 @@
   </data>
   <data name="Gallery2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Gallery2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010BlueContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010BlueContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010BlueDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010BlueDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010BlackContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010BlackContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010BlackDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010BlackDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BlackButtonCollapse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlackButtonCollapse.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -859,77 +631,14 @@
   <data name="arrow_up_blue1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arrow_up_blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BlackButtonCloseA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonCloseAH1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonCloseAH.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonCloseI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="BlackButtonCollapse1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlackButtonCollapse.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonExpand1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonExpand.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonMaxA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonMaxAH1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMaxAH.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonMaxI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonMinA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonMinAH1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMinAH.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonMinI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonRestoreA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonRestoreAH1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonRestoreAH.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlackButtonRestoreI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlackButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BlackContextMenuSub1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlackContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BlackDropDownButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlackDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonCloseA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonCloseI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonMaxA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonMaxI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonMinA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonMinI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonRestoreA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueButtonRestoreI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BlueContextMenuSub1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlueContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -942,33 +651,6 @@
   </data>
   <data name="ButtonNoColor1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ButtonNoColor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CB2007Black1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2007Black.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CB2007Blue1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2007Blue.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CB2007Silver1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2007Silver.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CB2010Black1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2010Black.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CB2010Blue1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2010Blue.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CB2010Silver1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CB2010Silver.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CBSparkle1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CBSparkle.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CBSparkleOrange1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CBSparkleOrange.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CBSparklePurple1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CBSparklePurple.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CollapseIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CollapseIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1387,33 +1069,6 @@
   <data name="ProfessionalArrowUpButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowUpButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ProfessionalButtonCloseA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonCloseI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMaxA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMaxI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMinA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonMinI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonRestoreA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalButtonRestoreI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProfessionalCloseButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ProfessionalCloseButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ProfessionalContextButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalContextButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1642,30 +1297,6 @@
   <data name="sign_warningSmall1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sign_warningSmall.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SilverButtonCloseA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonCloseI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonMaxA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonMaxI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonMinA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonMinI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonRestoreA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SilverButtonRestoreI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SilverButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SilverContextMenuSub1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SilverContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1680,30 +1311,6 @@
   </data>
   <data name="sort_up_down_delete_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sort_up_down_delete_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonCloseA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonCloseI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMaxA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMaxA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMaxI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMaxI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMinA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonMinI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonMinI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonRestoreA1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SparkleButtonRestoreI1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SparkleButtonRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SparkleChecked1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SparkleChecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1927,69 +1534,6 @@
   <data name="WhiteRestore1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhiteRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_2010BlackContextMenuSub1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010BlackContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010BlackDropDownButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010BlackDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010BlueContextMenuSub1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010BlueContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010BlueDropDownButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010BlueDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonClose1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonCloseBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonCloseBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonCloseH1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonCloseH.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMax1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMax.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMaxBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMaxBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIClose1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDICloseBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDICloseBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIMax1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIMax.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIMaxBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIMaxBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIMin1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIMinBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIMinBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIRestore1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMDIRestoreBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMDIRestoreBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMin1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonMinBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonMinBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonRestore1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_2010ButtonRestoreBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\2010ButtonRestoreBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SelectParentControlFlipped" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SelectParentControlFlipped.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -2010,5 +1554,8 @@
   </data>
   <data name="RBVisualStudio2017NotChecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RBVisualStudio2017NotChecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BlackContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BlackContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -1047,24 +1047,11 @@ namespace Krypton.Toolkit
                 }
             }
 
-            Padding borders;
-
-            // Cache the size of the window borders to use for hit testing
-            switch (FormBorderStyle)
+            var borders = FormBorderStyle switch
             {
-                case FormBorderStyle.None:
-                case FormBorderStyle.Fixed3D:
-                case FormBorderStyle.FixedDialog:
-                case FormBorderStyle.FixedSingle:
-                case FormBorderStyle.FixedToolWindow:
-                    borders = Padding.Empty;
-                    break;
-                default:
-                    // When maximized we do not have any borders around the client
-                    borders = WindowState == FormWindowState.Maximized ? Padding.Empty : RealWindowBorders;
-
-                    break;
-            }
+                FormBorderStyle.None or FormBorderStyle.Fixed3D or FormBorderStyle.FixedDialog or FormBorderStyle.FixedSingle or FormBorderStyle.FixedToolWindow => Padding.Empty,
+                _ => WindowState == FormWindowState.Maximized ? Padding.Empty : RealWindowBorders // When maximized we do not have any borders around the client
+            };
 
             // Restrict the top border to the same size as the left as we are using
             // the values for the size of the border hit testing for resizing the window

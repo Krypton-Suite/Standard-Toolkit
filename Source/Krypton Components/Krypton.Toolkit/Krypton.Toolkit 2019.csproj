@@ -208,6 +208,51 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>MessageBoxResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\CheckBoxStripResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>CheckBoxStripResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\GenericImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\HelpIconResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>HelpIconResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2007ControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2007ControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2010Arrows.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2010Arrows.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2010ControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2010ControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\ProfessionalButtonSpecResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ProfessionalButtonSpecResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\ProfessionalControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ProfessionalControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SparkleControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparkleControlBoxResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
         </Compile>
@@ -232,7 +277,6 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
         <Content Include="Krypton.ico" Pack="false" />
-        <None Include="Resources\BlackButtonCloseA.bmp" />
         <None Include="Resources\BlackDropDownButton.png" />
         <None Include="Resources\BlueDropDownButton.png" />
         <None Include="Resources\ButtonColorImageSmall.png" />
@@ -384,6 +428,42 @@
         <EmbeddedResource Update="Properties\Resources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\CheckBoxStripResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>CheckBoxStripResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GenericImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GenericImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\HelpIconResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>HelpIconResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2007ControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2007ControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2010Arrows.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2010Arrows.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2010ControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2010ControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\ProfessionalButtonSpecResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ProfessionalButtonSpecResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\ProfessionalControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ProfessionalControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparkleControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparkleControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>

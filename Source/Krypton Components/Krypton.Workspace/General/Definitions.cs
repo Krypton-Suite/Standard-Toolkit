@@ -48,7 +48,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Specifies that all compacting flags be applied.
         /// </summary>
-        All = 15,
+        All = 15
     }
     #endregion
 

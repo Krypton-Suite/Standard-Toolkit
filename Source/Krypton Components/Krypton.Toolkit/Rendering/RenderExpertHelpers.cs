@@ -518,18 +518,13 @@ namespace Krypton.Toolkit
 
         private static float AngleFromOrientation(VisualOrientation orientation)
         {
-            switch (orientation)
+            return orientation switch
             {
-                case VisualOrientation.Bottom:
-                    return 270f;
-                case VisualOrientation.Left:
-                    return 0f;
-                case VisualOrientation.Right:
-                    return 180;
-                case VisualOrientation.Top:
-                default:
-                    return 90f;
-            }
+                VisualOrientation.Bottom => 270f,
+                VisualOrientation.Left => 0f,
+                VisualOrientation.Right => 180,
+                _ => 90f
+            };
         }
         #endregion
     }

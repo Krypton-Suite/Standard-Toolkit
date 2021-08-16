@@ -528,7 +528,7 @@ namespace Krypton.Toolkit
             // Create the button spec for the multiline editor button.
             _editorButton = new ButtonSpecAny
             {
-                Image = Resources.SelectParentControlFlipped,
+                Image = Properties.Resources.SelectParentControlFlipped,
                 Style = PaletteButtonStyle.ButtonSpec,
                 Type = PaletteButtonSpecStyle.Generic
             };

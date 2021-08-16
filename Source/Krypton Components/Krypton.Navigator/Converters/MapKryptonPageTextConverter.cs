@@ -50,7 +50,7 @@ namespace Krypton.Navigator
             new(MapKryptonPageText.DescriptionTitle,              "Description - Title"),
             new(MapKryptonPageText.DescriptionTitleText,          "Description - Title - Text"),
             new(MapKryptonPageText.ToolTipTitle,                  "ToolTipTitle"),
-            new(MapKryptonPageText.ToolTipBody,                   "ToolTipBody"),
+            new(MapKryptonPageText.ToolTipBody,                   "ToolTipBody")
         };
 
         #endregion

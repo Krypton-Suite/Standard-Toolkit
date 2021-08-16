@@ -52,6 +52,7 @@ namespace Krypton.Toolkit
             new(PaletteButtonSpecStyle.FormMax,           "Form Max"),
             new(PaletteButtonSpecStyle.FormMin,           "Form Min"),
             new(PaletteButtonSpecStyle.FormRestore,       "Form Restore"),
+            new(PaletteButtonSpecStyle.FormHelp,              "Form Help"),
             new(PaletteButtonSpecStyle.PendantClose,      "Pendant Close"),
             new(PaletteButtonSpecStyle.PendantMin,        "Pendant Min"),
             new(PaletteButtonSpecStyle.PendantRestore,    "Pendant Restore"),

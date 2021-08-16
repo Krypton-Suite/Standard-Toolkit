@@ -776,6 +776,8 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PendantRestore:
                 case PaletteButtonSpecStyle.FormRestore:
                     return "Restore";
+                case PaletteButtonSpecStyle.FormHelp:
+                    return "Help";
                 case PaletteButtonSpecStyle.RibbonMinimize:
                     return "Minimize";
                 case PaletteButtonSpecStyle.RibbonExpand:

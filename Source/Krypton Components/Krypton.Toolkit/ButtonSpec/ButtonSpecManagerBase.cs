@@ -910,20 +910,14 @@ namespace Krypton.Toolkit
         private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,
                                                        ButtonOrientation buttonOrientation)
         {
-            switch (buttonOrientation)
+            return buttonOrientation switch
             {
-                case ButtonOrientation.FixedBottom:
-                    return VisualOrientation.Bottom;
-                case ButtonOrientation.FixedLeft:
-                    return VisualOrientation.Left;
-                case ButtonOrientation.FixedRight:
-                    return VisualOrientation.Right;
-                case ButtonOrientation.FixedTop:
-                    return VisualOrientation.Top;
-                case ButtonOrientation.Auto:
-                default:
-                    return viewOrientation;
-            }
+                ButtonOrientation.FixedBottom => VisualOrientation.Bottom,
+                ButtonOrientation.FixedLeft => VisualOrientation.Left,
+                ButtonOrientation.FixedRight => VisualOrientation.Right,
+                ButtonOrientation.FixedTop => VisualOrientation.Top,
+                _ => viewOrientation
+            };
         }
         #endregion
     }

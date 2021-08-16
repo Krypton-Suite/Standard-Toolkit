@@ -67,15 +67,12 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor1(PaletteState state)
         {
-            switch (state)
+            return state switch
             {
-                case PaletteState.Normal:
-                    return _cellStyle.BackColor;
-                case PaletteState.CheckedNormal:
-                    return _cellStyle.SelectionBackColor;
-            }
-
-            return _inherit.GetBackColor1(state);
+                PaletteState.Normal => _cellStyle.BackColor,
+                PaletteState.CheckedNormal => _cellStyle.SelectionBackColor,
+                _ => _inherit.GetBackColor1(state)
+            };
         }
 
         /// <summary>

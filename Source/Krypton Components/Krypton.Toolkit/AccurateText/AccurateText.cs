@@ -663,34 +663,20 @@ namespace Krypton.Toolkit
 
             // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
 
-            switch (sf.Alignment)
+            flags = sf.Alignment switch
             {
                 // Horizontal Alignment
-                case StringAlignment.Center:
-                    flags = flags & TextFormatFlags.HorizontalCenter;
-                    break;
-                case StringAlignment.Far:
-                    flags = flags & TextFormatFlags.Right;
-                    break;
-                default:
-                    flags = flags & TextFormatFlags.Left;
-                    break;
-            }
-
-            switch (sf.LineAlignment)
+                StringAlignment.Center => flags & TextFormatFlags.HorizontalCenter,
+                StringAlignment.Far => flags & TextFormatFlags.Right,
+                _ => flags & TextFormatFlags.Left
+            };
+            flags = sf.LineAlignment switch
             {
                 // Vertical Alignment
-                case StringAlignment.Far:
-                    flags = flags & TextFormatFlags.Bottom;
-                    break;
-                case StringAlignment.Center:
-                    flags = flags & TextFormatFlags.VerticalCenter;
-                    break;
-                default:
-                    flags = flags & TextFormatFlags.Top;
-                    break;
-            }
-
+                StringAlignment.Far => flags & TextFormatFlags.Bottom,
+                StringAlignment.Center => flags & TextFormatFlags.VerticalCenter,
+                _ => flags & TextFormatFlags.Top
+            };
             switch (sf.Trimming)
             {
                 // Ellipsis

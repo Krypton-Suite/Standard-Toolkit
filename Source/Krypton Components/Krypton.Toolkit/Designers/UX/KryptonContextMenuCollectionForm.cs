@@ -292,21 +292,21 @@ namespace Krypton.Toolkit
                 // 
                 imageList.TransparentColor = Color.Magenta;
                 imageList.Images.AddRange(new Image[]{
-                    Resources.KryptonContextMenuColorColumns,
-                    Resources.KryptonContextMenuHeading,
-                    Resources.KryptonContextMenuItem,
-                    Resources.KryptonContextMenuItems,
-                    Resources.KryptonContextMenuSeparator,
-                    Resources.KryptonRadioButton,
-                    Resources.KryptonCheckBox,
-                    Resources.KryptonCheckButton,
-                    Resources.KryptonLinkLabel,
-                    Resources.delete2,
-                    Resources.arrow_up_blue,
-                    Resources.arrow_down_blue,
-                    Resources.KryptonContextMenuImageSelect,
-                    Resources.KryptonMonthCalendar,
-                    Resources.KryptonComboBox
+                    Properties.Resources.KryptonContextMenuColorColumns,
+                    Properties.Resources.KryptonContextMenuHeading,
+                    Properties.Resources.KryptonContextMenuItem,
+                    Properties.Resources.KryptonContextMenuItems,
+                    Properties.Resources.KryptonContextMenuSeparator,
+                    Properties.Resources.KryptonRadioButton,
+                    Properties.Resources.KryptonCheckBox,
+                    Properties.Resources.KryptonCheckButton,
+                    Properties.Resources.KryptonLinkLabel,
+                    Properties.Resources.delete2,
+                    Properties.Resources.arrow_up_blue,
+                    Properties.Resources.arrow_down_blue,
+                    Properties.Resources.KryptonContextMenuImageSelect,
+                    Properties.Resources.KryptonMonthCalendar,
+                    Properties.Resources.KryptonComboBox
                 });
                 imageList.Images.SetKeyName(0, "KryptonContextMenuColorColumns.bmp");
                 imageList.Images.SetKeyName(1, "KryptonContextMenuHeading.bmp");

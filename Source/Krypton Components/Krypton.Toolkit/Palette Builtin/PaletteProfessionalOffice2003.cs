@@ -20,15 +20,15 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
         private static readonly Color[] _colorsB = { Color.FromArgb( 89, 135, 214),   // Header1Begin
-                                                                 Color.FromArgb(  4,  57, 148),   // Header1End
+                                                                 Color.FromArgb(  4,  57, 148) // Header1End
                                                                };
 
         private static readonly Color[] _colorsG = { Color.FromArgb(175, 192, 130),   // Header1Begin
-                                                                 Color.FromArgb( 99, 122,  69),   // Header1End  
+                                                                 Color.FromArgb( 99, 122,  69) // Header1End  
                                                                };
 
         private static readonly Color[] _colorsS = { Color.FromArgb(168, 167, 191),   // Header1Begin
-                                                                 Color.FromArgb(113, 112, 145),   // Header1End
+                                                                 Color.FromArgb(113, 112, 145) // Header1End
                                                                };
         #endregion
 

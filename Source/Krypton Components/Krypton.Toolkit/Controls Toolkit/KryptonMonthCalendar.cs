@@ -1401,16 +1401,11 @@ namespace Krypton.Toolkit
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
         protected override bool IsInputKey(Keys keyData)
         {
-            switch (keyData & ~Keys.Shift)
+            return (keyData & ~Keys.Shift) switch
             {
-                case Keys.Left:
-                case Keys.Right:
-                case Keys.Up:
-                case Keys.Down:
-                    return true;
-            }
-
-            return base.IsInputKey(keyData);
+                Keys.Left or Keys.Right or Keys.Up or Keys.Down => true,
+                _ => base.IsInputKey(keyData)
+            };
         }
 
         /// <summary>

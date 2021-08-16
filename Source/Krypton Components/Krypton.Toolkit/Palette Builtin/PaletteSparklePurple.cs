@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
                                                                        Color.FromArgb(196, 176, 222),       // 34 _ribbonFrameBack3
                                                                        Color.FromArgb(120, 82, 213),        // 35 _ribbonFrameBack3
                                                                        Color.FromArgb(110, 72, 213),        // 36 _contextCheckedTabFill
-                                                                       Color.FromArgb(20, 10, 255),         // 37 _focusTabFill
+                                                                       Color.FromArgb(20, 10, 255) // 37 _focusTabFill
                                                                      };
 
         private static readonly Color[] _ribbonColors = { Color.FromArgb( 76,  83,  92),    // TextLabelControl
@@ -295,7 +295,7 @@ namespace Krypton.Toolkit
                                                                       Color.Empty,                      // RibbonTabTracking3
                                                                       Color.Empty,                      // RibbonTabTracking4
                                                                       Color.Empty,                      // RibbonGroupBorder3
-                                                                      Color.Empty,                      // RibbonGroupBorder4
+                                                                      Color.Empty // RibbonGroupBorder4
                                                                     };
         #endregion
         
@@ -307,15 +307,15 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CBSparklePurple);
-            _radioButtonArray = new Image[]{Resources.RBSparkleD,
-                                            Resources.RBSparkleN,
-                                            Resources.RBSparklePurpleT,
-                                            Resources.RBSparklePurpleP,
-                                            Resources.RBSparkleDC,
-                                            Resources.RBSparklePurpleNC,
-                                            Resources.RBSparklePurpleTC,
-                                            Resources.RBSparklePurplePC};
+            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStripSparklePurple);
+            _radioButtonArray = new Image[]{Properties.Resources.RBSparkleD,
+                                            Properties.Resources.RBSparkleN,
+                                            Properties.Resources.RBSparklePurpleT,
+                                            Properties.Resources.RBSparklePurpleP,
+                                            Properties.Resources.RBSparkleDC,
+                                            Properties.Resources.RBSparklePurpleNC,
+                                            Properties.Resources.RBSparklePurpleTC,
+                                            Properties.Resources.RBSparklePurplePC};
         }
 
         /// <summary>

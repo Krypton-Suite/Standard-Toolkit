@@ -1139,34 +1139,22 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (StateCommon.Content.GetContentShortTextH(PaletteState.Normal))
+                return StateCommon.Content.GetContentShortTextH(PaletteState.Normal) switch
                 {
-                    default:
-                    case PaletteRelativeAlign.Inherit:
-                    case PaletteRelativeAlign.Near:
-                        return HorizontalAlignment.Left;
-                    case PaletteRelativeAlign.Center:
-                        return HorizontalAlignment.Center;
-                    case PaletteRelativeAlign.Far:
-                        return HorizontalAlignment.Right;
-                }
+                    PaletteRelativeAlign.Center => HorizontalAlignment.Center,
+                    PaletteRelativeAlign.Far => HorizontalAlignment.Right,
+                    _ => HorizontalAlignment.Left
+                };
                 //return DomainUpDown.TextAlign;
             }
             set
             {
-                switch (value)
+                StateCommon.Content.TextH = value switch
                 {
-                    default:
-                    case HorizontalAlignment.Left:
-                        StateCommon.Content.TextH = PaletteRelativeAlign.Near;
-                        break;
-                    case HorizontalAlignment.Right:
-                        StateCommon.Content.TextH = PaletteRelativeAlign.Far;
-                        break;
-                    case HorizontalAlignment.Center:
-                        StateCommon.Content.TextH = PaletteRelativeAlign.Center;
-                        break;
-                }
+                    HorizontalAlignment.Right => PaletteRelativeAlign.Far,
+                    HorizontalAlignment.Center => PaletteRelativeAlign.Center,
+                    _ => PaletteRelativeAlign.Near
+                };
                 DomainUpDown.TextAlign = value;
             }
         }

@@ -328,25 +328,13 @@ namespace Krypton.Toolkit
                 return;
             }
 
-            MessageButton helpButton;
-            switch (_buttons)
+            MessageButton helpButton = _buttons switch
             {
-                case MessageBoxButtons.OK:
-                    helpButton = _button2;
-                    break;
-                case MessageBoxButtons.OKCancel:
-                case MessageBoxButtons.YesNo:
-                case MessageBoxButtons.RetryCancel:
-                    helpButton = _button3;
-                    break;
-                case MessageBoxButtons.AbortRetryIgnore:
-                case MessageBoxButtons.YesNoCancel:
-                    helpButton = _button4;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+                MessageBoxButtons.OK => _button2,
+                MessageBoxButtons.OKCancel or MessageBoxButtons.YesNo or MessageBoxButtons.RetryCancel => _button3,
+                MessageBoxButtons.AbortRetryIgnore or MessageBoxButtons.YesNoCancel => _button4,
+                _ => throw new ArgumentOutOfRangeException()
+            };
             if (helpButton != null)
             {
                 helpButton.Visible = true;

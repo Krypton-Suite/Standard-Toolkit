@@ -22,22 +22,25 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blackDropDownButton = Resources.BlackDropDownButton;
-        private static readonly Image _blackCloseA = Resources.BlackButtonCloseA;
-        private static readonly Image _blackCloseAH = Resources.BlackButtonCloseAH;
-        private static readonly Image _blackCloseI = Resources.BlackButtonCloseI;
-        private static readonly Image _blackMaxA = Resources.BlackButtonMaxA;
-        private static readonly Image _blackMaxAH = Resources.BlackButtonMaxAH;
-        private static readonly Image _blackMaxI = Resources.BlackButtonMaxI;
-        private static readonly Image _blackMinA = Resources.BlackButtonMinA;
-        private static readonly Image _blackMinAH = Resources.BlackButtonMinAH;
-        private static readonly Image _blackMinI = Resources.BlackButtonMinI;
-        private static readonly Image _blackRestoreA = Resources.BlackButtonRestoreA;
-        private static readonly Image _blackRestoreAH = Resources.BlackButtonRestoreAH;
-        private static readonly Image _blackRestoreI = Resources.BlackButtonRestoreI;
-        private static readonly Image _blackRibbonMinimize = Resources.BlackButtonCollapse;
-        private static readonly Image _blackRibbonExpand = Resources.BlackButtonExpand;
-        private static readonly Image _contextMenuSubMenu = Resources.BlackContextMenuSub;
+        private static readonly Image _blackDropDownButton = Properties.Resources.BlackDropDownButton;
+        private static readonly Image _blackCloseNormal = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseNormal;
+        private static readonly Image _blackCloseHover = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseHover;
+        private static readonly Image _blackCloseDisabled = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseDisabled;
+        private static readonly Image _blackMaximumNormal = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMaxNormal;
+        private static readonly Image _blackMaximumHover = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMaxHover;
+        private static readonly Image _blackMaximumDisabled = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMaxDisabled;
+        private static readonly Image _blackMinimumNormal = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMinNormal;
+        private static readonly Image _blackMinimumHover = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMinHover;
+        private static readonly Image _blackMinimumDisabled = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMinDisabled;
+        private static readonly Image _blackRestoreNormal = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonRestoreNormal;
+        private static readonly Image _blackRestoreHover = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonRestoreHover;
+        private static readonly Image _blackRestoreDisabled = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonRestoreDisabled;
+        private static readonly Image _blackHelpNormal = Resources.HelpIconResources.GenericPre2010HelpIconBlack;
+        private static readonly Image _blackHelpHover = Resources.HelpIconResources.GenericPre2010HelpIconHover;
+        private static readonly Image _blackHelpDisabled = Resources.HelpIconResources.GenericPre2010HelpIconDisabled;
+        private static readonly Image _blackRibbonMinimize = Properties.Resources.BlackButtonCollapse;
+        private static readonly Image _blackRibbonExpand = Properties.Resources.BlackButtonExpand;
+        private static readonly Image _contextMenuSubMenu = Properties.Resources.BlackContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(170, 170, 170),      // Tick marks
                                                                         Color.FromArgb( 37,  37,  37),      // Top track
                                                                         Color.FromArgb(174, 174, 174),      // Bottom track
@@ -258,7 +261,7 @@ namespace Krypton.Toolkit
                                                                       Color.Empty,                      // RibbonGroupBorder3
                                                                       Color.Empty,                      // RibbonGroupBorder4
                                                                       Color.FromArgb(225, 225, 225),    // RibbonDropArrowLight
-                                                                      Color.FromArgb(103, 103, 103),    // RibbonDropArrowDark
+                                                                      Color.FromArgb(103, 103, 103) // RibbonDropArrowDark
                                                                     };
         #endregion
 
@@ -270,22 +273,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CBSparklePurple);
+            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStripSparklePurple);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Resources.GallerySilverBlack);
-            _radioButtonArray = new Image[]{Resources.RBSparkleD,
-                                            Resources.RBSparkleN,
-                                            Resources.RBSparklePurpleT,
-                                            Resources.RBSparklePurpleP,
-                                            Resources.RBSparkleDC,
-                                            Resources.RBSparklePurpleNC,
-                                            Resources.RBSparklePurpleTC,
-                                            Resources.RBSparklePurplePC};
+            _galleryButtonList.Images.AddStrip(Properties.Resources.GallerySilverBlack);
+            _radioButtonArray = new Image[]{Properties.Resources.RBSparkleD,
+                                            Properties.Resources.RBSparkleN,
+                                            Properties.Resources.RBSparklePurpleT,
+                                            Properties.Resources.RBSparklePurpleP,
+                                            Properties.Resources.RBSparkleDC,
+                                            Properties.Resources.RBSparklePurpleNC,
+                                            Properties.Resources.RBSparklePurpleTC,
+                                            Properties.Resources.RBSparklePurplePC};
         }
 
         /// <summary>
@@ -310,24 +313,16 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
         {
-            switch (style)
+            return style switch
             {
-                case PaletteBackStyle.ButtonForm:
-                    switch (state)
-                    {
-                        case PaletteState.Tracking:
-                        case PaletteState.CheckedTracking:
-                        case PaletteState.Pressed:
-                        case PaletteState.CheckedPressed:
-                            return PaletteColorStyle.GlassBottom;
-                        default:
-                            return PaletteColorStyle.GlassNormalFull;
-                    }
-                case PaletteBackStyle.HeaderForm:
-                    return PaletteColorStyle.Rounding3;
-                default:
-                    return base.GetBackColorStyle(style, state);
-            }
+                PaletteBackStyle.ButtonForm => state switch
+                {
+                    PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.GlassBottom,
+                    _ => PaletteColorStyle.GlassNormalFull
+                },
+                PaletteBackStyle.HeaderForm => PaletteColorStyle.Rounding3,
+                _ => base.GetBackColorStyle(style, state)
+            };
         }
 
         /// <summary>
@@ -515,59 +510,42 @@ namespace Krypton.Toolkit
         public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state)
         {
-            switch (style)
+            return style switch
             {
-                case PaletteButtonSpecStyle.FormClose:
-                    switch (state)
-                    {
-                        case PaletteState.Disabled:
-                            return _blackCloseI;
-                        case PaletteState.Tracking:
-                            return _blackCloseAH;
-                        default:
-                            return _blackCloseA;
-                    }
-
-                case PaletteButtonSpecStyle.FormMin:
-                    switch (state)
-                    {
-                        case PaletteState.Disabled:
-                            return _blackMinI;
-                        case PaletteState.Tracking:
-                            return _blackMinAH;
-                        default:
-                            return _blackMinA;
-                    }
-
-                case PaletteButtonSpecStyle.FormMax:
-                    switch (state)
-                    {
-                        case PaletteState.Disabled:
-                            return _blackMaxI;
-                        case PaletteState.Tracking:
-                            return _blackMaxAH;
-                        default:
-                            return _blackMaxA;
-                    }
-
-                case PaletteButtonSpecStyle.FormRestore:
-                    switch (state)
-                    {
-                        case PaletteState.Disabled:
-                            return _blackRestoreI;
-                        case PaletteState.Tracking:
-                            return _blackRestoreAH;
-                        default:
-                            return _blackRestoreA;
-                    }
-
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                    return _blackRibbonMinimize;
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return _blackRibbonExpand;
-                default:
-                    return base.GetButtonSpecImage(style, state);
-            }
+                PaletteButtonSpecStyle.FormClose => state switch
+                {
+                    PaletteState.Disabled => _blackCloseDisabled,
+                    PaletteState.Tracking => _blackCloseHover,
+                    _ => _blackCloseNormal
+                },
+                PaletteButtonSpecStyle.FormMin => state switch
+                {
+                    PaletteState.Disabled => _blackMinimumDisabled,
+                    PaletteState.Tracking => _blackMinimumHover,
+                    _ => _blackMinimumNormal
+                },
+                PaletteButtonSpecStyle.FormMax => state switch
+                {
+                    PaletteState.Disabled => _blackMaximumDisabled,
+                    PaletteState.Tracking => _blackMaximumHover,
+                    _ => _blackMaximumNormal
+                },
+                PaletteButtonSpecStyle.FormRestore => state switch
+                {
+                    PaletteState.Disabled => _blackRestoreDisabled,
+                    PaletteState.Tracking => _blackRestoreHover,
+                    _ => _blackRestoreNormal
+                },
+                PaletteButtonSpecStyle.FormHelp => state switch
+                {
+                    PaletteState.Disabled => _blackHelpDisabled,
+                    PaletteState.Tracking => _blackHelpHover,
+                    _ => _blackHelpNormal
+                },
+                PaletteButtonSpecStyle.RibbonMinimize => _blackRibbonMinimize,
+                PaletteButtonSpecStyle.RibbonExpand => _blackRibbonExpand,
+                _ => base.GetButtonSpecImage(style, state)
+            };
         }
         #endregion
 
