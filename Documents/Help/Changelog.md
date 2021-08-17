@@ -17,6 +17,7 @@
 * Sort out the reference assemblies information to ensure correct loading of controls in designer
 * Remove references to V2.0.0.0 of the System.Design when using the `MultilineStringEditor`
 * Remove nullable messages caused by `CS8618`
+* New UAC option for `KryptonButton`
 
 =======
 
