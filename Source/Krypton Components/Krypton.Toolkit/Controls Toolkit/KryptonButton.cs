@@ -248,7 +248,7 @@ namespace Krypton.Toolkit
         public bool UseAsADialogButton { get => _useAsDialogButton; set => _useAsDialogButton = value; }
 
         [DefaultValue(false), Description("Transforms the button into a UAC elevated button.")]
-        public bool UseAsUACElevationButton { get => _useAsUACElevationButton; set { _useAsUACElevationButton = value; Invalidate(); } }
+        public bool UseAsUACElevationButton { get => _useAsUACElevationButton; set { _useAsUACElevationButton = value; ShowUACShield(value); } }
 
         /// <summary>
         /// Gets access to the button content.
@@ -607,13 +607,6 @@ namespace Krypton.Toolkit
 
             if (_useAsUACElevationButton)
             {
-                Bitmap originalUACShield = (Bitmap)SystemIcons.Shield.ToBitmap();
-
-                // Scale down to 16 x 16
-                Bitmap newUACShield = new Bitmap(originalUACShield, new Size(16, 16));
-
-                Values.Image = newUACShield;
-
                 if (_processToElevate != null || !MissingFrameWorkAPIs.IsNullOrWhiteSpace(_processToElevate))
                 {
                     ExecuteProcessAsAdministratorEventArgs administrativeTask = new ExecuteProcessAsAdministratorEventArgs(_processToElevate);
@@ -796,6 +789,20 @@ namespace Krypton.Toolkit
             if (CanFocus)
             {
                 Focus();
+            }
+        }
+
+        private void ShowUACShield(bool showUACShield)
+        {
+            if (showUACShield)
+            {
+                Values.Image = IconExtractor.LoadIcon(IconExtractor.IconType.Shield, SystemInformation.SmallIconSize).ToBitmap();
+
+                Invalidate();
+            }
+            else
+            {
+                Values.Image = null;
             }
         }
         #endregion
