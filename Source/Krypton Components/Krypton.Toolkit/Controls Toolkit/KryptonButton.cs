@@ -607,7 +607,12 @@ namespace Krypton.Toolkit
 
             if (_useAsUACElevationButton)
             {
-                Values.Image = SystemIcons.Shield.ToBitmap();
+                Bitmap originalUACShield = (Bitmap)SystemIcons.Shield.ToBitmap();
+
+                // Scale down to 16 x 16
+                Bitmap newUACShield = new Bitmap(originalUACShield, new Size(16, 16));
+
+                Values.Image = newUACShield;
 
                 if (_processToElevate != null || !MissingFrameWorkAPIs.IsNullOrWhiteSpace(_processToElevate))
                 {
