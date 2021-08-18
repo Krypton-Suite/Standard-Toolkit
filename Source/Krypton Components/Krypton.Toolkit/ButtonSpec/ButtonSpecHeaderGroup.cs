@@ -65,13 +65,13 @@ namespace Krypton.Toolkit
             }
         }
 
+        private bool ShouldSerializeHeaderLocation() => HeaderLocation != HeaderLocation.PrimaryHeader;
+
         /// <summary>
         /// Resets the HeaderLocation property to its default value.
         /// </summary>
-        public void ResetHeaderLocation()
-        {
-            HeaderLocation = HeaderLocation.PrimaryHeader;
-        }
+        private void ResetHeaderLocation() => HeaderLocation = HeaderLocation.PrimaryHeader;
+
         #endregion
 
         #region CopyFrom
