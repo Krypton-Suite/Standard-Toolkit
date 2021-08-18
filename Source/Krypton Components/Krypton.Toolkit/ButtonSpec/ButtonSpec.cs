@@ -705,18 +705,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyle()
-        {
-            return (Style != PaletteButtonStyle.Inherit);
-        }
+        private bool ShouldSerializeStyle() => (Style != PaletteButtonStyle.Inherit);
 
         /// <summary>
         /// Resets the Style property to its default value.
         /// </summary>
-        public void ResetStyle()
-        {
-            Style = PaletteButtonStyle.Inherit;
-        }
+        private void ResetStyle() => Style = PaletteButtonStyle.Inherit;
         #endregion
 
         #region Orientation

@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             _checked = false;
             _threeState = false;
             _autoCheck = true;
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             Images = new CheckBoxImages();
 
             // Create the redirectors
@@ -294,6 +294,9 @@ namespace Krypton.Toolkit
                 }
             }
         }
+        private bool ShouldSerializeLabelStyle() => _style != LabelStyle.NormalPanel;
+
+        private void ResetLabelStyle() => _style = LabelStyle.NormalPanel;
 
         /// <summary>
         /// Gets access to the image value overrides.
@@ -304,10 +307,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets and sets if the check box is enabled.
