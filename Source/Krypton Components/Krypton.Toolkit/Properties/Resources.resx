@@ -127,9 +127,6 @@
   <data name="MdiRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RB2007SilverP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SilverDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SilverDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -148,14 +145,8 @@
   <data name="ProfessionalContextButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalContextButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RB2007BlueNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="BlackDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlackDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007SilverPC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverPC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BlueDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlueDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -166,14 +157,8 @@
   <data name="ProfessionalPendantRestoreI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RB2007BlueD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueD.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ProfessionalArrowUpButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowUpButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BluePC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BluePC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SystemChecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystemChecked.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -181,32 +166,17 @@
   <data name="Office2007Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Office2007Checked.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RB2007BlackT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackT.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ProfessionalArrowRightButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowRightButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RB2007SilverTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="GridRowIndicators" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridRowIndicators.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueT.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GridErrorIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridErrorIcon.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HourGlass" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\hourglass.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007SilverN" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007SilverNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MdiMin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,14 +187,8 @@
   <data name="ProfessionalDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalDropDownButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RB2007BlackNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SelectParentControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SelectParentControl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SilverContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SilverContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -232,29 +196,11 @@
   <data name="ProfessionalArrowLeftButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowLeftButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RB2007SilverT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverT.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlackPC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackPC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ButtonNoColor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ButtonNoColor.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RB2007BlackP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueDC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueDC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Empty16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Empty16x16.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlackTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ButtonColorImageSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ButtonColorImageSmall.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -271,14 +217,8 @@
   <data name="ProfessionalPreviousButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPreviousButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RB2007BlackN" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Office2007Indeterminate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Office2007Indeterminate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueN" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalNextButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalNextButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -376,62 +316,8 @@
   <data name="SparkleIndeterminate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SparkleIndeterminate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RBSparkleN" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleT.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleD.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleDC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleDC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SparkleDropDownOutlineButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SparkleDropDownOutlineButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleOrangeNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleOrangeNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleOrangeP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleOrangeP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleOrangePC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleOrangePC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleOrangeT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleOrangeT.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleOrangeTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleOrangeTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePurpleNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePurpleNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePurpleP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePurpleP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePurplePC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePurplePC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePurpleT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePurpleT.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePurpleTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePurpleTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SparkleGrayChecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SparkleGrayChecked.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -534,42 +420,6 @@
   </data>
   <data name="ProfessionalPendantMinimizeI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantMinimizeI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueN" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueP.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueT.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueD.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueDC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueDC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BluePC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BluePC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010SilverN" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010SilverN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010SilverNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010SilverNC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010SilverPC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010SilverPC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010SilverTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010SilverTC.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Gallery2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Gallery2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1122,159 +972,6 @@
   </data>
   <data name="ProfessionalRestore1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlackN1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlackNC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackNC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlackP1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlackPC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackPC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlackT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlackTC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlackTC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueD1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueDC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueDC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueN1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueNC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueNC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueP1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BluePC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BluePC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007BlueTC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007BlueTC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007SilverN1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007SilverNC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverNC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007SilverP1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007SilverPC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverPC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007SilverT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2007SilverTC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2007SilverTC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueD1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueDC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueDC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueN1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueNC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueNC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueP1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BluePC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BluePC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010BlueTC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010BlueTC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010SilverN1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010SilverN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010SilverNC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010SilverNC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010SilverPC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010SilverPC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RB2010SilverTC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RB2010SilverTC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleD1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleDC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleDC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleN1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleNC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleNC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleOrangeNC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleOrangeNC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleOrangeP1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleOrangeP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleOrangePC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleOrangePC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleOrangeT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleOrangeT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleOrangeTC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleOrangeTC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleP1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePurpleNC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePurpleNC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePurpleP1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePurpleP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePurplePC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePurplePC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePurpleT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePurpleT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparklePurpleTC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparklePurpleTC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RBSparkleTC1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RBSparkleTC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RibbonDown20101" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RibbonDown2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

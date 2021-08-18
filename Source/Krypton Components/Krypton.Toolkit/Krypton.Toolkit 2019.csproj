@@ -223,10 +223,25 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>HelpIconResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\Office2007BlackRadioButtonsResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2007BlackRadioButtonsResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2007BlueRadioButtonsResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2007BlueRadioButtonsResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\Office2007ControlBoxResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>Office2007ControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2007SilverRadioButtonsResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2007SilverRadioButtonsResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\Office2010Arrows.Designer.cs">
           <DesignTime>True</DesignTime>
@@ -441,9 +456,21 @@
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>HelpIconResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2007BlackRadioButtonsResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2007BlackRadioButtonsResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2007BlueRadioButtonsResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2007BlueRadioButtonsResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="Resources\Office2007ControlBoxResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Office2007ControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2007SilverRadioButtonsResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2007SilverRadioButtonsResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\Office2010Arrows.resx">
           <Generator>ResXFileCodeGenerator</Generator>
