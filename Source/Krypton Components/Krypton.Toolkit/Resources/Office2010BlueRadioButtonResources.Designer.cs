@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Office2007BlackRadioButtonsResources {
+    internal class Office2010BlueRadioButtonResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Office2007BlackRadioButtonsResources() {
+        internal Office2010BlueRadioButtonResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.Office2007BlackRadioButtonsResources", typeof(Office2007BlackRadioButtonsResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.Office2010BlueRadioButtonResources", typeof(Office2010BlueRadioButtonResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RadioButton2007BlackN {
+        internal static System.Drawing.Bitmap RadioButton2010BlueD {
             get {
-                object obj = ResourceManager.GetObject("RadioButton2007BlackN", resourceCulture);
+                object obj = ResourceManager.GetObject("RadioButton2010BlueD", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RadioButton2007BlackNC {
+        internal static System.Drawing.Bitmap RadioButton2010BlueDC {
             get {
-                object obj = ResourceManager.GetObject("RadioButton2007BlackNC", resourceCulture);
+                object obj = ResourceManager.GetObject("RadioButton2010BlueDC", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RadioButton2007BlackP {
+        internal static System.Drawing.Bitmap RadioButton2010BlueN {
             get {
-                object obj = ResourceManager.GetObject("RadioButton2007BlackP", resourceCulture);
+                object obj = ResourceManager.GetObject("RadioButton2010BlueN", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RadioButton2007BlackPC {
+        internal static System.Drawing.Bitmap RadioButton2010BlueNC {
             get {
-                object obj = ResourceManager.GetObject("RadioButton2007BlackPC", resourceCulture);
+                object obj = ResourceManager.GetObject("RadioButton2010BlueNC", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RadioButton2007BlackT {
+        internal static System.Drawing.Bitmap RadioButton2010BlueP {
             get {
-                object obj = ResourceManager.GetObject("RadioButton2007BlackT", resourceCulture);
+                object obj = ResourceManager.GetObject("RadioButton2010BlueP", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,29 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RadioButton2007BlackTC {
+        internal static System.Drawing.Bitmap RadioButton2010BluePC {
             get {
-                object obj = ResourceManager.GetObject("RadioButton2007BlackTC", resourceCulture);
+                object obj = ResourceManager.GetObject("RadioButton2010BluePC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RadioButton2010BlueT {
+            get {
+                object obj = ResourceManager.GetObject("RadioButton2010BlueT", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RadioButton2010BlueTC {
+            get {
+                object obj = ResourceManager.GetObject("RadioButton2010BlueTC", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -293,14 +293,14 @@ namespace Krypton.Toolkit
 
             _galleryButtonList.Images.AddStrip(Properties.Resources.Gallery2010);
 
-            _radioButtonArray = new Image[]{Properties.Resources.RB2010BlueD,
-                Properties.Resources.RB2010SilverN,
-                Properties.Resources.RB2010BlueT,
-                Properties.Resources.RB2010BlueP,
-                Properties.Resources.RB2010BlueDC,
-                Properties.Resources.RB2010SilverNC,
-                Properties.Resources.RB2010SilverTC,
-                Properties.Resources.RB2010SilverPC};
+            _radioButtonArray = new Image[]{Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueD, 
+                                            Resources.Office2010SilverRadioButtonResources.RadioButton2010SilverN,
+                                            Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueT, 
+                                            Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueP, 
+                                            Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
+                                            Resources.Office2010SilverRadioButtonResources.RadioButton2010SilverNC,
+                                            Resources.Office2010SilverRadioButtonResources.RadioButton2010SilverTC,
+                                            Resources.Office2010SilverRadioButtonResources.RadioButton2010SilverPC };
         }
 
         /// <summary>

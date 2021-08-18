@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         private static readonly Image _sparkleHelpA = Resources.HelpIconResources.GenericSparkleHelpIcon;
         private static readonly Image _sparkleHelpI = Resources.HelpIconResources.GenericSparkleHelpIconDisabled;
         private static readonly Image _contextMenuChecked = Properties.Resources.SparkleGrayChecked;
-        private static readonly Image _contextMenuIndeterminate = Properties.Resources.SparkleGrayIndeterminate;
+        private static readonly Image _contextMenuIndeterminate = Resources.SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
         private static readonly Image _contextMenuSubMenu = Properties.Resources.BlackContextMenuSub;
         private static readonly Image _treeExpandWhite = Properties.Resources.TreeExpandWhite;
         private static readonly Image _treeCollapseBlack = Properties.Resources.TreeCollapseBlack;

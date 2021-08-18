@@ -223,35 +223,45 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>HelpIconResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Resources\Office2007BlackRadioButtonsResources.Designer.cs">
+        <Compile Update="Resources\Office2007BlackRadioButtonResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
-          <DependentUpon>Office2007BlackRadioButtonsResources.resx</DependentUpon>
+          <DependentUpon>Office2007BlackRadioButtonResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Resources\Office2007BlueRadioButtonsResources.Designer.cs">
+        <Compile Update="Resources\Office2007BlueRadioButtonResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
-          <DependentUpon>Office2007BlueRadioButtonsResources.resx</DependentUpon>
+          <DependentUpon>Office2007BlueRadioButtonResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\Office2007ControlBoxResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>Office2007ControlBoxResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="Resources\Office2007SilverRadioButtonsResources.Designer.cs">
+        <Compile Update="Resources\Office2007SilverRadioButtonResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
-          <DependentUpon>Office2007SilverRadioButtonsResources.resx</DependentUpon>
+          <DependentUpon>Office2007SilverRadioButtonResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\Office2010Arrows.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>Office2010Arrows.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\Office2010BlueRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2010BlueRadioButtonResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\Office2010ControlBoxResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>Office2010ControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2010SilverRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2010SilverRadioButtonResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\ProfessionalButtonSpecResources.Designer.cs">
           <DesignTime>True</DesignTime>
@@ -263,10 +273,30 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>ProfessionalControlBoxResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\SparkleBlueRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparkleBlueRadioButtonResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\SparkleControlBoxResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>SparkleControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SparkleGeneralRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparkleGeneralRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SparkleOrangeRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparkleOrangeRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SparklePurpleRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparklePurpleRadioButtonResources.resx</DependentUpon>
         </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
@@ -456,29 +486,37 @@
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>HelpIconResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Resources\Office2007BlackRadioButtonsResources.resx">
+        <EmbeddedResource Update="Resources\Office2007BlackRadioButtonResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>Office2007BlackRadioButtonsResources.Designer.cs</LastGenOutput>
+          <LastGenOutput>Office2007BlackRadioButtonResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Resources\Office2007BlueRadioButtonsResources.resx">
+        <EmbeddedResource Update="Resources\Office2007BlueRadioButtonResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>Office2007BlueRadioButtonsResources.Designer.cs</LastGenOutput>
+          <LastGenOutput>Office2007BlueRadioButtonResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\Office2007ControlBoxResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Office2007ControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="Resources\Office2007SilverRadioButtonsResources.resx">
+        <EmbeddedResource Update="Resources\Office2007SilverRadioButtonResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>Office2007SilverRadioButtonsResources.Designer.cs</LastGenOutput>
+          <LastGenOutput>Office2007SilverRadioButtonResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\Office2010Arrows.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Office2010Arrows.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2010BlueRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2010BlueRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="Resources\Office2010ControlBoxResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Office2010ControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2010SilverRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2010SilverRadioButtonResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\ProfessionalButtonSpecResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
@@ -488,9 +526,25 @@
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>ProfessionalControlBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparkleBlueRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparkleBlueRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="Resources\SparkleControlBoxResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>SparkleControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparkleGeneralRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparkleGeneralRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparkleOrangeRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparkleOrangeRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparklePurpleRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparklePurpleRadioButtonResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>

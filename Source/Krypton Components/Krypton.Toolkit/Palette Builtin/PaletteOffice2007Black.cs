@@ -280,14 +280,14 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(Properties.Resources.GallerySilverBlack);
-            _radioButtonArray = new Image[]{Properties.Resources.RB2007BlueD,
-                                            Properties.Resources.RB2007BlackN,
-                                            Properties.Resources.RB2007BlackT,
-                                            Properties.Resources.RB2007BlackP,
-                                            Properties.Resources.RB2007BlueDC,
-                                            Properties.Resources.RB2007BlackNC,
-                                            Properties.Resources.RB2007BlackTC,
-                                            Properties.Resources.RB2007BlackPC};
+            _radioButtonArray = new Image[]{Resources.Office2007BlueRadioButtonResources.RadioButton2007BlueD,
+                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackN,
+                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackT,
+                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackP,
+                                            Resources.Office2007BlueRadioButtonResources.RadioButton2007BlueDC,
+                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackNC,
+                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackTC,
+                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackPC};
         }
 
         /// <summary>

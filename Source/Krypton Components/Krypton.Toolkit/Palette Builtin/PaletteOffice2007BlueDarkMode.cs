@@ -273,14 +273,14 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(Properties.Resources.GalleryBlue);
-            _radioButtonArray = new Image[]{Properties.Resources.RBSparkleD,
-                                            Properties.Resources.RBSparkleN,
-                                            Properties.Resources.RBSparkleT,
-                                            Properties.Resources.RBSparkleP,
-                                            Properties.Resources.RBSparkleDC,
-                                            Properties.Resources.RBSparkleNC,
-                                            Properties.Resources.RBSparkleTC,
-                                            Properties.Resources.RBSparklePC};
+            _radioButtonArray = new Image[]{Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleD,
+                                            Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleN,
+                                            Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleT,
+                                            Resources.SparkleGeneralRadioButtonResources.RadioButtonSparkleP,
+                                            Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleDC,
+                                            Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleNC,
+                                            Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleTC,
+                                            Resources.SparkleGeneralRadioButtonResources.RadioButtonSparklePC};
         }
 
         /// <summary>
