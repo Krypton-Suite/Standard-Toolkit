@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GenericImageResources {
+    internal class BlueArrowResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal GenericImageResources() {
+        internal BlueArrowResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.GenericImageResources", typeof(GenericImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.BlueArrowResources", typeof(BlueArrowResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ButtonColorImageSmall {
+        internal static System.Drawing.Bitmap arrow_down_blue {
             get {
-                object obj = ResourceManager.GetObject("ButtonColorImageSmall", resourceCulture);
+                object obj = ResourceManager.GetObject("arrow_down_blue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,69 +73,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ButtonNoColor {
+        internal static System.Drawing.Bitmap arrow_up_blue {
             get {
-                object obj = ResourceManager.GetObject("ButtonNoColor", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap delete2 {
-            get {
-                object obj = ResourceManager.GetObject("delete2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteCloseButton {
-            get {
-                object obj = ResourceManager.GetObject("GenericWhiteCloseButton", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteMaximize {
-            get {
-                object obj = ResourceManager.GetObject("GenericWhiteMaximize", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteMinNormal {
-            get {
-                object obj = ResourceManager.GetObject("GenericWhiteMinNormal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteRestore {
-            get {
-                object obj = ResourceManager.GetObject("GenericWhiteRestore", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteRestoreNormal {
-            get {
-                object obj = ResourceManager.GetObject("GenericWhiteRestoreNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("arrow_up_blue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Form used for editing the KryptonContextMenuCollection.
         /// </summary>
-        protected class KryptonContextMenuCollectionForm : /*Form*/ CollectionForm
+        protected class KryptonContextMenuCollectionForm : CollectionForm
         {
             #region Types
             /// <summary>
@@ -292,22 +292,24 @@ namespace Krypton.Toolkit
                 // 
                 imageList.TransparentColor = Color.Magenta;
                 imageList.Images.AddRange(new Image[]{
-                    Properties.Resources.KryptonContextMenuColorColumns,
-                    Properties.Resources.KryptonContextMenuHeading,
-                    Properties.Resources.KryptonContextMenuItem,
-                    Properties.Resources.KryptonContextMenuItems,
-                    Properties.Resources.KryptonContextMenuSeparator,
-                    Properties.Resources.KryptonRadioButton,
-                    Properties.Resources.KryptonCheckBox,
-                    Properties.Resources.KryptonCheckButton,
-                    Properties.Resources.KryptonLinkLabel,
-                    Properties.Resources.delete2,
-                    Properties.Resources.arrow_up_blue,
-                    Properties.Resources.arrow_down_blue,
-                    Properties.Resources.KryptonContextMenuImageSelect,
-                    Properties.Resources.KryptonMonthCalendar,
-                    Properties.Resources.KryptonComboBox
+                    Resources.KryptonGenericResources.KryptonContextMenuColorColumns,
+                    Resources.KryptonGenericResources.KryptonContextMenuHeading,
+                    Resources.KryptonGenericResources.KryptonContextMenuItem,
+                    Resources.KryptonGenericResources.KryptonContextMenuItems,
+                    Resources.KryptonGenericResources.KryptonContextMenuSeparator,
+                    Resources.KryptonGenericResources.KryptonRadioButton,
+                    Resources.KryptonGenericResources.KryptonCheckBox,
+                    Resources.KryptonGenericResources.KryptonCheckButton,
+                    Resources.KryptonGenericResources.KryptonLinkLabel,
+                    Resources.GenericImageResources.delete2,
+                    Resources.BlueArrowResources.arrow_up_blue,
+                    Resources.BlueArrowResources.arrow_down_blue,
+                    Resources.KryptonGenericResources.KryptonContextMenuImageSelect,
+                    Resources.KryptonGenericResources.KryptonMonthCalendar,
+                    Resources.KryptonGenericResources.KryptonComboBox
                 });
+
+                // TODO: Do these need updating?
                 imageList.Images.SetKeyName(0, "KryptonContextMenuColorColumns.bmp");
                 imageList.Images.SetKeyName(1, "KryptonContextMenuHeading.bmp");
                 imageList.Images.SetKeyName(2, "KryptonContextMenuItem.bmp");

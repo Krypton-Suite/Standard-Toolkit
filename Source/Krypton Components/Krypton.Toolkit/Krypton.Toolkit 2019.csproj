@@ -208,6 +208,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>MessageBoxResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\BlueArrowResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>BlueArrowResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\CheckBoxStripResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -222,6 +227,11 @@
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>DropDownArrowResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\ElementsImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ElementsImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\GalleryImageResources.Designer.cs">
           <DesignTime>True</DesignTime>
@@ -499,6 +509,10 @@
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>Resources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\BlueArrowResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>BlueArrowResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="Resources\CheckBoxStripResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>CheckBoxStripResources.Designer.cs</LastGenOutput>
@@ -510,6 +524,10 @@
         <EmbeddedResource Update="Resources\DropDownArrowResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>DropDownArrowResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\ElementsImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ElementsImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\GalleryImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>

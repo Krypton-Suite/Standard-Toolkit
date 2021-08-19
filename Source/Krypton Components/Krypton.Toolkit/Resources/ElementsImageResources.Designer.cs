@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GenericImageResources {
+    internal class ElementsImageResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal GenericImageResources() {
+        internal ElementsImageResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.GenericImageResources", typeof(GenericImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.ElementsImageResources", typeof(ElementsImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ButtonColorImageSmall {
+        internal static System.Drawing.Bitmap element {
             get {
-                object obj = ResourceManager.GetObject("ButtonColorImageSmall", resourceCulture);
+                object obj = ResourceManager.GetObject("element", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ButtonNoColor {
+        internal static System.Drawing.Bitmap element_delete {
             get {
-                object obj = ResourceManager.GetObject("ButtonNoColor", resourceCulture);
+                object obj = ResourceManager.GetObject("element_delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap delete2 {
+        internal static System.Drawing.Bitmap element_minus_16 {
             get {
-                object obj = ResourceManager.GetObject("delete2", resourceCulture);
+                object obj = ResourceManager.GetObject("element_minus_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteCloseButton {
+        internal static System.Drawing.Bitmap element_plus_16 {
             get {
-                object obj = ResourceManager.GetObject("GenericWhiteCloseButton", resourceCulture);
+                object obj = ResourceManager.GetObject("element_plus_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteMaximize {
+        internal static System.Drawing.Bitmap element_selection_delete {
             get {
-                object obj = ResourceManager.GetObject("GenericWhiteMaximize", resourceCulture);
+                object obj = ResourceManager.GetObject("element_selection_delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteMinNormal {
+        internal static System.Drawing.Bitmap elements_minus_16 {
             get {
-                object obj = ResourceManager.GetObject("GenericWhiteMinNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("elements_minus_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,19 +123,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteRestore {
+        internal static System.Drawing.Bitmap elements_plus_16 {
             get {
-                object obj = ResourceManager.GetObject("GenericWhiteRestore", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteRestoreNormal {
-            get {
-                object obj = ResourceManager.GetObject("GenericWhiteRestoreNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("elements_plus_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
