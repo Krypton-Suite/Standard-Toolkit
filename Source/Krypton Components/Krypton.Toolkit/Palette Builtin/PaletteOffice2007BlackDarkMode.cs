@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Properties.Resources.GallerySilverBlack);
+            _galleryButtonList.Images.AddStrip(Resources.GalleryImageResources.GallerySilverBlack);
             _radioButtonArray = new Image[]{Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleD,
                                             Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleN,
                                             Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurpleT,

@@ -213,6 +213,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>CheckBoxStripResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\GalleryImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GalleryImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\GenericImageResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -222,6 +227,11 @@
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>HelpIconResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\KryptonGenericResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>KryptonGenericResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\Office2007BlackRadioButtonResources.Designer.cs">
           <DesignTime>True</DesignTime>
@@ -478,6 +488,10 @@
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>CheckBoxStripResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GalleryImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GalleryImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="Resources\GenericImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>GenericImageResources.Designer.cs</LastGenOutput>
@@ -485,6 +499,10 @@
         <EmbeddedResource Update="Resources\HelpIconResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>HelpIconResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\KryptonGenericResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>KryptonGenericResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\Office2007BlackRadioButtonResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
