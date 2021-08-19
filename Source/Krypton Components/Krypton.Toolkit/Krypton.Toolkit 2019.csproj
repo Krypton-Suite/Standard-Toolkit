@@ -213,6 +213,16 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>CheckBoxStripResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\DataBarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>DataBarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\DropDownArrowResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>DropDownArrowResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\GalleryImageResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -307,6 +317,11 @@
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>SparklePurpleRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\StarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>StarImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
@@ -488,6 +503,14 @@
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>CheckBoxStripResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\DataBarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>DataBarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\DropDownArrowResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>DropDownArrowResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="Resources\GalleryImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>GalleryImageResources.Designer.cs</LastGenOutput>
@@ -563,6 +586,10 @@
         <EmbeddedResource Update="Resources\SparklePurpleRadioButtonResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>SparklePurpleRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\StarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>StarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>

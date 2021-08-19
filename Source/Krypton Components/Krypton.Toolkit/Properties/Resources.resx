@@ -511,54 +511,6 @@
   <data name="ComponentYellow1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ComponentYellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="databar_generic_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\databar_generic_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_gradient2_blue_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_gradient2_blue_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_gradient_blue_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_gradient_blue_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_gradient_green_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_gradient_green_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_gradient_pink_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_gradient_pink_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_gradient_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_gradient_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_gradient_rose_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_gradient_rose_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_gradient_violet_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_gradient_violet_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_gradient_yellow_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_gradient_yellow_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_solid_blue_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_solid_blue_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_solid_green_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_solid_green_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_solid_pink_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_solid_pink_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_solid_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_solid_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_solid_rose_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_solid_rose_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_solid_violet_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_solid_violet_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Databar_solid_yellow_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Databar_solid_yellow_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="delete21" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\delete2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -813,51 +765,6 @@
   </data>
   <data name="SparkleGrayChecked1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SparkleGrayChecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="star0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="star1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="star2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="star3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="star4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="star5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="starhot0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\starhot0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="starhot1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\starhot1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="starhot2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\starhot2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="starhot3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\starhot3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="starhot4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\starhot4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="starhot5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\starhot5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="star_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="star_yellow_disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star_yellow_disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="star_yellow_half_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star_yellow_half_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SystemChecked1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystemChecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
