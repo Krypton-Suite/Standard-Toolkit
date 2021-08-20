@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
 
         private Font _font;
         private Color _color1;
-        private Padding _padding;
+        internal Padding _padding;
         internal PaletteRelativeAlign _shortTextH;
 
         #endregion
@@ -245,7 +245,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Relative horizontal Content text alignment\nIn order to get this into the designer.cs you must also modify another value in this area!")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(PaletteRelativeAlign.Inherit)]
+        //[DefaultValue(PaletteRelativeAlign.Inherit)]
         public virtual PaletteRelativeAlign TextH
         {
             get => _shortTextH;
@@ -260,6 +260,9 @@ namespace Krypton.Toolkit
             }
         }
 
+        private bool ShouldSerializeTextH() => _shortTextH != PaletteRelativeAlign.Inherit;
+
+        private void ResetTextH() => _shortTextH = PaletteRelativeAlign.Inherit;
 
         /// <summary>
         /// Gets the actual content short text horizontal alignment value.
@@ -599,15 +602,20 @@ namespace Krypton.Toolkit
             }
         }
 
-            /// <summary>
+        private bool ShouldSerializePadding() => !_padding.Equals(CommonHelper.InheritPadding);
+
+        /// <summary>
+        /// Resets the Image property to its default value.
+        /// </summary>
+        private void ResetPadding() => _padding = CommonHelper.InheritPadding;
+
+        /// <summary>
         /// Gets the actual padding between the border and content drawing.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public virtual Padding GetContentPadding(PaletteState state)
-        {
-            return !_padding.Equals(CommonHelper.InheritPadding) ? _padding : Inherit.GetContentPadding(state);
-        }
+        public virtual Padding GetContentPadding(PaletteState state) => !_padding.Equals(CommonHelper.InheritPadding) ? _padding : Inherit.GetContentPadding(state);
+
         #endregion
 
         #region AdjacentGap
