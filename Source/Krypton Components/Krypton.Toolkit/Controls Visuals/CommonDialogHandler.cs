@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
             public Point ClientLocation { get; set; }
             public Size Size { get; set; }
             public int DlgCtrlId { get; set; }
-            public VisualSimpleBase Button { get; set; }
+            public VisualControlBase Button { get; set; }
         }
 
         private readonly List<Attributes> _controls = new();
@@ -66,7 +66,8 @@ namespace Krypton.Toolkit
                                 {
                                     var attributes = new Attributes
                                     {
-                                        hWnd = child
+                                        hWnd = child,
+                                        DlgCtrlId = PI.GetDlgCtrlID(child)
                                     };
                                     PI.GetWindowInfo(child, out attributes.WinInfo);
                                     var nRet = PI.GetClassName(child, name, name.Capacity);
@@ -99,6 +100,50 @@ namespace Krypton.Toolkit
                                     PI.SendMessage(control.hWnd, PI.WM_.SETFONT, labelLogFont, new IntPtr(1));
                                     break;
                                 case @"edit":
+                                    // Following is the magic required to handle the DlgEx
+                                    //if ((control.WinInfo.dwStyle & 0x2000) == 0x2000)
+                                    //{
+                                    //    //PI.ES_.NUMBER == 0x2000
+                                    //    var text = new StringBuilder(64);
+                                    //    PI.GetWindowText(control.hWnd, text, 64);
+                                    //    control.Text = text.ToString();
+                                    //    control.DlgCtrlId = PI.GetDlgCtrlID(control.hWnd);
+
+                                    //    var rcClient = control.WinInfo.rcClient;
+                                    //    var lpPoint = new PI.POINT(rcClient.left, rcClient.top);
+                                    //    PI.ScreenToClient(hWnd, ref lpPoint);
+                                    //    control.ClientLocation = new Point(lpPoint.X, lpPoint.Y);
+                                    //    control.Size = new Size(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top+4);
+                                    //    var panel = new KryptonPanel
+                                    //    {
+                                    //        Size = control.Size
+                                    //    };
+                                    //    panel.Location = control.ClientLocation;
+                                    //    PI.SetParent(panel.Handle, hWnd);
+
+                                    //    var button = new KryptonNumericUpDown
+                                    //    {
+                                    //        AutoSize = false,
+                                    //        Text = control.Text,
+                                    //        Dock = DockStyle.Fill,
+                                    //        InputControlStyle = InputControlStyle.Standalone,
+                                    //        Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0
+                                    //    };
+                                    //    panel.Controls.Add(button);
+                                    //    control.Button = button;
+                                    //    button.NumericUpDown.ValueChanged += delegate(object sender, EventArgs args)
+                                    //    {
+                                    //        PI.SendMessage(control.hWnd, PI.WM_.SETTEXT, IntPtr.Zero,
+                                    //            button.NumericUpDown.Text);
+                                    //    };
+                                    //    button.Click += delegate (object sender, EventArgs args)
+                                    //    {
+                                    //        PI.SendMessage(control.hWnd, PI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
+                                    //        ClickCallback?.Invoke(control);
+                                    //    };
+                                    //    PI.ShowWindow(control.hWnd, PI.ShowWindowCommands.SW_HIDE);
+                                    //}
+
                                     PI.SendMessage(control.hWnd, PI.WM_.SETFONT, editLogFont, new IntPtr(1));
                                     break;
                                 case @"button":
@@ -109,7 +154,6 @@ namespace Krypton.Toolkit
                                         var text = new StringBuilder(64);
                                         PI.GetWindowText(control.hWnd, text, 64);
                                         control.Text = text.ToString();
-                                        control.DlgCtrlId = PI.GetDlgCtrlID(control.hWnd);
                                         var rcClient = control.WinInfo.rcClient;
                                         var lpPoint = new PI.POINT(rcClient.left, rcClient.top);
                                         PI.ScreenToClient(hWnd, ref lpPoint);
@@ -120,12 +164,40 @@ namespace Krypton.Toolkit
                                         {
                                             PI.SendMessage(control.hWnd, PI.WM_.SETFONT, labelLogFont, new IntPtr(1));
                                         }
-                                        else if ((control.WinInfo.dwStyle & PI.BS_.AUTORADIOBUTTON) == PI.BS_.AUTORADIOBUTTON)
+                                        else if (((control.WinInfo.dwStyle & PI.BS_.AUTORADIOBUTTON) == PI.BS_.AUTORADIOBUTTON)
+                                                || ((control.WinInfo.dwStyle & PI.BS_.RADIOBUTTON) == PI.BS_.RADIOBUTTON))
                                         {
-                                            PI.SendMessage(control.hWnd, PI.WM_.SETFONT, buttonLogFont, new IntPtr(1));
+                                            //PI.SendMessage(control.hWnd, PI.WM_.SETFONT, buttonLogFont, new IntPtr(1));
+                                            var panel = new KryptonPanel
+                                            {
+                                                Size = control.Size
+                                            };
+                                            panel.Location = control.ClientLocation;
+                                            PI.SetParent(panel.Handle, hWnd);
+
+                                            var button = new KryptonRadioButton
+                                            {
+                                                AutoCheck = ((control.WinInfo.dwStyle & PI.BS_.AUTORADIOBUTTON) == PI.BS_.AUTORADIOBUTTON),
+                                                AutoSize = false,
+                                                Text = control.Text,
+                                                Dock = DockStyle.Fill,
+                                                LabelStyle = LabelStyle.NormalPanel,
+                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0,
+                                                Checked = (control.WinInfo.dwStyle & PI.WS_.TABSTOP) == PI.WS_.TABSTOP
+                                            };
+                                            panel.Controls.Add(button);
+                                            control.Button = button;
+                                            button.Click += delegate (object sender, EventArgs args)
+                                            {
+                                                PI.SendMessage(control.hWnd, PI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
+                                                ClickCallback?.Invoke(control);
+                                            };
+                                            PI.ShowWindow(control.hWnd, PI.ShowWindowCommands.SW_HIDE);
                                         }
                                         else if (((control.WinInfo.dwStyle & PI.BS_.AUTO3STATE) == PI.BS_.AUTO3STATE)
-                                                 || ((control.WinInfo.dwStyle & PI.BS_.AUTOCHECKBOX) == PI.BS_.AUTOCHECKBOX))
+                                                 || ((control.WinInfo.dwStyle & PI.BS_._3STATE) == PI.BS_._3STATE)
+                                                 || ((control.WinInfo.dwStyle & PI.BS_.AUTOCHECKBOX) == PI.BS_.AUTOCHECKBOX)
+                                            || ((control.WinInfo.dwStyle & PI.BS_.CHECKBOX) == PI.BS_.CHECKBOX))
                                         {
                                             var panel = new KryptonPanel
                                             {
@@ -136,11 +208,17 @@ namespace Krypton.Toolkit
 
                                             var button = new KryptonCheckBox
                                             {
+                                                AutoCheck = ((control.WinInfo.dwStyle & PI.BS_.AUTO3STATE) == PI.BS_.AUTO3STATE)
+                                                            || ((control.WinInfo.dwStyle & PI.BS_.AUTOCHECKBOX) == PI.BS_.AUTOCHECKBOX),
+                                                ThreeState = ((control.WinInfo.dwStyle & PI.BS_.AUTO3STATE) == PI.BS_.AUTO3STATE)
+                                                             || ((control.WinInfo.dwStyle & PI.BS_._3STATE) == PI.BS_._3STATE),
                                                 AutoSize = false,
                                                 Text = control.Text,
                                                 Dock = DockStyle.Fill,
                                                 LabelStyle = LabelStyle.NormalPanel,
-                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0
+                                                Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0,
+                                                Checked = (control.WinInfo.dwStyle & PI.WS_.TABSTOP) == PI.WS_.TABSTOP
+
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;
@@ -248,20 +326,21 @@ namespace Krypton.Toolkit
                     PI.SetBkColor(wparam, ColorTranslator.ToWin32(_backColour));
                     //PI.SetBkMode(wparam, ColorTranslator.ToWin32(Color.Transparent));
                     return (true, _backBrush);
-                //else if (msg == PI.WM_.CTLCOLORBTN)
-                //{
-                //    // By default, the DefWindowProc function selects the default system colors for the button.
-                //    // Buttons with the BS_PUSHBUTTON, BS_DEFPUSHBUTTON, or BS_PUSHLIKE styles do not use the returned brush.
-                //    // Buttons with these styles are always drawn with the default system colors.
-                //    // Drawing push buttons requires several different brushes-face, highlight, and shadow
-                //    // but the WM_CTLCOLORBTN message allows only one brush to be returned.
-                //    var fontColour = _kryptonManager.GlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
-                //    var backColour = _kryptonManager.GlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);
-                //    PI.SetTextColor(wparam, ColorTranslator.ToWin32(fontColour));
-                //    PI.SetBkColor(wparam, ColorTranslator.ToWin32(backColour));
-                //    //PI.SetBkMode(wparam, ColorTranslator.ToWin32(Color.Transparent));
-                //    return _backBrush;
-                //}
+                case PI.WM_.CTLCOLORBTN:
+                    {
+                        // By default, the DefWindowProc function selects the default system colors for the button.
+                        // Buttons with the BS_PUSHBUTTON, BS_DEFPUSHBUTTON, or BS_PUSHLIKE styles do not use the returned brush.
+                        // Buttons with these styles are always drawn with the default system colors.
+                        // Drawing push buttons requires several different brushes-face, highlight, and shadow
+                        // but the WM_CTLCOLORBTN message allows only one brush to be returned.
+                        var fontColour = _kryptonManager.GlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
+                        var backColour = _kryptonManager.GlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);
+                        PI.SetTextColor(wparam, ColorTranslator.ToWin32(fontColour));
+                        PI.SetBkColor(wparam, ColorTranslator.ToWin32(backColour));
+                        //PI.SetBkMode(wparam, ColorTranslator.ToWin32(Color.Transparent));
+                        return (true, _backBrush);
+                    }
+                    break;
                 //else if (msg == PI.WM_.CTLCOLORLISTBOX)
                 //{
                 //    var fontColour = _kryptonManager.GlobalPalette.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);

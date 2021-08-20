@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
             Images = new CheckBoxImages();
 
             // Create the redirectors
-            _stateCommonRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalControl);
+            _stateCommonRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
             StateCheckBoxImages = new PaletteRedirectCheckBox(Images);
 
             // Create the states
@@ -279,7 +279,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Check box label style.")]
-        //[DefaultValue(typeof(LabelStyle), "NormalControl")]
+        //[DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _style;

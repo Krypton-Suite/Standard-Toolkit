@@ -77,11 +77,11 @@ namespace Krypton.Toolkit
             _imageTransparentColor = Color.Empty;
             _checked = false;
             _autoCheck = true;
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             Images = new RadioButtonImages();
 
             // Create the redirectors
-            _stateCommonRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalControl);
+            _stateCommonRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
             StateRadioButtonImages = new PaletteRedirectRadioButton(Images);
 
             // Create the states
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Radio button label style.")]
-        //[DefaultValue(typeof(LabelStyle), "NormalControl")]
+        //[DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _style;
