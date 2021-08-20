@@ -229,7 +229,6 @@ namespace Krypton.Toolkit
             }
             else
             {
-                // TODO: These icons may need to be 16 x 16
                 switch (_mainIcon)
                 {
                     case MessageBoxIcon.None:
@@ -237,19 +236,19 @@ namespace Krypton.Toolkit
                         _panelMainText.Left -= _messageIcon.Right;
                         break;
                     case MessageBoxIcon.Question:
-                        _messageIcon.Image = MessageBoxResources.Question;
+                        _messageIcon.Image = VisualTaskDialogImageResources.QuestionSmall;
                         SystemSounds.Question.Play();
                         break;
                     case MessageBoxIcon.Information:
-                        _messageIcon.Image = MessageBoxResources.Information;
+                        _messageIcon.Image = VisualTaskDialogImageResources.InformationSmall;
                         SystemSounds.Asterisk.Play();
                         break;
                     case MessageBoxIcon.Warning:
-                        _messageIcon.Image = MessageBoxResources.Warning;
+                        _messageIcon.Image = VisualTaskDialogImageResources.WarningSmall;
                         SystemSounds.Exclamation.Play();
                         break;
                     case MessageBoxIcon.Error:
-                        _messageIcon.Image = MessageBoxResources.Critical;
+                        _messageIcon.Image = VisualTaskDialogImageResources.CriticalSmall;
                         SystemSounds.Hand.Play();
                         break;
                 }
