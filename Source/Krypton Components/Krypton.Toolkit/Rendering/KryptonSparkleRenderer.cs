@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         private static readonly LinearItemColors _disabledLinearItem = new(Color.FromArgb(128, 220, 220, 220), Color.FromArgb(128, 190, 190, 190), Color.FromArgb(128, 172, 172, 172));
         private static readonly GradientItemColors _disabledGradientItem = new(Color.FromArgb(212, 212, 212), Color.FromArgb(235, 235, 235), Color.FromArgb(235, 235, 235));
         private static readonly Image _contextMenuChecked = Properties.Resources.SparkleGrayChecked;
-        private static readonly Image _contextMenuIndeterminate = Properties.Resources.SparkleGrayIndeterminate;
+        private static readonly Image _contextMenuIndeterminate = Resources.SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
         #endregion
 
         #region Instance Fields

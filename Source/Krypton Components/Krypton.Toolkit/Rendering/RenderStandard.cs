@@ -366,7 +366,7 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta,
                 ImageSize = new Size(18, 17)
             };
-            _gridErrorIcon.Images.AddStrip(Properties.Resources.GridErrorIcon);
+            _gridErrorIcon.Images.AddStrip(GenericImageResources.GridErrorIcon);
         }
         #endregion
 

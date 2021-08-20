@@ -23,16 +23,16 @@ namespace Krypton.Toolkit
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
         private static readonly Image _silverDropDownButton = Properties.Resources.SilverDropDownButton;
-        private static readonly Image _silverCloseNormal = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonCloseHover;
-        private static readonly Image _silverCloseDisabled = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonCloseDisabled;
-        private static readonly Image _silverMaximiseNormal = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonMaxHover;
-        private static readonly Image _silverMaximiseDisabled = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonMaxDisabled;
-        private static readonly Image _silverMinimiseNormal = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonMinHover;
-        private static readonly Image _silverMinimiseDisabled = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonMinDisabled;
-        private static readonly Image _silverRestoreNormal = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonRestoreHover;
-        private static readonly Image _silverRestoreDisabled = Resources.Office2007ControlBoxResources.Office2007SilverControlBoxButtonRestoreDisabled;
-        private static readonly Image _silverHelpNormal = Resources.HelpIconResources.GenericPre2010HelpIconSilver;
-        private static readonly Image _silverHelpDisabled = Resources.HelpIconResources.GenericPre2010HelpIconDisabled;
+        private static readonly Image _silverCloseNormal = Office2007ControlBoxResources.Office2007SilverControlBoxButtonCloseHover;
+        private static readonly Image _silverCloseDisabled = Office2007ControlBoxResources.Office2007SilverControlBoxButtonCloseDisabled;
+        private static readonly Image _silverMaximiseNormal = Office2007ControlBoxResources.Office2007SilverControlBoxButtonMaxHover;
+        private static readonly Image _silverMaximiseDisabled = Office2007ControlBoxResources.Office2007SilverControlBoxButtonMaxDisabled;
+        private static readonly Image _silverMinimiseNormal = Office2007ControlBoxResources.Office2007SilverControlBoxButtonMinHover;
+        private static readonly Image _silverMinimiseDisabled = Office2007ControlBoxResources.Office2007SilverControlBoxButtonMinDisabled;
+        private static readonly Image _silverRestoreNormal = Office2007ControlBoxResources.Office2007SilverControlBoxButtonRestoreHover;
+        private static readonly Image _silverRestoreDisabled = Office2007ControlBoxResources.Office2007SilverControlBoxButtonRestoreDisabled;
+        private static readonly Image _silverHelpNormal = HelpIconResources.GenericPre2010HelpIconSilver;
+        private static readonly Image _silverHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
         private static readonly Image _contextMenuSubMenu = Properties.Resources.SilverContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(130, 130, 130),      // Tick marks
                                                                         Color.FromArgb(156, 160, 165),      // Top track
@@ -265,22 +265,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStrip2007Silver);
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2007Silver);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Properties.Resources.GallerySilverBlack);
-            _radioButtonArray = new Image[]{Properties.Resources.RB2007BlueD,
-                                            Properties.Resources.RB2007SilverN,
-                                            Properties.Resources.RB2007SilverT,
-                                            Properties.Resources.RB2007SilverP,
-                                            Properties.Resources.RB2007BlueDC,
-                                            Properties.Resources.RB2007SilverNC,
-                                            Properties.Resources.RB2007SilverTC,
-                                            Properties.Resources.RB2007SilverPC};
+            _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
+            _radioButtonArray = new Image[]{Office2007BlueRadioButtonResources.RadioButton2007BlueD,
+                                            Office2007SilverRadioButtonResources.RadioButton2007SilverN,
+                                            Office2007SilverRadioButtonResources.RadioButton2007SilverT,
+                                            Office2007SilverRadioButtonResources.RadioButton2007SilverP,
+                                            Office2007BlueRadioButtonResources.RadioButton2007BlueDC,
+                                            Office2007SilverRadioButtonResources.RadioButton2007SilverNC,
+                                            Office2007SilverRadioButtonResources.RadioButton2007SilverTC,
+                                            Office2007SilverRadioButtonResources.RadioButton2007SilverPC};
         }
 
         /// <summary>

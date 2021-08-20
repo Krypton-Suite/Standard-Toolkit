@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
             VScrollBar1.TabIndex = 0;
             VScrollBar1.Scroll += VScrollBar1_miScroll;
             VScrollBar1.Visible = false;
-            VScrollBar1.Orientation = ScrollBarOrientation.VERTICAL;
+            VScrollBar1.Orientation = ScrollBarOrientation.Vertical;
 
 
             //this.HScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
             HScrollBar1.TabIndex = 1;
             HScrollBar1.Scroll += HScrollBar1_miScroll;
             HScrollBar1.Visible = false;
-            HScrollBar1.Orientation = ScrollBarOrientation.HORIZONTAL;
+            HScrollBar1.Orientation = ScrollBarOrientation.Horizontal;
 
             BackColor = Color.Transparent;
 
