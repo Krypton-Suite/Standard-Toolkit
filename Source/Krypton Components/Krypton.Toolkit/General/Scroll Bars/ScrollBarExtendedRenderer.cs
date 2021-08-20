@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
                 return;
             }
 
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (orientation == ScrollBarOrientation.Vertical)
             {
                 DrawBackgroundVertical(g, rect);
             }
@@ -246,13 +246,13 @@ namespace Krypton.Toolkit
             }
 
             if (rect.Width <= 0 || rect.Height <= 0
-               || state != ScrollBarState.PRESSED || g.IsVisibleClipEmpty
+               || state != ScrollBarState.Pressed || g.IsVisibleClipEmpty
                || !g.VisibleClipBounds.IntersectsWith(rect))
             {
                 return;
             }
 
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (orientation == ScrollBarOrientation.Vertical)
             {
                 DrawTrackVertical(g, rect);
             }
@@ -282,12 +282,12 @@ namespace Krypton.Toolkit
 
             if (rect.IsEmpty || g.IsVisibleClipEmpty
                || !g.VisibleClipBounds.IntersectsWith(rect)
-               || state == ScrollBarState.DISABLED)
+               || state == ScrollBarState.Disabled)
             {
                 return;
             }
 
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (orientation == ScrollBarOrientation.Vertical)
             {
                 DrawThumbVertical(g, rect, state);
             }
@@ -413,7 +413,7 @@ namespace Krypton.Toolkit
                 return;
             }
 
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (orientation == ScrollBarOrientation.Vertical)
             {
                 DrawArrowButtonVertical(g, rect, state, arrowUp);
             }
@@ -577,7 +577,7 @@ namespace Krypton.Toolkit
 
             r.Inflate(-1, -1);
 
-            if (orientation == ScrollBarOrientation.VERTICAL)
+            if (orientation == ScrollBarOrientation.Vertical)
             {
                 r.X += 3;
                 r.Y += (r.Height / 2) - (gripImage.Height / 2);
@@ -608,13 +608,13 @@ namespace Krypton.Toolkit
 
             switch (state)
             {
-                case ScrollBarState.HOT:
+                case ScrollBarState.Hot:
                     {
                         index = 1;
                         break;
                     }
 
-                case ScrollBarState.PRESSED:
+                case ScrollBarState.Pressed:
                     {
                         index = 2;
                         break;
@@ -716,13 +716,13 @@ namespace Krypton.Toolkit
 
             switch (state)
             {
-                case ScrollBarState.HOT:
+                case ScrollBarState.Hot:
                     {
                         index = 1;
                         break;
                     }
 
-                case ScrollBarState.PRESSED:
+                case ScrollBarState.Pressed:
                     {
                         index = 2;
                         break;
@@ -872,24 +872,24 @@ namespace Krypton.Toolkit
 
                 switch (state)
                 {
-                    case ScrollBarArrowButtonState.UPHOT:
-                    case ScrollBarArrowButtonState.DOWNHOT:
+                    case ScrollBarArrowButtonState.UpHot:
+                    case ScrollBarArrowButtonState.DownHot:
                         {
                             index = 1;
 
                             break;
                         }
 
-                    case ScrollBarArrowButtonState.UPACTIVE:
-                    case ScrollBarArrowButtonState.DOWNACTIVE:
+                    case ScrollBarArrowButtonState.UpActive:
+                    case ScrollBarArrowButtonState.DownActive:
                         {
                             index = 0;
 
                             break;
                         }
 
-                    case ScrollBarArrowButtonState.UPPRESSED:
-                    case ScrollBarArrowButtonState.DOWNPRESSED:
+                    case ScrollBarArrowButtonState.UpPressed:
+                    case ScrollBarArrowButtonState.DownPressed:
                         {
                             index = 2;
 
@@ -988,8 +988,8 @@ namespace Krypton.Toolkit
 
                 using (Image arrowIcon = (Image)GetScrollBarArrowDownBitmap().Clone())
                 {
-                    if (state == ScrollBarArrowButtonState.DOWNDISABLED
-                       || state == ScrollBarArrowButtonState.UPDISABLED)
+                    if (state == ScrollBarArrowButtonState.DownDisabled
+                       || state == ScrollBarArrowButtonState.UpDisabled)
                     {
                         ControlPaint.DrawImageDisabled(
                            g,

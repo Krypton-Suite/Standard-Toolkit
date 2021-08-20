@@ -245,6 +245,7 @@ namespace Krypton.Toolkit
             private readonly Button buttonMoveDown;
             private readonly Button buttonAddItem;
             private readonly Button buttonDelete;
+            // TODO: Can this be a KryptonPropertyGrid?
             private readonly PropertyGrid propertyGrid1;
             private readonly Label label1;
             private readonly Label label2;
@@ -299,7 +300,7 @@ namespace Krypton.Toolkit
                 // buttonMoveUp
                 // 
                 buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveUp.Image = Properties.Resources.arrow_up_blue;
+                buttonMoveUp.Image = Resources.BlueArrowResources.arrow_up_blue;
                 buttonMoveUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveUp.Location = new Point(272, 32);
                 buttonMoveUp.Name = "buttonMoveUp";
@@ -314,7 +315,7 @@ namespace Krypton.Toolkit
                 // buttonMoveDown
                 // 
                 buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveDown.Image = Properties.Resources.arrow_down_blue;
+                buttonMoveDown.Image = Resources.BlueArrowResources.arrow_down_blue;
                 buttonMoveDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveDown.Location = new Point(272, 66);
                 buttonMoveDown.Name = "buttonMoveDown";
@@ -329,7 +330,7 @@ namespace Krypton.Toolkit
                 // buttonAddItem
                 // 
                 buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddItem.Image = Properties.Resources.add;
+                buttonAddItem.Image = GenericImageResources.add;
                 buttonAddItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddItem.Location = new Point(272, 112);
                 buttonAddItem.Name = "buttonAddItem";
@@ -344,7 +345,7 @@ namespace Krypton.Toolkit
                 // buttonDelete
                 // 
                 buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonDelete.Image = Properties.Resources.delete2;
+                buttonDelete.Image = GenericImageResources.delete2;
                 buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonDelete.Location = new Point(272, 190);
                 buttonDelete.Name = "buttonDelete";
@@ -389,7 +390,7 @@ namespace Krypton.Toolkit
                 // buttonAddChild
                 // 
                 buttonAddChild.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddChild.Image = Properties.Resources.add;
+                buttonAddChild.Image = GenericImageResources.add;
                 buttonAddChild.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddChild.Location = new Point(272, 146);
                 buttonAddChild.Name = "buttonAddChild";

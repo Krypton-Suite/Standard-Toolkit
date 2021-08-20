@@ -19,9 +19,9 @@ namespace Krypton.Toolkit
                                      IContentValues
     {
         #region Static Fields
-        private const string _defaultText = "Color";
+        private const string _defaultText = "&Color";
         private static readonly string _defaultExtraText = string.Empty;
-        private static readonly Image _defaultImage = Properties.Resources.ButtonColorImageSmall;
+        private static readonly Image _defaultImage = Resources.GenericImageResources.ButtonColorImageSmall;
         #endregion
 
         #region Instance Fields

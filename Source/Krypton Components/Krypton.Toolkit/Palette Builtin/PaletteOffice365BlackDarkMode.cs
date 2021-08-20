@@ -22,19 +22,19 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blackDropDownButton = Resources.Office2010Arrows._2010BlackDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Resources.Office2010Arrows._2010BlackContextMenuSub;
-        private static readonly Image _formCloseHover = Resources.Office2010ControlBoxResources._2010ButtonCloseHover;
-        private static readonly Image _formClose = Resources.Office2010ControlBoxResources._2010ButtonCloseBlackNormal;
-        private static readonly Image _formMaximum = Resources.Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
-        private static readonly Image _formMinimum = Resources.Office2010ControlBoxResources._2010ButtonMinBlack;
-        private static readonly Image _formRestore = Resources.Office2010ControlBoxResources._2010ButtonRestore;
-        private static readonly Image _formHelp = Resources.HelpIconResources.Office365HelpIconBlack;
-        private static readonly Image _buttonSpecPendantClose = Resources.Office2010ControlBoxResources._2010ButtonMDICloseBlack;
-        private static readonly Image _buttonSpecPendantMin = Resources.Office2010ControlBoxResources._2010ButtonMDIMinBlack;
-        private static readonly Image _buttonSpecPendantRestore = Resources.Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.RibbonUp2010Black;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.RibbonDown2010Black;
+        private static readonly Image _blackDropDownButton = Office2010Arrows._2010BlackDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlackContextMenuSub;
+        private static readonly Image _formCloseHover = Office2010ControlBoxResources._2010ButtonCloseHover;
+        private static readonly Image _formClose = Office2010ControlBoxResources._2010ButtonCloseBlackNormal;
+        private static readonly Image _formMaximum = Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
+        private static readonly Image _formMinimum = Office2010ControlBoxResources._2010ButtonMinBlack;
+        private static readonly Image _formRestore = Office2010ControlBoxResources._2010ButtonRestore;
+        private static readonly Image _formHelp = HelpIconResources.Office365HelpIconBlack;
+        private static readonly Image _buttonSpecPendantClose = Office2010ControlBoxResources._2010ButtonMDICloseBlack;
+        private static readonly Image _buttonSpecPendantMin = Office2010ControlBoxResources._2010ButtonMDIMinBlack;
+        private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
+        private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010Black;
+        private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010Black;
         private static readonly Color _disabledRibbonText = Color.FromArgb(205, 205, 205);
         private static readonly Color[] _trackBarColors = { Color.FromArgb( 17,  17,  17),      // Tick marks
                                                                         Color.FromArgb( 37,  37,  37),      // Top track
@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
                 ColorDepth = ColorDepth.Depth24Bit
             };
 
-            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStrip2010Black);
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Black);
 
             _galleryButtonList = new ImageList
             {
@@ -293,14 +293,14 @@ namespace Krypton.Toolkit
 
             _galleryButtonList.Images.AddStrip(Properties.Resources.Gallery2010);
 
-            _radioButtonArray = new Image[]{Properties.Resources.RB2010BlueD,
-                Properties.Resources.RB2010SilverN,
-                Properties.Resources.RB2010BlueT,
-                Properties.Resources.RB2010BlueP,
-                Properties.Resources.RB2010BlueDC,
-                Properties.Resources.RB2010SilverNC,
-                Properties.Resources.RB2010SilverTC,
-                Properties.Resources.RB2010SilverPC};
+            _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD, 
+                                            Office2010SilverRadioButtonResources.RadioButton2010SilverN, 
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueT,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueP, 
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueDC, 
+                                            Office2010SilverRadioButtonResources.RadioButton2010SilverNC,
+                                            Office2010SilverRadioButtonResources.RadioButton2010SilverTC, 
+                                            Office2010SilverRadioButtonResources.RadioButton2010SilverPC };
         }
 
         /// <summary>

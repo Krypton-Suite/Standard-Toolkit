@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingContextMenuItemHighlight = new(1, 0, 1, 0);
         private static readonly Padding _metricPaddingContextMenuItemsCollection = new(0, 1, 0, 1);
 
-        private static readonly Image _buttonSpecClose = Resources.ProfessionalButtonSpecResources.ProfessionalCloseButton;
+        private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
         private static readonly Image _buttonSpecContext = Properties.Resources.ProfessionalContextButton;
         private static readonly Image _buttonSpecNext = Properties.Resources.ProfessionalNextButton;
         private static readonly Image _buttonSpecPrevious = Properties.Resources.ProfessionalPreviousButton;
@@ -70,18 +70,18 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecPinHorizontal = Properties.Resources.ProfessionalPinHorizontalButton;
         private static readonly Image _buttonSpecWorkspaceMaximize = Properties.Resources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = Properties.Resources.ProfessionalRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.RibbonUp2010;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.RibbonDown2010;
-        private static readonly Image _systemCloseNormal = Resources.ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
-        private static readonly Image _systemCloseDisabled = Resources.ProfessionalControlBoxResources.ProfessionalButtonCloseDisabled;
-        private static readonly Image _systemMaximiseNormal = Resources.ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
-        private static readonly Image _systemMaximiseDisabled = Resources.ProfessionalControlBoxResources.ProfessionalButtonMaxDisabled;
-        private static readonly Image _systemMinimiseNormal = Resources.ProfessionalControlBoxResources.ProfessionalButtonMinNormal;
-        private static readonly Image _systemMinimiseDisabled = Resources.ProfessionalControlBoxResources.ProfessionalButtonMinDisabled;
-        private static readonly Image _systemRestoreNormal = Resources.ProfessionalControlBoxResources.ProfessionalButtonRestoreNormal;
-        private static readonly Image _systemRestoreDisabled = Resources.ProfessionalControlBoxResources.ProfessionalButtonRestoreDisabled;
-        private static readonly Image _systemHelpA = Resources.HelpIconResources.GenericPre2010HelpIcon;
-        private static readonly Image _systemHelpI = Resources.HelpIconResources.GenericPre2010HelpIconDisabled;
+        private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
+        private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
+        private static readonly Image _systemCloseNormal = ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
+        private static readonly Image _systemCloseDisabled = ProfessionalControlBoxResources.ProfessionalButtonCloseDisabled;
+        private static readonly Image _systemMaximiseNormal = ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
+        private static readonly Image _systemMaximiseDisabled = ProfessionalControlBoxResources.ProfessionalButtonMaxDisabled;
+        private static readonly Image _systemMinimiseNormal = ProfessionalControlBoxResources.ProfessionalButtonMinNormal;
+        private static readonly Image _systemMinimiseDisabled = ProfessionalControlBoxResources.ProfessionalButtonMinDisabled;
+        private static readonly Image _systemRestoreNormal = ProfessionalControlBoxResources.ProfessionalButtonRestoreNormal;
+        private static readonly Image _systemRestoreDisabled = ProfessionalControlBoxResources.ProfessionalButtonRestoreDisabled;
+        private static readonly Image _systemHelpA = HelpIconResources.GenericPre2010HelpIcon;
+        private static readonly Image _systemHelpI = HelpIconResources.GenericPre2010HelpIconDisabled;
         private static readonly Image _pendantCloseA = Properties.Resources.ProfessionalPendantCloseA;
         private static readonly Image _pendantCloseI = Properties.Resources.ProfessionalPendantCloseI;
         private static readonly Image _pendantMinA = Properties.Resources.ProfessionalPendantMinA;
@@ -95,8 +95,8 @@ namespace Krypton.Toolkit
         private static readonly Image _contextMenuChecked = Properties.Resources.SystemChecked;
         private static readonly Image _contextMenuIndeterminate = Properties.Resources.SystemIndeterminate;
         private static readonly Image _contextMenuSubMenu = Properties.Resources.SystemContextMenuSub;
-        private static readonly Image _treeExpandPlus = Properties.Resources.TreeExpandPlus;
-        private static readonly Image _treeCollapseMinus = Properties.Resources.TreeCollapseMinus;
+        private static readonly Image _treeExpandPlus = TreeItemImageResources.TreeExpandPlus;
+        private static readonly Image _treeCollapseMinus = TreeItemImageResources.TreeCollapseMinus;
 
         private static readonly Color _contextTextColor = Color.White;
         private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
