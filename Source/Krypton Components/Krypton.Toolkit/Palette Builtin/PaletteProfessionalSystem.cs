@@ -70,8 +70,8 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecPinHorizontal = Properties.Resources.ProfessionalPinHorizontalButton;
         private static readonly Image _buttonSpecWorkspaceMaximize = Properties.Resources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = Properties.Resources.ProfessionalRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.RibbonUp2010;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.RibbonDown2010;
+        private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
+        private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
         private static readonly Image _systemCloseNormal = ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
         private static readonly Image _systemCloseDisabled = ProfessionalControlBoxResources.ProfessionalButtonCloseDisabled;
         private static readonly Image _systemMaximiseNormal = ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;

@@ -313,6 +313,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>ProfessionalControlBoxResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\RibbonArrowImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>RibbonArrowImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\SparkleBlueRadioButtonResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -607,6 +612,10 @@
         <EmbeddedResource Update="Resources\ProfessionalControlBoxResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>ProfessionalControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\RibbonArrowImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>RibbonArrowImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\SparkleBlueRadioButtonResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>

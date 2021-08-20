@@ -313,18 +313,6 @@
   <data name="WhiteRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhiteRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RibbonDown2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonDown2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RibbonUp2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonUp2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RibbonDown2010Black" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonDown2010Black.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RibbonUp2010Black" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonUp2010Black.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MdiRibbonExpand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiRibbonExpand.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -522,18 +510,6 @@
   </data>
   <data name="ProfessionalRestore1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RibbonDown20101" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonDown2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RibbonDown2010Black1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonDown2010Black.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RibbonUp20101" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonUp2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RibbonUp2010Black1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonUp2010Black.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SelectParentControl1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SelectParentControl.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
