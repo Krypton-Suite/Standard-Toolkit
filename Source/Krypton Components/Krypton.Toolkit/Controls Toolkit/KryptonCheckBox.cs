@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
                      ControlStyles.StandardDoubleClick, false);
 
             // Set default properties
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             _orientation = VisualOrientation.Top;
             _checkPosition = VisualOrientation.Left;
             _checked = false;
@@ -318,15 +318,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetLabelStyle()
-        {
-            LabelStyle = LabelStyle.NormalControl;
-        }
+        private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalPanel;
 
-        private bool ShouldSerializeLabelStyle()
-        {
-            return (LabelStyle != LabelStyle.NormalControl);
-        }
+        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalPanel);
 
         /// <summary>
         /// Gets access to the label content.
@@ -336,10 +330,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public LabelValues Values { get; }
 
-        private bool ShouldSerializeValues()
-        {
-            return !Values.IsDefault;
-        }
+        private bool ShouldSerializeValues() => !Values.IsDefault;
 
         /// <summary>
         /// Gets access to the image value overrides.
@@ -349,10 +340,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets access to the common label appearance that other states can override.
@@ -362,10 +350,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled label appearance entries.
@@ -375,10 +360,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal label appearance entries.
@@ -388,10 +370,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the label appearance when it has focus.
@@ -401,10 +380,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
