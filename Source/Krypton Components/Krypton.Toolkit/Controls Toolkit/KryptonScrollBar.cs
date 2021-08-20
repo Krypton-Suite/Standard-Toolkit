@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The scrollbar orientation - horizontal / VERTICAL.
         /// </summary>
-        private ScrollBarOrientation _orientation = ScrollBarOrientation.VERTICAL;
+        private ScrollBarOrientation _orientation = ScrollBarOrientation.Vertical;
 
         /// <summary>
         /// The scroll orientation in scroll events.
@@ -48,9 +48,9 @@ namespace Krypton.Toolkit
         private bool _topBarClicked;
         private bool _bottomBarClicked;
         private bool _thumbClicked;
-        private ScrollBarState _thumbState = ScrollBarState.NORMAL;
-        private ScrollBarArrowButtonState _topButtonState = ScrollBarArrowButtonState.UPNORMAL;
-        private ScrollBarArrowButtonState _bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
+        private ScrollBarState _thumbState = ScrollBarState.Normal;
+        private ScrollBarArrowButtonState _topButtonState = ScrollBarArrowButtonState.UpNormal;
+        private ScrollBarArrowButtonState _bottomButtonState = ScrollBarArrowButtonState.DownNormal;
         private int _minimum;
         private int _maximum = 100;
         private int _smallChange = 1;
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Layout")]
         [Description("Gets or sets the orientation.")]
-        [DefaultValue(ScrollBarOrientation.VERTICAL)]
+        [DefaultValue(ScrollBarOrientation.Vertical)]
         public ScrollBarOrientation Orientation
         {
             get => _orientation;
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
                 ChangeContextMenuItems();
 
                 // save scroll orientation for scroll event
-                _scrollOrientation = value == ScrollBarOrientation.VERTICAL ?
+                _scrollOrientation = value == ScrollBarOrientation.Vertical ?
                    ScrollOrientation.VerticalScroll : ScrollOrientation.HorizontalScroll;
 
                 // only in DesignMode switch width and height
@@ -488,7 +488,7 @@ namespace Krypton.Toolkit
             Rectangle rect = ClientRectangle;
 
             // adjust the rectangle
-            if (_orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.Vertical)
             {
                 rect.X++;
                 rect.Y += _arrowHeight + 1;
@@ -515,7 +515,7 @@ namespace Krypton.Toolkit
             ScrollBarKryptonRenderer.DrawTrack(
                e.Graphics,
                rect,
-               ScrollBarState.NORMAL,
+               ScrollBarState.Normal,
                _orientation);
 
             // draw thumb and grip
@@ -551,7 +551,7 @@ namespace Krypton.Toolkit
             // check if top or bottom bar was clicked
             if (_topBarClicked)
             {
-                if (_orientation == ScrollBarOrientation.VERTICAL)
+                if (_orientation == ScrollBarOrientation.Vertical)
                 {
                     _clickedBarRectangle.Y = _thumbTopLimit;
                     _clickedBarRectangle.Height =
@@ -567,12 +567,12 @@ namespace Krypton.Toolkit
                 ScrollBarKryptonRenderer.DrawTrack(
                    e.Graphics,
                    _clickedBarRectangle,
-                   ScrollBarState.PRESSED,
+                   ScrollBarState.Pressed,
                    _orientation);
             }
             else if (_bottomBarClicked)
             {
-                if (_orientation == ScrollBarOrientation.VERTICAL)
+                if (_orientation == ScrollBarOrientation.Vertical)
                 {
                     _clickedBarRectangle.Y = _thumbRectangle.Bottom + 1;
                     _clickedBarRectangle.Height =
@@ -588,7 +588,7 @@ namespace Krypton.Toolkit
                 ScrollBarKryptonRenderer.DrawTrack(
                    e.Graphics,
                    _clickedBarRectangle,
-                   ScrollBarState.PRESSED,
+                   ScrollBarState.Pressed,
                    _orientation);
             }
 
@@ -621,15 +621,15 @@ namespace Krypton.Toolkit
                 if (_thumbRectangle.Contains(mouseLocation))
                 {
                     _thumbClicked = true;
-                    _thumbPosition = _orientation == ScrollBarOrientation.VERTICAL ? mouseLocation.Y - _thumbRectangle.Y : mouseLocation.X - _thumbRectangle.X;
-                    _thumbState = ScrollBarState.PRESSED;
+                    _thumbPosition = _orientation == ScrollBarOrientation.Vertical ? mouseLocation.Y - _thumbRectangle.Y : mouseLocation.X - _thumbRectangle.X;
+                    _thumbState = ScrollBarState.Pressed;
 
                     Invalidate(_thumbRectangle);
                 }
                 else if (_topArrowRectangle.Contains(mouseLocation))
                 {
                     _topArrowClicked = true;
-                    _topButtonState = ScrollBarArrowButtonState.UPPRESSED;
+                    _topButtonState = ScrollBarArrowButtonState.UpPressed;
 
                     Invalidate(_topArrowRectangle);
 
@@ -638,7 +638,7 @@ namespace Krypton.Toolkit
                 else if (_bottomArrowRectangle.Contains(mouseLocation))
                 {
                     _bottomArrowClicked = true;
-                    _bottomButtonState = ScrollBarArrowButtonState.DOWNPRESSED;
+                    _bottomButtonState = ScrollBarArrowButtonState.DownPressed;
 
                     Invalidate(_bottomArrowRectangle);
 
@@ -647,11 +647,11 @@ namespace Krypton.Toolkit
                 else
                 {
                     _trackPosition =
-                       _orientation == ScrollBarOrientation.VERTICAL ?
+                       _orientation == ScrollBarOrientation.Vertical ?
                           mouseLocation.Y : mouseLocation.X;
 
                     if (_trackPosition <
-                       (_orientation == ScrollBarOrientation.VERTICAL ?
+                       (_orientation == ScrollBarOrientation.Vertical ?
                           _thumbRectangle.Y : _thumbRectangle.X))
                     {
                         _topBarClicked = true;
@@ -667,7 +667,7 @@ namespace Krypton.Toolkit
             else if (e.Button == MouseButtons.Right)
             {
                 _trackPosition =
-                   _orientation == ScrollBarOrientation.VERTICAL ? e.Y : e.X;
+                   _orientation == ScrollBarOrientation.Vertical ? e.Y : e.X;
             }
         }
 
@@ -686,7 +686,7 @@ namespace Krypton.Toolkit
                 if (_thumbClicked)
                 {
                     _thumbClicked = false;
-                    _thumbState = ScrollBarState.NORMAL;
+                    _thumbState = ScrollBarState.Normal;
 
                     OnScroll(new ScrollEventArgs(
                        ScrollEventType.EndScroll,
@@ -698,13 +698,13 @@ namespace Krypton.Toolkit
                 else if (_topArrowClicked)
                 {
                     _topArrowClicked = false;
-                    _topButtonState = ScrollBarArrowButtonState.UPNORMAL;
+                    _topButtonState = ScrollBarArrowButtonState.UpNormal;
                     StopTimer();
                 }
                 else if (_bottomArrowClicked)
                 {
                     _bottomArrowClicked = false;
-                    _bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
+                    _bottomButtonState = ScrollBarArrowButtonState.DownNormal;
                     StopTimer();
                 }
                 else if (_topBarClicked)
@@ -730,9 +730,9 @@ namespace Krypton.Toolkit
         {
             base.OnMouseEnter(e);
 
-            _bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
-            _topButtonState = ScrollBarArrowButtonState.UPACTIVE;
-            _thumbState = ScrollBarState.ACTIVE;
+            _bottomButtonState = ScrollBarArrowButtonState.DownActive;
+            _topButtonState = ScrollBarArrowButtonState.UpActive;
+            _thumbState = ScrollBarState.Active;
 
             Invalidate();
         }
@@ -764,9 +764,9 @@ namespace Krypton.Toolkit
                 {
                     int oldScrollValue = _value;
 
-                    _topButtonState = ScrollBarArrowButtonState.UPACTIVE;
-                    _bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
-                    int pos = _orientation == ScrollBarOrientation.VERTICAL ?
+                    _topButtonState = ScrollBarArrowButtonState.UpActive;
+                    _bottomButtonState = ScrollBarArrowButtonState.DownActive;
+                    int pos = _orientation == ScrollBarOrientation.Vertical ?
                        e.Location.Y : e.Location.X;
 
                     // The thumb is all the way to the top
@@ -792,7 +792,7 @@ namespace Krypton.Toolkit
 
                         // calculate the value - first some helper variables
                         // dependent on the current orientation
-                        if (_orientation == ScrollBarOrientation.VERTICAL)
+                        if (_orientation == ScrollBarOrientation.Vertical)
                         {
                             pixelRange = Height - (2 * _arrowHeight) - _thumbHeight;
                             thumbPos = _thumbRectangle.Y;
@@ -835,27 +835,27 @@ namespace Krypton.Toolkit
             {
                 if (_topArrowRectangle.Contains(e.Location))
                 {
-                    _topButtonState = ScrollBarArrowButtonState.UPHOT;
+                    _topButtonState = ScrollBarArrowButtonState.UpHot;
 
                     Invalidate(_topArrowRectangle);
                 }
                 else if (_bottomArrowRectangle.Contains(e.Location))
                 {
-                    _bottomButtonState = ScrollBarArrowButtonState.DOWNHOT;
+                    _bottomButtonState = ScrollBarArrowButtonState.DownHot;
 
                     Invalidate(_bottomArrowRectangle);
                 }
                 else if (_thumbRectangle.Contains(e.Location))
                 {
-                    _thumbState = ScrollBarState.HOT;
+                    _thumbState = ScrollBarState.Hot;
 
                     Invalidate(_thumbRectangle);
                 }
                 else if (ClientRectangle.Contains(e.Location))
                 {
-                    _topButtonState = ScrollBarArrowButtonState.UPACTIVE;
-                    _bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
-                    _thumbState = ScrollBarState.ACTIVE;
+                    _topButtonState = ScrollBarArrowButtonState.UpActive;
+                    _bottomButtonState = ScrollBarArrowButtonState.DownActive;
+                    _thumbState = ScrollBarState.Active;
 
                     Invalidate();
                 }
@@ -875,7 +875,7 @@ namespace Krypton.Toolkit
             // only in design mode - constrain size
             if (DesignMode)
             {
-                if (_orientation == ScrollBarOrientation.VERTICAL)
+                if (_orientation == ScrollBarOrientation.Vertical)
                 {
                     if (height < (2 * _arrowHeight) + 10)
                     {
@@ -925,7 +925,7 @@ namespace Krypton.Toolkit
             Keys keyUp = Keys.Up;
             Keys keyDown = Keys.Down;
 
-            if (_orientation == ScrollBarOrientation.HORIZONTAL)
+            if (_orientation == ScrollBarOrientation.Horizontal)
             {
                 keyUp = Keys.Left;
                 keyDown = Keys.Right;
@@ -993,15 +993,15 @@ namespace Krypton.Toolkit
 
             if (Enabled)
             {
-                _thumbState = ScrollBarState.NORMAL;
-                _topButtonState = ScrollBarArrowButtonState.UPNORMAL;
-                _bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
+                _thumbState = ScrollBarState.Normal;
+                _topButtonState = ScrollBarArrowButtonState.UpNormal;
+                _bottomButtonState = ScrollBarArrowButtonState.DownNormal;
             }
             else
             {
-                _thumbState = ScrollBarState.DISABLED;
-                _topButtonState = ScrollBarArrowButtonState.UPDISABLED;
-                _bottomButtonState = ScrollBarArrowButtonState.DOWNDISABLED;
+                _thumbState = ScrollBarState.Disabled;
+                _topButtonState = ScrollBarArrowButtonState.UpDisabled;
+                _bottomButtonState = ScrollBarArrowButtonState.DownDisabled;
             }
 
             Refresh();
@@ -1024,7 +1024,7 @@ namespace Krypton.Toolkit
 
             // set up the width's, height's and rectangles for the different
             // elements
-            if (_orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.Vertical)
             {
                 _arrowHeight = 17;
                 _arrowWidth = 15;
@@ -1150,18 +1150,18 @@ namespace Krypton.Toolkit
             // outside or inside the control
             if (ClientRectangle.Contains(pos))
             {
-                _bottomButtonState = ScrollBarArrowButtonState.DOWNACTIVE;
-                _topButtonState = ScrollBarArrowButtonState.UPACTIVE;
+                _bottomButtonState = ScrollBarArrowButtonState.DownActive;
+                _topButtonState = ScrollBarArrowButtonState.UpActive;
             }
             else
             {
-                _bottomButtonState = ScrollBarArrowButtonState.DOWNNORMAL;
-                _topButtonState = ScrollBarArrowButtonState.UPNORMAL;
+                _bottomButtonState = ScrollBarArrowButtonState.DownNormal;
+                _topButtonState = ScrollBarArrowButtonState.UpNormal;
             }
 
             // set appearance of thumb
             _thumbState = _thumbRectangle.Contains(pos) ?
-               ScrollBarState.HOT : ScrollBarState.NORMAL;
+               ScrollBarState.Hot : ScrollBarState.Normal;
 
             _bottomArrowClicked = _bottomBarClicked =
                _topArrowClicked = _topBarClicked = false;
@@ -1213,7 +1213,7 @@ namespace Krypton.Toolkit
         {
             int pixelRange, arrowSize;
 
-            if (_orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.Vertical)
             {
                 pixelRange = Height - (2 * _arrowHeight) - _thumbHeight;
                 arrowSize = _arrowHeight;
@@ -1244,7 +1244,7 @@ namespace Krypton.Toolkit
         private int GetThumbSize()
         {
             int trackSize =
-               _orientation == ScrollBarOrientation.VERTICAL ?
+               _orientation == ScrollBarOrientation.Vertical ?
                Height - (2 * _arrowHeight) : Width - (2 * _arrowWidth);
 
             if (_maximum == 0 || _largeChange == 0)
@@ -1289,7 +1289,7 @@ namespace Krypton.Toolkit
         /// <param name="position">The new position.</param>
         private void ChangeThumbPosition(int position)
         {
-            if (_orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.Vertical)
             {
                 _thumbRectangle.Y = position;
             }
@@ -1309,7 +1309,7 @@ namespace Krypton.Toolkit
             ScrollEventType type = ScrollEventType.First;
             int thumbSize, thumbPos;
 
-            if (_orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.Vertical)
             {
                 thumbPos = _thumbRectangle.Y;
                 thumbSize = _thumbRectangle.Height;
@@ -1394,7 +1394,7 @@ namespace Krypton.Toolkit
         /// </summary>
         private void ChangeContextMenuItems()
         {
-            if (_orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.Vertical)
             {
                 _tsmiTop.Text = "Top";
                 _tsmiBottom.Text = "Bottom";
@@ -1539,7 +1539,7 @@ namespace Krypton.Toolkit
         {
             int thumbSize, thumbPos, arrowSize, size;
 
-            if (_orientation == ScrollBarOrientation.VERTICAL)
+            if (_orientation == ScrollBarOrientation.Vertical)
             {
                 thumbSize = _thumbHeight;
                 arrowSize = _arrowHeight;
