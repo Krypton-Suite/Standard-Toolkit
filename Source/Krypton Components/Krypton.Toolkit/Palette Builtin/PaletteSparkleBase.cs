@@ -56,9 +56,9 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
         private static readonly Padding _metricPaddingContextMenuItemHighlight = new(1, 0, 1, 0);
 
-        private static readonly Image _disabledDropDown = Properties.Resources.DisabledDropDownButton2;
-        private static readonly Image _disabledDropUp = Properties.Resources.DisabledDropUpButton;
-        private static readonly Image _disabledGalleryDrop = Properties.Resources.DisabledGalleryDropButton;
+        private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton2;
+        private static readonly Image _disabledDropUp = DropDownArrowImageResources.DisabledDropUpButton;
+        private static readonly Image _disabledGalleryDrop = DropDownArrowImageResources.DisabledGalleryDropButton;
         private static readonly Image _buttonSpecClose = Properties.Resources.WhiteCloseButton;
         private static readonly Image _buttonSpecContext = Properties.Resources.WhiteContextButton;
         private static readonly Image _buttonSpecNext = Properties.Resources.WhiteNextButton;

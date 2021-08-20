@@ -208,6 +208,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>ColourScaleImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\DropDownArrowImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>DropDownArrowImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\MessageBoxResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -381,7 +386,6 @@
         <None Include="Resources\BlueDropDownButton.png" />
         <None Include="Resources\ButtonColorImageSmall.png" />
         <None Include="Resources\ButtonNoColor.png" />
-        <None Include="Resources\DisabledDropDownButton.png" />
         <None Include="Resources\SelectParentControlFlipped.png" />
         <None Include="Resources\SilverDropDownButton.png" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonGroupBox.bmp" />
@@ -524,6 +528,10 @@
         <EmbeddedResource Update="Resources\ColourScaleImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>ColourScaleImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\DropDownArrowImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>DropDownArrowImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\MessageBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>

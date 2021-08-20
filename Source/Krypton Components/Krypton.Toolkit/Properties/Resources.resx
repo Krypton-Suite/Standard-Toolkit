@@ -169,9 +169,6 @@
   <data name="GridRowIndicators" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridRowIndicators.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GridErrorIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GridErrorIcon.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MdiMin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -204,9 +201,6 @@
   </data>
   <data name="ProfessionalNextButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalNextButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DisabledDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisabledDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalPendantCloseA" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -270,15 +264,6 @@
   </data>
   <data name="SparkleDropUpButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SparkleDropUpButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DisabledDropUpButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisabledDropUpButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DisabledGalleryDropButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisabledGalleryDropButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DisabledDropDownButton2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisabledDropDownButton2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SparkleChecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SparkleChecked.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -364,18 +349,6 @@
   <data name="CollapseIcon2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CollapseIcon2010.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DisabledDropDownButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisabledDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DisabledDropDownButton21" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisabledDropDownButton2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DisabledDropUpButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisabledDropUpButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DisabledGalleryDropButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DisabledGalleryDropButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="eraser" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\eraser.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -393,9 +366,6 @@
   </data>
   <data name="GallerySilverBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GallerySilverBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GridErrorIcon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GridErrorIcon.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GridRowIndicators1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridRowIndicators.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

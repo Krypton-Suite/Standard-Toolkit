@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         private static readonly Image _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
-        private static readonly Image _disabledDropDown = Properties.Resources.DisabledDropDownButton;
+        private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton;
         private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
         private static readonly Image _buttonSpecContext = Properties.Resources.ProfessionalContextButton;
         private static readonly Image _buttonSpecNext = Properties.Resources.ProfessionalNextButton;
@@ -75,8 +75,8 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestore;
         private static readonly Image _buttonSpecWorkspaceMaximize = Properties.Resources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = Properties.Resources.ProfessionalRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.RibbonUp2010;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.RibbonDown2010;
+        private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
+        private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
         private static readonly Image _contextMenuChecked = Properties.Resources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = Properties.Resources.Office2007Indeterminate;
 

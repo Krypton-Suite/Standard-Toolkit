@@ -183,6 +183,16 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap GridErrorIcon {
+            get {
+                object obj = ResourceManager.GetObject("GridErrorIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap HourGlass {
             get {
                 object obj = ResourceManager.GetObject("HourGlass", resourceCulture);

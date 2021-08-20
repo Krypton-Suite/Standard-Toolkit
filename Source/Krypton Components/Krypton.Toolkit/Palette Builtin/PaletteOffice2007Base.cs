@@ -58,8 +58,8 @@ namespace Krypton.Toolkit
         private static readonly Image _treePlus = TreeItemImageResources.TreePlusBox;
         private static readonly Image _treeMinus = TreeItemImageResources.TreeMinusBox;
 
-        private static readonly Image _disabledDropDown = Properties.Resources.DisabledDropDownButton;
-        private static readonly Image _buttonSpecClose = Resources.ProfessionalButtonSpecResources.ProfessionalCloseButton;
+        private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton;
+        private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
         private static readonly Image _buttonSpecContext = Properties.Resources.ProfessionalContextButton;
         private static readonly Image _buttonSpecNext = Properties.Resources.ProfessionalNextButton;
         private static readonly Image _buttonSpecPrevious = Properties.Resources.ProfessionalPreviousButton;

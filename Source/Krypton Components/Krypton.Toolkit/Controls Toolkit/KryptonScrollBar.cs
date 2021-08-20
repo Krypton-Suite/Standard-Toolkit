@@ -123,6 +123,12 @@ namespace Krypton.Toolkit
             // no image margin in context menu
             _contextMenu.ShowImageMargin = false;
             ContextMenuStrip = _contextMenu;
+
+            _maximum = 100;
+
+            _minimum = 0;
+
+            _value = 0;
         }
 
         #endregion
@@ -342,13 +348,13 @@ namespace Krypton.Toolkit
             {
                 // TODO: CS1718: What is being attempted here ? value < value ??
                 // no change or invalid value - return
-                if (value == value || value < _minimum || value > _maximum)
+                if (_value == value || _value < _minimum || _value > _maximum)
                 {
                     return;
                 }
 
                 // TODO: CS1718: What is being attempted here ? value < value ??
-                value = value;
+                _value = value;
 
                 // adjust thumb position
                 ChangeThumbPosition(GetThumbPosition());
