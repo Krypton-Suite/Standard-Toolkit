@@ -272,22 +272,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStrip2007Black);
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2007Black);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Resources.GalleryImageResources.GallerySilverBlack);
-            _radioButtonArray = new Image[]{Resources.Office2007BlueRadioButtonResources.RadioButton2007BlueD,
-                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackN,
-                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackT,
-                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackP,
-                                            Resources.Office2007BlueRadioButtonResources.RadioButton2007BlueDC,
-                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackNC,
-                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackTC,
-                                            Resources.Office2007BlackRadioButtonResources.RadioButton2007BlackPC};
+            _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
+            _radioButtonArray = new Image[]{Office2007BlueRadioButtonResources.RadioButton2007BlueD,
+                                            Office2007BlackRadioButtonResources.RadioButton2007BlackN,
+                                            Office2007BlackRadioButtonResources.RadioButton2007BlackT,
+                                            Office2007BlackRadioButtonResources.RadioButton2007BlackP,
+                                            Office2007BlueRadioButtonResources.RadioButton2007BlueDC,
+                                            Office2007BlackRadioButtonResources.RadioButton2007BlackNC,
+                                            Office2007BlackRadioButtonResources.RadioButton2007BlackTC,
+                                            Office2007BlackRadioButtonResources.RadioButton2007BlackPC};
         }
 
         /// <summary>

@@ -245,6 +245,7 @@ namespace Krypton.Toolkit
             private readonly Button buttonMoveDown;
             private readonly Button buttonAddItem;
             private readonly Button buttonDelete;
+            // TODO: Can this be a KryptonPropertyGrid?
             private readonly PropertyGrid propertyGrid1;
             private readonly Label label1;
             private readonly Label label2;
@@ -329,7 +330,7 @@ namespace Krypton.Toolkit
                 // buttonAddItem
                 // 
                 buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddItem.Image = Properties.Resources.add;
+                buttonAddItem.Image = GenericImageResources.add;
                 buttonAddItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddItem.Location = new Point(272, 112);
                 buttonAddItem.Name = "buttonAddItem";
@@ -344,7 +345,7 @@ namespace Krypton.Toolkit
                 // buttonDelete
                 // 
                 buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonDelete.Image = Properties.Resources.delete2;
+                buttonDelete.Image = GenericImageResources.delete2;
                 buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonDelete.Location = new Point(272, 190);
                 buttonDelete.Name = "buttonDelete";
@@ -389,7 +390,7 @@ namespace Krypton.Toolkit
                 // buttonAddChild
                 // 
                 buttonAddChild.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddChild.Image = Properties.Resources.add;
+                buttonAddChild.Image = GenericImageResources.add;
                 buttonAddChild.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddChild.Location = new Point(272, 146);
                 buttonAddChild.Name = "buttonAddChild";

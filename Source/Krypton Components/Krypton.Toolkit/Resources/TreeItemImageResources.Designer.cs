@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GenericImageResources {
+    internal class TreeItemImageResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal GenericImageResources() {
+        internal TreeItemImageResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.GenericImageResources", typeof(GenericImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.TreeItemImageResources", typeof(TreeItemImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap add {
+        internal static System.Drawing.Bitmap TreeCollapseBlack {
             get {
-                object obj = ResourceManager.GetObject("add", resourceCulture);
+                object obj = ResourceManager.GetObject("TreeCollapseBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ButtonColorImageSmall {
+        internal static System.Drawing.Bitmap TreeCollapseDark {
             get {
-                object obj = ResourceManager.GetObject("ButtonColorImageSmall", resourceCulture);
+                object obj = ResourceManager.GetObject("TreeCollapseDark", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ButtonNoColor {
+        internal static System.Drawing.Bitmap TreeCollapseMinus {
             get {
-                object obj = ResourceManager.GetObject("ButtonNoColor", resourceCulture);
+                object obj = ResourceManager.GetObject("TreeCollapseMinus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CollapseIcon {
+        internal static System.Drawing.Bitmap TreeExpandDark {
             get {
-                object obj = ResourceManager.GetObject("CollapseIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("TreeExpandDark", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap delete2 {
+        internal static System.Drawing.Bitmap TreeExpandPlus {
             get {
-                object obj = ResourceManager.GetObject("delete2", resourceCulture);
+                object obj = ResourceManager.GetObject("TreeExpandPlus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Empty16x16 {
+        internal static System.Drawing.Bitmap TreeExpandWhite {
             get {
-                object obj = ResourceManager.GetObject("Empty16x16", resourceCulture);
+                object obj = ResourceManager.GetObject("TreeExpandWhite", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ExpandIcon {
+        internal static System.Drawing.Bitmap TreeMinusBox {
             get {
-                object obj = ResourceManager.GetObject("ExpandIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("TreeMinusBox", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,69 +133,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteCloseButton {
+        internal static System.Drawing.Bitmap TreePlusBox {
             get {
-                object obj = ResourceManager.GetObject("GenericWhiteCloseButton", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteMaximize {
-            get {
-                object obj = ResourceManager.GetObject("GenericWhiteMaximize", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteMinNormal {
-            get {
-                object obj = ResourceManager.GetObject("GenericWhiteMinNormal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteRestore {
-            get {
-                object obj = ResourceManager.GetObject("GenericWhiteRestore", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteRestoreNormal {
-            get {
-                object obj = ResourceManager.GetObject("GenericWhiteRestoreNormal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap HourGlass {
-            get {
-                object obj = ResourceManager.GetObject("HourGlass", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap KryptonLogoGeneric {
-            get {
-                object obj = ResourceManager.GetObject("KryptonLogoGeneric", resourceCulture);
+                object obj = ResourceManager.GetObject("TreePlusBox", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

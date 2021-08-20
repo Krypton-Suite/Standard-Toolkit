@@ -55,8 +55,8 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingBarTabs = new(0);
         private static readonly Padding _metricPaddingBarOutside = new(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
-        private static readonly Image _treePlus = Properties.Resources.TreePlusBox;
-        private static readonly Image _treeMinus = Properties.Resources.TreeMinusBox;
+        private static readonly Image _treePlus = TreeItemImageResources.TreePlusBox;
+        private static readonly Image _treeMinus = TreeItemImageResources.TreeMinusBox;
 
         private static readonly Image _disabledDropDown = Properties.Resources.DisabledDropDownButton;
         private static readonly Image _buttonSpecClose = Resources.ProfessionalButtonSpecResources.ProfessionalCloseButton;

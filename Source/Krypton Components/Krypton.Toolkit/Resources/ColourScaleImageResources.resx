@@ -118,46 +118,64 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Colour2scale_generic_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Colour2scale_generic_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ButtonColorImageSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ButtonColorImageSmall.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Colour3scale_generic_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Colour3scale_generic_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ButtonNoColor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ButtonNoColor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ThreeColours_blue_white_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ThreeColours_blue_white_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CollapseIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>CollapseIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ThreeColours_green_white_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ThreeColours_green_white_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="delete2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>delete2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ThreeColours_green_yellow_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ThreeColours_green_yellow_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Empty16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Empty16x16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ThreeColours_red_white_blue_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ThreeColours_red_white_blue_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ExpandIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ExpandIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ThreeColours_red_white_green_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ThreeColours_red_white_green_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GenericWhiteCloseButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericWhiteCloseButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ThreeColours_red_yellow_green_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ThreeColours_red_yellow_green_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GenericWhiteMaximize" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericWhiteMaximize.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TwoColours_blue_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_blue_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GenericWhiteMinNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericWhiteMinNormal.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TwoColours_green_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_green_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GenericWhiteRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericWhiteRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TwoColours_pink_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_pink_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GenericWhiteRestoreNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericWhiteRestoreNormal.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TwoColours_red_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_red_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HourGlass" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>HourGlass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TwoColours_violet_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_violet_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="KryptonLogoGeneric" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>KryptonLogoGeneric.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TwoColours_white_blue_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_white_blue_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TwoColours_white_green_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_white_green_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TwoColours_white_pink_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_white_pink_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TwoColours_white_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_white_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TwoColours_white_violet_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_white_violet_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TwoColours_white_yellow_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_white_yellow_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TwoColours_yellow_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>TwoColours_yellow_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

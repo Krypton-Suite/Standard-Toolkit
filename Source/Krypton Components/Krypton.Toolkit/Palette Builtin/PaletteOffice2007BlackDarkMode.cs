@@ -23,21 +23,21 @@ namespace Krypton.Toolkit
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
         private static readonly Image _blackDropDownButton = Properties.Resources.BlackDropDownButton;
-        private static readonly Image _blackCloseNormal = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseNormal;
-        private static readonly Image _blackCloseHover = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseHover;
-        private static readonly Image _blackCloseDisabled = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseDisabled;
-        private static readonly Image _blackMaximumNormal = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMaxNormal;
-        private static readonly Image _blackMaximumHover = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMaxHover;
-        private static readonly Image _blackMaximumDisabled = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMaxDisabled;
-        private static readonly Image _blackMinimumNormal = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMinNormal;
-        private static readonly Image _blackMinimumHover = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMinHover;
-        private static readonly Image _blackMinimumDisabled = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonMinDisabled;
-        private static readonly Image _blackRestoreNormal = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonRestoreNormal;
-        private static readonly Image _blackRestoreHover = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonRestoreHover;
-        private static readonly Image _blackRestoreDisabled = Resources.Office2007ControlBoxResources.Office2007BlackControlBoxButtonRestoreDisabled;
-        private static readonly Image _blackHelpNormal = Resources.HelpIconResources.GenericPre2010HelpIconBlack;
-        private static readonly Image _blackHelpHover = Resources.HelpIconResources.GenericPre2010HelpIconHover;
-        private static readonly Image _blackHelpDisabled = Resources.HelpIconResources.GenericPre2010HelpIconDisabled;
+        private static readonly Image _blackCloseNormal = Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseNormal;
+        private static readonly Image _blackCloseHover = Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseHover;
+        private static readonly Image _blackCloseDisabled = Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseDisabled;
+        private static readonly Image _blackMaximumNormal = Office2007ControlBoxResources.Office2007BlackControlBoxButtonMaxNormal;
+        private static readonly Image _blackMaximumHover = Office2007ControlBoxResources.Office2007BlackControlBoxButtonMaxHover;
+        private static readonly Image _blackMaximumDisabled = Office2007ControlBoxResources.Office2007BlackControlBoxButtonMaxDisabled;
+        private static readonly Image _blackMinimumNormal = Office2007ControlBoxResources.Office2007BlackControlBoxButtonMinNormal;
+        private static readonly Image _blackMinimumHover = Office2007ControlBoxResources.Office2007BlackControlBoxButtonMinHover;
+        private static readonly Image _blackMinimumDisabled = Office2007ControlBoxResources.Office2007BlackControlBoxButtonMinDisabled;
+        private static readonly Image _blackRestoreNormal = Office2007ControlBoxResources.Office2007BlackControlBoxButtonRestoreNormal;
+        private static readonly Image _blackRestoreHover = Office2007ControlBoxResources.Office2007BlackControlBoxButtonRestoreHover;
+        private static readonly Image _blackRestoreDisabled = Office2007ControlBoxResources.Office2007BlackControlBoxButtonRestoreDisabled;
+        private static readonly Image _blackHelpNormal = HelpIconResources.GenericPre2010HelpIconBlack;
+        private static readonly Image _blackHelpHover = HelpIconResources.GenericPre2010HelpIconHover;
+        private static readonly Image _blackHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
         private static readonly Image _blackRibbonMinimize = Properties.Resources.BlackButtonCollapse;
         private static readonly Image _blackRibbonExpand = Properties.Resources.BlackButtonExpand;
         private static readonly Image _contextMenuSubMenu = Properties.Resources.BlackContextMenuSub;
@@ -273,22 +273,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStripSparklePurple);
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparklePurple);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Resources.GalleryImageResources.GallerySilverBlack);
-            _radioButtonArray = new Image[]{Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleD,
-                                            Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleN,
-                                            Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurpleT,
-                                            Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurpleP,
-                                            Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleDC,
-                                            Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurpleNC,
-                                            Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurpleTC,
-                                            Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurplePC};
+            _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
+            _radioButtonArray = new Image[]{SparkleBlueRadioButtonResources.RadioButtonSparkleD,
+                                            SparkleBlueRadioButtonResources.RadioButtonSparkleN,
+                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleT,
+                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleP,
+                                            SparkleBlueRadioButtonResources.RadioButtonSparkleDC,
+                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleNC,
+                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleTC,
+                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurplePC};
         }
 
         /// <summary>

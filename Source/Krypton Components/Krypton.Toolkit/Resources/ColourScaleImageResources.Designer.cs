@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GenericImageResources {
+    internal class ColourScaleImageResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal GenericImageResources() {
+        internal ColourScaleImageResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.GenericImageResources", typeof(GenericImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.ColourScaleImageResources", typeof(ColourScaleImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap add {
+        internal static System.Drawing.Bitmap Colour2scale_generic_16 {
             get {
-                object obj = ResourceManager.GetObject("add", resourceCulture);
+                object obj = ResourceManager.GetObject("Colour2scale_generic_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ButtonColorImageSmall {
+        internal static System.Drawing.Bitmap Colour3scale_generic_16 {
             get {
-                object obj = ResourceManager.GetObject("ButtonColorImageSmall", resourceCulture);
+                object obj = ResourceManager.GetObject("Colour3scale_generic_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ButtonNoColor {
+        internal static System.Drawing.Bitmap ThreeColours_blue_white_red_32 {
             get {
-                object obj = ResourceManager.GetObject("ButtonNoColor", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_blue_white_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CollapseIcon {
+        internal static System.Drawing.Bitmap ThreeColours_green_white_red_32 {
             get {
-                object obj = ResourceManager.GetObject("CollapseIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_green_white_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap delete2 {
+        internal static System.Drawing.Bitmap ThreeColours_green_yellow_red_32 {
             get {
-                object obj = ResourceManager.GetObject("delete2", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_green_yellow_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Empty16x16 {
+        internal static System.Drawing.Bitmap ThreeColours_red_white_blue_32 {
             get {
-                object obj = ResourceManager.GetObject("Empty16x16", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_red_white_blue_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ExpandIcon {
+        internal static System.Drawing.Bitmap ThreeColours_red_white_green_32 {
             get {
-                object obj = ResourceManager.GetObject("ExpandIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_red_white_green_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteCloseButton {
+        internal static System.Drawing.Bitmap ThreeColours_red_yellow_green_32 {
             get {
-                object obj = ResourceManager.GetObject("GenericWhiteCloseButton", resourceCulture);
+                object obj = ResourceManager.GetObject("ThreeColours_red_yellow_green_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +143,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteMaximize {
+        internal static System.Drawing.Bitmap TwoColours_blue_white_32 {
             get {
-                object obj = ResourceManager.GetObject("GenericWhiteMaximize", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_blue_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +153,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteMinNormal {
+        internal static System.Drawing.Bitmap TwoColours_green_white_32 {
             get {
-                object obj = ResourceManager.GetObject("GenericWhiteMinNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_green_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +163,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteRestore {
+        internal static System.Drawing.Bitmap TwoColours_pink_white_32 {
             get {
-                object obj = ResourceManager.GetObject("GenericWhiteRestore", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_pink_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +173,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GenericWhiteRestoreNormal {
+        internal static System.Drawing.Bitmap TwoColours_red_white_32 {
             get {
-                object obj = ResourceManager.GetObject("GenericWhiteRestoreNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_red_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +183,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap HourGlass {
+        internal static System.Drawing.Bitmap TwoColours_violet_white_32 {
             get {
-                object obj = ResourceManager.GetObject("HourGlass", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_violet_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +193,69 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap KryptonLogoGeneric {
+        internal static System.Drawing.Bitmap TwoColours_white_blue_32 {
             get {
-                object obj = ResourceManager.GetObject("KryptonLogoGeneric", resourceCulture);
+                object obj = ResourceManager.GetObject("TwoColours_white_blue_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoColours_white_green_32 {
+            get {
+                object obj = ResourceManager.GetObject("TwoColours_white_green_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoColours_white_pink_32 {
+            get {
+                object obj = ResourceManager.GetObject("TwoColours_white_pink_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoColours_white_red_32 {
+            get {
+                object obj = ResourceManager.GetObject("TwoColours_white_red_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoColours_white_violet_32 {
+            get {
+                object obj = ResourceManager.GetObject("TwoColours_white_violet_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoColours_white_yellow_32 {
+            get {
+                object obj = ResourceManager.GetObject("TwoColours_white_yellow_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TwoColours_yellow_white_32 {
+            get {
+                object obj = ResourceManager.GetObject("TwoColours_yellow_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

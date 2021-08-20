@@ -307,15 +307,15 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStripSparklePurple);
-            _radioButtonArray = new Image[]{Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleD,
-                                            Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleN,
-                                            Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurpleT,
-                                            Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurpleP,
-                                            Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleDC,
-                                            Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurpleNC,
-                                            Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurpleTC,
-                                            Resources.SparklePurpleRadioButtonResources.RadioButtonSparklePurplePC};
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparklePurple);
+            _radioButtonArray = new Image[]{SparkleBlueRadioButtonResources.RadioButtonSparkleD,
+                                            SparkleBlueRadioButtonResources.RadioButtonSparkleN,
+                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleT,
+                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleP,
+                                            SparkleBlueRadioButtonResources.RadioButtonSparkleDC,
+                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleNC,
+                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurpleTC,
+                                            SparklePurpleRadioButtonResources.RadioButtonSparklePurplePC};
         }
 
         /// <summary>

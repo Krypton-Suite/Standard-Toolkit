@@ -159,7 +159,7 @@ namespace Krypton.Toolkit
                     break;
                 case KryptonMessageBoxIcon.EXCLAMATION:
                 case KryptonMessageBoxIcon.INFORMATION:
-                    _messageIcon.Image = MessageBoxResources.MBInformation;
+                    _messageIcon.Image = MessageBoxResources.Information;
                     SystemSounds.Asterisk.Play();
                     break;
                 case KryptonMessageBoxIcon.WARNING:

@@ -10,9 +10,6 @@
  */
 #endregion
 
-
-using static System.Windows.Forms.AxHost;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -84,21 +81,21 @@ namespace Krypton.Toolkit
         private static readonly Image _sparkleDropDownButton = Properties.Resources.SparkleDropDownButton;
         private static readonly Image _sparkleDropUpButton = Properties.Resources.SparkleDropUpButton;
         private static readonly Image _sparkleGalleryDropButton = Properties.Resources.SparkleGalleryDropButton;
-        private static readonly Image _sparkleCloseA = Resources.SparkleControlBoxResources.SparkleButtonCloseNormal;
-        private static readonly Image _sparkleCloseI = Resources.SparkleControlBoxResources.SparkleButtonCloseDisabled;
-        private static readonly Image _sparkleMaxA = Resources.SparkleControlBoxResources.SparkleButtonMaxNormal;
-        private static readonly Image _sparkleMaxI = Resources.SparkleControlBoxResources.SparkleButtonMaxDisabled;
-        private static readonly Image _sparkleMinA = Resources.SparkleControlBoxResources.SparkleButtonMinNormal;
-        private static readonly Image _sparkleMinI = Resources.SparkleControlBoxResources.SparkleButtonMinDisabled;
-        private static readonly Image _sparkleRestoreA = Resources.SparkleControlBoxResources.SparkleButtonRestoreNormal;
-        private static readonly Image _sparkleRestoreI = Resources.SparkleControlBoxResources.SparkleButtonRestoreDisabled;
-        private static readonly Image _sparkleHelpA = Resources.HelpIconResources.GenericSparkleHelpIcon;
-        private static readonly Image _sparkleHelpI = Resources.HelpIconResources.GenericSparkleHelpIconDisabled;
+        private static readonly Image _sparkleCloseA = SparkleControlBoxResources.SparkleButtonCloseNormal;
+        private static readonly Image _sparkleCloseI = SparkleControlBoxResources.SparkleButtonCloseDisabled;
+        private static readonly Image _sparkleMaxA = SparkleControlBoxResources.SparkleButtonMaxNormal;
+        private static readonly Image _sparkleMaxI = SparkleControlBoxResources.SparkleButtonMaxDisabled;
+        private static readonly Image _sparkleMinA = SparkleControlBoxResources.SparkleButtonMinNormal;
+        private static readonly Image _sparkleMinI = SparkleControlBoxResources.SparkleButtonMinDisabled;
+        private static readonly Image _sparkleRestoreA = SparkleControlBoxResources.SparkleButtonRestoreNormal;
+        private static readonly Image _sparkleRestoreI = SparkleControlBoxResources.SparkleButtonRestoreDisabled;
+        private static readonly Image _sparkleHelpA = HelpIconResources.GenericSparkleHelpIcon;
+        private static readonly Image _sparkleHelpI = HelpIconResources.GenericSparkleHelpIconDisabled;
         private static readonly Image _contextMenuChecked = Properties.Resources.SparkleGrayChecked;
-        private static readonly Image _contextMenuIndeterminate = Resources.SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
+        private static readonly Image _contextMenuIndeterminate = SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
         private static readonly Image _contextMenuSubMenu = Properties.Resources.BlackContextMenuSub;
-        private static readonly Image _treeExpandWhite = Properties.Resources.TreeExpandWhite;
-        private static readonly Image _treeCollapseBlack = Properties.Resources.TreeCollapseBlack;
+        private static readonly Image _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
+        private static readonly Image _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
         private static readonly Color _disabledText = Color.FromArgb(160, 160, 160);
         private static readonly Color _disabledBack = Color.FromArgb(224, 224, 224);

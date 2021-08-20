@@ -308,15 +308,15 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStripSparkleOrange);
-            _radioButtonArray = new Image[]{Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleD,
-                Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleN,
-                Resources.SparkleOrangeRadioButtonResources.RadioButtonSparkleOrangeT,
-                Resources.SparkleOrangeRadioButtonResources.RadioButtonSparkleOrangeP,
-                Resources.SparkleBlueRadioButtonResources.RadioButtonSparkleDC,
-                Resources.SparkleOrangeRadioButtonResources.RadioButtonSparkleOrangeNC,
-                Resources.SparkleOrangeRadioButtonResources.RadioButtonSparkleOrangeTC,
-                Resources.SparkleOrangeRadioButtonResources.RadioButtonSparkleOrangePC};
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparkleOrange);
+            _radioButtonArray = new Image[]{SparkleBlueRadioButtonResources.RadioButtonSparkleD,
+                SparkleBlueRadioButtonResources.RadioButtonSparkleN,
+                SparkleOrangeRadioButtonResources.RadioButtonSparkleOrangeT,
+                SparkleOrangeRadioButtonResources.RadioButtonSparkleOrangeP,
+                SparkleBlueRadioButtonResources.RadioButtonSparkleDC,
+                SparkleOrangeRadioButtonResources.RadioButtonSparkleOrangeNC,
+                SparkleOrangeRadioButtonResources.RadioButtonSparkleOrangeTC,
+                SparkleOrangeRadioButtonResources.RadioButtonSparkleOrangePC};
         }
 
         /// <summary>

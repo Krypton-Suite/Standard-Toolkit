@@ -22,14 +22,14 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blueDropDownButton = Resources.Office2010Arrows._2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Resources.Office2010Arrows._2010BlueContextMenuSub;
-        private static readonly Image _formCloseNormal = Resources.Office2010ControlBoxResources._2010ButtonCloseHover;
-        private static readonly Image _formCloseDisabled = Resources.Office2010ControlBoxResources._2010ButtonCloseNormal;
-        private static readonly Image _formMaximum = Resources.Office2010ControlBoxResources._2010ButtonMaxNormal;
-        private static readonly Image _formMinimum = Resources.Office2010ControlBoxResources._2010ButtonMin;
-        private static readonly Image _formRestore = Resources.Office2010ControlBoxResources._2010ButtonRestore;
-        private static readonly Image _formHelp = Resources.HelpIconResources.Office2010HelpIconBlue;
+        private static readonly Image _blueDropDownButton = Office2010Arrows._2010BlueDropDownButton;
+        private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlueContextMenuSub;
+        private static readonly Image _formCloseNormal = Office2010ControlBoxResources._2010ButtonCloseHover;
+        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources._2010ButtonCloseNormal;
+        private static readonly Image _formMaximum = Office2010ControlBoxResources._2010ButtonMaxNormal;
+        private static readonly Image _formMinimum = Office2010ControlBoxResources._2010ButtonMin;
+        private static readonly Image _formRestore = Office2010ControlBoxResources._2010ButtonRestore;
+        private static readonly Image _formHelp = HelpIconResources.Office2010HelpIconBlue;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(116, 150, 194),      // Tick marks
                                                                         Color.FromArgb(116, 150, 194),      // Top track
                                                                         Color.FromArgb(152, 190, 241),      // Bottom track
@@ -274,22 +274,22 @@ namespace Krypton.Toolkit
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(Resources.CheckBoxStripResources.CheckBoxStrip2010Blue);
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Blue);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Resources.GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]{Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueD,
-                                            Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueN,
-                                            Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueT,
-                                            Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueP,
-                                            Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
-                                            Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueNC,
-                                            Resources.Office2010BlueRadioButtonResources.RadioButton2010BlueTC,
-                                            Resources.Office2010BlueRadioButtonResources.RadioButton2010BluePC};
+            _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
+            _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueN,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueT,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueP,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueNC,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BlueTC,
+                                            Office2010BlueRadioButtonResources.RadioButton2010BluePC};
         }
 
         /// <summary>

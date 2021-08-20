@@ -203,7 +203,12 @@
         <Compile Update="Rendering\RenderStandard.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Global\MessageBoxResources.Designer.cs">
+        <Compile Update="Resources\ColourScaleImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ColourScaleImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\MessageBoxResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>MessageBoxResources.resx</DependentUpon>
@@ -217,6 +222,11 @@
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>CheckBoxStripResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\CursorResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>CursorResources.resx</DependentUpon>
         </Compile>
         <Compile Update="Resources\DataBarImageResources.Designer.cs">
           <DesignTime>True</DesignTime>
@@ -332,6 +342,11 @@
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>StarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\TreeItemImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>TreeItemImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
@@ -501,7 +516,11 @@
         <EmbeddedResource Remove="Toolkit\PaletteDrawBordersSelector.resx" />
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Update="Global\MessageBoxResources.resx">
+        <EmbeddedResource Update="Resources\ColourScaleImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ColourScaleImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\MessageBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
@@ -516,6 +535,10 @@
         <EmbeddedResource Update="Resources\CheckBoxStripResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>CheckBoxStripResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\CursorResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>CursorResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\DataBarImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
@@ -608,6 +631,10 @@
         <EmbeddedResource Update="Resources\StarImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>StarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\TreeItemImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>TreeItemImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>

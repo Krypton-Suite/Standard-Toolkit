@@ -121,9 +121,6 @@
   <data name="SystemContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystemContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SplitVertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SplitVertical.cur;System.Windows.Forms.Cursor, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="MdiRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -175,9 +172,6 @@
   <data name="GridErrorIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridErrorIcon.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HourGlass" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\hourglass.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MdiMin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -195,12 +189,6 @@
   </data>
   <data name="ProfessionalArrowLeftButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowLeftButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Empty16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Empty16x16.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ComponentYellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ComponentYellow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SystemIndeterminate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystemIndeterminate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -222,9 +210,6 @@
   </data>
   <data name="ProfessionalPendantCloseA" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantCloseA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SplitHorizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SplitHorizontal.cur;System.Windows.Forms.Cursor, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ProfessionalPendantCloseI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -328,9 +313,6 @@
   <data name="WhiteRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhiteRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\add.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="RibbonDown2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RibbonDown2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -376,27 +358,6 @@
   <data name="BlackButtonExpand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlackButtonExpand.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="TreeCollapseBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeCollapseBlack.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeExpandWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeExpandWhite.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeCollapseMinus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeCollapseMinus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeExpandPlus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeExpandPlus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeMinusBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeMinusBox.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreePlusBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreePlusBox.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="add1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="BlackButtonCollapse1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlackButtonCollapse.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -412,20 +373,8 @@
   <data name="BlueDropDownButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlueDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CollapseIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CollapseIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="CollapseIcon2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CollapseIcon2010.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="color2scale_generic_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\color2scale_generic_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="color3scale_generic_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\color3scale_generic_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ComponentYellow1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ComponentYellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DisabledDropDownButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DisabledDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -439,14 +388,8 @@
   <data name="DisabledGalleryDropButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DisabledGalleryDropButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Empty16x161" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Empty16x16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="eraser" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\eraser.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ExpandIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExpandIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ExpandIcon2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExpandIcon2010.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -471,9 +414,6 @@
   </data>
   <data name="GridSortOrder1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GridSortOrder.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HourGlass1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HourGlass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MdiClose1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -649,84 +589,6 @@
   <data name="table_conditional_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\table_conditional_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ThreeColors_blue_white_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ThreeColors_blue_white_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ThreeColors_green_white_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ThreeColors_green_white_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ThreeColors_green_yellow_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ThreeColors_green_yellow_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ThreeColors_red_white_blue_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ThreeColors_red_white_blue_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ThreeColors_red_white_green_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ThreeColors_red_white_green_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ThreeColors_red_yellow_green_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ThreeColors_red_yellow_green_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeCollapseBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeCollapseBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeCollapseDark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeCollapseDark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeCollapseMinus1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeCollapseMinus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeExpandDark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeExpandDark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeExpandPlus1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeExpandPlus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeExpandWhite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeExpandWhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreeMinusBox1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreeMinusBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TreePlusBox1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TreePlusBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_blue_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_blue_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_green_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_green_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_pink_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_pink_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_red_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_red_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_violet_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_violet_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_white_blue_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_white_blue_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_white_green_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_white_green_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_white_pink_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_white_pink_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_white_red_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_white_red_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_white_violet_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_white_violet_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_white_yellow_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_white_yellow_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TwoColors_yellow_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TwoColors_yellow_white_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="WhiteArrowDownButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhiteArrowDownButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -786,18 +648,6 @@
   </data>
   <data name="SelectParentControlFlipped" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SelectParentControlFlipped.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Vista_Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\VistaChecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Vista_Not_Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\VistaNotChecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="XP_Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\XPChecked.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="XP_Not_Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\XPNotChecked.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RBVisualStudio2017Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RBVisualStudio2017Checked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
