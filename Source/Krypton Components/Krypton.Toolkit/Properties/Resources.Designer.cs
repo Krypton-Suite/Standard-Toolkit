@@ -273,46 +273,6 @@ namespace Krypton.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GridRowIndicators {
-            get {
-                object obj = ResourceManager.GetObject("GridRowIndicators", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GridRowIndicators1 {
-            get {
-                object obj = ResourceManager.GetObject("GridRowIndicators1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GridSortOrder {
-            get {
-                object obj = ResourceManager.GetObject("GridSortOrder", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap GridSortOrder1 {
-            get {
-                object obj = ResourceManager.GetObject("GridSortOrder1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap MdiClose {
             get {
                 object obj = ResourceManager.GetObject("MdiClose", resourceCulture);

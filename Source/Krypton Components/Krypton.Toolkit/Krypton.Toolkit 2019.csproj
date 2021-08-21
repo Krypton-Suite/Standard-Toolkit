@@ -213,6 +213,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>DropDownArrowImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\GridImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GridImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\MessageBoxResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -537,6 +542,10 @@
         <EmbeddedResource Update="Resources\DropDownArrowImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>DropDownArrowImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GridImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GridImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\MessageBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>

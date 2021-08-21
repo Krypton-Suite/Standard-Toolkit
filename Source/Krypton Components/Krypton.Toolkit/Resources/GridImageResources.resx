@@ -118,64 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="2010ButtonCloseBlackNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonCloseBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="GridRowIndicators" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GridRowIndicators.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="2010ButtonCloseHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonCloseH.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonCloseNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMaxBlackNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMaxBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMaxNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMax.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMDIClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMDIClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMDICloseBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMDICloseBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMDIMax" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMDIMax.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMDIMaxBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMDIMaxBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMDIMin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMDIMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMDIMinBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMDIMinBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMDIRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMDIRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMDIRestoreBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMDIRestoreBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonMinBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonMinBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2010ButtonRestoreBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>2010ButtonRestoreBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office2010BlackMinimiseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010BlackMinimiseDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office2010BlueMinimiseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010BlueMinimiseDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office2010SilverMinimiseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010SilverMinimiseDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="GridSortOrder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GridSortOrder.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

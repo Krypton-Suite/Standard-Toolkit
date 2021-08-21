@@ -245,7 +245,6 @@ namespace Krypton.Toolkit
             private readonly Button buttonMoveDown;
             private readonly Button buttonAddItem;
             private readonly Button buttonDelete;
-            // TODO: Can this be a KryptonPropertyGrid?
             private readonly /*PropertyGrid*/ KryptonPropertyGrid propertyGrid1;
             private readonly Label label1;
             private readonly Label label2;

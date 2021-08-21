@@ -148,9 +148,6 @@
   <data name="BlueDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlueDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GridSortOrder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GridSortOrder.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ProfessionalPendantRestoreI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantRestoreI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -165,9 +162,6 @@
   </data>
   <data name="ProfessionalArrowRightButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowRightButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GridRowIndicators" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GridRowIndicators.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MdiMin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -366,12 +360,6 @@
   </data>
   <data name="GallerySilverBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GallerySilverBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GridRowIndicators1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GridRowIndicators.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GridSortOrder1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GridSortOrder.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MdiClose1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MdiClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

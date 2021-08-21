@@ -229,5 +229,35 @@ namespace Krypton.Toolkit.Resources {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackMinimiseDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackMinimiseDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMinimiseDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMinimiseDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMinimiseDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMinimiseDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
