@@ -24,7 +24,7 @@ using System.Security.Permissions;
 
 namespace Krypton.Toolkit
 {
-    internal class PI
+    internal partial class PI
     {
         #region statics
 
@@ -61,6 +61,20 @@ namespace Krypton.Toolkit
         internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld=false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
 
         #region Constants
+        /// <summary>
+        ///  Blittable version of Windows BOOL type. It is convenient in situations where
+        ///  manual marshalling is required, or to avoid overhead of regular bool marshalling.
+        /// </summary>
+        /// <remarks>
+        ///  Some Windows APIs return arbitrary integer values although the return type is defined
+        ///  as BOOL. It is best to never compare BOOL to TRUE. Always use bResult != BOOL.FALSE
+        ///  or bResult == BOOL.FALSE .
+        /// </remarks>
+        internal enum BOOL : int
+        {
+            FALSE = 0,
+            TRUE = 1,
+        }
 
         #region ScrollBar
 
@@ -1097,10 +1111,6 @@ namespace Krypton.Toolkit
             // </summary>
             QUERYOPEN = 0x0013,
             // <summary>
-            // The WM_ENDSESSION message is sent to an application after the system processes the results of the WM_QUERYENDSESSION message. The WM_ENDSESSION message informs the application whether the session is ending.
-            // </summary>
-            ENDSESSION = 0x0016,
-            // <summary>
             // The WM_QUIT message indicates a request to terminate an application and is generated when the application calls the PostQuitMessage function. It causes the GetMessage function to return zero.
             // </summary>
             QUIT = 0x0012,
@@ -1112,6 +1122,10 @@ namespace Krypton.Toolkit
             // This message is sent to all top-level windows when a change is made to a system color setting.
             // </summary>
             SYSCOLORCHANGE = 0x0015,
+            // <summary>
+            // The WM_ENDSESSION message is sent to an application after the system processes the results of the WM_QUERYENDSESSION message. The WM_ENDSESSION message informs the application whether the session is ending.
+            // </summary>
+            ENDSESSION = 0x0016,
             // <summary>
             // The WM_SHOWWINDOW message is sent to a window when the window is about to be hidden or shown.
             // </summary>
@@ -2203,23 +2217,50 @@ namespace Krypton.Toolkit
         internal struct BS_
         {
             public const uint
-            AUTO3STATE = 0x6,   // Creates a button that is the same as a three-state check box, except that the box changes its state when the user selects it.The state cycles through checked, indeterminate, and cleared.AUTOCHECKBOX = 0x3,   // Creates a button that is the same as a check box, except that the check state automatically toggles between checked and cleared each time the user selects the check box.
-            AUTOCHECKBOX = 0x3,  // Creates a button that is the same as a check box, except that the check state automatically toggles between checked and cleared each time the user selects the check box.
-            AUTORADIOBUTTON = 0x9,   // Creates a button that is the same as a radio button, except that when the user selects it, the system automatically sets the button's check state to checked and automatically sets the check state for all other buttons in the same group to cleared.
-            LEFT = 0x100,   // +/-Left.Left-aligns the text.
             PUSHBUTTON = 0x0,   // Creates a push button that posts a WM_COMMAND message to the owner window when the user selects the button.
-            PUSHLIKE = 0x1000,   // Makes a checkbox or radio button look and act like a push button.The button looks raised when it isn't pushed or checked, and sunken when it is pushed or checked.
-            RIGHT = 0x200,   // +/-Right.Right-aligns the text.
-            RIGHTBUTTON = 0x20,   // + Right (i.e. +Right includes both BS_RIGHT and BS_RIGHTBUTTON, but -Right removes only BS_RIGHT, not BS_RIGHTBUTTON). Positions a checkbox square or radio button circle on the right side of the control's available width instead of the left.
-            BOTTOM = 0x800,   // Places the text at the bottom of the control's available height.
-            CENTER = 0x300,   // +/-Center.Centers the text horizontally within the control's available width.
             DEFPUSHBUTTON = 0x1,   // +/-Default.Creates a push button with a heavy black border.If the button is in a dialog box, the user can select the button by pressing Enter, even when the button does not have the input focus.This style is useful for enabling the user to quickly select the most likely option.
+            CHECKBOX = 0x2, // Creates a small, empty check box with text.By default, the text is displayed to the right of the check box.To display the text to the left of the check box, combine this flag with the BS_LEFTTEXT style (or with the equivalent BS_RIGHTBUTTON style).
+            AUTOCHECKBOX = 0x3,  // Creates a button that is the same as a check box, except that the check state automatically toggles between checked and cleared each time the user selects the check box.
+            RADIOBUTTON = 0x4, // Creates a small circle with text. By default, the text is displayed to the right of the circle. To display the text to the left of the circle, combine this flag with the BS_LEFTTEXT style (or with the equivalent BS_RIGHTBUTTON style). Use radio buttons for groups of related, but mutually exclusive choices.
+            _3STATE = 0x5,      // Creates a button that is the same as a check box, except that the box can be grayed as well as checked or cleared. Use the grayed state to show that the state of the check box is not determined.
+            AUTO3STATE = 0x6,   // Creates a button that is the same as a three-state check box, except that the box changes its state when the user selects it.The state cycles through checked, indeterminate, and cleared.AUTOCHECKBOX = 0x3,   // Creates a button that is the same as a check box, except that the check state automatically toggles between checked and cleared each time the user selects the check box.
+            GROUPBOX = 0x7,   // Creates a rectangle in which other controls can be grouped. Any text associated with this style is displayed in the rectangle's upper left corner.
+            USERBUTTON = 0x8, // Obsolete, but provided for compatibility with 16-bit versions of Windows. Applications should use BS_OWNERDRAW instead.
+            AUTORADIOBUTTON = 0x9,   // Creates a button that is the same as a radio button, except that when the user selects it, the system automatically sets the button's check state to checked and automatically sets the check state for all other buttons in the same group to cleared.
+            // PUSHBOX = 0xA
+            OWNERDRAW = 0xB, // Creates an owner-drawn button. The owner window receives a WM_DRAWITEM message when a visual aspect of the button has changed. Do not combine the BS_OWNERDRAW style with any other button styles.
+            TYPEMASK = 0xF, // Do not use this style. A composite style bit that results from using the OR operator on BS_* style bits. It can be used to mask out valid BS_* bits from a given bitmask. Note that this is out of date and does not correctly include all valid styles. Thus, you should not use this style.
+            LEFTTEXT = 0x20, // Places text on the left side of the radio button or check box when combined with a radio button or check box style. Same as the BS_RIGHTBUTTON style.
+            RIGHTBUTTON = 0x20,   // + Right (i.e. +Right includes both BS_RIGHT and BS_RIGHTBUTTON, but -Right removes only BS_RIGHT, not BS_RIGHTBUTTON). Positions a checkbox square or radio button circle on the right side of the control's available width instead of the left.
+
+            TEXT = 0x0, // Specifies that the button displays text.
+            ICON = 0x40, // Specifies that the button displays an icon. See the Remarks section for its interaction with BS_BITMAP.
+            BITMAP = 0x80,       // Specifies that the button displays a bitmap. See the Remarks section for its interaction with BS_ICON
+            LEFT = 0x100,   // +/-Left.Left-aligns the text.
+            RIGHT = 0x200,   // +/-Right.Right-aligns the text.
+            CENTER = 0x300,   // +/-Center.Centers the text horizontally within the control's available width.
+            TOP = 0x400,   // Places text at the top of the control's available height.
+            BOTTOM = 0x800,   // Places the text at the bottom of the control's available height.
+            VCENTER = 0xC00,   // Vertically centers text in the control's available height.
+
+            PUSHLIKE = 0x1000,   // Makes a checkbox or radio button look and act like a push button.The button looks raised when it isn't pushed or checked, and sunken when it is pushed or checked.
             MULTILINE = 0x2000,   // +/-Wrap.Wraps the text to multiple lines if the text is too long to fit on a single line in the control's available width. This also allows linefeed (`n) to start new lines of text.
             NOTIFY = 0x4000,   // Enables a button to send BN_KILLFOCUS and BN_SETFOCUS notification codes to its parent window. Note that buttons send the BN_CLICKED notification code regardless of whether it has this style.To get BN_DBLCLK notification codes, the button must have the BS_RADIOBUTTON or BS_OWNERDRAW style.
-            TOP = 0x400,   // Places text at the top of the control's available height.
-            VCENTER = 0xC00,   // Vertically centers text in the control's available height.
-            FLAT = 0x8000,   // Specifies that the button is two-dimensional; it does not use the default shading to create a 3-D effect.
-            GROUPBOX = 0x7;   // Creates a rectangle in which other controls can be grouped. Any text associated with this style is displayed in the rectangle's upper left corner.
+            FLAT = 0x8000;   // Specifies that the button is two-dimensional; it does not use the default shading to create a 3-D effect.
+
+            /*
+COMMANDLINK = 0x0, // Creates a command link button that behaves like a BS_PUSHBUTTON style button, but the command link button has a green arrow on the left pointing to the button text. A caption for the button text can be set by sending the BCM_SETNOTE message to the button.
+DEFCOMMANDLINK = 0x0, // Creates a command link button that behaves like a BS_PUSHBUTTON style button. If the button is in a dialog box, the user can select the command link button by pressing the ENTER key, even when the command link button does not have the input focus. This style is useful for enabling the user to quickly select the most likely (default) option.
+DEFSPLITBUTTON = 0x0, // Creates a split button that behaves like a BS_PUSHBUTTON style button, but also has a distinctive appearance. If the split button is in a dialog box, the user can select the split button by pressing the ENTER key, even when the split button does not have the input focus. This style is useful for enabling the user to quickly select the most likely (default) option.
+NOTIFY = 0x0, // Enables a button to send BN_KILLFOCUS and BN_SETFOCUS notification codes to its parent window.
+                //Note that buttons send the BN_CLICKED notification code regardless of whether it has this style. To get BN_DBLCLK notification codes, the button must have the BS_RADIOBUTTON or BS_OWNERDRAW style.
+SPLITBUTTON = 0x0, // Creates a split button. A split button has a drop down arrow.
+BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
+    Yes 	                Yes 	                Show icon only.
+    No 	                    Yes 	                Show icon and text.
+    Yes 	                No 	                    Show text only.
+    No 	                    No 	                    Show text only
+            */
         }
 
         /// <summary>
@@ -2393,6 +2434,7 @@ namespace Krypton.Toolkit
         internal const byte AC_SRC_ALPHA = 0x01;
         internal const int EM_SETCUEBANNER = 0x1501;
         internal const int CB_SETCUEBANNER = 0x1703;
+        internal const int EN_CHANGE = 0x0300;
         #endregion
 
         #region Static Methods
@@ -3373,7 +3415,37 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Kernel32
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        [Flags]
+        public enum GMEM : uint
+        {
+            FIXED = 0x0000,
+            MOVEABLE = 0x0002,
+            NOCOMPACT = 0x0010,
+            NODISCARD = 0x0020,
+            ZEROINIT = 0x0040,
+            MODIFY = 0x0080,
+            DISCARDABLE = 0x0100,
+            NOT_BANKED = 0x1000,
+            SHARE = 0x2000,
+            DDESHARE = 0x2000,
+            NOTIFY = 0x4000,
+            LOWER = NOT_BANKED,
+            DISCARDED = 0x4000,
+            LOCKCOUNT = 0x00ff,
+            INVALID_HANDLE = 0x8000,
+
+            GHND = MOVEABLE | ZEROINIT,
+            GPTR = FIXED | ZEROINIT
+        }
+        [DllImport(@"kernel32.dll", CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr GlobalAlloc(GMEM uFlags, int dwBytes);
+
+        [DllImport(@"kernel32.dll", ExactSpelling = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr GlobalFree(IntPtr hMem);
+
+        [DllImport(@"kernel32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetModuleHandle(string modName);
 
@@ -3396,7 +3468,18 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Comdlg32
-        [DllImport("comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public enum FNERR : uint
+        {
+            SUBCLASSFAILURE = 0x3001,
+            INVALIDFILENAME = 0x3002,
+            BUFFERTOOSMALL = 0x3003
+        }
+
+        [DllImport(@"comdlg32.dll", ExactSpelling = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        public static extern FNERR CommDlgExtendedError();
+
+        [DllImport(@"comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern bool ChooseFont([In, Out] PI.CHOOSEFONT cf);
 
@@ -3791,7 +3874,14 @@ namespace Krypton.Toolkit
         }
         #endregion
     }
+    internal static class BoolExtensions
+    {
+        public static bool IsTrue(this PI.BOOL b) => b != PI.BOOL.FALSE;
+        public static bool IsFalse(this PI.BOOL b) => b == PI.BOOL.FALSE;
+        public static PI.BOOL ToBOOL(this bool b) => b ? PI.BOOL.TRUE : PI.BOOL.FALSE;
+    }
 }
+
 
 #if NET35 || NET40
 namespace System.Runtime.InteropServices
