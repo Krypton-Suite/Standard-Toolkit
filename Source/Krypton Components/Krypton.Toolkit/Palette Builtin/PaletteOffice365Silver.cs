@@ -24,12 +24,17 @@ namespace Krypton.Toolkit
         private static readonly Image[] _radioButtonArray;
         private static readonly Image _silverDropDownButton = Office2010Arrows._2010BlueDropDownButton;
         private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlueContextMenuSub;
-        private static readonly Image _formCloseHover = Office2010ControlBoxResources._2010ButtonCloseHover;
-        private static readonly Image _formClose = Office2010ControlBoxResources._2010ButtonCloseNormal;
-        private static readonly Image _formMaximum = Office2010ControlBoxResources._2010ButtonMaxNormal;
-        private static readonly Image _formMinimum = Office2010ControlBoxResources._2010ButtonMin;
-        private static readonly Image _formRestore = Office2010ControlBoxResources._2010ButtonRestore;
-        private static readonly Image _formHelp = HelpIconResources.Office365HelpIconSilver;
+        private static readonly Image _formCloseNormal = Office2010ControlBoxResources._2010ButtonCloseHover;
+        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources._2010ButtonCloseNormal;
+        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
+        private static readonly Image _formMaximiseDisabled = null;
+        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources._2010ButtonMin;
+        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled;
+        private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
+        private static readonly Image _formRestoreDisabled = null;
+        private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice365HelpIconSilver;
+        private static readonly Image _formHelpHover = HelpIconResources.GenericOffice365HelpIconHover;
+        private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice365HelpIconDisabled;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(170, 170, 170),      // Tick marks
                                                                         Color.FromArgb(166, 170, 175),      // Top track
                                                                         Color.FromArgb(226, 220, 235),      // Bottom track
@@ -339,13 +344,22 @@ namespace Krypton.Toolkit
             {
                 PaletteButtonSpecStyle.FormClose => state switch
                 {
-                    PaletteState.Tracking or PaletteState.Pressed => _formCloseHover,
-                    _ => _formClose
+                    PaletteState.Tracking or PaletteState.Pressed => _formCloseNormal,
+                    _ => _formCloseDisabled
                 },
-                PaletteButtonSpecStyle.FormMin => _formMinimum,
-                PaletteButtonSpecStyle.FormMax => _formMaximum,
-                PaletteButtonSpecStyle.FormRestore => _formRestore,
-                PaletteButtonSpecStyle.FormHelp => _formHelp,
+                PaletteButtonSpecStyle.FormMin => state switch
+                {
+                    PaletteState.Tracking or PaletteState.Pressed => _formMinimiseNormal,
+                    _ => _formMinimiseDisabled
+                },
+                PaletteButtonSpecStyle.FormMax => _formMaximiseNormal,
+                PaletteButtonSpecStyle.FormRestore => _formRestoreNormal,
+                PaletteButtonSpecStyle.FormHelp => state switch
+                {
+                    PaletteState.Tracking => _formHelpHover,
+                    PaletteState.Normal => _formHelpNormal,
+                    _ => _formHelpDisabled
+                },
                 _ => base.GetButtonSpecImage(style, state)
             };
         }

@@ -119,72 +119,66 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="GenericOffice2010HelpIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericOffice2010HelpIcon.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericOffice2010HelpIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GenericOffice2010HelpIconBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GenericOffice2010HelpIconBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GenericOffice2010HelpIconBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GenericOffice2010HelpIconBlue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericOffice2010HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericOffice2010HelpIconDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericOffice2010HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericOffice2010HelpIconHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericOffice2010HelpIconHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericOffice2010HelpIconHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GenericOffice2010HelpIconSilver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GenericOffice2010HelpIconSilver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GenericOffice2010HelpIconWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GenericOffice2010HelpIconWhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericOffice365HelpIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericOffice365HelpIcon.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericOffice365HelpIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GenericOffice365HelpIconBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GenericOffice365HelpIconBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GenericOffice365HelpIconBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GenericOffice365HelpIconBlue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericOffice365HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericOffice365HelpIconDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericOffice365HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericOffice365HelpIconHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericOffice365HelpIconHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericOffice365HelpIconHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GenericOffice365HelpIconSilver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GenericOffice365HelpIconSilver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GenericOffice365HelpIconWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GenericOffice365HelpIconWhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericPre2010HelpIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericPre2010HelpIcon.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericPre2010HelpIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericPre2010HelpIconBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericPre2010HelpIconBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericPre2010HelpIconBlack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericPre2010HelpIconBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericPre2010HelpIconBlue.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericPre2010HelpIconBlue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericPre2010HelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericPre2010HelpIconDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericPre2010HelpIconDisabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericPre2010HelpIconHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericPre2010HelpIconHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericPre2010HelpIconHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericPre2010HelpIconSilver" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericPre2010HelpIconSilver.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericPre2010HelpIconSilver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericPre2010HelpIconWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericPre2010HelpIconWhite.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GenericSparkleHelpIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericSparkleHelpIcon.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GenericSparkleHelpIconDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GenericSparkleHelpIconDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office2010HelpIconBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office2010HelpIconBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconBlue.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office2010HelpIconSilver" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconSilver.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office2010HelpIconWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2010HelpIconWhite.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office365HelpIconBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office365HelpIconBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office365HelpIconBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office365HelpIconBlue.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office365HelpIconSilver" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office365HelpIconSilver.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Office365HelpIconWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office365HelpIconWhite.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>GenericPre2010HelpIconWhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
