@@ -13,7 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonBreadCrumbItemsEditor : CollectionEditor
+    internal class KryptonBreadCrumbItemsEditor : CollectionEditor // TODO: Can the `CollectionEditor` be 'Kryptonised'?
     {
         #region Classes
         /// <summary>
