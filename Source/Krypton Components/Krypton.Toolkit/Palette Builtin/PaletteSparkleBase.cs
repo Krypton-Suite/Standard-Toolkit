@@ -89,8 +89,9 @@ namespace Krypton.Toolkit
         private static readonly Image _sparkleMinI = SparkleControlBoxResources.SparkleButtonMinDisabled;
         private static readonly Image _sparkleRestoreA = SparkleControlBoxResources.SparkleButtonRestoreNormal;
         private static readonly Image _sparkleRestoreI = SparkleControlBoxResources.SparkleButtonRestoreDisabled;
-        private static readonly Image _sparkleHelpA = HelpIconResources.GenericSparkleHelpIcon;
-        private static readonly Image _sparkleHelpI = HelpIconResources.GenericSparkleHelpIconDisabled;
+        private static readonly Image _sparkleHelpA = HelpIconResources.GenericOffice2010HelpIcon;
+        private static readonly Image _sparkleHelpHover = HelpIconResources.GenericOffice2010HelpIconHover; // TODO: Use this!!!
+        private static readonly Image _sparkleHelpI = HelpIconResources.GenericOffice2010HelpIconDisabled;
         private static readonly Image _contextMenuChecked = Properties.Resources.SparkleGrayChecked;
         private static readonly Image _contextMenuIndeterminate = SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
         private static readonly Image _contextMenuSubMenu = Properties.Resources.BlackContextMenuSub;
