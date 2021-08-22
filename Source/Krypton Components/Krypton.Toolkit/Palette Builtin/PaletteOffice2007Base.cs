@@ -70,13 +70,13 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecDropDown = Properties.Resources.ProfessionalDropDownButton;
         private static readonly Image _buttonSpecPinVertical = Properties.Resources.ProfessionalPinVerticalButton;
         private static readonly Image _buttonSpecPinHorizontal = Properties.Resources.ProfessionalPinHorizontalButton;
-        private static readonly Image _buttonSpecPendantClose = Properties.Resources.MdiClose;
-        private static readonly Image _buttonSpecPendantMin = Properties.Resources.MdiMin;
-        private static readonly Image _buttonSpecPendantRestore = Properties.Resources.MdiRestore;
+        private static readonly Image _buttonSpecPendantClose = MDIImageResources.MdiClose;
+        private static readonly Image _buttonSpecPendantMin = MDIImageResources.MdiMin;
+        private static readonly Image _buttonSpecPendantRestore = MDIImageResources.MdiRestore;
         private static readonly Image _buttonSpecWorkspaceMaximize = Properties.Resources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = Properties.Resources.ProfessionalRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.MdiRibbonMinimize;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.MdiRibbonExpand;
+        private static readonly Image _buttonSpecRibbonMinimize = MDIImageResources.MdiRibbonMinimize;
+        private static readonly Image _buttonSpecRibbonExpand = MDIImageResources.MdiRibbonExpand;
         private static readonly Image _contextMenuChecked = Properties.Resources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = Properties.Resources.Office2007Indeterminate;
 

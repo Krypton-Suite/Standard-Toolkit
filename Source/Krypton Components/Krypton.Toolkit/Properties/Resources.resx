@@ -121,17 +121,11 @@
   <data name="SystemContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SystemContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MdiRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MdiRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SilverDropDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SilverDropDownButton.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalArrowDownButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowDownButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MdiClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MdiClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalPendantRestoreA" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantRestoreA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -162,9 +156,6 @@
   </data>
   <data name="ProfessionalArrowRightButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalArrowRightButton.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MdiMin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MdiMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ProfessionalPendantMinA" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantMinA.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -201,12 +192,6 @@
   </data>
   <data name="ProfessionalPendantCloseI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantCloseI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GalleryBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GalleryBlue.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GallerySilverBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GallerySilverBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="WhiteButtonClose" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhiteButtonClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -292,12 +277,6 @@
   <data name="WhiteRestore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhiteRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MdiRibbonExpand" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MdiRibbonExpand.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MdiRibbonMinimize" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MdiRibbonMinimize.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="WhitePendantRibbonExpand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhitePendantRibbonExpand.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -315,9 +294,6 @@
   </data>
   <data name="ProfessionalPendantMinimizeI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ProfessionalPendantMinimizeI.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Gallery2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Gallery2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BlackButtonCollapse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BlackButtonCollapse.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -351,30 +327,6 @@
   </data>
   <data name="fit_to_size" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fit_to_size.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Gallery20101" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Gallery2010.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GalleryBlue1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GalleryBlue.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GallerySilverBlack1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GallerySilverBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MdiClose1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MdiClose.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MdiMin1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MdiMin.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MdiRestore1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MdiRestore.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MdiRibbonExpand1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MdiRibbonExpand.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MdiRibbonMinimize1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MdiRibbonMinimize.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MoveFirst" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MoveFirst.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

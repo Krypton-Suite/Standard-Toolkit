@@ -218,6 +218,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>GridImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\MDIImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>MDIImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\MessageBoxResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -546,6 +551,10 @@
         <EmbeddedResource Update="Resources\GridImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>GridImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\MDIImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>MDIImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\MessageBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
