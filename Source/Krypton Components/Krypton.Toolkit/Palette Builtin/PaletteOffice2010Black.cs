@@ -26,10 +26,15 @@ namespace Krypton.Toolkit
         private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlackContextMenuSub;
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources._2010ButtonCloseHover;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources._2010ButtonCloseBlackNormal;
-        private static readonly Image _formMaximumNormal = Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
-        private static readonly Image _formMinimumNormal = Office2010ControlBoxResources._2010ButtonMinBlack;
+        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
+        private static readonly Image _formMaximiseDisabled = null;
+        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources._2010ButtonMinBlack;
+        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
-        private static readonly Image _formHelpNormal = HelpIconResources.Office2010HelpIconBlack;
+        private static readonly Image _formRestoreDisabled = null;
+        private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice2010HelpIconBlack;
+        private static readonly Image _formHelpHover = HelpIconResources.GenericOffice2010HelpIconHover;
+        private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice2010HelpIconDisabled;
         private static readonly Image _buttonSpecPendantClose = Office2010ControlBoxResources._2010ButtonMDICloseBlack;
         private static readonly Image _buttonSpecPendantMin = Office2010ControlBoxResources._2010ButtonMDIMinBlack;
         private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
@@ -612,10 +617,19 @@ namespace Krypton.Toolkit
                     PaletteState.Tracking or PaletteState.Pressed => _formCloseNormal,
                     _ => _formCloseDisabled
                 },
-                PaletteButtonSpecStyle.FormMin => _formMinimumNormal,
-                PaletteButtonSpecStyle.FormMax => _formMaximumNormal,
+                PaletteButtonSpecStyle.FormMin => state switch
+                {
+                    PaletteState.Tracking or PaletteState.Pressed => _formMinimiseNormal,
+                    _ => _formMinimiseDisabled
+                },
+                PaletteButtonSpecStyle.FormMax => _formMaximiseNormal,
                 PaletteButtonSpecStyle.FormRestore => _formRestoreNormal,
-                PaletteButtonSpecStyle.FormHelp => _formHelpNormal,
+                PaletteButtonSpecStyle.FormHelp => state switch
+                {
+                   PaletteState.Tracking => _formHelpHover,
+                   PaletteState.Normal => _formHelpNormal,
+                   _ => _formHelpDisabled
+                },
                 PaletteButtonSpecStyle.RibbonMinimize => _buttonSpecRibbonMinimize,
                 PaletteButtonSpecStyle.RibbonExpand => _buttonSpecRibbonExpand,
                 _ => base.GetButtonSpecImage(style, state)

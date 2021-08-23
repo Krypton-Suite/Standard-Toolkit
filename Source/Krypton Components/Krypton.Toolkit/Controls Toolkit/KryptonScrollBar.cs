@@ -201,12 +201,11 @@ namespace Krypton.Toolkit
                 }
 
                 _minimum = value;
-
-                // TODO: CS1718: What is being attempted here ? value < value ??
+                
                 // current value less than new minimum value - adjust
-                if (value < value)
+                if (_minimum < value)
                 {
-                    value = value;
+                    _minimum = value;
                 }
 
                 // is current large change value invalid - adjust
@@ -217,11 +216,10 @@ namespace Krypton.Toolkit
 
                 SetUpScrollBar();
 
-                // TODO: CS1718: What is being attempted here ? value < value ??
                 // current value less than new minimum value - adjust
-                if (value < value)
+                if (_value < value)
                 {
-                    Value = value;
+                    _value = value;
                 }
                 else
                 {
@@ -260,12 +258,11 @@ namespace Krypton.Toolkit
                 }
 
                 SetUpScrollBar();
-
-                // TODO: CS1718: What is being attempted here ? value < value ??
+                
                 // is current value greater than new maximum value - adjust
-                if (value > value)
+                if (_value > value)
                 {
-                    Value = _maximum;
+                    _value = _maximum;
                 }
                 else
                 {
@@ -346,14 +343,12 @@ namespace Krypton.Toolkit
 
             set
             {
-                // TODO: CS1718: What is being attempted here ? value < value ??
                 // no change or invalid value - return
                 if (_value == value || _value < _minimum || _value > _maximum)
                 {
                     return;
                 }
 
-                // TODO: CS1718: What is being attempted here ? value < value ??
                 _value = value;
 
                 // adjust thumb position
@@ -371,7 +366,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Gets or sets the border color.")]
-        //[DefaultValue(typeof(Color), "93, 140, 201")]
+        [DefaultValue(typeof(Color), "Color.FromARGB(93, 140, 201)")]
         public Color BorderColor
         {
             get => _borderColor;
@@ -389,7 +384,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Gets or sets the border color in disabled state.")]
-        //[DefaultValue(typeof(Color), "Gray")]
+        [DefaultValue(typeof(Color), "Color.Gray")]
         public Color DisabledBorderColor
         {
             get => _disabledBorderColor;
@@ -407,7 +402,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Gets or sets the opacity of the context menu (from 0 - 1).")]
-        //[DefaultValue(typeof(double), "1")]
+        [DefaultValue(1)]
         public double Opacity
         {
             get => _contextMenu.Opacity;

@@ -21,6 +21,7 @@
     - As the "Designers" use text based references, then only need to include dlls derived from  `ParentControlDesigner`
     - Resolves [Bug]: **Many** Items cannot be Dragged and dropped onto a Form in Designer
 * Fixed [#64](https://github.com/Krypton-Suite/Standard-Toolkit/issues/64), `KryptonContextMenu` Designer has layout issues
+* Fixed [#51](https://github.com/Krypton-Suite/Standard-Toolkit/issues/51), Minimize icon in form titlebar is not disabled
 * Remove the `Typeof` in the designer attributes and use text to prevent "Pre-Loading" of the wrong `System.Designer.dll` in Multi-Target projects
 * Sort out the reference assemblies information to ensure correct loading of controls in designer
 * Remove references to V2.0.0.0 of the System.Design when using the `MultilineStringEditor`

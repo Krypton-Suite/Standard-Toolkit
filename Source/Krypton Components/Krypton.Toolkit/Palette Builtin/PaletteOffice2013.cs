@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         private static readonly Image _formMaximum = Office2010ControlBoxResources._2010ButtonMaxNormal;
         private static readonly Image _formMin = Office2010ControlBoxResources._2010ButtonMin;
         private static readonly Image _formRestore = Office2010ControlBoxResources._2010ButtonRestore;
-        private static readonly Image _formHelp = HelpIconResources.Office365HelpIconWhite;
+        private static readonly Image _formHelp = HelpIconResources.GenericOffice365HelpIconWhite;
         private static readonly Color[] _trackBarColors = new Color[] { Color.FromArgb(170, 170, 170),      // Tick marks
                                                                         Color.FromArgb(166, 170, 175),      // Top track
                                                                         Color.FromArgb(226, 220, 235),      // Bottom track
@@ -281,7 +281,7 @@ namespace Krypton.Toolkit
                 ColorDepth = ColorDepth.Depth24Bit,
                 TransparentColor = Color.Magenta
             };
-            _galleryButtonList.Images.AddStrip(Properties.Resources.Gallery2010);
+            _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
             _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD,
                 Office2010SilverRadioButtonResources.RadioButton2010SilverN,
                 Office2010BlueRadioButtonResources.RadioButton2010BlueT,
