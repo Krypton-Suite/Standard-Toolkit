@@ -71,15 +71,15 @@ namespace Krypton.Toolkit
             _extraText = string.Empty;
             _image = null;
             _imageTransparentColor = Color.Empty;
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             _autoClose = true;
             
             // Create the redirectors
-            _stateNormalRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalControl);
-            _stateVisitedRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalControl);
-            _stateNotVisitedRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalControl);
-            _statePressedRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalControl);
-            _stateFocusRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalControl);
+            _stateNormalRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
+            _stateVisitedRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
+            _stateNotVisitedRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
+            _statePressedRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
+            _stateFocusRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
 
             // Create the states
             StateNormal = new PaletteContent(_stateNormalRedirect);
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Link label style.")]
-        //[DefaultValue(typeof(LabelStyle), "NormalControl")]
+        //[DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _style;

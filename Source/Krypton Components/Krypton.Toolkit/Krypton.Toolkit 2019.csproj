@@ -72,6 +72,9 @@
         <Compile Update="Controls Toolkit\KryptonColorDialog.cs">
           <SubType>Component</SubType>
         </Compile>
+        <Compile Update="Controls Toolkit\KryptonPrintDialog.cs">
+          <SubType>Component</SubType>
+        </Compile>
         <Compile Update="Designers\Other\PaletteDrawBordersSelector.cs">
             <SubType>UserControl</SubType>
         </Compile>

@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonDataGridViewLinkCell()
         {
-            _labelStyle = LabelStyle.NormalControl;
+            _labelStyle = LabelStyle.NormalPanel;
             base.LinkBehavior = LinkBehavior.AlwaysUnderline;
         }
         #endregion
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a display style for drawing link cell.
         /// </summary>
         [Category("Appearance")]
-        //[DefaultValue(typeof(LabelStyle), "NormalControl")]
+        //[DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _labelStyle;
@@ -342,7 +342,7 @@ namespace Krypton.Toolkit
             if (_viewLabel == null)
             {
                 // Create helper object to get all values from the DGV redirector
-                _palette = new PaletteContentToPalette(kDGV.Redirector, PaletteContentStyle.LabelNormalControl);
+                _palette = new PaletteContentToPalette(kDGV.Redirector, PaletteContentStyle.LabelNormalPanel);
                 _inheritBehavior = new LinkLabelBehaviorInherit(_palette, KryptonLinkBehavior.AlwaysUnderline);
                 _overrideVisited = new PaletteContentInheritOverride(_palette, _inheritBehavior, PaletteState.LinkNotVisitedOverride, true);
                 _overridePressed = new PaletteContentInheritOverride(_palette, _overrideVisited, PaletteState.LinkPressedOverride, false);

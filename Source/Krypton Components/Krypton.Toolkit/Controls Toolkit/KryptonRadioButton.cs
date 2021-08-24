@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
                      ControlStyles.StandardDoubleClick, false);
 
             // Set default properties
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             _orientation = VisualOrientation.Top;
             _checkPosition = VisualOrientation.Left;
             _checked = false;
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             Images = new RadioButtonImages(NeedPaintDelegate);
 
             // Create palette redirector
-            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalControl);
+            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
             _paletteRadioButtonImages = new PaletteRedirectRadioButton(Redirector, Images);
 
             // Create the palette provider
@@ -300,12 +300,12 @@ namespace Krypton.Toolkit
 
         private void ResetLabelStyle()
         {
-            LabelStyle = LabelStyle.NormalControl;
+            LabelStyle = LabelStyle.NormalPanel;
         }
 
         private bool ShouldSerializeLabelStyle()
         {
-            return (LabelStyle != LabelStyle.NormalControl);
+            return (LabelStyle != LabelStyle.NormalPanel);
         }
 
         /// <summary>

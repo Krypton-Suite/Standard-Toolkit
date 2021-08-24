@@ -21,8 +21,10 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonColorDialog()
         {
-            _commonDialogHandler = new CommonDialogHandler(true);
-            _commonDialogHandler.ClickCallback = ClickCallback;
+            _commonDialogHandler = new CommonDialogHandler(true)
+            {
+                ClickCallback = ClickCallback
+            };
         }
 
         private void ClickCallback(CommonDialogHandler.Attributes originalControl)
