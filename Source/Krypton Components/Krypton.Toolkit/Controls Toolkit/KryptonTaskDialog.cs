@@ -514,18 +514,16 @@ namespace Krypton.Toolkit
                                         TaskDialogButtons commonButtons)
         {
             // Create a temporary task dialog for storing definition whilst showing
-            using (KryptonTaskDialog taskDialog = new())
-            {
-                // Store incoming values
-                taskDialog.WindowTitle = windowTitle;
-                taskDialog.MainInstruction = mainInstruction;
-                taskDialog.Content = content;
-                taskDialog.Icon = icon;
-                taskDialog.CommonButtons = commonButtons;
+            using KryptonTaskDialog taskDialog = new();
+            // Store incoming values
+            taskDialog.WindowTitle = windowTitle;
+            taskDialog.MainInstruction = mainInstruction;
+            taskDialog.Content = content;
+            taskDialog.Icon = icon;
+            taskDialog.CommonButtons = commonButtons;
 
-                // Show as a modal dialog
-                return taskDialog.ShowDialog();
-            }
+            // Show as a modal dialog
+            return taskDialog.ShowDialog();
         }
         #endregion
 

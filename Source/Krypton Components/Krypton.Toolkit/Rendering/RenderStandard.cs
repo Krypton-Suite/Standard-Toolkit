@@ -5862,7 +5862,7 @@ namespace Krypton.Toolkit
                 Size requiredSpace = memento.ShortTextMemento.Size;
 
                 // Find the space available given our required alignment
-                var noClipIsSet = MissingFrameWorkAPIs.HasFlag(memento.ShortTextMemento.Format.FormatFlags, StringFormatFlags.NoClip);
+                var noClipIsSet = memento.ShortTextMemento.Format.FormatFlags.HasFlag(StringFormatFlags.NoClip);
                 if (AllocateAlignmentSpace(alignHIndex, alignVIndex,
                                            allocation, displayRect,
                                            spacingGap, memento.ShortTextTrimming,
@@ -5947,7 +5947,8 @@ namespace Krypton.Toolkit
                 Size requiredSpace = memento.LongTextMemento.Size;
 
                 // Find the space available given our required alignment
-                var noClipIsSet = (memento.ShortTextMemento == null) || MissingFrameWorkAPIs.HasFlag(memento.ShortTextMemento.Format.FormatFlags, StringFormatFlags.NoClip);
+                var noClipIsSet = (memento.ShortTextMemento == null) 
+                                  || memento.ShortTextMemento.Format.FormatFlags.HasFlag(StringFormatFlags.NoClip);
                 if (AllocateAlignmentSpace(alignHIndex, alignVIndex,
                                            allocation, displayRect,
                                            spacingGap, memento.LongTextTrimming,

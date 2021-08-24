@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private static string InternalShow(IWin32Window owner,
+        private static string InternalShow(IWin32Window? owner,
                                            string prompt,
                                            string caption,
                                            string defaultResponse,
@@ -202,24 +202,17 @@ namespace Krypton.Toolkit
                                            Font? cueTypeface,
                                            bool? usePasswordOption)
         {
-            IWin32Window showOwner;
-
             // If do not have an owner passed in then get the active window and use that instead
-            if (owner == null)
-                showOwner = FromHandle(PI.GetActiveWindow());
-            else
-                showOwner = owner;
+            IWin32Window showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
             // Show input box window as a modal dialog and then dispose of it afterwards
-            using (KryptonInputBox ib = new(prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption))
-            {
-                if (showOwner == null)
-                    ib.StartPosition = FormStartPosition.CenterScreen;
-                else
-                    ib.StartPosition = FormStartPosition.CenterParent;
+            using KryptonInputBox ib = new(prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
+            if (showOwner == null)
+                ib.StartPosition = FormStartPosition.CenterScreen;
+            else
+                ib.StartPosition = FormStartPosition.CenterParent;
 
-                return ib.ShowDialog(showOwner) == DialogResult.OK ? ib.InputResponse : string.Empty;
-            }
+            return ib.ShowDialog(showOwner) == DialogResult.OK ? ib.InputResponse : string.Empty;
         }
 
         internal string InputResponse => _textBoxResponse.Text;
@@ -249,36 +242,33 @@ namespace Krypton.Toolkit
 
         private void UpdateSizing()
         {
-            Size buttonSize = UpdateButtonSizing();
-            Size promptSize = UpdatePromptSizing();
-            Size responseSize = UpdateResponseSizing();
+            UpdateButtonSizing();
+            UpdatePromptSizing();
+            UpdateResponseSizing();
             ClientSize = new Size(_buttonCancel.Right + GAP, _textBoxResponse.Bottom + GAP);
         }
 
-        private Size UpdatePromptSizing()
+        private void UpdatePromptSizing()
         {
             // Update size of the message label but with a maximum width
-            using (Graphics g = CreateGraphics())
-            {
-                // Find size of the label when it has a maximum length of 250, this tells us the height
-                // required to fully show the label with the prompt.
-                _labelPrompt.UpdateFont();
-                Size messageSize = g.MeasureString(_prompt, _labelPrompt.Font, 250).ToSize();
+            using Graphics g = CreateGraphics();
+            // Find size of the label when it has a maximum length of 250, this tells us the height
+            // required to fully show the label with the prompt.
+            _labelPrompt.UpdateFont();
+            Size messageSize = g.MeasureString(_prompt, _labelPrompt.Font, 250).ToSize();
 
-                // Work out DPI adjustment factor
-                float factorX = g.DpiX > 96 ? (1.0f * g.DpiX / 96) : 1.0f;
-                float factorY = g.DpiY > 96 ? (1.0f * g.DpiY / 96) : 1.0f;
-                messageSize.Width = (int)((float)messageSize.Width * factorX);
-                messageSize.Height = (int)((float)messageSize.Height * factorY);
+            // Work out DPI adjustment factor
+            float factorX = g.DpiX > 96 ? (1.0f * g.DpiX / 96) : 1.0f;
+            float factorY = g.DpiY > 96 ? (1.0f * g.DpiY / 96) : 1.0f;
+            messageSize.Width = (int)(messageSize.Width * factorX);
+            messageSize.Height = (int)(messageSize.Height * factorY);
 
-                _labelPrompt.Location = new Point(GAP, GAP);
-                _labelPrompt.Size = new Size(255, Math.Max(messageSize.Height, _buttonCancel.Bottom - _buttonOK.Top));
+            _labelPrompt.Location = new Point(GAP, GAP);
+            _labelPrompt.Size = new Size(255, Math.Max(messageSize.Height, _buttonCancel.Bottom - _buttonOK.Top));
 
-                return new Size(_labelPrompt.Right, _labelPrompt.Bottom);
-            }
         }
 
-        private Size UpdateButtonSizing()
+        private void UpdateButtonSizing()
         {
             Size buttonOKSize = _buttonOK.GetPreferredSize(Size.Empty);
             Size buttonCancelSize = _buttonCancel.GetPreferredSize(Size.Empty);
@@ -292,16 +282,13 @@ namespace Krypton.Toolkit
             _buttonOK.Location = new Point(_panelMessage.Right - _buttonOK.Width - GAP, GAP);
             _buttonCancel.Location = new Point(_panelMessage.Right - _buttonCancel.Width - GAP, _buttonOK.Bottom + GAP / 2);
 
-            // We need enough space for the buttons and gaps on either size
-            return new Size(_buttonOK.Left + GAP, _buttonCancel.Bottom + GAP);
         }
 
-        private Size UpdateResponseSizing()
+        private void UpdateResponseSizing()
         {
             // Position the response text box below the prompt
             _textBoxResponse.Location = new Point(GAP, _labelPrompt.Bottom + GAP);
             _textBoxResponse.Width = _buttonOK.Right - _textBoxResponse.Left;
-            return _textBoxResponse.Size;
         }
 
         private void button_keyDown(object sender, KeyEventArgs e)
@@ -345,17 +332,17 @@ namespace Krypton.Toolkit
             // 
             _labelPrompt.AutoSize = false;
             _labelPrompt.Font = new Font("Segoe UI", 9F);
-            _labelPrompt.ForeColor = Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            _labelPrompt.ForeColor = Color.FromArgb(30, 57, 91);
             _labelPrompt.LabelStyle = LabelStyle.NormalPanel;
             _labelPrompt.Location = new Point(12, 12);
             _labelPrompt.Margin = new Padding(0);
             _labelPrompt.Name = "_labelPrompt";
             _labelPrompt.Size = new Size(78, 15);
-            _labelPrompt.Text = "Prompt";
+            _labelPrompt.Text = @"Prompt";
             // 
             // _buttonCancel
             // 
-            _buttonCancel.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+            _buttonCancel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonCancel.AutoSize = true;
             _buttonCancel.DialogResult = DialogResult.Cancel;
             _buttonCancel.Location = new Point(295, 43);
@@ -364,12 +351,12 @@ namespace Krypton.Toolkit
             _buttonCancel.Name = "_buttonCancel";
             _buttonCancel.Size = new Size(50, 26);
             _buttonCancel.TabIndex = 2;
-            _buttonCancel.Values.Text = "Cancel";
-            _buttonCancel.KeyDown += new KeyEventHandler(button_keyDown);
+            _buttonCancel.Values.Text = KryptonManager.GlobalStrings.Cancel;
+            _buttonCancel.KeyDown += button_keyDown;
             // 
             // _buttonOK
             // 
-            _buttonOK.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+            _buttonOK.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonOK.AutoSize = true;
             _buttonOK.DialogResult = DialogResult.OK;
             _buttonOK.Location = new Point(295, 12);
@@ -378,8 +365,8 @@ namespace Krypton.Toolkit
             _buttonOK.Name = "_buttonOK";
             _buttonOK.Size = new Size(50, 26);
             _buttonOK.TabIndex = 1;
-            _buttonOK.Values.Text = "OK";
-            _buttonOK.KeyDown += new KeyEventHandler(button_keyDown);
+            _buttonOK.Values.Text = KryptonManager.GlobalStrings.OK;
+            _buttonOK.KeyDown += button_keyDown;
             // 
             // KryptonInputBox
             // 

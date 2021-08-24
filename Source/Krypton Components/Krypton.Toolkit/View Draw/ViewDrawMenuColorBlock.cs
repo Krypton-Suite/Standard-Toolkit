@@ -196,10 +196,8 @@ namespace Krypton.Toolkit
             }
 
             // Draw ourself in the designated color
-            using (SolidBrush brush = new(Color))
-            {
-                context.Graphics.FillRectangle(brush, drawRect);
-            }
+            using SolidBrush brush = new(Color);
+            context.Graphics.FillRectangle(brush, drawRect);
         }
 
         /// <summary>
@@ -251,12 +249,10 @@ namespace Krypton.Toolkit
             if (!outside.IsEmpty && !inside.IsEmpty)
             {
                 // Draw the outside and inside areas of the block
-                using (Pen outsidePen = new(outside),
-                           insidePen = new(inside))
-                {
-                    context.Graphics.DrawRectangle(outsidePen, ClientLocation.X, ClientLocation.Y, ClientWidth - 1, ClientHeight - 1);
-                    context.Graphics.DrawRectangle(insidePen, ClientLocation.X + 1, ClientLocation.Y + 1, ClientWidth - 3, ClientHeight - 3);
-                }
+                using Pen outsidePen = new(outside),
+                    insidePen = new(inside);
+                context.Graphics.DrawRectangle(outsidePen, ClientLocation.X, ClientLocation.Y, ClientWidth - 1, ClientHeight - 1);
+                context.Graphics.DrawRectangle(insidePen, ClientLocation.X + 1, ClientLocation.Y + 1, ClientWidth - 3, ClientHeight - 3);
             }
         }
         #endregion

@@ -11,6 +11,7 @@
 #endregion
 
 
+#pragma warning disable 67
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -166,10 +167,8 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using (ViewLayoutContext context = new(_viewManager, this, _kryptonListBox, _kryptonListBox.Renderer))
-                {
-                    ViewDrawPanel.Layout(context);
-                }
+                using ViewLayoutContext context = new(_viewManager, this, _kryptonListBox, _kryptonListBox.Renderer);
+                ViewDrawPanel.Layout(context);
             }
 
             /// <summary>
@@ -302,10 +301,8 @@ namespace Krypton.Toolkit
 
                                 if (Items.Count == 0)
                                 {
-                                    using (RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer))
-                                    {
-                                        ViewDrawPanel.Render(context);
-                                    }
+                                    using RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer);
+                                    ViewDrawPanel.Render(context);
                                 }
                             }
 
@@ -315,11 +312,9 @@ namespace Krypton.Toolkit
                             // When disabled with no items the above code does not draw the background!
                             if (Items.Count == 0)
                             {
-                                using (Graphics g = Graphics.FromHdc(hdc))
-                                using (RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer))
-                                {
-                                    ViewDrawPanel.Render(context);
-                                }
+                                using Graphics g = Graphics.FromHdc(hdc);
+                                using RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer);
+                                ViewDrawPanel.Render(context);
                             }
                         }
                         finally
@@ -1607,27 +1602,24 @@ namespace Krypton.Toolkit
                         PI.SelectObject(_screenDC, hBitmap);
 
                         // Easier to draw using a graphics instance than a DC!
-                        using (Graphics g = Graphics.FromHdc(_screenDC))
+                        using Graphics g = Graphics.FromHdc(_screenDC);
+                        // Ask the view element to layout in given space, needs this before a render call
+                        using (ViewLayoutContext context = new(this, Renderer))
                         {
-
-                            // Ask the view element to layout in given space, needs this before a render call
-                            using (ViewLayoutContext context = new(this, Renderer))
-                            {
-                                context.DisplayRectangle = e.Bounds;
-                                _listBox.ViewDrawPanel.Layout(context);
-                                _drawButton.Layout(context);
-                            }
-
-                            // Ask the view element to actually draw
-                            using (RenderContext context = new(this, g, e.Bounds, Renderer))
-                            {
-                                _listBox.ViewDrawPanel.Render(context);
-                                _drawButton.Render(context);
-                            }
-
-                            // Now blit from the bitmap from the screen to the real dc
-                            PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
+                            context.DisplayRectangle = e.Bounds;
+                            _listBox.ViewDrawPanel.Layout(context);
+                            _drawButton.Layout(context);
                         }
+
+                        // Ask the view element to actually draw
+                        using (RenderContext context = new(this, g, e.Bounds, Renderer))
+                        {
+                            _listBox.ViewDrawPanel.Render(context);
+                            _drawButton.Render(context);
+                        }
+
+                        // Now blit from the bitmap from the screen to the real dc
+                        PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
                     }
                     finally
                     {
@@ -1648,12 +1640,10 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // Ask the view element to layout in given space, needs this before a render call
-            using (ViewLayoutContext context = new(this, Renderer))
-            {
-                Size size = _drawButton.GetPreferredSize(context);
-                e.ItemWidth = size.Width;
-                e.ItemHeight = size.Height;
-            }
+            using ViewLayoutContext context = new(this, Renderer);
+            Size size = _drawButton.GetPreferredSize(context);
+            e.ItemWidth = size.Width;
+            e.ItemHeight = size.Height;
         }
 
         private void UpdateContentFromItemIndex(int index)

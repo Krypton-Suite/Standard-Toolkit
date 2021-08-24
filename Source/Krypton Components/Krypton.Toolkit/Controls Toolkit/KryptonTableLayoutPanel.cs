@@ -335,7 +335,7 @@ namespace Krypton.Toolkit
                 // Do the move thing first
                 base.WndProc(ref m);
                 PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
-                if (!MissingFrameWorkAPIs.HasFlag(structure.flags, PI.SWP_.NOZORDER))
+                if (!structure.flags.HasFlag(PI.SWP_.NOZORDER))
                 {
                     if (_backGroundPanel.Parent != null)
                     {

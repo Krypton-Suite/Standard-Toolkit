@@ -107,35 +107,33 @@ namespace Krypton.Toolkit
                             : new Point(displayRect.X + ((displayRect.Width - GRAB_SQUARE_TOTAL) / 2),
                                 displayRect.Y + offset);
 
-                        using (Brush lightBrush = new SolidBrush(_grabHandleLight),
-                                     darkBrush = new SolidBrush(_grabHandleDark))
+                        using Brush lightBrush = new SolidBrush(_grabHandleLight),
+                            darkBrush = new SolidBrush(_grabHandleDark);
+                        // Draw each grab handle in turn
+                        for (int j = 0; j < i; j++)
                         {
-                            // Draw each grab handle in turn
-                            for (int j = 0; j < i; j++)
+                            // Draw the light colored square 
+                            context.Graphics.FillRectangle(lightBrush,
+                                draw.X + GRAB_SQUARE_OFFSET,
+                                draw.Y + GRAB_SQUARE_OFFSET,
+                                GRAB_SQUARE_LENGTH,
+                                GRAB_SQUARE_LENGTH);
+
+                            // Draw the dark colored square overlapping the dark
+                            context.Graphics.FillRectangle(darkBrush,
+                                draw.X,
+                                draw.Y,
+                                GRAB_SQUARE_LENGTH,
+                                GRAB_SQUARE_LENGTH);
+
+                            // Move to the next handle position
+                            if (orientation == Orientation.Horizontal)
                             {
-                                // Draw the light colored square 
-                                context.Graphics.FillRectangle(lightBrush,
-                                                               draw.X + GRAB_SQUARE_OFFSET,
-                                                               draw.Y + GRAB_SQUARE_OFFSET,
-                                                               GRAB_SQUARE_LENGTH,
-                                                               GRAB_SQUARE_LENGTH);
-
-                                // Draw the dark colored square overlapping the dark
-                                context.Graphics.FillRectangle(darkBrush,
-                                                               draw.X,
-                                                               draw.Y,
-                                                               GRAB_SQUARE_LENGTH,
-                                                               GRAB_SQUARE_LENGTH);
-
-                                // Move to the next handle position
-                                if (orientation == Orientation.Horizontal)
-                                {
-                                    draw.X += GRAB_SQUARE_TOTAL + GRAB_SQUARE_GAP;
-                                }
-                                else
-                                {
-                                    draw.Y += GRAB_SQUARE_TOTAL + GRAB_SQUARE_GAP;
-                                }
+                                draw.X += GRAB_SQUARE_TOTAL + GRAB_SQUARE_GAP;
+                            }
+                            else
+                            {
+                                draw.Y += GRAB_SQUARE_TOTAL + GRAB_SQUARE_GAP;
                             }
                         }
 

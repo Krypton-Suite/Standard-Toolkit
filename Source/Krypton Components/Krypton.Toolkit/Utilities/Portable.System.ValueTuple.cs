@@ -14,7 +14,7 @@
 // - Remove public API
 // - Apply "Preview" coding style(s)
 
-#if NET35 || NET40 || NET45 || NET451 || NET452 || NET46 || NET461 || NET462
+#if NET462
 
 namespace System
 {

@@ -55,11 +55,9 @@ namespace Krypton.Toolkit
             _elementState = PaletteState.Normal;
 
             //seb Dpi aware
-            using (Graphics graphics = Graphics.FromHwnd(IntPtr.Zero))
-            {
-                FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
-                FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
-            }
+            using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
+            FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
+            FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
         }
 
         /// <summary>

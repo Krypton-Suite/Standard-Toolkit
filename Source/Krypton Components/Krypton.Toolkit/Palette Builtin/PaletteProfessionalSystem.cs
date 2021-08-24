@@ -905,7 +905,7 @@ namespace Krypton.Toolkit
                 {
                     if (style == PaletteBorderStyle.ButtonCalendarDay)
                     {
-                        return state == PaletteState.Disabled ? FadedColor(ColorTable.ButtonSelectedBorder) : ColorTable.ButtonPressedBorder;
+                        return ColorTable.ButtonPressedBorder;
                     }
                 }
 
@@ -1100,7 +1100,7 @@ namespace Krypton.Toolkit
                 {
                     if (style == PaletteBorderStyle.ButtonCalendarDay)
                     {
-                        return state == PaletteState.Disabled ? FadedColor(ColorTable.ButtonSelectedBorder) : ColorTable.ButtonPressedBorder;
+                        return ColorTable.ButtonPressedBorder;
                     }
                 }
 
@@ -4392,7 +4392,7 @@ namespace Krypton.Toolkit
             _tabFontSelected = new Font(_tabFontNormal, FontStyle.Bold);
             _gridFont = SystemFonts.IconTitleFont;
             _superToolFont = SystemFonts.SmallCaptionFont;
-            _calendarFont = SystemFonts.DialogFont; ;
+            _calendarFont = SystemFonts.DialogFont;
             _calendarBoldFont = new Font(SystemFonts.DialogFont, FontStyle.Bold);
             _boldFont = new Font(SystemFonts.DialogFont, FontStyle.Bold);
             _italicFont = new Font(SystemFonts.DialogFont, FontStyle.Italic);
@@ -4640,20 +4640,16 @@ namespace Krypton.Toolkit
             Image image = new Bitmap(9, 9, PixelFormat.Format32bppArgb);
 
             // Use a graphics instance for drawing the image
-            using (Graphics g = Graphics.FromImage(image))
+            using Graphics g = Graphics.FromImage(image);
+            // Draw a solid arrow
+            using (SolidBrush fill = new(color))
             {
-                // Draw a solid arrow
-                using (SolidBrush fill = new(color))
-                {
-                    g.FillPolygon(fill, new Point[] { new(2, 3), new(4, 6), new(7, 3) });
-                }
-
-                // Draw semi-transparent outline around the arrow
-                using (Pen outline = new(Color.FromArgb(128, color)))
-                {
-                    g.DrawLines(outline, new Point[] { new(1, 3), new(4, 6), new(7, 3) });
-                }
+                g.FillPolygon(fill, new Point[] { new(2, 3), new(4, 6), new(7, 3) });
             }
+
+            // Draw semi-transparent outline around the arrow
+            using Pen outline = new(Color.FromArgb(128, color));
+            g.DrawLines(outline, new Point[] { new(1, 3), new(4, 6), new(7, 3) });
 
             return image;
         }
@@ -4664,14 +4660,10 @@ namespace Krypton.Toolkit
             Image image = new Bitmap(13, 7, PixelFormat.Format32bppArgb);
 
             // Use a graphics instance for drawing the image
-            using (Graphics g = Graphics.FromImage(image))
-            {
-                // Draw a solid arrow
-                using (SolidBrush fill = new(color))
-                {
-                    g.FillPolygon(fill, new Point[] { new(3, 6), new(6, 2), new(9, 6) });
-                }
-            }
+            using Graphics g = Graphics.FromImage(image);
+            // Draw a solid arrow
+            using SolidBrush fill = new(color);
+            g.FillPolygon(fill, new Point[] { new(3, 6), new(6, 2), new(9, 6) });
 
             return image;
         }
@@ -4682,14 +4674,10 @@ namespace Krypton.Toolkit
             Image image = new Bitmap(13, 7, PixelFormat.Format32bppArgb);
 
             // Use a graphics instance for drawing the image
-            using (Graphics g = Graphics.FromImage(image))
-            {
-                // Draw a solid arrow
-                using (SolidBrush fill = new(color))
-                {
-                    g.FillPolygon(fill, new Point[] { new(4, 3), new(6, 6), new(9, 3) });
-                }
-            }
+            using Graphics g = Graphics.FromImage(image);
+            // Draw a solid arrow
+            using SolidBrush fill = new(color);
+            g.FillPolygon(fill, new Point[] { new(4, 3), new(6, 6), new(9, 3) });
 
             return image;
         }
@@ -4700,20 +4688,16 @@ namespace Krypton.Toolkit
             Image image = new Bitmap(13, 7, PixelFormat.Format32bppArgb);
 
             // Use a graphics instance for drawing the image
-            using (Graphics g = Graphics.FromImage(image))
+            using Graphics g = Graphics.FromImage(image);
+            // Draw a solid arrow
+            using (SolidBrush fill = new(color))
             {
-                // Draw a solid arrow
-                using (SolidBrush fill = new(color))
-                {
-                    g.FillPolygon(fill, new Point[] { new(4, 3), new(6, 6), new(9, 3) });
-                }
-
-                // Draw the line above the arrow
-                using (Pen pen = new(color))
-                {
-                    g.DrawLine(pen, 4, 1, 8, 1);
-                }
+                g.FillPolygon(fill, new Point[] { new(4, 3), new(6, 6), new(9, 3) });
             }
+
+            // Draw the line above the arrow
+            using Pen pen = new(color);
+            g.DrawLine(pen, 4, 1, 8, 1);
 
             return image;
         }

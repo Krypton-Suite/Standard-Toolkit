@@ -322,7 +322,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return MissingFrameWorkAPIs.Array_Empty<KeyTipInfo>();
+                return Array.Empty<KeyTipInfo>();
             }
         }
         #endregion
@@ -473,10 +473,8 @@ namespace Krypton.Ribbon
             // Ensure context has the correct control
             if ((ViewLayoutControl.ChildControl != null) && !ViewLayoutControl.ChildControl.IsDisposed)
             {
-                using (CorrectContextControl ccc = new(context, ViewLayoutControl.ChildControl))
-                {
-                    _viewFiller.Layout(context);
-                }
+                using CorrectContextControl ccc = new(context, ViewLayoutControl.ChildControl);
+                _viewFiller.Layout(context);
             }
 
             _ribbon.GetViewManager().DoNotLayoutControls = false;
@@ -643,22 +641,20 @@ namespace Krypton.Ribbon
                     if (child == _viewFiller)
                     {
                         // New clipping region is at most our own client size
-                        using (Region combineRegion = new(_viewClipRect))
-                        {
-                            // Remember the current clipping region
-                            Region clipRegion = context.Graphics.Clip.Clone();
+                        using Region combineRegion = new(_viewClipRect);
+                        // Remember the current clipping region
+                        Region clipRegion = context.Graphics.Clip.Clone();
 
-                            // Reduce clipping region down by the existing clipping region
-                            combineRegion.Intersect(clipRegion);
+                        // Reduce clipping region down by the existing clipping region
+                        combineRegion.Intersect(clipRegion);
 
-                            // Use new region that restricts drawing to our client size only
-                            context.Graphics.Clip = combineRegion;
+                        // Use new region that restricts drawing to our client size only
+                        context.Graphics.Clip = combineRegion;
 
-                            child.Render(context);
+                        child.Render(context);
 
-                            // Put clipping region back to original setting
-                            context.Graphics.Clip = clipRegion;
-                        }
+                        // Put clipping region back to original setting
+                        context.Graphics.Clip = clipRegion;
                     }
                     else
                     {

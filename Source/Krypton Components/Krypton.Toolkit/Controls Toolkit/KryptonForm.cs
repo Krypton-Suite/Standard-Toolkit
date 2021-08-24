@@ -756,10 +756,8 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Convert to a bitmap for use in drawing (get the 16x16 version if available)
-                    using (Icon temp = new(_cacheIcon, new Size(16, 16)))
-                    {
-                        _cacheBitmap = temp.ToBitmap();
-                    }
+                    using Icon temp = new(_cacheIcon, new Size(16, 16));
+                    _cacheBitmap = temp.ToBitmap();
                 }
                 catch
                 {
@@ -1363,22 +1361,18 @@ namespace Krypton.Toolkit
                             _regionWindowState = WindowState;
 
                             // Get the path for the border so we can shape the form using it
-                            using (RenderContext context = new(this, null, Bounds, Renderer))
+                            using RenderContext context = new(this, null, Bounds, Renderer);
+                            using GraphicsPath path = _drawDocker.GetOuterBorderPath(context);
+                            if (!_firstCheckView)
                             {
-                                using (GraphicsPath path = _drawDocker.GetOuterBorderPath(context))
-                                {
-                                    if (!_firstCheckView)
-                                    {
-                                        SuspendPaint();
-                                    }
+                                SuspendPaint();
+                            }
 
-                                    UpdateBorderRegion(path != null ? new Region(path) : null);
+                            UpdateBorderRegion(path != null ? new Region(path) : null);
 
-                                    if (!_firstCheckView)
-                                    {
-                                        ResumePaint();
-                                    }
-                                }
+                            if (!_firstCheckView)
+                            {
+                                ResumePaint();
                             }
                         }
 

@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
                 {
                     _hint = value;
 
-                    if (string.IsNullOrEmpty(Text) && !MissingFrameWorkAPIs.IsNullOrWhiteSpace(Hint))
+                    if (string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Hint))
                     {
                         PI.SendMessage(Handle, PI.EM_SETCUEBANNER, (IntPtr)1, Hint);
                     }
@@ -229,21 +229,17 @@ namespace Krypton.Toolkit
                                     string drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
                                     try
                                     {
-                                        using (SolidBrush foreBrush = new(ForeColor))
-                                        {
-                                            g.DrawString(drawText, Font, foreBrush,
-                                                         new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(ForeColor);
+                                        g.DrawString(drawText, Font, foreBrush,
+                                            new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
+                                            stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using (SolidBrush foreBrush = new(ForeColor))
-                                        {
-                                            g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
-                                                         new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(ForeColor);
+                                        g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
+                                            new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
+                                            stringFormat);
                                     }
                                 }
 
@@ -560,7 +556,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeHint()
         {
-            return !MissingFrameWorkAPIs.IsNullOrWhiteSpace(Hint);
+            return !string.IsNullOrWhiteSpace(Hint);
         }
 
 

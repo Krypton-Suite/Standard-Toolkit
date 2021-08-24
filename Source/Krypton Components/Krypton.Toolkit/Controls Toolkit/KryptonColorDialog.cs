@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
             )
             {
                 PI.WINDOWPOS pos = (PI.WINDOWPOS)PI.PtrToStructure(lparam, typeof(PI.WINDOWPOS));
-                if ( !MissingFrameWorkAPIs.HasFlag(pos.flags, PI.SWP_.NOSIZE)
+                if ( !pos.flags.HasFlag(PI.SWP_.NOSIZE)
                     && (pos.hwnd == hWnd)
                     )
                 {

@@ -227,11 +227,9 @@ namespace Krypton.Toolkit
                     // Do we need to draw the background?
                     if (paletteTriple.PaletteBack.GetBackDraw(paletteState) == InheritBool.True)
                     {
-                        using (GraphicsPath path = context.Renderer.RenderStandardBorder.GetBackPath(context, drawRectWeek, paletteTriple.PaletteBorder,
-                                                                                                     VisualOrientation.Top, paletteState))
-                        {
-                            context.Renderer.RenderStandardBack.DrawBack(context, drawRectWeek, path, paletteTriple.PaletteBack, VisualOrientation.Top, paletteState, null);
-                        }
+                        using GraphicsPath path = context.Renderer.RenderStandardBorder.GetBackPath(context, drawRectWeek, paletteTriple.PaletteBorder,
+                            VisualOrientation.Top, paletteState);
+                        context.Renderer.RenderStandardBack.DrawBack(context, drawRectWeek, path, paletteTriple.PaletteBack, VisualOrientation.Top, paletteState, null);
                     }
 
                     // Do we need to draw the border?

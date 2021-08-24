@@ -61,31 +61,29 @@ namespace Krypton.Toolkit
                                                          GraphicsPath path,
                                                          IDisposable memento)
         {
-            using (Clipping clip = new(context.Graphics, path))
+            using Clipping clip = new(context.Graphics, path);
+            MementoDouble cache;
+
+            if (memento is not MementoDouble)
             {
-                MementoDouble cache;
+                memento?.Dispose();
 
-                if (memento is not MementoDouble)
-                {
-                    memento?.Dispose();
-
-                    cache = new MementoDouble();
-                    memento = cache;
-                }
-                else
-                {
-                    cache = (MementoDouble)memento;
-                }
-
-                cache.first = DrawBackExpert(rect, 
-                                             CommonHelper.MergeColors(backColor1, 0.35f, Color.White, 0.65f),
-                                             CommonHelper.MergeColors(backColor2, 0.53f, Color.White, 0.65f), 
-                                             orientation, context.Graphics, memento, true, true);
-                
-                cache.second = DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, false, true);
-
-                return cache;
+                cache = new MementoDouble();
+                memento = cache;
             }
+            else
+            {
+                cache = (MementoDouble)memento;
+            }
+
+            cache.first = DrawBackExpert(rect, 
+                CommonHelper.MergeColors(backColor1, 0.35f, Color.White, 0.65f),
+                CommonHelper.MergeColors(backColor2, 0.53f, Color.White, 0.65f), 
+                orientation, context.Graphics, memento, true, true);
+                
+            cache.second = DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, false, true);
+
+            return cache;
         }
 
         /// <summary>
@@ -106,57 +104,53 @@ namespace Krypton.Toolkit
                                                         GraphicsPath path,
                                                         IDisposable memento)
         {
-            using (Clipping clip = new(context.Graphics, path))
+            using Clipping clip = new(context.Graphics, path);
+            // Cannot draw a zero length rectangle
+            if ((rect.Width > 0) && (rect.Height > 0))
             {
-                // Cannot draw a zero length rectangle
-                if ((rect.Width > 0) && (rect.Height > 0))
+                bool generate = true;
+                MementoBackExpertShadow cache;
+
+                // Access a cache instance and decide if cache resources need generating
+                if (memento is not MementoBackExpertShadow)
                 {
-                    bool generate = true;
-                    MementoBackExpertShadow cache;
+                    memento?.Dispose();
 
-                    // Access a cache instance and decide if cache resources need generating
-                    if (memento is not MementoBackExpertShadow)
-                    {
-                        memento?.Dispose();
-
-                        cache = new MementoBackExpertShadow(rect, backColor1, backColor2);
-                        memento = cache;
-                    }
-                    else
-                    {
-                        cache = (MementoBackExpertShadow)memento;
-                        generate = !cache.UseCachedValues(rect, backColor1, backColor2);
-                    }
-
-                    // Do we need to generate the contents of the cache?
-                    if (generate)
-                    {
-                        rect.X -= 1;
-                        rect.Y -= 1;
-                        rect.Width += 2;
-                        rect.Height += 2;
-
-                        // Dispose of existing values
-                        cache.Dispose();
-                        cache.path1 = CreateBorderPath(rect, ITEM_CUT);
-                        cache.path2 = CreateBorderPath(new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2), ITEM_CUT);
-                        cache.path3 = CreateBorderPath(new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4), ITEM_CUT);
-                        cache.brush1 = new SolidBrush(CommonHelper.MergeColors(backColor2, 0.4f, backColor1, 0.6f));
-                        cache.brush2 = new SolidBrush(CommonHelper.MergeColors(backColor2, 0.2f, backColor1, 0.8f));
-                        cache.brush3 = new SolidBrush(backColor1);
-                    }
-
-                    using (AntiAlias aa = new(context.Graphics))
-                    {
-                        context.Graphics.FillRectangle(cache.brush3, rect);
-                        context.Graphics.FillPath(cache.brush1, cache.path1);
-                        context.Graphics.FillPath(cache.brush2, cache.path2);
-                        context.Graphics.FillPath(cache.brush3, cache.path3);
-                    }
+                    cache = new MementoBackExpertShadow(rect, backColor1, backColor2);
+                    memento = cache;
+                }
+                else
+                {
+                    cache = (MementoBackExpertShadow)memento;
+                    generate = !cache.UseCachedValues(rect, backColor1, backColor2);
                 }
 
-                return memento;
+                // Do we need to generate the contents of the cache?
+                if (generate)
+                {
+                    rect.X -= 1;
+                    rect.Y -= 1;
+                    rect.Width += 2;
+                    rect.Height += 2;
+
+                    // Dispose of existing values
+                    cache.Dispose();
+                    cache.path1 = CreateBorderPath(rect, ITEM_CUT);
+                    cache.path2 = CreateBorderPath(new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2), ITEM_CUT);
+                    cache.path3 = CreateBorderPath(new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4), ITEM_CUT);
+                    cache.brush1 = new SolidBrush(CommonHelper.MergeColors(backColor2, 0.4f, backColor1, 0.6f));
+                    cache.brush2 = new SolidBrush(CommonHelper.MergeColors(backColor2, 0.2f, backColor1, 0.8f));
+                    cache.brush3 = new SolidBrush(backColor1);
+                }
+
+                using AntiAlias aa = new(context.Graphics);
+                context.Graphics.FillRectangle(cache.brush3, rect);
+                context.Graphics.FillPath(cache.brush1, cache.path1);
+                context.Graphics.FillPath(cache.brush2, cache.path2);
+                context.Graphics.FillPath(cache.brush3, cache.path3);
             }
+
+            return memento;
         }
 
         /// <summary>
@@ -177,11 +171,9 @@ namespace Krypton.Toolkit
                                                         GraphicsPath path,
                                                         IDisposable memento)
         {
-            using (Clipping clip = new(context.Graphics, path))
-            {
-                // Draw the expert background which is gradient with highlight at bottom
-                return DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, true, false);
-            }
+            using Clipping clip = new(context.Graphics, path);
+            // Draw the expert background which is gradient with highlight at bottom
+            return DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, true, false);
         }
 
         /// <summary>
@@ -202,31 +194,29 @@ namespace Krypton.Toolkit
                                                                 GraphicsPath path,
                                                                 IDisposable memento)
         {
-            using (Clipping clip = new(context.Graphics, path))
+            using Clipping clip = new(context.Graphics, path);
+            MementoDouble cache;
+
+            if (memento is not MementoDouble)
             {
-                MementoDouble cache;
+                memento?.Dispose();
 
-                if (memento is not MementoDouble)
-                {
-                    memento?.Dispose();
-
-                    cache = new MementoDouble();
-                    memento = cache;
-                }
-                else
-                {
-                    cache = (MementoDouble)memento;
-                }
-
-                cache.first = DrawBackExpert(rect,
-                                             CommonHelper.MergeColors(backColor1, 0.5f, Color.White, 0.5f),
-                                             CommonHelper.MergeColors(backColor2, 0.5f, Color.White, 0.5f),
-                                             orientation, context.Graphics, memento, true, false);
-
-                cache.second = DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, false, false);
-
-                return cache;
+                cache = new MementoDouble();
+                memento = cache;
             }
+            else
+            {
+                cache = (MementoDouble)memento;
+            }
+
+            cache.first = DrawBackExpert(rect,
+                CommonHelper.MergeColors(backColor1, 0.5f, Color.White, 0.5f),
+                CommonHelper.MergeColors(backColor2, 0.5f, Color.White, 0.5f),
+                orientation, context.Graphics, memento, true, false);
+
+            cache.second = DrawBackExpert(rect, backColor1, backColor2, orientation, context.Graphics, memento, false, false);
+
+            return cache;
         }
 
         /// <summary>
@@ -249,86 +239,84 @@ namespace Krypton.Toolkit
                                                                 IDisposable memento,
                                                                 bool light)
         {
-            using (Clipping clip = new(context.Graphics, path))
+            using Clipping clip = new(context.Graphics, path);
+            // Cannot draw a zero length rectangle
+            if ((rect.Width > 0) && (rect.Height > 0))
             {
-                // Cannot draw a zero length rectangle
-                if ((rect.Width > 0) && (rect.Height > 0))
+                bool generate = true;
+                MementoBackExpertSquareHighlight cache;
+
+                // Access a cache instance and decide if cache resources need generating
+                if (memento is not MementoBackExpertSquareHighlight)
                 {
-                    bool generate = true;
-                    MementoBackExpertSquareHighlight cache;
+                    memento?.Dispose();
 
-                    // Access a cache instance and decide if cache resources need generating
-                    if (memento is not MementoBackExpertSquareHighlight)
-                    {
-                        memento?.Dispose();
-
-                        cache = new MementoBackExpertSquareHighlight(rect, backColor1, backColor2, orientation);
-                        memento = cache;
-                    }
-                    else
-                    {
-                        cache = (MementoBackExpertSquareHighlight)memento;
-                        generate = !cache.UseCachedValues(rect, backColor1, backColor2, orientation);
-                    }
-
-                    // Do we need to generate the contents of the cache?
-                    if (generate)
-                    {
-                        // Dispose of existing values
-                        cache.Dispose();
-
-                        cache.backBrush = new SolidBrush(CommonHelper.WhitenColor(backColor1, 0.8f, 0.8f, 0.8f));
-                        cache.innerRect = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
-
-                        RectangleF ellipseRect;
-                        PointF ellipseCenter;
-                        int ellipseWidth = Math.Max(1, rect.Width / 8);
-                        int ellipseHeight = Math.Max(1, rect.Height / 8);
-
-                        switch (orientation)
-                        {
-                            default:
-                            case VisualOrientation.Top:
-                                cache.innerBrush = new LinearGradientBrush(cache.innerRect, backColor1, backColor2, 90f);
-                                ellipseRect = new RectangleF(rect.Left, rect.Top + (ellipseHeight * 2), rect.Width, ellipseHeight * 12);
-                                ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2), ellipseRect.Bottom);
-                                break;
-                            case VisualOrientation.Bottom:
-                                cache.innerBrush = new LinearGradientBrush(cache.innerRect, backColor1, backColor2, 270f);
-                                ellipseRect = new RectangleF(rect.Left, rect.Top - (ellipseHeight * 6), rect.Width, ellipseHeight * 12);
-                                ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2), ellipseRect.Top);
-                                break;
-                            case VisualOrientation.Left:
-                                cache.innerBrush = new LinearGradientBrush(cache.innerRect, backColor1, backColor2, 180f);
-                                ellipseRect = new RectangleF(rect.Left + (ellipseHeight * 2), rect.Top, ellipseWidth * 12, rect.Height);
-                                ellipseCenter = new PointF(ellipseRect.Right, ellipseRect.Top + (ellipseRect.Height / 2));
-                                break;
-                            case VisualOrientation.Right:
-                                cache.innerBrush = new LinearGradientBrush(rect, backColor1, backColor2, 0f);
-                                ellipseRect = new RectangleF(rect.Left - (ellipseHeight * 6), rect.Top, ellipseWidth * 12, rect.Height);
-                                ellipseCenter = new PointF(ellipseRect.Left, ellipseRect.Top + (ellipseRect.Height / 2));
-                                break;
-                        }
-
-                        cache.innerBrush.SetSigmaBellShape(0.5f);
-                        cache.ellipsePath = new GraphicsPath();
-                        cache.ellipsePath.AddEllipse(ellipseRect);
-                        cache.insideLighten = new PathGradientBrush(cache.ellipsePath)
-                        {
-                            CenterPoint = ellipseCenter,
-                            CenterColor = (light ? Color.FromArgb(64, Color.White) : Color.FromArgb(128, Color.White)),
-                            Blend = _rounded2Blend,
-                            SurroundColors = new Color[] { Color.Transparent }
-                        };
-                    }
-
-                    context.Graphics.FillRectangle(cache.backBrush, rect);
-                    context.Graphics.FillRectangle(cache.innerBrush, cache.innerRect);
-                    context.Graphics.FillRectangle(cache.insideLighten, cache.innerRect);
+                    cache = new MementoBackExpertSquareHighlight(rect, backColor1, backColor2, orientation);
+                    memento = cache;
+                }
+                else
+                {
+                    cache = (MementoBackExpertSquareHighlight)memento;
+                    generate = !cache.UseCachedValues(rect, backColor1, backColor2, orientation);
                 }
 
-                return memento;
+                // Do we need to generate the contents of the cache?
+                if (generate)
+                {
+                    // Dispose of existing values
+                    cache.Dispose();
+
+                    cache.backBrush = new SolidBrush(CommonHelper.WhitenColor(backColor1, 0.8f, 0.8f, 0.8f));
+                    cache.innerRect = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
+
+                    RectangleF ellipseRect;
+                    PointF ellipseCenter;
+                    int ellipseWidth = Math.Max(1, rect.Width / 8);
+                    int ellipseHeight = Math.Max(1, rect.Height / 8);
+
+                    switch (orientation)
+                    {
+                        default:
+                        case VisualOrientation.Top:
+                            cache.innerBrush = new LinearGradientBrush(cache.innerRect, backColor1, backColor2, 90f);
+                            ellipseRect = new RectangleF(rect.Left, rect.Top + (ellipseHeight * 2), rect.Width, ellipseHeight * 12);
+                            ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2), ellipseRect.Bottom);
+                            break;
+                        case VisualOrientation.Bottom:
+                            cache.innerBrush = new LinearGradientBrush(cache.innerRect, backColor1, backColor2, 270f);
+                            ellipseRect = new RectangleF(rect.Left, rect.Top - (ellipseHeight * 6), rect.Width, ellipseHeight * 12);
+                            ellipseCenter = new PointF(ellipseRect.Left + (ellipseRect.Width / 2), ellipseRect.Top);
+                            break;
+                        case VisualOrientation.Left:
+                            cache.innerBrush = new LinearGradientBrush(cache.innerRect, backColor1, backColor2, 180f);
+                            ellipseRect = new RectangleF(rect.Left + (ellipseHeight * 2), rect.Top, ellipseWidth * 12, rect.Height);
+                            ellipseCenter = new PointF(ellipseRect.Right, ellipseRect.Top + (ellipseRect.Height / 2));
+                            break;
+                        case VisualOrientation.Right:
+                            cache.innerBrush = new LinearGradientBrush(rect, backColor1, backColor2, 0f);
+                            ellipseRect = new RectangleF(rect.Left - (ellipseHeight * 6), rect.Top, ellipseWidth * 12, rect.Height);
+                            ellipseCenter = new PointF(ellipseRect.Left, ellipseRect.Top + (ellipseRect.Height / 2));
+                            break;
+                    }
+
+                    cache.innerBrush.SetSigmaBellShape(0.5f);
+                    cache.ellipsePath = new GraphicsPath();
+                    cache.ellipsePath.AddEllipse(ellipseRect);
+                    cache.insideLighten = new PathGradientBrush(cache.ellipsePath)
+                    {
+                        CenterPoint = ellipseCenter,
+                        CenterColor = (light ? Color.FromArgb(64, Color.White) : Color.FromArgb(128, Color.White)),
+                        Blend = _rounded2Blend,
+                        SurroundColors = new Color[] { Color.Transparent }
+                    };
+                }
+
+                context.Graphics.FillRectangle(cache.backBrush, rect);
+                context.Graphics.FillRectangle(cache.innerBrush, cache.innerRect);
+                context.Graphics.FillRectangle(cache.insideLighten, cache.innerRect);
             }
+
+            return memento;
         }
         #endregion
 
@@ -486,11 +474,9 @@ namespace Krypton.Toolkit
 
                 if (cache.entireBrush != null)
                 {
-                    using(Clipping clip = new(g, cache.clipPath))
-                    {
-                        g.FillRectangle(cache.entireBrush, cache.drawRect);
-                        g.FillPath(cache.insideLighten, cache.ellipsePath);
-                    }
+                    using Clipping clip = new(g, cache.clipPath);
+                    g.FillRectangle(cache.entireBrush, cache.drawRect);
+                    g.FillPath(cache.insideLighten, cache.ellipsePath);
                 }
             }
 

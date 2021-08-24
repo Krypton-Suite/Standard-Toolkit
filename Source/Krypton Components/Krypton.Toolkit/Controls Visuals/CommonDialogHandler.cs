@@ -5,6 +5,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 
 namespace Krypton.Toolkit
 {
@@ -86,8 +87,8 @@ namespace Krypton.Toolkit
                         }
 
                         var labelLogFont = _labelFont.ToHfont();
-                        var buttonFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
-                        var buttonLogFont = buttonFont.ToHfont();
+                        //var buttonFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
+                        //var buttonLogFont = buttonFont.ToHfont();
                         var editFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
                         var editLogFont = editFont.ToHfont();
                         foreach (Attributes control in _controls)
@@ -187,7 +188,7 @@ namespace Krypton.Toolkit
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;
-                                            button.Click += delegate (object sender, EventArgs args)
+                                            button.Click += delegate
                                             {
                                                 PI.SendMessage(control.hWnd, PI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
                                                 ClickCallback?.Invoke(control);
@@ -222,7 +223,7 @@ namespace Krypton.Toolkit
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;
-                                            button.Click += delegate (object sender, EventArgs args)
+                                            button.Click += delegate
                                             {
                                                 PI.SendMessage(control.hWnd, PI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
                                                 ClickCallback?.Invoke(control);
@@ -366,11 +367,7 @@ namespace Krypton.Toolkit
 
         internal Action<Attributes /*control*/> ClickCallback { get; set; }
 
-#if NET35 || NET40
-        internal IList<Attributes> Controls => _controls;
-#else
         internal IReadOnlyList<Attributes> Controls => _controls.AsReadOnly();
-#endif
 
         private void PerformEmbedding(IntPtr hWnd)
         {
