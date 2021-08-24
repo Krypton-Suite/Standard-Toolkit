@@ -3483,7 +3483,6 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern bool ChooseFont([In, Out] PI.CHOOSEFONT cf);
 
-        [CLSCompliant(false)]
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         internal class CHOOSEFONT
         {
