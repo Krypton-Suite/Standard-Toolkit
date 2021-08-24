@@ -746,23 +746,19 @@ namespace Krypton.Toolkit
                                                 realWindowRectangle.Height);
                 }
 
-                using (Region invalidRegion = new(invalidRect))
+                using Region invalidRegion = new(invalidRect);
+                if (excludeClientArea)
                 {
-                    if (excludeClientArea)
-                    {
-                        invalidRegion.Exclude(ClientRectangle);
-                    }
-
-                    using (Graphics g = Graphics.FromHwnd(Handle))
-                    {
-                        IntPtr hRgn = invalidRegion.GetHrgn(g);
-
-                        PI.RedrawWindow(Handle, IntPtr.Zero, hRgn,
-                                        PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
-
-                        PI.DeleteObject(hRgn);
-                    }
+                    invalidRegion.Exclude(ClientRectangle);
                 }
+
+                using Graphics g = Graphics.FromHwnd(Handle);
+                IntPtr hRgn = invalidRegion.GetHrgn(g);
+
+                PI.RedrawWindow(Handle, IntPtr.Zero, hRgn,
+                    PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
+
+                PI.DeleteObject(hRgn);
             }
         }
 
@@ -1632,10 +1628,8 @@ namespace Krypton.Toolkit
                             else
                             {
                                 // Drawing is easier when using a Graphics instance
-                                using (Graphics g = Graphics.FromHdc(hDC))
-                                {
-                                    WindowChromePaint(g, windowBounds);
-                                }
+                                using Graphics g = Graphics.FromHdc(hDC);
+                                WindowChromePaint(g, windowBounds);
                             }
                         }
                     }

@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string CueHintText { get; set; }
 
-        private bool ShouldSerializeCueHintText() => !MissingFrameWorkAPIs.IsNullOrWhiteSpace(CueHintText);
+        private bool ShouldSerializeCueHintText() => !string.IsNullOrWhiteSpace(CueHintText);
 
         /// <summary>
         /// Resets the Image property to its default value.
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
              (Color1 == Color.Empty) &&
              Padding.Equals(Padding.Empty)      // <- This is not the same as the base
              && (TextH == PaletteRelativeAlign.Near) // <- This is not the same as the base
-             && MissingFrameWorkAPIs.IsNullOrWhiteSpace(CueHintText)
+             && string.IsNullOrWhiteSpace(CueHintText)
              && (_shortTextV == PaletteRelativeAlign.Center);
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public new InheritBool GetContentDraw(PaletteState state)
         {
-            return MissingFrameWorkAPIs.IsNullOrWhiteSpace(CueHintText) ? InheritBool.True : InheritBool.False;
+            return string.IsNullOrWhiteSpace(CueHintText) ? InheritBool.True : InheritBool.False;
         }
 
         /// <summary>

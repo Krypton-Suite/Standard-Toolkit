@@ -607,7 +607,7 @@ namespace Krypton.Toolkit
 
             if (_useAsUACElevationButton)
             {
-                if (_processToElevate != null || !MissingFrameWorkAPIs.IsNullOrWhiteSpace(_processToElevate))
+                if (_processToElevate != null || !string.IsNullOrWhiteSpace(_processToElevate))
                 {
                     ExecuteProcessAsAdministratorEventArgs administrativeTask = new ExecuteProcessAsAdministratorEventArgs(_processToElevate);
 

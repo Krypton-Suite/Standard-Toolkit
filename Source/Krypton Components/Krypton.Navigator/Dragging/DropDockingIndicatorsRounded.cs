@@ -219,59 +219,57 @@ namespace Krypton.Navigator
             {
                 // Draw onto a bitmap that is then used as the window display
                 Bitmap memoryBitmap = new(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
-                using (Graphics g = Graphics.FromImage(memoryBitmap))
+                using Graphics g = Graphics.FromImage(memoryBitmap);
+                // Perform actual painting onto the bitmap
+                Rectangle area = new(0, 0, rect.Width, rect.Height);
+                using (RenderContext context = new(null, g, area, _renderer))
                 {
-                    // Perform actual painting onto the bitmap
-                    Rectangle area = new(0, 0, rect.Width, rect.Height);
-                    using (RenderContext context = new(null, g, area, _renderer))
-                    {
-                        _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Rounded);
-                    }
-
-                    // Get hold of the screen DC
-                    IntPtr hDC = PI.GetDC(IntPtr.Zero);
-
-                    // Create a memory based DC compatible with the screen DC
-                    IntPtr memoryDC = PI.CreateCompatibleDC(hDC);
-
-                    // Get access to the bitmap handle contained in the Bitmap object
-                    IntPtr hBitmap = memoryBitmap.GetHbitmap(Color.FromArgb(0));
-
-                    // Select this bitmap for updating the window presentation
-                    IntPtr oldBitmap = PI.SelectObject(memoryDC, hBitmap);
-
-                    // New window size
-                    PI.SIZE ulwsize;
-                    ulwsize.cx = rect.Width;
-                    ulwsize.cy = rect.Height;
-
-                    // New window position
-                    PI.POINT topPos = new(rect.Left,rect.Top);
-                    // Offset into memory bitmap is always zero
-                    PI.POINT pointSource = new(0, 0);
-
-                    // We want to make the entire bitmap opaque 
-                    PI.BLENDFUNCTION blend = new()
-                    {
-                        BlendOp = PI.AC_SRC_OVER,
-                        BlendFlags = 0,
-                        SourceConstantAlpha = 255,
-                        AlphaFormat = PI.AC_SRC_ALPHA
-                    };
-
-                    // Tell operating system to use our bitmap for painting
-                    PI.UpdateLayeredWindow(Handle, hDC, ref topPos, ref ulwsize,
-                                           memoryDC, ref pointSource, 0, ref blend,
-                                           PI.ULW_ALPHA);
-
-                    // Put back the old bitmap handle
-                    PI.SelectObject(memoryDC, oldBitmap);
-
-                    // Cleanup resources
-                    PI.ReleaseDC(IntPtr.Zero, hDC);
-                    PI.DeleteObject(hBitmap);
-                    PI.DeleteDC(memoryDC);
+                    _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Rounded);
                 }
+
+                // Get hold of the screen DC
+                IntPtr hDC = PI.GetDC(IntPtr.Zero);
+
+                // Create a memory based DC compatible with the screen DC
+                IntPtr memoryDC = PI.CreateCompatibleDC(hDC);
+
+                // Get access to the bitmap handle contained in the Bitmap object
+                IntPtr hBitmap = memoryBitmap.GetHbitmap(Color.FromArgb(0));
+
+                // Select this bitmap for updating the window presentation
+                IntPtr oldBitmap = PI.SelectObject(memoryDC, hBitmap);
+
+                // New window size
+                PI.SIZE ulwsize;
+                ulwsize.cx = rect.Width;
+                ulwsize.cy = rect.Height;
+
+                // New window position
+                PI.POINT topPos = new(rect.Left,rect.Top);
+                // Offset into memory bitmap is always zero
+                PI.POINT pointSource = new(0, 0);
+
+                // We want to make the entire bitmap opaque 
+                PI.BLENDFUNCTION blend = new()
+                {
+                    BlendOp = PI.AC_SRC_OVER,
+                    BlendFlags = 0,
+                    SourceConstantAlpha = 255,
+                    AlphaFormat = PI.AC_SRC_ALPHA
+                };
+
+                // Tell operating system to use our bitmap for painting
+                PI.UpdateLayeredWindow(Handle, hDC, ref topPos, ref ulwsize,
+                    memoryDC, ref pointSource, 0, ref blend,
+                    PI.ULW_ALPHA);
+
+                // Put back the old bitmap handle
+                PI.SelectObject(memoryDC, oldBitmap);
+
+                // Cleanup resources
+                PI.ReleaseDC(IntPtr.Zero, hDC);
+                PI.DeleteObject(hBitmap);
+                PI.DeleteDC(memoryDC);
             }
         }
         #endregion

@@ -163,36 +163,32 @@ namespace Krypton.Ribbon
             }
 
             // Create border paths
-            using (GraphicsPath borderPath = CreateBorderPath(ClientRectangle))
+            using GraphicsPath borderPath = CreateBorderPath(ClientRectangle);
+            // Are we allowed to draw a background?
+            if (_paletteBack.GetBackDraw(State) == InheritBool.True)
             {
-                // Are we allowed to draw a background?
-                if (_paletteBack.GetBackDraw(State) == InheritBool.True)
-                {
-                    _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, backRect, borderPath, _paletteBack,
-                                                                                VisualOrientation.Top, State, _mementoBack);
-                }
+                _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, backRect, borderPath, _paletteBack,
+                    VisualOrientation.Top, State, _mementoBack);
+            }
 
-                // Are we allowed to draw the content?
-                if (_paletteContent.GetContentDraw(State) == InheritBool.True)
-                {
-                    context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
-                                                                       _mementoContent, VisualOrientation.Top, 
-                                                                       State, false, false,  false);
-                }
+            // Are we allowed to draw the content?
+            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            {
+                context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
+                    _mementoContent, VisualOrientation.Top, 
+                    State, false, false,  false);
+            }
 
-                // Are we allowed to draw border?
-                if (_paletteBorder.GetBorderDraw(State) == InheritBool.True)
-                {
-                    // Get the border color from palette
-                    Color borderColor = _paletteBorder.GetBorderColor1(State);
+            // Are we allowed to draw border?
+            if (_paletteBorder.GetBorderDraw(State) == InheritBool.True)
+            {
+                // Get the border color from palette
+                Color borderColor = _paletteBorder.GetBorderColor1(State);
 
-                    // Draw the border last to overlap the background
-                    using (AntiAlias aa = new(context.Graphics))
-                        using (Pen borderPen = new(borderColor))
-                        {
-                            context.Graphics.DrawPath(borderPen, borderPath);
-                        }
-                }
+                // Draw the border last to overlap the background
+                using AntiAlias aa = new(context.Graphics);
+                using Pen borderPen = new(borderColor);
+                context.Graphics.DrawPath(borderPen, borderPath);
             }
         }
         #endregion

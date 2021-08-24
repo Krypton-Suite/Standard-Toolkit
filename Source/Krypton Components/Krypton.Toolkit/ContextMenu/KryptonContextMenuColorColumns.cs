@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private static readonly Color[][] _noneScheme = MissingFrameWorkAPIs.Array_Empty<Color[]>();
+        private static readonly Color[][] _noneScheme = Array.Empty<Color[]>();
 
         private static readonly Color[][] _mono2Scheme = { new Color[] { Color.White }, 
                                                                          new Color[] { Color.Black } };

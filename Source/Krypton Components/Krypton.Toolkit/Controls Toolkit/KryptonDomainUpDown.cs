@@ -429,19 +429,15 @@ namespace Krypton.Toolkit
                                     // Draw using a solid brush
                                     try
                                     {
-                                        using (SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state)))
-                                        {
-                                            g.DrawString(DomainUpDown.Text, states.Content.GetContentShortTextFont(state), foreBrush,
-                                                rectangle,
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state));
+                                        g.DrawString(DomainUpDown.Text, states.Content.GetContentShortTextFont(state), foreBrush,
+                                            rectangle,
+                                            stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using (SolidBrush foreBrush = new(DomainUpDown.ForeColor))
-                                        {
-                                            g.DrawString(DomainUpDown.Text, DomainUpDown.Font, foreBrush, rectangle, stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(DomainUpDown.ForeColor);
+                                        g.DrawString(DomainUpDown.Text, DomainUpDown.Font, foreBrush, rectangle, stringFormat);
                                     }
                                 }
 
@@ -638,24 +634,22 @@ namespace Krypton.Toolkit
                                         PI.SelectObject(_screenDC, hBitmap);
 
                                         // Easier to draw using a graphics instance than a DC!
-                                        using (Graphics g = Graphics.FromHdc(_screenDC))
+                                        using Graphics g = Graphics.FromHdc(_screenDC);
+                                        // Drawn entire client area in the background color
+                                        using (SolidBrush backBrush =
+                                            new(DomainUpDown.DomainUpDown.BackColor))
                                         {
-                                            // Drawn entire client area in the background color
-                                            using (SolidBrush backBrush =
-                                                new(DomainUpDown.DomainUpDown.BackColor))
-                                            {
-                                                g.FillRectangle(backBrush, clientRect);
-                                            }
-
-                                            // Draw the actual up and down buttons split inside the client rectangle
-                                            DrawUpDownButtons(g,
-                                                new Rectangle(clientRect.X, clientRect.Y, clientRect.Width,
-                                                    clientRect.Height - 1));
-
-                                            // Now blit from the bitmap from the screen to the real dc
-                                            PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
-                                                _screenDC, clientRect.X, clientRect.Y, PI.SRCCOPY);
+                                            g.FillRectangle(backBrush, clientRect);
                                         }
+
+                                        // Draw the actual up and down buttons split inside the client rectangle
+                                        DrawUpDownButtons(g,
+                                            new Rectangle(clientRect.X, clientRect.Y, clientRect.Width,
+                                                clientRect.Height - 1));
+
+                                        // Now blit from the bitmap from the screen to the real dc
+                                        PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
+                                            _screenDC, clientRect.X, clientRect.Y, PI.SRCCOPY);
                                     }
                                     finally
                                     {
@@ -708,23 +702,21 @@ namespace Krypton.Toolkit
                 Rectangle downRect = new(clientRect.X, upRect.Bottom, clientRect.Width, clientRect.Bottom - upRect.Bottom);
 
                 // Position and draw the up/down buttons
-                using (ViewLayoutContext layoutContext = new(DomainUpDown, DomainUpDown.Renderer))
-                using (RenderContext renderContext = new(DomainUpDown, g, clientRect, DomainUpDown.Renderer))
-                {
-                    // Up button
-                    layoutContext.DisplayRectangle = upRect;
-                    _viewButton.ElementState = ButtonElementState(upRect);
-                    _viewButton.Layout(layoutContext);
-                    _viewButton.Render(renderContext);
-                    renderContext.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
+                using ViewLayoutContext layoutContext = new(DomainUpDown, DomainUpDown.Renderer);
+                using RenderContext renderContext = new(DomainUpDown, g, clientRect, DomainUpDown.Renderer);
+                // Up button
+                layoutContext.DisplayRectangle = upRect;
+                _viewButton.ElementState = ButtonElementState(upRect);
+                _viewButton.Layout(layoutContext);
+                _viewButton.Render(renderContext);
+                renderContext.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
 
-                    // Down button
-                    layoutContext.DisplayRectangle = downRect;
-                    _viewButton.ElementState = ButtonElementState(downRect);
-                    _viewButton.Layout(layoutContext);
-                    _viewButton.Render(renderContext);
-                    renderContext.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
-                }
+                // Down button
+                layoutContext.DisplayRectangle = downRect;
+                _viewButton.ElementState = ButtonElementState(downRect);
+                _viewButton.Layout(layoutContext);
+                _viewButton.Render(renderContext);
+                renderContext.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
             }
 
             private PaletteState ButtonElementState(Rectangle buttonRect)

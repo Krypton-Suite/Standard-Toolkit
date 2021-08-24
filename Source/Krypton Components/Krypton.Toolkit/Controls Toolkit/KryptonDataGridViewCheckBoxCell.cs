@@ -94,22 +94,20 @@ namespace Krypton.Toolkit
                 bool pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                 // Find out the requested size of the check box drawing
-                using (ViewLayoutContext viewContent = new(kDGV, kDGV.Renderer))
-                {
-                    Size checkBoxSize = kDGV.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent,
-                        kDGV.Redirector,
-                        kDGV.Enabled,
-                        CheckState.Unchecked,
-                        tracking,
-                        pressed);
+                using ViewLayoutContext viewContent = new(kDGV, kDGV.Renderer);
+                Size checkBoxSize = kDGV.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent,
+                    kDGV.Redirector,
+                    kDGV.Enabled,
+                    CheckState.Unchecked,
+                    tracking,
+                    pressed);
 
-                    // Add on the requested cell padding (plus add 1 to counter the -1 that occurs
-                    // in the painting routine to prevent drawing over the bottom right border)
-                    checkBoxSize.Width += cellStyle.Padding.Horizontal + 1;
-                    checkBoxSize.Height += cellStyle.Padding.Vertical + 1;
+                // Add on the requested cell padding (plus add 1 to counter the -1 that occurs
+                // in the painting routine to prevent drawing over the bottom right border)
+                checkBoxSize.Width += cellStyle.Padding.Horizontal + 1;
+                checkBoxSize.Height += cellStyle.Padding.Vertical + 1;
 
-                    return checkBoxSize;
-                }
+                return checkBoxSize;
             }
             catch
             {
@@ -179,77 +177,75 @@ namespace Krypton.Toolkit
                     bool tracking = mouseCell && MouseInContentBoundsInternal;
                     bool pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
-                    using (RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer))
+                    using RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    Size checkBoxSize;
+
+                    // Find out the requested size of the check box drawing
+                    using (ViewLayoutContext viewContent = new(kDgv, kDgv.Renderer))
                     {
-                        Size checkBoxSize;
-
-                        // Find out the requested size of the check box drawing
-                        using (ViewLayoutContext viewContent = new(kDgv, kDgv.Renderer))
-                        {
-                            checkBoxSize = renderContext.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent, 
-                                kDgv.Redirector,
-                                kDgv.Enabled && !base.ReadOnly,
-                                checkState,
-                                tracking,
-                                pressed);
-                        }
-                        // Remember the original cell bounds
-                        Rectangle startBounds = cellBounds;
-
-                        // Prevent check box overlapping the bottom/right border
-                        cellBounds.Width--;
-                        cellBounds.Height--;
-
-                        // Adjust the horizontal alignment
-                        switch (cellStyle.Alignment)
-                        {
-                            case DataGridViewContentAlignment.NotSet:
-                            case DataGridViewContentAlignment.TopCenter:
-                            case DataGridViewContentAlignment.MiddleCenter:
-                            case DataGridViewContentAlignment.BottomCenter:
-                                cellBounds.X += (cellBounds.Width - checkBoxSize.Width) / 2;
-                                break;
-                            case DataGridViewContentAlignment.TopRight:
-                            case DataGridViewContentAlignment.MiddleRight:
-                            case DataGridViewContentAlignment.BottomRight:
-                                cellBounds.X = cellBounds.Right - checkBoxSize.Width;
-                                break;
-                        }
-
-                        // Adjust the vertical alignment
-                        switch (cellStyle.Alignment)
-                        {
-                            case DataGridViewContentAlignment.NotSet:
-                            case DataGridViewContentAlignment.MiddleLeft:
-                            case DataGridViewContentAlignment.MiddleCenter:
-                            case DataGridViewContentAlignment.MiddleRight:
-                                cellBounds.Y += (cellBounds.Height - checkBoxSize.Height) / 2;
-                                break;
-                            case DataGridViewContentAlignment.BottomLeft:
-                            case DataGridViewContentAlignment.BottomCenter:
-                            case DataGridViewContentAlignment.BottomRight:
-                                cellBounds.Y = cellBounds.Bottom - checkBoxSize.Height;
-                                break;
-                        }
-
-                        // Make the cell the same size as the check box itself
-                        cellBounds.Width = checkBoxSize.Width;
-                        cellBounds.Height = checkBoxSize.Height;
-
-                        // Remember the current drawing bounds
-                        _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
-                            cellBounds.Y - startBounds.Y,
-                            cellBounds.Width, cellBounds.Height);
-
-                        // Perform actual drawing of the check box
-                        renderContext.Renderer.RenderGlyph.DrawCheckBox(renderContext,
-                            cellBounds,
+                        checkBoxSize = renderContext.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent, 
                             kDgv.Redirector,
                             kDgv.Enabled && !base.ReadOnly,
                             checkState,
                             tracking,
                             pressed);
                     }
+                    // Remember the original cell bounds
+                    Rectangle startBounds = cellBounds;
+
+                    // Prevent check box overlapping the bottom/right border
+                    cellBounds.Width--;
+                    cellBounds.Height--;
+
+                    // Adjust the horizontal alignment
+                    switch (cellStyle.Alignment)
+                    {
+                        case DataGridViewContentAlignment.NotSet:
+                        case DataGridViewContentAlignment.TopCenter:
+                        case DataGridViewContentAlignment.MiddleCenter:
+                        case DataGridViewContentAlignment.BottomCenter:
+                            cellBounds.X += (cellBounds.Width - checkBoxSize.Width) / 2;
+                            break;
+                        case DataGridViewContentAlignment.TopRight:
+                        case DataGridViewContentAlignment.MiddleRight:
+                        case DataGridViewContentAlignment.BottomRight:
+                            cellBounds.X = cellBounds.Right - checkBoxSize.Width;
+                            break;
+                    }
+
+                    // Adjust the vertical alignment
+                    switch (cellStyle.Alignment)
+                    {
+                        case DataGridViewContentAlignment.NotSet:
+                        case DataGridViewContentAlignment.MiddleLeft:
+                        case DataGridViewContentAlignment.MiddleCenter:
+                        case DataGridViewContentAlignment.MiddleRight:
+                            cellBounds.Y += (cellBounds.Height - checkBoxSize.Height) / 2;
+                            break;
+                        case DataGridViewContentAlignment.BottomLeft:
+                        case DataGridViewContentAlignment.BottomCenter:
+                        case DataGridViewContentAlignment.BottomRight:
+                            cellBounds.Y = cellBounds.Bottom - checkBoxSize.Height;
+                            break;
+                    }
+
+                    // Make the cell the same size as the check box itself
+                    cellBounds.Width = checkBoxSize.Width;
+                    cellBounds.Height = checkBoxSize.Height;
+
+                    // Remember the current drawing bounds
+                    _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
+                        cellBounds.Y - startBounds.Y,
+                        cellBounds.Width, cellBounds.Height);
+
+                    // Perform actual drawing of the check box
+                    renderContext.Renderer.RenderGlyph.DrawCheckBox(renderContext,
+                        cellBounds,
+                        kDgv.Redirector,
+                        kDgv.Enabled && !base.ReadOnly,
+                        checkState,
+                        tracking,
+                        pressed);
                 }
             }
             else

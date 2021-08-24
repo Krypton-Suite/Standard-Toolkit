@@ -69,10 +69,8 @@ namespace Krypton.Toolkit
                                                         Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using (SolidBrush drawBrush = new(lightColor))
-            {
-                context.Graphics.FillRectangle(drawBrush, displayRect);
-            }
+            using SolidBrush drawBrush = new(lightColor);
+            context.Graphics.FillRectangle(drawBrush, displayRect);
         }
 
         #endregion

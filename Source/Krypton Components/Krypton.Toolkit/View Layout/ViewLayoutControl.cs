@@ -230,13 +230,11 @@ namespace Krypton.Toolkit
                 UpdateParent(context.Control);
 
                 // Ensure context has the correct control
-                using (CorrectContextControl ccc = new(context, ChildControl))
+                using CorrectContextControl ccc = new(context, ChildControl);
+                // Ask the view for its preferred size
+                if (ChildView != null)
                 {
-                    // Ask the view for its preferred size
-                    if (ChildView != null)
-                    {
-                        return ChildView.GetPreferredSize(context);
-                    }
+                    return ChildView.GetPreferredSize(context);
                 }
             }
 
@@ -261,39 +259,37 @@ namespace Krypton.Toolkit
             if (ChildControl != null)
             {
                 // Ensure context has the correct control
-                using (CorrectContextControl ccc = new(context, ChildControl))
+                using CorrectContextControl ccc = new(context, ChildControl);
+                // We take on all the available display area
+                ClientRectangle = context.DisplayRectangle;
+
+                // Are we allowed to layout child controls?
+                if (!context.ViewManager.DoNotLayoutControls)
                 {
-                    // We take on all the available display area
-                    ClientRectangle = context.DisplayRectangle;
-
-                    // Are we allowed to layout child controls?
-                    if (!context.ViewManager.DoNotLayoutControls)
+                    // Do we have a control to position?
+                    if (ChildControl != null)
                     {
-                        // Do we have a control to position?
-                        if (ChildControl != null)
-                        {
-                            // Size and position the child control
-                            ChildControl.SetBounds(ClientLocation.X, ClientLocation.Y, ClientWidth, ClientHeight);
+                        // Size and position the child control
+                        ChildControl.SetBounds(ClientLocation.X, ClientLocation.Y, ClientWidth, ClientHeight);
 
-                            // Ensure the visible/enabled states are up to date
-                            ChildControl.Visible = Visible;
-                            ChildControl.Enabled = Enabled;
+                        // Ensure the visible/enabled states are up to date
+                        ChildControl.Visible = Visible;
+                        ChildControl.Enabled = Enabled;
 
-                            // A layout means something might have changed, so better redraw it
-                            ChildControl.Invalidate();
-                        }
+                        // A layout means something might have changed, so better redraw it
+                        ChildControl.Invalidate();
                     }
-
-                    // Adjust the view location to be at the top left of the child control
-                    context.DisplayRectangle = new Rectangle(LayoutOffset, ClientSize);
-
-                    // Do we have a child view to layout?
-                    // Layout the child view
-                    ChildView?.Layout(context);
-
-                    // Put back the original display value now we have finished
-                    context.DisplayRectangle = ClientRectangle;
                 }
+
+                // Adjust the view location to be at the top left of the child control
+                context.DisplayRectangle = new Rectangle(LayoutOffset, ClientSize);
+
+                // Do we have a child view to layout?
+                // Layout the child view
+                ChildView?.Layout(context);
+
+                // Put back the original display value now we have finished
+                context.DisplayRectangle = ClientRectangle;
             }
         }
         #endregion

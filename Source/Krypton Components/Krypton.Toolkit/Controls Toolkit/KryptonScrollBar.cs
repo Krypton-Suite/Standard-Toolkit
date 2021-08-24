@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// A custom scrollbar control.
     /// </summary>
-    [Designer("Krypton.Toolkit.ScrollBarControlDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonScrollBarDesigner))]
     [DefaultEvent("Scroll")]
     [DefaultProperty("Value")]
     [ToolboxBitmap(typeof(VScrollBar))]
@@ -588,11 +588,9 @@ namespace Krypton.Toolkit
             }
 
             // draw border
-            using (Pen pen = new(
-               (Enabled ? ScrollBarKryptonRenderer.borderColours[0] : _disabledBorderColor)))
-            {
-                e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
-            }
+            using Pen pen = new(
+                (Enabled ? ScrollBarKryptonRenderer.borderColours[0] : _disabledBorderColor));
+            e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
         }
 
         /// <summary>

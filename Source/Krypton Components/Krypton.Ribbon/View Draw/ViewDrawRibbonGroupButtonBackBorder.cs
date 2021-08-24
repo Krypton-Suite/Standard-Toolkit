@@ -458,17 +458,13 @@ namespace Krypton.Ribbon
                     // Draw the border for the click and split areas
                     if (Controller.MouseInSplit)
                     {
-                        using (Clipping clipToSplitter = new(context.Graphics, belowSplitRect))
-                        {
-                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
-                        }
+                        using Clipping clipToSplitter = new(context.Graphics, belowSplitRect);
+                        DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
                     }
                     else
                     {
-                        using (Clipping clipToSplitter = new(context.Graphics, aboveSplitRect))
-                        {
-                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
-                        }
+                        using Clipping clipToSplitter = new(context.Graphics, aboveSplitRect);
+                        DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
                     }
                     break;
                 default:
@@ -663,17 +659,13 @@ namespace Krypton.Ribbon
                         // Draw the border for the click and split areas
                         if (Controller.MouseInSplit)
                         {
-                            using (Clipping clipToSplitter = new(context.Graphics, afterSplitRect))
-                            {
-                                DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
-                            }
+                            using Clipping clipToSplitter = new(context.Graphics, afterSplitRect);
+                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
                         }
                         else
                         {
-                            using (Clipping clipToSplitter = new(context.Graphics, beforeSplitRect))
-                            {
-                                DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
-                            }
+                            using Clipping clipToSplitter = new(context.Graphics, beforeSplitRect);
+                            DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
                         }
                     }
                     break;
@@ -693,18 +685,16 @@ namespace Krypton.Ribbon
             if (paletteBack.GetBackDraw(state) == InheritBool.True)
             {
                 // Get the border path which the background is clipped to drawing within
-                using (GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, rect, _paletteBorder, VisualOrientation.Top, state))
-                {
-                    Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(_paletteBorder, state, VisualOrientation.Top);
+                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, rect, _paletteBorder, VisualOrientation.Top, state);
+                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(_paletteBorder, state, VisualOrientation.Top);
 
-                    // Apply the padding depending on the orientation
-                    Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, rect, borderPadding);
+                // Apply the padding depending on the orientation
+                Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, rect, borderPadding);
 
-                    // Render the background inside the border path
-                    _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
-                                                                                paletteBack, VisualOrientation.Top,
-                                                                                state, _mementoBack);
-                }
+                // Render the background inside the border path
+                _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
+                    paletteBack, VisualOrientation.Top,
+                    state, _mementoBack);
             }
         }
 

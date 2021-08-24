@@ -94,10 +94,8 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            using (SolidBrush brush = new(Color.FromArgb(197, 197, 197)))
-            {
-                context.Graphics.FillRectangle(brush, ClientRectangle);
-            }
+            using SolidBrush brush = new(Color.FromArgb(197, 197, 197));
+            context.Graphics.FillRectangle(brush, ClientRectangle);
         }
         #endregion
     }

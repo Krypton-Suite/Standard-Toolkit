@@ -104,14 +104,10 @@ namespace Krypton.Ribbon
                 }
                 else if ((sender != null) && !_ribbon.MinimizedMode)
                 {
-                    using (ViewDrawRibbonGroupsBorder border = new(_ribbon, false, _paintDelegate))
-                    {
-                        border.ClientRectangle = new Rectangle(-sender.Location.X, rect.Bottom - 1, _ribbon.Width, 10);
-                        using (RenderContext context = new(_ribbon, g, rect, _ribbon.Renderer))
-                        {
-                            border.Render(context);
-                        }
-                    }
+                    using ViewDrawRibbonGroupsBorder border = new(_ribbon, false, _paintDelegate);
+                    border.ClientRectangle = new Rectangle(-sender.Location.X, rect.Bottom - 1, _ribbon.Width, 10);
+                    using RenderContext context = new(_ribbon, g, rect, _ribbon.Renderer);
+                    border.Render(context);
                 }
 
                 if (_ribbon.RibbonShape == PaletteRibbonShape.Office2010)
@@ -121,25 +117,19 @@ namespace Krypton.Ribbon
                         ? Color.FromArgb(39, 39, 39)
                         : Color.White;
 
-                    using (LinearGradientBrush backBrush = new(new Rectangle(rect.X, rect.Y - 1, rect.Width, rect.Height + 1), Color.Transparent, gradientColor, 90f))
-                    {
-                        backBrush.Blend = _compBlend;
-                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
-                    }
+                    using LinearGradientBrush backBrush = new(new Rectangle(rect.X, rect.Y - 1, rect.Width, rect.Height + 1), Color.Transparent, gradientColor, 90f);
+                    backBrush.Blend = _compBlend;
+                    g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
                 }
                 else if (_ribbon.RibbonShape == PaletteRibbonShape.Office2013)
                 {
-                    using (SolidBrush backBrush = new(Color.White))
-                    {
-                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
-                    }
+                    using SolidBrush backBrush = new(Color.White);
+                    g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
                 }
                 else if (_ribbon.RibbonShape == PaletteRibbonShape.Office365)
                 {
-                    using (SolidBrush backBrush = new(Color.White))
-                    {
-                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
-                    }
+                    using SolidBrush backBrush = new(Color.White);
+                    g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
                 }
             }
         }

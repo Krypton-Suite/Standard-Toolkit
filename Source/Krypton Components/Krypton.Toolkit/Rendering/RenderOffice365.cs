@@ -51,10 +51,8 @@ namespace Krypton.Toolkit
             Color borderColour = paletteBack.GetBackColor1(state), lightColour = CommonHelper.MergeColors(borderColour, BORDER_PERCENT, Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using (SolidBrush drawBrush = new(lightColour))
-            {
-                context.Graphics.FillRectangle(drawBrush, displayRect);
-            }
+            using SolidBrush drawBrush = new(lightColour);
+            context.Graphics.FillRectangle(drawBrush, displayRect);
         }
         #endregion
 

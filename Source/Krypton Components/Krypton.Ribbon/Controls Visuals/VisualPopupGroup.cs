@@ -338,10 +338,8 @@ namespace Krypton.Ribbon
             };
 
             // Update the region of the popup to be the border path
-            using (GraphicsPath roundPath = CommonHelper.RoundedRectanglePath(ClientRectangle, borderRounding))
-            {
-                Region = new Region(roundPath);
-            }
+            using GraphicsPath roundPath = CommonHelper.RoundedRectanglePath(ClientRectangle, borderRounding);
+            Region = new Region(roundPath);
         }
 
         /// <summary>

@@ -139,10 +139,10 @@ namespace Krypton.Toolkit
                     _miRI = typeof(TreeView).GetMethod("ResetIndent",
                                                         BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                         null, CallingConventions.HasThis,
-                                                        MissingFrameWorkAPIs.Array_Empty<Type>(), null);
+                                                        Array.Empty<Type>(), null);
                 }
 
-                _miRI.Invoke(this, MissingFrameWorkAPIs.Array_Empty<object>());
+                _miRI.Invoke(this, Array.Empty<object>());
             }
             #endregion
 
@@ -156,10 +156,8 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using (ViewLayoutContext context = new(_viewManager, this, _kryptonTreeView, _kryptonTreeView.Renderer))
-                {
-                    ViewDrawPanel.Layout(context);
-                }
+                using ViewLayoutContext context = new(_viewManager, this, _kryptonTreeView, _kryptonTreeView.Renderer);
+                ViewDrawPanel.Layout(context);
             }
 
             /// <summary>
@@ -1752,28 +1750,26 @@ namespace Krypton.Toolkit
                 UpdateContentFromNode(null);
 
                 // Ask the view element to layout in given space, needs this before a render call
-                using (ViewLayoutContext context = new(this, Renderer))
+                using ViewLayoutContext context = new(this, Renderer);
+                // For calculating the item height we always assume normal state
+                _drawButton.ElementState = PaletteState.Normal;
+
+                // Find required size to show a node (only interested in the height)
+                Size size = _drawButton.GetPreferredSize(context);
+                size.Height = size.Height + 1;
+
+                // If we have images defined then adjust to reflect image height
+                if (ImageList != null)
                 {
-                    // For calculating the item height we always assume normal state
-                    _drawButton.ElementState = PaletteState.Normal;
+                    size.Height = Math.Max(size.Height, ImageList.ImageSize.Height);
+                }
 
-                    // Find required size to show a node (only interested in the height)
-                    Size size = _drawButton.GetPreferredSize(context);
-                    size.Height = size.Height + 1;
-
-                    // If we have images defined then adjust to reflect image height
-                    if (ImageList != null)
+                // Update the item height to match height of a single node
+                if (size.Height != ItemHeight)
+                {
+                    if (_itemHeightDefault)
                     {
-                        size.Height = Math.Max(size.Height, ImageList.ImageSize.Height);
-                    }
-
-                    // Update the item height to match height of a single node
-                    if (size.Height != ItemHeight)
-                    {
-                        if (_itemHeightDefault)
-                        {
-                            _treeView.ItemHeight = size.Height;
-                        }
+                        _treeView.ItemHeight = size.Height;
                     }
                 }
             }
@@ -2056,22 +2052,20 @@ namespace Krypton.Toolkit
 
                                 // Draw the horizontal and vertical lines
                                 Color lineColor = Redirector.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-                                using (Pen linePen = new(lineColor))
-                                {
-                                    linePen.DashStyle = DashStyle.Dot;
-                                    linePen.DashOffset = indent % 2;
-                                    g.DrawLine(linePen, hCenter, top, hCenter, bottom);
-                                    g.DrawLine(linePen, hCenter - 1, vCenter - 1, indentBounds.Right, vCenter - 1);
-                                    hCenter -= indent;
+                                using Pen linePen = new(lineColor);
+                                linePen.DashStyle = DashStyle.Dot;
+                                linePen.DashOffset = indent % 2;
+                                g.DrawLine(linePen, hCenter, top, hCenter, bottom);
+                                g.DrawLine(linePen, hCenter - 1, vCenter - 1, indentBounds.Right, vCenter - 1);
+                                hCenter -= indent;
 
-                                    // Draw the vertical lines for previous node levels
-                                    while (hCenter >= 0)
-                                    {
-                                        int begin = indentBounds.Y;
-                                        begin -= (begin + 1) % 2;
-                                        g.DrawLine(linePen, hCenter, begin, hCenter, indentBounds.Bottom);
-                                        hCenter -= indent;
-                                    }
+                                // Draw the vertical lines for previous node levels
+                                while (hCenter >= 0)
+                                {
+                                    int begin = indentBounds.Y;
+                                    begin -= (begin + 1) % 2;
+                                    g.DrawLine(linePen, hCenter, begin, hCenter, indentBounds.Bottom);
+                                    hCenter -= indent;
                                 }
                             }
 

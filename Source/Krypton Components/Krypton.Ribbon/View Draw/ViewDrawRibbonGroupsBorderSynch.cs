@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo; otherwise null.</returns>
         public KeyTipInfo[] GetGroupKeyTips(KryptonRibbonTab tab) => _tabToView.ContainsKey(tab)
             ? _tabToView[tab].GetGroupKeyTips()
-            : MissingFrameWorkAPIs.Array_Empty<KeyTipInfo>();
+            : Array.Empty<KeyTipInfo>();
 
         #endregion
 

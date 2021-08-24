@@ -114,15 +114,33 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseChecked2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
-        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
-        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) }; // TODO: Should this be theme independent?
-        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) }; // TODO: Should this be theme independent?
+        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248), 
+                                                             Color.FromArgb(214, 220, 231), 
+                                                             Color.FromArgb(188, 198, 211), 
+                                                             Color.FromArgb(254, 254, 255), 
+                                                             Color.FromArgb(206, 213, 225)
+                                                            };
+
+        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), 
+                                                            Color.FromArgb(248, 230, 143), 
+                                                            Color.FromArgb(238, 213, 126), 
+                                                            Color.FromArgb(254, 247, 129), 
+                                                            Color.FromArgb(240, 201, 41)
+                                                          }; // TODO: Should this be theme independent?
+
+        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), 
+                                                              Color.FromArgb(228, 198, 149), 
+                                                              Color.FromArgb(166, 97, 7), 
+                                                              Color.FromArgb(242, 155, 57), 
+                                                              Color.FromArgb(236, 136, 9)
+                                                            }; // TODO: Should this be theme independent?
+
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                           Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
-                                                                           Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
-                                                                           Color.FromArgb(194, 118, 43),  // Button, Pressed, Border 1
-                                                                           Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
-                                                                           Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
+                                                                Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
+                                                                Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
+                                                                Color.FromArgb(194, 118, 43),  // Button, Pressed, Border 1
+                                                                Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
+                                                                Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
                                                                            Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
                                                                          };
         private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1

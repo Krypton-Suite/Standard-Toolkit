@@ -56,10 +56,8 @@ namespace Krypton.Ribbon
                 : ribbon.StateCommon.RibbonGroupButton.Back.GetBackColor1(PaletteState.Tracking);
 
             // Draw entire area in color
-            using (SolidBrush darkBrush = new(c))
-            {
-                context.Graphics.FillRectangle(darkBrush, clientRect);
-            }
+            using SolidBrush darkBrush = new(c);
+            context.Graphics.FillRectangle(darkBrush, clientRect);
         }
         #endregion
  
