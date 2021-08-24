@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
 
         }
 
-        private Attributes _editHwnd;
+        private IntPtr? _editHwnd;
         private KryptonCheckBox _collateCheckbox;
 
         /// <inheritdoc />
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
             var (handled, retValue) = _commonDialogHandler.HookProc(hWnd, msg, wparam, lparam);
             if (msg == PI.WM_.INITDIALOG)
             {
-                _editHwnd = _commonDialogHandler.Controls.First(ctl => ctl.DlgCtrlId == 0x00000482);
+                _editHwnd = _commonDialogHandler.Controls.First(ctl => ctl.DlgCtrlId == 0x00000482).hWnd;
                 _collateCheckbox = _commonDialogHandler.Controls.First(ctl => ctl.DlgCtrlId == 0x00000411).Button as KryptonCheckBox;
                 _collateCheckbox.Checked = true;
             }
@@ -99,12 +99,12 @@ namespace Krypton.Toolkit
                     return IntPtr.Zero;
                 }
                 else if ((msg == PI.WM_.COMMAND)
-                    && (_editHwnd?.hWnd == lparam)
+                    && (_editHwnd == lparam)
                     && (PI.HIWORD(wparam) == PI.EN_CHANGE)
                     )
                 {
                     var text = new StringBuilder(8);
-                    PI.GetWindowText(_editHwnd.hWnd, text, 8);
+                    PI.GetWindowText(_editHwnd.Value, text, 8);
                     _collateCheckbox.Enabled = (int.Parse(text.ToString()) > 1);
                 }
                 //Debug.WriteLine(@"{0} : {1}", msg, hWnd);
