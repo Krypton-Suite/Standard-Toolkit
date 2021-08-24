@@ -129,29 +129,44 @@ namespace Krypton.Toolkit
                 (e.ArrowRectangle.Height > 0))
             {
                 // Create a path that is used to fill the arrow
-                using (GraphicsPath arrowPath = CreateArrowPath(e.Item,
-                                                                e.ArrowRectangle,
-                                                                e.Direction))
+                using GraphicsPath arrowPath = CreateArrowPath(e.Item,
+                    e.ArrowRectangle,
+                    e.Direction);
+                // Get the rectangle that encloses the arrow and expand slightly
+                // so that the gradient is always within the expanding bounds
+                RectangleF boundsF = arrowPath.GetBounds();
+                boundsF.Inflate(1f, 1f);
+
+                // Default to disabled
+                Color color1 = _disabled;
+                Color color2 = _disabled;
+
+                // If not disabled then need to decide on actual colors
+                if (e.Item.Enabled)
                 {
-                    // Get the rectangle that encloses the arrow and expand slightly
-                    // so that the gradient is always within the expanding bounds
-                    RectangleF boundsF = arrowPath.GetBounds();
-                    boundsF.Inflate(1f, 1f);
-
-                    // Default to disabled
-                    Color color1 = _disabled;
-                    Color color2 = _disabled;
-
-                    // If not disabled then need to decide on actual colors
-                    if (e.Item.Enabled)
+                    // If the arrow is on a context menu
+                    if ((e.Item.Owner is ContextMenuStrip) ||
+                        (e.Item.Owner is ToolStripDropDownMenu) ||
+                        (e.Item.OwnerItem is ToolStripOverflowButton))
                     {
-                        // If the arrow is on a context menu
-                        if ((e.Item.Owner is ContextMenuStrip) ||
-                            (e.Item.Owner is ToolStripDropDownMenu) ||
-                            (e.Item.OwnerItem is ToolStripOverflowButton))
+                        if (((e.Item.Owner is ContextMenuStrip) || (e.Item.Owner is ToolStripDropDownMenu)) ||
+                            ((e.Item.OwnerItem is ToolStripOverflowButton) && ((e.Item is ToolStripSplitButton) || (e.Item is ToolStripDropDownButton)) && (!e.Item.Selected || e.Item.Pressed)))
                         {
-                            if (((e.Item.Owner is ContextMenuStrip) || (e.Item.Owner is ToolStripDropDownMenu)) ||
-                                ((e.Item.OwnerItem is ToolStripOverflowButton) && ((e.Item is ToolStripSplitButton) || (e.Item is ToolStripDropDownButton)) && (!e.Item.Selected || e.Item.Pressed)))
+                            color1 = KCT.MenuItemText;
+                        }
+                        else
+                        {
+                            color1 = KCT.ToolStripText;
+                        }
+
+                        color2 = color1;
+                    }
+                    else
+                    {
+                        if ((e.Item.Owner is ToolStrip) ||
+                            (e.Item.Owner is StatusStrip))
+                        {
+                            if (((e.Item is ToolStripSplitButton) || (e.Item is ToolStripDropDownButton)) && e.Item.Pressed)
                             {
                                 color1 = KCT.MenuItemText;
                             }
@@ -162,50 +177,31 @@ namespace Krypton.Toolkit
 
                             color2 = color1;
                         }
-                        else
-                        {
-                            if ((e.Item.Owner is ToolStrip) ||
-                                (e.Item.Owner is StatusStrip))
-                            {
-                                if (((e.Item is ToolStripSplitButton) || (e.Item is ToolStripDropDownButton)) && e.Item.Pressed)
-                                {
-                                    color1 = KCT.MenuItemText;
-                                }
-                                else
-                                {
-                                    color1 = KCT.ToolStripText;
-                                }
-
-                                color2 = color1;
-                            }
-                        }
-                    }
-
-                    float angle = 0;
-
-                    // Use gradient angle to match the arrow direction
-                    switch (e.Direction)
-                    {
-                        case ArrowDirection.Right:
-                            angle = 0;
-                            break;
-                        case ArrowDirection.Left:
-                            angle = 180f;
-                            break;
-                        case ArrowDirection.Down:
-                            angle = 90f;
-                            break;
-                        case ArrowDirection.Up:
-                            angle = 270f;
-                            break;
-                    }
-
-                    // Draw the actual arrow using a gradient
-                    using (LinearGradientBrush arrowBrush = new(boundsF, color1, color2, angle))
-                    {
-                        e.Graphics.FillPath(arrowBrush, arrowPath);
                     }
                 }
+
+                float angle = 0;
+
+                // Use gradient angle to match the arrow direction
+                switch (e.Direction)
+                {
+                    case ArrowDirection.Right:
+                        angle = 0;
+                        break;
+                    case ArrowDirection.Left:
+                        angle = 180f;
+                        break;
+                    case ArrowDirection.Down:
+                        angle = 90f;
+                        break;
+                    case ArrowDirection.Up:
+                        angle = 270f;
+                        break;
+                }
+
+                // Draw the actual arrow using a gradient
+                using LinearGradientBrush arrowBrush = new(boundsF, color1, color2, angle);
+                e.Graphics.FillPath(arrowBrush, arrowPath);
             }
         }
         #endregion
@@ -270,82 +266,76 @@ namespace Krypton.Toolkit
             }
 
             // Drawing with anti aliasing to create smoother appearance
-            using (AntiAlias aa = new(e.Graphics))
+            using AntiAlias aa = new(e.Graphics);
+            // Create border path for the check box
+            using GraphicsPath borderPath = CreateBorderPath(checkBox, CUT_MENU_ITEM_BACK);
+            Color colorFill = KCT.CheckBackground;
+            Color colorBorder = CommonHelper.BlackenColor(KCT.CheckBackground, 0.89f, 0.88f, 0.98f);
+            if (!e.Item.Enabled)
             {
-                // Create border path for the check box
-                using (GraphicsPath borderPath = CreateBorderPath(checkBox, CUT_MENU_ITEM_BACK))
+                colorFill = CommonHelper.ColorToBlackAndWhite(colorFill);
+                colorBorder = CommonHelper.ColorToBlackAndWhite(colorBorder);
+            }
+
+            // Fill the background in a solid color
+            using (SolidBrush fillBrush = new(colorFill))
+            {
+                e.Graphics.FillPath(fillBrush, borderPath);
+            }
+
+            // Draw the border around the check box
+            using (Pen borderPen = new(colorBorder))
+            {
+                e.Graphics.DrawPath(borderPen, borderPath);
+            }
+
+            // If there is not an image, then we can draw the tick, square etc...
+            if (e.Item.Image == null)
+            {
+                CheckState checkState = CheckState.Unchecked;
+
+                // Extract the check state from the item
+                if (e.Item is ToolStripMenuItem item)
                 {
-                    Color colorFill = KCT.CheckBackground;
-                    Color colorBorder = CommonHelper.BlackenColor(KCT.CheckBackground, 0.89f, 0.88f, 0.98f);
-                    if (!e.Item.Enabled)
+                    checkState = item.CheckState;
+                }
+
+                // Decide what graphic to draw
+                Image drawImage = null;
+                switch (checkState)
+                {
+                    case CheckState.Checked:
+                        drawImage = _contextMenuChecked;
+                        break;
+                    case CheckState.Indeterminate:
+                        drawImage = _contextMenuIndeterminate;
+                        break;
+                }
+
+                if (drawImage != null)
+                {
+                    // Draw the image centered in the available space
+                    int xOffset = e.ImageRectangle.Width - drawImage.Width;
+                    int yOffset = e.ImageRectangle.Height - drawImage.Height;
+                    Rectangle drawRect = new(e.ImageRectangle.X + xOffset,
+                        e.ImageRectangle.Y + yOffset,
+                        drawImage.Width,
+                        drawImage.Height);
+
+                    // Do we need to draw disabled?
+                    if (e.Item.Enabled)
                     {
-                        colorFill = CommonHelper.ColorToBlackAndWhite(colorFill);
-                        colorBorder = CommonHelper.ColorToBlackAndWhite(colorBorder);
+                        e.Graphics.DrawImage(drawImage, e.ImageRectangle);
                     }
-
-                    // Fill the background in a solid color
-                    using (SolidBrush fillBrush = new(colorFill))
+                    else
                     {
-                        e.Graphics.FillPath(fillBrush, borderPath);
-                    }
+                        using ImageAttributes attribs = new();
+                        attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
 
-                    // Draw the border around the check box
-                    using (Pen borderPen = new(colorBorder))
-                    {
-                        e.Graphics.DrawPath(borderPen, borderPath);
-                    }
-
-                    // If there is not an image, then we can draw the tick, square etc...
-                    if (e.Item.Image == null)
-                    {
-                        CheckState checkState = CheckState.Unchecked;
-
-                        // Extract the check state from the item
-                        if (e.Item is ToolStripMenuItem item)
-                        {
-                            checkState = item.CheckState;
-                        }
-
-                        // Decide what graphic to draw
-                        Image drawImage = null;
-                        switch (checkState)
-                        {
-                            case CheckState.Checked:
-                                drawImage = _contextMenuChecked;
-                                break;
-                            case CheckState.Indeterminate:
-                                drawImage = _contextMenuIndeterminate;
-                                break;
-                        }
-
-                        if (drawImage != null)
-                        {
-                            // Draw the image centered in the available space
-                            int xOffset = e.ImageRectangle.Width - drawImage.Width;
-                            int yOffset = e.ImageRectangle.Height - drawImage.Height;
-                            Rectangle drawRect = new(e.ImageRectangle.X + xOffset,
-                                                               e.ImageRectangle.Y + yOffset,
-                                                               drawImage.Width,
-                                                               drawImage.Height);
-
-                            // Do we need to draw disabled?
-                            if (e.Item.Enabled)
-                            {
-                                e.Graphics.DrawImage(drawImage, e.ImageRectangle);
-                            }
-                            else
-                            {
-                                using (ImageAttributes attribs = new())
-                                {
-                                    attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
-
-                                    // Draw using the disabled matrix to make it look disabled
-                                    e.Graphics.DrawImage(drawImage, e.ImageRectangle,
-                                                         0, 0, drawImage.Width, drawImage.Height,
-                                                         GraphicsUnit.Pixel, attribs);
-                                }
-                            }
-                        }
+                        // Draw using the disabled matrix to make it look disabled
+                        e.Graphics.DrawImage(drawImage, e.ImageRectangle,
+                            0, 0, drawImage.Width, drawImage.Height,
+                            GraphicsUnit.Pixel, attribs);
                     }
                 }
             }
@@ -411,10 +401,8 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    using (GraphicsTextHint clearTypeGridFit = new(e.Graphics, TextRenderingHint.ClearTypeGridFit))
-                    {
-                        base.OnRenderItemText(e);
-                    }
+                    using GraphicsTextHint clearTypeGridFit = new(e.Graphics, TextRenderingHint.ClearTypeGridFit);
+                    base.OnRenderItemText(e);
                 }
             }
             else
@@ -443,15 +431,13 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        using (ImageAttributes attribs = new())
-                        {
-                            attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
+                        using ImageAttributes attribs = new();
+                        attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
 
-                            // Draw using the disabled matrix to make it look disabled
-                            e.Graphics.DrawImage(e.Image, e.ImageRectangle,
-                                                 0, 0, e.Image.Width, e.Image.Height,
-                                                 GraphicsUnit.Pixel, attribs);
-                        }
+                        // Draw using the disabled matrix to make it look disabled
+                        e.Graphics.DrawImage(e.Image, e.ImageRectangle,
+                            0, 0, e.Image.Width, e.Image.Height,
+                            GraphicsUnit.Pixel, attribs);
                     }
                 }
             }
@@ -556,35 +542,33 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
         protected override void OnRenderStatusStripSizingGrip(ToolStripRenderEventArgs e)
         {
-            using (SolidBrush darkBrush = new(KCT.GripDark),
-                              lightBrush = new(KCT.GripLight))
+            using SolidBrush darkBrush = new(KCT.GripDark),
+                lightBrush = new(KCT.GripLight);
+            // Do we need to invert the drawing edge?
+            bool rtl = (e.ToolStrip.RightToLeft == RightToLeft.Yes);
+
+            // Find vertical position of the lowest grip line
+            int y = (e.AffectedBounds.Bottom - (GRIP_SIZE * 2)) + 1;
+
+            // Draw three lines of grips
+            for (int i = GRIP_LINES; i >= 1; i--)
             {
-                // Do we need to invert the drawing edge?
-                bool rtl = (e.ToolStrip.RightToLeft == RightToLeft.Yes);
+                // Find the rightmost grip position on the line
+                int x = (rtl ? e.AffectedBounds.Left + 1 :
+                    (e.AffectedBounds.Right - (GRIP_SIZE * 2)) + 1);
 
-                // Find vertical position of the lowest grip line
-                int y = (e.AffectedBounds.Bottom - (GRIP_SIZE * 2)) + 1;
-
-                // Draw three lines of grips
-                for (int i = GRIP_LINES; i >= 1; i--)
+                // Draw grips from right to left on line
+                for (int j = 0; j < i; j++)
                 {
-                    // Find the rightmost grip position on the line
-                    int x = (rtl ? e.AffectedBounds.Left + 1 :
-                                   (e.AffectedBounds.Right - (GRIP_SIZE * 2)) + 1);
+                    // Just the single grip glyph
+                    DrawGripGlyph(e.Graphics, x, y, darkBrush, lightBrush);
 
-                    // Draw grips from right to left on line
-                    for (int j = 0; j < i; j++)
-                    {
-                        // Just the single grip glyph
-                        DrawGripGlyph(e.Graphics, x, y, darkBrush, lightBrush);
-
-                        // Move left to next grip position
-                        x -= (rtl ? -GRIP_MOVE : GRIP_MOVE);
-                    }
-
-                    // Move upwards to next grip line
-                    y -= GRIP_MOVE;
+                    // Move left to next grip position
+                    x -= (rtl ? -GRIP_MOVE : GRIP_MOVE);
                 }
+
+                // Move upwards to next grip line
+                y -= GRIP_MOVE;
             }
         }
         #endregion
@@ -603,13 +587,11 @@ namespace Krypton.Toolkit
             if ((e.ToolStripContentPanel.Width > 0) &&
                 (e.ToolStripContentPanel.Height > 0))
             {
-                using (LinearGradientBrush backBrush = new(e.ToolStripContentPanel.ClientRectangle,
-                                                                               KCT.ToolStripContentPanelGradientEnd,
-                                                                               KCT.ToolStripContentPanelGradientBegin,
-                                                                               90f))
-                {
-                    e.Graphics.FillRectangle(backBrush, e.ToolStripContentPanel.ClientRectangle);
-                }
+                using LinearGradientBrush backBrush = new(e.ToolStripContentPanel.ClientRectangle,
+                    KCT.ToolStripContentPanelGradientEnd,
+                    KCT.ToolStripContentPanelGradientBegin,
+                    90f);
+                e.Graphics.FillRectangle(backBrush, e.ToolStripContentPanel.ClientRectangle);
             }
         }
         #endregion
@@ -830,40 +812,32 @@ namespace Krypton.Toolkit
                 // If there is a connected area to be drawn
                 if (!e.ConnectedArea.IsEmpty)
                 {
-                    using (SolidBrush excludeBrush = new(KCT.ToolStripDropDownBackground))
-                    {
-                        e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
-                    }
+                    using SolidBrush excludeBrush = new(KCT.ToolStripDropDownBackground);
+                    e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
                 }
 
                 // Create border and clipping paths
-                using (GraphicsPath borderPath = CreateBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU),
-                                    insidePath = CreateInsideBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU),
-                                      clipPath = CreateClipBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU))
+                using GraphicsPath borderPath = CreateBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU),
+                    insidePath = CreateInsideBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU),
+                    clipPath = CreateClipBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU);
+                // Create the different pen colors we need
+                using Pen borderPen = new(KCT.MenuBorder),
+                    insidePen = new(KCT.ToolStripDropDownBackground);
+                // Clip all drawing to within the border path
+                using Clipping clipping = new(e.Graphics, clipPath);
+                // Drawing with anti aliasing to create smoother appearance
+                using (AntiAlias aa = new(e.Graphics))
                 {
-                    // Create the different pen colors we need
-                    using (Pen borderPen = new(KCT.MenuBorder),
-                               insidePen = new(KCT.ToolStripDropDownBackground))
-                    {
-                        // Clip all drawing to within the border path
-                        using (Clipping clipping = new(e.Graphics, clipPath))
-                        {
-                            // Drawing with anti aliasing to create smoother appearance
-                            using (AntiAlias aa = new(e.Graphics))
-                            {
-                                // Draw the inside area first
-                                e.Graphics.DrawPath(insidePen, insidePath);
+                    // Draw the inside area first
+                    e.Graphics.DrawPath(insidePen, insidePath);
 
-                                // Draw the border area second, so any overlapping gives it priority
-                                e.Graphics.DrawPath(borderPen, borderPath);
-                            }
-
-                            // Draw the pixel at the bottom right of the context menu
-                            e.Graphics.DrawLine(borderPen, e.AffectedBounds.Right, e.AffectedBounds.Bottom,
-                                                           e.AffectedBounds.Right - 1, e.AffectedBounds.Bottom - 1);
-                        }
-                    }
+                    // Draw the border area second, so any overlapping gives it priority
+                    e.Graphics.DrawPath(borderPen, borderPath);
                 }
+
+                // Draw the pixel at the bottom right of the context menu
+                e.Graphics.DrawLine(borderPen, e.AffectedBounds.Right, e.AffectedBounds.Bottom,
+                    e.AffectedBounds.Right - 1, e.AffectedBounds.Bottom - 1);
             }
             else if (e.ToolStrip is not StatusStrip)
             {
@@ -1022,20 +996,18 @@ namespace Krypton.Toolkit
                 }
 
                 // Create border path around the item
-                using (GraphicsPath borderPath = CreateBorderPath(backRect, CUT_MENU_ITEM_BACK))
+                using GraphicsPath borderPath = CreateBorderPath(backRect, CUT_MENU_ITEM_BACK);
+                // Draw the entire background area
+                DrawGradientBack(g, backRect, colorsButton);
+
+                // Draw the split line between the areas
+                using (Pen splitPen = new(colorsSplit.Border))
                 {
-                    // Draw the entire background area
-                    DrawGradientBack(g, backRect, colorsButton);
-
-                    // Draw the split line between the areas
-                    using (Pen splitPen = new(colorsSplit.Border))
-                    {
-                        g.DrawLine(splitPen, backRect.X + splitOffset, backRect.Top + 1, backRect.X + splitOffset, backRect.Bottom - 1);
-                    }
-
-                    // Draw the border of the entire item
-                    DrawSolidBorder(g, backRect, colorsButton);
+                    g.DrawLine(splitPen, backRect.X + splitOffset, backRect.Top + 1, backRect.X + splitOffset, backRect.Bottom - 1);
                 }
+
+                // Draw the border of the entire item
+                DrawSolidBorder(g, backRect, colorsButton);
             }
         }
 
@@ -1045,25 +1017,21 @@ namespace Krypton.Toolkit
             Rectangle itemRect = new(Point.Empty, item.Bounds.Size);
 
             // Create border and clipping paths
-            using (GraphicsPath borderPath = CreateBorderPath(itemRect, CUT_TOOL_ITEM_MENU),
-                                insidePath = CreateInsideBorderPath(itemRect, CUT_TOOL_ITEM_MENU),
-                                  clipPath = CreateClipBorderPath(itemRect, CUT_TOOL_ITEM_MENU))
+            using GraphicsPath borderPath = CreateBorderPath(itemRect, CUT_TOOL_ITEM_MENU),
+                insidePath = CreateInsideBorderPath(itemRect, CUT_TOOL_ITEM_MENU),
+                clipPath = CreateClipBorderPath(itemRect, CUT_TOOL_ITEM_MENU);
+            // Clip all drawing to within the border path
+            using Clipping clipping = new(g, clipPath);
+            // Draw the entire background area first
+            using (SolidBrush backBrush = new(KCT.ToolStripDropDownBackground))
             {
-                // Clip all drawing to within the border path
-                using (Clipping clipping = new(g, clipPath))
-                {
-                    // Draw the entire background area first
-                    using (SolidBrush backBrush = new(KCT.ToolStripDropDownBackground))
-                    {
-                        g.FillPath(backBrush, borderPath);
-                    }
+                g.FillPath(backBrush, borderPath);
+            }
 
-                    // Draw the border
-                    using (Pen borderPen = new(KCT.MenuBorder))
-                    {
-                        g.DrawPath(borderPen, borderPath);
-                    }
-                }
+            // Draw the border
+            using (Pen borderPen = new(KCT.MenuBorder))
+            {
+                g.DrawPath(borderPen, borderPath);
             }
         }
 
@@ -1148,10 +1116,8 @@ namespace Krypton.Toolkit
             // Reduce rect draw drawing inside the border
             backRect.Inflate(-1, -1);
 
-            using (LinearGradientBrush backBrush = new(backRect, colors.Fill1, colors.Fill2, 90f))
-            {
-                g.FillRectangle(backBrush, backRect);
-            }
+            using LinearGradientBrush backBrush = new(backRect, colors.Fill1, colors.Fill2, 90f);
+            g.FillRectangle(backBrush, backRect);
         }
 
         private static void DrawLinearGradientBorder(Graphics g,
@@ -1159,12 +1125,10 @@ namespace Krypton.Toolkit
                                                      LinearItemColors colors)
         {
             // Drawing with anti aliasing to create smoother appearance
-            using (AntiAlias aa = new(g))
-            using (Pen borderPen = new(colors.Border))
-            using (GraphicsPath borderPath = CreateBorderPath(backRect, CUT_MENU_ITEM_BACK))
-            {
-                g.DrawPath(borderPen, borderPath);
-            }
+            using AntiAlias aa = new(g);
+            using Pen borderPen = new(colors.Border);
+            using GraphicsPath borderPath = CreateBorderPath(backRect, CUT_MENU_ITEM_BACK);
+            g.DrawPath(borderPen, borderPath);
         }
 
         private void DrawGradientContextMenuItem(Graphics g,
@@ -1200,18 +1164,14 @@ namespace Krypton.Toolkit
             backRect.X++;
             backRect.Width -= 1;
 
-            using (RenderContext context = new(null, g, backRect, null))
-            {
-                using (GraphicsPath backPath = CreateBorderPath(backRect, CUT_MENU_ITEM_BACK))
-                {
-                    backRect.Width -= 1;
-                    backRect.Height -= 1;
+            using RenderContext context = new(null, g, backRect, null);
+            using GraphicsPath backPath = CreateBorderPath(backRect, CUT_MENU_ITEM_BACK);
+            backRect.Width -= 1;
+            backRect.Height -= 1;
 
-                    RenderGlassHelpers.DrawBackGlassBottom(context, backRect,
-                                                           colors.Begin, colors.End,
-                                                           VisualOrientation.Top, backPath, null);
-                }
-            }
+            RenderGlassHelpers.DrawBackGlassBottom(context, backRect,
+                colors.Begin, colors.End,
+                VisualOrientation.Top, backPath, null);
         }
 
         private static void DrawSolidBorder(Graphics g,
@@ -1219,18 +1179,14 @@ namespace Krypton.Toolkit
                                             GradientItemColors colors)
         {
             // Drawing with anti aliasing to create smoother appearance
-            using (AntiAlias aa = new(g))
-            {
-                Rectangle backRectI = backRect;
-                backRectI.Inflate(1, 1);
+            using AntiAlias aa = new(g);
+            Rectangle backRectI = backRect;
+            backRectI.Inflate(1, 1);
 
-                // Use solid color for the border
-                using (Pen borderPen = new(colors.Border))
-                using (GraphicsPath borderPath = CreateBorderPath(backRect, CUT_MENU_ITEM_BACK))
-                {
-                    g.DrawPath(borderPen, borderPath);
-                }
-            }
+            // Use solid color for the border
+            using Pen borderPen = new(colors.Border);
+            using GraphicsPath borderPath = CreateBorderPath(backRect, CUT_MENU_ITEM_BACK);
+            g.DrawPath(borderPen, borderPath);
         }
 
         private void DrawGripGlyph(Graphics g,

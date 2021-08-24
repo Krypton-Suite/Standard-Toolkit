@@ -56,14 +56,12 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
-            using (Pen darkPen = new(_palette.GetRibbonMinimizeBarDark(PaletteState.Normal)),
-                       lightPen = new(_palette.GetRibbonMinimizeBarLight(PaletteState.Normal)))
-            {
-                context.Graphics.DrawLine(darkPen, ClientRectangle.Left, ClientRectangle.Bottom - 2, ClientRectangle.Right - 1, ClientRectangle.Bottom - 2);
-                context.Graphics.DrawLine(lightPen, ClientRectangle.Left, ClientRectangle.Bottom - 1, ClientRectangle.Right - 1, ClientRectangle.Bottom - 1);
-            }
+            using Pen darkPen = new(_palette.GetRibbonMinimizeBarDark(PaletteState.Normal)),
+                lightPen = new(_palette.GetRibbonMinimizeBarLight(PaletteState.Normal));
+            context.Graphics.DrawLine(darkPen, ClientRectangle.Left, ClientRectangle.Bottom - 2, ClientRectangle.Right - 1, ClientRectangle.Bottom - 2);
+            context.Graphics.DrawLine(lightPen, ClientRectangle.Left, ClientRectangle.Bottom - 1, ClientRectangle.Right - 1, ClientRectangle.Bottom - 1);
         }
         #endregion
     }

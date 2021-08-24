@@ -68,21 +68,19 @@ namespace Krypton.Toolkit
         private void DrawBorder(Graphics graphics)
         {
             // Create a pen for drawing
-            using (Pen borderPen = new(SystemColors.ControlDarkDark))
-            {
-                // Always draw the border dashed
-                borderPen.DashStyle = DashStyle.Dash;
+            using Pen borderPen = new(SystemColors.ControlDarkDark);
+            // Always draw the border dashed
+            borderPen.DashStyle = DashStyle.Dash;
 
-                // Get the client rectangle
-                Rectangle clientRect = Control.ClientRectangle;
+            // Get the client rectangle
+            Rectangle clientRect = Control.ClientRectangle;
 
-                // Reduce by 1 in width and height
-                clientRect.Width--;
-                clientRect.Height--;
+            // Reduce by 1 in width and height
+            clientRect.Width--;
+            clientRect.Height--;
 
-                // Perform actual draw
-                graphics.DrawRectangle(borderPen, clientRect);
-            }
+            // Perform actual draw
+            graphics.DrawRectangle(borderPen, clientRect);
         }
         #endregion
     }

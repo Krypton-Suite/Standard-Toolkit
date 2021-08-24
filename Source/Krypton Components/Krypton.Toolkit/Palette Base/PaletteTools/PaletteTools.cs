@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
         {
             manager.GlobalPaletteMode = paletteMode;
 
-            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(customThemePath))
+            if (!string.IsNullOrWhiteSpace(customThemePath))
             {
                 KryptonPalette palette = new();
 

@@ -133,21 +133,17 @@ namespace Krypton.Ribbon
                             // Indicate the absense of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
-                            using (Pen borderPen = new(_emptyBorderColor))
-                            {
-                                g.DrawRectangle(borderPen, new Rectangle(selectedRect.X,
-                                                                         selectedRect.Y,
-                                                                         selectedRect.Width - 1,
-                                                                         selectedRect.Height - 1));
-                            }
+                            using Pen borderPen = new(_emptyBorderColor);
+                            g.DrawRectangle(borderPen, new Rectangle(selectedRect.X,
+                                selectedRect.Y,
+                                selectedRect.Width - 1,
+                                selectedRect.Height - 1));
                         }
                         else
                         {
                             // We have a valid selected color so draw a solid block of color
-                            using (SolidBrush colorBrush = new(_selectedColor))
-                            {
-                                g.FillRectangle(colorBrush, selectedRect);
-                            }
+                            using SolidBrush colorBrush = new(_selectedColor);
+                            g.FillRectangle(colorBrush, selectedRect);
                         }
                     }
 

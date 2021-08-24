@@ -2,6 +2,10 @@
 
 ## 2101-09-01 - Build 2109 - September 2021 (Canary)
 * Implemented [#291](https://github.com/Krypton-Suite/Standard-Toolkit/issues/291), Build: can the echo time have a time zone, so that when used for PR's it can be checked against the user locale
+* Implemented [#290](https://github.com/Krypton-Suite/Standard-Toolkit/issues/290), Should V6 only support "MS Supported" Net Frameworks?
+    - The toolkit will only work with projects using .NET Framework 4.6.2 or higher
+    - `lite` NuGet packages are no longer being supported or maintained for the forseeable future
+    - For more information, please visit [here](https://dotnet.microsoft.com/platform/support/policy/dotnet-framework)
 * Implemented [#282](https://github.com/Krypton-Suite/Standard-Toolkit/issues/282), `KryptonScrollbars` need to have smart tags
 * Fixed [#245](https://github.com/Krypton-Suite/Standard-Toolkit/issues/245), `TableLayoutPanel` should be "Kryptonised"
 * Implemented [#269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/269), "Print Dialog" is in the Main Forms elements - Where is Kryptons' Standard themed equivalent

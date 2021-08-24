@@ -157,16 +157,14 @@ namespace Krypton.Toolkit
             Color lightColor = (state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledLight(state) :
                                                                  paletteGeneral.GetRibbonGroupDialogLight(state));
 
-            using (Pen darkPen = new(darkColor),
-                       lightPen = new(lightColor))
-            {
-                context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2, displayRect.Top + 3);
-                context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3, displayRect.Left + 4, displayRect.Top + 1);
-                context.Graphics.DrawLine(lightPen, displayRect.Left + 4, displayRect.Top + 1, displayRect.Left + 1, displayRect.Top + 1);
-                context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1, displayRect.Left + 2, displayRect.Top + 2);
-                context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 2, displayRect.Left + 2, displayRect.Top + 4);
-                context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 4, displayRect.Left + 4, displayRect.Top + 2);
-            }
+            using Pen darkPen = new(darkColor),
+                lightPen = new(lightColor);
+            context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2, displayRect.Top + 3);
+            context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3, displayRect.Left + 4, displayRect.Top + 1);
+            context.Graphics.DrawLine(lightPen, displayRect.Left + 4, displayRect.Top + 1, displayRect.Left + 1, displayRect.Top + 1);
+            context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1, displayRect.Left + 2, displayRect.Top + 2);
+            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 2, displayRect.Left + 2, displayRect.Top + 4);
+            context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 4, displayRect.Left + 4, displayRect.Top + 2);
         }
         #endregion
 
@@ -205,12 +203,10 @@ namespace Krypton.Toolkit
             int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using (Pen darkPen = new(c1))
-            {
-                context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
-                context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
-                context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-            }
+            using Pen darkPen = new(c1);
+            context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
+            context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
+            context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
         }
 
         /// <summary>
@@ -246,12 +242,10 @@ namespace Krypton.Toolkit
             int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using (Pen darkPen = new(c1))
-            {
-                context.Graphics.DrawLine(darkPen, xStart, yStart + 3, xStart + 4, yStart + 3);
-                context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 2, xStart + 3, yStart + 2);
-                context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-            }
+            using Pen darkPen = new(c1);
+            context.Graphics.DrawLine(darkPen, xStart, yStart + 3, xStart + 4, yStart + 3);
+            context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 2, xStart + 3, yStart + 2);
+            context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
         }
 
         /// <summary>
@@ -287,12 +281,10 @@ namespace Krypton.Toolkit
             int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
             int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
-            using (Pen darkPen = new(c1))
-            {
-                context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
-                context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
-                context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-            }
+            using Pen darkPen = new(c1);
+            context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
+            context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
+            context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
         }
         #endregion
 

@@ -2181,7 +2181,7 @@ namespace Krypton.Toolkit
                 return Import(dialog.FileName, false);
             }
 
-            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(dialog.FileName))
+            if (!string.IsNullOrWhiteSpace(dialog.FileName))
             {
                 // Set the file path
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
@@ -2571,7 +2571,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public string CustomisedKryptonPaletteFilePath { get; private set; }
 
-        private bool ShouldSerializeCustomisedKryptonPaletteFilePath() => !MissingFrameWorkAPIs.IsNullOrWhiteSpace(CustomisedKryptonPaletteFilePath);
+        private bool ShouldSerializeCustomisedKryptonPaletteFilePath() => !string.IsNullOrWhiteSpace(CustomisedKryptonPaletteFilePath);
 
         /// <summary>
         /// Resets the PlacementMode property to its default value.

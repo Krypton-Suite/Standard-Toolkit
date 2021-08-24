@@ -20,7 +20,6 @@
 // ReSharper disable ClassNeverInstantiated.Global
 #pragma warning disable 649
 
-using System.Security.Permissions;
 
 namespace Krypton.Toolkit
 {
@@ -57,7 +56,7 @@ namespace Krypton.Toolkit
 
         internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
-        internal static object PtrToStructure(IntPtr lparam, System.Type cls) => Marshal.PtrToStructure(lparam, cls);
+        internal static object PtrToStructure(IntPtr lparam, Type cls) => Marshal.PtrToStructure(lparam, cls);
         internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld=false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
 
         #region Constants
@@ -3880,86 +3879,3 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         public static PI.BOOL ToBOOL(this bool b) => b ? PI.BOOL.TRUE : PI.BOOL.FALSE;
     }
 }
-
-
-#if NET35 || NET40
-namespace System.Runtime.InteropServices
-{
-    /*
-     Product 	    Versions
-    .NET 	        5.0, 6.0 Preview 6
-    .NET Core 	    1.0, 1.1, 2.0, 2.1, 2.2, 3.0, 3.1
-    .NET Framework 	4.5, 4.5.1, 4.5.2, 4.6, 4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8 
-     */
-
-    /// <summary>
-    ///     Specifies the paths that are used to search for DLLs that provide functions for
-    ///     platform invokes.
-    /// </summary>
-    [Flags]
-    internal enum DllImportSearchPath
-    {
-        /// <summary>
-        ///     Search the application directory, and then call the Win32 LoadLibraryEx function
-        ///     with the LOAD_WITH_ALTERED_SEARCH_PATH flag. This value is ignored if any other
-        ///     value is specified. Operating systems that do not support the System.Runtime.InteropServices.DefaultDllImportSearchPathsAttribute
-        ///     attribute use this value, and ignore other values.
-        /// </summary>
-        LegacyBehavior = 0,
-
-        /// <summary>
-        ///     When searching for assembly dependencies, include the directory that contains
-        ///     the assembly itself, and search that directory first. This value is used by the
-        ///     .NET Framework, before the paths are passed to the Win32 LoadLibraryEx function.
-        /// </summary>
-        AssemblyDirectory = 2,
-
-        /// <summary>
-        ///     Search for the dependencies of a DLL in the folder where the DLL is located before
-        ///     searching other folders.
-        /// </summary>
-        UseDllDirectoryForDependencies = 256,
-
-        /// <summary>
-        ///     Include the application directory in the DLL search path.
-        /// </summary>
-        ApplicationDirectory = 512,
-
-        /// <summary>
-        ///     Include any path that was explicitly added to the process-wide search path by
-        ///     using the Win32 AddDllDirectory function.
-        /// </summary>
-        UserDirectories = 1024,
-
-        /// <summary>
-        ///     Include the %WinDir%\System32 directory in the DLL search path.
-        /// </summary>
-        System32 = 2048,
-
-        /// <summary>
-        ///     Include the application directory, the %WinDir%\System32 directory, and user
-        ///     directories in the DLL search path.
-        /// </summary>
-        SafeDirectories = 4096
-    }
-
-    /// <summary>
-    /// Stolen from .Net45
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Method, AllowMultiple = false)]
-    [ComVisible(false)]
-    //[__DynamicallyInvokable]
-    internal sealed class DefaultDllImportSearchPathsAttribute : Attribute
-    {
-        internal DllImportSearchPath _paths;
-
-        //[__DynamicallyInvokable]
-        public DefaultDllImportSearchPathsAttribute(DllImportSearchPath paths) => this._paths = paths;
-
-        //[__DynamicallyInvokable]
-        public DllImportSearchPath Paths =>
-            //[__DynamicallyInvokable]
-            _paths;
-    }
-}
-#endif

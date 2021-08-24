@@ -408,7 +408,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 _annualDates.Clear();
@@ -446,7 +446,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -478,7 +478,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                value ??= Array.Empty<DateTime>();
 
                 BoldedDatesList.Clear();
                 BoldedDatesList.AddRange(value);
@@ -1660,31 +1660,29 @@ namespace Krypton.Toolkit
 
         private void AdjustSize(ref int width, ref int height)
         {
-            using (ViewLayoutContext context = new(this, Renderer))
-            {
-                // Ask back/border the size it requires
-                Size backBorderSize = _drawDocker.GetNonChildSize(context);
+            using ViewLayoutContext context = new(this, Renderer);
+            // Ask back/border the size it requires
+            Size backBorderSize = _drawDocker.GetNonChildSize(context);
 
-                // Ask for the size needed to draw a single month
-                Size singleMonthSize = _drawMonths.GetSingleMonthSize(context);
+            // Ask for the size needed to draw a single month
+            Size singleMonthSize = _drawMonths.GetSingleMonthSize(context);
 
-                // How many full months can be fit in each dimension (with a minimum of 1 month showing)
-                int gap = ViewLayoutMonths.GAP;
-                int widthMonths = Math.Max(1, (width - backBorderSize.Width - gap) / (singleMonthSize.Width + gap));
-                int heightMonths = Math.Max(1, (height - backBorderSize.Height - gap) / (singleMonthSize.Height + gap));
+            // How many full months can be fit in each dimension (with a minimum of 1 month showing)
+            int gap = ViewLayoutMonths.GAP;
+            int widthMonths = Math.Max(1, (width - backBorderSize.Width - gap) / (singleMonthSize.Width + gap));
+            int heightMonths = Math.Max(1, (height - backBorderSize.Height - gap) / (singleMonthSize.Height + gap));
 
-                // Calculate new sizes based on showing only full months
-                width = backBorderSize.Width + (widthMonths * singleMonthSize.Width) + (gap * (widthMonths + 1));
-                height = backBorderSize.Height + (heightMonths * singleMonthSize.Height) + (gap * (heightMonths + 1));
+            // Calculate new sizes based on showing only full months
+            width = backBorderSize.Width + (widthMonths * singleMonthSize.Width) + (gap * (widthMonths + 1));
+            height = backBorderSize.Height + (heightMonths * singleMonthSize.Height) + (gap * (heightMonths + 1));
 
-                // Ask the month layout for size of extra areas such as headers etc
-                Size extraSize = _drawMonths.GetExtraSize(context);
-                width += extraSize.Width;
-                height += extraSize.Height;
+            // Ask the month layout for size of extra areas such as headers etc
+            Size extraSize = _drawMonths.GetExtraSize(context);
+            width += extraSize.Width;
+            height += extraSize.Height;
 
-                // Update the calendar dimensions to match the actual size
-                CalendarDimensions = new Size(widthMonths, heightMonths);
-            }
+            // Update the calendar dimensions to match the actual size
+            CalendarDimensions = new Size(widthMonths, heightMonths);
         }
 
         private void SetRange()

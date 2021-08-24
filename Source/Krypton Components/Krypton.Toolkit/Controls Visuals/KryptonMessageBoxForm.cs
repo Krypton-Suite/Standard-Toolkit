@@ -362,12 +362,12 @@ namespace Krypton.Toolkit
                 {
                     mInfoMethod.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
                 }
-                if (MissingFrameWorkAPIs.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
+                if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
                 {
                     return;
                 }
 
-                if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_helpInfo.Keyword))
+                if (!string.IsNullOrWhiteSpace(_helpInfo.Keyword))
                 {
                     Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Keyword);
                 }
@@ -564,7 +564,7 @@ namespace Krypton.Toolkit
         /// <param name="helpFilePath">Value for HelpFilePath.</param>
         /// <param name="keyword">Value for Keyword</param>
         public HelpInfo(string helpFilePath = null, string keyword = null)
-        : this(helpFilePath, keyword, !MissingFrameWorkAPIs.IsNullOrWhiteSpace(keyword) ? HelpNavigator.Topic : HelpNavigator.TableOfContents, null)
+        : this(helpFilePath, keyword, !string.IsNullOrWhiteSpace(keyword) ? HelpNavigator.Topic : HelpNavigator.TableOfContents, null)
         {
 
         }

@@ -613,36 +613,34 @@ namespace Krypton.Toolkit
             }
 
             // New clipping region is at most our own client size
-            using (Region combineRegion = new(clipRectangle))
+            using Region combineRegion = new(clipRectangle);
+            // Remember the current clipping region
+            Region clipRegion = context.Graphics.Clip.Clone();
+
+            // Reduce clipping region down by the existing clipping region
+            combineRegion.Intersect(clipRegion);
+
+            // Use new region that restricts drawing to our client size only
+            context.Graphics.Clip = combineRegion;
+
+            // Perform rendering before any children
+            RenderBefore(context);
+
+            // Ask each child to render in turn
+            foreach (ViewBase child in this)
             {
-                // Remember the current clipping region
-                Region clipRegion = context.Graphics.Clip.Clone();
-
-                // Reduce clipping region down by the existing clipping region
-                combineRegion.Intersect(clipRegion);
-
-                // Use new region that restricts drawing to our client size only
-                context.Graphics.Clip = combineRegion;
-
-                // Perform rendering before any children
-                RenderBefore(context);
-
-                // Ask each child to render in turn
-                foreach (ViewBase child in this)
+                // Only render visible children that are inside the clipping rectangle
+                if (child.Visible)
                 {
-                    // Only render visible children that are inside the clipping rectangle
-                    if (child.Visible)
-                    {
-                        child.Render(context);
-                    }
+                    child.Render(context);
                 }
-
-                // Perform rendering after that of children
-                RenderAfter(context);
-
-                // Put clipping region back to original setting
-                context.Graphics.Clip = clipRegion;
             }
+
+            // Perform rendering after that of children
+            RenderAfter(context);
+
+            // Put clipping region back to original setting
+            context.Graphics.Clip = clipRegion;
         }
         #endregion
 

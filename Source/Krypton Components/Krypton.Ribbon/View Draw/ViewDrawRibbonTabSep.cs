@@ -80,29 +80,27 @@ namespace Krypton.Ribbon
             if (Draw)
             {
                 RectangleF rectF = new(ClientLocation.X, ClientLocation.Y - 0.5f, ClientWidth, ClientHeight + 1);
-                using (LinearGradientBrush sepBrush = new(rectF, Color.Transparent, _palette.GetRibbonTabSeparatorColor(PaletteState.Normal), 90f))
+                using LinearGradientBrush sepBrush = new(rectF, Color.Transparent, _palette.GetRibbonTabSeparatorColor(PaletteState.Normal), 90f);
+                sepBrush.Blend = _fadeBlend;
+
+                switch (_palette.GetRibbonShape())
                 {
-                    sepBrush.Blend = _fadeBlend;
+                    default:
+                    case PaletteRibbonShape.Office2007:
+                    case PaletteRibbonShape.Office2013:
+                        context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
+                        break;
+                    case PaletteRibbonShape.Office365:
+                        context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
+                        break;
+                    case PaletteRibbonShape.Office2010:
+                        context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 1, ClientLocation.Y, 1, ClientHeight - 1);
 
-                    switch (_palette.GetRibbonShape())
-                    {
-                        default:
-                        case PaletteRibbonShape.Office2007:
-                        case PaletteRibbonShape.Office2013:
-                            context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
-                            break;
-                        case PaletteRibbonShape.Office365:
-                            context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
-                            break;
-                        case PaletteRibbonShape.Office2010:
-                            context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 1, ClientLocation.Y, 1, ClientHeight - 1);
-
-                            using (LinearGradientBrush sepLightBrush = new(rectF, Color.Transparent, _lighten1, 90f))
-                            {
-                                context.Graphics.FillRectangle(sepLightBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
-                            }
-                            break;
-                    }
+                        using (LinearGradientBrush sepLightBrush = new(rectF, Color.Transparent, _lighten1, 90f))
+                        {
+                            context.Graphics.FillRectangle(sepLightBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
+                        }
+                        break;
                 }
             }
         }

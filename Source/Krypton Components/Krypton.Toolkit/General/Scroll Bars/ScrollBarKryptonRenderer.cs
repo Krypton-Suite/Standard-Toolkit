@@ -320,30 +320,26 @@ namespace Krypton.Toolkit
             }
 
             // get grip image
-            using (Image gripImage = GetGripNomalBitmap()) //Properties.ScrollBarResources.GripNormal)
-            {
-                // adjust rectangle and rotate grip image if necessary
-                Rectangle r = AdjustThumbGrip(rect, orientation, gripImage);
+            using Image gripImage = GetGripNomalBitmap();
+            // adjust rectangle and rotate grip image if necessary
+            Rectangle r = AdjustThumbGrip(rect, orientation, gripImage);
 
-                // adjust alpha channel of grip image
-                using (ImageAttributes attr = new())
-                {
-                    attr.SetColorMatrix(
-                       new ColorMatrix(new float[][] {
-                  new[] { 1F, 0, 0, 0, 0 },
-                  new[] { 0, 1F, 0, 0, 0 },
-                  new[] { 0, 0, 1F, 0, 0 },
-                  new[] { 0, 0, 0,  .8F, 0 },
-                  new[] { 0, 0, 0, 0, 1F }
-                       }),
-                       ColorMatrixFlag.Default,
-                       ColorAdjustType.Bitmap
-                    );
+            // adjust alpha channel of grip image
+            using ImageAttributes attr = new();
+            attr.SetColorMatrix(
+                new ColorMatrix(new float[][] {
+                    new[] { 1F, 0, 0, 0, 0 },
+                    new[] { 0, 1F, 0, 0, 0 },
+                    new[] { 0, 0, 1F, 0, 0 },
+                    new[] { 0, 0, 0,  .8F, 0 },
+                    new[] { 0, 0, 0, 0, 1F }
+                }),
+                ColorMatrixFlag.Default,
+                ColorAdjustType.Bitmap
+            );
 
-                    // draw grip image
-                    g.DrawImage(gripImage, r, 0, 0, r.Width, r.Height, GraphicsUnit.Pixel, attr);
-                }
-            }
+            // draw grip image
+            g.DrawImage(gripImage, r, 0, 0, r.Width, r.Height, GraphicsUnit.Pixel, attr);
         }
 
         /// <summary>
@@ -539,14 +535,12 @@ namespace Krypton.Toolkit
         {
             Rectangle innerRect = new(rect.Left + 1, rect.Top, 15, rect.Height);
 
-            using (LinearGradientBrush brush = new(
-               innerRect,
-               trackColours[0],
-               trackColours[1],
-               LinearGradientMode.Horizontal))
-            {
-                g.FillRectangle(brush, innerRect);
-            }
+            using LinearGradientBrush brush = new(
+                innerRect,
+                trackColours[0],
+                trackColours[1],
+                LinearGradientMode.Horizontal);
+            g.FillRectangle(brush, innerRect);
         }
 
         /// <summary>
@@ -558,14 +552,12 @@ namespace Krypton.Toolkit
         {
             Rectangle innerRect = new(rect.Left, rect.Top + 1, rect.Width, 15);
 
-            using (LinearGradientBrush brush = new(
-               innerRect,
-               trackColours[0],
-               trackColours[1],
-               LinearGradientMode.Vertical))
-            {
-                g.FillRectangle(brush, innerRect);
-            }
+            using LinearGradientBrush brush = new(
+                innerRect,
+                trackColours[0],
+                trackColours[1],
+                LinearGradientMode.Vertical);
+            g.FillRectangle(brush, innerRect);
         }
 
         /// <summary>
@@ -654,25 +646,23 @@ namespace Krypton.Toolkit
             // draw right gradient
             if (index == 0)
             {
-                using (LinearGradientBrush brush = new(
-                   r,
-                   thumbColours[index, 4],
-                   thumbColours[index, 5],
-                   LinearGradientMode.Horizontal))
+                using LinearGradientBrush brush = new(
+                    r,
+                    thumbColours[index, 4],
+                    thumbColours[index, 5],
+                    LinearGradientMode.Horizontal);
+                brush.InterpolationColors = new ColorBlend(3)
                 {
-                    brush.InterpolationColors = new ColorBlend(3)
+                    Colors = new[]
                     {
-                        Colors = new[]
-                                 {
-                               thumbColours[index, 4],
-                               thumbColours[index, 6],
-                               thumbColours[index, 5]
-                            },
-                        Positions = new[] { 0f, .5f, 1f }
-                    };
+                        thumbColours[index, 4],
+                        thumbColours[index, 6],
+                        thumbColours[index, 5]
+                    },
+                    Positions = new[] { 0f, .5f, 1f }
+                };
 
-                    g.FillRectangle(brush, r);
-                }
+                g.FillRectangle(brush, r);
             }
             else
             {
@@ -761,25 +751,23 @@ namespace Krypton.Toolkit
             // draw right gradient
             if (index == 0)
             {
-                using (LinearGradientBrush brush = new(
-                   r,
-                   thumbColours[index, 4],
-                   thumbColours[index, 5],
-                   LinearGradientMode.Vertical))
+                using LinearGradientBrush brush = new(
+                    r,
+                    thumbColours[index, 4],
+                    thumbColours[index, 5],
+                    LinearGradientMode.Vertical);
+                brush.InterpolationColors = new ColorBlend(3)
                 {
-                    brush.InterpolationColors = new ColorBlend(3)
+                    Colors = new[]
                     {
-                        Colors = new[]
-                                 {
-                               thumbColours[index, 4],
-                               thumbColours[index, 6],
-                               thumbColours[index, 5]
-                            },
-                        Positions = new[] { 0f, .5f, 1f }
-                    };
+                        thumbColours[index, 4],
+                        thumbColours[index, 6],
+                        thumbColours[index, 5]
+                    },
+                    Positions = new[] { 0f, .5f, 1f }
+                };
 
-                    g.FillRectangle(brush, r);
-                }
+                g.FillRectangle(brush, r);
             }
             else
             {
@@ -831,15 +819,13 @@ namespace Krypton.Toolkit
            ScrollBarArrowButtonState state,
            bool arrowUp)
         {
-            using (Image arrowImage = GetArrowDownButtonImage(state))
+            using Image arrowImage = GetArrowDownButtonImage(state);
+            if (arrowUp)
             {
-                if (arrowUp)
-                {
-                    arrowImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                }
-
-                g.DrawImage(arrowImage, rect);
+                arrowImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
             }
+
+            g.DrawImage(arrowImage, rect);
         }
 
         /// <summary>
@@ -855,19 +841,17 @@ namespace Krypton.Toolkit
            ScrollBarArrowButtonState state,
            bool arrowUp)
         {
-            using (Image arrowImage = GetArrowDownButtonImage(state))
+            using Image arrowImage = GetArrowDownButtonImage(state);
+            if (arrowUp)
             {
-                if (arrowUp)
-                {
-                    arrowImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                }
-                else
-                {
-                    arrowImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                }
-
-                g.DrawImage(arrowImage, rect);
+                arrowImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
             }
+            else
+            {
+                arrowImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
+            }
+
+            g.DrawImage(arrowImage, rect);
         }
 
         /// <summary>
@@ -882,146 +866,142 @@ namespace Krypton.Toolkit
             Bitmap bitmap = new(15, 17, PixelFormat.Format32bppArgb);
             bitmap.SetResolution(72f, 72f);
 
-            using (Graphics g = Graphics.FromImage(bitmap))
+            using Graphics g = Graphics.FromImage(bitmap);
+            g.SmoothingMode = SmoothingMode.None;
+            g.InterpolationMode = InterpolationMode.Low;
+
+            int index = -1;
+
+            switch (state)
             {
-                g.SmoothingMode = SmoothingMode.None;
-                g.InterpolationMode = InterpolationMode.Low;
-
-                int index = -1;
-
-                switch (state)
+                case ScrollBarArrowButtonState.UpHot:
+                case ScrollBarArrowButtonState.DownHot:
                 {
-                    case ScrollBarArrowButtonState.UpHot:
-                    case ScrollBarArrowButtonState.DownHot:
-                        {
-                            index = 1;
+                    index = 1;
 
-                            break;
-                        }
-
-                    case ScrollBarArrowButtonState.UpActive:
-                    case ScrollBarArrowButtonState.DownActive:
-                        {
-                            index = 0;
-
-                            break;
-                        }
-
-                    case ScrollBarArrowButtonState.UpPressed:
-                    case ScrollBarArrowButtonState.DownPressed:
-                        {
-                            index = 2;
-
-                            break;
-                        }
+                    break;
                 }
 
-                if (index != -1)
+                case ScrollBarArrowButtonState.UpActive:
+                case ScrollBarArrowButtonState.DownActive:
                 {
-                    using (Pen p1 = new(arrowBorderColours[0]),
-                       p2 = new(arrowBorderColours[1]))
+                    index = 0;
+
+                    break;
+                }
+
+                case ScrollBarArrowButtonState.UpPressed:
+                case ScrollBarArrowButtonState.DownPressed:
+                {
+                    index = 2;
+
+                    break;
+                }
+            }
+
+            if (index != -1)
+            {
+                using (Pen p1 = new(arrowBorderColours[0]),
+                    p2 = new(arrowBorderColours[1]))
+                {
+                    g.DrawLine(p1, rect.X, rect.Y, rect.Right - 1, rect.Y);
+                    g.DrawLine(p2, rect.X, rect.Bottom - 1, rect.Right - 1, rect.Bottom - 1);
+                }
+
+                rect.Inflate(0, -1);
+
+                using (LinearGradientBrush brush = new(
+                    rect,
+                    arrowBorderColours[2],
+                    arrowBorderColours[1],
+                    LinearGradientMode.Vertical))
+                {
+                    ColorBlend blend = new(3)
                     {
-                        g.DrawLine(p1, rect.X, rect.Y, rect.Right - 1, rect.Y);
-                        g.DrawLine(p2, rect.X, rect.Bottom - 1, rect.Right - 1, rect.Bottom - 1);
-                    }
+                        Positions = new[] { 0f, .5f, 1f },
+                        Colors = new[] {
+                            arrowBorderColours[2],
+                            arrowBorderColours[3],
+                            arrowBorderColours[0] }
+                    };
 
-                    rect.Inflate(0, -1);
+                    brush.InterpolationColors = blend;
 
-                    using (LinearGradientBrush brush = new(
-                       rect,
-                       arrowBorderColours[2],
-                       arrowBorderColours[1],
-                       LinearGradientMode.Vertical))
+                    using (Pen p = new(brush))
                     {
-                        ColorBlend blend = new(3)
-                        {
-                            Positions = new[] { 0f, .5f, 1f },
-                            Colors = new[] {
-                     arrowBorderColours[2],
-                     arrowBorderColours[3],
-                     arrowBorderColours[0] }
-                        };
-
-                        brush.InterpolationColors = blend;
-
-                        using (Pen p = new(brush))
-                        {
-                            g.DrawLine(p, rect.X, rect.Y, rect.X, rect.Bottom - 1);
-                            g.DrawLine(p, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
-                        }
-                    }
-
-                    rect.Inflate(0, 1);
-
-                    Rectangle upper = rect;
-                    upper.Inflate(-1, 0);
-                    upper.Y++;
-                    upper.Height = 7;
-
-                    using (LinearGradientBrush brush = new(
-                       upper,
-                       arrowColours[index, 2],
-                       arrowColours[index, 3],
-                       LinearGradientMode.Vertical))
-                    {
-                        g.FillRectangle(brush, upper);
-                    }
-
-                    upper.Inflate(-1, 0);
-                    upper.Height = 6;
-
-                    using (LinearGradientBrush brush = new(
-                       upper,
-                       arrowColours[index, 0],
-                       arrowColours[index, 1],
-                       LinearGradientMode.Vertical))
-                    {
-                        g.FillRectangle(brush, upper);
-                    }
-
-                    Rectangle lower = rect;
-                    lower.Inflate(-1, 0);
-                    lower.Y = 8;
-                    lower.Height = 8;
-
-                    using (LinearGradientBrush brush = new(
-                       lower,
-                       arrowColours[index, 6],
-                       arrowColours[index, 7],
-                       LinearGradientMode.Vertical))
-                    {
-                        g.FillRectangle(brush, lower);
-                    }
-
-                    lower.Inflate(-1, 0);
-
-                    using (LinearGradientBrush brush = new(
-                       lower,
-                       arrowColours[index, 4],
-                       arrowColours[index, 5],
-                       LinearGradientMode.Vertical))
-                    {
-                        g.FillRectangle(brush, lower);
+                        g.DrawLine(p, rect.X, rect.Y, rect.X, rect.Bottom - 1);
+                        g.DrawLine(p, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
                     }
                 }
 
-                using (Image arrowIcon = (Image)GetScrollBarArrowDownBitmap().Clone())
+                rect.Inflate(0, 1);
+
+                Rectangle upper = rect;
+                upper.Inflate(-1, 0);
+                upper.Y++;
+                upper.Height = 7;
+
+                using (LinearGradientBrush brush = new(
+                    upper,
+                    arrowColours[index, 2],
+                    arrowColours[index, 3],
+                    LinearGradientMode.Vertical))
                 {
-                    if (state == ScrollBarArrowButtonState.DownDisabled
-                       || state == ScrollBarArrowButtonState.UpDisabled)
-                    {
-                        ControlPaint.DrawImageDisabled(
-                           g,
-                           arrowIcon,
-                           3,
-                           6,
-                           Color.Transparent);
-                    }
-                    else
-                    {
-                        g.DrawImage(arrowIcon, 3, 6);
-                    }
+                    g.FillRectangle(brush, upper);
                 }
+
+                upper.Inflate(-1, 0);
+                upper.Height = 6;
+
+                using (LinearGradientBrush brush = new(
+                    upper,
+                    arrowColours[index, 0],
+                    arrowColours[index, 1],
+                    LinearGradientMode.Vertical))
+                {
+                    g.FillRectangle(brush, upper);
+                }
+
+                Rectangle lower = rect;
+                lower.Inflate(-1, 0);
+                lower.Y = 8;
+                lower.Height = 8;
+
+                using (LinearGradientBrush brush = new(
+                    lower,
+                    arrowColours[index, 6],
+                    arrowColours[index, 7],
+                    LinearGradientMode.Vertical))
+                {
+                    g.FillRectangle(brush, lower);
+                }
+
+                lower.Inflate(-1, 0);
+
+                using (LinearGradientBrush brush = new(
+                    lower,
+                    arrowColours[index, 4],
+                    arrowColours[index, 5],
+                    LinearGradientMode.Vertical))
+                {
+                    g.FillRectangle(brush, lower);
+                }
+            }
+
+            using Image arrowIcon = (Image)GetScrollBarArrowDownBitmap().Clone();
+            if (state == ScrollBarArrowButtonState.DownDisabled
+                || state == ScrollBarArrowButtonState.UpDisabled)
+            {
+                ControlPaint.DrawImageDisabled(
+                    g,
+                    arrowIcon,
+                    3,
+                    6,
+                    Color.Transparent);
+            }
+            else
+            {
+                g.DrawImage(arrowIcon, 3, 6);
             }
 
             return bitmap;

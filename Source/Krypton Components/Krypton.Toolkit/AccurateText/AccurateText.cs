@@ -156,27 +156,25 @@ namespace Krypton.Toolkit
             text = text.Replace("\t", "    ");
 
             // Perform actual measure of the text
-            using (GraphicsTextHint graphicsHint = new(g, hint))
+            using GraphicsTextHint graphicsHint = new(g, hint);
+            SizeF textSize = Size.Empty;
+
+            try
             {
-                SizeF textSize = Size.Empty;
+                textSize = g.MeasureString(text, font, int.MaxValue, format);
 
-                try
+                if (composition && glowing) //Seb
                 {
-                    textSize = g.MeasureString(text, font, int.MaxValue, format);
-
-                    if (composition && glowing) //Seb
-                    {
-                        textSize.Width += GLOW_EXTRA_WIDTH;
-                    }
+                    textSize.Width += GLOW_EXTRA_WIDTH;
                 }
-                catch
-                {
-                    // ignored
-                }
-
-                // Return a memento with drawing details
-                return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
             }
+            catch
+            {
+                // ignored
+            }
+
+            // Return a memento with drawing details
+            return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
         }
 
         /// <summary>

@@ -144,21 +144,19 @@ namespace Krypton.Toolkit
                 }
 
                 // Position the button element inside the available cell area
-                using (ViewLayoutContext layoutContext = new(kDGV, kDGV.Renderer))
-                {
-                    // Define the available area for layout
-                    layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
+                using ViewLayoutContext layoutContext = new(kDGV, kDGV.Renderer);
+                // Define the available area for layout
+                layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
 
-                    // Get the ideal size of the label
-                    Size labelSize = _viewLabel.GetPreferredSize(layoutContext);
+                // Get the ideal size of the label
+                Size labelSize = _viewLabel.GetPreferredSize(layoutContext);
 
-                    // Add on the requested cell padding (plus add 1 to counter the -1 that occurs
-                    // in the painting routine to prevent drawing over the bottom right border)
-                    labelSize.Width += cellStyle.Padding.Horizontal + 1;
-                    labelSize.Height += cellStyle.Padding.Vertical + 1;
+                // Add on the requested cell padding (plus add 1 to counter the -1 that occurs
+                // in the painting routine to prevent drawing over the bottom right border)
+                labelSize.Width += cellStyle.Padding.Horizontal + 1;
+                labelSize.Height += cellStyle.Padding.Vertical + 1;
 
-                    return labelSize;
-                }
+                return labelSize;
             }
             catch
             {
@@ -197,109 +195,107 @@ namespace Krypton.Toolkit
                 // Should we draw the content foreground?
                 if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
                 {
-                    using (RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer))
+                    using RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    // Cache the starting cell bounds
+                    Rectangle startBounds = cellBounds;
+
+                    // Ensure the view classes are created and hooked up
+                    CreateViewAndPalettes(kDgv);
+
+                    // Update the element with the correct state and used palette
+                    SetElementStateAndPalette();
+
+                    // Update the display text
+                    if (!string.IsNullOrEmpty(formattedValue?.ToString()))
                     {
-                        // Cache the starting cell bounds
-                        Rectangle startBounds = cellBounds;
-
-                        // Ensure the view classes are created and hooked up
-                        CreateViewAndPalettes(kDgv);
-
-                        // Update the element with the correct state and used palette
-                        SetElementStateAndPalette();
-
-                        // Update the display text
-                        if (!string.IsNullOrEmpty(formattedValue?.ToString()))
-                        {
-                            _shortTextValue.ShortText = formattedValue.ToString();
-                        }
-                        else
-                        {
-                            if ((kDgv.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn col) && col.UseColumnTextForButtonValue && !kDgv.Rows[rowIndex].IsNewRow)
-                            {
-                                _shortTextValue.ShortText = col.Text;
-                            }
-                            else
-                            {
-                                _shortTextValue.ShortText = string.Empty;
-                            }
-                        }
-
-                        // Prevent button overlapping the bottom/right border
-                        cellBounds.Width--;
-                        cellBounds.Height--;
-
-                        // Apply the padding
-                        if (kDgv.RightToLeftInternal)
-                        {
-                            cellBounds.Offset(cellStyle.Padding.Right, cellStyle.Padding.Bottom);
-                        }
-                        else
-                        {
-                            cellBounds.Offset(cellStyle.Padding.Left, cellStyle.Padding.Top);
-                        }
-
-                        cellBounds.Width -= cellStyle.Padding.Horizontal;
-                        cellBounds.Height -= cellStyle.Padding.Vertical;
-
-                        // Position the button element inside the available cell area
-                        using (ViewLayoutContext layoutContext = new(kDgv, kDgv.Renderer))
-                        {
-                            // Define the available area for calculating layout
-                            layoutContext.DisplayRectangle = cellBounds;
-
-                            // Get the requests size for the label
-                            Size contentSize = _viewLabel.GetPreferredSize(layoutContext);
-
-                            // Adjust the horizontal alignment
-                            switch (cellStyle.Alignment)
-                            {
-                                case DataGridViewContentAlignment.NotSet:
-                                case DataGridViewContentAlignment.TopCenter:
-                                case DataGridViewContentAlignment.MiddleCenter:
-                                case DataGridViewContentAlignment.BottomCenter:
-                                    cellBounds.X += (cellBounds.Width - contentSize.Width) / 2;
-                                    break;
-                                case DataGridViewContentAlignment.TopRight:
-                                case DataGridViewContentAlignment.MiddleRight:
-                                case DataGridViewContentAlignment.BottomRight:
-                                    cellBounds.X = cellBounds.Right - contentSize.Width;
-                                    break;
-                            }
-
-                            // Adjust the vertical alignment
-                            switch (cellStyle.Alignment)
-                            {
-                                case DataGridViewContentAlignment.NotSet:
-                                case DataGridViewContentAlignment.MiddleLeft:
-                                case DataGridViewContentAlignment.MiddleCenter:
-                                case DataGridViewContentAlignment.MiddleRight:
-                                    cellBounds.Y += (cellBounds.Height - contentSize.Height) / 2;
-                                    break;
-                                case DataGridViewContentAlignment.BottomLeft:
-                                case DataGridViewContentAlignment.BottomCenter:
-                                case DataGridViewContentAlignment.BottomRight:
-                                    cellBounds.Y = cellBounds.Bottom - contentSize.Height;
-                                    break;
-                            }
-
-                            // Make the cell the same size as the check box itself
-                            cellBounds.Width = Math.Min(contentSize.Width, cellBounds.Width);
-                            cellBounds.Height = Math.Min(contentSize.Height, cellBounds.Height);
-
-                            // Perform actual layout inside that area
-                            layoutContext.DisplayRectangle = cellBounds;
-                            _viewLabel.Layout(layoutContext);
-                        }
-
-                        // Ask the element to draw now
-                        _viewLabel.Render(renderContext);
-
-                        // Remember the current drawing bounds
-                        _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
-                            cellBounds.Y - startBounds.Y,
-                            cellBounds.Width, cellBounds.Height);
+                        _shortTextValue.ShortText = formattedValue.ToString();
                     }
+                    else
+                    {
+                        if ((kDgv.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn col) && col.UseColumnTextForButtonValue && !kDgv.Rows[rowIndex].IsNewRow)
+                        {
+                            _shortTextValue.ShortText = col.Text;
+                        }
+                        else
+                        {
+                            _shortTextValue.ShortText = string.Empty;
+                        }
+                    }
+
+                    // Prevent button overlapping the bottom/right border
+                    cellBounds.Width--;
+                    cellBounds.Height--;
+
+                    // Apply the padding
+                    if (kDgv.RightToLeftInternal)
+                    {
+                        cellBounds.Offset(cellStyle.Padding.Right, cellStyle.Padding.Bottom);
+                    }
+                    else
+                    {
+                        cellBounds.Offset(cellStyle.Padding.Left, cellStyle.Padding.Top);
+                    }
+
+                    cellBounds.Width -= cellStyle.Padding.Horizontal;
+                    cellBounds.Height -= cellStyle.Padding.Vertical;
+
+                    // Position the button element inside the available cell area
+                    using (ViewLayoutContext layoutContext = new(kDgv, kDgv.Renderer))
+                    {
+                        // Define the available area for calculating layout
+                        layoutContext.DisplayRectangle = cellBounds;
+
+                        // Get the requests size for the label
+                        Size contentSize = _viewLabel.GetPreferredSize(layoutContext);
+
+                        // Adjust the horizontal alignment
+                        switch (cellStyle.Alignment)
+                        {
+                            case DataGridViewContentAlignment.NotSet:
+                            case DataGridViewContentAlignment.TopCenter:
+                            case DataGridViewContentAlignment.MiddleCenter:
+                            case DataGridViewContentAlignment.BottomCenter:
+                                cellBounds.X += (cellBounds.Width - contentSize.Width) / 2;
+                                break;
+                            case DataGridViewContentAlignment.TopRight:
+                            case DataGridViewContentAlignment.MiddleRight:
+                            case DataGridViewContentAlignment.BottomRight:
+                                cellBounds.X = cellBounds.Right - contentSize.Width;
+                                break;
+                        }
+
+                        // Adjust the vertical alignment
+                        switch (cellStyle.Alignment)
+                        {
+                            case DataGridViewContentAlignment.NotSet:
+                            case DataGridViewContentAlignment.MiddleLeft:
+                            case DataGridViewContentAlignment.MiddleCenter:
+                            case DataGridViewContentAlignment.MiddleRight:
+                                cellBounds.Y += (cellBounds.Height - contentSize.Height) / 2;
+                                break;
+                            case DataGridViewContentAlignment.BottomLeft:
+                            case DataGridViewContentAlignment.BottomCenter:
+                            case DataGridViewContentAlignment.BottomRight:
+                                cellBounds.Y = cellBounds.Bottom - contentSize.Height;
+                                break;
+                        }
+
+                        // Make the cell the same size as the check box itself
+                        cellBounds.Width = Math.Min(contentSize.Width, cellBounds.Width);
+                        cellBounds.Height = Math.Min(contentSize.Height, cellBounds.Height);
+
+                        // Perform actual layout inside that area
+                        layoutContext.DisplayRectangle = cellBounds;
+                        _viewLabel.Layout(layoutContext);
+                    }
+
+                    // Ask the element to draw now
+                    _viewLabel.Render(renderContext);
+
+                    // Remember the current drawing bounds
+                    _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
+                        cellBounds.Y - startBounds.Y,
+                        cellBounds.Width, cellBounds.Height);
                 }
             }
             else

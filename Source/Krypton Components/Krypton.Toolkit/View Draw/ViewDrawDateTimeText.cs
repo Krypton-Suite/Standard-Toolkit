@@ -1670,12 +1670,10 @@ namespace Krypton.Toolkit
             _formatHandler.DateTime = _dateTimePicker.Value;
 
             // Ask the format handler to perform actual rendering of the text
-            using (Clipping clipped = new(context.Graphics, ClientRectangle))
-            {
-                _formatHandler.Render(context, GetFont(), ClientRectangle,
-                                      GetTextColor(), GetBackColor(),
-                                      _dateTimePicker.Checked);
-            }
+            using Clipping clipped = new(context.Graphics, ClientRectangle);
+            _formatHandler.Render(context, GetFont(), ClientRectangle,
+                GetTextColor(), GetBackColor(),
+                _dateTimePicker.Checked);
         }
         #endregion
 

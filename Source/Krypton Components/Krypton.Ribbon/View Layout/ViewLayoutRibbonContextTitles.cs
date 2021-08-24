@@ -190,10 +190,8 @@ namespace Krypton.Ribbon
             clipRect.Height++;
 
             // Limit drawing to our client area
-            using(Clipping clip = new(context.Graphics, clipRect))
-            {
-                base.Render(context);
-            }
+            using Clipping clip = new(context.Graphics, clipRect);
+            base.Render(context);
         }
         #endregion
 
