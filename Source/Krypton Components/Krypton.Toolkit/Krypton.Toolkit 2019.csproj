@@ -381,6 +381,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>VisualTaskDialogImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\WhiteImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>WhiteImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
         </Compile>
@@ -703,6 +708,10 @@
         <EmbeddedResource Update="Resources\VisualTaskDialogImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>VisualTaskDialogImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\WhiteImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>WhiteImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>

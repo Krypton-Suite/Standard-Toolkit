@@ -73,6 +73,66 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BlackButtonCollapse {
+            get {
+                object obj = ResourceManager.GetObject("BlackButtonCollapse", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BlackButtonExpand {
+            get {
+                object obj = ResourceManager.GetObject("BlackButtonExpand", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BlackContextMenuSub {
+            get {
+                object obj = ResourceManager.GetObject("BlackContextMenuSub", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BlackDropDownButton {
+            get {
+                object obj = ResourceManager.GetObject("BlackDropDownButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BlueContextMenuSub {
+            get {
+                object obj = ResourceManager.GetObject("BlueContextMenuSub", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BlueDropDownButton {
+            get {
+                object obj = ResourceManager.GetObject("BlueDropDownButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ButtonColorImageSmall {
             get {
                 object obj = ResourceManager.GetObject("ButtonColorImageSmall", resourceCulture);
@@ -96,6 +156,16 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Bitmap CollapseIcon {
             get {
                 object obj = ResourceManager.GetObject("CollapseIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CollapseIcon2010 {
+            get {
+                object obj = ResourceManager.GetObject("CollapseIcon2010", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -136,6 +206,16 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Bitmap ExpandIcon {
             get {
                 object obj = ResourceManager.GetObject("ExpandIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ExpandIcon2010 {
+            get {
+                object obj = ResourceManager.GetObject("ExpandIcon2010", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

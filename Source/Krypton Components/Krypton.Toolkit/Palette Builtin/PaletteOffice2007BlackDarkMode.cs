@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blackDropDownButton = Properties.Resources.BlackDropDownButton;
+        private static readonly Image _blackDropDownButton = GenericImageResources.BlackDropDownButton;
         private static readonly Image _blackCloseNormal = Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseNormal;
         private static readonly Image _blackCloseHover = Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseHover;
         private static readonly Image _blackCloseDisabled = Office2007ControlBoxResources.Office2007BlackControlBoxButtonCloseDisabled;
@@ -38,9 +38,9 @@ namespace Krypton.Toolkit
         private static readonly Image _blackHelpNormal = HelpIconResources.GenericPre2010HelpIconBlack;
         private static readonly Image _blackHelpHover = HelpIconResources.GenericPre2010HelpIconHover;
         private static readonly Image _blackHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
-        private static readonly Image _blackRibbonMinimize = Properties.Resources.BlackButtonCollapse;
-        private static readonly Image _blackRibbonExpand = Properties.Resources.BlackButtonExpand;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources.BlackContextMenuSub;
+        private static readonly Image _blackRibbonMinimize = GenericImageResources.BlackButtonCollapse;
+        private static readonly Image _blackRibbonExpand = GenericImageResources.BlackButtonExpand;
+        private static readonly Image _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(170, 170, 170),      // Tick marks
                                                                         Color.FromArgb( 37,  37,  37),      // Top track
                                                                         Color.FromArgb(174, 174, 174),      // Bottom track
