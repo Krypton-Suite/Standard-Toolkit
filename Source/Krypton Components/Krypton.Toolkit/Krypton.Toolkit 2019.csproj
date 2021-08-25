@@ -376,6 +376,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>TreeItemImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="Resources\VisualStudioImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>VisualStudioImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Resources\VisualTaskDialogImageResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -704,6 +709,10 @@
         <EmbeddedResource Update="Resources\TreeItemImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>TreeItemImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\VisualStudioImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>VisualStudioImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="Resources\VisualTaskDialogImageResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>

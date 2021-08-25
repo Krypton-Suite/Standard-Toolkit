@@ -113,26 +113,6 @@ namespace Krypton.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RBVisualStudio2017Checked {
-            get {
-                object obj = ResourceManager.GetObject("RBVisualStudio2017Checked", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap RBVisualStudio2017NotChecked {
-            get {
-                object obj = ResourceManager.GetObject("RBVisualStudio2017NotChecked", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap SelectParentControl {
             get {
                 object obj = ResourceManager.GetObject("SelectParentControl", resourceCulture);
