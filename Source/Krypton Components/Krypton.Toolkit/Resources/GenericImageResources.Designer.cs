@@ -223,6 +223,16 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fit_to_size {
+            get {
+                object obj = ResourceManager.GetObject("fit_to_size", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap GenericWhiteCloseButton {
             get {
                 object obj = ResourceManager.GetObject("GenericWhiteCloseButton", resourceCulture);
@@ -366,6 +376,66 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Bitmap paint_bucket_green {
             get {
                 object obj = ResourceManager.GetObject("paint_bucket_green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SelectParentControl {
+            get {
+                object obj = ResourceManager.GetObject("SelectParentControl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SelectParentControlFlipped {
+            get {
+                object obj = ResourceManager.GetObject("SelectParentControlFlipped", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SilverContextMenuSub {
+            get {
+                object obj = ResourceManager.GetObject("SilverContextMenuSub", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SilverDropDownButton {
+            get {
+                object obj = ResourceManager.GetObject("SilverDropDownButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap table_conditional_16 {
+            get {
+                object obj = ResourceManager.GetObject("table_conditional_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap table2_selection_column {
+            get {
+                object obj = ResourceManager.GetObject("table2_selection_column", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

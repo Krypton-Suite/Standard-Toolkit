@@ -77,8 +77,8 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
         private static readonly Image _buttonSpecRibbonMinimize = MDIImageResources.MdiRibbonMinimize;
         private static readonly Image _buttonSpecRibbonExpand = MDIImageResources.MdiRibbonExpand;
-        private static readonly Image _contextMenuChecked = Properties.Resources.Office2007Checked;
-        private static readonly Image _contextMenuIndeterminate = Properties.Resources.Office2007Indeterminate;
+        private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
+        private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
 
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);

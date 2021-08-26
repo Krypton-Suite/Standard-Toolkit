@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class VisualStudioImageResources {
+    internal class GenericOffice2007ImageResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal VisualStudioImageResources() {
+        internal GenericOffice2007ImageResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.VisualStudioImageResources", typeof(VisualStudioImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.GenericOffice2007ImageResources", typeof(GenericOffice2007ImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RadioButtonVisualStudio2017Checked {
+        internal static System.Drawing.Bitmap Office2007Checked {
             get {
-                object obj = ResourceManager.GetObject("RadioButtonVisualStudio2017Checked", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2007Checked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,39 +73,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RadioButtonVisualStudio2017NotChecked {
+        internal static System.Drawing.Bitmap Office2007Indeterminate {
             get {
-                object obj = ResourceManager.GetObject("RadioButtonVisualStudio2017NotChecked", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap VisualStudioCheckBoxChecked {
-            get {
-                object obj = ResourceManager.GetObject("VisualStudioCheckBoxChecked", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap VisualStudioCheckBoxDisabled {
-            get {
-                object obj = ResourceManager.GetObject("VisualStudioCheckBoxDisabled", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap VisualStudioCheckBoxUnchecked {
-            get {
-                object obj = ResourceManager.GetObject("VisualStudioCheckBoxUnchecked", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2007Indeterminate", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

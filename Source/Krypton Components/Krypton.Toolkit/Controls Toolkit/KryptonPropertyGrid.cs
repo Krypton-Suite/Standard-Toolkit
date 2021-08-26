@@ -12,7 +12,7 @@
 
 namespace Krypton.Toolkit
 {
-    [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersionOne.bmp"), ToolboxItem(true)]
+    [Designer(typeof(KryptonPropertyGridDesigner)), ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersionOne.bmp"), ToolboxItem(true)]
     public class KryptonPropertyGrid : PropertyGrid
     {
         #region Variables
@@ -29,7 +29,6 @@ namespace Krypton.Toolkit
         [Browsable(true), Category("Appearance-Extended"), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue("Color.Gray")]
         public Color GradientMiddleColour { get => _gradientMiddleColour; set { _gradientMiddleColour = value; Invalidate(); } }
         #endregion
-
 
         #region Constructor
         public KryptonPropertyGrid()
@@ -51,6 +50,8 @@ namespace Krypton.Toolkit
             _paletteRedirect = new PaletteRedirect(_palette);
 
             InitColours();
+
+            Font = new Font("Segoe UI", 9f);
         }
         #endregion
 

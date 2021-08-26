@@ -22,14 +22,14 @@ namespace Krypton.Toolkit.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class VisualStudioImageResources {
+    internal class GenericSparkleImageResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal VisualStudioImageResources() {
+        internal GenericSparkleImageResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.VisualStudioImageResources", typeof(VisualStudioImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.GenericSparkleImageResources", typeof(GenericSparkleImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RadioButtonVisualStudio2017Checked {
+        internal static System.Drawing.Bitmap SparkleChecked {
             get {
-                object obj = ResourceManager.GetObject("RadioButtonVisualStudio2017Checked", resourceCulture);
+                object obj = ResourceManager.GetObject("SparkleChecked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RadioButtonVisualStudio2017NotChecked {
+        internal static System.Drawing.Bitmap SparkleContextMenuSub {
             get {
-                object obj = ResourceManager.GetObject("RadioButtonVisualStudio2017NotChecked", resourceCulture);
+                object obj = ResourceManager.GetObject("SparkleContextMenuSub", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap VisualStudioCheckBoxChecked {
+        internal static System.Drawing.Bitmap SparkleDropDownButton {
             get {
-                object obj = ResourceManager.GetObject("VisualStudioCheckBoxChecked", resourceCulture);
+                object obj = ResourceManager.GetObject("SparkleDropDownButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap VisualStudioCheckBoxDisabled {
+        internal static System.Drawing.Bitmap SparkleDropDownOutlineButton {
             get {
-                object obj = ResourceManager.GetObject("VisualStudioCheckBoxDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("SparkleDropDownOutlineButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,29 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap VisualStudioCheckBoxUnchecked {
+        internal static System.Drawing.Bitmap SparkleDropUpButton {
             get {
-                object obj = ResourceManager.GetObject("VisualStudioCheckBoxUnchecked", resourceCulture);
+                object obj = ResourceManager.GetObject("SparkleDropUpButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SparkleGalleryDropButton {
+            get {
+                object obj = ResourceManager.GetObject("SparkleGalleryDropButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SparkleGrayChecked {
+            get {
+                object obj = ResourceManager.GetObject("SparkleGrayChecked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
