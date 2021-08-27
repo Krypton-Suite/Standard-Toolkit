@@ -126,14 +126,14 @@ namespace Krypton.Toolkit
                                                             Color.FromArgb(238, 213, 126), 
                                                             Color.FromArgb(254, 247, 129), 
                                                             Color.FromArgb(240, 201, 41)
-                                                          }; // TODO: Should this be theme independent?
+                                                          };
 
         private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), 
                                                               Color.FromArgb(228, 198, 149), 
                                                               Color.FromArgb(166, 97, 7), 
                                                               Color.FromArgb(242, 155, 57), 
                                                               Color.FromArgb(236, 136, 9)
-                                                            }; // TODO: Should this be theme independent?
+                                                            };
 
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
                                                                 Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
