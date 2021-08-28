@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
             this.ktxtPrompt.Location = new System.Drawing.Point(12, 178);
             this.ktxtPrompt.Name = "ktxtPrompt";
             this.ktxtPrompt.Size = new System.Drawing.Size(598, 24);
-            this.ktxtPrompt.StateCommon.Content.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ktxtPrompt.StateCommon.Content.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ktxtPrompt.StateCommon.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
             this.ktxtPrompt.TabIndex = 3;
             this.ktxtPrompt.TextChanged += new System.EventHandler(ktxtPrompt_TextChanged);
@@ -93,12 +93,12 @@ namespace Krypton.Toolkit
             // kwlMessage
             // 
             this.kwlMessage.AutoSize = false;
-            this.kwlMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kwlMessage.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kwlMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             this.kwlMessage.Location = new System.Drawing.Point(12, 9);
             this.kwlMessage.Name = "kwlMessage";
             this.kwlMessage.Size = new System.Drawing.Size(598, 156);
-            this.kwlMessage.StateCommon.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kwlMessage.StateCommon.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kwlMessage.Text = "{0}";
             this.kwlMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 

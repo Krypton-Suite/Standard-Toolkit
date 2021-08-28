@@ -57,6 +57,11 @@
         <Compile Update="General\ObscureControl.cs">
             <SubType>Component</SubType>
         </Compile>
+        <Compile Update="Resources\GenericImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericImageResources.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <Content Include="Krypton.ico" Pack="false" />
@@ -68,6 +73,12 @@
         <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />
         <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
         <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2019.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\GenericImageResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>GenericImageResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Docking.xml</DocumentationFile>
