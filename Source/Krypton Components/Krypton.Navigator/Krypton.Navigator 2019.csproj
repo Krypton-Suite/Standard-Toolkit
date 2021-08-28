@@ -79,15 +79,5 @@
     <PropertyGroup>
         <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
-
-  <!--Handle AssemblyInfo-->
-  <PropertyGroup>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
-    <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
-    <AssemblyVersion>6.0.2109</AssemblyVersion>
-    <FileVersion>6.0.2109/FileVersion>
-  </PropertyGroup>
    
 </Project>
