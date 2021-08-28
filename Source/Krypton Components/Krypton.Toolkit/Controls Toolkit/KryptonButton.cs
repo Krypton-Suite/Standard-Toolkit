@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawButton);
 
             _useAsDialogButton = false;
-
+            
             _useAsUACElevationButton = false;
 
             _processToElevate = string.Empty;
