@@ -18,7 +18,7 @@
         </Description>-->
 		<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>
         <Description Condition="'$(TFMs)' == 'all'">
-          An update to Component factory's krypton toolkit to support .NET Framework 4.6.2 - 4.8, .NET Core 3.1, .NET 5/6. $(Description)
+          An update to Component factory's krypton toolkit to support .NET Framework 4.6.2 - 4.8, .NET Core 3.1 and .NET 5/6. $(Description)
           
           This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8, .NET Core 3.1 and .NET 5/6.
           Also, all libraries are included targeting each specific framework version for performance purposes.
