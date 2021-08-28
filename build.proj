@@ -68,7 +68,7 @@
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Pack" />
 	</Target>
 	
-	<Target Name="Pack" DependsOnTargets="CleanPackages;PackLite;PackAll" />
+	<Target Name="Pack" DependsOnTargets="CleanPackages;PackAll" /> <!--PackLite;-->
 	
 	<Target Name="Push">
 		<ItemGroup>
