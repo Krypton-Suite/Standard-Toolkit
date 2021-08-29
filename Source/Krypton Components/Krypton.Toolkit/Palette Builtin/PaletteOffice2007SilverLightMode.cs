@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
-        private static readonly Image _silverDropDownButton = Properties.Resources.SilverDropDownButton;
+        private static readonly Image _silverDropDownButton = GenericImageResources.SilverDropDownButton;
         private static readonly Image _silverCloseNormal = Office2007ControlBoxResources.Office2007SilverControlBoxButtonCloseHover;
         private static readonly Image _silverCloseDisabled = Office2007ControlBoxResources.Office2007SilverControlBoxButtonCloseDisabled;
         private static readonly Image _silverMaximiseNormal = Office2007ControlBoxResources.Office2007SilverControlBoxButtonMaxHover;
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         private static readonly Image _silverRestoreDisabled = Office2007ControlBoxResources.Office2007SilverControlBoxButtonRestoreDisabled;
         private static readonly Image _silverHelpNormal = HelpIconResources.GenericPre2010HelpIconSilver;
         private static readonly Image _silverHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources.SilverContextMenuSub;
+        private static readonly Image _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(130, 130, 130),      // Tick marks
                                                                         Color.FromArgb(156, 160, 165),      // Top track
                                                                         Color.FromArgb(226, 220, 235),      // Bottom track

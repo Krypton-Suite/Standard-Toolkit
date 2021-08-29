@@ -59,25 +59,25 @@ namespace Krypton.Toolkit
 
         private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton;
         private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
-        private static readonly Image _buttonSpecContext = Properties.Resources.ProfessionalContextButton;
-        private static readonly Image _buttonSpecNext = Properties.Resources.ProfessionalNextButton;
-        private static readonly Image _buttonSpecPrevious = Properties.Resources.ProfessionalPreviousButton;
-        private static readonly Image _buttonSpecArrowLeft = Properties.Resources.ProfessionalArrowLeftButton;
-        private static readonly Image _buttonSpecArrowRight = Properties.Resources.ProfessionalArrowRightButton;
-        private static readonly Image _buttonSpecArrowUp = Properties.Resources.ProfessionalArrowUpButton;
-        private static readonly Image _buttonSpecArrowDown = Properties.Resources.ProfessionalArrowDownButton;
-        private static readonly Image _buttonSpecDropDown = Properties.Resources.ProfessionalDropDownButton;
-        private static readonly Image _buttonSpecPinVertical = Properties.Resources.ProfessionalPinVerticalButton;
-        private static readonly Image _buttonSpecPinHorizontal = Properties.Resources.ProfessionalPinHorizontalButton;
+        private static readonly Image _buttonSpecContext = GenericProfessionalImageResources.ProfessionalContextButton;
+        private static readonly Image _buttonSpecNext = GenericProfessionalImageResources.ProfessionalNextButton;
+        private static readonly Image _buttonSpecPrevious = GenericProfessionalImageResources.ProfessionalPreviousButton;
+        private static readonly Image _buttonSpecArrowLeft = GenericProfessionalImageResources.ProfessionalArrowLeftButton;
+        private static readonly Image _buttonSpecArrowRight = GenericProfessionalImageResources.ProfessionalArrowRightButton;
+        private static readonly Image _buttonSpecArrowUp = GenericProfessionalImageResources.ProfessionalArrowUpButton;
+        private static readonly Image _buttonSpecArrowDown = GenericProfessionalImageResources.ProfessionalArrowDownButton;
+        private static readonly Image _buttonSpecDropDown = GenericProfessionalImageResources.ProfessionalDropDownButton;
+        private static readonly Image _buttonSpecPinVertical = ProfessionalPinImageResources.ProfessionalPinVerticalButton;
+        private static readonly Image _buttonSpecPinHorizontal = ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
         private static readonly Image _buttonSpecPendantClose = Office2010ControlBoxResources._2010ButtonMDIClose;
         private static readonly Image _buttonSpecPendantMin = Office2010ControlBoxResources._2010ButtonMDIMin;
         private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestore;
-        private static readonly Image _buttonSpecWorkspaceMaximize = Properties.Resources.ProfessionalMaximize;
-        private static readonly Image _buttonSpecWorkspaceRestore = Properties.Resources.ProfessionalRestore;
+        private static readonly Image _buttonSpecWorkspaceMaximize = GenericProfessionalImageResources.ProfessionalMaximize;
+        private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
         private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
-        private static readonly Image _contextMenuChecked = Properties.Resources.Office2007Checked;
-        private static readonly Image _contextMenuIndeterminate = Properties.Resources.Office2007Indeterminate;
+        private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
+        private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
 
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
@@ -113,28 +113,48 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseChecked2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
-        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
-        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) }; // TODO: Should this be theme independent?
-        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) }; // TODO: Should this be theme independent?
+        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
+                                                             Color.FromArgb(214, 220, 231), 
+                                                             Color.FromArgb(188, 198, 211), 
+                                                             Color.FromArgb(254, 254, 255), 
+                                                             Color.FromArgb(206, 213, 225)
+                                                           };
+
+        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), 
+                                                            Color.FromArgb(248, 230, 143),
+                                                            Color.FromArgb(238, 213, 126), 
+                                                            Color.FromArgb(254, 247, 129), 
+                                                            Color.FromArgb(240, 201, 41)
+                                                          };
+
+        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), 
+                                                              Color.FromArgb(228, 198, 149),
+                                                              Color.FromArgb(166, 97, 7), 
+                                                              Color.FromArgb(242, 155, 57),
+                                                              Color.FromArgb(236, 136, 9)
+                                                            };
+
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                           Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
-                                                                           Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
-                                                                           Color.FromArgb(194, 118, 43),  // Button, Pressed, Border 1
-                                                                           Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
-                                                                           Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
-                                                                           Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
-                                                                         };
+                                                                Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
+                                                                Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
+                                                                Color.FromArgb(194, 118, 43),  // Button, Pressed, Border 1
+                                                                Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
+                                                                Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
+                                                                Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
+                                                              };
+
         private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
-                                                                         Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-                                                                         Color.FromArgb(248, 225, 135), // Button, Tracking, Back 1
-                                                                         Color.FromArgb(251, 248, 224), // Button, Tracking, Back 2
-                                                                         Color.FromArgb(255, 228, 138), // Button, Pressed, Back 1
-                                                                         Color.FromArgb(194, 118, 43),  // Button, Pressed, Back 2
-                                                                         Color.FromArgb(255, 216, 108), // Button, Checked, Back 1
-                                                                         Color.FromArgb(255, 244, 128), // Button, Checked, Back 2
-                                                                         Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
-                                                                         Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
-                                                                       };
+                                                              Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
+                                                              Color.FromArgb(248, 225, 135), // Button, Tracking, Back 1
+                                                              Color.FromArgb(251, 248, 224), // Button, Tracking, Back 2
+                                                              Color.FromArgb(255, 228, 138), // Button, Pressed, Back 1
+                                                              Color.FromArgb(194, 118, 43),  // Button, Pressed, Back 2
+                                                              Color.FromArgb(255, 216, 108), // Button, Checked, Back 1
+                                                              Color.FromArgb(255, 244, 128), // Button, Checked, Back 2
+                                                              Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
+                                                              Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
+                                                            };
+
         /*private static readonly Color[] _appButtonNormal = new Color[] { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
         private static readonly Color[] _appButtonTrack = new Color[] { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
         private static readonly Color[] _appButtonPressed = new Color[] { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };

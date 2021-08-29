@@ -207,6 +207,41 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets a value indicating whether [use as uac elevated button].</summary>
+        /// <value><c>true</c> if [use as uac elevated button]; otherwise, <c>false</c>.</value>
+        [DefaultValue(false)]
+        public bool UseAsUACElevatedButton
+        {
+            get => _button.UseAsUACElevationButton;
+
+            set
+            {
+                if (_button.UseAsUACElevationButton != value)
+                {
+                    _service.OnComponentChanged(_button, null, _button.UseAsUACElevationButton, value);
+
+                    _button.UseAsUACElevationButton = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the process to elevate.</summary>
+        /// <value>The process to elevate.</value>
+        public string ProcessToElevate
+        {
+            get => _button.ProcessToElevate;
+
+            set
+            {
+                if (_button.ProcessToElevate != value)
+                {
+                    _service.OnComponentChanged(_button, null, _button.ProcessToElevate, value);
+
+                    _button.ProcessToElevate = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -236,6 +271,9 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("Image", "Image", "Values", "Button image"));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionHeaderItem("UAC Elevation"));
+                actions.Add(new DesignerActionPropertyItem("UseAsUACElevatedButton", "Use as an UAC Elevated Button", "UAC Elevation", "Use this button to elevate a process."));
+                actions.Add(new DesignerActionPropertyItem("ProcessToElevate", "Process to Elevate", "UAC Elevation", "The process to elevate."));
             }
 
             return actions;

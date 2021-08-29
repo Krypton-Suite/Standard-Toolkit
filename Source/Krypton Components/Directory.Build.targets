@@ -8,21 +8,29 @@
       <FileVersion>6.0.2109</FileVersion>
     </PropertyGroup>
 
+    <!--Handle AssemblyInfo-->
     <PropertyGroup>
-        <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Canary.Lite</PackageId>
+      <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+      <NeutralLanguage>en</NeutralLanguage>
+      <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
+      <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!--<PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Canary.Lite</PackageId>
         <Description Condition="'$(TFMs)' == 'lite'">
           An update to Component factory's krypton toolkit to support .NET Core 3.1, .NET 5, .NET 6, and .net 4.8 Framework. $(Description)
 
           This package supports only .NET Framework >= 4.8, .NET Core 3.1 and .NET 5/6.
           If you require .NET Framework 3.5 -> 4.7.2 support, or want to use library fully build against your specific framework version, please use non-lite package.
-        </Description>
+        </Description>-->
 		<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>
         <Description Condition="'$(TFMs)' == 'all'">
-          An update to Component factory's krypton toolkit to support .NET Core 3.1, .NET 5/6 and the latest .NET 3.5/4.x framework. $(Description)
+          An update to Component factory's krypton toolkit to support .NET Framework 4.6.2 - 4.8, .NET Core 3.1 and .NET 5/6. $(Description)
           
-          This package supports all .NET Framework versions starting .NET 3.5, .NET Core 3.1 and .NET 5/6.
+          This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8, .NET Core 3.1 and .NET 5/6.
           Also, all libraries are included targeting each specific framework version for performance purposes.
-          If you target only .NET Framework >= 4.8 and are not interested in specific framework version, consider using the lite package.
+          <!--If you target only .NET Framework >= 4.8 and are not interested in specific framework version, consider using the lite package.-->
         </Description>
     </PropertyGroup>
 </Project>

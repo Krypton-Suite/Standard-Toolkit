@@ -59,28 +59,28 @@ namespace Krypton.Toolkit
         private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton2;
         private static readonly Image _disabledDropUp = DropDownArrowImageResources.DisabledDropUpButton;
         private static readonly Image _disabledGalleryDrop = DropDownArrowImageResources.DisabledGalleryDropButton;
-        private static readonly Image _buttonSpecClose = Properties.Resources.WhiteCloseButton;
-        private static readonly Image _buttonSpecContext = Properties.Resources.WhiteContextButton;
-        private static readonly Image _buttonSpecNext = Properties.Resources.WhiteNextButton;
-        private static readonly Image _buttonSpecPrevious = Properties.Resources.WhitePreviousButton;
-        private static readonly Image _buttonSpecArrowLeft = Properties.Resources.WhiteArrowLeftButton;
-        private static readonly Image _buttonSpecArrowRight = Properties.Resources.WhiteArrowRightButton;
-        private static readonly Image _buttonSpecArrowUp = Properties.Resources.WhiteArrowUpButton;
-        private static readonly Image _buttonSpecArrowDown = Properties.Resources.WhiteArrowDownButton;
-        private static readonly Image _buttonSpecDropDown = Properties.Resources.WhiteDropDownButton;
-        private static readonly Image _buttonSpecPinVertical = Properties.Resources.WhitePinVerticalButton;
-        private static readonly Image _buttonSpecPinHorizontal = Properties.Resources.WhitePinHorizontalButton;
-        private static readonly Image _buttonSpecPendantClose = Properties.Resources.WhitePendantCloseA;
-        private static readonly Image _buttonSpecPendantMin = Properties.Resources.WhitePendantMinA;
-        private static readonly Image _buttonSpecPendantRestore = Properties.Resources.WhitePendantRestoreA;
-        private static readonly Image _buttonSpecWorkspaceMaximize = Properties.Resources.WhiteMaximize;
-        private static readonly Image _buttonSpecWorkspaceRestore = Properties.Resources.WhiteRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = Properties.Resources.WhitePendantRibbonMinimize;
-        private static readonly Image _buttonSpecRibbonExpand = Properties.Resources.WhitePendantRibbonExpand;
-        private static readonly Image _sparkleDropDownOutlineButton = Properties.Resources.SparkleDropDownOutlineButton;
-        private static readonly Image _sparkleDropDownButton = Properties.Resources.SparkleDropDownButton;
-        private static readonly Image _sparkleDropUpButton = Properties.Resources.SparkleDropUpButton;
-        private static readonly Image _sparkleGalleryDropButton = Properties.Resources.SparkleGalleryDropButton;
+        private static readonly Image _buttonSpecClose = WhiteImageResources.WhiteCloseButton;
+        private static readonly Image _buttonSpecContext = WhiteImageResources.WhiteContextButton;
+        private static readonly Image _buttonSpecNext = WhiteImageResources.WhiteNextButton;
+        private static readonly Image _buttonSpecPrevious = WhiteImageResources.WhitePreviousButton;
+        private static readonly Image _buttonSpecArrowLeft = WhiteImageResources.WhiteArrowLeftButton;
+        private static readonly Image _buttonSpecArrowRight = WhiteImageResources.WhiteArrowRightButton;
+        private static readonly Image _buttonSpecArrowUp = WhiteImageResources.WhiteArrowUpButton;
+        private static readonly Image _buttonSpecArrowDown = WhiteImageResources.WhiteArrowDownButton;
+        private static readonly Image _buttonSpecDropDown = WhiteImageResources.WhiteDropDownButton;
+        private static readonly Image _buttonSpecPinVertical = WhiteImageResources.WhitePinVerticalButton;
+        private static readonly Image _buttonSpecPinHorizontal = WhiteImageResources.WhitePinHorizontalButton;
+        private static readonly Image _buttonSpecPendantClose = WhiteImageResources.WhitePendantClosenormal;
+        private static readonly Image _buttonSpecPendantMin = WhiteImageResources.WhitePendantMinnormal;
+        private static readonly Image _buttonSpecPendantRestore = WhiteImageResources.WhitePendantRestorenormal;
+        private static readonly Image _buttonSpecWorkspaceMaximize = WhiteImageResources.WhiteMaximize;
+        private static readonly Image _buttonSpecWorkspaceRestore = WhiteImageResources.WhiteRestore;
+        private static readonly Image _buttonSpecRibbonMinimize = WhiteImageResources.WhitePendantRibbonMinimize;
+        private static readonly Image _buttonSpecRibbonExpand = WhiteImageResources.WhitePendantRibbonExpand;
+        private static readonly Image _sparkleDropDownOutlineButton = GenericSparkleImageResources.SparkleDropDownOutlineButton;
+        private static readonly Image _sparkleDropDownButton = GenericSparkleImageResources.SparkleDropDownButton;
+        private static readonly Image _sparkleDropUpButton = GenericSparkleImageResources.SparkleDropUpButton;
+        private static readonly Image _sparkleGalleryDropButton = GenericSparkleImageResources.SparkleGalleryDropButton;
         private static readonly Image _sparkleCloseA = SparkleControlBoxResources.SparkleButtonCloseNormal;
         private static readonly Image _sparkleCloseI = SparkleControlBoxResources.SparkleButtonCloseDisabled;
         private static readonly Image _sparkleMaxA = SparkleControlBoxResources.SparkleButtonMaxNormal;
@@ -90,11 +90,11 @@ namespace Krypton.Toolkit
         private static readonly Image _sparkleRestoreA = SparkleControlBoxResources.SparkleButtonRestoreNormal;
         private static readonly Image _sparkleRestoreI = SparkleControlBoxResources.SparkleButtonRestoreDisabled;
         private static readonly Image _sparkleHelpA = HelpIconResources.GenericOffice2010HelpIcon;
-        private static readonly Image _sparkleHelpHover = HelpIconResources.GenericOffice2010HelpIconHover; // TODO: Use this!!!
+        private static readonly Image _sparkleHelpHover = HelpIconResources.GenericOffice2010HelpIconHover;
         private static readonly Image _sparkleHelpI = HelpIconResources.GenericOffice2010HelpIconDisabled;
-        private static readonly Image _contextMenuChecked = Properties.Resources.SparkleGrayChecked;
+        private static readonly Image _contextMenuChecked = GenericSparkleImageResources.SparkleGrayChecked;
         private static readonly Image _contextMenuIndeterminate = SparkleGeneralRadioButtonResources.RadioButtonSparkleGrayIndeterminate;
-        private static readonly Image _contextMenuSubMenu = Properties.Resources.BlackContextMenuSub;
+        private static readonly Image _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
         private static readonly Image _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
@@ -3028,7 +3028,14 @@ namespace Krypton.Toolkit
                     return state == PaletteState.Disabled ? _sparkleRestoreI : _sparkleRestoreA;
 
                 case PaletteButtonSpecStyle.FormHelp:
-                    return state == PaletteState.Disabled ? _sparkleHelpI : _sparkleHelpA;
+                    return state switch
+                    {
+                        PaletteState.Normal => _sparkleHelpA,
+                        PaletteState.Tracking => _sparkleHelpHover,
+                        _ => _sparkleHelpI
+                    };
+                   
+                    //return state == PaletteState.Disabled ? _sparkleHelpI : _sparkleHelpA;
 
                 case PaletteButtonSpecStyle.Close:
                     return _buttonSpecClose;

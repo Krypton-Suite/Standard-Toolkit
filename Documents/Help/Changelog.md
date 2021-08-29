@@ -17,6 +17,7 @@
 * Fixed [#271](https://github.com/Krypton-Suite/Standard-Toolkit/issues/271), CueHint text is "Bottom" clipped by default
   - And add `TextV` to allow control for multi-line text boxes
 * Implemented [#265](https://github.com/Krypton-Suite/Standard-Toolkit/issues/265), "Color Dialog" is in the Main Forms elements - Where is Kryptons' Standard themed equivalent
+* Implemented [#256](https://github.com/Krypton-Suite/Standard-Toolkit/issues/256), Sort out palette image resources
 * Implemented [#243](https://github.com/Krypton-Suite/Standard-Toolkit/issues/243), "Font Dialog" is in the Main Forms elements - Where is Kryptons' Standard themed equivalent
 * Fixed [#254](https://github.com/Krypton-Suite/Standard-Toolkit/issues/254), VisualStudio Themes should not be listed yet, as they cause an exception when used
 * Fixed [#242](https://github.com/Krypton-Suite/Standard-Toolkit/issues/242), `KryptonMessageBox` display is off the left of the display area
