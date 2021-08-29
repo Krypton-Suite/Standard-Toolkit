@@ -27,10 +27,8 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the GalleryDropMenuEventArgs class.
         /// </summary>
         /// <param name="contextMenu">Context menu.</param>
-        public GalleryDropMenuEventArgs(KryptonContextMenu contextMenu)
-        {
-            KryptonContextMenu = contextMenu;
-        }
+        public GalleryDropMenuEventArgs(KryptonContextMenu contextMenu) => KryptonContextMenu = contextMenu;
+
         #endregion
 
         #region Public

@@ -61,11 +61,10 @@ namespace Krypton.Ribbon
         protected override ButtonSpecView CreateButtonSpecView(PaletteRedirect redirector, 
                                                                IPaletteMetric viewPaletteMetric, 
                                                                PaletteMetricPadding viewMetricPadding, 
-                                                               ButtonSpec buttonSpec)
-        {
-            return new ButtonSpecViewRibbon(redirector, viewPaletteMetric, 
-                                            viewMetricPadding, this, buttonSpec);
-        }
+                                                               ButtonSpec buttonSpec) =>
+            new ButtonSpecViewRibbon(redirector, viewPaletteMetric, 
+                viewMetricPadding, this, buttonSpec);
+
         #endregion
     }
 }

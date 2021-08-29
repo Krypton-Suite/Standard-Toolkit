@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteGroupBoxRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteGroupBoxRedirect(PaletteRedirect redirect,
                                        NeedPaintHandler needPaint)
@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteGroupBoxRedirect class.
         /// </summary>
-        /// <param name="redirectDouble">Inheritence redirection for group border/background.</param>
-        /// <param name="redirectContent">Inheritence redirection for group header.</param>
+        /// <param name="redirectDouble">inheritance redirection for group border/background.</param>
+        /// <param name="redirectContent">inheritance redirection for group header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteGroupBoxRedirect(PaletteRedirect redirectDouble,
                                        PaletteRedirect redirectContent,
@@ -72,10 +72,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent Content { get; }
 
-        private bool ShouldSerializeContent()
-        {
-            return !Content.IsDefault;
-        }
+        private bool ShouldSerializeContent() => !Content.IsDefault;
 
         /// <summary>
         /// Gets the content palette.

@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public virtual void SetInherit(PaletteDataGridViewRedirect inherit)
         {
@@ -124,10 +124,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteDataGridViewTripleStates DataCell => _dataCell;
 
-        private bool ShouldSerializeDataCell()
-        {
-            return !_dataCell.IsDefault;
-        }
+        private bool ShouldSerializeDataCell() => !_dataCell.IsDefault;
+
         #endregion
 
         #region HeaderColumn
@@ -140,10 +138,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteDataGridViewTripleStates HeaderColumn => _headerColumn;
 
-        private bool ShouldSerializeHeaderColumn()
-        {
-            return !_headerColumn.IsDefault;
-        }
+        private bool ShouldSerializeHeaderColumn() => !_headerColumn.IsDefault;
+
         #endregion
 
         #region HeaderRow
@@ -156,10 +152,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteDataGridViewTripleStates HeaderRow => _headerRow;
 
-        private bool ShouldSerializeHeaderRow()
-        {
-            return !_headerRow.IsDefault;
-        }
+        private bool ShouldSerializeHeaderRow() => !_headerRow.IsDefault;
+
         #endregion
 
         #region Implementation

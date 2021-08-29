@@ -68,20 +68,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the TypedCollection class.
         /// </summary>
-        public TypedCollection()
-        {
+        public TypedCollection() =>
             // Create internal storage
             _list = new List<T>(4);
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
-            return Count + " TypedCollection";
-        }
+        public override string ToString() => Count + " TypedCollection";
+
         #endregion
 
         #region AddRange
@@ -119,22 +115,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>True if item found; otherwise false.</returns>
-        public bool Contains(object value)
-        {
+        public bool Contains(object value) =>
             // Use strongly typed implementation
-            return Contains(value as T);
-        }
+            Contains(value as T);
 
         /// <summary>
         /// Determines the index of the specified item in the collection.
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf(object value)
-        {
+        public int IndexOf(object value) =>
             // Use strongly typed implementation
-            return IndexOf(value as T);
-        }
+            IndexOf(value as T);
 
         /// <summary>
         /// Inserts an item to the collection at the specified index.
@@ -341,10 +333,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>True if item found; otherwise false.</returns>
-        public bool Contains(T item)
-        {
-            return _list.Contains(item);
-        }
+        public bool Contains(T item) => _list.Contains(item);
 
         /// <summary>
         /// Copies items to specified array starting at particular index.
@@ -434,19 +423,14 @@ namespace Krypton.Toolkit
         /// Shallow enumerate over items in the collection.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
 
         /// <summary>
         /// Enumerate using non-generic interface.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _list.GetEnumerator();
+
         #endregion
 
         #region Protected

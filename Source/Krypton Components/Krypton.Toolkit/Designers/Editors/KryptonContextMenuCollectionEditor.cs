@@ -36,10 +36,7 @@ namespace Krypton.Toolkit
         /// Creates a new form to display and edit the current collection.
         /// </summary>
         /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-        protected override CollectionForm CreateCollectionForm()
-        {
-            return new KryptonContextMenuCollectionForm(this);
-        }
+        protected override CollectionForm CreateCollectionForm() => new KryptonContextMenuCollectionForm(this);
 
         /// <summary>
         /// Gets the data types that this collection editor can contain. 

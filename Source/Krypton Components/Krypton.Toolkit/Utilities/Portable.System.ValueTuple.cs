@@ -256,10 +256,7 @@ namespace System
         ///     <item><description>Its components are equal to those of the current instance. Equality is determined by the default object equality comparer for each component.</description></item>
         /// </list>
         /// </remarks>
-        public override bool Equals(object obj)
-        {
-            return obj is ValueTuple<T1, T2> tuple && Equals(tuple);
-        }
+        public override bool Equals(object obj) => obj is ValueTuple<T1, T2> tuple && Equals(tuple);
 
         /// <summary>
         /// Returns a value that indicates whether the current <see cref="ValueTuple{T1,T2}"/> instance is equal to a specified <see cref="ValueTuple{T1,T2}"/>.
@@ -270,11 +267,9 @@ namespace System
         /// The <paramref name="other"/> parameter is considered to be equal to the current instance if each of its fields
         /// are equal to that of the current instance, using the default comparer for that field's type.
         /// </remarks>
-        public bool Equals(ValueTuple<T1, T2> other)
-        {
-            return EqualityComparer<T1>.Default.Equals(Item1, other.Item1)
-                   && EqualityComparer<T2>.Default.Equals(Item2, other.Item2);
-        }
+        public bool Equals(ValueTuple<T1, T2> other) =>
+            EqualityComparer<T1>.Default.Equals(Item1, other.Item1)
+            && EqualityComparer<T2>.Default.Equals(Item2, other.Item2);
 
         int IComparable.CompareTo(object other)
         {
@@ -335,17 +330,13 @@ namespace System
         /// Returns the hash code for the current <see cref="ValueTuple{T1,T2}"/> instance.
         /// </summary>
         /// <returns>A 32-bit signed integer hash code.</returns>
-        public override int GetHashCode()
-        {
-            return ValueTuple.CombineHashCodes(Item1?.GetHashCode() ?? 0,
-                                                Item2?.GetHashCode() ?? 0);
-        }
+        public override int GetHashCode() =>
+            ValueTuple.CombineHashCodes(Item1?.GetHashCode() ?? 0,
+                Item2?.GetHashCode() ?? 0);
 
-        private int GetHashCodeCore(IEqualityComparer comparer)
-        {
-            return ValueTuple.CombineHashCodes(comparer.GetHashCode(Item1),
-                                                comparer.GetHashCode(Item2));
-        }
+        private int GetHashCodeCore(IEqualityComparer comparer) =>
+            ValueTuple.CombineHashCodes(comparer.GetHashCode(Item1),
+                comparer.GetHashCode(Item2));
 
         int IValueTupleInternal.GetHashCode(IEqualityComparer comparer) => GetHashCodeCore(comparer);
 

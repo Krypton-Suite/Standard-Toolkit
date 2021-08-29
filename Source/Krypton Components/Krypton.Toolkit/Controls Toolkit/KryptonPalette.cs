@@ -210,10 +210,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeAllowFormChrome()
-        {
-            return AllowFormChrome != InheritBool.Inherit;
-        }
+        private bool ShouldSerializeAllowFormChrome() => AllowFormChrome != InheritBool.Inherit;
+
         #endregion
 
         #region ButtonSpecs
@@ -230,10 +228,8 @@ namespace Krypton.Toolkit
             set;
         }
 
-        private bool ShouldSerializeButtonSpecs()
-        {
-            return !ButtonSpecs.IsDefault;
-        }
+        private bool ShouldSerializeButtonSpecs() => !ButtonSpecs.IsDefault;
+
         #endregion
 
         #region ButtonStyles
@@ -250,10 +246,8 @@ namespace Krypton.Toolkit
             set;
         }
 
-        private bool ShouldSerializeButtonStyles()
-        {
-            return !ButtonStyles.IsDefault;
-        }
+        private bool ShouldSerializeButtonStyles() => !ButtonStyles.IsDefault;
+
         #endregion
 
         #region CalendarDay
@@ -266,10 +260,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCalendarDay CalendarDay { get; set; }
 
-        private bool ShouldSerializeCalendarDay()
-        {
-            return !CalendarDay.IsDefault;
-        }
+        private bool ShouldSerializeCalendarDay() => !CalendarDay.IsDefault;
+
         #endregion
 
         #region Cargo
@@ -282,10 +274,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCargo Cargo { get; set; }
 
-        private bool ShouldSerializeCargo()
-        {
-            return !Cargo.IsDefault;
-        }
+        private bool ShouldSerializeCargo() => !Cargo.IsDefault;
+
         #endregion
 
         #region Common
@@ -298,10 +288,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCommon Common { get; set; }
 
-        private bool ShouldSerializeCommon()
-        {
-            return !Common.IsDefault;
-        }
+        private bool ShouldSerializeCommon() => !Common.IsDefault;
+
         #endregion
 
         #region ControlStyles
@@ -314,10 +302,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControls ControlStyles { get; set; }
 
-        private bool ShouldSerializeControlStyles()
-        {
-            return !ControlStyles.IsDefault;
-        }
+        private bool ShouldSerializeControlStyles() => !ControlStyles.IsDefault;
+
         #endregion
 
         #region ContextMenu
@@ -330,10 +316,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteContextMenu ContextMenu { get; set; }
 
-        private bool ShouldSerializeContextMenu()
-        {
-            return !ContextMenu.IsDefault;
-        }
+        private bool ShouldSerializeContextMenu() => !ContextMenu.IsDefault;
+
         #endregion
 
         #region DragDrop
@@ -346,10 +330,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDragDrop DragDrop { get; set; }
 
-        private bool ShouldSerializeDragDrop()
-        {
-            return !DragDrop.IsDefault;
-        }
+        private bool ShouldSerializeDragDrop() => !DragDrop.IsDefault;
+
         #endregion
 
         #region FormStyles
@@ -362,10 +344,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForms FormStyles { get; set; }
 
-        private bool ShouldSerializeFormStyles()
-        {
-            return !FormStyles.IsDefault;
-        }
+        private bool ShouldSerializeFormStyles() => !FormStyles.IsDefault;
+
         #endregion
 
         #region HeaderGroup
@@ -378,10 +358,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeaderGroup HeaderGroup { get; set; }
 
-        private bool ShouldSerializeHeaderGroup()
-        {
-            return !HeaderGroup.IsDefault;
-        }
+        private bool ShouldSerializeHeaderGroup() => !HeaderGroup.IsDefault;
+
         #endregion
 
         #region HeaderStyles
@@ -394,10 +372,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeaders HeaderStyles { get; set; }
 
-        private bool ShouldSerializeHeaders()
-        {
-            return !HeaderStyles.IsDefault;
-        }
+        private bool ShouldSerializeHeaders() => !HeaderStyles.IsDefault;
+
         #endregion
 
         #region GridStyles
@@ -410,10 +386,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrids GridStyles { get; set; }
 
-        private bool ShouldSerializeGridStyles()
-        {
-            return !GridStyles.IsDefault;
-        }
+        private bool ShouldSerializeGridStyles() => !GridStyles.IsDefault;
+
         #endregion
 
         #region Images
@@ -426,10 +400,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImages Images { get; set; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
+
         #endregion
 
         #region InputControls
@@ -442,10 +414,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControls InputControlStyles { get; set; }
 
-        private bool ShouldSerializeInputControlStyles()
-        {
-            return !InputControlStyles.IsDefault;
-        }
+        private bool ShouldSerializeInputControlStyles() => !InputControlStyles.IsDefault;
+
         #endregion
 
         #region LabelStyles
@@ -458,10 +428,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabels LabelStyles { get; set; }
 
-        private bool ShouldSerializeLabelStyles()
-        {
-            return !LabelStyles.IsDefault;
-        }
+        private bool ShouldSerializeLabelStyles() => !LabelStyles.IsDefault;
+
         #endregion
 
         #region Navigator
@@ -474,10 +442,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteNavigator Navigator { get; set; }
 
-        private bool ShouldSerializeNavigator()
-        {
-            return !Navigator.IsDefault;
-        }
+        private bool ShouldSerializeNavigator() => !Navigator.IsDefault;
+
         #endregion
 
         #region PanelStyles
@@ -490,10 +456,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPalettePanels PanelStyles { get; set; }
 
-        private bool ShouldSerializePanelStyles()
-        {
-            return !PanelStyles.IsDefault;
-        }
+        private bool ShouldSerializePanelStyles() => !PanelStyles.IsDefault;
+
         #endregion
 
         #region Ribbon
@@ -506,10 +470,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteRibbon Ribbon { get; set; }
 
-        private bool ShouldSerializeRibbon()
-        {
-            return !Ribbon.IsDefault;
-        }
+        private bool ShouldSerializeRibbon() => !Ribbon.IsDefault;
+
         #endregion
 
         #region SeparatorStyles
@@ -522,10 +484,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparators SeparatorStyles { get; set; }
 
-        private bool ShouldSerializeSeparatorStyles()
-        {
-            return !SeparatorStyles.IsDefault;
-        }
+        private bool ShouldSerializeSeparatorStyles() => !SeparatorStyles.IsDefault;
+
         #endregion
 
         #region TabStyles
@@ -538,10 +498,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButtons TabStyles { get; set; }
 
-        private bool ShouldSerializeTabStyles()
-        {
-            return !TabStyles.IsDefault;
-        }
+        private bool ShouldSerializeTabStyles() => !TabStyles.IsDefault;
+
         #endregion
 
         #region TrackBar
@@ -554,10 +512,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTrackBar TrackBar { get; set;  }
 
-        private bool ShouldSerializeTrackBar()
-        {
-            return !TrackBar.IsDefault;
-        }
+        private bool ShouldSerializeTrackBar() => !TrackBar.IsDefault;
+
         #endregion
 
         #region ToolMenuStatus
@@ -570,10 +526,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMS ToolMenuStatus { get; set; }
 
-        private bool ShouldSerializeToolMenuStatus()
-        {
-            return !ToolMenuStatus.IsDefault;
-        }
+        private bool ShouldSerializeToolMenuStatus() => !ToolMenuStatus.IsDefault;
+
         #endregion
 
         #region Renderer
@@ -3752,15 +3706,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private IPaletteRibbonGeneral GetPaletteRibbonGeneral()
-        {
-            return Ribbon.RibbonGeneral;
-        }
+        private IPaletteRibbonGeneral GetPaletteRibbonGeneral() => Ribbon.RibbonGeneral;
 
-        private IPaletteRibbonGeneral GetPaletteRibbonGeneral(PaletteState state)
-        {
-            return Ribbon.RibbonGeneral;
-        }
+        private IPaletteRibbonGeneral GetPaletteRibbonGeneral(PaletteState state) => Ribbon.RibbonGeneral;
 
         private IPaletteRibbonBack GetPaletteRibbonBack(PaletteRibbonBackStyle style, PaletteState state)
         {

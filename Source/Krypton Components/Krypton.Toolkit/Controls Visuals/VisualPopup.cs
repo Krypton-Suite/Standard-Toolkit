@@ -250,10 +250,7 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to continue tracking; otherwise false.</returns>
-        public virtual bool DoesCurrentMouseDownContinueTracking(Message m, Point pt)
-        {
-            return !DoesCurrentMouseDownEndAllTracking(m, pt);
-        }
+        public virtual bool DoesCurrentMouseDownContinueTracking(Message m, Point pt) => !DoesCurrentMouseDownEndAllTracking(m, pt);
 
         /// <summary>
         /// Should a mouse down at the provided point cause it to become the current tracking popup.
@@ -261,10 +258,7 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public virtual bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt)
-        {
-            return ClientRectangle.Contains(pt);
-        }
+        public virtual bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt) => ClientRectangle.Contains(pt);
 
         /// <summary>
         /// Should the mouse down be eaten when the tracking has been ended.
@@ -272,10 +266,7 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Screen coordinates point.</param>
         /// <returns>True to eat message; otherwise false.</returns>
-        public virtual bool DoesMouseDownGetEaten(Message m, Point pt)
-        {
-            return false;
-        }
+        public virtual bool DoesMouseDownGetEaten(Message m, Point pt) => false;
 
         /// <summary>
         /// Is a change in active window to this popup when it is current allowed.
@@ -288,31 +279,23 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to allow; otherwise false.</returns>
-        public virtual bool AllowMouseMove(Message m, Point pt)
-        {
+        public virtual bool AllowMouseMove(Message m, Point pt) =>
             // If we have the focus then we always allow the mouse move
-            return ContainsFocus || RectangleToScreen(ClientRectangle).Contains(pt);
-        }
+            ContainsFocus || RectangleToScreen(ClientRectangle).Contains(pt);
 
         /// <summary>
         /// Create a tool strip renderer appropriate for the current renderer/palette pair.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer()
-        {
-            return Renderer.RenderToolStrip(GetResolvedPalette());
-        }
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual IPalette GetResolvedPalette()
-        {
-            return null;
-        }
+        public virtual IPalette GetResolvedPalette() => null;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -356,10 +339,8 @@ namespace Krypton.Toolkit
         /// Gets access to the view manager of the popup.
         /// </summary>
         /// <returns></returns>
-        public ViewManager GetViewManager()
-        {
-            return ViewManager;
-        }
+        public ViewManager GetViewManager() => ViewManager;
+
         #endregion
 
         #region Protected

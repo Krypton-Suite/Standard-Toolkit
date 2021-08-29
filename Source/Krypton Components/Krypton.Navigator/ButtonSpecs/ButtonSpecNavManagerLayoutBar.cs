@@ -81,10 +81,9 @@ namespace Krypton.Navigator
             : base(control, redirector, variableSpecs, fixedSpecs, 
                    viewDockers, viewMetrics, viewMetricIntOutside,
                    viewMetricIntInside, viewMetricPaddings, getRenderer, 
-                   needPaint)
-        {
+                   needPaint) =>
             RemapTarget = ButtonSpecNavRemap.ButtonSpecRemapTarget.LabelPanel;
-        }
+
         #endregion
 
         #region Public
@@ -212,10 +211,9 @@ namespace Krypton.Navigator
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
         public override PaletteRedirect CreateButtonSpecRemap(PaletteRedirect redirector,
-                                                              ButtonSpec buttonSpec)
-        {
-            return new ButtonSpecNavRemap(redirector, buttonSpec, RemapTarget);
-        }
+                                                              ButtonSpec buttonSpec) =>
+            new ButtonSpecNavRemap(redirector, buttonSpec, RemapTarget);
+
         #endregion
 
         #region Protected Overrides

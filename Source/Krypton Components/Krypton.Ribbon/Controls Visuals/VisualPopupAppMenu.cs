@@ -407,10 +407,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override IPalette GetResolvedPalette()
-        {
-            return _palette;
-        }
+        public override IPalette GetResolvedPalette() => _palette;
+
         #endregion
 
         #region Protected

@@ -1756,7 +1756,7 @@ namespace Krypton.Toolkit
 
                 // Find required size to show a node (only interested in the height)
                 Size size = _drawButton.GetPreferredSize(context);
-                size.Height = size.Height + 1;
+                size.Height += 1;
 
                 // If we have images defined then adjust to reflect image height
                 if (ImageList != null)

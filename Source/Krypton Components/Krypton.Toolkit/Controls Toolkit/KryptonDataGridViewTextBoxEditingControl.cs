@@ -164,10 +164,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns the current value of the editing control.
         /// </summary>
-        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
-        {
-            return Text;
-        }
+        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => Text;
 
         /// <summary>
         /// Called by the grid to give the editing control a chance to prepare itself for the editing session.

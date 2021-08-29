@@ -83,20 +83,17 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="size">Manual padding amount.</param>
         public ViewLayoutCenter(int size)
-            : this(null, PaletteMetricPadding.None, VisualOrientation.Top, null)
-        {
+            : this(null, PaletteMetricPadding.None, VisualOrientation.Top, null) =>
             _rectPadding = new Padding(size);
-        }
-        
+
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutCenter:" + Id;
-        }
+            "ViewLayoutCenter:" + Id;
+
         #endregion
 
         #region MetricPadding

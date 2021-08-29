@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(IPaletteBorder inherit)
         {
@@ -716,10 +716,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageStyle()
-        {
-            return (ImageStyle != PaletteImageStyle.Inherit);
-        }
+        private bool ShouldSerializeImageStyle() => (ImageStyle != PaletteImageStyle.Inherit);
 
         /// <summary>
         /// Gets the border image style.

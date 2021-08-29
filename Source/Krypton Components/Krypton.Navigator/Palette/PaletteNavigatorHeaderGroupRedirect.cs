@@ -26,7 +26,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorHeaderGroupRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirect,
                                                    NeedPaintHandler needPaint)
@@ -37,11 +37,11 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorHeaderGroupRedirect class.
         /// </summary>
-        /// <param name="redirectHeaderGroup">Inheritence redirection for header group.</param>
-        /// <param name="redirectHeaderPrimary">Inheritence redirection for primary header.</param>
-        /// <param name="redirectHeaderSecondary">Inheritence redirection for secondary header.</param>
-        /// <param name="redirectHeaderBar">Inheritence redirection for bar header.</param>
-        /// <param name="redirectHeaderOverflow">Inheritence redirection for overflow header.</param>
+        /// <param name="redirectHeaderGroup">inheritance redirection for header group.</param>
+        /// <param name="redirectHeaderPrimary">inheritance redirection for primary header.</param>
+        /// <param name="redirectHeaderSecondary">inheritance redirection for secondary header.</param>
+        /// <param name="redirectHeaderBar">inheritance redirection for bar header.</param>
+        /// <param name="redirectHeaderOverflow">inheritance redirection for overflow header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirectHeaderGroup,
                                                    PaletteRedirect redirectHeaderPrimary,
@@ -81,10 +81,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderPaddingRedirect HeaderBar { get; }
 
-        private bool ShouldSerializeHeaderBar()
-        {
-            return !HeaderBar.IsDefault;
-        }
+        private bool ShouldSerializeHeaderBar() => !HeaderBar.IsDefault;
+
         #endregion
 
         #region HeaderOverflow
@@ -96,10 +94,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderPaddingRedirect HeaderOverflow { get; }
 
-        private bool ShouldSerializeHeaderOverflow()
-        {
-            return !HeaderOverflow.IsDefault;
-        }
+        private bool ShouldSerializeHeaderOverflow() => !HeaderOverflow.IsDefault;
+
         #endregion
     }
 }

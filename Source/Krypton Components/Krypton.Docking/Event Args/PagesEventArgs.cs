@@ -26,10 +26,8 @@ namespace Krypton.Docking
         /// Initialize a new instance of the PagesEventArgs class.
         /// </summary>
         /// <param name="pages">Collection of pages.</param>
-        public PagesEventArgs(KryptonPageCollection pages)
-        {
-            Pages = pages;
-        }
+        public PagesEventArgs(KryptonPageCollection pages) => Pages = pages;
+
         #endregion
 
         #region Public

@@ -27,11 +27,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the ViewComposite class.
         /// </summary>
-        protected ViewComposite()
-        {
+        protected ViewComposite() =>
             // Default state
             _views = new List<ViewBase>();
-        }
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -59,11 +57,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier with child count
-            return "ViewComposite:" + Id;
-        }
+            "ViewComposite:" + Id;
+
         #endregion
 
         #region ReverseRenderOrder
@@ -235,11 +232,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool Contains(ViewBase item)
-        {
+        public override bool Contains(ViewBase item) =>
             // Let type safe collection perform operation
-            return _views != null ? _views.Contains(item) : false;
-        }
+            _views != null ? _views.Contains(item) : false;
 
         /// <summary>
         /// Determines whether any part of the view hierarchy is the specified view.
@@ -306,11 +301,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public override int IndexOf(ViewBase item)
-        {
+        public override int IndexOf(ViewBase item) =>
             // Let type safe collection perform operation
-            return _views != null ? _views.IndexOf(item) : -1;
-        }
+            _views != null ? _views.IndexOf(item) : -1;
 
         /// <summary>
         /// Inserts a view to the collection at the specified index.
@@ -393,11 +386,9 @@ namespace Krypton.Toolkit
         /// Shallow enumerate forward over children of the element.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public override IEnumerator<ViewBase> GetEnumerator()
-        {
+        public override IEnumerator<ViewBase> GetEnumerator() =>
             // Use the boilerplate enumerator exposed from the IList<T>
-            return _views != null ? _views.GetEnumerator() : (IEnumerator<ViewBase>)new List<ViewBase>().GetEnumerator();
-        }
+            _views != null ? _views.GetEnumerator() : (IEnumerator<ViewBase>)new List<ViewBase>().GetEnumerator();
 
         /// <summary>
         /// Deep enumerate forward over children of the element.

@@ -186,20 +186,14 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="mapping">Text mapping.</param>
         /// <returns>Matching string.</returns>
-        public override string GetTextMapping(MapKryptonPageText mapping)
-        {
-            return Page.GetTextMapping(mapping);
-        }
+        public override string GetTextMapping(MapKryptonPageText mapping) => Page.GetTextMapping(mapping);
 
         /// <summary>
         /// Gets the image that matches the mapping request.
         /// </summary>
         /// <param name="mapping">Image mapping.</param>
         /// <returns>Image reference.</returns>
-        public override Image GetImageMapping(MapKryptonPageImage mapping)
-        {
-            return Page.GetImageMapping(mapping);
-        }
+        public override Image GetImageMapping(MapKryptonPageImage mapping) => Page.GetImageMapping(mapping);
 
         /// <summary>
         /// Gets and sets the set of page flags.
@@ -233,10 +227,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="flags">Flags to test.</param>
         /// <returns>True if all provided flags are defined as true; otherwise false.</returns>
-        public override bool AreFlagsSet(KryptonPageFlags flags)
-        {
-            return Page.AreFlagsSet(flags);
-        }
+        public override bool AreFlagsSet(KryptonPageFlags flags) => Page.AreFlagsSet(flags);
 
         /// <summary>
         /// Gets the last value set to the Visible property.

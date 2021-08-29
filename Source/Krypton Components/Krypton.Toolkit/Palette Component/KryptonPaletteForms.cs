@@ -84,10 +84,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCommon { get; }
 
-        private bool ShouldSerializeFormCommon()
-        {
-            return !FormCommon.IsDefault;
-        }
+        private bool ShouldSerializeFormCommon() => !FormCommon.IsDefault;
+
         #endregion
 
         #region FormMain
@@ -100,10 +98,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormMain { get; }
 
-        private bool ShouldSerializeFormMain()
-        {
-            return !FormMain.IsDefault;
-        }
+        private bool ShouldSerializeFormMain() => !FormMain.IsDefault;
+
         #endregion
 
         #region FormCustom1
@@ -116,10 +112,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCustom1 { get; }
 
-        private bool ShouldSerializeFormCustom1()
-        {
-            return !FormCustom1.IsDefault;
-        }
+        private bool ShouldSerializeFormCustom1() => !FormCustom1.IsDefault;
+
         #endregion
 
         #region FormCustom2
@@ -132,10 +126,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCustom2 { get; }
 
-        private bool ShouldSerializeFormCustom2()
-        {
-            return !FormCustom2.IsDefault;
-        }
+        private bool ShouldSerializeFormCustom2() => !FormCustom2.IsDefault;
+
         #endregion
 
         #region FormCustom3
@@ -148,10 +140,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCustom3 { get; }
 
-        private bool ShouldSerializeFormCustom3()
-        {
-            return !FormCustom3.IsDefault;
-        }
+        private bool ShouldSerializeFormCustom3() => !FormCustom3.IsDefault;
+
         #endregion
     }
 }

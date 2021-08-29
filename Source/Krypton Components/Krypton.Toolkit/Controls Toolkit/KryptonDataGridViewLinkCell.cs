@@ -97,11 +97,9 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         protected override Rectangle GetContentBounds(Graphics graphics,
             DataGridViewCellStyle cellStyle,
-            int rowIndex)
-        {
+            int rowIndex) =>
             // Return the cached bounds from last drawing cycle
-            return _contentBounds;
-        }
+            _contentBounds;
 
         /// <summary>
         /// This member overrides DataGridViewCell.GetPreferredSize. 

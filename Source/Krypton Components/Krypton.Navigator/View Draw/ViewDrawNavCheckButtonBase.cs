@@ -188,11 +188,10 @@ namespace Krypton.Navigator
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawNavCheckButtonBase:" + Id;
-        }
+            "ViewDrawNavCheckButtonBase:" + Id;
+
         #endregion
 
         #region NeedPaint
@@ -292,10 +291,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
-            return ButtonSpecManager?.ButtonSpecFromView(element);
-        }
+        public ButtonSpec ButtonSpecFromView(ViewBase element) => ButtonSpecManager?.ButtonSpecFromView(element);
+
         #endregion
 
         #region AllowButtonSpecs
@@ -329,10 +326,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the content short text.

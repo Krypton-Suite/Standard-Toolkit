@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(PaletteDoubleMetricRedirect inherit)
         {
@@ -67,11 +67,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public virtual int GetMetricInt(PaletteState state, PaletteMetricInt metric)
-        {
+        public virtual int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Always pass onto the inheritance
-            return _inherit.GetMetricInt(state, metric);
-        }
+            _inherit.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -79,11 +77,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>InheritBool value.</returns>
-        public virtual InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
-        {
+        public virtual InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Always pass onto the inheritance
-            return _inherit.GetMetricBool(state, metric);
-        }
+            _inherit.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -91,11 +87,10 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public virtual Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
-        {
+        public virtual Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric) =>
             // Always pass onto the inheritance
-            return _inherit.GetMetricPadding(state, metric);
-        }
+            _inherit.GetMetricPadding(state, metric);
+
         #endregion
     }
 }

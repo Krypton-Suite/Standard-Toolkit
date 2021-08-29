@@ -37,10 +37,8 @@ namespace Krypton.Toolkit
             /// Gets a string representation of the encapsulated check button.
             /// </summary>
             /// <returns>String instance.</returns>
-            public override string ToString()
-            {
-                return CheckButton.Site.Name + "  (Text: " + CheckButton.Text + ")";
-            }
+            public override string ToString() => CheckButton.Site.Name + "  (Text: " + CheckButton.Text + ")";
+
             #endregion
 
             #region Public

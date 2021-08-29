@@ -34,10 +34,9 @@ namespace Krypton.Navigator
                                       int index, 
                                       ContextButtonAction action,
                                       KryptonContextMenu contextMenu)
-            : base(page, index, contextMenu)
-        {
+            : base(page, index, contextMenu) =>
             Action = action;
-        }
+
         #endregion
 
         #region Action

@@ -26,13 +26,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteBreadCrumbState class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteBreadCrumbState(PaletteBreadCrumbRedirect redirect,
-                                      NeedPaintHandler needPaint) 
-        {
+                                      NeedPaintHandler needPaint) =>
             BreadCrumb = new PaletteTriple(redirect.BreadCrumb, needPaint);
-        }
+
         #endregion
 
         #region IsDefault
@@ -53,10 +52,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple BreadCrumb { get; }
 
-        private bool ShouldSerializeBreadCrumb()
-        {
-            return !BreadCrumb.IsDefault;
-        }
+        private bool ShouldSerializeBreadCrumb() => !BreadCrumb.IsDefault;
+
         #endregion
     }
 }

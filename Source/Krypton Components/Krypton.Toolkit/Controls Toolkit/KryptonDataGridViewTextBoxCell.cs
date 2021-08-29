@@ -85,11 +85,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns a standard textual representation of the cell.
         /// </summary>
-        public override string ToString()
-        {
-            return "KryptonDataGridViewTextBoxCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
-                   ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
-        }
+        public override string ToString() =>
+            "KryptonDataGridViewTextBoxCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
+            ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
 
         /// <summary>
         /// Creates an exact copy of this cell.
@@ -330,18 +328,14 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool OwnsEditingTextBox(int rowIndex)
-        {
-            return (rowIndex == -1) || (DataGridView == null)
+        private bool OwnsEditingTextBox(int rowIndex) =>
+            (rowIndex == -1) || (DataGridView == null)
                 ? false
                 : (DataGridView.EditingControl is KryptonDataGridViewTextBoxEditingControl control)
-                   && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
-        }
+                  && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
-        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart)
-        {
-            return (paintParts & paintPart) != 0;
-        }
+        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
+
         #endregion
 
         #region Internal

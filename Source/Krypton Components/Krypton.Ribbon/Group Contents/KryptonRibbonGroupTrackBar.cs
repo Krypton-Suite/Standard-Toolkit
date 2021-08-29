@@ -200,7 +200,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -495,7 +495,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -508,10 +508,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupTrackBar(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupTrackBar(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -572,10 +570,8 @@ namespace Krypton.Ribbon
             DesignTimeContextMenu?.Invoke(this, e);
         }
 
-        internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            return false;
-        }
+        internal override bool ProcessCmdKey(ref Message msg, Keys keyData) => false;
+
         #endregion
 
         #region Implementation

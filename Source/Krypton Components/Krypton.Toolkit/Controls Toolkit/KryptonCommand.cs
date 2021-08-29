@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Enabled"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Enabled)));
                 }
             }
         }
@@ -129,8 +129,8 @@ namespace Krypton.Toolkit
                     _checkState = (_checked ? CheckState.Checked : CheckState.Unchecked);
 
                     // Generate events
-                    OnPropertyChanged(new PropertyChangedEventArgs("Checked"));
-                    OnPropertyChanged(new PropertyChangedEventArgs("CheckState"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Checked)));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CheckState)));
                 }
             }
         }
@@ -159,10 +159,10 @@ namespace Krypton.Toolkit
                     // Generate events
                     if (checkedChanged)
                     {
-                        OnPropertyChanged(new PropertyChangedEventArgs("Checked"));
+                        OnPropertyChanged(new PropertyChangedEventArgs(nameof(Checked)));
                     }
 
-                    OnPropertyChanged(new PropertyChangedEventArgs("CheckState"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CheckState)));
                 }
             }
         }
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
                 if (_text != value)
                 {
                     _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Text"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
                 }
             }
         }
@@ -194,10 +194,7 @@ namespace Krypton.Toolkit
             Text = string.Empty;
         }
 
-        private bool ShouldSerializeText()
-        {
-            return !string.IsNullOrEmpty(Text);
-        }
+        private bool ShouldSerializeText() => !string.IsNullOrEmpty(Text);
 
         /// <summary>
         /// Gets and sets the command extra text.
@@ -216,7 +213,7 @@ namespace Krypton.Toolkit
                 if (_extraText != value)
                 {
                     _extraText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ExtraText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ExtraText)));
                 }
             }
         }
@@ -226,10 +223,7 @@ namespace Krypton.Toolkit
             ExtraText = string.Empty;
         }
 
-        private bool ShouldSerializeExtraText()
-        {
-            return !string.IsNullOrEmpty(ExtraText);
-        }
+        private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(ExtraText);
 
         /// <summary>
         /// Gets and sets the command text line 1 for use in KryptonRibbon.
@@ -247,7 +241,7 @@ namespace Krypton.Toolkit
                 if (_textLine1 != value)
                 {
                     _textLine1 = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("TextLine1"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(TextLine1)));
                 }
             }
         }
@@ -257,10 +251,7 @@ namespace Krypton.Toolkit
             TextLine1 = string.Empty;
         }
 
-        private bool ShouldSerializeTextLine1()
-        {
-            return !string.IsNullOrEmpty(TextLine1);
-        }
+        private bool ShouldSerializeTextLine1() => !string.IsNullOrEmpty(TextLine1);
 
         /// <summary>
         /// Gets and sets the command text line 2 for use in KryptonRibbon.
@@ -278,7 +269,7 @@ namespace Krypton.Toolkit
                 if (_textLine2 != value)
                 {
                     _textLine2 = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("TextLine2"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(TextLine2)));
                 }
             }
         }
@@ -288,10 +279,7 @@ namespace Krypton.Toolkit
             TextLine2 = string.Empty;
         }
 
-        private bool ShouldSerializeTextLine2()
-        {
-            return !string.IsNullOrEmpty(TextLine2);
-        }
+        private bool ShouldSerializeTextLine2() => !string.IsNullOrEmpty(TextLine2);
 
         /// <summary>
         /// Gets and sets the command small image.
@@ -309,7 +297,7 @@ namespace Krypton.Toolkit
                 if (_imageSmall != value)
                 {
                     _imageSmall = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageSmall"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageSmall)));
                 }
             }
         }
@@ -319,10 +307,7 @@ namespace Krypton.Toolkit
             ImageSmall = null;
         }
 
-        private bool ShouldSerializeImageSmall()
-        {
-            return (ImageSmall != null);
-        }
+        private bool ShouldSerializeImageSmall() => (ImageSmall != null);
 
         /// <summary>
         /// Gets and sets the command large image.
@@ -340,7 +325,7 @@ namespace Krypton.Toolkit
                 if (_imageLarge != value)
                 {
                     _imageLarge = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageLarge"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageLarge)));
                 }
             }
         }
@@ -350,10 +335,7 @@ namespace Krypton.Toolkit
             ImageLarge = null;
         }
 
-        private bool ShouldSerializeImageLarge()
-        {
-            return (ImageLarge != null);
-        }
+        private bool ShouldSerializeImageLarge() => (ImageLarge != null);
 
         /// <summary>
         /// Gets and sets the command image transparent color.
@@ -372,7 +354,7 @@ namespace Krypton.Toolkit
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageTransparentColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageTransparentColor)));
                 }
             }
         }

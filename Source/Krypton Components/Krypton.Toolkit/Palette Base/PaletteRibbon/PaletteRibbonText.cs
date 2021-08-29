@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(IPaletteRibbonText inheritText)
         {
@@ -107,10 +107,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the TextColor to the default value.
-        /// </summary>
-        public void ResetTextColor() => TextColor = Color.Empty;
+        private bool ShouldSerializeTextColor() => TextColor != Color.Empty;
+        private void ResetTextColor() => TextColor = Color.Empty;
 
         /// <summary>
         /// Gets the tab color for the item text.

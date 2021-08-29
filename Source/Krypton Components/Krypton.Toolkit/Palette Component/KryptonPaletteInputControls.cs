@@ -96,10 +96,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlCommon { get; }
 
-        private bool ShouldSerializeInputControlCommon()
-        {
-            return !InputControlCommon.IsDefault;
-        }
+        private bool ShouldSerializeInputControlCommon() => !InputControlCommon.IsDefault;
+
         #endregion
 
         #region InputControlStandalone
@@ -112,10 +110,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlStandalone { get; }
 
-        private bool ShouldSerializeInputControlStandalone()
-        {
-            return !InputControlStandalone.IsDefault;
-        }
+        private bool ShouldSerializeInputControlStandalone() => !InputControlStandalone.IsDefault;
+
         #endregion
 
         #region InputControlRibbon
@@ -128,10 +124,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlRibbon { get; }
 
-        private bool ShouldSerializeInputControlRibbon()
-        {
-            return !InputControlRibbon.IsDefault;
-        }
+        private bool ShouldSerializeInputControlRibbon() => !InputControlRibbon.IsDefault;
+
         #endregion
 
         #region InputControlCustom1
@@ -144,10 +138,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlCustom1 { get; }
 
-        private bool ShouldSerializeInputControlCustom1()
-        {
-            return !InputControlCustom1.IsDefault;
-        }
+        private bool ShouldSerializeInputControlCustom1() => !InputControlCustom1.IsDefault;
+
         #endregion
 
         #region InputControlCustom2
@@ -160,10 +152,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlCustom2 { get; }
 
-        private bool ShouldSerializeInputControlCustom2()
-        {
-            return !InputControlCustom2.IsDefault;
-        }
+        private bool ShouldSerializeInputControlCustom2() => !InputControlCustom2.IsDefault;
+
         #endregion
 
         #region InputControlCustom3
@@ -176,10 +166,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteInputControl InputControlCustom3 { get; }
 
-        private bool ShouldSerializeInputControlCustom3()
-        {
-            return !InputControlCustom3.IsDefault;
-        }
+        private bool ShouldSerializeInputControlCustom3() => !InputControlCustom3.IsDefault;
+
         #endregion
     }
 }

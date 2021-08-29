@@ -24,11 +24,10 @@ namespace Krypton.Docking
         /// <summary>
         /// Initialize a new instance of the KryptonDockspaceSlide class.
         /// </summary>
-        public KryptonDockspaceSlide()
-        {
+        public KryptonDockspaceSlide() =>
             // Cannot drag pages inside the sliding dockspace
             AllowPageDrag = false;
-        }
+
         #endregion
 
         #region Protectect

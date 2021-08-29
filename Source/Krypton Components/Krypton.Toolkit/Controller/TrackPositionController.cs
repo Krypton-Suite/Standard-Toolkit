@@ -31,10 +31,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the TrackPositionController class.
         /// </summary>
         /// <param name="drawTB">Associated drawing element.</param>
-        public TrackPositionController(ViewDrawTP drawTB)
-        {
-            _drawTB = drawTB;
-        }
+        public TrackPositionController(ViewDrawTP drawTB) => _drawTB = drawTB;
+
         #endregion
 
         #region Mouse Notifications

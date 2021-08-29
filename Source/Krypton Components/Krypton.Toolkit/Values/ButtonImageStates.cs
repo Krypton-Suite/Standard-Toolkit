@@ -61,10 +61,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageNormal()
-        {
-            return ImageNormal != null;
-        }
+        private bool ShouldSerializeImageNormal() => ImageNormal != null;
 
         /// <summary>
         /// Resets the ImageNormal property to its default value.
@@ -99,10 +96,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageDisabled()
-        {
-            return ImageDisabled != null;
-        }
+        private bool ShouldSerializeImageDisabled() => ImageDisabled != null;
 
         /// <summary>
         /// Resets the ImageDisabled property to its default value.
@@ -137,10 +131,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImagePressed()
-        {
-            return ImagePressed != null;
-        }
+        private bool ShouldSerializeImagePressed() => ImagePressed != null;
 
         /// <summary>
         /// Resets the ImagePressed property to its default value.
@@ -175,10 +166,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTracking()
-        {
-            return ImageTracking != null;
-        }
+        private bool ShouldSerializeImageTracking() => ImageTracking != null;
 
         /// <summary>
         /// Resets the ImageTracking property to its default value.

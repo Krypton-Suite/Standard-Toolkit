@@ -38,10 +38,8 @@ namespace Krypton.Workspace
                                    DragTargetHint hint,
                                    KryptonWorkspace workspace,
                                    KryptonPageFlags allowFlags)
-            : base(screenRect, hotRect, drawRect, hint, allowFlags)
-        {
+            : base(screenRect, hotRect, drawRect, hint, allowFlags) =>
             Workspace = workspace;
-        }
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.

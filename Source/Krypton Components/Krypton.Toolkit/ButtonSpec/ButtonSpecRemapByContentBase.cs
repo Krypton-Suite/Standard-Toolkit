@@ -107,13 +107,12 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state)
-        {
+        public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state) =>
             // Do we need to override the text color
-            return OverrideTextColor(state) && (PaletteContent != null)
+            OverrideTextColor(state) && (PaletteContent != null)
                 ? PaletteContent.GetContentShortTextColor1(state)
                 : base.GetContentShortTextColor1(style, state);
-        }
+
         #endregion
 
         #region GetContentLongTextColor1
@@ -123,13 +122,12 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor1(PaletteContentStyle style, PaletteState state)
-        {
+        public override Color GetContentLongTextColor1(PaletteContentStyle style, PaletteState state) =>
             // Do we need to override the text color
-            return OverrideTextColor(state) && (PaletteContent != null)
+            OverrideTextColor(state) && (PaletteContent != null)
                 ? PaletteContent.GetContentShortTextColor1(state)
                 : base.GetContentLongTextColor1(style, state);
-        }
+
         #endregion
 
         #region Implementation

@@ -338,8 +338,7 @@ namespace Krypton.Ribbon
                         _ribbon.SelectedTab = _target.RibbonTab;
 
                         // Get access to the popup for the group
-                        if ((VisualPopupManager.Singleton.CurrentPopup != null) &&
-                            (VisualPopupManager.Singleton.CurrentPopup is VisualPopupMinimized))
+                        if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupMinimized)
                         {
                             // Cast to correct type
                             VisualPopupMinimized popupMinimized = (VisualPopupMinimized)VisualPopupManager.Singleton.CurrentPopup;
@@ -378,10 +377,8 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool KeyUp(Control c, KeyEventArgs e)
-        {
-            return false;
-        }
+        public bool KeyUp(Control c, KeyEventArgs e) => false;
+
         #endregion
 
         #region KeyTipSelect

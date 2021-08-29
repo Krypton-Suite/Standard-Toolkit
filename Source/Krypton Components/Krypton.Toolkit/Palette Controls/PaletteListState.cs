@@ -30,10 +30,9 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteListState(PaletteListStateRedirect inherit,
                                 NeedPaintHandler needPaint)
-            : base(inherit, needPaint)
-        {
+            : base(inherit, needPaint) =>
             Item = new PaletteTriple(inherit.Item, needPaint);
-        }
+
         #endregion
 
         #region IsDefault
@@ -67,10 +66,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Item { get; }
 
-        private bool ShouldSerializeItem()
-        {
-            return !Item.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !Item.IsDefault;
+
         #endregion
     }
 }

@@ -103,10 +103,8 @@ namespace Krypton.Workspace
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
-            return Orientation + " (" + Children.Count.ToString() + " Children)";
-        }
+        public override string ToString() => Orientation + " (" + Children.Count.ToString() + " Children)";
+
         #endregion
 
         #region Public

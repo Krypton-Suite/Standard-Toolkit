@@ -32,10 +32,9 @@ namespace Krypton.Navigator
         public PopupPageEventArgs(KryptonPage page, 
                                   int index, 
                                   Rectangle screenRect)
-            : base(page, index)
-        {
+            : base(page, index) =>
             ScreenRect = screenRect;
-        }
+
         #endregion
 
         #region ScreenRect

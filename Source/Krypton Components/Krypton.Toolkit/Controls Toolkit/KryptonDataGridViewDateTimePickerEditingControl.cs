@@ -137,10 +137,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns the current value of the editing control.
         /// </summary>
-        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
-        {
-            return (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _dtc.ConvertToInvariantString(Value);
-        }
+        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _dtc.ConvertToInvariantString(Value);
+
         #endregion
 
         #region Protected

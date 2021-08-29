@@ -92,10 +92,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSButton Button { get; }
 
-        private bool ShouldSerializeButton()
-        {
-            return !Button.IsDefault;
-        }
+        private bool ShouldSerializeButton() => !Button.IsDefault;
+
         #endregion
 
         #region Grip
@@ -108,10 +106,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSGrip Grip { get; }
 
-        private bool ShouldSerializeGrip()
-        {
-            return !Grip.IsDefault;
-        }
+        private bool ShouldSerializeGrip() => !Grip.IsDefault;
+
         #endregion
 
         #region Menu
@@ -124,10 +120,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSMenu Menu { get; }
 
-        private bool ShouldSerializeMenu()
-        {
-            return !Menu.IsDefault;
-        }
+        private bool ShouldSerializeMenu() => !Menu.IsDefault;
+
         #endregion
 
         #region Rafting
@@ -140,10 +134,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSRafting Rafting { get; }
 
-        private bool ShouldSerializeRafting()
-        {
-            return !Rafting.IsDefault;
-        }
+        private bool ShouldSerializeRafting() => !Rafting.IsDefault;
+
         #endregion
 
         #region MenuStrip
@@ -156,10 +148,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSMenuStrip MenuStrip { get; }
 
-        private bool ShouldSerializeMenuStrip()
-        {
-            return !MenuStrip.IsDefault;
-        }
+        private bool ShouldSerializeMenuStrip() => !MenuStrip.IsDefault;
+
         #endregion
 
         #region Separator
@@ -172,10 +162,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSSeparator Separator { get; }
 
-        private bool ShouldSerializeSeparator()
-        {
-            return !Separator.IsDefault;
-        }
+        private bool ShouldSerializeSeparator() => !Separator.IsDefault;
+
         #endregion
 
         #region StatusStrip
@@ -188,10 +176,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSStatusStrip StatusStrip { get; }
 
-        private bool ShouldSerializeStatusStrip()
-        {
-            return !StatusStrip.IsDefault;
-        }
+        private bool ShouldSerializeStatusStrip() => !StatusStrip.IsDefault;
+
         #endregion
 
         #region ToolStrip
@@ -204,10 +190,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTMSToolStrip ToolStrip { get; }
 
-        private bool ShouldSerializeToolStrip()
-        {
-            return !ToolStrip.IsDefault;
-        }
+        private bool ShouldSerializeToolStrip() => !ToolStrip.IsDefault;
+
         #endregion
 
         #region UseRoundedEdges

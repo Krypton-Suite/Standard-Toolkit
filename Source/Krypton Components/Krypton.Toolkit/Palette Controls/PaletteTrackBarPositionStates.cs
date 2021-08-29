@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritPosition">Source for inheriting position values.</param>
         public void SetInherit(IPaletteElementColor inheritPosition)
@@ -93,10 +93,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColor Position { get; }
 
-        private bool ShouldSerializePosition()
-        {
-            return !Position.IsDefault;
-        }
+        private bool ShouldSerializePosition() => !Position.IsDefault;
+
         #endregion
     }
 }

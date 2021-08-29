@@ -30,10 +30,9 @@ namespace Krypton.Ribbon
         /// <param name="redirect">Source for inheriting values.</param>
         public PaletteRedirectRibbonAeroOverride(KryptonRibbon ribbon,
                                                  PaletteRedirect redirect)
-            : base(redirect)
-        {
+            : base(redirect) =>
             _ribbon = ribbon;
-        }
+
         #endregion
 
         #region ShortText
@@ -129,13 +128,12 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private Color LightBackground(Color retColor)
-        {
+        private Color LightBackground(Color retColor) =>
             // With a light background we force the color to be dark in normal state so it stands out
-            return Color.FromArgb(Math.Min(retColor.R, (byte)60),
-                                  Math.Min(retColor.G, (byte)60),
-                                  Math.Min(retColor.B, (byte)60));
-        }
+            Color.FromArgb(Math.Min(retColor.R, (byte)60),
+                Math.Min(retColor.G, (byte)60),
+                Math.Min(retColor.B, (byte)60));
+
         #endregion
     }
 }

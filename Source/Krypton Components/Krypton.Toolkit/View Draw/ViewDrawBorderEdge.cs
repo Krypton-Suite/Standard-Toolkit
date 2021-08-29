@@ -52,11 +52,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawBorderEdge:" + Id;
-        }
+            "ViewDrawBorderEdge:" + Id;
+
         #endregion
 
         #region Orientation

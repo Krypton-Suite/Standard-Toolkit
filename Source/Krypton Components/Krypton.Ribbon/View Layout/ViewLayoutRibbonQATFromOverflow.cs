@@ -66,7 +66,7 @@ namespace Krypton.Ribbon
                         ViewBase qatView = _contents.ViewForButton(qatButton);
 
                         //...but the view is not displayed, then show on overflow
-                        if ((qatView != null) && !qatView.Visible)
+                        if (qatView is { Visible: false })
                         {
                             qatOverflow.Add(qatButton);
                         }

@@ -27,10 +27,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the DateTimePickerCloseArgs class.
         /// </summary>
         /// <param name="kcm">KryptonContextMenu that can be examined.</param>
-        public DateTimePickerCloseArgs(KryptonContextMenu kcm)
-        {
-            KryptonContextMenu = kcm;
-        }
+        public DateTimePickerCloseArgs(KryptonContextMenu kcm) => KryptonContextMenu = kcm;
+
         #endregion
 
         #region Public

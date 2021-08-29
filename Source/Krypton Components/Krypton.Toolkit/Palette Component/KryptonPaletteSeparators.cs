@@ -102,10 +102,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorCommon { get; }
 
-        private bool ShouldSerializeSeparatorCommon()
-        {
-            return !SeparatorCommon.IsDefault;
-        }
+        private bool ShouldSerializeSeparatorCommon() => !SeparatorCommon.IsDefault;
+
         #endregion
 
         #region SeparatorLowProfile
@@ -118,10 +116,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorLowProfile { get; }
 
-        private bool ShouldSerializeSeparatorLowProfile()
-        {
-            return !SeparatorLowProfile.IsDefault;
-        }
+        private bool ShouldSerializeSeparatorLowProfile() => !SeparatorLowProfile.IsDefault;
+
         #endregion
 
         #region SeparatorHighProfile
@@ -134,10 +130,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorHighProfile { get; }
 
-        private bool ShouldSerializeSeparatorHighProfile()
-        {
-            return !SeparatorHighProfile.IsDefault;
-        }
+        private bool ShouldSerializeSeparatorHighProfile() => !SeparatorHighProfile.IsDefault;
+
         #endregion
 
         #region SeparatorHighInternalProfile
@@ -150,10 +144,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorHighInternalProfile { get; }
 
-        private bool ShouldSerializeSeparatorHighInternalProfile()
-        {
-            return !SeparatorHighInternalProfile.IsDefault;
-        }
+        private bool ShouldSerializeSeparatorHighInternalProfile() => !SeparatorHighInternalProfile.IsDefault;
+
         #endregion
 
         #region SeparatorCustom1
@@ -166,10 +158,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorCustom1 { get; }
 
-        private bool ShouldSerializeSeparatorCustom1()
-        {
-            return !SeparatorCustom1.IsDefault;
-        }
+        private bool ShouldSerializeSeparatorCustom1() => !SeparatorCustom1.IsDefault;
+
         #endregion
 
         #region SeparatorCustom2
@@ -182,10 +172,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorCustom2 { get; }
 
-        private bool ShouldSerializeSeparatorCustom2()
-        {
-            return !SeparatorCustom2.IsDefault;
-        }
+        private bool ShouldSerializeSeparatorCustom2() => !SeparatorCustom2.IsDefault;
+
         #endregion
 
         #region SeparatorCustom3
@@ -198,10 +186,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorCustom3 { get; }
 
-        private bool ShouldSerializeSeparatorCustom3()
-        {
-            return !SeparatorCustom3.IsDefault;
-        }
+        private bool ShouldSerializeSeparatorCustom3() => !SeparatorCustom3.IsDefault;
+
         #endregion
     }
 }

@@ -38,12 +38,14 @@ namespace Krypton.Toolkit
         private KryptonPanel _panelMessage;
         private KryptonWrapLabel _labelPrompt;
         private KryptonTextBox _textBoxResponse;
-        private KryptonButton _buttonOK;
+        private KryptonButton _buttonOk;
         private KryptonButton _buttonCancel;
         #endregion
 
         #region Identity
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private KryptonInputBox(string prompt,
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
                                 string caption,
                                 string defaultResposne,
                                 string cueText,
@@ -94,10 +96,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="prompt">The text to display as an input prompt.</param>
         /// <returns>Input string.</returns>
-        public static string Show(string prompt)
-        {
-            return InternalShow(null, prompt, string.Empty, string.Empty, string.Empty, null, null, null);
-        }
+        public static string Show(string prompt) => InternalShow(null, prompt, string.Empty, string.Empty, string.Empty, null, null, null);
 
         /// <summary>
         /// Displays an input box in front of the specified object and with the provided prompt.
@@ -105,10 +104,7 @@ namespace Krypton.Toolkit
         /// <param name="owner">Owner of the modal dialog box.</param>
         /// <param name="prompt">The text to display as an input prompt.</param>
         /// <returns>Input string.</returns>
-        public static string Show(IWin32Window owner, string prompt)
-        {
-            return InternalShow(owner, prompt, string.Empty, string.Empty, string.Empty, null, null, null);
-        }
+        public static string Show(IWin32Window owner, string prompt) => InternalShow(owner, prompt, string.Empty, string.Empty, string.Empty, null, null, null);
 
         /// <summary>
         /// Displays an input box with provided prompt and caption.
@@ -116,10 +112,7 @@ namespace Krypton.Toolkit
         /// <param name="prompt">The text to display as an input prompt.</param>
         /// <param name="caption">The text to display in the title bar of the input box.</param>
         /// <returns>Input string.</returns>
-        public static string Show(string prompt, string caption)
-        {
-            return InternalShow(null, prompt, caption, string.Empty, string.Empty, null, null, null);
-        }
+        public static string Show(string prompt, string caption) => InternalShow(null, prompt, caption, string.Empty, string.Empty, null, null, null);
 
         /// <summary>
         /// Displays an input box in front of the specified object and with the provided prompt and caption.
@@ -128,10 +121,7 @@ namespace Krypton.Toolkit
         /// <param name="prompt">The text to display as an input prompt.</param>
         /// <param name="caption">The text to display in the title bar of the input box.</param>
         /// <returns>Input string.</returns>
-        public static string Show(IWin32Window owner, string prompt, string caption)
-        {
-            return InternalShow(owner, prompt, caption, string.Empty, string.Empty, null, null, null);
-        }
+        public static string Show(IWin32Window owner, string prompt, string caption) => InternalShow(owner, prompt, caption, string.Empty, string.Empty, null, null, null);
 
         /// <summary>
         /// Displays an input box with provided prompt and caption and defaulted response string.
@@ -140,10 +130,7 @@ namespace Krypton.Toolkit
         /// <param name="caption">The text to display in the title bar of the input box.</param>
         /// <param name="defaultResponse">Default response text..</param>
         /// <returns>Input string.</returns>
-        public static string Show(string prompt, string caption, string defaultResponse)
-        {
-            return InternalShow(null, prompt, caption, defaultResponse, string.Empty, null, null, null);
-        }
+        public static string Show(string prompt, string caption, string defaultResponse) => InternalShow(null, prompt, caption, defaultResponse, string.Empty, null, null, null);
 
         /// <summary>
         /// Displays an input box in front of the specified object and with the provided prompt and caption and defaulted response string.
@@ -153,10 +140,7 @@ namespace Krypton.Toolkit
         /// <param name="caption">The text to display in the title bar of the input box.</param>
         /// <param name="defaultResponse">Default response text..</param>
         /// <returns>Input string.</returns>
-        public static string Show(IWin32Window owner, string prompt, string caption, string defaultResponse)
-        {
-            return InternalShow(owner, prompt, caption, defaultResponse, string.Empty, null, null, null);
-        }
+        public static string Show(IWin32Window owner, string prompt, string caption, string defaultResponse) => InternalShow(owner, prompt, caption, defaultResponse, string.Empty, null, null, null);
 
         /// <summary>
         /// Displays an input box with provided prompt and caption and defaulted response string.
@@ -169,10 +153,7 @@ namespace Krypton.Toolkit
         /// <param name="cueTypeface">The cue font.</param>
         /// <param name="usePasswordOption">Enables the password option.</param>
         /// <returns>Input string.</returns>
-        public static string Show(string prompt, string caption, string defaultResponse, string cueText, Color cueColour, Font cueTypeface, bool usePasswordOption)
-        {
-            return InternalShow(null, prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
-        }
+        public static string Show(string prompt, string caption, string defaultResponse, string cueText, Color cueColour, Font cueTypeface, bool usePasswordOption) => InternalShow(null, prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
 
         /// <summary>
         /// DDisplays an input box in front of the specified object and with the provided prompt and caption and defaulted response string.
@@ -186,10 +167,8 @@ namespace Krypton.Toolkit
         /// <param name="cueTypeface">The cue font.</param>
         /// <param name="usePasswordOption">Enables the password option.</param>
         /// <returns>Input string.</returns>
-        public static string Show(IWin32Window owner, string prompt, string caption, string defaultResponse, string cueText, Color cueColour, Font cueTypeface, bool usePasswordOption)
-        {
-            return InternalShow(owner, prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
-        }
+        public static string Show(IWin32Window owner, string prompt, string caption, string defaultResponse, string cueText, Color cueColour, Font cueTypeface, bool usePasswordOption) => InternalShow(owner, prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
+
         #endregion
 
         #region Implementation
@@ -236,7 +215,7 @@ namespace Krypton.Toolkit
 
         private void UpdateButtons()
         {
-            _buttonOK.Text = KryptonManager.Strings.OK;
+            _buttonOk.Text = KryptonManager.Strings.OK;
             _buttonCancel.Text = KryptonManager.Strings.Cancel;
         }
 
@@ -264,23 +243,23 @@ namespace Krypton.Toolkit
             messageSize.Height = (int)(messageSize.Height * factorY);
 
             _labelPrompt.Location = new Point(GAP, GAP);
-            _labelPrompt.Size = new Size(255, Math.Max(messageSize.Height, _buttonCancel.Bottom - _buttonOK.Top));
+            _labelPrompt.Size = new Size(255, Math.Max(messageSize.Height, _buttonCancel.Bottom - _buttonOk.Top));
 
         }
 
         private void UpdateButtonSizing()
         {
-            Size buttonOKSize = _buttonOK.GetPreferredSize(Size.Empty);
+            Size buttonOKSize = _buttonOk.GetPreferredSize(Size.Empty);
             Size buttonCancelSize = _buttonCancel.GetPreferredSize(Size.Empty);
 
             // Make both buttons the size of the largest one
             Size largestButton = new(Math.Max(buttonOKSize.Width, buttonCancelSize.Width), Math.Max(buttonOKSize.Height, buttonCancelSize.Height));
-            _buttonOK.Size = largestButton;
+            _buttonOk.Size = largestButton;
             _buttonCancel.Size = largestButton;
 
             // Position the buttons relative to the top left of the owning panel
-            _buttonOK.Location = new Point(_panelMessage.Right - _buttonOK.Width - GAP, GAP);
-            _buttonCancel.Location = new Point(_panelMessage.Right - _buttonCancel.Width - GAP, _buttonOK.Bottom + GAP / 2);
+            _buttonOk.Location = new Point(_panelMessage.Right - _buttonOk.Width - GAP, GAP);
+            _buttonCancel.Location = new Point(_panelMessage.Right - _buttonCancel.Width - GAP, _buttonOk.Bottom + GAP / 2);
 
         }
 
@@ -288,7 +267,7 @@ namespace Krypton.Toolkit
         {
             // Position the response text box below the prompt
             _textBoxResponse.Location = new Point(GAP, _labelPrompt.Bottom + GAP);
-            _textBoxResponse.Width = _buttonOK.Right - _textBoxResponse.Left;
+            _textBoxResponse.Width = _buttonOk.Right - _textBoxResponse.Left;
         }
 
         private void button_keyDown(object sender, KeyEventArgs e)
@@ -304,7 +283,7 @@ namespace Krypton.Toolkit
             _textBoxResponse = new KryptonTextBox();
             _labelPrompt = new KryptonWrapLabel();
             _buttonCancel = new KryptonButton();
-            _buttonOK = new KryptonButton();
+            _buttonOk = new KryptonButton();
             ((ISupportInitialize)(_panelMessage)).BeginInit();
             _panelMessage.SuspendLayout();
             SuspendLayout();
@@ -314,7 +293,7 @@ namespace Krypton.Toolkit
             _panelMessage.Controls.Add(_textBoxResponse);
             _panelMessage.Controls.Add(_labelPrompt);
             _panelMessage.Controls.Add(_buttonCancel);
-            _panelMessage.Controls.Add(_buttonOK);
+            _panelMessage.Controls.Add(_buttonOk);
             _panelMessage.Dock = DockStyle.Fill;
             _panelMessage.Location = new Point(0, 0);
             _panelMessage.Name = "_panelMessage";
@@ -356,17 +335,17 @@ namespace Krypton.Toolkit
             // 
             // _buttonOK
             // 
-            _buttonOK.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _buttonOK.AutoSize = true;
-            _buttonOK.DialogResult = DialogResult.OK;
-            _buttonOK.Location = new Point(295, 12);
-            _buttonOK.Margin = new Padding(0);
-            _buttonOK.MinimumSize = new Size(50, 26);
-            _buttonOK.Name = "_buttonOK";
-            _buttonOK.Size = new Size(50, 26);
-            _buttonOK.TabIndex = 1;
-            _buttonOK.Values.Text = KryptonManager.GlobalStrings.OK;
-            _buttonOK.KeyDown += button_keyDown;
+            _buttonOk.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            _buttonOk.AutoSize = true;
+            _buttonOk.DialogResult = DialogResult.OK;
+            _buttonOk.Location = new Point(295, 12);
+            _buttonOk.Margin = new Padding(0);
+            _buttonOk.MinimumSize = new Size(50, 26);
+            _buttonOk.Name = "_buttonOk";
+            _buttonOk.Size = new Size(50, 26);
+            _buttonOk.TabIndex = 1;
+            _buttonOk.Values.Text = KryptonManager.GlobalStrings.OK;
+            _buttonOk.KeyDown += button_keyDown;
             // 
             // KryptonInputBox
             // 

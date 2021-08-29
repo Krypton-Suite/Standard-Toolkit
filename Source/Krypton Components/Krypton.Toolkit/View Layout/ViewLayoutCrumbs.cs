@@ -77,11 +77,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutCrumbs:" + Id;
-        }
+            "ViewLayoutCrumbs:" + Id;
+
         #endregion
 
         #region Layout
@@ -229,10 +228,9 @@ namespace Krypton.Toolkit
             foreach (ViewBase child in this)
             {
                 // Only interested in updating view buttons
-                if (child is ViewDrawButton)
+                if (child is ViewDrawButton crumbButton)
                 {
                     // Cast to correct type
-                    ViewDrawButton crumbButton = child as ViewDrawButton;
 
                     // That are associated with crumb items
                     if (_buttonToCrumb.TryGetValue(crumbButton, out KryptonBreadCrumbItem crumbItem))
@@ -292,38 +290,27 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return _kryptonBreadCrumb.GetRedirector().GetButtonSpecImage(PaletteButtonSpecStyle.ArrowLeft, state);
-        }
+        public Image GetImage(PaletteState state) => _kryptonBreadCrumb.GetRedirector().GetButtonSpecImage(PaletteButtonSpecStyle.ArrowLeft, state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return _kryptonBreadCrumb.GetRedirector().GetButtonSpecImageTransparentColor(PaletteButtonSpecStyle.ArrowLeft);
-        }
+        public Color GetImageTransparentColor(PaletteState state) => _kryptonBreadCrumb.GetRedirector().GetButtonSpecImageTransparentColor(PaletteButtonSpecStyle.ArrowLeft);
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return string.Empty;
-        }
+        public string GetShortText() => string.Empty;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
+
         #endregion
 
         #region Private

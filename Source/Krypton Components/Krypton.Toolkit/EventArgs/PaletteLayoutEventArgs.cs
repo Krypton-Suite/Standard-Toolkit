@@ -29,10 +29,9 @@ namespace Krypton.Toolkit
         /// <param name="needColorTable">Have the color table values changed?</param>
         public PaletteLayoutEventArgs(bool needLayout,
                                       bool needColorTable)
-            : base(needLayout)
-        {
+            : base(needLayout) =>
             NeedColorTable = needColorTable;
-        }
+
         #endregion
 
         #region Public

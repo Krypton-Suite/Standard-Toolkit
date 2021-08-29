@@ -137,10 +137,8 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeAppButtonImage()
-        {
-            return AppButtonImage != _defaultAppImage;
-        }
+        private bool ShouldSerializeAppButtonImage() => AppButtonImage != _defaultAppImage;
+
         #endregion
 
         #region AppButtonBaseColorDark

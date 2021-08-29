@@ -82,22 +82,18 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage PageFromView(ViewBase element)
-        {
+        public override KryptonPage PageFromView(ViewBase element) =>
             // There is no view for the page
-            return null;
-        }
+            null;
 
         /// <summary>
         /// Gets the ButtonSpec associated with the provided view element.
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
+        public override ButtonSpec ButtonSpecFromView(ViewBase element) =>
             // Delegate lookup to the viewlet that has the button spec manager
-            return _headerGroup.ButtonSpecFromView(element);
-        }
+            _headerGroup.ButtonSpecFromView(element);
 
         /// <summary>
         /// Process a change in the selected page
@@ -208,22 +204,18 @@ namespace Krypton.Navigator
         /// Gets the screen coorindates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
-        public override Point GetContextShowPoint()
-        {
+        public override Point GetContextShowPoint() =>
             // Ask the header group for screen point of context button
-            return _headerGroup.GetContextShowPoint();
-        }
+            _headerGroup.GetContextShowPoint();
 
         /// <summary>
         /// Is the provided over a part of the view that wants the mouse.
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
-        public override bool DesignerGetHitTest(Point pt)
-        {
+        public override bool DesignerGetHitTest(Point pt) =>
             // Check if the header group wants the mouse
-            return _headerGroup.DesignerGetHitTest(pt);
-        }
+            _headerGroup.DesignerGetHitTest(pt);
 
         /// <summary>
         /// Calculate the enabled state of the next button based on the required action.
@@ -327,11 +319,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
         /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
-        public override bool ProcessMnemonic(char charCode)
-        {
+        public override bool ProcessMnemonic(char charCode) =>
             // No mnemonic processing for a header group view
-            return false;
-        }
+            false;
+
         #endregion
 
         #region Protected

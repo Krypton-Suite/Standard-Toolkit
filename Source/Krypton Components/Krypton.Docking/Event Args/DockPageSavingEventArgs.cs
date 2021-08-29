@@ -31,10 +31,9 @@ namespace Krypton.Docking
         public DockPageSavingEventArgs(KryptonDockingManager manager,
                                        XmlWriter xmlWriter,
                                        KryptonPage page)
-            : base(manager, xmlWriter)
-        {
+            : base(manager, xmlWriter) =>
             Page = page;
-        }
+
         #endregion
 
         #region Public

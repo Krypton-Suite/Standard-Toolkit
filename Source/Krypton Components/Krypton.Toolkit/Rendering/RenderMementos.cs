@@ -164,8 +164,8 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r, Color color1, Color color2)
         {
-            bool ret = rect.Equals(r) && 
-                       c1.Equals(color1) && 
+            bool ret = rect.Equals(r) &&
+                       c1.Equals(color1) &&
                        c2.Equals(color2);
 
             rect = r;
@@ -190,17 +190,15 @@ namespace Krypton.Toolkit
         public MementoRectThreeColor(Rectangle r,
                                      Color color1, Color color2,
                                      Color color3)
-            : base(r, color1, color2)
-        {
+            : base(r, color1, color2) =>
             c3 = color3;
-        }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
                                     Color color1, Color color2,
                                     Color color3)
         {
-            bool ret = (base.UseCachedValues(r, color1, color2) && 
+            bool ret = (base.UseCachedValues(r, color1, color2) &&
                         c3.Equals(color3));
 
             c3 = color3;
@@ -220,16 +218,14 @@ namespace Krypton.Toolkit
         public Color c4;
 
         /// <summary>For internal use only.</summary>
-        public MementoRectFourColor(Rectangle r, 
+        public MementoRectFourColor(Rectangle r,
                                     Color color1, Color color2,
                                     Color color3, Color color4)
-            : base(r, color1, color2, color3)
-        {
+            : base(r, color1, color2, color3) =>
             c4 = color4;
-        }
 
         /// <summary>For internal use only.</summary>
-        public bool UseCachedValues(Rectangle r, 
+        public bool UseCachedValues(Rectangle r,
                                     Color color1, Color color2,
                                     Color color3, Color color4)
         {
@@ -257,10 +253,8 @@ namespace Krypton.Toolkit
                                     Color color1, Color color2,
                                     Color color3, Color color4,
                                     Color color5)
-            : base(r, color1, color2, color3, color4)
-        {
+            : base(r, color1, color2, color3, color4) =>
             c5 = color5;
-        }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -653,7 +647,7 @@ namespace Krypton.Toolkit
         public LinearGradientBrush bottomBrush;
 
         /// <summary>For internal use only.</summary>
-        public MementoRibbonGroupGradientTwo(Rectangle r, 
+        public MementoRibbonGroupGradientTwo(Rectangle r,
                                              Color color1, Color color2,
                                              Color color3, Color color4)
             : base(r, color1, color2, color3, color4)
@@ -759,6 +753,95 @@ namespace Krypton.Toolkit
     }
     #endregion
 
+    #region MementoRibbonGroupNormalBorderSep
+    /// <summary>
+    /// Memento used to cache drawing details.
+    /// </summary>
+    public class MementoRibbonGroupNormal : MementoRectFiveColor
+    {
+        /// <summary>For internal use only.</summary>
+        public LinearGradientBrush totalBrush;
+        /// <summary>For internal use only.</summary>
+        public LinearGradientBrush innerBrush;
+        /// <summary>For internal use only.</summary>
+        public LinearGradientBrush trackSepBrush;
+        /// <summary>For internal use only.</summary>
+        public LinearGradientBrush trackFillBrush;
+        /// <summary>For internal use only.</summary>
+        public PathGradientBrush trackHighlightBrush;
+        /// <summary>For internal use only.</summary>
+        public LinearGradientBrush pressedFillBrush;
+        /// <summary>For internal use only.</summary>
+        public Pen innerPen;
+        /// <summary>For internal use only.</summary>
+        public Pen trackSepPen;
+        /// <summary>For internal use only.</summary>
+        public Pen trackBottomPen;
+
+        private bool _tracking;
+        private bool _dark;
+
+
+        /// <summary>For internal use only.</summary>
+        public MementoRibbonGroupNormal(Rectangle r,
+                                                 Color color1, Color color2,
+                                                 Color color3, Color color4,
+                                                 Color color5,
+                                                 bool tracking, bool dark)
+            : base(r, color1, color2, color3, color4, color5)
+        {
+            _tracking = tracking;
+            _dark = dark;
+        }
+
+        /// <summary>For internal use only.</summary>
+        public bool UseCachedValues(Rectangle r,
+                                    Color color1, Color color2,
+                                    Color color3, Color color4,
+                                    Color color5,
+                                    bool tracking, bool dark)
+        {
+            bool ret = base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
+                       (_tracking == tracking) &&
+                       (_dark == dark);
+
+            _tracking = tracking;
+            _dark = dark;
+
+            return ret;
+        }
+
+        /// <summary>For internal use only.</summary>
+        public override void Dispose(bool disposing)
+        {
+            if (totalBrush != null)
+            {
+                totalBrush.Dispose();
+                innerBrush.Dispose();
+                trackSepBrush.Dispose();
+                trackFillBrush.Dispose();
+                pressedFillBrush.Dispose();
+                trackHighlightBrush.Dispose();
+                innerPen.Dispose();
+                trackSepPen.Dispose();
+                trackBottomPen.Dispose();
+
+                totalBrush = null;
+                innerBrush = null;
+                trackSepBrush = null;
+                trackFillBrush = null;
+                pressedFillBrush = null;
+                trackHighlightBrush = null;
+                innerPen = null;
+                trackSepPen = null;
+                trackBottomPen = null;
+            }
+
+            base.Dispose(disposing);
+        }
+    }
+    #endregion
+
     #region MementoRibbonGroupNormalBorder
     /// <summary>
     /// Memento used to cache drawing details.
@@ -837,10 +920,10 @@ namespace Krypton.Toolkit
 
 
         /// <summary>For internal use only.</summary>
-        public MementoRibbonGroupNormalBorderSep(Rectangle r, 
-                                                 Color color1, Color color2, 
-                                                 Color color3, Color color4, 
-                                                 Color color5, 
+        public MementoRibbonGroupNormalBorderSep(Rectangle r,
+                                                 Color color1, Color color2,
+                                                 Color color3, Color color4,
+                                                 Color color5,
                                                  bool tracking, bool dark)
             : base(r, color1, color2, color3, color4, color5)
         {
@@ -856,7 +939,7 @@ namespace Krypton.Toolkit
                                     bool tracking, bool dark)
         {
             bool ret = base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
-                       (_tracking == tracking) && 
+                       (_tracking == tracking) &&
                        (_dark == dark);
 
             _tracking = tracking;
@@ -958,7 +1041,7 @@ namespace Krypton.Toolkit
         public Pen insidePen;
 
         /// <summary>For internal use only.</summary>
-        public MementoRibbonGroupAreaBorder(Rectangle r, 
+        public MementoRibbonGroupAreaBorder(Rectangle r,
                                             Color color1, Color color2,
                                             Color color3, Color color4,
                                             Color color5)
@@ -1058,7 +1141,7 @@ namespace Krypton.Toolkit
 
                 backBrush1 = null;
                 backBrush2 = null;
-                backBrush3 = null; 
+                backBrush3 = null;
                 gradientBorderBrush = null;
                 gradientBorderPen = null;
                 solidBorderPen = null;
@@ -1176,16 +1259,14 @@ namespace Krypton.Toolkit
         public Pen topPen;
 
         /// <summary>For internal use only.</summary>
-        public MementoRibbonTabTracking2007(Rectangle r, 
+        public MementoRibbonTabTracking2007(Rectangle r,
                                         Color color1, Color color2,
                                         VisualOrientation orient)
-            : base(r, color1, color2)
-        {
+            : base(r, color1, color2) =>
             orientation = orient;
-        }
 
         /// <summary>For internal use only.</summary>
-        public bool UseCachedValues(Rectangle r, 
+        public bool UseCachedValues(Rectangle r,
                                     Color color1, Color color2,
                                     VisualOrientation orient)
         {
@@ -1271,10 +1352,8 @@ namespace Krypton.Toolkit
                                             Color color1, Color color2,
                                             Color color3, Color color4,
                                             VisualOrientation orient)
-            : base(r, color1, color2, color3, color4)
-        {
+            : base(r, color1, color2, color3, color4) =>
             orientation = orient;
-        }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1355,10 +1434,8 @@ namespace Krypton.Toolkit
                                         Color color3, Color color4,
                                         Color color5,
                                         VisualOrientation orient)
-            : base(r, color1, color2, color3, color4, color5)
-        {
+            : base(r, color1, color2, color3, color4, color5) =>
             orientation = orient;
-        }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1429,10 +1506,8 @@ namespace Krypton.Toolkit
                                             Color color3, Color color4,
                                             Color color5,
                                             VisualOrientation orient)
-            : base(r, color1, color2, color3, color4, color5)
-        {
+            : base(r, color1, color2, color3, color4, color5) =>
             orientation = orient;
-        }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1505,10 +1580,8 @@ namespace Krypton.Toolkit
         public MementoRibbonTabContextSelected(Rectangle r,
                                                Color color1, Color color2,
                                                VisualOrientation orient)
-            : base(r, color1, color2)
-        {
+            : base(r, color1, color2) =>
             orientation = orient;
-        }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1585,10 +1658,8 @@ namespace Krypton.Toolkit
                                          Color color3, Color color4,
                                          Color color5,
                                          VisualOrientation orient)
-            : base(r, color1, color2, color3, color4, color5)
-        {
+            : base(r, color1, color2, color3, color4, color5) =>
             orientation = orient;
-        }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -1666,14 +1737,12 @@ namespace Krypton.Toolkit
         public Pen outsidePen;
 
         /// <summary>For internal use only.</summary>
-        public MementoRibbonTabGlowing(Rectangle r, 
+        public MementoRibbonTabGlowing(Rectangle r,
                                        Color color1, Color color2,
                                        Color color3,
                                        VisualOrientation orient)
-            : base(r, color1, color2, color3)
-        {
+            : base(r, color1, color2, color3) =>
             orientation = orient;
-        }
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
@@ -2448,7 +2517,7 @@ namespace Krypton.Toolkit
                 {
                     topBrush.Dispose();
                     bottomBrush.Dispose();
-                 
+
                     topBrush = null;
                     bottomBrush = null;
                 }
@@ -2699,7 +2768,7 @@ namespace Krypton.Toolkit
 
         /// <summary>For internal use only.</summary>
         public MementoBackGlassThreeEdge(Rectangle r,
-                                         Color c1, 
+                                         Color c1,
                                          Color c2,
                                          VisualOrientation orient)
         {
@@ -2711,16 +2780,16 @@ namespace Krypton.Toolkit
 
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r,
-                                    Color c1, 
+                                    Color c1,
                                     Color c2,
                                     VisualOrientation orient)
         {
             bool ret = (rect.Equals(r) &&
-                        color1.Equals(c1) && 
+                        color1.Equals(c1) &&
                         color2.Equals(c2) &&
                         (orientation == orient));
 
-            rect =r ;
+            rect = r;
             color1 = c1;
             color2 = c2;
             orientation = orient;
@@ -2750,8 +2819,8 @@ namespace Krypton.Toolkit
         public LinearGradientBrush entireBrush;
 
         /// <summary>For internal use only.</summary>
-        public MementoBackDarkEdge(RectangleF dR, 
-                                   Color c1, 
+        public MementoBackDarkEdge(RectangleF dR,
+                                   Color c1,
                                    int thick,
                                    VisualOrientation orient)
         {
@@ -2855,7 +2924,7 @@ namespace Krypton.Toolkit
                 ellipsePath.Dispose();
                 insideLighten.Dispose();
                 clipPath.Dispose();
-                
+
                 entireBrush = null;
                 ellipsePath = null;
                 insideLighten = null;

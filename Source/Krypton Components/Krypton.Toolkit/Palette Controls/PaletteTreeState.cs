@@ -34,10 +34,9 @@ namespace Krypton.Toolkit
                                 PaletteBack back,
                                 PaletteBorder border,
                                 NeedPaintHandler needPaint)
-            : base(inherit, back, border, needPaint)
-        {
+            : base(inherit, back, border, needPaint) =>
             Node = new PaletteTriple(inherit.Node, needPaint);
-        }
+
         #endregion
 
         #region IsDefault
@@ -71,10 +70,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Node { get; }
 
-        private bool ShouldSerializeItem()
-        {
-            return !Node.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !Node.IsDefault;
+
         #endregion
     }
 }

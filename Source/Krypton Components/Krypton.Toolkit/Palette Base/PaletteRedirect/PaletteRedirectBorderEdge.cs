@@ -95,10 +95,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteDrawBorders value.</returns>
-        public override PaletteDrawBorders GetBorderDrawBorders(PaletteBorderStyle style, PaletteState state)
-        {
-            return Target.GetBorderDrawBorders(style, state);
-        }
+        public override PaletteDrawBorders GetBorderDrawBorders(PaletteBorderStyle style, PaletteState state) => Target.GetBorderDrawBorders(style, state);
 
         /// <summary>
         /// Gets the graphics drawing hint for the border.
@@ -197,10 +194,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Float rounding.</returns>
-        public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
-        {
-            return Target.GetBorderRounding(style, state);
-        }
+        public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state) => Target.GetBorderRounding(style, state);
 
         /// <summary>
         /// Gets a border image.

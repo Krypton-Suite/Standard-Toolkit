@@ -62,11 +62,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonQATContents:" + Id;
-        }
+            "ViewLayoutRibbonQATContents:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -135,7 +133,7 @@ namespace Krypton.Ribbon
 
             // If integrated into the caption area then get the caption area height
             Padding borders = Padding.Empty;
-            if ((ownerForm != null) && !ownerForm.ApplyComposition)
+            if (ownerForm is { ApplyComposition: false })
             {
                 borders = ownerForm.RealWindowBorders;
             }
@@ -165,7 +163,7 @@ namespace Krypton.Ribbon
             }
 
             // If we have the extra button and it is in overflow appearance
-            if ((_extraButton != null) && _extraButton.Overflow)
+            if (_extraButton is { Overflow: true })
             {
                 // Get the screen location of the extra button
                 Rectangle viewRect = ParentControl.RectangleToScreen(_extraButton.ClientRectangle);

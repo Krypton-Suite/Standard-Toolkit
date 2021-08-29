@@ -31,13 +31,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Initialize a new instance of the KryptonRibbonDesigner class.
         /// </summary>
-        public KryptonRibbonDesigner()
-        {
+        public KryptonRibbonDesigner() =>
             // The resizing handles around the control need to change depending on the
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
             // do not get the resizing handles, otherwise you do.
             AutoResizeHandles = true;
-        }
+
         #endregion
 
         #region Public
@@ -78,11 +77,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="control">The Control to test.</param>
         /// <returns>true if the specified control can be a child of the control managed by this designer; otherwise, false.</returns>
-        public override bool CanParent(Control control)
-        {
+        public override bool CanParent(Control control) =>
             // We never allow anything to be added to the ribbon
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Gets the collection of components associated with the component managed by the designer.

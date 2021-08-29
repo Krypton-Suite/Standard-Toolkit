@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteDoubleRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         public PaletteDoubleRedirect(PaletteRedirect redirect,
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteDoubleRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
@@ -66,11 +66,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteDoubleRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="back">Storage for back values.</param>
-        /// <param name="backInherit">Inheritence for back values.</param>
+        /// <param name="backInherit">inheritance for back values.</param>
         /// <param name="border">Storage for border values.</param>
-        /// <param name="borderInherit">Inheritence for border values.</param>
+        /// <param name="borderInherit">inheritance for border values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteDoubleRedirect(PaletteRedirect redirect,
                                      PaletteBack back,
@@ -88,10 +88,8 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect GetRedirector()
-        {
-            return _backInherit.GetRedirector();
-        }
+        public PaletteRedirect GetRedirector() => _backInherit.GetRedirector();
+
         #endregion
 
         #region SetRedirector
@@ -205,10 +203,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteBack Back => _back;
 
-        private bool ShouldSerializeBack()
-        {
-            return !_back.IsDefault;
-        }
+        private bool ShouldSerializeBack() => !_back.IsDefault;
 
         /// <summary>
         /// Gets the background palette.
@@ -241,10 +236,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteBorder Border => _border;
 
-        private bool ShouldSerializeBorder()
-        {
-            return !_border.IsDefault;
-        }
+        private bool ShouldSerializeBorder() => !_border.IsDefault;
 
         /// <summary>
         /// Gets the border palette.

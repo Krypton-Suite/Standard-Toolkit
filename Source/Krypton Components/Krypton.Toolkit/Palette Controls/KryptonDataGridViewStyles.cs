@@ -108,10 +108,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyle()
-        {
-            return (Style != DataGridViewStyle.List);
-        }
+        private bool ShouldSerializeStyle() => (Style != DataGridViewStyle.List);
 
         private void ResetStyle()
         {
@@ -192,10 +189,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleColumn()
-        {
-            return (StyleColumn != GridStyle.List);
-        }
+        private bool ShouldSerializeStyleColumn() => (StyleColumn != GridStyle.List);
 
         private void ResetStyleColumn()
         {
@@ -276,10 +270,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleRow()
-        {
-            return (StyleRow != GridStyle.List);
-        }
+        private bool ShouldSerializeStyleRow() => (StyleRow != GridStyle.List);
 
         private void ResetStyleRow()
         {
@@ -360,10 +351,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleDataCells()
-        {
-            return (StyleDataCells != GridStyle.List);
-        }
+        private bool ShouldSerializeStyleDataCells() => (StyleDataCells != GridStyle.List);
 
         private void ResetStyleDataCells()
         {
@@ -414,10 +402,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleBackground()
-        {
-            return (StyleBackground != PaletteBackStyle.GridBackgroundList);
-        }
+        private bool ShouldSerializeStyleBackground() => (StyleBackground != PaletteBackStyle.GridBackgroundList);
 
         private void ResetStyleBackground()
         {

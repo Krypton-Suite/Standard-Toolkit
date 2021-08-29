@@ -370,10 +370,7 @@ namespace Krypton.Navigator
         /// <param name="sender">Source of the page drag; can be null.</param>
         /// <param name="e">Event arguments containing the new screen point of the mouse.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public virtual bool PageDragEnd(object sender, PointEventArgs e)
-        {
-            return DragEnd(e.Point);
-        }
+        public virtual bool PageDragEnd(object sender, PointEventArgs e) => DragEnd(e.Point);
 
         /// <summary>
         /// Occurs when dragging pages has been cancelled.
@@ -391,10 +388,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="dropData">Proposed drop data.</param>
         /// <returns>Actual drop data</returns>
-        protected virtual PageDragEndData CreateDropData(PageDragEndData dropData)
-        {
-            return dropData;
-        }
+        protected virtual PageDragEndData CreateDropData(PageDragEndData dropData) => dropData;
 
         /// <summary>
         /// Update the displayed cursor to reflect the current dragging state.

@@ -92,7 +92,7 @@ namespace Krypton.Navigator
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(IPaletteContent inherit)
         {
@@ -234,10 +234,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentImage Image { get; }
 
-        private bool ShouldSerializeImage()
-        {
-            return !Image.IsDefault;
-        }
+        private bool ShouldSerializeImage() => !Image.IsDefault;
 
         /// <summary>
         /// Gets the actual content image horizontal alignment value.
@@ -295,10 +292,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavContentText ShortText { get; }
 
-        private bool ShouldSerializeShortText()
-        {
-            return !ShortText.IsDefault;
-        }
+        private bool ShouldSerializeShortText() => !ShortText.IsDefault;
 
         /// <summary>
         /// Gets the actual content short text font value.
@@ -763,10 +757,8 @@ namespace Krypton.Navigator
         /// Gets the style appropriate for this content.
         /// </summary>
         /// <returns>Content style.</returns>
-        public PaletteContentStyle GetContentStyle()
-        {
-            return _inherit.GetContentStyle();
-        }
+        public PaletteContentStyle GetContentStyle() => _inherit.GetContentStyle();
+
         #endregion
     }
 }

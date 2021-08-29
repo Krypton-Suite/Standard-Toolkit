@@ -99,11 +99,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawDateTimeButton:" + Id;
-        }
+            "ViewDrawDateTimeButton:" + Id;
+
         #endregion
 
         #region RemoveFixed
@@ -121,11 +120,9 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
+        public override Size GetPreferredSize(ViewLayoutContext context) =>
             // We want to be as wide as drop down buttons on standard controls
-            return new Size(SystemInformation.VerticalScrollBarWidth - 2, 0);
-        }
+            new Size(SystemInformation.VerticalScrollBarWidth - 2, 0);
 
         /// <summary>
         /// Perform a layout of the elements.

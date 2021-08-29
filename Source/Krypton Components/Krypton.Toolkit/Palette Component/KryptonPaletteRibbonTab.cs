@@ -102,10 +102,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
     
         #region StateNormal
@@ -118,10 +116,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
         #endregion
 
         #region StateTracking
@@ -134,10 +130,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
+
         #endregion
 
         #region StateCheckedNormal
@@ -150,10 +144,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateCheckedNormal { get; }
 
-        private bool ShouldSerializeStateCheckedNormal()
-        {
-            return !StateCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
+
         #endregion
 
         #region StateCheckedTracking
@@ -166,10 +158,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateCheckedTracking { get; }
 
-        private bool ShouldSerializeStateCheckedTracking()
-        {
-            return !StateCheckedTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedTracking() => !StateCheckedTracking.IsDefault;
+
         #endregion
 
         #region StateContextTracking
@@ -182,10 +172,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateContextTracking { get; }
 
-        private bool ShouldSerializeStateContextTracking()
-        {
-            return !StateContextTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateContextTracking() => !StateContextTracking.IsDefault;
+
         #endregion
 
         #region StateContextCheckedNormal
@@ -198,10 +186,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateContextCheckedNormal { get; }
 
-        private bool ShouldSerializeStateContextCheckedNormal()
-        {
-            return !StateContextCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateContextCheckedNormal() => !StateContextCheckedNormal.IsDefault;
+
         #endregion
 
         #region StateContextCheckedTracking
@@ -214,10 +200,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateContextCheckedTracking { get; }
 
-        private bool ShouldSerializeStateContextCheckedTracking()
-        {
-            return !StateContextCheckedTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateContextCheckedTracking() => !StateContextCheckedTracking.IsDefault;
+
         #endregion
 
         #region StateContextCheckedTracking
@@ -230,10 +214,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
+
         #endregion
     }
 }

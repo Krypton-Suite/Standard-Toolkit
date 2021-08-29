@@ -119,10 +119,7 @@ namespace Krypton.Toolkit
             LinkBehavior = KryptonLinkBehavior.AlwaysUnderline;
         }
 
-        private bool ShouldSerializeLinkBehavior()
-        {
-            return (LinkBehavior != KryptonLinkBehavior.AlwaysUnderline);
-        }
+        private bool ShouldSerializeLinkBehavior() => (LinkBehavior != KryptonLinkBehavior.AlwaysUnderline);
 
         /// <summary>
         /// Gets and sets a value indicating if the label has been visited.
@@ -153,10 +150,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverridePressed { get; }
 
-        private bool ShouldSerializeOverridePressed()
-        {
-            return !OverridePressed.IsDefault;
-        }
+        private bool ShouldSerializeOverridePressed() => !OverridePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the label appearance when it has focus.
@@ -166,10 +160,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets access to normal state modifications when label has been visited.
@@ -179,10 +170,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideVisited { get; }
 
-        private bool ShouldSerializeOverrideVisited()
-        {
-            return !OverrideVisited.IsDefault;
-        }
+        private bool ShouldSerializeOverrideVisited() => !OverrideVisited.IsDefault;
 
         /// <summary>
         /// Gets access to normal state modifications when label has not been visited.
@@ -192,10 +180,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideNotVisited { get; }
 
-        private bool ShouldSerializeOverrideNotVisited()
-        {
-            return !OverrideNotVisited.IsDefault;
-        }
+        private bool ShouldSerializeOverrideNotVisited() => !OverrideNotVisited.IsDefault;
 
         /// <summary>
         /// Gets access to the target for mnemonic and click actions.

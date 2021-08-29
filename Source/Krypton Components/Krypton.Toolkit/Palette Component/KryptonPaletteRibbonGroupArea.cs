@@ -84,10 +84,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
 
         #region StateCheckedNormal
@@ -100,10 +98,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateCheckedNormal { get; }
 
-        private bool ShouldSerializeStateCheckedNormal()
-        {
-            return !StateCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
+
         #endregion
 
         #region StateContextCheckedNormal
@@ -116,10 +112,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateContextCheckedNormal { get; }
 
-        private bool ShouldSerializeStateContextCheckedNormal()
-        {
-            return !StateContextCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateContextCheckedNormal() => !StateContextCheckedNormal.IsDefault;
+
         #endregion
     }
 }

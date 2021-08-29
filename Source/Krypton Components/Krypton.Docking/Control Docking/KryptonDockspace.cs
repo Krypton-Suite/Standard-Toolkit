@@ -25,20 +25,16 @@ namespace Krypton.Docking
         /// Initialize a new instance of the KryptonDockspace class.
         /// </summary>
         public KryptonDockspace()
-            : base("Docked")
-        {
+            : base("Docked") =>
             // Define a sensible default minimum size
             MinimumSize = new Size(22, 22);
-        }
 
         /// <summary>
         /// Gets a string representation of the class.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return "KryptonDockspace " + Dock.ToString();
-        }
+        public override string ToString() => "KryptonDockspace " + Dock.ToString();
+
         #endregion
     }
 }

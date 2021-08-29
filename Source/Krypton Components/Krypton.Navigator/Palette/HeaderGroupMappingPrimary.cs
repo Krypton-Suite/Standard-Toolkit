@@ -40,46 +40,32 @@ namespace Krypton.Navigator
         /// Gets the default heading value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetHeadingDefault()
-        {
-            return _defaultHeading;
-        }
+        protected override string GetHeadingDefault() => _defaultHeading;
 
         /// <summary>
         /// Gets the default description value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetDescriptionDefault()
-        {
-            return string.Empty;
-        }
+        protected override string GetDescriptionDefault() => string.Empty;
 
         /// <summary>
         /// Gets the default image mapping value.
         /// </summary>
         /// <returns>Image mapping enumeration.</returns>
-        protected override MapKryptonPageImage GetMapImageDefault()
-        {
-            return MapKryptonPageImage.SmallMedium;
-        }
+        protected override MapKryptonPageImage GetMapImageDefault() => MapKryptonPageImage.SmallMedium;
 
         /// <summary>
         /// Gets the default heading mapping value.
         /// </summary>
         /// <returns>Text mapping enumeration.</returns>
-        protected override MapKryptonPageText GetMapHeadingDefault()
-        {
-            return MapKryptonPageText.TitleText;
-        }
+        protected override MapKryptonPageText GetMapHeadingDefault() => MapKryptonPageText.TitleText;
 
         /// <summary>
         /// Gets the default description mapping value.
         /// </summary>
         /// <returns>Text mapping enumeration.</returns>
-        protected override MapKryptonPageText GetMapDescriptionDefault()
-        {
-            return MapKryptonPageText.None;
-        }
+        protected override MapKryptonPageText GetMapDescriptionDefault() => MapKryptonPageText.None;
+
         #endregion
 
         #region MapImage

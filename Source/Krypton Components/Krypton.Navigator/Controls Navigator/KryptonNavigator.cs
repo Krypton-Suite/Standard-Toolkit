@@ -257,13 +257,11 @@ namespace Krypton.Navigator
         #endregion
 
         #region Identity
-        static KryptonNavigator()
-        {
+        static KryptonNavigator() =>
             // Cache access to the internal 'Select' method of the ContainerControl
             _containerSelect = typeof(ContainerControl).GetMethod("Select",
-                                                                  BindingFlags.Instance |
-                                                                  BindingFlags.NonPublic);
-        }
+                BindingFlags.Instance |
+                BindingFlags.NonPublic);
 
         /// <summary>
         /// Initialize a new instance of the KryptonNavigator class.
@@ -518,10 +516,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorBar Bar { get; private set; }
 
-        private bool ShouldSerializeBar()
-        {
-            return !Bar.IsDefault;
-        }
+        private bool ShouldSerializeBar() => !Bar.IsDefault;
 
         /// <summary>
         /// Gets access to the stack specific settings.
@@ -531,10 +526,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorStack Stack { get; private set; }
 
-        private bool ShouldSerializeStack()
-        {
-            return !Stack.IsDefault;
-        }
+        private bool ShouldSerializeStack() => !Stack.IsDefault;
 
         /// <summary>
         /// Gets access to the outlook mode specific settings.
@@ -544,10 +536,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorOutlook Outlook { get; private set; }
 
-        private bool ShouldSerializeOutlook()
-        {
-            return !Outlook.IsDefault;
-        }
+        private bool ShouldSerializeOutlook() => !Outlook.IsDefault;
 
         /// <summary>
         /// Gets access to button specifications and fixed button logic.
@@ -557,10 +546,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorButton Button { get; private set; }
 
-        private bool ShouldSerializeButtons()
-        {
-            return !Button.IsDefault;
-        }
+        private bool ShouldSerializeButtons() => !Button.IsDefault;
 
         /// <summary>
         /// Gets access to the group specific settings.
@@ -570,10 +556,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorGroup Group { get; private set; }
 
-        private bool ShouldSerializeGroups()
-        {
-            return !Group.IsDefault;
-        }
+        private bool ShouldSerializeGroups() => !Group.IsDefault;
 
         /// <summary>
         /// Gets access to the header specific settings.
@@ -583,10 +566,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorHeader Header { get; private set; }
 
-        private bool ShouldSerializeHeaders()
-        {
-            return !Header.IsDefault;
-        }
+        private bool ShouldSerializeHeaders() => !Header.IsDefault;
 
         /// <summary>
         /// Gets access to the panels specific settings.
@@ -596,10 +576,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorPanel Panel { get; private set; }
 
-        private bool ShouldSerializePanels()
-        {
-            return !Panel.IsDefault;
-        }
+        private bool ShouldSerializePanels() => !Panel.IsDefault;
 
         /// <summary>
         /// Gets access to the popup page specific settings.
@@ -609,10 +586,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorPopupPages PopupPages { get; private set; }
 
-        private bool ShouldSerializePopupPages()
-        {
-            return !PopupPages.IsDefault;
-        }
+        private bool ShouldSerializePopupPages() => !PopupPages.IsDefault;
 
         /// <summary>
         /// Gets access to the tooltip specific settings.
@@ -622,10 +596,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorToolTips ToolTips { get; private set; }
 
-        private bool ShouldSerializeToolTips()
-        {
-            return !ToolTips.IsDefault;
-        }
+        private bool ShouldSerializeToolTips() => !ToolTips.IsDefault;
 
         /// <summary>
         /// Gets access to the common navigator appearance entries.
@@ -635,10 +606,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorRedirect StateCommon { get; private set; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled navigator appearance entries.
@@ -648,10 +616,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigator StateDisabled { get; private set; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal navigator appearance entries.
@@ -661,10 +626,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigator StateNormal { get; private set; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking navigator appearance entries.
@@ -674,10 +636,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorOtherEx StateTracking { get; private set; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed navigator appearance entries.
@@ -687,10 +646,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorOtherEx StatePressed { get; private set; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the selected navigator appearance entries.
@@ -700,10 +656,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorOther StateSelected { get; private set; }
 
-        private bool ShouldSerializeStateSelected()
-        {
-            return !StateSelected.IsDefault;
-        }
+        private bool ShouldSerializeStateSelected() => !StateSelected.IsDefault;
 
         /// <summary>
         /// Gets access to the focus navigator appearance entries.
@@ -713,10 +666,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorOtherRedirect OverrideFocus { get; private set; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets and sets the display mode.
@@ -898,10 +848,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="dragEndData">Pages data being dragged.</param>
         /// <returns>List of drag targets.</returns>
-        public virtual DragTargetList GenerateDragTargets(PageDragEndData dragEndData)
-        {
-            return GenerateDragTargets(dragEndData, KryptonPageFlags.All);
-        }
+        public virtual DragTargetList GenerateDragTargets(PageDragEndData dragEndData) => GenerateDragTargets(dragEndData, KryptonPageFlags.All);
 
         /// <summary>
         /// Generate a list of drag targets that are relevant to the provided end data.
@@ -1007,11 +954,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <returns>True if a new page was selected; otherwise false.</returns>
-        public bool SelectNextPage(bool wrap)
-        {
+        public bool SelectNextPage(bool wrap) =>
             // Perform view specific page selection
-            return ViewBuilder.SelectNextPage(wrap);
-        }
+            ViewBuilder.SelectNextPage(wrap);
 
         /// <summary>
         /// Select the next page to the one provided.
@@ -1019,22 +964,18 @@ namespace Krypton.Navigator
         /// <param name="page">Starting page for search.</param>
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <returns>True if a new page was selected; otherwise false.</returns>
-        public bool SelectNextPage(KryptonPage page, bool wrap)
-        {
+        public bool SelectNextPage(KryptonPage page, bool wrap) =>
             // Perform view specific page selection
-            return ViewBuilder.SelectNextPage(page, wrap, false);
-        }
+            ViewBuilder.SelectNextPage(page, wrap, false);
 
         /// <summary>
         /// Select the previous page to the currently selected one.
         /// </summary>
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <returns>True if a new page was selected; otherwise false.</returns>
-        public bool SelectPreviousPage(bool wrap)
-        {
+        public bool SelectPreviousPage(bool wrap) =>
             // Perform view specific page selection
-            return ViewBuilder.SelectPreviousPage(wrap);
-        }
+            ViewBuilder.SelectPreviousPage(wrap);
 
         /// <summary>
         /// Select the previous page to the one provided.
@@ -1042,30 +983,22 @@ namespace Krypton.Navigator
         /// <param name="page">Starting page for search.</param>
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <returns>True if a new page was selected; otherwise false.</returns>
-        public bool SelectPreviousPage(KryptonPage page, bool wrap)
-        {
+        public bool SelectPreviousPage(KryptonPage page, bool wrap) =>
             // Perform view specific page selection
-            return ViewBuilder.SelectPreviousPage(page, wrap, false);
-        }
+            ViewBuilder.SelectPreviousPage(page, wrap, false);
 
         /// <summary>
         /// Generates a CloseAction event for a Navigator. 
         /// </summary>
         /// <returns>Returns the action that was performed.</returns>
-        public CloseButtonAction PerformCloseAction()
-        {
-            return OnCloseAction(SelectedPage);
-        }
+        public CloseButtonAction PerformCloseAction() => OnCloseAction(SelectedPage);
 
         /// <summary>
         /// Generates a CloseAction event for a Navigator. 
         /// </summary>
         /// <param name="page">Page to perform close action on.</param>
         /// <returns>Returns the action that was performed.</returns>
-        public CloseButtonAction PerformCloseAction(KryptonPage page)
-        {
-            return OnCloseAction(page);
-        }
+        public CloseButtonAction PerformCloseAction(KryptonPage page) => OnCloseAction(page);
 
         /// <summary>
         /// Generates a ContextAction event for a Navigator. 
@@ -1079,19 +1012,13 @@ namespace Krypton.Navigator
         /// Generates a PreviousAction event for a Navigator. 
         /// </summary>
         /// <returns>Returns the action that was performed.</returns>
-        public DirectionButtonAction PerformPreviousAction()
-        {
-            return OnPreviousAction();
-        }
+        public DirectionButtonAction PerformPreviousAction() => OnPreviousAction();
 
         /// <summary>
         /// Generates a NextAction event for a Navigator. 
         /// </summary>
         /// <returns>Returns the action that was performed.</returns>
-        public DirectionButtonAction PerformNextAction()
-        {
-            return OnNextAction();
-        }
+        public DirectionButtonAction PerformNextAction() => OnNextAction();
 
         /// <summary>
         /// Fires the NeedPaint event and also repaints the selected page.
@@ -1114,28 +1041,22 @@ namespace Krypton.Navigator
         /// <param name="pt">Point to be tested.</param>
         /// <returns>True if a hit otherwise false.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool DesignerGetHitTest(Point pt)
-        {
+        public bool DesignerGetHitTest(Point pt) =>
             // Ignore call as view builder is already destructed
-            return !IsDisposed && ViewBuilder.DesignerGetHitTest(pt);
+            !IsDisposed && ViewBuilder.DesignerGetHitTest(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Called by the designer to get the component associated with the point.
         /// </summary>
         /// <param name="pt">Point to be tested.</param>
         /// <returns>Component associated with point or null.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Called by the designer to indicate that the mouse has left the control.
         /// </summary>
@@ -1168,11 +1089,9 @@ namespace Krypton.Navigator
         /// Creates a new instance of the control collection for the control.
         /// </summary>
         /// <returns>A new instance of KryptonNavigatorControlCollection assigned to the control.</returns>
-        protected override ControlCollection CreateControlsInstance()
-        {
+        protected override ControlCollection CreateControlsInstance() =>
             //  User should never adds controls directly to collection, only via the pages collection
-            return new KryptonReadOnlyControls(this);
-        }
+            new KryptonReadOnlyControls(this);
 
         /// <summary>
         /// Raises the EnabledChanged event.
@@ -2012,16 +1931,9 @@ namespace Krypton.Navigator
         internal KryptonPage FirstActionPage()
         {
             // Search from start of collection to the end
-            for (int i = 0; i < Pages.Count; i++)
-            {
-                if (Pages[i].LastVisibleSet && Pages[i].Enabled)
-                {
-                    return Pages[i];
-                }
-            }
+            return Pages.FirstOrDefault(page => page.LastVisibleSet && page.Enabled);
 
             // Nothing visible in entire collection
-            return null;
         }
 
         internal KryptonPage LastActionPage()
@@ -2188,13 +2100,7 @@ namespace Krypton.Navigator
                 else
                 {
                     // Providing 'null' means we want all the pages
-                    List<KryptonPage> list = new List<KryptonPage>();
-                    foreach (KryptonPage p in Pages)
-                    {
-                        list.Add(p);
-                    }
-
-                    _dragPages = list.ToArray();
+                    _dragPages = (from KryptonPage p in Pages select p).ToArray();
                 }
 
                 // Do any of the dragging pages have a flag set saying they can be dragged?
@@ -2210,12 +2116,7 @@ namespace Krypton.Navigator
                 if (!de.Cancel)
                 {
                     // Update with any changes made by the event
-                    List<KryptonPage> list = new List<KryptonPage>();
-                    foreach (KryptonPage p in de.Pages)
-                    {
-                        list.Add(p);
-                    }
-                    _dragPages = list.ToArray();
+                    _dragPages = (from KryptonPage p in de.Pages select p).ToArray();
 
                     if (DragPageNotify != null)
                     {

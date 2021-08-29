@@ -138,11 +138,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutScrollViewport:" + Id;
-        }
+            "ViewLayoutScrollViewport:" + Id;
+
         #endregion
 
         #region MakeParent
@@ -426,10 +425,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private VisualOrientation ViewportOrientation(bool vertical)
-        {
-            return vertical ? VisualOrientation.Left : VisualOrientation.Top;
-        }
+        private VisualOrientation ViewportOrientation(bool vertical) => vertical ? VisualOrientation.Left : VisualOrientation.Top;
 
         private void OnScrollVChanged(object sender, EventArgs e)
         {

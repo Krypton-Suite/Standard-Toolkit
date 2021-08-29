@@ -202,10 +202,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeGlobalPaletteMode()
-        {
-            return (GlobalPaletteMode != PaletteModeManager.Office365Blue);
-        }
+        private bool ShouldSerializeGlobalPaletteMode() => (GlobalPaletteMode != PaletteModeManager.Office365Blue);
 
         /// <summary>
         /// Resets the GlobalPaletteMode property to its default value.
@@ -295,10 +292,7 @@ namespace Krypton.Toolkit
             set => ApplyToolstrips = value;
         }
 
-        private bool ShouldSerializeGlobalApplyToolstrips()
-        {
-            return !GlobalApplyToolstrips;
-        }
+        private bool ShouldSerializeGlobalApplyToolstrips() => !GlobalApplyToolstrips;
 
         /// <summary>
         /// Resets the GlobalApplyToolstrips property to its default value.
@@ -320,10 +314,7 @@ namespace Krypton.Toolkit
             set => AllowFormChrome = value;
         }
 
-        private bool ShouldSerializeGlobalAllowFormChrome()
-        {
-            return !GlobalAllowFormChrome;
-        }
+        private bool ShouldSerializeGlobalAllowFormChrome() => !GlobalAllowFormChrome;
 
         /// <summary>
         /// Resets the GlobalAllowFormChrome property to its default value.
@@ -343,10 +334,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public GlobalStrings GlobalStrings => Strings;
 
-        private bool ShouldSerializeGlobalStrings()
-        {
-            return !Strings.IsDefault;
-        }
+        private bool ShouldSerializeGlobalStrings() => !Strings.IsDefault;
 
         /// <summary>
         /// Resets the GlobalStrings property to its default value.

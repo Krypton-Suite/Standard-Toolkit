@@ -81,10 +81,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesCheckBox CheckBox { get; }
 
-        private bool ShouldSerializeCheckBox()
-        {
-            return !CheckBox.IsDefault;
-        }
+        private bool ShouldSerializeCheckBox() => !CheckBox.IsDefault;
+
         #endregion
 
         #region ContextMenu
@@ -97,10 +95,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesContextMenu ContextMenu { get; }
 
-        private bool ShouldSerializeContextMenu()
-        {
-            return !ContextMenu.IsDefault;
-        }
+        private bool ShouldSerializeContextMenu() => !ContextMenu.IsDefault;
+
         #endregion
 
         #region DropDownButton
@@ -113,10 +109,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesDropDownButton DropDownButton { get; }
 
-        private bool ShouldSerializeDropDownButton()
-        {
-            return !DropDownButton.IsDefault;
-        }
+        private bool ShouldSerializeDropDownButton() => !DropDownButton.IsDefault;
+
         #endregion
 
         #region CheckBox
@@ -129,10 +123,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesGalleryButtons GalleryButtons { get; }
 
-        private bool ShouldSerializeGalleryButtons()
-        {
-            return !GalleryButtons.IsDefault;
-        }
+        private bool ShouldSerializeGalleryButtons() => !GalleryButtons.IsDefault;
+
         #endregion
 
         #region RadioButton
@@ -145,10 +137,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesRadioButton RadioButton { get; }
 
-        private bool ShouldSerializeRadioButton()
-        {
-            return !RadioButton.IsDefault;
-        }
+        private bool ShouldSerializeRadioButton() => !RadioButton.IsDefault;
+
         #endregion
 
         #region TreeView
@@ -161,10 +151,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesTreeView TreeView { get; }
 
-        private bool ShouldSerializeTreeView()
-        {
-            return !TreeView.IsDefault;
-        }
+        private bool ShouldSerializeTreeView() => !TreeView.IsDefault;
+
         #endregion
     }
 }

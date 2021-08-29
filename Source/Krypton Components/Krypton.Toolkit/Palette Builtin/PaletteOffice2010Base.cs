@@ -202,10 +202,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if KryptonForm instances should show custom chrome.
         /// </summary>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetAllowFormChrome()
-        {
-            return InheritBool.True;
-        }
+        public override InheritBool GetAllowFormChrome() => InheritBool.True;
+
         #endregion
 
         #region Renderer
@@ -213,11 +211,10 @@ namespace Krypton.Toolkit
         /// Gets the renderer to use for this palette.
         /// </summary>
         /// <returns>Renderer to use for drawing palette settings.</returns>
-        public override IRenderer GetRenderer()
-        {
+        public override IRenderer GetRenderer() =>
             // We always want the professional renderer
-            return KryptonManager.RenderOffice2010;
-        }
+            KryptonManager.RenderOffice2010;
+
         #endregion
 
         #region Back
@@ -2867,10 +2864,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetTreeViewImage(bool expanded)
-        {
-            return expanded ? _treeCollapseBlack : _treeExpandWhite;
-        }
+        public override Image GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -2975,28 +2969,19 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state)
-        {
-            return _disabledDropDown;
-        }
+        public override Image GetDropDownButtonImage(PaletteState state) => _disabledDropDown;
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuCheckedImage()
-        {
-            return _contextMenuChecked;
-        }
+        public override Image GetContextMenuCheckedImage() => _contextMenuChecked;
 
         /// <summary>
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuIndeterminateImage()
-        {
-            return _contextMenuIndeterminate;
-        }
+        public override Image GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -3493,200 +3478,141 @@ namespace Krypton.Toolkit
         /// Gets the ribbon shape that should be used.
         /// </summary>
         /// <returns>Ribbon shape value.</returns>
-        public override PaletteRibbonShape GetRibbonShape()
-        {
-            return PaletteRibbonShape.Office2010;
-        }
+        public override PaletteRibbonShape GetRibbonShape() => PaletteRibbonShape.Office2010;
 
         /// <summary>
         /// Gets the text alignment for the ribbon context text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override PaletteRelativeAlign GetRibbonContextTextAlign(PaletteState state)
-        {
-            return PaletteRelativeAlign.Center;
-        }
+        public override PaletteRelativeAlign GetRibbonContextTextAlign(PaletteState state) => PaletteRelativeAlign.Center;
 
         /// <summary>
         /// Gets the font for the ribbon context text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonContextTextFont(PaletteState state)
-        {
-            return _ribbonTabContextFont;
-        }
+        public override Font GetRibbonContextTextFont(PaletteState state) => _ribbonTabContextFont;
 
         /// <summary>
         /// Gets the color for the ribbon context text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Color GetRibbonContextTextColor(PaletteState state)
-        {
-            return _contextTextColor;
-        }
+        public override Color GetRibbonContextTextColor(PaletteState state) => _contextTextColor;
 
         /// <summary>
         /// Gets the dark disabled color used for ribbon glyphs.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonDisabledDark(PaletteState state)
-        {
-            return _disabledGlyphDark;
-        }
+        public override Color GetRibbonDisabledDark(PaletteState state) => _disabledGlyphDark;
 
         /// <summary>
         /// Gets the light disabled color used for ribbon glyphs.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonDisabledLight(PaletteState state)
-        {
-            return _disabledGlyphLight;
-        }
+        public override Color GetRibbonDisabledLight(PaletteState state) => _disabledGlyphLight;
 
         /// <summary>
         /// Gets the color for the drop arrow light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonDropArrowLight(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonDropArrowLight];
-        }
+        public override Color GetRibbonDropArrowLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonDropArrowLight];
 
         /// <summary>
         /// Gets the color for the drop arrow dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonDropArrowDark(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonDropArrowDark];
-        }
+        public override Color GetRibbonDropArrowDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonDropArrowDark];
 
         /// <summary>
         /// Gets the color for the dialog launcher dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupDialogDark(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogDark];
-        }
+        public override Color GetRibbonGroupDialogDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogDark];
 
         /// <summary>
         /// Gets the color for the dialog launcher light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupDialogLight(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogLight];
-        }
+        public override Color GetRibbonGroupDialogLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupDialogLight];
 
         /// <summary>
         /// Gets the color for the group separator dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupSeparatorDark(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupSeparatorDark];
-        }
+        public override Color GetRibbonGroupSeparatorDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupSeparatorDark];
 
         /// <summary>
         /// Gets the color for the group separator light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupSeparatorLight(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonGroupSeparatorLight];
-        }
+        public override Color GetRibbonGroupSeparatorLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonGroupSeparatorLight];
 
         /// <summary>
         /// Gets the color for the minimize bar dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonMinimizeBarDark(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonMinimizeBarDark];
-        }
+        public override Color GetRibbonMinimizeBarDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonMinimizeBarDark];
 
         /// <summary>
         /// Gets the color for the minimize bar light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonMinimizeBarLight(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonMinimizeBarLight];
-        }
+        public override Color GetRibbonMinimizeBarLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonMinimizeBarLight];
 
         /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonTabSeparatorColor(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonTabSeparatorColor];
-        }
+        public override Color GetRibbonTabSeparatorColor(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonTabSeparatorColor];
 
         /// <summary>
         /// Gets the color for the tab context separators.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonTabSeparatorContextColor(PaletteState state)
-        {
-            return _contextTabSeparator;
-        }
+        public override Color GetRibbonTabSeparatorContextColor(PaletteState state) => _contextTabSeparator;
 
         /// <summary>
         /// Gets the font for the ribbon text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonTextFont(PaletteState state)
-        {
-            return _ribbonTabFont;
-        }
+        public override Font GetRibbonTextFont(PaletteState state) => _ribbonTabFont;
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
-        public override PaletteTextHint GetRibbonTextHint(PaletteState state)
-        {
-            return PaletteTextHint.ClearTypeGridFit;
-        }
+        public override PaletteTextHint GetRibbonTextHint(PaletteState state) => PaletteTextHint.ClearTypeGridFit;
 
         /// <summary>
         /// Gets the color for the extra QAT button dark content color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonQATButtonDark(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonQATButtonDark];
-        }
+        public override Color GetRibbonQATButtonDark(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonQATButtonDark];
 
         /// <summary>
         /// Gets the color for the extra QAT button light content color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonQATButtonLight(PaletteState state)
-        {
-            return _ribbonColors[(int)SchemeOfficeColors.RibbonQATButtonLight];
-        }
+        public override Color GetRibbonQATButtonLight(PaletteState state) => _ribbonColors[(int)SchemeOfficeColors.RibbonQATButtonLight];
+
         #endregion
 
         #region RibbonBack
@@ -3750,6 +3676,10 @@ namespace Krypton.Toolkit
                             return PaletteRibbonColorStyle.RibbonGroupAreaBorder3;
                         case PaletteState.ContextCheckedNormal:
                             return PaletteRibbonColorStyle.RibbonGroupAreaBorder4;
+                        case PaletteState.Tracking:
+                            return PaletteRibbonColorStyle.RibbonGroupNormalTrackingLight;
+                        case PaletteState.FocusOverride:
+                            return PaletteRibbonColorStyle.RibbonTabFocus2010;
                         default:
                             // Should never happen!
                             Debug.Assert(false);

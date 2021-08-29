@@ -546,7 +546,6 @@ namespace Krypton.Toolkit
                 (e.ToolStrip is ContextMenuStrip) ||
                 (e.ToolStrip is ToolStripDropDownMenu))
             {
-                e.TextColor = KCT.ToolStripText;
                 if (!e.Item.Enabled)
                 {
                     e.TextColor = _disabled;
@@ -577,16 +576,20 @@ namespace Krypton.Toolkit
                             e.TextColor = KCT.MenuItemText;
                             break;
                         default:
-                            if ((e.Item is ToolStripButton) && (((ToolStripButton)e.Item).Checked))
+                            if ((e.Item is ToolStripButton button) && (button.Checked))
                             {
                                 e.TextColor = KCT.MenuItemText;
                             }
+                            else 
+                                e.TextColor = KCT.ToolStripText;
                             break;
                     }
                 }
 
                 // Status strips under XP cannot use clear type because it ends up being cut off at edges
-                if ((e.ToolStrip is StatusStrip) && (Environment.OSVersion.Version.Major < 6))
+                if ((e.ToolStrip is StatusStrip) 
+                    // TODO: Remove checks for Below Vista as no longer supporting old TFM's
+                    && (Environment.OSVersion.Version.Major < 6))
                 {
                     base.OnRenderItemText(e);
                 }

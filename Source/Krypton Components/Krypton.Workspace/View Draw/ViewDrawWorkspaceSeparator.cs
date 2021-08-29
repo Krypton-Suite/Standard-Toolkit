@@ -46,11 +46,10 @@ namespace Krypton.Workspace
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawWorkspaceSeparator:" + Id;
-        }
+            "ViewDrawWorkspaceSeparator:" + Id;
+
         #endregion
 
         #region Public
@@ -90,11 +89,9 @@ namespace Krypton.Workspace
         /// <param name="mouse">Current mouse position in client area.</param>
         /// <param name="splitter">Current position of the splitter.</param>
         /// <returns>True if movement should be cancelled; otherwise false.</returns>
-        public bool SeparatorMoving(Point mouse, Point splitter)
-        {
+        public bool SeparatorMoving(Point mouse, Point splitter) =>
             // Do nothing, we do not care
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Indicates the separator has finished and been moved.

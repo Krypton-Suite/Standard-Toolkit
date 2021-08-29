@@ -90,11 +90,10 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette)
-        {
+        public override ButtonCheckState GetChecked(IPalette palette) =>
             // Close button is never shown as checked
-            return ButtonCheckState.NotCheckButton;
-        }
+            ButtonCheckState.NotCheckButton;
+
         #endregion    
 
         #region Protected Overrides

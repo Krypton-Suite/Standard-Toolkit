@@ -26,10 +26,8 @@ namespace Krypton.Docking
         /// Initialize a new instance of the UniqueNamesEventArgs class.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names.</param>
-        public UniqueNamesEventArgs(string[] uniqueNames)
-        {
-            UniqueNames = uniqueNames;
-        }
+        public UniqueNamesEventArgs(string[] uniqueNames) => UniqueNames = uniqueNames;
+
         #endregion
 
         #region Public

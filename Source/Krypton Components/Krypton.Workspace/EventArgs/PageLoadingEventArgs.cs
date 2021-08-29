@@ -32,10 +32,9 @@ namespace Krypton.Workspace
         public PageLoadingEventArgs(KryptonWorkspace workspace,
                                     KryptonPage page,
                                     XmlReader xmlReader)
-            : base(workspace, xmlReader)
-        {
+            : base(workspace, xmlReader) =>
             Page = page;
-        }
+
         #endregion
 
         #region Public

@@ -44,10 +44,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _redirect = redirect;
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
         #endregion
 
         #region StyleText
@@ -64,10 +61,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonTextColor(PaletteState state)      
-        {
-            return _redirect.GetRibbonTextColor(StyleText, state);
-        }
+        public override Color GetRibbonTextColor(PaletteState state) => _redirect.GetRibbonTextColor(StyleText, state);
+
         #endregion
     }
 }

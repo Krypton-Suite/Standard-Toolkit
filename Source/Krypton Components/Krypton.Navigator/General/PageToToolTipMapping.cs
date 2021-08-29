@@ -63,38 +63,27 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return _page.GetImageMapping(_mapImage);
-        }
+        public Image GetImage(PaletteState state) => _page.GetImageMapping(_mapImage);
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return _page.ToolTipImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => _page.ToolTipImageTransparentColor;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return _page.GetTextMapping(_mapText);
-        }
+        public string GetShortText() => _page.GetTextMapping(_mapText);
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return _page.GetTextMapping(_mapExtraText);
-        }
+        public string GetLongText() => _page.GetTextMapping(_mapExtraText);
+
         #endregion
     }
 }

@@ -70,10 +70,9 @@ namespace Krypton.Toolkit
                              Graphics graphics,
                              Rectangle clipRect,
                              IRenderer renderer)
-            : base(manager, control, alignControl, graphics, renderer)
-        {
+            : base(manager, control, alignControl, graphics, renderer) =>
             ClipRect = clipRect;
-        }
+
         #endregion
 
         #region Public

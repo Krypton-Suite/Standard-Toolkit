@@ -161,11 +161,9 @@ namespace Krypton.Navigator
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawNavRibbonTab:" + Id;
-        }
+            "ViewDrawNavRibbonTab:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -259,10 +257,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
-            return ButtonSpecManager?.ButtonSpecFromView(element);
-        }
+        public ButtonSpec ButtonSpecFromView(ViewBase element) => ButtonSpecManager?.ButtonSpecFromView(element);
 
         /// <summary>
         /// Gets access to the button spec manager used for this button.
@@ -379,39 +374,28 @@ namespace Krypton.Navigator
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return Page.GetTextMapping(Navigator.Bar.BarMapText);
-        }
+        public string GetShortText() => Page.GetTextMapping(Navigator.Bar.BarMapText);
 
         /// <summary>
         /// Gets the content image.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return Page.GetImageMapping(Navigator.Bar.BarMapImage);
-        }
+        public Image GetImage(PaletteState state) => Page.GetImageMapping(Navigator.Bar.BarMapImage);
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return Page.GetTextMapping(Navigator.Bar.BarMapExtraText);
-        }
+        public string GetLongText() => Page.GetTextMapping(Navigator.Bar.BarMapExtraText);
+
         #endregion
 
         #region Protected

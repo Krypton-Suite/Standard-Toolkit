@@ -70,22 +70,18 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage PageFromView(ViewBase element)
-        {
+        public override KryptonPage PageFromView(ViewBase element) =>
             // There is no view for the page
-            return null;
-        }
+            null;
 
         /// <summary>
         /// Gets the ButtonSpec associated with the provided view element.
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
+        public override ButtonSpec ButtonSpecFromView(ViewBase element) =>
             // There is no view for the page
-            return null;
-        }
+            null;
 
         /// <summary>
         /// Process a change in the selected page
@@ -176,11 +172,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
         /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
-        public override bool ProcessMnemonic(char charCode)
-        {
+        public override bool ProcessMnemonic(char charCode) =>
             // No mnemonic processing for a group view
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Destruct the previously created view.

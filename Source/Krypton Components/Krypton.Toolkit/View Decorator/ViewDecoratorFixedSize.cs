@@ -27,21 +27,17 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewBase class.
         /// </summary>
         public ViewDecoratorFixedSize(ViewBase child, Size fixedSize)
-            : base(child)
-        {
+            : base(child) =>
             FixedSize = fixedSize;
-
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDecoratorFixedSize:" + Id;
-        }
+            "ViewDecoratorFixedSize:" + Id;
+
         #endregion
 
         #region FixedSize
@@ -57,11 +53,10 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
+        public override Size GetPreferredSize(ViewLayoutContext context) =>
             // Always provide the requested fixed size
-            return FixedSize;
-        }
+            FixedSize;
+
         #endregion
     }
 }

@@ -175,20 +175,14 @@ namespace Krypton.Ribbon
             Visible = true;
         }
 
-        private bool ShouldSerializeVisible()
-        {
-            return !Visible;
-        }
+        private bool ShouldSerializeVisible() => !Visible;
 
         private void ResetEnabled()
         {
             Enabled = true;
         }
 
-        private bool ShouldSerializeEnabled()
-        {
-            return !Enabled;
-        }
+        private bool ShouldSerializeEnabled() => !Enabled;
 
         private void UpdateVerbStatus()
         {

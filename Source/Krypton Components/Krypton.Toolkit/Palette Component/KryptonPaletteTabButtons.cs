@@ -125,10 +125,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabCommon { get; }
 
-        private bool ShouldSerializeTabCommon()
-        {
-            return !TabCommon.IsDefault;
-        }
+        private bool ShouldSerializeTabCommon() => !TabCommon.IsDefault;
+
         #endregion
 
         #region TabHighProfile
@@ -141,10 +139,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabHighProfile { get; }
 
-        private bool ShouldSerializeTabHighProfile()
-        {
-            return !TabHighProfile.IsDefault;
-        }
+        private bool ShouldSerializeTabHighProfile() => !TabHighProfile.IsDefault;
+
         #endregion
 
         #region TabStandardProfile
@@ -157,10 +153,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabStandardProfile { get; }
 
-        private bool ShouldSerializeTabStandardProfile()
-        {
-            return !TabStandardProfile.IsDefault;
-        }
+        private bool ShouldSerializeTabStandardProfile() => !TabStandardProfile.IsDefault;
+
         #endregion
 
         #region TabLowProfile
@@ -173,10 +167,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabLowProfile { get; }
 
-        private bool ShouldSerializeTabLowProfile()
-        {
-            return !TabLowProfile.IsDefault;
-        }
+        private bool ShouldSerializeTabLowProfile() => !TabLowProfile.IsDefault;
+
         #endregion
 
         #region TabDock
@@ -189,10 +181,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabDock { get; }
 
-        private bool ShouldSerializeTabDock()
-        {
-            return !TabDock.IsDefault;
-        }
+        private bool ShouldSerializeTabDock() => !TabDock.IsDefault;
+
         #endregion
 
         #region TabDockAutoHidden
@@ -205,10 +195,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabDockAutoHidden { get; }
 
-        private bool ShouldSerializeTabDockAutoHidden()
-        {
-            return !TabDockAutoHidden.IsDefault;
-        }
+        private bool ShouldSerializeTabDockAutoHidden() => !TabDockAutoHidden.IsDefault;
+
         #endregion
 
         #region TabOneNote
@@ -221,10 +209,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabOneNote { get; }
 
-        private bool ShouldSerializeTabOneNote()
-        {
-            return !TabOneNote.IsDefault;
-        }
+        private bool ShouldSerializeTabOneNote() => !TabOneNote.IsDefault;
+
         #endregion
 
         #region TabCustom1
@@ -237,10 +223,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabCustom1 { get; }
 
-        private bool ShouldSerializeTabCustom1()
-        {
-            return !TabCustom1.IsDefault;
-        }
+        private bool ShouldSerializeTabCustom1() => !TabCustom1.IsDefault;
+
         #endregion
 
         #region TabCustom2
@@ -253,10 +237,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabCustom2 { get; }
 
-        private bool ShouldSerializeTabCustom2()
-        {
-            return !TabCustom2.IsDefault;
-        }
+        private bool ShouldSerializeTabCustom2() => !TabCustom2.IsDefault;
+
         #endregion
 
         #region TabCustom3
@@ -269,10 +251,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabCustom3 { get; }
 
-        private bool ShouldSerializeTabCustom3()
-        {
-            return !TabCustom3.IsDefault;
-        }
+        private bool ShouldSerializeTabCustom3() => !TabCustom3.IsDefault;
+
         #endregion
     }
 }

@@ -44,10 +44,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _redirect = redirect;
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
+
         #endregion
 
         #region StyleBack
@@ -64,60 +62,43 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteRibbonBackStyle value.</returns>
-        public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
-        {
-            return _redirect.GetRibbonBackColorStyle(StyleBack, state);
-        }
+        public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _redirect.GetRibbonBackColorStyle(StyleBack, state);
 
         /// <summary>
         /// Gets the first background color for the ribbon item.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonBackColor1(PaletteState state)
-        {
-            return _redirect.GetRibbonBackColor1(StyleBack, state);
-        }
+        public override Color GetRibbonBackColor1(PaletteState state) => _redirect.GetRibbonBackColor1(StyleBack, state);
 
         /// <summary>
         /// Gets the second background color for the ribbon item.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonBackColor2(PaletteState state)
-        {
-            return _redirect.GetRibbonBackColor2(StyleBack, state);
-        }
+        public override Color GetRibbonBackColor2(PaletteState state) => _redirect.GetRibbonBackColor2(StyleBack, state);
 
         /// <summary>
         /// Gets the third background color for the ribbon item.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonBackColor3(PaletteState state)
-        {
-            return _redirect.GetRibbonBackColor3(StyleBack, state);
-        }
+        public override Color GetRibbonBackColor3(PaletteState state) => _redirect.GetRibbonBackColor3(StyleBack, state);
 
         /// <summary>
         /// Gets the fourth background color for the ribbon item.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonBackColor4(PaletteState state)
-        {
-            return _redirect.GetRibbonBackColor4(StyleBack, state);
-        }
+        public override Color GetRibbonBackColor4(PaletteState state) => _redirect.GetRibbonBackColor4(StyleBack, state);
 
         /// <summary>
         /// Gets the fifth background color for the ribbon item.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonBackColor5(PaletteState state)
-        {
-            return _redirect.GetRibbonBackColor5(StyleBack, state);
-        }
+        public override Color GetRibbonBackColor5(PaletteState state) => _redirect.GetRibbonBackColor5(StyleBack, state);
+
         #endregion
     }
 }

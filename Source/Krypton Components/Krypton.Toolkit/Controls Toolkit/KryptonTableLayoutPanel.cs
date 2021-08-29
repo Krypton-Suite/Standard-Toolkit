@@ -147,10 +147,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode()
-        {
-            return (PaletteMode != PaletteMode.Global);
-        }
+        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -192,10 +189,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePanelBackStyle()
-        {
-            return (PanelBackStyle != PaletteBackStyle.PanelClient);
-        }
+        private bool ShouldSerializePanelBackStyle() => (PanelBackStyle != PaletteBackStyle.PanelClient);
 
         private void ResetPanelBackStyle()
         {

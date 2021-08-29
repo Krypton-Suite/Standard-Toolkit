@@ -100,14 +100,11 @@ namespace Krypton.Ribbon
         /// <param name="previousItem">Previous item.</param>
         /// <returns>Pixel gap between previous item and this item.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual int ItemGap(IRibbonGroupItem previousItem)
-        {
+        public virtual int ItemGap(IRibbonGroupItem previousItem) =>
             // If the previous item is a group button cluster then we want 3 pixels
-            return previousItem is KryptonRibbonGroupCluster ? 3 : 1;
+            previousItem is KryptonRibbonGroupCluster ? 3 : 1;
 
-            // By default we just want a single pixel gap
-        }
-
+        // By default we just want a single pixel gap
         /// <summary>
         /// Creates an appropriate view element for this item.
         /// </summary>
@@ -137,10 +134,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         private void ResetTag()
         {

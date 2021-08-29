@@ -92,11 +92,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupTrackBar:" + Id;
-        }
+            "ViewDrawRibbonGroupTrackBar:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -155,8 +153,7 @@ namespace Krypton.Ribbon
         public ViewBase GetFirstFocusItem()
         {
             if ((GroupTrackBar.Visible) &&
-                (GroupTrackBar.LastTrackBar != null) &&
-                (GroupTrackBar.LastTrackBar.CanSelect))
+                GroupTrackBar.LastTrackBar is { CanSelect: true })
             {
                 return this;
             }
@@ -175,8 +172,7 @@ namespace Krypton.Ribbon
         public ViewBase GetLastFocusItem()
         {
             if ((GroupTrackBar.Visible) &&
-                (GroupTrackBar.LastTrackBar != null) &&
-                (GroupTrackBar.LastTrackBar.CanSelect))
+                GroupTrackBar.LastTrackBar is { CanSelect: true })
             {
                 return this;
             }

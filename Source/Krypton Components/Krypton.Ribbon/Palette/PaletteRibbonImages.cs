@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Initialize a new instance of the PaletteRibbonImages class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Paint delegate.</param>
         public PaletteRibbonImages(PaletteRedirect redirect,
                                    NeedPaintHandler needPaint)
@@ -60,10 +60,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages CheckBox { get; }
 
-        private bool ShouldSerializeCheckBox()
-        {
-            return !CheckBox.IsDefault;
-        }
+        private bool ShouldSerializeCheckBox() => !CheckBox.IsDefault;
+
         #endregion
 
         #region RadioButton
@@ -75,10 +73,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public RadioButtonImages RadioButton { get; }
 
-        private bool ShouldSerializeRadioButton()
-        {
-            return !RadioButton.IsDefault;
-        }
+        private bool ShouldSerializeRadioButton() => !RadioButton.IsDefault;
+
         #endregion
 
         #region Implementation

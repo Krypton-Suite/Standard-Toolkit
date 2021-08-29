@@ -27,11 +27,10 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ButtonSpecMdiChildFixed class.
         /// </summary>
         /// <param name="fixedStyle">Fixed style to use.</param>
-        public ButtonSpecMdiChildFixed(PaletteButtonSpecStyle fixedStyle)
-        {
+        public ButtonSpecMdiChildFixed(PaletteButtonSpecStyle fixedStyle) =>
             // Fix the type
             ProtectedType = fixedStyle;
-        }      
+
         #endregion   
 
         #region AllowComponent
@@ -69,10 +68,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
-        public override ButtonStyle GetStyle(IPalette palette)
-        {
-            return ButtonStyle.ButtonSpec;
-        }
+        public override ButtonStyle GetStyle(IPalette palette) => ButtonStyle.ButtonSpec;
+
         #endregion
     }
 }

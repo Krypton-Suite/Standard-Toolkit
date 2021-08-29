@@ -40,10 +40,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the VisualPopupManager class.
         /// </summary>
-        private VisualPopupManager()
-        {
-            _stack = new PopupStack();
-        }
+        private VisualPopupManager() => _stack = new PopupStack();
+
         #endregion
 
         #region Singleton
@@ -698,10 +696,7 @@ namespace Krypton.Toolkit
             return false;
         }
 
-        private Point ScreenPtToClientPt(Point pt)
-        {
-            return ScreenPtToClientPt(pt, CurrentPopup.Handle);
-        }
+        private Point ScreenPtToClientPt(Point pt) => ScreenPtToClientPt(pt, CurrentPopup.Handle);
 
         private Point ScreenPtToClientPt(Point pt, IntPtr handle)
         {

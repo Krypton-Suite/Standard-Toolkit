@@ -116,10 +116,8 @@ namespace Krypton.Navigator
             PageButtonSpecPadding = CommonHelper.InheritPadding;
         }
 
-        private bool ShouldSerializePageButtonSpecPadding()
-        {
-            return !PageButtonSpecPadding.Equals(CommonHelper.InheritPadding);
-        }
+        private bool ShouldSerializePageButtonSpecPadding() => !PageButtonSpecPadding.Equals(CommonHelper.InheritPadding);
+
         #endregion
     }
 }

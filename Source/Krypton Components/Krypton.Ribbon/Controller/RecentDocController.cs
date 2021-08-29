@@ -91,10 +91,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="charCode">Key code to test against.</param>
         /// <returns>True if a match is found; otherwise false.</returns>
-        public bool MatchMnemonic(char charCode)
-        {
-            return Control.IsMnemonic(charCode, _menuItem.ShortcutText);
-        }
+        public bool MatchMnemonic(char charCode) => Control.IsMnemonic(charCode, _menuItem.ShortcutText);
 
         /// <summary>
         /// Activate the item because of a mnemonic key press.
@@ -108,10 +105,7 @@ namespace Krypton.Ribbon
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase GetActiveView()
-        {
-            return _menuItem;
-        }
+        public ViewBase GetActiveView() => _menuItem;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.
@@ -123,10 +117,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt)
-        {
-            return true;
-        }
+        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
+
         #endregion
 
         #region Mouse Notifications
@@ -159,10 +151,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button pressed down.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
-        {
-            return false;
-        }
+        public virtual bool MouseDown(Control c, Point pt, MouseButtons button) => false;
 
         /// <summary>
         /// Mouse button has been released in the view.

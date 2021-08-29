@@ -32,10 +32,9 @@ namespace Krypton.Workspace
         public PageSavingEventArgs(KryptonWorkspace workspace,
                                    KryptonPage page,
                                    XmlWriter xmlWriter)
-            : base(workspace, xmlWriter)
-        {
+            : base(workspace, xmlWriter) =>
             Page = page;
-        }
+
         #endregion
 
         #region Public

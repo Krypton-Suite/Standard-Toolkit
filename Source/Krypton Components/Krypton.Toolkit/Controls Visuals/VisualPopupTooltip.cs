@@ -91,11 +91,9 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to allow; otherwise false.</returns>
-        public override bool AllowMouseMove(Message m, Point pt)
-        {
+        public override bool AllowMouseMove(Message m, Point pt) =>
             // We allow all mouse moves when we are showing
-            return true;
-        }
+            true;
 
         /// <summary>
         /// Use the setting from the Positioning to display the tooltip

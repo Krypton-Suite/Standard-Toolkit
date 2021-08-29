@@ -579,7 +579,7 @@ namespace Krypton.Toolkit
                     {
                         e.TextColor = KCT.MenuItemText;
                     }
-                    else if ((e.Item is ToolStripButton) && (((ToolStripButton)e.Item).Checked))
+                    else if ((e.Item is ToolStripButton button) && (button.Checked))
                     {
                         e.TextColor = KCT.MenuItemText;
                     }
