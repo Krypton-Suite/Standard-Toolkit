@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteListStateRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
@@ -70,10 +70,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Item { get; }
 
-        private bool ShouldSerializeItem()
-        {
-            return !Item.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !Item.IsDefault;
+
         #endregion
     }
 }

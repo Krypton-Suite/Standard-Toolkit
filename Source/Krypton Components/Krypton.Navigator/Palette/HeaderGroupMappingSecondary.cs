@@ -40,55 +40,38 @@ namespace Krypton.Navigator
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected override Image GetImageDefault()
-        {
-            return null;
-        }
+        protected override Image GetImageDefault() => null;
 
         /// <summary>
         /// Gets the default heading value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetHeadingDefault()
-        {
-            return _defaultDescription;
-        }
+        protected override string GetHeadingDefault() => _defaultDescription;
 
         /// <summary>
         /// Gets the default description value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetDescriptionDefault()
-        {
-            return string.Empty;
-        }
+        protected override string GetDescriptionDefault() => string.Empty;
 
         /// <summary>
         /// Gets the default image mapping value.
         /// </summary>
         /// <returns>Image mapping enumeration.</returns>
-        protected override MapKryptonPageImage GetMapImageDefault()
-        {
-            return MapKryptonPageImage.None;
-        }
+        protected override MapKryptonPageImage GetMapImageDefault() => MapKryptonPageImage.None;
 
         /// <summary>
         /// Gets the default heading mapping value.
         /// </summary>
         /// <returns>Text mapping enumeration.</returns>
-        protected override MapKryptonPageText GetMapHeadingDefault()
-        {
-            return MapKryptonPageText.Description;
-        }
+        protected override MapKryptonPageText GetMapHeadingDefault() => MapKryptonPageText.Description;
 
         /// <summary>
         /// Gets the default description mapping value.
         /// </summary>
         /// <returns>Text mapping enumeration.</returns>
-        protected override MapKryptonPageText GetMapDescriptionDefault()
-        {
-            return MapKryptonPageText.None;
-        }        
+        protected override MapKryptonPageText GetMapDescriptionDefault() => MapKryptonPageText.None;
+
         #endregion
 
         #region MapImage

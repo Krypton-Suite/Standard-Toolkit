@@ -679,51 +679,51 @@ namespace Krypton.Toolkit
             {
                 // Ellipsis
                 case StringTrimming.EllipsisCharacter:
-                    flags = flags & TextFormatFlags.EndEllipsis;
+                    flags &= TextFormatFlags.EndEllipsis;
                     break;
                 case StringTrimming.EllipsisPath:
-                    flags = flags & TextFormatFlags.PathEllipsis;
+                    flags &= TextFormatFlags.PathEllipsis;
                     break;
                 case StringTrimming.EllipsisWord:
-                    flags = flags & TextFormatFlags.WordEllipsis;
+                    flags &= TextFormatFlags.WordEllipsis;
                     break;
             }
 
             // Hotkey Prefix
             if (sf.HotkeyPrefix == HotkeyPrefix.None)
             {
-                flags = flags & TextFormatFlags.NoPrefix;
+                flags &= TextFormatFlags.NoPrefix;
             }
             else if (sf.HotkeyPrefix == HotkeyPrefix.Hide)
             {
-                flags = flags & TextFormatFlags.HidePrefix;
+                flags &= TextFormatFlags.HidePrefix;
             }
 
             // Text Padding
             if (sf.FormatFlags == StringFormatFlags.FitBlackBox)
             {
-                flags = flags & TextFormatFlags.NoPadding;
+                flags &= TextFormatFlags.NoPadding;
             }
 
             // Text Wrapping
             if (sf.FormatFlags == StringFormatFlags.NoWrap)
             {
-                flags = flags & TextFormatFlags.SingleLine;
+                flags &= TextFormatFlags.SingleLine;
             }
             else if (sf.FormatFlags == StringFormatFlags.LineLimit)
             {
-                flags = flags & TextFormatFlags.TextBoxControl;
+                flags &= TextFormatFlags.TextBoxControl;
             }
 
             // Other Flags
             if (sf.FormatFlags == StringFormatFlags.DirectionRightToLeft)
             {
-                flags = flags & TextFormatFlags.RightToLeft;
+                flags &= TextFormatFlags.RightToLeft;
             }
 
             if (sf.FormatFlags == StringFormatFlags.NoClip)
             {
-                flags = flags & TextFormatFlags.NoClipping;
+                flags &= TextFormatFlags.NoClipping;
             }
 
             return flags;

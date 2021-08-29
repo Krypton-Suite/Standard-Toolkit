@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonPaletteNavigatorState class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public KryptonPaletteNavigatorState(PaletteRedirect redirect,
                                             NeedPaintHandler needPaint)
@@ -67,10 +67,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteNavigatorStateBar Bar { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !Bar.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !Bar.IsDefault;
+
         #endregion
     }
 }

@@ -345,10 +345,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="c">Reference to control instance.</param>
         /// <returns>KryptonDockingControl instance created.</returns>
-        public KryptonDockingControl ManageControl(Control c)
-        {
-            return ManageControl("Control", c);
-        }
+        public KryptonDockingControl ManageControl(Control c) => ManageControl("Control", c);
 
         /// <summary>
         /// Manage auto hidden/docked capabilities for provided control.
@@ -356,10 +353,7 @@ namespace Krypton.Docking
         /// <param name="c">Reference to control instance.</param>
         /// <param name="navigator">Reference to docking navigator that is inside the control.</param>
         /// <returns>KryptonDockingControl instance created.</returns>
-        public KryptonDockingControl ManageControl(Control c, KryptonDockingNavigator navigator)
-        {
-            return ManageControl("Control", c, navigator);
-        }
+        public KryptonDockingControl ManageControl(Control c, KryptonDockingNavigator navigator) => ManageControl("Control", c, navigator);
 
         /// <summary>
         /// Manage auto hidden/docked capabilities for provided control.
@@ -367,10 +361,7 @@ namespace Krypton.Docking
         /// <param name="c">Reference to control instance.</param>
         /// <param name="workspace">Reference to docking workspace that is inside the control.</param>
         /// <returns>KryptonDockingControl instance created.</returns>
-        public KryptonDockingControl ManageControl(Control c, KryptonDockingWorkspace workspace)
-        {
-            return ManageControl("Control", c, workspace);
-        }
+        public KryptonDockingControl ManageControl(Control c, KryptonDockingWorkspace workspace) => ManageControl("Control", c, workspace);
 
         /// <summary>
         /// Manage auto hidden/docked capabilities for provided control.
@@ -418,10 +409,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="f">Reference to form.</param>
         /// <returns>KryptonDockingFloating instance created.</returns>
-        public KryptonDockingFloating ManageFloating(Form f)
-        {
-            return ManageFloating("Floating", f);
-        }
+        public KryptonDockingFloating ManageFloating(Form f) => ManageFloating("Floating", f);
 
         /// <summary>
         /// Manage floating windows capability for provided form.
@@ -441,10 +429,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="w">Reference to dockable workspace.</param>
         /// <returns>KryptonDockingWorkspace instance created.</returns>
-        public KryptonDockingWorkspace ManageWorkspace(KryptonDockableWorkspace w)
-        {
-            return ManageWorkspace(@"Workspace", @"Filler", w);
-        }
+        public KryptonDockingWorkspace ManageWorkspace(KryptonDockableWorkspace w) => ManageWorkspace(@"Workspace", @"Filler", w);
 
         /// <summary>
         /// Manage docking capability for provided dockable workspace control.
@@ -452,10 +437,7 @@ namespace Krypton.Docking
         /// <param name="name">Name for new docking element.</param>
         /// <param name="w">Reference to dockable workspace.</param>
         /// <returns>KryptonDockingWorkspace instance created.</returns>
-        public KryptonDockingWorkspace ManageWorkspace(string name, KryptonDockableWorkspace w)
-        {
-            return ManageWorkspace(name, @"Filler", w);
-        }
+        public KryptonDockingWorkspace ManageWorkspace(string name, KryptonDockableWorkspace w) => ManageWorkspace(name, @"Filler", w);
 
         /// <summary>
         /// Manage docking capability for provided dockable workspace control.
@@ -476,10 +458,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="n">Reference to dockable navigator.</param>
         /// <returns>KryptonDockingNavigator instance created.</returns>
-        public KryptonDockingNavigator ManageNavigator(KryptonDockableNavigator n)
-        {
-            return ManageNavigator(@"Navigator", @"Filler", n);
-        }
+        public KryptonDockingNavigator ManageNavigator(KryptonDockableNavigator n) => ManageNavigator(@"Navigator", @"Filler", n);
 
         /// <summary>
         /// Manage docking capability for provided dockable navigator control.
@@ -487,10 +466,7 @@ namespace Krypton.Docking
         /// <param name="name">Name for new docking element.</param>
         /// <param name="n">Reference to dockable navigator.</param>
         /// <returns>KryptonDockingNavigator instance created.</returns>
-        public KryptonDockingNavigator ManageNavigator(string name, KryptonDockableNavigator n)
-        {
-            return ManageNavigator(name, @"Filler", n);
-        }
+        public KryptonDockingNavigator ManageNavigator(string name, KryptonDockableNavigator n) => ManageNavigator(name, @"Filler", n);
 
         /// <summary>
         /// Manage docking capability for provided dockable navigator control.
@@ -2695,10 +2671,7 @@ namespace Krypton.Docking
         /// <param name="path">Path for finding the target KryptonDockingFloating.</param>
         /// <param name="pages">Array of pages to be added as an auto hidden group.</param>
         /// <returns>KryptonDockingFloatingWindow reference.</returns>
-        public virtual KryptonDockingFloatingWindow AddFloatingWindow(string path, KryptonPage[] pages)
-        {
-            return AddFloatingWindow(path, pages, Point.Empty, Size.Empty);
-        }
+        public virtual KryptonDockingFloatingWindow AddFloatingWindow(string path, KryptonPage[] pages) => AddFloatingWindow(path, pages, Point.Empty, Size.Empty);
 
         /// <summary>
         /// Add set of pages as a new floating window.
@@ -2709,10 +2682,8 @@ namespace Krypton.Docking
         /// <returns>KryptonDockingFloatingWindow reference.</returns>
         public virtual KryptonDockingFloatingWindow AddFloatingWindow(string path,
                                                                       KryptonPage[] pages,
-                                                                      Size clientSize)
-        {
-            return AddFloatingWindow(path, pages, Point.Empty, clientSize);
-        }
+                                                                      Size clientSize) =>
+            AddFloatingWindow(path, pages, Point.Empty, clientSize);
 
         /// <summary>
         /// Add set of pages as a new floating window.
@@ -2723,10 +2694,8 @@ namespace Krypton.Docking
         /// <returns>KryptonDockingFloatingWindow reference.</returns>
         public virtual KryptonDockingFloatingWindow AddFloatingWindow(string path,
                                                                       KryptonPage[] pages,
-                                                                      Point location)
-        {
-            return AddFloatingWindow(path, pages, location, Size.Empty);
-        }
+                                                                      Point location) =>
+            AddFloatingWindow(path, pages, location, Size.Empty);
 
         /// <summary>
         /// Add set of pages as a new floating window.
@@ -3232,10 +3201,7 @@ namespace Krypton.Docking
         /// Saves docking configuration information into an array of bytes using Unicode Encoding.
         /// </summary>
         /// <returns>Array of created bytes.</returns>
-        public byte[] SaveConfigToArray()
-        {
-            return SaveConfigToArray(Encoding.Unicode);
-        }
+        public byte[] SaveConfigToArray() => SaveConfigToArray(Encoding.Unicode);
 
         /// <summary>
         /// Saves docking configuration information into an array of bytes.

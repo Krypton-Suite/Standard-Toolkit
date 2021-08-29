@@ -25,11 +25,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
         public KryptonCheckSetActionList(KryptonCheckSetDesigner owner)
-            : base(owner.Component)
-        {
+            : base(owner.Component) =>
             // Remember the check set component instance
             _set = owner.Component as KryptonCheckSet;
-        }
+
         #endregion
 
         #region Public

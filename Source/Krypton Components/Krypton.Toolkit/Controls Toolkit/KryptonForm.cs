@@ -499,10 +499,8 @@ namespace Krypton.Toolkit
                 if (style == ViewDockStyle.Fill)
                 {
                     // Incoming element must be a ViewLayoutDocker
-                    if (element is ViewLayoutDocker)
+                    if (element is ViewLayoutDocker docker)
                     {
-                        ViewLayoutDocker docker = element as ViewLayoutDocker;
-
                         // Remove the existing content
                         _drawHeading.Remove(_drawContent);
 
@@ -689,30 +687,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Window relative point to test.</param>
         /// <returns>True if inside the button; otherwise false.</returns>
-        public bool HitTestMinButton(Point pt)
-        {
-            return (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt));
-        }
+        public bool HitTestMinButton(Point pt) => (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt));
 
         /// <summary>
         /// Gets a value indicating if the provided point is inside the maximize button.
         /// </summary>
         /// <param name="pt">Window relative point to test.</param>
         /// <returns>True if inside the button; otherwise false.</returns>
-        public bool HitTestMaxButton(Point pt)
-        {
-            return (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt));
-        }
+        public bool HitTestMaxButton(Point pt) => (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt));
 
         /// <summary>
         /// Gets a value indicating if the provided point is inside the close button.
         /// </summary>
         /// <param name="pt">Window relative point to test.</param>
         /// <returns>True if inside the button; otherwise false.</returns>
-        public bool HitTestCloseButton(Point pt)
-        {
-            return (_buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt));
-        }
+        public bool HitTestCloseButton(Point pt) => (_buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt));
 
         /// <summary>
         /// Gets and sets a rectangle to treat as a custom caption area.
@@ -798,30 +787,24 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Form state.</param>
         /// <returns>Transparent Color.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
+        public Color GetImageTransparentColor(PaletteState state) =>
             // We never mark any color as transparent
-            return Color.Empty;
-        }
+            Color.Empty;
 
         /// <summary>
         /// Gets the short text used as the main caption title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetShortText()
-        {
+        public string GetShortText() =>
             // Return the existing form text property.
-            return Text;
-        }
+            Text;
 
         /// <summary>
         /// Gets the long text used as the secondary caption title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetLongText()
-        {
-            return _textExtra;
-        }
+        public string GetLongText() => _textExtra;
+
         #endregion
 
         #region Protected Override
@@ -832,10 +815,10 @@ namespace Krypton.Toolkit
         protected override void OnControlAdded(ControlEventArgs e)
         {
             // Is this the type of control we need to watch?
-            if (e.Control is StatusStrip)
+            if (e.Control is StatusStrip strip)
             {
                 // Start monitoring the status strip change in state
-                MonitorStatusStrip(e.Control as StatusStrip);
+                MonitorStatusStrip(strip);
 
                 // Recalc to test if status strip should be integrated
                 RecalcNonClient();

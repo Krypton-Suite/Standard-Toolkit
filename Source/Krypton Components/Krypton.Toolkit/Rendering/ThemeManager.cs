@@ -234,10 +234,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="manager">The manager.</param>
         /// <returns>The current <see cref="PaletteModeManager"/> mode.</returns>
-        public static PaletteModeManager GetPaletteMode(KryptonManager manager)
-        {
-            return manager.GlobalPaletteMode;
-        }
+        public static PaletteModeManager GetPaletteMode(KryptonManager manager) => manager.GlobalPaletteMode;
 
         /// <summary>
         /// Applies the theme.

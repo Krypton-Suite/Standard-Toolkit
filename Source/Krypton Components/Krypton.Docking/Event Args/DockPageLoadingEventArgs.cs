@@ -31,10 +31,9 @@ namespace Krypton.Docking
         public DockPageLoadingEventArgs(KryptonDockingManager manager,
                                         XmlReader xmlReading,
                                         KryptonPage page)
-            : base(manager, xmlReading)
-        {
+            : base(manager, xmlReading) =>
             Page = page;
-        }
+
         #endregion
 
         #region Public

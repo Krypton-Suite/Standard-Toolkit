@@ -144,7 +144,7 @@ namespace Krypton.Ribbon
                 if (value != _text)
                 {
                     _text = value;
-                    OnPropertyChanged("Text");
+                    OnPropertyChanged(nameof(Text));
 
                     // Only need to update display if this tab is visible
                     if ((_ribbon != null) && Visible)
@@ -201,7 +201,7 @@ namespace Krypton.Ribbon
                 if (value != _contextName)
                 {
                     _contextName = value;
-                    OnPropertyChanged("ContextName");
+                    OnPropertyChanged(nameof(ContextName));
 
                     // Only need to update display if this tab is visible
                     if ((_ribbon != null) && Visible)
@@ -212,10 +212,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeContextName()
-        {
-            return !string.IsNullOrEmpty(_contextName);
-        }
+        private bool ShouldSerializeContextName() => !string.IsNullOrEmpty(_contextName);
 
         /// <summary>
         /// Reset the ContextName to the default value.
@@ -241,7 +238,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
 
                     // Must try and layout to show change
                     if (_ribbon != null)
@@ -299,15 +296,12 @@ namespace Krypton.Ribbon
                 if (value != _tag)
                 {
                     _tag = value;
-                    OnPropertyChanged("Tag");
+                    OnPropertyChanged(nameof(Tag));
                 }
             }
         }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         private void ResetTag()
         {

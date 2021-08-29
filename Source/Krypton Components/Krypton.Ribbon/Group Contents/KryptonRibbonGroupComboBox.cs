@@ -289,10 +289,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the combo box.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -353,7 +350,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -390,7 +387,7 @@ namespace Krypton.Ribbon
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -792,10 +789,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="str">The String to search for.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found.</returns>
-        public int FindString(string str)
-        {
-            return ComboBox.FindString(str);
-        }
+        public int FindString(string str) => ComboBox.FindString(str);
 
         /// <summary>
         /// Finds the first item after the given index which starts with the given string. The search is not case sensitive.
@@ -803,20 +797,14 @@ namespace Krypton.Ribbon
         /// <param name="str">The String to search for.</param>
         /// <param name="startIndex">The zero-based index of the item before the first item to be searched. Set to -1 to search from the beginning of the control.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found, or 0 if the s parameter specifies Empty.</returns>
-        public int FindString(string str, int startIndex)
-        {
-            return ComboBox.FindString(str, startIndex);
-        }
+        public int FindString(string str, int startIndex) => ComboBox.FindString(str, startIndex);
 
         /// <summary>
         /// Finds the first item in the combo box that matches the specified string.
         /// </summary>
         /// <param name="str">The String to search for.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found.</returns>
-        public int FindStringExact(string str)
-        {
-            return ComboBox.FindStringExact(str);
-        }
+        public int FindStringExact(string str) => ComboBox.FindStringExact(str);
 
         /// <summary>
         /// Finds the first item after the specified index that matches the specified string.
@@ -824,30 +812,21 @@ namespace Krypton.Ribbon
         /// <param name="str">The String to search for.</param>
         /// <param name="startIndex">The zero-based index of the item before the first item to be searched. Set to -1 to search from the beginning of the control.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found, or 0 if the s parameter specifies Empty.</returns>
-        public int FindStringExact(string str, int startIndex)
-        {
-            return ComboBox.FindStringExact(str, startIndex);
-        }
+        public int FindStringExact(string str, int startIndex) => ComboBox.FindStringExact(str, startIndex);
 
         /// <summary>
         /// Returns the height of an item in the ComboBox.
         /// </summary>
         /// <param name="index">The index of the item to return the height of.</param>
         /// <returns>The height, in pixels, of the item at the specified index.</returns>
-        public int GetItemHeight(int index)
-        {
-            return ComboBox.GetItemHeight(index);
-        }
+        public int GetItemHeight(int index) => ComboBox.GetItemHeight(index);
 
         /// <summary>
         /// Returns the text representation of the specified item.
         /// </summary>
         /// <param name="item">The object from which to get the contents to display.</param>
         /// <returns>If the DisplayMember property is not specified, the value returned by GetItemText is the value of the item's ToString method. Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string GetItemText(object item)
-        {
-            return ComboBox.GetItemText(item);
-        }
+        public string GetItemText(object item) => ComboBox.GetItemText(item);
 
         /// <summary>
         /// Selects a range of text in the control.
@@ -906,7 +885,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -919,10 +898,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupComboBox(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupComboBox(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -932,10 +909,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         public IKryptonDesignObject ComboBoxDesigner { get; set; }
 
-        private bool ShouldSerializeComboBoxDesigner()
-        {
-            return false;
-        }
+        private bool ShouldSerializeComboBoxDesigner() => false;
 
         /// <summary>
         /// Internal design time properties.
@@ -1164,7 +1138,7 @@ namespace Krypton.Ribbon
                     if (ShortcutKeys == keyData)
                     {
                         // Can the combo box take the focus
-                        if ((LastComboBox != null) && (LastComboBox.CanFocus))
+                        if (LastComboBox is { CanFocus: true })
                         {
                             LastComboBox.ComboBox.Focus();
                         }

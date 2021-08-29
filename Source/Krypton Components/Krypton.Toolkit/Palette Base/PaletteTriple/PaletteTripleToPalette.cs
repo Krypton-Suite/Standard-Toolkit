@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteTripleToPalette class.
         /// </summary>
-        /// <param name="palette">Inheritence of values.</param>
+        /// <param name="palette">inheritance of values.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>

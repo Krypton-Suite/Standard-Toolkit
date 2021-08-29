@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(IPaletteDouble inherit)
         {
@@ -111,10 +111,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteBack Back => _back;
 
-        private bool ShouldSerializeBack()
-        {
-            return !_back.IsDefault;
-        }
+        private bool ShouldSerializeBack() => !_back.IsDefault;
 
         /// <summary>
         /// Gets the background palette.
@@ -136,10 +133,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteBorder Border => _border;
 
-        private bool ShouldSerializeBorder()
-        {
-            return !_border.IsDefault;
-        }
+        private bool ShouldSerializeBorder() => !_border.IsDefault;
 
         /// <summary>
         /// Gets the border palette.

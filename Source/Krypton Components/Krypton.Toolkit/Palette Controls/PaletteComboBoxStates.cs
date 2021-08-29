@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritComboBox">Source for inheriting combo box values.</param>
         /// <param name="inheritItem">Source for inheriting item values.</param>
@@ -91,10 +91,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates ComboBox { get; }
 
-        private bool ShouldSerializeComboBox()
-        {
-            return !ComboBox.IsDefault;
-        }
+        private bool ShouldSerializeComboBox() => !ComboBox.IsDefault;
+
         #endregion
 
         #region Item
@@ -107,10 +105,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Item { get; }
 
-        private bool ShouldSerializeItem()
-        {
-            return !Item.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !Item.IsDefault;
+
         #endregion
 
         #region Implementation

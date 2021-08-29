@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -203,7 +203,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeMaximum = _itemSizeMax;
                     }
 
-                    OnPropertyChanged("ItemSizeMaximum");
+                    OnPropertyChanged(nameof(ItemSizeMaximum));
                 }
             }
         }
@@ -241,7 +241,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeMinimum = _itemSizeMin;
                     }
 
-                    OnPropertyChanged("ItemSizeMinimum");
+                    OnPropertyChanged(nameof(ItemSizeMinimum));
                 }
             }
         }
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -272,11 +272,9 @@ namespace Krypton.Ribbon
         /// <param name="previousItem">Previous item.</param>
         /// <returns>Pixel gap between previous item and this item.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override int ItemGap(IRibbonGroupItem previousItem)
-        {
+        public override int ItemGap(IRibbonGroupItem previousItem) =>
             // We always want 3 pixels space between previous item and us
-            return 3;
-        }
+            3;
 
         /// <summary>
         /// Creates an appropriate view element for this item.
@@ -286,10 +284,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewLayoutRibbonGroupCluster(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewLayoutRibbonGroupCluster(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets the collection of ribbon group button cluster items.

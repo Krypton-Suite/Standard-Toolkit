@@ -80,10 +80,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border width.</returns>
-        public int GetBorderWidth(PaletteState state)
-        {
-            return Width != -1 ? Width : _inherit.GetBorderWidth(state);
-        }
+        public int GetBorderWidth(PaletteState state) => Width != -1 ? Width : _inherit.GetBorderWidth(state);
+
         #endregion
     }
 }

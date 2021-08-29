@@ -50,100 +50,71 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetBackDraw(PaletteState state)
-        {
-            return InheritBool.True;
-        }
+        public InheritBool GetBackDraw(PaletteState state) => InheritBool.True;
 
         /// <summary>
         /// Gets the actual background graphics hint value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
-        public PaletteGraphicsHint GetBackGraphicsHint(PaletteState state)
-        {
-            return PaletteGraphicsHint.AntiAlias;
-        }
+        public PaletteGraphicsHint GetBackGraphicsHint(PaletteState state) => PaletteGraphicsHint.AntiAlias;
 
         /// <summary>
         /// Gets the first background color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor1(PaletteState state)
-        {
-            return _state.RibbonGalleryBack.GetRibbonBackColor1(state);
-        }
+        public Color GetBackColor1(PaletteState state) => _state.RibbonGalleryBack.GetRibbonBackColor1(state);
 
         /// <summary>
         /// Gets the second back color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBackColor2(PaletteState state)
-        {
-            return _state.RibbonGalleryBack.GetRibbonBackColor2(state);
-        }
+        public Color GetBackColor2(PaletteState state) => _state.RibbonGalleryBack.GetRibbonBackColor2(state);
 
         /// <summary>
         /// Gets the color drawing style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public PaletteColorStyle GetBackColorStyle(PaletteState state)
-        {
-            return PaletteColorStyle.Solid;
-        }
+        public PaletteColorStyle GetBackColorStyle(PaletteState state) => PaletteColorStyle.Solid;
 
         /// <summary>
         /// Gets the color alignment style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public PaletteRectangleAlign GetBackColorAlign(PaletteState state)
-        {
-            return PaletteRectangleAlign.Local;
-        }
+        public PaletteRectangleAlign GetBackColorAlign(PaletteState state) => PaletteRectangleAlign.Local;
 
         /// <summary>
         /// Gets the color background angle.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetBackColorAngle(PaletteState state)
-        {
-            return 0f;
-        }
+        public float GetBackColorAngle(PaletteState state) => 0f;
 
         /// <summary>
         /// Gets a background image.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBackImage(PaletteState state)
-        {
-            return null;
-        }
+        public Image GetBackImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the background image style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public PaletteImageStyle GetBackImageStyle(PaletteState state)
-        {
-            return PaletteImageStyle.Stretch;
-        }
+        public PaletteImageStyle GetBackImageStyle(PaletteState state) => PaletteImageStyle.Stretch;
 
         /// <summary>
         /// Gets the image alignment style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public PaletteRectangleAlign GetBackImageAlign(PaletteState state)
-        {
-            return PaletteRectangleAlign.Local;
-        }
+        public PaletteRectangleAlign GetBackImageAlign(PaletteState state) => PaletteRectangleAlign.Local;
+
         #endregion
 
         #region IPaletteBorder
@@ -152,130 +123,92 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetBorderDraw(PaletteState state)
-        {
-            return InheritBool.True;
-        }
+        public InheritBool GetBorderDraw(PaletteState state) => InheritBool.True;
 
         /// <summary>
         /// Gets a value indicating which borders to draw.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteDrawBorders value.</returns>
-        public PaletteDrawBorders GetBorderDrawBorders(PaletteState state)
-        {
-            return PaletteDrawBorders.TopBottomLeft;
-        }
+        public PaletteDrawBorders GetBorderDrawBorders(PaletteState state) => PaletteDrawBorders.TopBottomLeft;
 
         /// <summary>
         /// Gets the graphics drawing hint.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
-        public PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state)
-        {
-            return PaletteGraphicsHint.AntiAlias;
-        }
+        public PaletteGraphicsHint GetBorderGraphicsHint(PaletteState state) => PaletteGraphicsHint.AntiAlias;
 
         /// <summary>
         /// Gets the first border color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor1(PaletteState state)
-        {
-            return _state.RibbonGalleryBorder.GetRibbonBackColor1(state);
-        }
+        public Color GetBorderColor1(PaletteState state) => _state.RibbonGalleryBorder.GetRibbonBackColor1(state);
 
         /// <summary>
         /// Gets the second border color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetBorderColor2(PaletteState state)
-        {
-            return _state.RibbonGalleryBorder.GetRibbonBackColor2(state);
-        }
+        public Color GetBorderColor2(PaletteState state) => _state.RibbonGalleryBorder.GetRibbonBackColor2(state);
 
         /// <summary>
         /// Gets the color drawing style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public PaletteColorStyle GetBorderColorStyle(PaletteState state)
-        {
-            return PaletteColorStyle.Solid;
-        }
+        public PaletteColorStyle GetBorderColorStyle(PaletteState state) => PaletteColorStyle.Solid;
 
         /// <summary>
         /// Gets the color alignment style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public PaletteRectangleAlign GetBorderColorAlign(PaletteState state)
-        {
-            return PaletteRectangleAlign.Local;
-        }
+        public PaletteRectangleAlign GetBorderColorAlign(PaletteState state) => PaletteRectangleAlign.Local;
 
         /// <summary>
         /// Gets the color border angle.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetBorderColorAngle(PaletteState state)
-        {
-            return 0f;
-        }
+        public float GetBorderColorAngle(PaletteState state) => 0f;
 
         /// <summary>
         /// Gets the border width.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border width.</returns>
-        public int GetBorderWidth(PaletteState state)
-        {
-            return 1;
-        }
+        public int GetBorderWidth(PaletteState state) => 1;
 
         /// <summary>
         /// Gets the border rounding.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public float GetBorderRounding(PaletteState state)
-        {
-            return 0;
-        }
+        public float GetBorderRounding(PaletteState state) => 0;
 
         /// <summary>
         /// Gets a border image.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBorderImage(PaletteState state)
-        {
-            return null;
-        }
+        public Image GetBorderImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the border image style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public PaletteImageStyle GetBorderImageStyle(PaletteState state)
-        {
-            return PaletteImageStyle.Stretch;
-        }
+        public PaletteImageStyle GetBorderImageStyle(PaletteState state) => PaletteImageStyle.Stretch;
 
         /// <summary>
         /// Gets the image alignment style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public PaletteRectangleAlign GetBorderImageAlign(PaletteState state)
-        {
-            return PaletteRectangleAlign.Local;
-        }
+        public PaletteRectangleAlign GetBorderImageAlign(PaletteState state) => PaletteRectangleAlign.Local;
+
         #endregion
     }
 }

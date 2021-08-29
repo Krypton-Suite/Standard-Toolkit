@@ -221,11 +221,11 @@ namespace Krypton.Ribbon
         protected void UpdateTargetState(Control c)
         {
             // Check we have a valid control to convert coordinates against
-            if ((c != null) && !c.IsDisposed)
+            if (c is { IsDisposed: false })
             {
                 // Ensure control is inside a visible top level form
                 Form f = c.FindForm();
-                if ((f != null) && f.Visible)
+                if (f is { Visible: true })
                 {
                     UpdateTargetState(c.PointToClient(Control.MousePosition));
                     return;

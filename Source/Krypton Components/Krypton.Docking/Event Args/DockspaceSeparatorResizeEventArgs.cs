@@ -31,10 +31,9 @@ namespace Krypton.Docking
         public DockspaceSeparatorResizeEventArgs(KryptonSeparator separator,
                                                  KryptonDockingDockspace element,
                                                  Rectangle resizeRect)
-            : base(separator, element)
-        {
+            : base(separator, element) =>
             ResizeRect = resizeRect;
-        }
+
         #endregion
 
         #region Public

@@ -47,13 +47,11 @@ namespace Krypton.Toolkit
         /// <summary>
         ///  Initializes a new instance of the <see cref='KryptonPrintDialog'/> class.
         /// </summary>
-        public KryptonPrintDialog()
-        {
+        public KryptonPrintDialog() =>
             _commonDialogHandler = new CommonDialogHandler(true)
             {
                 ClickCallback = ClickCallback
             };
-        }
 
         private void ClickCallback(CommonDialogHandler.Attributes originalControl)
         {
@@ -297,15 +295,11 @@ namespace Krypton.Toolkit
             ShowNetwork = true;
         }
 
-        protected override bool RunDialog(IntPtr hwndOwner)
-        {
+        protected override bool RunDialog(IntPtr hwndOwner) =>
             //if (!this.UseEXDialog || Environment.OSVersion.Platform != PlatformID.Win32NT || Environment.OSVersion.Version.Major < 5)
-            {
-                return this.ShowPrintDialog(hwndOwner, CreatePRINTDLG());
-            }
-            //return ShowPrintDialog(hwndOwner, CreatePRINTDLGEX());
-        }
+            this.ShowPrintDialog(hwndOwner, CreatePRINTDLG());
 
+        //return ShowPrintDialog(hwndOwner, CreatePRINTDLGEX());
         internal static PRINTDLG CreatePRINTDLG()
         {
             PRINTDLG printdlg = IntPtr.Size != 4 ? new PRINTDLG_64() : new PRINTDLG_32();
@@ -678,9 +672,9 @@ namespace Krypton.Toolkit
         ENABLESETUPTEMPLATE = 0x00008000,
         ENABLEPRINTTEMPLATEHANDLE = 0x00010000,
         ENABLESETUPTEMPLATEHANDLE = 0x00020000,
-        USEDEVMODECOPIES = 0x00040000,
+        USEDEVMODECOPIES           = 0x00040000,
         USEDEVMODECOPIESANDCOLLATE = 0x00040000,
-        DISABLEPRINTTOFILE = 0x00080000,
+        DISABLEPRINTTOFILE         = 0x00080000,
         HIDEPRINTTOFILE = 0x00100000,
         NONETWORKBUTTON = 0x00200000,
         CURRENTPAGE = 0x00400000,

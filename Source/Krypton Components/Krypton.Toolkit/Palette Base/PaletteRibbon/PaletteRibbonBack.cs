@@ -29,6 +29,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the PaletteRibbonBack class.
         /// </summary>
@@ -69,12 +70,10 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteRibbonBack inheritBack)
-        {
-            _inheritBack = inheritBack;
-        }
+        public void SetInherit(IPaletteRibbonBack inheritBack) => _inheritBack = inheritBack;
+
         #endregion
 
         #region PopulateFromBase
@@ -98,20 +97,16 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
-        {
-            return _inheritBack.GetRibbonBackColorStyle(state);
-        }
+        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inheritBack.GetRibbonBackColorStyle(state);
+
         #endregion
 
         #region BackColor1
         /// <summary>
         /// Gets and sets the first background color for the ribbon item.
         /// </summary>
-        [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("First background color for the ribbon item.")]
-        //[DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor1
         {
@@ -127,10 +122,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor1 to the default value.
-        /// </summary>
-        public void ResetBackColor1() => BackColor1 = Color.Empty;
+        private bool ShouldSerializeBackColor1() => _backColor1 != Color.Empty;
+        private void ResetBackColor1() => _backColor1 = Color.Empty;
 
         /// <summary>
         /// Gets the first background color for the ribbon item.
@@ -165,10 +158,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor2 to the default value.
-        /// </summary>
-        public void ResetBackColor2() => BackColor2 = Color.Empty;
+        private bool ShouldSerializeBackColor2() => _backColor2 != Color.Empty;
+        private void ResetBackColor2() => BackColor2 = Color.Empty;
 
         /// <summary>
         /// Gets the second background color for the ribbon item.
@@ -203,10 +194,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor3 to the default value.
-        /// </summary>
-        public void ResetBackColor3() => BackColor3 = Color.Empty;
+        private bool ShouldSerializeBackColor3() => _backColor3 != Color.Empty;
+        private void ResetBackColor3() => BackColor3 = Color.Empty;
 
         /// <summary>
         /// Gets the third background color for the ribbon item.
@@ -241,10 +230,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor4 to the default value.
-        /// </summary>
-        public void ResetBackColor4() => BackColor4 = Color.Empty;
+        private bool ShouldSerializeBackColor4() => _backColor4 != Color.Empty;
+        private void ResetBackColor4() => BackColor4 = Color.Empty;
 
         /// <summary>
         /// Gets the fourth background color for the ribbon item.
@@ -260,7 +247,6 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the fifth background color for the ribbon item.
         /// </summary>
-        [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Fifth background color for the ribbon item.")]
         //[DefaultValue(typeof(Color), "")]
@@ -279,10 +265,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor5 to the default value.
-        /// </summary>
-        public void ResetBackColor5() => BackColor5 = Color.Empty;
+        private bool ShouldSerializeBackColor5() => _backColor5 != Color.Empty;
+        private void ResetBackColor5() => BackColor5 = Color.Empty;
 
         /// <summary>
         /// Gets the fifth background color for the ribbon item.

@@ -33,10 +33,9 @@ namespace Krypton.Toolkit
                                   KryptonContextMenu kcm,
                                   KryptonContextMenuPositionH positionH,
                                   KryptonContextMenuPositionV positionV)
-            : base(null, kcm, positionH, positionV)
-        {
+            : base(null, kcm, positionH, positionV) =>
             Crumb = crumb;
-        }
+
         #endregion
 
         #region Public

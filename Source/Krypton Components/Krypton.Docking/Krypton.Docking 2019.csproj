@@ -1,41 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <OutputType>Library</OutputType>
-        <RootNamespace>Krypton.Docking</RootNamespace>
-        <AssemblyName>Krypton.Docking</AssemblyName>
-        <SignAssembly>false</SignAssembly>
-        <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
-        <ApplicationIcon>Krypton.ico</ApplicationIcon>
-        <DelaySign>false</DelaySign>
-        <UseWindowsForms>true</UseWindowsForms>
-        <LangVersion>preview</LangVersion>
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <EnableNETAnalyzers>true</EnableNETAnalyzers>
-        <AnalysisLevel>latest</AnalysisLevel>
-        <NeutralLanguage>en</NeutralLanguage>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Krypton.Docking</RootNamespace>
+		<AssemblyName>Krypton.Docking</AssemblyName>
+		<SignAssembly>false</SignAssembly>
+		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<ApplicationIcon>Krypton.ico</ApplicationIcon>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<LangVersion>preview</LangVersion>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<NeutralLanguage>en</NeutralLanguage>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <!-- This may not be neded, as this dll does not have "designers" -->
-        <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
-            <SpecificVersion>True</SpecificVersion>
-            <Version>4.0.0.0</Version>
-        </Reference>
-        <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
-            <SpecificVersion>True</SpecificVersion>
-            <Version>5.0.0.0</Version>
-        </Reference>
-        <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
-            <SpecificVersion>True</SpecificVersion>
-            <Version>6.0.0.0</Version>
-        </Reference>
-    </ItemGroup>
+	<ItemGroup>
+		<!-- This may not be neded, as this dll does not have "designers" -->
+		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>5.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>6.0.0.0</Version>
+		</Reference>
+	</ItemGroup>
 
-    <PropertyGroup>
-        <PackageId>Krypton.Docking</PackageId>
-        <Description>This is the docking module.</Description>
-    </PropertyGroup>
+	<PropertyGroup>
+		<PackageId>Krypton.Docking</PackageId>
+		<Description>This is the docking module.</Description>
+	</PropertyGroup>
 
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>

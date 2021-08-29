@@ -25,13 +25,11 @@ namespace Krypton.Navigator
         #endregion
 
         #region Identity
-        static VisualPopupPage()
-        {
+        static VisualPopupPage() =>
             // Cache access to the internal 'Select' method of the ContainerControl
             _containerSelect = typeof(ContainerControl).GetMethod("Select",
-                                                                  BindingFlags.Instance |
-                                                                  BindingFlags.NonPublic);
-        }
+                BindingFlags.Instance |
+                BindingFlags.NonPublic);
 
         /// <summary>
         /// Initialize a new instance of the VisualPopupPage class.

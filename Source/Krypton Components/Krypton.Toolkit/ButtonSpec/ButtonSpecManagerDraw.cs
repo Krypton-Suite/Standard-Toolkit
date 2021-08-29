@@ -122,20 +122,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>View docker reference; otherwise null.</returns>
-        protected override ViewBase IndexDocker(int i)
-        {
-            return _viewDockers[i];
-        }
+        protected override ViewBase IndexDocker(int i) => _viewDockers[i];
 
         /// <summary>
         /// Gets the orientation of the docker at the specified index.
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>VisualOrientation value.</returns>
-        protected override VisualOrientation DockerOrientation(int i)
-        {
-            return _viewDockers[i].Orientation;
-        }
+        protected override VisualOrientation DockerOrientation(int i) => _viewDockers[i].Orientation;
 
         /// <summary>
         /// Gets the element that represents the foreground color.

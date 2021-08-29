@@ -16,11 +16,10 @@ namespace Krypton.Toolkit
     public class KryptonToolStrip : ToolStrip
     {
         #region Constructor
-        public KryptonToolStrip()
-        {
+        public KryptonToolStrip() =>
             // Use Krypton
             RenderMode = ToolStripRenderMode.ManagerRenderMode;
-        }
+
         #endregion
     }
 }

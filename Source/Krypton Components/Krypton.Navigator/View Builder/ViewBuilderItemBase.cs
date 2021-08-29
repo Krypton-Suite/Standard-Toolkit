@@ -386,11 +386,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>HeaderLocation value.</returns>
-        public override HeaderLocation GetFixedButtonLocation(ButtonSpecNavFixed buttonSpec)
-        {
+        public override HeaderLocation GetFixedButtonLocation(ButtonSpecNavFixed buttonSpec) =>
             // This mode only has a single location, the button bar
-            return HeaderLocation.PrimaryHeader;
-        }
+            HeaderLocation.PrimaryHeader;
 
         /// <summary>
         /// Calculate the enabled state of the next button based on the required action.
@@ -816,19 +814,13 @@ namespace Krypton.Navigator
         /// Gets the visual orientation of the check butttons border and background.
         /// </summary>
         /// <returns>Visual orientation.</returns>
-        protected virtual VisualOrientation ConvertButtonBorderBackOrientation()
-        {
-            return ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
-        }
+        protected virtual VisualOrientation ConvertButtonBorderBackOrientation() => ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
 
         /// <summary>
         /// Gets the visual orientation of the check butttons content.
         /// </summary>
         /// <returns>Visual orientation.</returns>
-        protected virtual VisualOrientation ConvertButtonContentOrientation()
-        {
-            return ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
-        }
+        protected virtual VisualOrientation ConvertButtonContentOrientation() => ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);
 
         /// <summary>
         /// Convert the item orientation using the requested parent orientation.

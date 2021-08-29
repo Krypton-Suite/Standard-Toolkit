@@ -34,11 +34,10 @@ namespace Krypton.Toolkit
                                      IPaletteDouble inheritSeparator,
                                      IPaletteMetric inheritMetric,
                                      NeedPaintHandler needPaint)
-            : base(inheritSplitContainer, needPaint)
-        {
+            : base(inheritSplitContainer, needPaint) =>
             // Create the embedded separator palette information
             Separator = new PaletteSeparatorPadding(inheritSeparator, inheritMetric, needPaint);
-        }
+
         #endregion
 
         #region IsDefault
@@ -71,10 +70,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding Separator { get; }
 
-        private bool ShouldSerializeSeparator()
-        {
-            return !Separator.IsDefault;
-        }
+        private bool ShouldSerializeSeparator() => !Separator.IsDefault;
+
         #endregion
     }
 }

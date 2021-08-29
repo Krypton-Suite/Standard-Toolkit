@@ -54,30 +54,21 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public override PaletteTextTrim GetContentShortTextTrim(PaletteState state)
-        {
-            return PaletteTextTrim.Character;
-        }
+        public override PaletteTextTrim GetContentShortTextTrim(PaletteState state) => PaletteTextTrim.Character;
 
         /// <summary>
         /// Gets the horizontal relative alignment of the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state)
-        {
-            return RibbonGeneral.GetRibbonContextTextAlign(state);
-        }
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state) => RibbonGeneral.GetRibbonContextTextAlign(state);
 
         /// <summary>
         /// Gets the font for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state)
-        {
-            return RibbonGeneral.GetRibbonContextTextFont(state);
-        }
+        public override Font GetContentShortTextFont(PaletteState state) => RibbonGeneral.GetRibbonContextTextFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -110,20 +101,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public override PaletteTextTrim GetContentLongTextTrim(PaletteState state)
-        {
-            return PaletteTextTrim.Character;
-        }
+        public override PaletteTextTrim GetContentLongTextTrim(PaletteState state) => PaletteTextTrim.Character;
 
         /// <summary>
         /// Gets the font for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state)
-        {
-            return RibbonGeneral.GetRibbonContextTextFont(state);
-        }
+        public override Font GetContentLongTextFont(PaletteState state) => RibbonGeneral.GetRibbonContextTextFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.

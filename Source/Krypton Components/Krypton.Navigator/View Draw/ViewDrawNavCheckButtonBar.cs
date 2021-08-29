@@ -64,11 +64,10 @@ namespace Krypton.Navigator
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawNavCheckButtonBar:" + Id;
-        }
+            "ViewDrawNavCheckButtonBar:" + Id;
+
         #endregion
 
         #region View
@@ -85,28 +84,20 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image GetImage(PaletteState state)
-        {
-            return Page.GetImageMapping(Navigator.Bar.BarMapImage);
-        }
+        public override Image GetImage(PaletteState state) => Page.GetImageMapping(Navigator.Bar.BarMapImage);
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetShortText()
-        {
-            return Page.GetTextMapping(Navigator.Bar.BarMapText);
-        }
+        public override string GetShortText() => Page.GetTextMapping(Navigator.Bar.BarMapText);
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetLongText()
-        {
-            return Page.GetTextMapping(Navigator.Bar.BarMapExtraText);
-        }
+        public override string GetLongText() => Page.GetTextMapping(Navigator.Bar.BarMapExtraText);
+
         #endregion
 
         #region OnClick

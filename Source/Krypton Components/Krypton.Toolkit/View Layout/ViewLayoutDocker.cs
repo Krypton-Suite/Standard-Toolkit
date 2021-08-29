@@ -47,11 +47,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutDocker:" + Id + " " + _childDocking.Count.ToString();
-        }
+            "ViewLayoutDocker:" + Id + " " + _childDocking.Count.ToString();
+
         #endregion
 
         #region IgnoreRightToLeftLayout
@@ -456,10 +455,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="preferredSize">Original preferred size value.</param>
         /// <returns>Modified size.</returns>
-        protected virtual Size UpdatePreferredSize(Size preferredSize)
-        {
-            return preferredSize;
-        }
+        protected virtual Size UpdatePreferredSize(Size preferredSize) => preferredSize;
 
         /// <summary>
         /// Allow the filler rectangle calculated by Layout to be modified before use.
@@ -468,10 +464,9 @@ namespace Krypton.Toolkit
         /// <param name="control">Owning control instance.</param>
         /// <returns>Modified rectangle.</returns>
         protected virtual Rectangle UpdateFillerRect(Rectangle fillerRect,
-                                                     Control control)
-        {
-            return fillerRect;
-        }
+                                                     Control control) =>
+            fillerRect;
+
         #endregion
 
         #region Implementation

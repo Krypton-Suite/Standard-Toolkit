@@ -28,10 +28,9 @@ namespace Krypton.Docking
         /// <param name="uniqueName">Unique name of the page associated with the event.</param>
         /// <param name="closeRequest">Initial close action to use.</param>
         public CloseRequestEventArgs(string uniqueName, DockingCloseRequest closeRequest)
-            : base(uniqueName)
-        {
+            : base(uniqueName) =>
             CloseRequest = closeRequest;
-        }
+
         #endregion
 
         #region Public

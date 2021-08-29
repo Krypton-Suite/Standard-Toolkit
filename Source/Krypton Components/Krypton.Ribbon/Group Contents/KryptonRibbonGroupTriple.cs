@@ -249,7 +249,7 @@ namespace Krypton.Ribbon
                 if (_itemAlignment != value)
                 {
                     _itemAlignment = value;
-                    OnPropertyChanged("ItemAlignment");
+                    OnPropertyChanged(nameof(ItemAlignment));
                 }
             }
         }
@@ -273,7 +273,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -365,7 +365,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeMaximum = value;
                     }
 
-                    OnPropertyChanged("ItemSizeMaximum");
+                    OnPropertyChanged(nameof(ItemSizeMaximum));
                 }
             }
         }
@@ -409,7 +409,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeMinimum = value;
                     }
 
-                    OnPropertyChanged("ItemSizeMinimum");
+                    OnPropertyChanged(nameof(ItemSizeMinimum));
                 }
             }
         }
@@ -436,7 +436,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeCurrent = value;
                     }
 
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -449,10 +449,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewLayoutRibbonGroupTriple(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewLayoutRibbonGroupTriple(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets the collection of ribbon group triple items.

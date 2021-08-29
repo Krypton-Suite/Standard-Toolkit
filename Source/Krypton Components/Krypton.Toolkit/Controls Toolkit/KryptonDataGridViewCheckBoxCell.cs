@@ -57,11 +57,9 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         protected override Rectangle GetContentBounds(Graphics graphics, 
             DataGridViewCellStyle cellStyle, 
-            int rowIndex)
-        {
+            int rowIndex) =>
             // Return the cached bounds from last drawing cycle
-            return _contentBounds;
-        }
+            _contentBounds;
 
         /// <summary>
         /// This member overrides DataGridViewCell.GetPreferredSize. 
@@ -152,9 +150,9 @@ namespace Krypton.Toolkit
                     {
                         checkState = state;
                     }
-                    else if (formattedValue is bool)
+                    else if (formattedValue is bool b)
                     {
-                        if ((bool)formattedValue)
+                        if (b)
                         {
                             checkState = CheckState.Checked;
                         }

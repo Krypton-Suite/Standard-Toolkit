@@ -494,10 +494,8 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
         /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
-        public override KryptonDockingWorkspace FindDockingWorkspace(string uniqueName)
-        {
-            return this;
-        }
+        public override KryptonDockingWorkspace FindDockingWorkspace(string uniqueName) => this;
+
         #endregion
 
         #region Protected

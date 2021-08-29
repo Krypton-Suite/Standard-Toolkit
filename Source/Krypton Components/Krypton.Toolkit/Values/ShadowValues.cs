@@ -85,10 +85,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeEnableShadows()
-        {
-            return EnableShadows;
-        }
+        private bool ShouldSerializeEnableShadows() => EnableShadows;
 
         /// <summary>
         /// </summary>
@@ -114,10 +111,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeOffset()
-        {
-            return _offset != _defaultOffset;
-        }
+        private bool ShouldSerializeOffset() => _offset != _defaultOffset;
 
         /// <summary>
         /// </summary>
@@ -142,10 +136,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeExtraWidth()
-        {
-            return _extraWidth != 5;
-        }
+        private bool ShouldSerializeExtraWidth() => _extraWidth != 5;
 
         /// <summary>
         /// </summary>
@@ -176,10 +167,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBlurDistance()
-        {
-            return Math.Abs(BlurDistance - 50) > 0.001;
-        }
+        private bool ShouldSerializeBlurDistance() => Math.Abs(BlurDistance - 50) > 0.001;
 
         /// <summary>
         /// </summary>
@@ -205,10 +193,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeColour()
-        {
-            return Colour != SystemColors.ActiveBorder;
-        }
+        private bool ShouldSerializeColour() => Colour != SystemColors.ActiveBorder;
 
         /// <summary>
         /// Resets the PlacementMode property to its default value.
@@ -238,10 +223,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeOpacity()
-        {
-            return Math.Abs(_opacity - 95) > 0.001;
-        }
+        private bool ShouldSerializeOpacity() => Math.Abs(_opacity - 95) > 0.001;
 
         /// <summary>
         /// </summary>

@@ -30,11 +30,10 @@ namespace Krypton.Docking
         /// Initialize a new instance of the DockingElement class.
         /// </summary>
         /// <param name="name">Initial name of the element.</param>
-        public DockingElement(string name)
-        {
+        public DockingElement(string name) =>
             // Do not allow null, use empty string instead
             Name = name ?? string.Empty;
-        }
+
         #endregion
 
         #region Public
@@ -674,10 +673,8 @@ namespace Krypton.Docking
         /// Enumerate using non-generic interface.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         #endregion
 
         #region Protected

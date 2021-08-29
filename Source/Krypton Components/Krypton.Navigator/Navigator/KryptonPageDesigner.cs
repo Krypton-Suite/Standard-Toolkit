@@ -70,11 +70,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="parentDesigner">The IDesigner that manages the control to check.</param>
         /// <returns>true if the control managed by the specified designer can parent the control managed by this designer; otherwise, false.</returns>
-        public override bool CanBeParentedTo(IDesigner parentDesigner)
-        {
+        public override bool CanBeParentedTo(IDesigner parentDesigner) =>
             // Can only place a KrytonPage in the KryptonNavigator
-            return parentDesigner?.Component is KryptonNavigator;
-        }
+            parentDesigner?.Component is KryptonNavigator;
 
         /// <summary>
         /// Gets the collection of components associated with the component managed by the designer.

@@ -22,10 +22,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the ButtonSpecNavigator class.
         /// </summary>
-        public ButtonSpecNavigator()
-        {
-            ProtectedType = NavigatorToPaletteType(PaletteNavButtonSpecStyle.Generic);
-        }
+        public ButtonSpecNavigator() => ProtectedType = NavigatorToPaletteType(PaletteNavButtonSpecStyle.Generic);
+
         #endregion
 
         #region Type

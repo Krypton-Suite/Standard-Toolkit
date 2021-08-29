@@ -221,10 +221,7 @@ namespace Krypton.Toolkit
         /// Requests that all the buttons have state refreshed.
         /// </summary>
         /// <returns>True if a state change was made.</returns>
-        public bool RefreshButtons()
-        {
-            return RefreshButtons(false);
-        }
+        public bool RefreshButtons() => RefreshButtons(false);
 
         /// <summary>
         /// Requests that all the buttons have state refreshed.
@@ -422,10 +419,7 @@ namespace Krypton.Toolkit
         /// Get a tool strip renderer appropriate for the hosting control.
         /// </summary>
         /// <returns></returns>
-        public ToolStripRenderer RenderToolStrip()
-        {
-            return _getRenderer();
-        }
+        public ToolStripRenderer RenderToolStrip() => _getRenderer();
 
         /// <summary>
         /// Requests a repaint and optional layout be performed.
@@ -594,10 +588,9 @@ namespace Krypton.Toolkit
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
         public virtual PaletteRedirect CreateButtonSpecRemap(PaletteRedirect redirector,
-                                                             ButtonSpec buttonSpec)
-        {
-            return new ButtonSpecRemapByContentView(redirector, buttonSpec);
-        }
+                                                             ButtonSpec buttonSpec) =>
+            new ButtonSpecRemapByContentView(redirector, buttonSpec);
+
         #endregion
 
         #region Protected Virtual
@@ -686,14 +679,12 @@ namespace Krypton.Toolkit
         protected virtual ButtonSpecView CreateButtonSpecView(PaletteRedirect redirector,
                                                               IPaletteMetric viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
-                                                              ButtonSpec buttonSpec)
-        {
-            return new ButtonSpecView(redirector,
-                                      viewPaletteMetric,
-                                      viewMetricPadding,
-                                      this,
-                                      buttonSpec);
-        }
+                                                              ButtonSpec buttonSpec) =>
+            new ButtonSpecView(redirector,
+                viewPaletteMetric,
+                viewMetricPadding,
+                this,
+                buttonSpec);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -902,10 +893,7 @@ namespace Krypton.Toolkit
             return -1;
         }
 
-        private ViewDockStyle GetDockStyle(ButtonSpec spec)
-        {
-            return (spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right);
-        }
+        private ViewDockStyle GetDockStyle(ButtonSpec spec) => (spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right);
 
         private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,
                                                        ButtonOrientation buttonOrientation)

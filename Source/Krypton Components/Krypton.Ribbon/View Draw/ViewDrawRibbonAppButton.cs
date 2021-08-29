@@ -53,11 +53,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonAppButton:" + Id;
-        }
+            "ViewDrawRibbonAppButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -98,10 +96,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
-            return _size;
-        }
+        public override Size GetPreferredSize(ViewLayoutContext context) => _size;
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -119,7 +114,7 @@ namespace Krypton.Ribbon
             if (_bottomHalf)
             {
                 Rectangle client = ClientRectangle;
-                client.Y = client.Y - (SIZE_FULL.Height - SIZE_BOTTOM.Height);
+                client.Y -= (SIZE_FULL.Height - SIZE_BOTTOM.Height);
                 ClientRectangle = client;
             }
 

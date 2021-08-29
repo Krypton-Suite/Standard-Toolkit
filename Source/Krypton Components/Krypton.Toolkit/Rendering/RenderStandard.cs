@@ -2067,10 +2067,11 @@ namespace Krypton.Toolkit
             bool showingInPopup = ((state & PaletteState.FocusOverride) == PaletteState.FocusOverride);
             if (showingInPopup)
             {
-                state = state & ~PaletteState.FocusOverride;
+                state &= ~PaletteState.FocusOverride;
             }
 
-            switch (palette.GetRibbonBackColorStyle(state))
+            var backColorStyle = palette.GetRibbonBackColorStyle(state);
+            switch (backColorStyle)
             {
                 case PaletteRibbonColorStyle.Empty:
                     // Do nothing
@@ -2112,6 +2113,16 @@ namespace Krypton.Toolkit
                     return DrawRibbonGroupGradientTwo(context, rect, state, palette, GROUP_GRADIENT_FRAME, memento);
                 case PaletteRibbonColorStyle.RibbonGroupNormalBorder:
                     return DrawRibbonGroupNormalBorder(context, rect, state, palette, false, false, memento);
+                case PaletteRibbonColorStyle.RibbonGroupNormal:
+                    return DrawRibbonGroupNormal(showingInPopup, context, rect, state, palette, memento, false, false, false);
+                case PaletteRibbonColorStyle.RibbonGroupNormalPressedLight:
+                    return DrawRibbonGroupNormal(showingInPopup, context, rect, state, palette, memento, true, false, false);
+                case PaletteRibbonColorStyle.RibbonGroupNormalPressedDark:
+                    return DrawRibbonGroupNormal(showingInPopup, context, rect, state, palette, memento, true, false, true);
+                case PaletteRibbonColorStyle.RibbonGroupNormalTrackingLight:
+                    return DrawRibbonGroupNormal(showingInPopup, context, rect, state, palette, memento, false, true, false);
+                case PaletteRibbonColorStyle.RibbonGroupNormalTrackingDark:
+                    return DrawRibbonGroupNormal(showingInPopup, context, rect, state, palette, memento, false, true, true);
                 case PaletteRibbonColorStyle.RibbonGroupNormalBorderSep:
                     return DrawRibbonGroupNormalBorderSep(showingInPopup, context, rect, state, palette, memento, false, false, false);
                 case PaletteRibbonColorStyle.RibbonGroupNormalBorderSepPressedLight:
@@ -2183,10 +2194,8 @@ namespace Krypton.Toolkit
                                                               Rectangle rect,
                                                               IPaletteRibbonGeneral paletteGeneral,
                                                               IPaletteRibbonBack paletteBack,
-                                                              IDisposable memento)
-        {
-            return DrawRibbonTabContext(context, rect, paletteGeneral, paletteBack, memento);
-        }
+                                                              IDisposable memento) =>
+            DrawRibbonTabContext(context, rect, paletteGeneral, paletteBack, memento);
 
         /// <summary>
         /// Draw the application button.
@@ -2202,10 +2211,8 @@ namespace Krypton.Toolkit
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
-                                                                IDisposable memento)
-        {
-            return DrawRibbonAppButton(shape, context, rect, state, palette, false, memento);
-        }
+                                                                IDisposable memento) =>
+            DrawRibbonAppButton(shape, context, rect, state, palette, false, memento);
 
         /// <summary>
         /// Draw the application tab.
@@ -2223,10 +2230,8 @@ namespace Krypton.Toolkit
                                                              PaletteState state,
                                                              Color baseColor1,
                                                              Color baseColor2,
-                                                             IDisposable memento)
-        {
-            return DrawRibbonAppTab(shape, context, rect, state, baseColor1, baseColor2, memento);
-        }
+                                                             IDisposable memento) =>
+            DrawRibbonAppTab(shape, context, rect, state, baseColor1, baseColor2, memento);
 
         /// <summary>
         /// Perform drawing of a ribbon cluster edge.
@@ -5160,10 +5165,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static bool ShouldDrawImage(Image image)
-        {
-            return (image != null);
-        }
+        private static bool ShouldDrawImage(Image image) => (image != null);
 
         private static Brush CreateColorBrush(Rectangle rect,
                                               Color color1,
@@ -5947,7 +5949,7 @@ namespace Krypton.Toolkit
                 Size requiredSpace = memento.LongTextMemento.Size;
 
                 // Find the space available given our required alignment
-                var noClipIsSet = (memento.ShortTextMemento == null) 
+                var noClipIsSet = (memento.ShortTextMemento == null)
                                   || memento.ShortTextMemento.Format.FormatFlags.HasFlag(StringFormatFlags.NoClip);
                 if (AllocateAlignmentSpace(alignHIndex, alignVIndex,
                                            allocation, displayRect,
@@ -7395,7 +7397,6 @@ namespace Krypton.Toolkit
                 // Fill area inside the border with a gradient effect
                 context.Graphics.FillRectangle(cache.backBrush1, cache.backRect1);
                 context.Graphics.FillRectangle(cache.backBrush2, cache.backRect2);
-
                 // Draw the solid border around the edge
                 context.Graphics.DrawLine(cache.gradientBorderPen, cache.borderRect.X, cache.borderRect.Y, cache.borderRect.Right, cache.borderRect.Y);
                 context.Graphics.DrawLines(cache.solidBorderPen, cache.borderPoints);
@@ -8026,17 +8027,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabTracking2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonTabTracking2010)
+                if (memento is MementoRibbonTabTracking2010 tracking2010)
+                {
+                    cache = tracking2010;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabTracking2010(rect, c1, c2, c3, c4, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabTracking2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -8303,17 +8304,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabTracking2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonTabTracking2010)
+                if (memento is MementoRibbonTabTracking2010 tracking2010)
+                {
+                    cache = tracking2010;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabTracking2010(rect, c1, c2, c3, c4, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabTracking2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -8587,23 +8588,23 @@ namespace Krypton.Toolkit
             {
                 Color c1 = palette.GetRibbonBackColor1(state);
                 Color c2 = palette.GetRibbonBackColor2(state);
-                Color insideColor = Color.FromArgb(36, c2);
+                Color insideColor = c2 == Color.Transparent ? c2 : Color.FromArgb(36, c2);
 
                 bool generate = true;
                 MementoRibbonTabGlowing cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonTabGlowing)
+                if (memento is MementoRibbonTabGlowing tabGlowing)
+                {
+                    cache = tabGlowing;
+                    generate = !cache.UseCachedValues(rect, c1, c2, insideColor, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabGlowing(rect, c1, c2, insideColor, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabGlowing)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, insideColor, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -8913,17 +8914,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabSelected2007 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonTabSelected2007)
+                if (memento is MementoRibbonTabSelected2007 selected2007)
+                {
+                    cache = selected2007;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabSelected2007(rect, c1, c2, c3, c4, c5, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabSelected2007)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -9218,17 +9219,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabSelected2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonTabSelected2010)
+                if (memento is MementoRibbonTabSelected2010 selected2010)
+                {
+                    cache = selected2010;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabSelected2010(rect, c1, c2, c3, c4, c5, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabSelected2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -9591,17 +9592,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextSelected cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonTabContextSelected)
+                if (memento is MementoRibbonTabContextSelected selected)
+                {
+                    cache = selected;
+                    generate = !cache.UseCachedValues(rect, c1, c2, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabContextSelected(rect, c1, c2, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabContextSelected)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -9908,17 +9909,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabHighlight cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonTabHighlight)
+                if (memento is MementoRibbonTabHighlight highlight)
+                {
+                    cache = highlight;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabHighlight(rect, c1, c2, c3, c4, c5, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabHighlight)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -10185,17 +10186,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContext cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonTabContext)
+                if (memento is MementoRibbonTabContext tabContext)
+                {
+                    cache = tabContext;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabContext(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabContext)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -10268,19 +10269,19 @@ namespace Krypton.Toolkit
                 MementoRibbonAppButton cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonAppButton)
+                if (memento is MementoRibbonAppButton button)
+                {
+                    cache = button;
+                    generate = !cache.UseCachedValues(rect, topLight, topMedium,
+                        topDark, bottomLight, bottomMedium);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonAppButton(rect, topLight, topMedium,
-                                                       topDark, bottomLight, bottomMedium);
+                        topDark, bottomLight, bottomMedium);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonAppButton)memento;
-                    generate = !cache.UseCachedValues(rect, topLight, topMedium,
-                                                      topDark, bottomLight, bottomMedium);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -10592,17 +10593,17 @@ namespace Krypton.Toolkit
                 MementoRibbonAppTab cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonAppTab)
+                if (memento is MementoRibbonAppTab tab)
+                {
+                    cache = tab;
+                    generate = !cache.UseCachedValues(rect, baseColor1, baseColor2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonAppTab(rect, baseColor1, baseColor2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonAppTab)memento;
-                    generate = !cache.UseCachedValues(rect, baseColor1, baseColor2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -10686,6 +10687,92 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
+        protected virtual IDisposable DrawRibbonGroupNormal(bool showingInPopup,
+                                                                 RenderContext context,
+                                                                 Rectangle rect,
+                                                                 PaletteState state,
+                                                                 IPaletteRibbonBack palette,
+                                                                 IDisposable memento,
+                                                                 bool pressed,
+                                                                 bool tracking,
+                                                                 bool dark)
+        {
+            if ((rect.Width > 0) && (rect.Height > 0))
+            {
+                Color c1 = palette.GetRibbonBackColor1(state);
+                Color c2 = palette.GetRibbonBackColor2(state);
+                Color c3 = palette.GetRibbonBackColor3(state);
+                Color c4 = palette.GetRibbonBackColor4(state);
+                Color c5 = palette.GetRibbonBackColor5(state);
+
+                bool generate = true;
+                MementoRibbonGroupNormal cache;
+
+                // Access a cache instance and decide if cache resources need generating
+                if (memento is MementoRibbonGroupNormal sep)
+                {
+                    cache = sep;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, tracking, dark);
+                }
+                else
+                {
+                    memento?.Dispose();
+
+                    cache = new MementoRibbonGroupNormal(rect, c1, c2, c3, c4, c5, tracking, dark);
+                    memento = cache;
+                }
+
+                // Do we need to generate the contents of the cache?
+                if (generate)
+                {
+                    // Dispose of existing values
+                    cache.Dispose();
+
+                    GraphicsPath trackingPath = new();
+                    trackingPath.AddEllipse(new Rectangle(rect.X, rect.Y + (rect.Height / 2), rect.Width - 3, rect.Height));
+                    cache.trackHighlightBrush = new PathGradientBrush(trackingPath)
+                    {
+                        SurroundColors = new Color[] { Color.Transparent },
+                        CenterColor = cache.c3,//(dark ? (rect.Width > 50 ? _whiten60 : _whiten45) : _whiten160),
+                        CenterPoint = new PointF(rect.X + ((rect.Width - 3) / 2), rect.Height)
+                    };
+
+                    //cache.topBrush = new LinearGradientBrush(topRectF, c1, Color.Transparent, 90f);
+
+                    cache.trackFillBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 1),
+                                                                   Color.FromArgb((dark ? _whiten5 : _whiten10).A, cache.c1),
+                                                                   Color.FromArgb((dark ? _whiten5 : _darken5).A, cache.c2),
+                                                                   90f);
+
+                    cache.pressedFillBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2),
+                                                                    Color.FromArgb((dark ? Color.Empty : _whiten10).A, cache.c4),
+                                                                    Color.FromArgb((dark ? _darken38 : _darken16).A, cache.c5),
+                                                                    90f);
+                    cache.trackFillBrush.Blend = _linear50Blend;
+                }
+
+                if (pressed)
+                {
+                    // Lighten the top and darken the bottom of the fill area
+                    context.Graphics.FillRectangle(cache.pressedFillBrush, rect.X, rect.Y, rect.Width - 2, rect.Height);
+                }
+                else if (tracking)
+                {
+                    // Lighten the top and darken the bottom of the fill area
+                    context.Graphics.FillRectangle(cache.trackFillBrush, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+
+                    // Draw the tracking highlight at bottom of area
+                    context.Graphics.FillRectangle(cache.trackHighlightBrush, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+                }
+            }
+
+            return memento;
+        }
+
+
+        /// <summary>
+        /// Internal rendering method.
+        /// </summary>
         protected virtual IDisposable DrawRibbonGroupNormalBorder(RenderContext context,
                                                                   Rectangle rect,
                                                                   PaletteState state,
@@ -10703,17 +10790,17 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupNormalBorder cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonGroupNormalBorder)
+                if (memento is MementoRibbonGroupNormalBorder border)
+                {
+                    cache = border;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonGroupNormalBorder(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonGroupNormalBorder)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -10797,6 +10884,7 @@ namespace Krypton.Toolkit
             return memento;
         }
 
+
         /// <summary>
         /// Internal rendering method.
         /// </summary>
@@ -10822,17 +10910,17 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupNormalBorderSep cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonGroupNormalBorderSep)
+                if (memento is MementoRibbonGroupNormalBorderSep sep)
+                {
+                    cache = sep;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, tracking, dark);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonGroupNormalBorderSep(rect, c1, c2, c3, c4, c5, tracking, dark);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonGroupNormalBorderSep)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, tracking, dark);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -10843,66 +10931,39 @@ namespace Krypton.Toolkit
 
                     RectangleF rectF = new(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
                     cache.totalBrush = new LinearGradientBrush(rectF, c2, c1, 90f);
+
                     cache.innerBrush = new LinearGradientBrush(rectF, c4, c3, 90f);
                     cache.trackSepBrush = new LinearGradientBrush(rectF, c5, c2, 90f);
+
                     cache.totalBrush.Blend = _ribbonGroup9Blend;
                     cache.innerBrush.Blend = _ribbonGroup9Blend;
                     cache.trackSepBrush.Blend = _ribbonGroup9Blend;
                     cache.innerPen = new Pen(cache.innerBrush);
                     cache.trackSepPen = new Pen(cache.trackSepBrush);
                     cache.trackBottomPen = new Pen(c5);
-
-                    GraphicsPath trackingPath = new();
-                    trackingPath.AddEllipse(new Rectangle(rect.X, rect.Y + (rect.Height / 2), rect.Width - 3, rect.Height));
-                    cache.trackHighlightBrush = new PathGradientBrush(trackingPath)
-                    {
-                        SurroundColors = new Color[] { Color.Transparent },
-                        CenterColor = (dark ? (rect.Width > 50 ? _whiten60 : _whiten45) : _whiten160),
-                        CenterPoint = new PointF(rect.X + ((rect.Width - 3) / 2), rect.Height)
-                    };
-                    cache.trackFillBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 1),
-                                                                   (dark ? _whiten5 : _whiten10),
-                                                                   (dark ? _whiten5 : _darken5), 90f);
-
-                    cache.pressedFillBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2),
-                                                                    (dark ? Color.Empty : _whiten10),
-                                                                    (dark ? _darken38 : _darken16), 90f);
-                    cache.trackFillBrush.Blend = _linear50Blend;
                 }
 
                 if (!showingInPopup)
                 {
-                    context.Graphics.FillRectangle(cache.totalBrush, rect.Right - 3, rect.Top, 3, rect.Height);
+                    context.Graphics.FillRectangle(cache.totalBrush, rect.Right - 3, rect.Top, 3, rect.Height - 1);
                     context.Graphics.DrawLine(cache.innerPen, rect.Right - 2, rect.Top, rect.Right - 2, rect.Bottom - 1);
-                }
 
-                if (tracking || pressed)
-                {
-
-                    if (pressed)
+                    if (tracking || pressed)
                     {
-                        // Lighent the top and darken the bottom of the fill area
-                        context.Graphics.FillRectangle(cache.pressedFillBrush, rect.X, rect.Y, rect.Width - 2, rect.Height);
-                    }
-                    else if (tracking)
-                    {
-                        // Lighten the top and darken the bottom of the fill area
-                        context.Graphics.FillRectangle(cache.trackFillBrush, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
 
-                        // Draw the tracking highlight at bottom of area
-                        context.Graphics.FillRectangle(cache.trackHighlightBrush, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
-                    }
+                        if (!pressed && !dark)
+                        {
+                            // Lighten the right inner edge
+                            context.Graphics.DrawLine(cache.trackSepPen, rect.Right - 3, rect.Top, rect.Right - 3,
+                                rect.Bottom - 1);
+                        }
 
-                    if (!showingInPopup && !pressed && !dark)
-                    {
-                        // Lighten the right inner edge
-                        context.Graphics.DrawLine(cache.trackSepPen, rect.Right - 3, rect.Top, rect.Right - 3, rect.Bottom - 1);
-                    }
-
-                    if (!showingInPopup && tracking)
-                    {
-                        // Lighten the bottom inner edge
-                        context.Graphics.DrawLine(cache.trackBottomPen, rect.Right - 3, rect.Bottom - 1, rect.Left, rect.Bottom - 1);
+                        if (tracking)
+                        {
+                            // Lighten the bottom inner edge
+                            context.Graphics.DrawLine(cache.trackBottomPen, rect.Right - 3, rect.Bottom - 1, rect.Left,
+                                rect.Bottom - 1);
+                        }
                     }
                 }
             }
@@ -10928,17 +10989,17 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupNormalTitle cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonGroupNormalTitle)
+                if (memento is MementoRibbonGroupNormalTitle title)
+                {
+                    cache = title;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonGroupNormalTitle(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonGroupNormalTitle)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -10990,17 +11051,17 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupCollapsedBorder cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonGroupCollapsedBorder)
+                if (memento is MementoRibbonGroupCollapsedBorder border)
+                {
+                    cache = border;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonGroupCollapsedBorder(rect, c1, c2, c3, c4);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonGroupCollapsedBorder)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11073,17 +11134,17 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupCollapsedFrameBorder cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonGroupCollapsedFrameBorder)
+                if (memento is MementoRibbonGroupCollapsedFrameBorder border)
+                {
+                    cache = border;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonGroupCollapsedFrameBorder(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonGroupCollapsedFrameBorder)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11140,17 +11201,17 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupGradientOne cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonGroupGradientOne)
+                if (memento is MementoRibbonGroupGradientOne one)
+                {
+                    cache = one;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonGroupGradientOne(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonGroupGradientOne)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11194,17 +11255,17 @@ namespace Krypton.Toolkit
                 MementoRibbonGroupGradientTwo cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonGroupGradientTwo)
+                if (memento is MementoRibbonGroupGradientTwo two)
+                {
+                    cache = two;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonGroupGradientTwo(rect, c1, c2, c3, c4);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonGroupGradientTwo)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11255,17 +11316,17 @@ namespace Krypton.Toolkit
                 MementoRibbonQATMinibar cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonQATMinibar)
+                if (memento is MementoRibbonQATMinibar minibar)
+                {
+                    cache = minibar;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonQATMinibar(rect, c1, c2, c3, c4, c5);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonQATMinibar)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11383,17 +11444,17 @@ namespace Krypton.Toolkit
                 MementoRibbonQATMinibar cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonQATMinibar)
+                if (memento is MementoRibbonQATMinibar minibar)
+                {
+                    cache = minibar;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonQATMinibar(rect, c1, c2, c3, c4, c5);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonQATMinibar)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11503,17 +11564,17 @@ namespace Krypton.Toolkit
                 MementoRibbonLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonLinear)
+                if (memento is MementoRibbonLinear linear)
+                {
+                    cache = linear;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonLinear(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonLinear)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11549,17 +11610,17 @@ namespace Krypton.Toolkit
                 MementoRibbonLinearBorder cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonLinearBorder)
+                if (memento is MementoRibbonLinearBorder border)
+                {
+                    cache = border;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonLinearBorder(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonLinearBorder)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11609,17 +11670,17 @@ namespace Krypton.Toolkit
                 MementoRibbonAppButtonInner cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonAppButtonInner)
+                if (memento is MementoRibbonAppButtonInner inner)
+                {
+                    cache = inner;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonAppButtonInner(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonAppButtonInner)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11660,17 +11721,17 @@ namespace Krypton.Toolkit
                 MementoRibbonAppButtonOuter cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonAppButtonOuter)
+                if (memento is MementoRibbonAppButtonOuter outer)
+                {
+                    cache = outer;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonAppButtonOuter(rect, c1, c2, c3);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonAppButtonOuter)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11725,17 +11786,17 @@ namespace Krypton.Toolkit
                 MementoRibbonQATFullbarRound cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonQATFullbarRound)
+                if (memento is MementoRibbonQATFullbarRound round)
+                {
+                    cache = round;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonQATFullbarRound(rect, c1, c2, c3);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonQATFullbarRound)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11809,17 +11870,17 @@ namespace Krypton.Toolkit
                 MementoRibbonQATFullbarSquare cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonQATFullbarSquare)
+                if (memento is MementoRibbonQATFullbarSquare square)
+                {
+                    cache = square;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonQATFullbarSquare(rect, c1, c2, c3);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonQATFullbarSquare)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11866,17 +11927,17 @@ namespace Krypton.Toolkit
                 MementoRibbonQATOverflow cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonQATOverflow)
+                if (memento is MementoRibbonQATOverflow overflow)
+                {
+                    cache = overflow;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonQATOverflow(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonQATOverflow)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -11947,7 +12008,7 @@ namespace Krypton.Toolkit
             public VisualOrientation Orientation;
 
             /// <summary>
-            /// Inititialize a new instance of the StandardContentMemento class.
+            /// Initialise a new instance of the StandardContentMemento class.
             /// </summary>
             public StandardContentMemento()
             {

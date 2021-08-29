@@ -107,10 +107,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns the current value of the editing control.
         /// </summary>
-        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
-        {
-            return Text;
-        }
+        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => Text;
 
         /// <summary>
         /// Called by the grid to give the editing control a chance to prepare itself for the editing session.
@@ -150,10 +147,8 @@ namespace Krypton.Toolkit
         /// A few keyboard messages need to be forwarded to the inner textbox of the
         /// KryptonComboBox control so that the first character pressed appears in it.
         /// </summary>
-        protected override bool ProcessKeyEventArgs(ref Message m)
-        {
-            return base.ProcessKeyEventArgs(ref m);
-        }
+        protected override bool ProcessKeyEventArgs(ref Message m) => base.ProcessKeyEventArgs(ref m);
+
         #endregion
 
         #region Private

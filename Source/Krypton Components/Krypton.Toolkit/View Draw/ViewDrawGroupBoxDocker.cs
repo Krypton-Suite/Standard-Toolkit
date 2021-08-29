@@ -31,20 +31,17 @@ namespace Krypton.Toolkit
         /// <param name="paletteBorder">Palette source for the border.</param>
         public ViewDrawGroupBoxDocker(IPaletteBack paletteBack,
                                       IPaletteBorder paletteBorder)
-            : base(paletteBack, paletteBorder)
-        {
+            : base(paletteBack, paletteBorder) =>
             CaptionOverlap = 0.5;
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawGroupBoxDocker:" + Id;
-        }
+            "ViewDrawGroupBoxDocker:" + Id;
+
         #endregion
 
         #region CaptionOverlap
@@ -69,10 +66,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint(ViewContext context)
-        {
-            return true;
-        }
+        public override bool EvalTransparentPaint(ViewContext context) => true;
+
         #endregion
 
         #region Paint

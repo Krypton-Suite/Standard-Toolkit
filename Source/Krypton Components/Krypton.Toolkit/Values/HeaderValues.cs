@@ -38,19 +38,14 @@ namespace Krypton.Toolkit
         /// Gets the default heading value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetHeadingDefault()
-        {
-            return _defaultHeading;
-        }
+        protected override string GetHeadingDefault() => _defaultHeading;
 
         /// <summary>
         /// Gets the default description value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetDescriptionDefault()
-        {
-            return _defaultDescription;
-        }
+        protected override string GetDescriptionDefault() => _defaultDescription;
+
         #endregion
     }
 }

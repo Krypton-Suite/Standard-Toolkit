@@ -84,10 +84,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedNormal { get; }
 
-        private bool ShouldSerializeStateCheckedNormal()
-        {
-            return !StateCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the hot tracking checked button appearance entries.
@@ -97,10 +94,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedTracking { get; }
 
-        private bool ShouldSerializeStateCheckedTracking()
-        {
-            return !StateCheckedTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedTracking() => !StateCheckedTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed checked button appearance entries.
@@ -110,10 +104,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedPressed { get; }
 
-        private bool ShouldSerializeStateCheckedPressed()
-        {
-            return !StateCheckedPressed.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedPressed() => !StateCheckedPressed.IsDefault;
 
         /// <summary>
         /// Gets or sets a value indicating whether the KryptonCheckButton is in the checked state. 

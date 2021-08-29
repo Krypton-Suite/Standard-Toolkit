@@ -39,19 +39,14 @@ namespace Krypton.Workspace
         /// Initialize a new instance of the StarNumber class.
         /// </summary>
         /// <param name="value">Initial value to process.</param>
-        public StarNumber(string value)
-        {
-            Value = value;
-        }
+        public StarNumber(string value) => Value = value;
 
         /// <summary>
         /// Gets a string representing the value of the instance.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return Value;
-        }
+        public override string ToString() => Value;
+
         #endregion
 
         #region Public

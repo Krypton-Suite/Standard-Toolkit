@@ -288,10 +288,8 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
-        {
-            return Captured;
-        }
+        public virtual bool KeyUp(Control c, KeyEventArgs e) => Captured;
+
         #endregion
 
         #region Source Notifications

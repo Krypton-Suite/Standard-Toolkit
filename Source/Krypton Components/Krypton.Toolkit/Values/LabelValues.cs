@@ -90,10 +90,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return Image != null;
-        }
+        private bool ShouldSerializeImage() => Image != null;
 
         /// <summary>
         /// Resets the Image property to its default value.
@@ -108,10 +105,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return Image;
-        }
+        public Image GetImage(PaletteState state) => Image;
+
         #endregion
 
         #region ImageTransparentColor
@@ -137,10 +132,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return ImageTransparentColor != Color.Empty;
-        }
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
@@ -155,10 +147,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image color is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return ImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
+
         #endregion
 
         #region Text
@@ -185,10 +175,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeText()
-        {
-            return Text != _defaultText;
-        }
+        private bool ShouldSerializeText() => Text != _defaultText;
 
         /// <summary>
         /// Resets the Text property to its default value.
@@ -201,10 +188,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the content short text.
         /// </summary>
-        public string GetShortText()
-        {
-            return Text;
-        }
+        public string GetShortText() => Text;
+
         #endregion
 
         #region ExtraText
@@ -231,10 +216,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeExtraText()
-        {
-            return ExtraText != _defaultExtraText;
-        }
+        private bool ShouldSerializeExtraText() => ExtraText != _defaultExtraText;
 
         /// <summary>
         /// Resets the Description property to its default value.
@@ -248,10 +230,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the content long text.
         /// </summary>
-        public string GetLongText()
-        {
-            return ExtraText;
-        }
+        public string GetLongText() => ExtraText;
+
         #endregion
     }
 }

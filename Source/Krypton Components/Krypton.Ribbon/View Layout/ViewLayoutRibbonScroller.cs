@@ -74,11 +74,10 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonScroller:" + Id;
-        }
+            "ViewLayoutRibbonScroller:" + Id;
+
         #endregion
 
         #region Orientation
@@ -102,11 +101,9 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
+        public override Size GetPreferredSize(ViewLayoutContext context) =>
             // Always return the same minimum size
-            return new Size(SCROLLER_LENGTH + GAP_LENGTH, SCROLLER_LENGTH + GAP_LENGTH);
-        }
+            new Size(SCROLLER_LENGTH + GAP_LENGTH, SCROLLER_LENGTH + GAP_LENGTH);
 
         /// <summary>
         /// Perform a layout of the elements.

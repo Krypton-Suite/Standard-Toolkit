@@ -36,11 +36,10 @@ namespace Krypton.Navigator
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawNavCheckButtonStack:" + Id;
-        }
+            "ViewDrawNavCheckButtonStack:" + Id;
+
         #endregion
 
         #region UpdateButtonSpecMapping
@@ -61,28 +60,20 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image GetImage(PaletteState state)
-        {
-            return Page.GetImageMapping(Navigator.Stack.StackMapImage);
-        }
+        public override Image GetImage(PaletteState state) => Page.GetImageMapping(Navigator.Stack.StackMapImage);
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetShortText()
-        {
-            return Page.GetTextMapping(Navigator.Stack.StackMapText);
-        }
+        public override string GetShortText() => Page.GetTextMapping(Navigator.Stack.StackMapText);
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetLongText()
-        {
-            return Page.GetTextMapping(Navigator.Stack.StackMapExtraText);
-        }
+        public override string GetLongText() => Page.GetTextMapping(Navigator.Stack.StackMapExtraText);
+
         #endregion
     }
 }

@@ -84,11 +84,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupLabel:" + Id;
-        }
+            "ViewDrawRibbonGroupLabel:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -129,11 +127,10 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
-        {
+        public ViewBase GetFirstFocusItem() =>
             // A label can never have the focus
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetLastFocusItem
@@ -141,11 +138,10 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
-        {
+        public ViewBase GetLastFocusItem() =>
             // A label can never have the focus
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetNextFocusItem
@@ -155,11 +151,10 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
-        {
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched) =>
             // We have nothing to provide even if we are the selected item
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetPreviousFocusItem
@@ -169,11 +164,10 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
-        {
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched) =>
             // We have nothing to provide even if we are the selected item
-            return null;
-        }
+            null;
+
         #endregion
 
         #region GetGroupKeyTips

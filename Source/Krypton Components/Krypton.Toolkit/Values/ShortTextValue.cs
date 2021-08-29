@@ -31,10 +31,8 @@ namespace Krypton.Toolkit
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetShortText()
-        {
-            return ShortText;
-        }
+        public override string GetShortText() => ShortText;
+
         #endregion
     }
 }

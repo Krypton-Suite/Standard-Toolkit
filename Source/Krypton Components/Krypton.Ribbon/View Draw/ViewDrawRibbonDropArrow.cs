@@ -41,11 +41,10 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonDropArrow:" + Id;
-        }
+            "ViewDrawRibbonDropArrow:" + Id;
+
         #endregion
 
         #region Layout
@@ -53,10 +52,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
-            return _arrowSize;
-        }
+        public override Size GetPreferredSize(ViewLayoutContext context) => _arrowSize;
 
         /// <summary>
         /// Perform a layout of the elements.

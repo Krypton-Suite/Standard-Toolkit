@@ -64,16 +64,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoDouble cache;
 
-            if (memento is not MementoDouble)
+            if (memento is MementoDouble mementoDouble)
+            {
+                cache = mementoDouble;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoDouble();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoDouble)memento;
             }
 
             cache.first = DrawBackExpert(rect, 
@@ -112,17 +112,17 @@ namespace Krypton.Toolkit
                 MementoBackExpertShadow cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoBackExpertShadow)
+                if (memento is MementoBackExpertShadow expertShadow)
+                {
+                    cache = expertShadow;
+                    generate = !cache.UseCachedValues(rect, backColor1, backColor2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoBackExpertShadow(rect, backColor1, backColor2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoBackExpertShadow)memento;
-                    generate = !cache.UseCachedValues(rect, backColor1, backColor2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -197,16 +197,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoDouble cache;
 
-            if (memento is not MementoDouble)
+            if (memento is MementoDouble mementoDouble)
+            {
+                cache = mementoDouble;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoDouble();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoDouble)memento;
             }
 
             cache.first = DrawBackExpert(rect,
@@ -247,17 +247,17 @@ namespace Krypton.Toolkit
                 MementoBackExpertSquareHighlight cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoBackExpertSquareHighlight)
+                if (memento is MementoBackExpertSquareHighlight highlight)
+                {
+                    cache = highlight;
+                    generate = !cache.UseCachedValues(rect, backColor1, backColor2, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoBackExpertSquareHighlight(rect, backColor1, backColor2, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoBackExpertSquareHighlight)memento;
-                    generate = !cache.UseCachedValues(rect, backColor1, backColor2, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -333,17 +333,17 @@ namespace Krypton.Toolkit
                 MementoBackSolid cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoBackSolid)
+                if (memento is MementoBackSolid backSolid)
+                {
+                    cache = backSolid;
+                    generate = !cache.UseCachedValues(drawRect, color1);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoBackSolid(drawRect, color1);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoBackSolid)memento;
-                    generate = !cache.UseCachedValues(drawRect, color1);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -379,17 +379,17 @@ namespace Krypton.Toolkit
                 MementoBackExpertChecked cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoBackExpertChecked)
+                if (memento is MementoBackExpertChecked expertChecked)
+                {
+                    cache = expertChecked;
+                    generate = !cache.UseCachedValues(drawRect, color1, color2, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoBackExpertChecked(drawRect, color1, color2, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoBackExpertChecked)memento;
-                    generate = !cache.UseCachedValues(drawRect, color1, color2, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?

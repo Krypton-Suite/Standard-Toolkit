@@ -27,10 +27,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the SplitterMoveRectMenuArgs class.
         /// </summary>
         /// <param name="moveRect">Initial movement rectangle that limits separator movements.</param>
-        public SplitterMoveRectMenuArgs(Rectangle moveRect)
-        {
-            MoveRect = moveRect;
-        }
+        public SplitterMoveRectMenuArgs(Rectangle moveRect) => MoveRect = moveRect;
+
         #endregion
 
         #region Public

@@ -79,11 +79,10 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonDesignGroupTriple:" + Id;
-        }
+            "ViewDrawRibbonDesignGroupTriple:" + Id;
+
         #endregion
 
         #region CurrentSize
@@ -99,10 +98,7 @@ namespace Krypton.Ribbon
         /// Gets the short text used as the main ribbon title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public override string GetShortText()
-        {
-            return "Item";
-        }
+        public override string GetShortText() => "Item";
 
         /// <summary>
         /// Gets the padding to use when calculating the preferred size.

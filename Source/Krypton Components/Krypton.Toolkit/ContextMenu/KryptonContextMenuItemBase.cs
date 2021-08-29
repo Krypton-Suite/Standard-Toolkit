@@ -36,10 +36,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuItem class.
         /// </summary>
-        public KryptonContextMenuItemBase()
-        {
-            _visible = true;
-        }
+        public KryptonContextMenuItemBase() => _visible = true;
+
         #endregion
 
         #region Public
@@ -107,7 +105,7 @@ namespace Krypton.Toolkit
                 if (_visible != value)
                 {
                     _visible = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Visible"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Visible)));
                 }
             }
         }

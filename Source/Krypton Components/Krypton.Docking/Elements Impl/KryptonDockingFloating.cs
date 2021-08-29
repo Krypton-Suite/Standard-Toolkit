@@ -31,10 +31,9 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the element.</param>
         /// <param name="ownerForm">Reference to form that will own all the floating windows.</param>
         public KryptonDockingFloating(string name, Form ownerForm)
-            : base(name)
-        {
+            : base(name) =>
             OwnerForm = ownerForm ?? throw new ArgumentNullException("owner");
-        }
+
         #endregion
 
         #region Public
@@ -47,31 +46,23 @@ namespace Krypton.Docking
         /// Create and add a new floating window.
         /// </summary>
         /// <returns>Reference to docking element that handles the new workspace.</returns>
-        public KryptonDockingFloatingWindow AddFloatingWindow()
-        {
+        public KryptonDockingFloatingWindow AddFloatingWindow() =>
             // Generate a unique string by creating a GUID
-            return AddFloatingWindow(CommonHelper.UniqueString);
-        }
+            AddFloatingWindow(CommonHelper.UniqueString);
 
         /// <summary>
         /// Create and add a new floating window.
         /// </summary>
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <returns>Reference to docking element that handles the new workspace.</returns>
-        public KryptonDockingFloatingWindow AddFloatingWindow(string name)
-        {
-            return CreateFloatingWindow(name);
-        }
+        public KryptonDockingFloatingWindow AddFloatingWindow(string name) => CreateFloatingWindow(name);
 
         /// <summary>
         /// Find a floating docking element by searching the hierarchy.
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
         /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
-        public override KryptonDockingFloating FindDockingFloating(string uniqueName)
-        {
-            return this;
-        }
+        public override KryptonDockingFloating FindDockingFloating(string uniqueName) => this;
 
         /// <summary>
         /// Return the floating window element that contains a placeholder for the named page.

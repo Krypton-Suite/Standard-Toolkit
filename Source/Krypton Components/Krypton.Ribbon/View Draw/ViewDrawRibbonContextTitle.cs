@@ -64,11 +64,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonContextTitle:" + Id;
-        }
+            "ViewDrawRibbonContextTitle:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -141,11 +139,9 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
+        public override Size GetPreferredSize(ViewLayoutContext context) =>
             // We have no preference, just set our size to whatever is needed
-            return Size.Empty;
-        }
+            Size.Empty;
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -322,10 +318,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
-        {
-            return PaletteRibbonColorStyle.RibbonGroupAreaBorder;
-        }
+        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => PaletteRibbonColorStyle.RibbonGroupAreaBorder;
 
         /// <summary>
         /// Gets the first background color for the ribbon item.
@@ -514,11 +507,10 @@ namespace Krypton.Ribbon
 
         private bool DrawOnComposition => _ribbon != null && _ribbon.CaptionArea.DrawCaptionOnComposition;
 
-        private Color CheckForContextColor(PaletteState state)
-        {
+        private Color CheckForContextColor(PaletteState state) =>
             // We need an associated context
-            return _context?.ContextColor ?? Color.Empty;
-        }
+            _context?.ContextColor ?? Color.Empty;
+
         #endregion
 
         #region IContentValues

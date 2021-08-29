@@ -68,11 +68,11 @@ namespace Krypton.Toolkit
                                                    bool composition,
                                                    IDisposable memento)
         {
-            // Note is the incoming state is detailed we are drawing inside a popip
+            // Note is the incoming state is detailed we are drawing inside a popup
             bool showingInPopup = ((state & PaletteState.FocusOverride) == PaletteState.FocusOverride);
             if (showingInPopup)
             {
-                state = state & ~PaletteState.FocusOverride;
+                state &= ~PaletteState.FocusOverride;
             }
 
             return palette.GetRibbonBackColorStyle(state) switch
@@ -98,10 +98,8 @@ namespace Krypton.Toolkit
                                                               Rectangle rect,
                                                               IPaletteRibbonGeneral paletteGeneral,
                                                               IPaletteRibbonBack paletteBack,
-                                                              IDisposable memento)
-        {
-            return DrawRibbonTabContext(context, rect, paletteGeneral, paletteBack, memento);
-        }
+                                                              IDisposable memento) =>
+            DrawRibbonTabContext(context, rect, paletteGeneral, paletteBack, memento);
 
         /// <summary>
         /// Draw the application button.
@@ -117,10 +115,8 @@ namespace Krypton.Toolkit
                                                                 Rectangle rect,
                                                                 PaletteState state,
                                                                 IPaletteRibbonBack palette,
-                                                                IDisposable memento)
-        {
-            return DrawRibbonAppButton(shape, context, rect, state, palette, true, memento);
-        }
+                                                                IDisposable memento) =>
+            DrawRibbonAppButton(shape, context, rect, state, palette, true, memento);
 
         /// <summary>
         /// Perform drawing of a ribbon drop arrow glyph.
@@ -336,17 +332,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonTabContextOffice)
+                if (memento is MementoRibbonTabContextOffice office)
+                {
+                    cache = office;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabContextOffice(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabContextOffice)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?

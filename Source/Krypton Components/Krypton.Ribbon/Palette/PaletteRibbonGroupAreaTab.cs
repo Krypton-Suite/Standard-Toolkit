@@ -30,11 +30,10 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonGroupAreaTab(PaletteRibbonRedirect inherit,
                                          NeedPaintHandler needPaint)
-            : base(inherit, needPaint)
-        {
+            : base(inherit, needPaint) =>
             // Create storage that maps onto the inherit instances
-            _ribbonGroupArea = new PaletteRibbonBack(inherit.RibbonGroupArea, needPaint);
-        }
+            _ribbonGroupArea = new PaletteRibbonBack(inherit.RibbonGroupBackArea, needPaint);
+
         #endregion
 
         #region IsDefault
@@ -61,12 +60,12 @@ namespace Krypton.Ribbon
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public override void SetInherit(PaletteRibbonRedirect inherit)
         {
             base.SetInherit(inherit);
-            _ribbonGroupArea.SetInherit(inherit.RibbonGroupArea);
+            _ribbonGroupArea.SetInherit(inherit.RibbonGroupBackArea);
         }
         #endregion
 
@@ -79,10 +78,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupArea => _ribbonGroupArea;
 
-        private bool ShouldSerializeRibbonGroupArea()
-        {
-            return !_ribbonGroupArea.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupArea() => !_ribbonGroupArea.IsDefault;
+
         #endregion
     }
 }

@@ -77,11 +77,9 @@ namespace Krypton.Toolkit
                                  Form form,
                                  Rectangle formRect,
                                  IRenderer renderer)
-            : base(manager, form, form, null, renderer)
-        {
+            : base(manager, form, form, null, renderer) =>
             // The initial display rectangle is the provided size
             DisplayRectangle = new Rectangle(Point.Empty, formRect.Size);
-        }
 
         /// <summary>
         /// Initialize a new instance of the ViewContext class.
@@ -98,11 +96,10 @@ namespace Krypton.Toolkit
                                  Graphics graphics,
                                  IRenderer renderer,
                                  Size displaySize)
-            : base(manager, control, alignControl, graphics, renderer)
-        {
+            : base(manager, control, alignControl, graphics, renderer) =>
             // The initial display rectangle is the provided size
             DisplayRectangle = new Rectangle(Point.Empty, displaySize);
-        }
+
         #endregion
 
         #region Public Properties

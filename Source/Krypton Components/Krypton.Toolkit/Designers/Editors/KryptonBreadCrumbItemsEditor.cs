@@ -41,10 +41,8 @@ namespace Krypton.Toolkit
                 /// Initialize a new instance of the KryptonBreadCrumbItem class.
                 /// </summary>
                 /// <param name="item">Item to act as proxy for.</param>
-                public CrumbProxy(KryptonBreadCrumbItem item)
-                {
-                    _item = item;
-                }
+                public CrumbProxy(KryptonBreadCrumbItem item) => _item = item;
+
                 #endregion
 
                 #region ShortText
@@ -907,10 +905,8 @@ namespace Krypton.Toolkit
         /// Creates a new form to display and edit the current collection.
         /// </summary>
         /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-        protected override CollectionForm CreateCollectionForm()
-        {
-            return new KryptonBreadCrumbItemsForm(this);
-        }
+        protected override CollectionForm CreateCollectionForm() => new KryptonBreadCrumbItemsForm(this);
+
         #endregion
     }
 }

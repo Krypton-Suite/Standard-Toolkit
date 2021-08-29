@@ -291,10 +291,7 @@ namespace Krypton.Workspace
         /// Decide if the shortcut for closing the current page.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutClose()
-        {
-            return !ShortcutClose.Equals(DEFAULT_SHORTCUT_CLOSE);
-        }
+        protected bool ShouldSerializeShortcutClose() => !ShortcutClose.Equals(DEFAULT_SHORTCUT_CLOSE);
 
         /// <summary>
         /// Resets the ShortcutClose property to its default value.
@@ -318,10 +315,7 @@ namespace Krypton.Workspace
         /// Decide if the shortcut for 'close all but this' page.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutCloseAllButThis()
-        {
-            return !ShortcutCloseAllButThis.Equals(DEFAULT_SHORTCUT_CLOSE_ALL_BUT_THIS);
-        }
+        protected bool ShouldSerializeShortcutCloseAllButThis() => !ShortcutCloseAllButThis.Equals(DEFAULT_SHORTCUT_CLOSE_ALL_BUT_THIS);
 
         /// <summary>
         /// Resets the ShortcutCloseAllButThis property to its default value.
@@ -345,10 +339,7 @@ namespace Krypton.Workspace
         /// Decide if the shortcut for moving the current page to the next cell.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutMoveNext()
-        {
-            return !ShortcutMoveNext.Equals(DEFAULT_SHORTCUT_MOVE_NEXT);
-        }
+        protected bool ShouldSerializeShortcutMoveNext() => !ShortcutMoveNext.Equals(DEFAULT_SHORTCUT_MOVE_NEXT);
 
         /// <summary>
         /// Resets the ShortcutMoveNext property to its default value.
@@ -372,10 +363,7 @@ namespace Krypton.Workspace
         /// Decide if the shortcut for moving the current page to the previous cell.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutMovePrevious()
-        {
-            return !ShortcutMovePrevious.Equals(DEFAULT_SHORTCUT_MOVE_PREVIOUS);
-        }
+        protected bool ShouldSerializeShortcutMovePrevious() => !ShortcutMovePrevious.Equals(DEFAULT_SHORTCUT_MOVE_PREVIOUS);
 
         /// <summary>
         /// Resets the ShortcutMovePrevious property to its default value.
@@ -399,10 +387,7 @@ namespace Krypton.Workspace
         /// Decide if the shortcut for splitting the current page into a vertical aligned page.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutSplitVertical()
-        {
-            return !ShortcutSplitVertical.Equals(DEFAULT_SHORTCUT_SPLIT_VERTICAL);
-        }
+        protected bool ShouldSerializeShortcutSplitVertical() => !ShortcutSplitVertical.Equals(DEFAULT_SHORTCUT_SPLIT_VERTICAL);
 
         /// <summary>
         /// Resets the ShortcutSplitVertical property to its default value.
@@ -426,10 +411,7 @@ namespace Krypton.Workspace
         /// Decide if the shortcut for splitting the current page into a horizontal aligned page.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutSplitHorizontal()
-        {
-            return !ShortcutSplitHorizontal.Equals(DEFAULT_SHORTCUT_SPLIT_HORIZONTAL);
-        }
+        protected bool ShouldSerializeShortcutSplitHorizontal() => !ShortcutSplitHorizontal.Equals(DEFAULT_SHORTCUT_SPLIT_HORIZONTAL);
 
         /// <summary>
         /// Resets the ShortcutSplitHorizontal property to its default value.
@@ -453,10 +435,7 @@ namespace Krypton.Workspace
         /// Decide if the shortcut for rebalancing the layout.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutRebalance()
-        {
-            return !ShortcutRebalance.Equals(DEFAULT_SHORTCUT_REBALANCE);
-        }
+        protected bool ShouldSerializeShortcutRebalance() => !ShortcutRebalance.Equals(DEFAULT_SHORTCUT_REBALANCE);
 
         /// <summary>
         /// Resets the ShortcutRebalance property to its default value.
@@ -480,10 +459,7 @@ namespace Krypton.Workspace
         /// Decide if the shortcut for maximizing/restoring the layout.
         /// </summary>
         /// <returns>True if value should be serialized.</returns>
-        protected bool ShouldSerializeShortcutMaximizeRestore()
-        {
-            return !ShortcutMaximizeRestore.Equals(DEFAULT_SHORTCUT_MAXIMIZE_RESTORE);
-        }
+        protected bool ShouldSerializeShortcutMaximizeRestore() => !ShortcutMaximizeRestore.Equals(DEFAULT_SHORTCUT_MAXIMIZE_RESTORE);
 
         /// <summary>
         /// Resets the ShortcutMaximizeRestore property to its default value.

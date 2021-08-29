@@ -95,10 +95,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetBorderDraw(PaletteState state)
-        {
-            return _inherit.GetBorderDraw(state);
-        }
+        public override InheritBool GetBorderDraw(PaletteState state) => _inherit.GetBorderDraw(state);
 
         /// <summary>
         /// Gets a value indicating which borders to draw.

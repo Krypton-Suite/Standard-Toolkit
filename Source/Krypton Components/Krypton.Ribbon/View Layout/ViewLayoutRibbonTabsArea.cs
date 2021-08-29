@@ -168,11 +168,10 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonTabsArea:" + Id;
-        }
+            "ViewLayoutRibbonTabsArea:" + Id;
+
         #endregion
 
         #region HookToolTipHandling
@@ -782,7 +781,7 @@ namespace Krypton.Ribbon
             {
                 // Do not show tooltips when the form we are in does not have focus
                 Form topForm = _ribbon.FindForm();
-                if ((topForm != null) && !topForm.ContainsFocus)
+                if (topForm is { ContainsFocus: false })
                 {
                     return;
                 }

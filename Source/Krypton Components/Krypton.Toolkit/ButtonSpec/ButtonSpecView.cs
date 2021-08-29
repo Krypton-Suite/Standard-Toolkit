@@ -318,42 +318,35 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            // Get value from button spec passing inheritence redirector
-            return ButtonSpec.GetImage(_redirector, state);
-        }
+        public Image GetImage(PaletteState state) =>
+            // Get value from button spec passing inheritance redirector
+            ButtonSpec.GetImage(_redirector, state);
 
         /// <summary>
         /// Gets the content image transparent color.
         /// </summary>
         /// <param name="state">The state for which the image color is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            // Get value from button spec passing inheritence redirector
-            return ButtonSpec.GetImageTransparentColor(_redirector);
-        }
+        public Color GetImageTransparentColor(PaletteState state) =>
+            // Get value from button spec passing inheritance redirector
+            ButtonSpec.GetImageTransparentColor(_redirector);
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            // Get value from button spec passing inheritence redirector
-            return ButtonSpec.GetShortText(_redirector);
-        }
+        public string GetShortText() =>
+            // Get value from button spec passing inheritance redirector
+            ButtonSpec.GetShortText(_redirector);
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            // Get value from button spec passing inheritence redirector
-            return ButtonSpec.GetLongText(_redirector);
-        }
+        public string GetLongText() =>
+            // Get value from button spec passing inheritance redirector
+            ButtonSpec.GetLongText(_redirector);
+
         #endregion
 
         #region Implementation

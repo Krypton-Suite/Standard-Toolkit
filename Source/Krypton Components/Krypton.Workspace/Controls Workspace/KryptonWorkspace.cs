@@ -571,10 +571,7 @@ namespace Krypton.Workspace
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainerRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled split container appearance.
@@ -584,10 +581,7 @@ namespace Krypton.Workspace
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainer StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal split container appearance.
@@ -597,10 +591,7 @@ namespace Krypton.Workspace
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainer StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the hot tracking separator appearance entries.
@@ -610,10 +601,7 @@ namespace Krypton.Workspace
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed separator appearance entries.
@@ -623,10 +611,7 @@ namespace Krypton.Workspace
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the properties for managing the workspace context menus.
@@ -636,10 +621,7 @@ namespace Krypton.Workspace
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public WorkspaceMenus ContextMenus { get; }
 
-        private bool ShouldSerializeWorkspaceMenus()
-        {
-            return !ContextMenus.IsDefault;
-        }
+        private bool ShouldSerializeWorkspaceMenus() => !ContextMenus.IsDefault;
 
         /// <summary>
         /// Gets access to the root sequence.
@@ -825,19 +807,13 @@ namespace Krypton.Workspace
         /// Return reference to first workspace cell.
         /// </summary>
         /// <returns>First cell;otherwise null.</returns>
-        public KryptonWorkspaceCell FirstCell()
-        {
-            return RecursiveFindCellInSequence(Root, true, false);
-        }
+        public KryptonWorkspaceCell FirstCell() => RecursiveFindCellInSequence(Root, true, false);
 
         /// <summary>
         /// Return reference to last workspace cell.
         /// </summary>
         /// <returns>Last cell;otherwise null.</returns>
-        public KryptonWorkspaceCell LastCell()
-        {
-            return RecursiveFindCellInSequence(Root, false, false);
-        }
+        public KryptonWorkspaceCell LastCell() => RecursiveFindCellInSequence(Root, false, false);
 
         /// <summary>
         /// Return reference to next cell in hierarchy starting from specified cell.
@@ -883,28 +859,19 @@ namespace Krypton.Workspace
         /// Determine if reference to cell exists in current hierarchy.
         /// </summary>
         /// <returns>True if it exists; otherwise false.</returns>
-        public bool IsCellPresent(KryptonWorkspaceCell cell)
-        {
-            return RecursiveSearchCellInSequence(Root, cell);
-        }
+        public bool IsCellPresent(KryptonWorkspaceCell cell) => RecursiveSearchCellInSequence(Root, cell);
 
         /// <summary>
         /// Return reference to first visible workspace cell.
         /// </summary>
         /// <returns>First cell;otherwise null.</returns>
-        public KryptonWorkspaceCell FirstVisibleCell()
-        {
-            return RecursiveFindCellInSequence(Root, true, true);
-        }
+        public KryptonWorkspaceCell FirstVisibleCell() => RecursiveFindCellInSequence(Root, true, true);
 
         /// <summary>
         /// Return reference to last visible workspace cell.
         /// </summary>
         /// <returns>Last cell;otherwise null.</returns>
-        public KryptonWorkspaceCell LastVisibleCell()
-        {
-            return RecursiveFindCellInSequence(Root, false, true);
-        }
+        public KryptonWorkspaceCell LastVisibleCell() => RecursiveFindCellInSequence(Root, false, true);
 
         /// <summary>
         /// Return reference to next visible cell in hierarchy starting from specified cell.
@@ -1703,10 +1670,7 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="dragEndData">Pages data being dragged.</param>
         /// <returns>List of drag targets.</returns>
-        public virtual DragTargetList GenerateDragTargets(PageDragEndData dragEndData)
-        {
-            return GenerateDragTargets(dragEndData, KryptonPageFlags.All);
-        }
+        public virtual DragTargetList GenerateDragTargets(PageDragEndData dragEndData) => GenerateDragTargets(dragEndData, KryptonPageFlags.All);
 
         /// <summary>
         /// Generate a list of drag targets that are relevant to the provided end data.
@@ -1784,10 +1748,7 @@ namespace Krypton.Workspace
         /// Saves workspace layout information into an array of bytes using Unicode Encoding.
         /// </summary>
         /// <returns>Array of created bytes.</returns>
-        public byte[] SaveLayoutToArray()
-        {
-            return SaveLayoutToArray(Encoding.Unicode);
-        }
+        public byte[] SaveLayoutToArray() => SaveLayoutToArray(Encoding.Unicode);
 
         /// <summary>
         /// Saves workspace layout information into an array of bytes.
@@ -2423,11 +2384,9 @@ namespace Krypton.Workspace
         /// Creates a new instance of the control collection for the control.
         /// </summary>
         /// <returns>A new instance of KryptonNavigatorControlCollection assigned to the control.</returns>
-        protected override ControlCollection CreateControlsInstance()
-        {
+        protected override ControlCollection CreateControlsInstance() =>
             // User should never adds controls directly to collection, only via the workspace hierarchy
-            return new KryptonReadOnlyControls(this);
-        }
+            new KryptonReadOnlyControls(this);
 
         /// <summary>
         /// Gets the default size of the control.

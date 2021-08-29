@@ -400,7 +400,7 @@ namespace Krypton.Toolkit
             // Validate reference parameter
             if (e == null)
             {
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             }
 
             // If the user pressed the escape key
@@ -608,12 +608,10 @@ namespace Krypton.Toolkit
 
         }
 
-        private Rectangle SplitRectangleFromPoint(Point pt)
-        {
-            return _separatorOrientation == Orientation.Vertical
+        private Rectangle SplitRectangleFromPoint(Point pt) =>
+            _separatorOrientation == Orientation.Vertical
                 ? SplitRectangleFromPoint(pt, Target.ClientWidth)
                 : SplitRectangleFromPoint(pt, Target.ClientHeight);
-        }
 
         private Rectangle SplitRectangleFromPoint(Point pt, int length)
         {

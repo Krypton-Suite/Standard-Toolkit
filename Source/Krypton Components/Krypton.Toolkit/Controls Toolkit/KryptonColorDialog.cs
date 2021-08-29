@@ -19,13 +19,11 @@ namespace Krypton.Toolkit
         /// Represents a common dialog box that displays colours
         /// that are currently installed on the system.
         /// </summary>
-        public KryptonColorDialog()
-        {
+        public KryptonColorDialog() =>
             _commonDialogHandler = new CommonDialogHandler(true)
             {
                 ClickCallback = ClickCallback
             };
-        }
 
         private void ClickCallback(CommonDialogHandler.Attributes originalControl)
         {

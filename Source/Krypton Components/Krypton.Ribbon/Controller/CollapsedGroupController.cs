@@ -180,10 +180,8 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
-        {
-            return false;
-        }
+        public virtual bool KeyUp(Control c, KeyEventArgs e) => false;
+
         #endregion
 
         #region Source Notifications
@@ -219,15 +217,12 @@ namespace Krypton.Ribbon
 
             // We should have a visual popup for showing the collapsed group
             if (VisualPopupManager.Singleton.IsTracking &&
-                (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup))
+                (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup visualPopupGroup))
             {
-                // Cast to correct type
-                VisualPopupGroup popupGroup = (VisualPopupGroup)VisualPopupManager.Singleton.CurrentPopup;
-
                 // Grab the list of key tips from the popup group
                 _ribbon.KeyTipMode = KeyTipMode.PopupGroup;
                 KeyTipInfoList keyTipList = new();
-                popupGroup.ViewGroup.GetGroupKeyTips(keyTipList);
+                visualPopupGroup.ViewGroup.GetGroupKeyTips(keyTipList);
 
                 // Update key tips with those appropriate for this tab
                 _ribbon.SetKeyTips(keyTipList, KeyTipMode.PopupGroup);
@@ -302,8 +297,7 @@ namespace Krypton.Ribbon
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
                     // Get access to the popup for the group
-                    if ((VisualPopupManager.Singleton.CurrentPopup != null) &&
-                        (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup))
+                    if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup)
                     {
                         // Cast to correct type
                         VisualPopupGroup popupGroup = (VisualPopupGroup)VisualPopupManager.Singleton.CurrentPopup;
@@ -344,8 +338,7 @@ namespace Krypton.Ribbon
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
                     // Get access to the popup for the group
-                    if ((VisualPopupManager.Singleton.CurrentPopup != null) &&
-                        (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup))
+                    if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup)
                     {
                         // Cast to correct type
                         VisualPopupGroup popup = (VisualPopupGroup)VisualPopupManager.Singleton.CurrentPopup;
@@ -372,8 +365,7 @@ namespace Krypton.Ribbon
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
                     // Get access to the popup for the group
-                    if ((VisualPopupManager.Singleton.CurrentPopup != null) &&
-                        (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup))
+                    if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup)
                     {
                         // Cast to correct type
                         VisualPopupGroup popupGroup = (VisualPopupGroup)VisualPopupManager.Singleton.CurrentPopup;

@@ -50,10 +50,9 @@ namespace Krypton.Ribbon
                                                 NeedPaintHandler needPaint)
             : base(control, redirector, variableSpecs, fixedSpecs,
                    viewDockers, viewMetrics, viewMetricInt,
-                   viewMetricPaddings, getRenderer, needPaint)
-        {
+                   viewMetricPaddings, getRenderer, needPaint) =>
             ViewManager = viewManager;
-        }
+
         #endregion
 
         #region Public
@@ -76,11 +75,10 @@ namespace Krypton.Ribbon
         protected override ButtonSpecView CreateButtonSpecView(PaletteRedirect redirector, 
                                                                IPaletteMetric viewPaletteMetric, 
                                                                PaletteMetricPadding viewMetricPadding, 
-                                                               ButtonSpec buttonSpec)
-        {
-            return new ButtonSpecViewAppButton(redirector, viewPaletteMetric,
-                                               viewMetricPadding, this, buttonSpec);
-        }
+                                                               ButtonSpec buttonSpec) =>
+            new ButtonSpecViewAppButton(redirector, viewPaletteMetric,
+                viewMetricPadding, this, buttonSpec);
+
         #endregion
     }
 }

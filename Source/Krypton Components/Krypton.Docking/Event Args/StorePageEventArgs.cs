@@ -26,10 +26,8 @@ namespace Krypton.Docking
         /// Initialize a new instance of the StorePageEventArgs class.
         /// </summary>
         /// <param name="storePage">Reference to store page that is associated with the event.</param>
-        public StorePageEventArgs(KryptonStorePage storePage)
-        {
-            StorePage = storePage;
-        }
+        public StorePageEventArgs(KryptonStorePage storePage) => StorePage = storePage;
+
         #endregion
 
         #region Public

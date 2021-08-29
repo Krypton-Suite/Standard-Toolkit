@@ -27,10 +27,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ButtonDragOffsetEventArgs class.
         /// </summary>
         /// <param name="offset">Mouse offset for button dragging.</param>
-        public ButtonDragOffsetEventArgs(Point offset)
-        {
-            PointOffset = offset;
-        }
+        public ButtonDragOffsetEventArgs(Point offset) => PointOffset = offset;
+
         #endregion
 
         #region Point

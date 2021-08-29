@@ -34,10 +34,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
-        public override PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteState state)
-        {
-            return PaletteTextHotkeyPrefix.Show;
-        }
+        public override PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteState state) => PaletteTextHotkeyPrefix.Show;
+
         #endregion
     }
 }

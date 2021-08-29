@@ -62,10 +62,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageCheckedNormal()
-        {
-            return ImageCheckedNormal != null;
-        }
+        private bool ShouldSerializeImageCheckedNormal() => ImageCheckedNormal != null;
 
         /// <summary>
         /// Resets the ImageCheckedNormal property to its default value.
@@ -102,10 +99,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageCheckedPressed()
-        {
-            return ImageCheckedPressed != null;
-        }
+        private bool ShouldSerializeImageCheckedPressed() => ImageCheckedPressed != null;
 
         /// <summary>
         /// Resets the ImageCheckedPressed property to its default value.
@@ -142,10 +136,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageCheckedTracking()
-        {
-            return ImageCheckedTracking != null;
-        }
+        private bool ShouldSerializeImageCheckedTracking() => ImageCheckedTracking != null;
 
         /// <summary>
         /// Resets the ImageCheckedTracking property to its default value.

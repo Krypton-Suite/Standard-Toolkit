@@ -29,10 +29,9 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="inherit">Redirection button spec requests.</param>
         public PaletteRedirectButtonSpec(IPalette target, IPaletteButtonSpec inherit)
-            : base(target)
-        {
+            : base(target) =>
             _inherit = inherit;
-        }
+
         #endregion
 
         #region ButtonSpec
@@ -43,80 +42,58 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
         public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
-                                                 PaletteState state)
-        {
-            return _inherit.GetButtonSpecImage(style, state);
-        }
+                                                 PaletteState state) =>
+            _inherit.GetButtonSpecImage(style, state);
 
         /// <summary>
         /// Gets the short text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecShortText(PaletteButtonSpecStyle style)
-        {
-            return _inherit.GetButtonSpecShortText(style);
-        }
+        public override string GetButtonSpecShortText(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecShortText(style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecLongText(PaletteButtonSpecStyle style)
-        {
-            return _inherit.GetButtonSpecLongText(style);
-        }
+        public override string GetButtonSpecLongText(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecLongText(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>Color value.</returns>
-        public override Color GetButtonSpecColorMap(PaletteButtonSpecStyle style)
-        {
-            return _inherit.GetButtonSpecColorMap(style);
-        }
+        public override Color GetButtonSpecColorMap(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecColorMap(style);
 
         /// <summary>
         /// Gets the button style used for drawing the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteButtonStyle value.</returns>
-        public override PaletteButtonStyle GetButtonSpecStyle(PaletteButtonSpecStyle style)
-        {
-            return _inherit.GetButtonSpecStyle(style);
-        }
+        public override PaletteButtonStyle GetButtonSpecStyle(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecStyle(style);
 
         /// <summary>
         /// Get the location for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>HeaderLocation value.</returns>
-        public override HeaderLocation GetButtonSpecLocation(PaletteButtonSpecStyle style)
-        {
-            return _inherit.GetButtonSpecLocation(style);
-        }
+        public override HeaderLocation GetButtonSpecLocation(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecLocation(style);
 
         /// <summary>
         /// Gets the edge to positon the button against.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteRelativeEdgeAlign value.</returns>
-        public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
-        {
-            return _inherit.GetButtonSpecEdge(style);
-        }
+        public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecEdge(style);
 
         /// <summary>
         /// Gets the button orientation.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteButtonOrientation value.</returns>
-        public override PaletteButtonOrientation GetButtonSpecOrientation(PaletteButtonSpecStyle style)
-        {
-            return _inherit.GetButtonSpecOrientation(style);
-        }
+        public override PaletteButtonOrientation GetButtonSpecOrientation(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecOrientation(style);
+
         #endregion
     }
 }

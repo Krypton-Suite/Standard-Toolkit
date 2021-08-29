@@ -142,11 +142,9 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if a match; otherwise false.</returns>
-        public virtual bool IsMatch(Point screenPt, PageDragEndData dragEndData)
-        {
+        public virtual bool IsMatch(Point screenPt, PageDragEndData dragEndData) =>
             // Default to matching if the mouse is inside the targets hot area
-            return HotRect.Contains(screenPt);
-        }
+            HotRect.Contains(screenPt);
 
         /// <summary>
         /// Perform the drop action associated with the target.

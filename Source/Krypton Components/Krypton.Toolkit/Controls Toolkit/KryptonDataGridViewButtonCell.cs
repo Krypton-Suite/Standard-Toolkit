@@ -37,10 +37,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewCheckBoxCell.
         /// </summary>
-        public KryptonDataGridViewButtonCell()
-        {
-            _buttonStyle = ButtonStyle.Standalone;
-        }
+        public KryptonDataGridViewButtonCell() => _buttonStyle = ButtonStyle.Standalone;
+
         #endregion
 
         #region Public
@@ -88,11 +86,9 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         protected override Rectangle GetContentBounds(Graphics graphics,
             DataGridViewCellStyle cellStyle,
-            int rowIndex)
-        {
+            int rowIndex) =>
             // Return the cached bounds from last drawing cycle
-            return _contentBounds;
-        }
+            _contentBounds;
 
         /// <summary>
         /// This member overrides DataGridViewCell.GetPreferredSize. 

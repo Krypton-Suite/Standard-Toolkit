@@ -28,10 +28,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="owner">Owning control.</param>
         public KryptonReadOnlyControls(Control owner)
-            : base(owner)
-        {
+            : base(owner) =>
             AllowRemoveInternal = false;
-        }
+
         #endregion
 
         #region Public

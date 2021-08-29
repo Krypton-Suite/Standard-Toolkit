@@ -200,11 +200,10 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonScrollPort:" + Id;
-        }
+            "ViewLayoutRibbonScrollPort:" + Id;
+
         #endregion
 
         #region NeedPaintHandler
@@ -438,11 +437,9 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
+        public override Size GetPreferredSize(ViewLayoutContext context) =>
             // We always want to be the size needed to show the filler completely
-            return ViewLayoutControl.GetPreferredSize(context);
-        }
+            ViewLayoutControl.GetPreferredSize(context);
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -471,7 +468,7 @@ namespace Krypton.Ribbon
             ViewLayoutControl.GetPreferredSize(context);
 
             // Ensure context has the correct control
-            if ((ViewLayoutControl.ChildControl != null) && !ViewLayoutControl.ChildControl.IsDisposed)
+            if (ViewLayoutControl.ChildControl is { IsDisposed: false })
             {
                 using CorrectContextControl ccc = new(context, ViewLayoutControl.ChildControl);
                 _viewFiller.Layout(context);

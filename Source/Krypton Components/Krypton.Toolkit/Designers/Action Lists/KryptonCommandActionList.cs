@@ -25,11 +25,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
         public KryptonCommandActionList(KryptonCommandDesigner owner)
-            : base(owner.Component)
-        {
+            : base(owner.Component) =>
             // Remember the panel instance
             _command = owner.Component as KryptonCommand;
-        }
+
         #endregion
 
         #region Public Override

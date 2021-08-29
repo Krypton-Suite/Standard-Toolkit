@@ -103,10 +103,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return Text;
-        }
+        public override string ToString() => Text;
+
         #endregion
 
         #region Public
@@ -129,10 +127,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return false;
-        }
+        public override bool ProcessShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -147,10 +142,8 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn)
-        {
-            return new ViewDrawMenuLinkLabel(provider, this);
-        }
+                                              bool imageColumn) =>
+            new ViewDrawMenuLinkLabel(provider, this);
 
         /// <summary>
         /// Gets and sets the link label style.
@@ -169,7 +162,7 @@ namespace Krypton.Toolkit
                 {
                     _style = value;
                     SetLinkLabelStyle(_style);
-                    OnPropertyChanged(new PropertyChangedEventArgs("LabelStyle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LabelStyle)));
                 }
             }
         }
@@ -190,7 +183,7 @@ namespace Krypton.Toolkit
                 if (LinkBehaviorNormal.LinkBehavior != value)
                 {
                     LinkBehaviorNormal.LinkBehavior = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("LinkBehavior"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LinkBehavior)));
                 }
             }
         }
@@ -211,7 +204,7 @@ namespace Krypton.Toolkit
                 {
                     _overrideVisited.Apply = value;
                     _overrideNotVisited.Apply = !value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("LinkVisited"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LinkVisited)));
                 }
             }
         }
@@ -232,7 +225,7 @@ namespace Krypton.Toolkit
                 if (_autoClose != value)
                 {
                     _autoClose = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AutoClose"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AutoClose)));
                 }
             }
         }
@@ -254,7 +247,7 @@ namespace Krypton.Toolkit
                 if (_text != value)
                 {
                     _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Text"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
                 }
             }
         }
@@ -276,7 +269,7 @@ namespace Krypton.Toolkit
                 if (_extraText != value)
                 {
                     _extraText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ExtraText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ExtraText)));
                 }
             }
         }
@@ -298,7 +291,7 @@ namespace Krypton.Toolkit
                 if (_image != value)
                 {
                     _image = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Image"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Image)));
                 }
             }
         }
@@ -319,15 +312,12 @@ namespace Krypton.Toolkit
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageTransparentColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageTransparentColor)));
                 }
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
-        }
+        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
 
         /// <summary>
         /// Gets access to the link label normal instance specific appearance values.
@@ -338,10 +328,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed link label appearance entries.
@@ -352,10 +339,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverridePressed { get; }
 
-        private bool ShouldSerializeOverridePressed()
-        {
-            return !OverridePressed.IsDefault;
-        }
+        private bool ShouldSerializeOverridePressed() => !OverridePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the link label appearance when it has focus.
@@ -366,10 +350,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets access to normal state modifications when link label has been visited.
@@ -380,10 +361,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideVisited { get; }
 
-        private bool ShouldSerializeOverrideVisited()
-        {
-            return !OverrideVisited.IsDefault;
-        }
+        private bool ShouldSerializeOverrideVisited() => !OverrideVisited.IsDefault;
 
         /// <summary>
         /// Gets access to normal state modifications when link label has not been visited.
@@ -394,10 +372,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideNotVisited { get; }
 
-        private bool ShouldSerializeOverrideNotVisited()
-        {
-            return !OverrideNotVisited.IsDefault;
-        }
+        private bool ShouldSerializeOverrideNotVisited() => !OverrideNotVisited.IsDefault;
 
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
@@ -415,7 +390,7 @@ namespace Krypton.Toolkit
                 if (_command != value)
                 {
                     _command = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("KryptonCommand"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(KryptonCommand)));
                 }
             }
         }

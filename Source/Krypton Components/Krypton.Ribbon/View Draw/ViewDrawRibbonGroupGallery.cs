@@ -103,11 +103,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupGallery:" + Id;
-        }
+            "ViewDrawRibbonGroupGallery:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -194,8 +192,7 @@ namespace Krypton.Ribbon
             else
             {
                 if ((GroupGallery.Visible) &&
-                    (GroupGallery.LastGallery != null) &&
-                    (GroupGallery.LastGallery.CanSelect))
+                    GroupGallery.LastGallery is { CanSelect: true })
                 {
                     return this;
                 }
@@ -222,8 +219,7 @@ namespace Krypton.Ribbon
             else
             {
                 if ((GroupGallery.Visible) &&
-                    (GroupGallery.LastGallery != null) &&
-                    (GroupGallery.LastGallery.CanSelect))
+                    GroupGallery.LastGallery is { CanSelect: true })
                 {
                     return this;
                 }
@@ -813,9 +809,7 @@ namespace Krypton.Ribbon
                     else
                     {
                         // Check the owning group is visible
-                        if ((GroupGallery.RibbonGroup != null) &&
-                            !GroupGallery.RibbonGroup.Visible &&
-                            !_ribbon.InDesignMode)
+                        if (GroupGallery.RibbonGroup is { Visible: false } && !_ribbon.InDesignMode)
                         {
                             visible = false;
                         }

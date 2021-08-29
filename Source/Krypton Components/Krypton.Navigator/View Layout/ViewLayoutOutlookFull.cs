@@ -62,11 +62,10 @@ namespace Krypton.Navigator
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutOutlookFull:" + Id;
-        }
+            "ViewLayoutOutlookFull:" + Id;
+
         #endregion
 
         #region ViewBuilder

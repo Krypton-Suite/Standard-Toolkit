@@ -36,10 +36,8 @@ namespace Krypton.Workspace
                                        Control c,
                                        KryptonPage[] pages,
                                        KryptonWorkspaceCell cell)
-            : base(screenPoint, screenOffset, c, pages)
-        {
+            : base(screenPoint, screenOffset, c, pages) =>
             Cell = cell;
-        }
 
         /// <summary>
         /// Initialize a new instance of the CellDragCancelEventArgs class.
@@ -48,10 +46,9 @@ namespace Krypton.Workspace
         /// <param name="cell">Workspace cell associated with pages.</param>
         public CellDragCancelEventArgs(PageDragCancelEventArgs e,
                                        KryptonWorkspaceCell cell)
-            : base(e.ScreenPoint, e.ElementOffset, e.Control, e.Pages)
-        {
+            : base(e.ScreenPoint, e.ElementOffset, e.Control, e.Pages) =>
             Cell = cell;
-        }
+
         #endregion
 
         #region Cell

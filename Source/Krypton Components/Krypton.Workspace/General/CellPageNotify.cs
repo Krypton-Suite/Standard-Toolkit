@@ -27,10 +27,8 @@ namespace Krypton.Workspace
         /// Initialize a new instance of the CellPageNotify class.
         /// </summary>
         /// <param name="workspace">Reference to owning workspace.</param>
-        public CellPageNotify(KryptonWorkspace workspace)
-        {
-            _workspace = workspace;
-        }
+        public CellPageNotify(KryptonWorkspace workspace) => _workspace = workspace;
+
         #endregion
 
         #region Public
@@ -61,10 +59,7 @@ namespace Krypton.Workspace
         /// <param name="sender">Source of the page drag; can be null.</param>
         /// <param name="e">Event arguments containing the new screen point of the mouse.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public bool PageDragEnd(object sender, PointEventArgs e)
-        {
-            return _workspace.InternalPageDragEnd(sender as KryptonNavigator, e);
-        }
+        public bool PageDragEnd(object sender, PointEventArgs e) => _workspace.InternalPageDragEnd(sender as KryptonNavigator, e);
 
         /// <summary>
         /// Occurs when dragging pages has been cancelled.
