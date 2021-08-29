@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         #region Identity
         static ViewDrawMenuItem()
         {
-            _empty16x16 = Resources.Empty16x16;
+            _empty16x16 = GenericImageResources.Empty16x16;
         }
 
         /// <summary>

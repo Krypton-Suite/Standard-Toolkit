@@ -97,18 +97,13 @@ namespace Krypton.Ribbon
                     return Padding.Empty;
                 }
 
-                switch (Ribbon.RibbonShape)
+                return Ribbon.RibbonShape switch
                 {
-                    default:
-                    case PaletteRibbonShape.Office2007:
-                        return _borderPadding2007;
-                    case PaletteRibbonShape.Office2010:
-                        return _borderPadding2010;
-                    case PaletteRibbonShape.Office2013:
-                        return _borderPadding2013;
-                    case PaletteRibbonShape.Office365:
-                        return _borderPadding365;
-                }
+                    PaletteRibbonShape.Office2010 => _borderPadding2010,
+                    PaletteRibbonShape.Office2013 => _borderPadding2013,
+                    PaletteRibbonShape.Office365 => _borderPadding365,
+                    _ => _borderPadding2007
+                };
             }
         }
         #endregion

@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("CheckedChanged")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Checked")]
-    [Designer(typeof(KryptonRadioButtonDesigner))]
+    [Designer("Krypton.Toolkit.KryptonRadioButtonDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Allow user to set or clear the associated option.")]
     public class KryptonRadioButton : VisualSimpleBase
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
                      ControlStyles.StandardDoubleClick, false);
 
             // Set default properties
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             _orientation = VisualOrientation.Top;
             _checkPosition = VisualOrientation.Left;
             _checked = false;
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             Images = new RadioButtonImages(NeedPaintDelegate);
 
             // Create palette redirector
-            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalControl);
+            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
             _paletteRadioButtonImages = new PaletteRedirectRadioButton(Redirector, Images);
 
             // Create the palette provider
@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         [Localizable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        //[DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public new AutoSizeMode AutoSizeMode
         {
             get => base.AutoSizeMode;
@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Text;
@@ -231,7 +231,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        //[DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -258,7 +258,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual position of the radio button.")]
-        [DefaultValue(typeof(VisualOrientation), "Left")]
+        //[DefaultValue(typeof(VisualOrientation), "Left")]
         [Localizable(true)]
         public virtual VisualOrientation CheckPosition
         {
@@ -300,12 +300,12 @@ namespace Krypton.Toolkit
 
         private void ResetLabelStyle()
         {
-            LabelStyle = LabelStyle.NormalControl;
+            LabelStyle = LabelStyle.NormalPanel;
         }
 
         private bool ShouldSerializeLabelStyle()
         {
-            return (LabelStyle != LabelStyle.NormalControl);
+            return (LabelStyle != LabelStyle.NormalPanel);
         }
 
         /// <summary>
@@ -724,88 +724,37 @@ namespace Krypton.Toolkit
 
         private void UpdateForOrientation()
         {
-            // Should we display as right to left?
-            ViewDockStyle dockStyle;
-            switch (CheckPosition)
+            var dockStyle = CheckPosition switch
             {
-                default:
-                case VisualOrientation.Left:
-                    switch (Orientation)
-                    {
-                        default:
-                        case VisualOrientation.Top:
-                            dockStyle = RightToLeft == RightToLeft.Yes ? ViewDockStyle.Right : ViewDockStyle.Left;
-
-                            break;
-                        case VisualOrientation.Bottom:
-                            dockStyle = RightToLeft == RightToLeft.Yes ? ViewDockStyle.Left : ViewDockStyle.Right;
-
-                            break;
-                        case VisualOrientation.Left:
-                            dockStyle = ViewDockStyle.Bottom;
-                            break;
-                        case VisualOrientation.Right:
-                            dockStyle = ViewDockStyle.Top;
-                            break;
-                    }
-                    break;
-                case VisualOrientation.Right:
-                    switch (Orientation)
-                    {
-                        default:
-                        case VisualOrientation.Top:
-                            dockStyle = RightToLeft == RightToLeft.Yes ? ViewDockStyle.Left : ViewDockStyle.Right;
-
-                            break;
-                        case VisualOrientation.Bottom:
-                            dockStyle = RightToLeft == RightToLeft.Yes ? ViewDockStyle.Right : ViewDockStyle.Left;
-
-                            break;
-                        case VisualOrientation.Left:
-                            dockStyle = ViewDockStyle.Top;
-                            break;
-                        case VisualOrientation.Right:
-                            dockStyle = ViewDockStyle.Bottom;
-                            break;
-                    }
-                    break;
-                case VisualOrientation.Top:
-                    switch (Orientation)
-                    {
-                        default:
-                        case VisualOrientation.Top:
-                            dockStyle = ViewDockStyle.Top;
-                            break;
-                        case VisualOrientation.Bottom:
-                            dockStyle = ViewDockStyle.Bottom;
-                            break;
-                        case VisualOrientation.Left:
-                            dockStyle = ViewDockStyle.Left;
-                            break;
-                        case VisualOrientation.Right:
-                            dockStyle = ViewDockStyle.Right;
-                            break;
-                    }
-                    break;
-                case VisualOrientation.Bottom:
-                    switch (Orientation)
-                    {
-                        default:
-                        case VisualOrientation.Top:
-                            dockStyle = ViewDockStyle.Bottom;
-                            break;
-                        case VisualOrientation.Bottom:
-                            dockStyle = ViewDockStyle.Top;
-                            break;
-                        case VisualOrientation.Left:
-                            dockStyle = ViewDockStyle.Right;
-                            break;
-                        case VisualOrientation.Right:
-                            dockStyle = ViewDockStyle.Left;
-                            break;
-                    }
-                    break;
-            }
+                VisualOrientation.Right => Orientation switch
+                {
+                    VisualOrientation.Bottom => RightToLeft == RightToLeft.Yes ? ViewDockStyle.Right : ViewDockStyle.Left,
+                    VisualOrientation.Left => ViewDockStyle.Top,
+                    VisualOrientation.Right => ViewDockStyle.Bottom,
+                    _ => RightToLeft == RightToLeft.Yes ? ViewDockStyle.Left : ViewDockStyle.Right
+                },
+                VisualOrientation.Top => Orientation switch
+                {
+                    VisualOrientation.Bottom => ViewDockStyle.Bottom,
+                    VisualOrientation.Left => ViewDockStyle.Left,
+                    VisualOrientation.Right => ViewDockStyle.Right,
+                    _ => ViewDockStyle.Top
+                },
+                VisualOrientation.Bottom => Orientation switch
+                {
+                    VisualOrientation.Bottom => ViewDockStyle.Top,
+                    VisualOrientation.Left => ViewDockStyle.Right,
+                    VisualOrientation.Right => ViewDockStyle.Left,
+                    _ => ViewDockStyle.Bottom
+                },
+                _ => Orientation switch
+                {
+                    VisualOrientation.Bottom => RightToLeft == RightToLeft.Yes ? ViewDockStyle.Left : ViewDockStyle.Right,
+                    VisualOrientation.Left => ViewDockStyle.Bottom,
+                    VisualOrientation.Right => ViewDockStyle.Top,
+                    _ => RightToLeft == RightToLeft.Yes ? ViewDockStyle.Right : ViewDockStyle.Left
+                }
+            };
 
 
             // Update docking position of check box to match orientation

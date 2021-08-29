@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
     [LookupBindingProperties("DataSource", "DisplayMember", "ValueMember", "SelectedValue")]
-    [Designer(typeof(KryptonComboBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonComboBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Displays an editable textbox with a drop-down list of permitted values.")]
     public class KryptonComboBox : VisualControlBase,
@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText))
+                            if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText))
                             {
                                 PI.SendMessage(Handle, PI.CB_SETCUEBANNER, IntPtr.Zero, _kryptonComboBox.CueHint.CueHintText);
                             }
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
                                 // Exclude border from being drawn, we need to take off another 2 pixels from all edges
                                 PI.IntersectClipRect(hdc, rect.left + 2, rect.top + 2, rect.right - 2, rect.bottom - 2);
 
-                                if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
+                                if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
                                     && string.IsNullOrEmpty(_kryptonComboBox.Text)
                                 )
                                 {
@@ -1079,7 +1079,7 @@ namespace Krypton.Toolkit
             _hoverIndex = -1;
             _toolTipSpec = new ButtonSpecAny
             {
-                ToolTipStyle = LabelStyle.SuperTip,
+                ToolTipStyle = LabelStyle.SuperTip
             };
             // Create storage properties
             ButtonSpecs = new ComboBoxButtonSpecCollection(this);
@@ -1460,7 +1460,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to use as the actual value of the items in the control.")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ValueMember
         {
@@ -1487,8 +1487,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter")]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string DisplayMember
         {
@@ -1576,7 +1576,7 @@ namespace Krypton.Toolkit
         [Category("Appearance")]
         [Description("Controls the appearance and functionality of the KryptonComboBox.")]
         [Editor(typeof(OverrideComboBoxStyleDropDownStyle), typeof(UITypeEditor))]
-        [DefaultValue(typeof(ComboBoxStyle), "DropDown")]
+        //[DefaultValue(typeof(ComboBoxStyle), "DropDown")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
         {
@@ -1696,7 +1696,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("The items in the KryptonComboBox.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1849,7 +1849,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
         [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -1864,7 +1864,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text completion behavior of the combobox.
         /// </summary>
         [Description("Indicates the text completion behavior of the combobox.")]
-        [DefaultValue(typeof(AutoCompleteMode), "None")]
+        //[DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteMode AutoCompleteMode
@@ -1878,7 +1878,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
         [Description("The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
-        [DefaultValue(typeof(AutoCompleteSource), "None")]
+        //[DefaultValue(typeof(AutoCompleteSource), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteSource AutoCompleteSource
@@ -1892,7 +1892,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
         /// </summary>
         [Description("The format specifier characters that indicate how a value is to be displayed.")]
-        [Editor("System.Windows.Forms.Design.FormatStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
         public string FormatString

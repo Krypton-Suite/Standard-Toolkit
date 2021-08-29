@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Predefined icon.")]
-        [DefaultValue(typeof(MessageBoxIcon), "None")]
+        //[DefaultValue(typeof(MessageBoxIcon), "None")]
         public MessageBoxIcon Icon
         {
             get => _icon;
@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Common dialog buttons.")]
-        [DefaultValue(typeof(TaskDialogButtons), "OK")]
+        //[DefaultValue(typeof(TaskDialogButtons), "OK")]
         public TaskDialogButtons CommonButtons
         {
             get => _commonButtons;
@@ -245,7 +245,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Default radio button.")]
-        [DefaultValue(typeof(TaskDialogButtons), "None")]
+        //[DefaultValue(typeof(TaskDialogButtons), "None")]
         public KryptonTaskDialogCommand DefaultRadioButton
         {
             get => _defaultRadioButton;
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Default Common button.")]
-        [DefaultValue(typeof(TaskDialogButtons), "None")]
+        //[DefaultValue(typeof(TaskDialogButtons), "None")]
         public TaskDialogButtons DefaultButton
         {
             get => _defaultButton;
@@ -285,7 +285,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Predefined footer icon.")]
-        [DefaultValue(typeof(MessageBoxIcon), "None")]
+        //[DefaultValue(typeof(MessageBoxIcon), "None")]
         public MessageBoxIcon FooterIcon
         {
             get => _footerIcon;
@@ -514,18 +514,16 @@ namespace Krypton.Toolkit
                                         TaskDialogButtons commonButtons)
         {
             // Create a temporary task dialog for storing definition whilst showing
-            using (KryptonTaskDialog taskDialog = new())
-            {
-                // Store incoming values
-                taskDialog.WindowTitle = windowTitle;
-                taskDialog.MainInstruction = mainInstruction;
-                taskDialog.Content = content;
-                taskDialog.Icon = icon;
-                taskDialog.CommonButtons = commonButtons;
+            using KryptonTaskDialog taskDialog = new();
+            // Store incoming values
+            taskDialog.WindowTitle = windowTitle;
+            taskDialog.MainInstruction = mainInstruction;
+            taskDialog.Content = content;
+            taskDialog.Icon = icon;
+            taskDialog.CommonButtons = commonButtons;
 
-                // Show as a modal dialog
-                return taskDialog.ShowDialog();
-            }
+            // Show as a modal dialog
+            return taskDialog.ShowDialog();
         }
         #endregion
 

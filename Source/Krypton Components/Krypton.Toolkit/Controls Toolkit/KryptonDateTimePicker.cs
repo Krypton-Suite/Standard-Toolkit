@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("ValueChanged")]
     [DefaultProperty("Value")]
     [DefaultBindingProperty("Value")]
-    [Designer(typeof(KryptonDateTimePickerDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDateTimePickerDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Enables the user to select a date and time, and to display that date and time in a specified format.")]
     public class KryptonDateTimePicker : VisualControlBase,
@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("MonthCalendar")]
         [Description("Specifies the number of rows and columns of months displayed.")]
-        [DefaultValue(typeof(Size), "1,1")]
+        //[DefaultValue(typeof(Size), "1,1")]
         [Localizable(true)]
         public Size CalendarDimensions { get; set; }
 
@@ -433,7 +433,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("MonthCalendar")]
         [Description("First day of the week.")]
-        [DefaultValue(typeof(Day), "Default")]
+        //[DefaultValue(typeof(Day), "Default")]
         [Localizable(true)]
         public Day CalendarFirstDayOfWeek { get; set; }
 
@@ -513,7 +513,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 _annualDates.Clear();
@@ -549,7 +549,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -583,7 +583,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                value ??= Array.Empty<DateTime>();
 
                 _dates.Clear();
                 _dates.AddRange(value);
@@ -609,7 +609,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Alignment of the drop-down calendar on the KryptonDateTimePicker control.")]
-        [DefaultValue(typeof(LeftRightAlignment), "Left")]
+        //[DefaultValue(typeof(LeftRightAlignment), "Left")]
         [Localizable(true)]
         public LeftRightAlignment DropDownAlign { get; set; }
 
@@ -759,7 +759,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Determines whether dates and times are displayed using standard or custom formatting.")]
-        [DefaultValue(typeof(DateTimePickerFormat), "Long")]
+        //[DefaultValue(typeof(DateTimePickerFormat), "Long")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
         {
@@ -1127,7 +1127,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals - DateTimePicker")]
         [Description("Palette applied to drawing.")]
-        [DefaultValue(typeof(PaletteMode), "Global")]
+        //[DefaultValue(typeof(PaletteMode), "Global")]
         public new PaletteMode PaletteMode
         {
             get => base.PaletteMode;
@@ -1743,16 +1743,11 @@ namespace Krypton.Toolkit
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
         protected override bool IsInputKey(Keys keyData)
         {
-            switch (keyData & ~Keys.Shift)
+            return (keyData & ~Keys.Shift) switch
             {
-                case Keys.Left:
-                case Keys.Right:
-                case Keys.Up:
-                case Keys.Down:
-                    return true;
-            }
-
-            return base.IsInputKey(keyData);
+                Keys.Left or Keys.Right or Keys.Up or Keys.Down => true,
+                _ => base.IsInputKey(keyData)
+            };
         }
 
         /// <summary>

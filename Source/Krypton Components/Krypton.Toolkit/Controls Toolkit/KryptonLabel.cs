@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("Paint")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
-    [Designer(typeof(KryptonLabelDesigner))]
+    [Designer("Krypton.Toolkit.KryptonLabelDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Displays descriptive information.")]
     public class KryptonLabel : VisualSimpleBase, IContentValues
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
         [Localizable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        //[DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public new AutoSizeMode AutoSizeMode
         {
             get => base.AutoSizeMode;
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [Localizable(false)]
         public override string Text
         {
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        //[DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        //[DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _style;

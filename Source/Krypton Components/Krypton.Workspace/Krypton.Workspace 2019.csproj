@@ -1,93 +1,69 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Choose>
-        <When Condition="'$(TFMs)' == 'all'">
-            <PropertyGroup>
-                <TargetFrameworks>net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-            </PropertyGroup>
-        </When>
-        <Otherwise>
-            <PropertyGroup>
-                <TargetFrameworks>net48;net5.0-windows;net6.0-windows</TargetFrameworks>
-            </PropertyGroup>
-        </Otherwise>
-    </Choose>
-    <PropertyGroup>
-        <OutputType>Library</OutputType>
-        <RootNamespace>Krypton.Workspace</RootNamespace>
-        <AssemblyName>Krypton.Workspace</AssemblyName>
-        <SignAssembly>false</SignAssembly>
-        <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
-        <ApplicationIcon>Krypton.ico</ApplicationIcon>
-        <DelaySign>false</DelaySign>
-        <UseWindowsForms>true</UseWindowsForms>
-        <LangVersion>preview</LangVersion>
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <EnableNETAnalyzers>true</EnableNETAnalyzers>
-        <AnalysisLevel>latest</AnalysisLevel>
-        <NeutralLanguage>en</NeutralLanguage>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Krypton.Workspace</RootNamespace>
+		<AssemblyName>Krypton.Workspace</AssemblyName>
+		<SignAssembly>false</SignAssembly>
+		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<ApplicationIcon>Krypton.ico</ApplicationIcon>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<LangVersion>preview</LangVersion>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<NeutralLanguage>en</NeutralLanguage>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
-            <SpecificVersion>True</SpecificVersion>
-            <Version>4.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
-        </Reference>
-        <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
-            <SpecificVersion>True</SpecificVersion>
-            <Version>5.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
-        </Reference>
-        <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
-            <SpecificVersion>True</SpecificVersion>
-            <Version>6.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
-        </Reference>
-        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'" />
-        <!--TODO: Need to specify version here-->
-    </ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Drawing.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+			<!-- Needed for `ParentControlDesigner ` as this was moved from `System.Design`-->
+			<SpecificVersion>True</SpecificVersion>
+			<Version>5.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Drawing.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+			<!-- Needed for `ParentControlDesigner ` as this was moved from `System.Design`-->
+			<SpecificVersion>True</SpecificVersion>
+			<Version>6.0.0.0</Version>
+		</Reference>
+	</ItemGroup>
+   
+	<PropertyGroup>
+		<PackageId>Krypton.Workspace</PackageId>
+		<Description>This is the workspace module.</Description>
+	</PropertyGroup>
 
-    <PropertyGroup>
-        <PackageId>Krypton.Workspace</PackageId>
-        <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the workspace module.</Description>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
-    </PropertyGroup>
-    <ItemGroup>
-        <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="Krypton.ico" Pack="false" />
-        <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspaceSequence.bmp" />
-        <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspaceCell.bmp" />
-        <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspace.bmp" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />
-        <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Remove="Palette Demo\WorkspacePageMenuBase.cs" />
-        <Compile Remove="Palette Install\WorkspacePageMenuBase.cs" />
-    </ItemGroup>
-    <PropertyGroup>
-        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Workspace.xml</DocumentationFile>
-        <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
-    </PropertyGroup>
-    <PropertyGroup>
-        <NoWarn>1701;1702</NoWarn>
-    </PropertyGroup>
-
-  <!--Handle AssemblyInfo-->
-  <PropertyGroup>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
-    <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
-    <AssemblyVersion>6.0.2108.1</AssemblyVersion>
-    <FileVersion>6.0.2108.1</FileVersion>
-  </PropertyGroup>
-
+	<PropertyGroup>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+	</PropertyGroup>
+	<ItemGroup>
+		<Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Krypton.ico" Pack="false" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspaceSequence.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspaceCell.bmp" />
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspace.bmp" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />
+		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Palette Demo\WorkspacePageMenuBase.cs" />
+		<Compile Remove="Palette Install\WorkspacePageMenuBase.cs" />
+	</ItemGroup>
+	<PropertyGroup>
+		<DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Workspace.xml</DocumentationFile>
+		<OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<NoWarn>1701;1702</NoWarn>
+	</PropertyGroup>
+   
 </Project>

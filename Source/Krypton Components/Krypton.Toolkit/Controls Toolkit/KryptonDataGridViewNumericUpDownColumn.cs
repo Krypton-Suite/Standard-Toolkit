@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewNumericUpDownCell cells.
     /// </summary>
-    [Designer(typeof(KryptonNumericUpDownColumnDesigner))]
+    [Designer("Krypton.Toolkit.KryptonNumericUpDownColumnDesigner, Krypton.Toolkit")]
     [ToolboxBitmap(typeof(KryptonDataGridViewNumericUpDownColumn), "ToolboxBitmaps.KryptonNumericUpDown.bmp")]
     public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconColumn
     {

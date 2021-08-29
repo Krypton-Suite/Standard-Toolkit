@@ -424,39 +424,37 @@ namespace Krypton.Toolkit
         public static object PerformOperation(Operation op, object parameter)
         {
             // Create a modal window for showing feedback
-            using (ModalWaitDialog wait = new())
+            using ModalWaitDialog wait = new();
+            // Create the object that runs the operation in a separate thread
+            OperationThread opThread = new(op, parameter);
+
+            // Create the actual thread and provide thread entry point
+            Thread thread = new(opThread.Run);
+
+            // Kick off the thread action
+            thread.Start();
+
+            // Keep looping until the thread is finished
+            while (opThread.State == 0)
             {
-                // Create the object that runs the operation in a separate thread
-                OperationThread opThread = new(op, parameter);
+                // Sleep to allow thread to perform more work
+                Thread.Sleep(25);
 
-                // Create the actual thread and provide thread entry point
-                Thread thread = new(opThread.Run);
+                // Give the feedback dialog a chance to update
+                wait.UpdateDialog();
+            }
 
-                // Kick off the thread action
-                thread.Start();
-
-                // Keep looping until the thread is finished
-                while (opThread.State == 0)
-                {
-                    // Sleep to allow thread to perform more work
-                    Thread.Sleep(25);
-
-                    // Give the feedback dialog a chance to update
-                    wait.UpdateDialog();
-                }
-
-                // Process operation result
-                switch (opThread.State)
-                {
-                    case 1:
-                        return opThread.Result;
-                    case 2:
-                        throw opThread.Exception;
-                    default:
-                        // Should never happen!
-                        Debug.Assert(false);
-                        return null;
-                }
+            // Process operation result
+            switch (opThread.State)
+            {
+                case 1:
+                    return opThread.Result;
+                case 2:
+                    throw opThread.Exception;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return null;
             }
         }
 
@@ -1473,12 +1471,10 @@ namespace Krypton.Toolkit
         public static void LogOutput(string str)
         {
             FileInfo fi = new(Application.ExecutablePath);
-            using (StreamWriter writer = new(fi.DirectoryName + "LogOutput.txt", true, Encoding.ASCII))
-            {
-                writer.Write(DateTime.Now.ToLongTimeString() + " :  ");
-                writer.WriteLine(str);
-                writer.Flush();
-            }
+            using StreamWriter writer = new(fi.DirectoryName + "LogOutput.txt", true, Encoding.ASCII);
+            writer.Write(DateTime.Now.ToLongTimeString() + " :  ");
+            writer.WriteLine(str);
+            writer.Flush();
         }
 
         /// <summary>

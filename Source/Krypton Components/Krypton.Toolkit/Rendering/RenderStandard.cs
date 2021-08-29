@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
 
             _ribbonGroup4Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.4f, 1.0f, 1.0f, },
+                Factors = new float[] { 0.0f, 0.4f, 1.0f, 1.0f },
                 Positions = new float[] { 0.0f, 0.045f, 0.33f, 1.0f }
             };
 
@@ -352,21 +352,21 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta,
                 ImageSize = new Size(17, 11)
             };
-            _gridSortOrder.Images.AddStrip(Resources.GridSortOrder);
+            _gridSortOrder.Images.AddStrip(GridImageResources.GridSortOrder);
 
             _gridRowIndicators = new ImageList
             {
                 TransparentColor = Color.Magenta,
                 ImageSize = new Size(19, 13)
             };
-            _gridRowIndicators.Images.AddStrip(Resources.GridRowIndicators);
+            _gridRowIndicators.Images.AddStrip(GridImageResources.GridRowIndicators);
 
             _gridErrorIcon = new ImageList
             {
                 TransparentColor = Color.Magenta,
                 ImageSize = new Size(18, 17)
             };
-            _gridErrorIcon.Images.AddStrip(Resources.GridErrorIcon);
+            _gridErrorIcon.Images.AddStrip(GenericImageResources.GridErrorIcon);
         }
         #endregion
 
@@ -389,7 +389,7 @@ namespace Krypton.Toolkit
             KryptonStandardRenderer renderer = new(colorPalette.ColorTable)
             {
 
-                // Seup the need to use rounded corners
+                // Setup the need to use rounded corners
                 RoundedEdges = (colorPalette.ColorTable.UseRoundedEdges != InheritBool.False)
             };
 
@@ -5862,7 +5862,7 @@ namespace Krypton.Toolkit
                 Size requiredSpace = memento.ShortTextMemento.Size;
 
                 // Find the space available given our required alignment
-                var noClipIsSet = MissingFrameWorkAPIs.HasFlag(memento.ShortTextMemento.Format.FormatFlags, StringFormatFlags.NoClip);
+                var noClipIsSet = memento.ShortTextMemento.Format.FormatFlags.HasFlag(StringFormatFlags.NoClip);
                 if (AllocateAlignmentSpace(alignHIndex, alignVIndex,
                                            allocation, displayRect,
                                            spacingGap, memento.ShortTextTrimming,
@@ -5947,7 +5947,8 @@ namespace Krypton.Toolkit
                 Size requiredSpace = memento.LongTextMemento.Size;
 
                 // Find the space available given our required alignment
-                var noClipIsSet = (memento.ShortTextMemento == null) || MissingFrameWorkAPIs.HasFlag(memento.ShortTextMemento.Format.FormatFlags, StringFormatFlags.NoClip);
+                var noClipIsSet = (memento.ShortTextMemento == null) 
+                                  || memento.ShortTextMemento.Format.FormatFlags.HasFlag(StringFormatFlags.NoClip);
                 if (AllocateAlignmentSpace(alignHIndex, alignVIndex,
                                            allocation, displayRect,
                                            spacingGap, memento.LongTextTrimming,

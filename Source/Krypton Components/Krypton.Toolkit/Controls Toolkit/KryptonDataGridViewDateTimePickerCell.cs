@@ -295,7 +295,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The Format property replicates the one from the KryptonDateTimePicker control
         /// </summary>
-        [DefaultValue(typeof(DateTimePickerFormat), "Long")]
+        //[DefaultValue(typeof(DateTimePickerFormat), "Long")]
         public DateTimePickerFormat Format
         {
             get => _format;
@@ -313,7 +313,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The CalendarDimensions property replicates the one from the KryptonDateTimePicker control
         /// </summary>
-        [DefaultValue(typeof(Size), "1,1")]
+        //[DefaultValue(typeof(Size), "1,1")]
         public Size CalendarDimensions
         {
             get => _calendarDimensions;
@@ -349,7 +349,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The CalendarFirstDayOfWeek property replicates the one from the KryptonDateTimePicker control
         /// </summary>
-        [DefaultValue(typeof(Day), "Default")]
+        //[DefaultValue(typeof(Day), "Default")]
         public Day CalendarFirstDayOfWeek
         {
             get => _calendarFirstDayOfWeek;

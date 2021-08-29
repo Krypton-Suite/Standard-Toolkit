@@ -19,7 +19,7 @@ namespace Krypton.Workspace
     [ToolboxBitmap(typeof(KryptonWorkspace), "ToolboxBitmaps.KryptonWorkspace.bmp")]
     [DefaultEvent("WorkspaceCellAdded")]
     [DefaultProperty("Root")]
-    [Designer(typeof(KryptonWorkspaceDesigner))]
+    [Designer("Krypton.Workspace.KryptonWorkspaceDesigner, Krypton.Workspace")]
     [DesignerCategory("code")]
     [Description("Layout a hierarchy of KryptonNavigator instances.")]
     [Docking(DockingBehavior.Ask)]
@@ -426,7 +426,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Determines the compacting options to be applied.")]
-        [DefaultValue(typeof(CompactFlags), "All")]
+        //[DefaultValue(typeof(CompactFlags), "All")]
         public CompactFlags CompactFlags
         {
             get => _compactFlags;
@@ -468,7 +468,7 @@ namespace Krypton.Workspace
         [Category("Visuals")]
         [Description("Determines the thickness of the splitters.")]
         [Localizable(true)]
-        [DefaultValue(typeof(int), "5")]
+        //[DefaultValue(typeof(int), "5")]
         public int SplitterWidth
         {
             get => _splitterWidth;
@@ -518,7 +518,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Container background style.")]
-        [DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
+        //[DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
         public PaletteBackStyle ContainerBackStyle
         {
             get => StateCommon.BackStyle;
@@ -538,7 +538,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Visuals")]
         [Description("Separator style.")]
-        [DefaultValue(typeof(SeparatorStyle), "Low Profile")]
+        //[DefaultValue(typeof(SeparatorStyle), "Low Profile")]
         public SeparatorStyle SeparatorStyle
         {
             get => _separatorStyle;

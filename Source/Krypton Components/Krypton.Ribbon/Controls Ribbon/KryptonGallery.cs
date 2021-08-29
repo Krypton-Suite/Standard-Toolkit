@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     [ToolboxBitmap(typeof(KryptonGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
     [DefaultEvent("SelectedIndexChanged")]
     [DefaultProperty("SelectedIndex")]
-    [Designer(typeof(KryptonGalleryDesigner))]
+    [Designer("Krypton.Ribbon.KryptonGalleryDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [Description("Select from a group of possible images.")]
     public class KryptonGallery : VisualSimpleBase
@@ -189,7 +189,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the internal padding space.
         /// </summary>
-        [DefaultValue(typeof(Padding), "3,3,3,3")]
+        //[DefaultValue(typeof(Padding), "3,3,3,3")]
         public new Padding Padding
         {
             get => base.Padding;
@@ -210,7 +210,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Preferred size measured in items per line and number of display lines.")]
-        [DefaultValue(typeof(Size), "5,1")]
+        //[DefaultValue(typeof(Size), "5,1")]
         public Size PreferredItemSize
         {
             get => _preferredItemSize;
@@ -275,7 +275,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Visuals")]
         [Description("Button style used for each image item.")]
-        [DefaultValue(typeof(ButtonStyle), "LowProfile")]
+        //[DefaultValue(typeof(ButtonStyle), "LowProfile")]
         public ButtonStyle ButtonStyle
         {
             get => _drawItems.ButtonStyle;

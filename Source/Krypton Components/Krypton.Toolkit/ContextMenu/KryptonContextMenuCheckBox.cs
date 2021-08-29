@@ -89,11 +89,11 @@ namespace Krypton.Toolkit
             _checked = false;
             _threeState = false;
             _autoCheck = true;
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             Images = new CheckBoxImages();
 
             // Create the redirectors
-            _stateCommonRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalControl);
+            _stateCommonRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
             StateCheckBoxImages = new PaletteRedirectCheckBox(Images);
 
             // Create the states
@@ -279,7 +279,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Check box label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalControl")]
+        //[DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _style;
@@ -294,6 +294,9 @@ namespace Krypton.Toolkit
                 }
             }
         }
+        private bool ShouldSerializeLabelStyle() => _style != LabelStyle.NormalPanel;
+
+        private void ResetLabelStyle() => _style = LabelStyle.NormalPanel;
 
         /// <summary>
         /// Gets access to the image value overrides.
@@ -304,10 +307,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets and sets if the check box is enabled.
@@ -365,7 +365,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Appearance")]
         [Description("Indicates the checked state of the component.")]
-        [DefaultValue(typeof(CheckState), "Unchecked")]
+        //[DefaultValue(typeof(CheckState), "Unchecked")]
         [Bindable(true)]
         public CheckState CheckState
         {

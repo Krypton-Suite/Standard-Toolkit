@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
                                 typeof(KryptonContextMenuRadioButton),
                                 typeof(KryptonContextMenuColorColumns),
                                 typeof(KryptonContextMenuMonthCalendar),
-                                typeof(KryptonContextMenuImageSelect),
+                                typeof(KryptonContextMenuImageSelect)
             };
         }
         #endregion

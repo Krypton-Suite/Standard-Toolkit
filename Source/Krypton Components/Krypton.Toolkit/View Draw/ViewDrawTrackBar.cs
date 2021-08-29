@@ -435,16 +435,12 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (TrackBarSize)
+                return TrackBarSize switch
                 {
-                    case PaletteTrackBarSize.Small:
-                        return (_orientation == Orientation.Horizontal ? _positionSizeSmallH : _positionSizeSmallV);
-                    default:
-                    case PaletteTrackBarSize.Medium:
-                        return (_orientation == Orientation.Horizontal ? _positionSizeMediumH : _positionSizeMediumV);
-                    case PaletteTrackBarSize.Large:
-                        return (_orientation == Orientation.Horizontal ? _positionSizeLargeH : _positionSizeLargeV);
-                }
+                    PaletteTrackBarSize.Small => (_orientation == Orientation.Horizontal ? _positionSizeSmallH : _positionSizeSmallV),
+                    PaletteTrackBarSize.Large => (_orientation == Orientation.Horizontal ? _positionSizeLargeH : _positionSizeLargeV),
+                    _ => (_orientation == Orientation.Horizontal ? _positionSizeMediumH : _positionSizeMediumV)
+                };
             }
         }
 
@@ -455,16 +451,12 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (TrackBarSize)
+                return TrackBarSize switch
                 {
-                    case PaletteTrackBarSize.Small:
-                        return VolumeControl ? _trackSizeSmallV : _trackSizeSmall;
-                    default:
-                    case PaletteTrackBarSize.Medium:
-                        return VolumeControl ? _trackSizeMediumV : _trackSizeMedium;
-                    case PaletteTrackBarSize.Large:
-                        return VolumeControl ? _trackSizeLargeV : _trackSizeLarge;
-                }
+                    PaletteTrackBarSize.Small => VolumeControl ? _trackSizeSmallV : _trackSizeSmall,
+                    PaletteTrackBarSize.Large => VolumeControl ? _trackSizeLargeV : _trackSizeLarge,
+                    _ => VolumeControl ? _trackSizeMediumV : _trackSizeMedium
+                };
             }
         }
 

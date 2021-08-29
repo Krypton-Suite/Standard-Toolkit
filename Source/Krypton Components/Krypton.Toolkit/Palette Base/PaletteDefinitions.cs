@@ -2198,15 +2198,15 @@ namespace Krypton.Toolkit
         /// </summary>
         SparklePurple,
 
-        /// <summary>
-        /// Specifies the visual studio dark palette theme.
-        /// </summary>
-        VisualStudioDark,
+        ///// <summary>
+        ///// Specifies the visual studio dark palette theme.
+        ///// </summary>
+        //VisualStudioDark,
 
-        /// <summary>
-        /// Specifies the visual studio light palette theme.
-        /// </summary>
-        VisualStudioLight,
+        ///// <summary>
+        ///// Specifies the visual studio light palette theme.
+        ///// </summary>
+        //VisualStudioLight,
 
         /// <summary>
         /// Specifies a custom palette be used.
@@ -2346,15 +2346,15 @@ namespace Krypton.Toolkit
         /// </summary>
         SparklePurple,
 
-        /// <summary>
-        /// Specifies the visual studio dark palette theme.
-        /// </summary>
-        VisualStudioDark,
+        // /// <summary>
+        // /// Specifies the visual studio dark palette theme.
+        // /// </summary>
+        //VisualStudioDark,
 
-        /// <summary>
-        /// Specifies the visual studio light palette theme.
-        /// </summary>
-        VisualStudioLight,
+        // /// <summary>
+        // /// Specifies the visual studio light palette theme.
+        // /// </summary>
+        //VisualStudioLight,
 
         /// <summary>
         /// Specifies a custom palette be used.
@@ -2558,7 +2558,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the spacing gap been each ribbon tab.
         /// </summary>
-        RibbonTabGap,
+        RibbonTabGap
     }
     #endregion
 
@@ -4281,7 +4281,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies an expert style button that has a square inner area with highlighting variation 2.
         /// </summary>
-        ExpertSquareHighlight2,
+        ExpertSquareHighlight2
     }
     #endregion
 
@@ -4460,7 +4460,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies that all borders be drawn.
         /// </summary>
-        All = 0x0F,
+        All = 0x0F
     }
     #endregion
 
@@ -4524,7 +4524,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies image is drawn much darker.
         /// </summary>
-        DarkDark,
+        DarkDark
     }
     #endregion
 
@@ -4596,24 +4596,29 @@ namespace Krypton.Toolkit
         PinHorizontal,
 
         /// <summary>
-        /// Specifies a form close button specification.
+        /// Specifies a form "Close" button specification.
         /// </summary>
         FormClose,
 
         /// <summary>
-        /// Specifies a form minimize button specification.
+        /// Specifies a form "Minimize" button specification.
         /// </summary>
         FormMin,
 
         /// <summary>
-        /// Specifies a form maximize button specification.
+        /// Specifies a form "Maximize" button specification.
         /// </summary>
         FormMax,
 
         /// <summary>
-        /// Specifies a form restore button specification.
+        /// Specifies a form "Restore" button specification.
         /// </summary>
         FormRestore,
+
+        /// <summary>
+        /// Specifies a form "Help" button specification.
+        /// </summary>
+        FormHelp,
 
         /// <summary>
         /// Specifies a pendant close button specification.
@@ -4648,7 +4653,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a ribbon expand button specification.
         /// </summary>
-        RibbonExpand,
+        RibbonExpand
     }
     #endregion
 
@@ -4676,7 +4681,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies button should be disabled.
         /// </summary>
-        False,
+        False
     }
     #endregion
 
@@ -4817,7 +4822,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies anti aliasing for graphics rendering.
         /// </summary>
-        AntiAlias,
+        AntiAlias
     }
     #endregion
 
@@ -5086,7 +5091,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a border style appropriate for a gallery.
         /// </summary>
-        RibbonGalleryBorder,
+        RibbonGalleryBorder
     }
     #endregion
 
@@ -5380,7 +5385,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the drop down gallery button.
         /// </summary>
-        DropDown,
+        DropDown
     }
     #endregion
 
@@ -5436,7 +5441,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a large track bar.
         /// </summary>
-        Large,
+        Large
     }
     #endregion
 
@@ -5459,7 +5464,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the position marker of a track bar.
         /// </summary>
-        TrackBarPosition,
+        TrackBarPosition
     }
     #endregion
 

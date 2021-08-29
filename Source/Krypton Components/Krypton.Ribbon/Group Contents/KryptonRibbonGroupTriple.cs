@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTriple), "ToolboxBitmaps.KryptonRibbonGroupTriple.bmp")]
-    [Designer(typeof(KryptonRibbonGroupTripleDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupTripleDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -239,7 +239,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Visuals")]
         [Description("How to align items in medium and small item sizes.")]
-        [DefaultValue(typeof(RibbonItemAlignment), "Near")]
+        //[DefaultValue(typeof(RibbonItemAlignment), "Near")]
         public RibbonItemAlignment ItemAlignment
         {
             get => _itemAlignment;
@@ -302,7 +302,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [DefaultValue(typeof(GroupItemSize), "Large")]
+        //[DefaultValue(typeof(GroupItemSize), "Large")]
         [RefreshProperties(RefreshProperties.All)]
         public GroupItemSize MaximumSize
         {
@@ -318,7 +318,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [DefaultValue(typeof(GroupItemSize), "Small")]
+        //[DefaultValue(typeof(GroupItemSize), "Small")]
         [RefreshProperties(RefreshProperties.All)]
         public GroupItemSize MinimumSize
         {

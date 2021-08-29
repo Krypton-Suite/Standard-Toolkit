@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonTrackBar), "ToolboxBitmaps.KryptonTrackBar.bmp")]
     [DefaultEvent("ValueChanged")]
     [DefaultProperty("Value")]
-    [Designer(typeof(KryptonTrackBarDesigner))]
+    [Designer("Krypton.Toolkit.KryptonTrackBarDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Allow user to scroll between a range of values.")]
     public class KryptonTrackBar : VisualSimpleBase
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the internal padding space.
         /// </summary>
-        [DefaultValue(typeof(Padding), "0,0,0,0")]
+        //[DefaultValue(typeof(Padding), "0,0,0,0")]
         public new Padding Padding
         {
             get => base.Padding;
@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Determines size of the track bar elements.")]
-        [DefaultValue(typeof(PaletteTrackBarSize), "Medium")]
+        //[DefaultValue(typeof(PaletteTrackBarSize), "Medium")]
         public PaletteTrackBarSize TrackBarSize
         {
             get => _drawTrackBar.TrackBarSize;
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Determines where tick marks are displayed.")]
-        [DefaultValue(typeof(TickStyle), "BottomRight")]
+        //[DefaultValue(typeof(TickStyle), "BottomRight")]
         [RefreshProperties(RefreshProperties.All)]
         public TickStyle TickStyle
         {
@@ -357,7 +357,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Background style.")]
-        [DefaultValue(typeof(Orientation), "Horizontal")]
+        //[DefaultValue(typeof(Orientation), "Horizontal")]
         public Orientation Orientation
         {
             get => _drawTrackBar.Orientation;
@@ -575,20 +575,11 @@ namespace Krypton.Toolkit
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
         protected override bool IsInputKey(Keys keyData)
         {
-            switch (keyData & ~Keys.Shift)
+            return (keyData & ~Keys.Shift) switch
             {
-                case Keys.Left:
-                case Keys.Right:
-                case Keys.Up:
-                case Keys.Down:
-                case Keys.Home:
-                case Keys.End:
-                case Keys.PageDown:
-                case Keys.PageUp:
-                    return true;
-            }
-
-            return base.IsInputKey(keyData);
+                Keys.Left or Keys.Right or Keys.Up or Keys.Down or Keys.Home or Keys.End or Keys.PageDown or Keys.PageUp => true,
+                _ => base.IsInputKey(keyData)
+            };
         }
 
         /// <summary>

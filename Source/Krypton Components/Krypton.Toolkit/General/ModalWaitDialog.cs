@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         private const int DELAY_SHOWING = 500;
         private const int DELAY_SPIN = 75;
         private const int SPIN_ANGLE = 20;
-        private static readonly Bitmap _hourGlass = Resources.HourGlass;
+        private static readonly Bitmap _hourGlass = GenericImageResources.HourGlass;
         #endregion
 
         #region Instance Fields

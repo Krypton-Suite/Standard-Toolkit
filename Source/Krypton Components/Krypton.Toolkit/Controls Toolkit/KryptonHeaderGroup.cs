@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonHeaderGroup), "ToolboxBitmaps.KryptonHeaderGroup.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("ValuesPrimary")]
-    [Designer(typeof(KryptonHeaderGroupDesigner))]
+    [Designer("Krypton.Toolkit.KryptonHeaderGroupDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Group a collection of controls with a descriptive caption.")]
     [Docking(DockingBehavior.Ask)]
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Layout")]
         [Description("Specifies if the control grows and shrinks to fit the contents exactly.")]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        //[DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public AutoSizeMode AutoSizeMode
         {
             // ReSharper disable RedundantBaseQualifier
@@ -308,7 +308,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => ValuesPrimary.Heading;
@@ -545,7 +545,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Edge position of the primary header.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        //[DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation HeaderPositionPrimary
         {
             get => _position1;
@@ -567,7 +567,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Edge position of the secondary header.")]
-        [DefaultValue(typeof(VisualOrientation), "Bottom")]
+        //[DefaultValue(typeof(VisualOrientation), "Bottom")]
         public VisualOrientation HeaderPositionSecondary
         {
             get => _position2;

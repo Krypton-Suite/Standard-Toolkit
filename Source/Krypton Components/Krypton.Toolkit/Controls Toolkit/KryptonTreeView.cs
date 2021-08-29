@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
     [DefaultEvent("AfterSelect")]
     [DefaultProperty("Nodes")]
-    [Designer(typeof(KryptonTreeViewDesigner))]
+    [Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Displays a hierarchical collection of labeled items, each represented by a TreeNode")]
     [Docking(DockingBehavior.Ask)]
@@ -139,10 +139,10 @@ namespace Krypton.Toolkit
                     _miRI = typeof(TreeView).GetMethod("ResetIndent",
                                                         BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                         null, CallingConventions.HasThis,
-                                                        MissingFrameWorkAPIs.Array_Empty<Type>(), null);
+                                                        Array.Empty<Type>(), null);
                 }
 
-                _miRI.Invoke(this, MissingFrameWorkAPIs.Array_Empty<object>());
+                _miRI.Invoke(this, Array.Empty<object>());
             }
             #endregion
 
@@ -156,10 +156,8 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using (ViewLayoutContext context = new(_viewManager, this, _kryptonTreeView, _kryptonTreeView.Renderer))
-                {
-                    ViewDrawPanel.Layout(context);
-                }
+                using ViewLayoutContext context = new(_viewManager, this, _kryptonTreeView, _kryptonTreeView.Renderer);
+                ViewDrawPanel.Layout(context);
             }
 
             /// <summary>
@@ -630,7 +628,7 @@ namespace Krypton.Toolkit
             _treeView.DrawMode = TreeViewDrawMode.OwnerDrawAll;
             _treeView.Click += OnTreeClick;  // SKC: make sure that the default click is also routed.
 
-            // Create the element that fills the remainder space and remembers fill rectange
+            // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_treeView)
             {
                 DisplayPadding = new Padding(1)
@@ -746,7 +744,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the internal padding space.
         /// </summary>
-        [DefaultValue(typeof(Padding), "1,1,1,1")]
+        //[DefaultValue(typeof(Padding), "1,1,1,1")]
         public new Padding Padding
         {
             get => base.Padding;
@@ -841,7 +839,7 @@ namespace Krypton.Toolkit
         [Description("The default image index for nodes.")]
         [Localizable(true)]
         [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Design, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [RelatedImageList("ImageList")]
         [DefaultValue(-1)]
@@ -858,7 +856,7 @@ namespace Krypton.Toolkit
         [Description("The default image key for the nodes.")]
         [Localizable(true)]
         [TypeConverter(typeof(ImageKeyConverter))]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [RelatedImageList("ImageList")]
         [DefaultValue("")]
@@ -924,7 +922,7 @@ namespace Krypton.Toolkit
         [Description("The default image index for selected nodes.")]
         [Localizable(true)]
         [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Design, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
         [RelatedImageList("ImageList")]
         [DefaultValue(-1)]
         public int SelectedImageIndex
@@ -940,7 +938,7 @@ namespace Krypton.Toolkit
         [Description("The default image for selected nodes.")]
         [Localizable(true)]
         [TypeConverter(typeof(ImageKeyConverter))]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
         [RelatedImageList("ImageList")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue("")]
@@ -1076,7 +1074,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("The root nodes in the KryptonTreeView control.")]
-        [Editor("System.Windows.Forms.Design.TreeNodeCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.TreeNodeCollectionEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1752,28 +1750,26 @@ namespace Krypton.Toolkit
                 UpdateContentFromNode(null);
 
                 // Ask the view element to layout in given space, needs this before a render call
-                using (ViewLayoutContext context = new(this, Renderer))
+                using ViewLayoutContext context = new(this, Renderer);
+                // For calculating the item height we always assume normal state
+                _drawButton.ElementState = PaletteState.Normal;
+
+                // Find required size to show a node (only interested in the height)
+                Size size = _drawButton.GetPreferredSize(context);
+                size.Height = size.Height + 1;
+
+                // If we have images defined then adjust to reflect image height
+                if (ImageList != null)
                 {
-                    // For calculating the item height we always assume normal state
-                    _drawButton.ElementState = PaletteState.Normal;
+                    size.Height = Math.Max(size.Height, ImageList.ImageSize.Height);
+                }
 
-                    // Find required size to show a node (only interested in the height)
-                    Size size = _drawButton.GetPreferredSize(context);
-                    size.Height = size.Height + 1;
-
-                    // If we have images defined then adjust to reflect image height
-                    if (ImageList != null)
+                // Update the item height to match height of a single node
+                if (size.Height != ItemHeight)
+                {
+                    if (_itemHeightDefault)
                     {
-                        size.Height = Math.Max(size.Height, ImageList.ImageSize.Height);
-                    }
-
-                    // Update the item height to match height of a single node
-                    if (size.Height != ItemHeight)
-                    {
-                        if (_itemHeightDefault)
-                        {
-                            _treeView.ItemHeight = size.Height;
-                        }
+                        _treeView.ItemHeight = size.Height;
                     }
                 }
             }
@@ -2056,22 +2052,20 @@ namespace Krypton.Toolkit
 
                                 // Draw the horizontal and vertical lines
                                 Color lineColor = Redirector.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-                                using (Pen linePen = new(lineColor))
-                                {
-                                    linePen.DashStyle = DashStyle.Dot;
-                                    linePen.DashOffset = indent % 2;
-                                    g.DrawLine(linePen, hCenter, top, hCenter, bottom);
-                                    g.DrawLine(linePen, hCenter - 1, vCenter - 1, indentBounds.Right, vCenter - 1);
-                                    hCenter -= indent;
+                                using Pen linePen = new(lineColor);
+                                linePen.DashStyle = DashStyle.Dot;
+                                linePen.DashOffset = indent % 2;
+                                g.DrawLine(linePen, hCenter, top, hCenter, bottom);
+                                g.DrawLine(linePen, hCenter - 1, vCenter - 1, indentBounds.Right, vCenter - 1);
+                                hCenter -= indent;
 
-                                    // Draw the vertical lines for previous node levels
-                                    while (hCenter >= 0)
-                                    {
-                                        int begin = indentBounds.Y;
-                                        begin -= (begin + 1) % 2;
-                                        g.DrawLine(linePen, hCenter, begin, hCenter, indentBounds.Bottom);
-                                        hCenter -= indent;
-                                    }
+                                // Draw the vertical lines for previous node levels
+                                while (hCenter >= 0)
+                                {
+                                    int begin = indentBounds.Y;
+                                    begin -= (begin + 1) % 2;
+                                    g.DrawLine(linePen, hCenter, begin, hCenter, indentBounds.Bottom);
+                                    hCenter -= indent;
                                 }
                             }
 

@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupDateTimePicker), "ToolboxBitmaps.KryptonRibbonGroupDateTimePicker.bmp")]
-    [Designer(typeof(KryptonRibbonGroupDateTimePickerDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupDateTimePickerDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("ValueChanged")]
@@ -328,7 +328,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the minimum size of the control.")]
-        [DefaultValue(typeof(Size), "180, 0")]
+        //[DefaultValue(typeof(Size), "180, 0")]
         public Size MinimumSize
         {
             get => DateTimePicker.MinimumSize;
@@ -340,7 +340,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the maximum size of the control.")]
-        [DefaultValue(typeof(Size), "180, 0")]
+        //[DefaultValue(typeof(Size), "180, 0")]
         public Size MaximumSize
         {
             get => DateTimePicker.MaximumSize;
@@ -408,7 +408,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("MonthCalendar")]
         [Description("Specifies the number of rows and columns of months displayed.")]
-        [DefaultValue(typeof(Size), "1,1")]
+        //[DefaultValue(typeof(Size), "1,1")]
         [Localizable(true)]
         public Size CalendarDimensions
         {
@@ -439,7 +439,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("MonthCalendar")]
         [Description("First day of the week.")]
-        [DefaultValue(typeof(Day), "Default")]
+        //[DefaultValue(typeof(Day), "Default")]
         [Localizable(true)]
         public Day CalendarFirstDayOfWeek
         {
@@ -587,7 +587,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Alignment of the drop-down calendar on the KryptonDateTimePicker control.")]
-        [DefaultValue(typeof(LeftRightAlignment), "Left")]
+        //[DefaultValue(typeof(LeftRightAlignment), "Left")]
         [Localizable(true)]
         public LeftRightAlignment DropDownAlign
         {
@@ -647,7 +647,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Determines whether dates and times are displayed using standard or custom formatting.")]
-        [DefaultValue(typeof(DateTimePickerFormat), "Long")]
+        //[DefaultValue(typeof(DateTimePickerFormat), "Long")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
         {

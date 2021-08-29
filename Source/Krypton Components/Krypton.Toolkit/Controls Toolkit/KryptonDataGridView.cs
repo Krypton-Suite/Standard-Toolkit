@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonDataGridView), "ToolboxBitmaps.KryptonDataGridView.bmp")]
     [DesignerCategory("code")]
-    [Designer(typeof(KryptonDataGridViewDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDataGridViewDesigner, Krypton.Toolkit")]
     [Description("Display rows and columns of data of a grid you can customize.")]
     public class KryptonDataGridView : DataGridView
     {
@@ -1466,41 +1466,37 @@ namespace Krypton.Toolkit
                                     // Use the display value of the header cell
                                     _shortTextValue.ShortText = e.FormattedValue.ToString();
 
-                                    using (ViewLayoutContext layoutContext = new(this, Renderer))
+                                    using ViewLayoutContext layoutContext = new(this, Renderer);
+                                    // If a column header cell...
+                                    if ((e.RowIndex == -1) && (e.ColumnIndex != -1))
                                     {
-                                        // If a column header cell...
-                                        if ((e.RowIndex == -1) && (e.ColumnIndex != -1))
+                                        // Find size needed to show header text fully
+                                        Size prefSize = Renderer.RenderStandardContent.GetContentPreferredSize(layoutContext, _contentInherit, _shortTextValue,
+                                            VisualOrientation.Top, state, false, false);
+
+                                        bool contentsFit = (prefSize.Width <= tempCellBounds.Width) &&
+                                                           (prefSize.Height <= tempCellBounds.Height);
+
+                                        // Cache if the column cell can display all the content
+                                        if (_columnCache.ContainsKey(e.ColumnIndex))
                                         {
-                                            // Find size needed to show header text fully
-                                            Size prefSize = Renderer.RenderStandardContent.GetContentPreferredSize(layoutContext, _contentInherit, _shortTextValue,
-                                                                                                                    VisualOrientation.Top, state, false, false);
-
-                                            bool contentsFit = (prefSize.Width <= tempCellBounds.Width) &&
-                                                               (prefSize.Height <= tempCellBounds.Height);
-
-                                            // Cache if the column cell can display all the content
-                                            if (_columnCache.ContainsKey(e.ColumnIndex))
-                                            {
-                                                _columnCache[e.ColumnIndex] = contentsFit;
-                                            }
-                                            else
-                                            {
-                                                _columnCache.Add(e.ColumnIndex, contentsFit);
-                                            }
+                                            _columnCache[e.ColumnIndex] = contentsFit;
                                         }
-
-                                        // Find the correct layout for the header content
-                                        using (IDisposable memento = Renderer.RenderStandardContent.LayoutContent(layoutContext, tempCellBounds,
-                                                                                                                   _contentInherit, _shortTextValue,
-                                                                                                                   VisualOrientation.Top, state, false, false))
+                                        else
                                         {
-                                            // Perform actual drawing of the content
-                                            Renderer.RenderStandardContent.DrawContent(renderContext, tempCellBounds,
-                                                                                        _contentInherit, memento,
-                                                                                        VisualOrientation.Top,
-                                                                                        state, false, false, true);
+                                            _columnCache.Add(e.ColumnIndex, contentsFit);
                                         }
                                     }
+
+                                    // Find the correct layout for the header content
+                                    using IDisposable memento = Renderer.RenderStandardContent.LayoutContent(layoutContext, tempCellBounds,
+                                        _contentInherit, _shortTextValue,
+                                        VisualOrientation.Top, state, false, false);
+                                    // Perform actual drawing of the content
+                                    Renderer.RenderStandardContent.DrawContent(renderContext, tempCellBounds,
+                                        _contentInherit, memento,
+                                        VisualOrientation.Top,
+                                        state, false, false, true);
                                 }
 
                                 // Blit the image onto the screen
@@ -1580,10 +1576,8 @@ namespace Krypton.Toolkit
                         PaintTransparentBackground(graphics, clipBounds);
 
                         // Use the view manager to paint the view panel that fills the entire areas as the background
-                        using (RenderContext context = new(this, graphics, clipBounds, Renderer))
-                        {
-                            ViewManager.Paint(context);
-                        }
+                        using RenderContext context = new(this, graphics, clipBounds, Renderer);
+                        ViewManager.Paint(context);
                     }
 
                     // Request for a refresh has been serviced

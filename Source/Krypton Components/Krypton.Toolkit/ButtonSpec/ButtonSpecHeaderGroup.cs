@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Defines header location for the button.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
+        //[DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
         public HeaderLocation HeaderLocation
         {
             get => _location;
@@ -65,13 +65,13 @@ namespace Krypton.Toolkit
             }
         }
 
+        private bool ShouldSerializeHeaderLocation() => HeaderLocation != HeaderLocation.PrimaryHeader;
+
         /// <summary>
         /// Resets the HeaderLocation property to its default value.
         /// </summary>
-        public void ResetHeaderLocation()
-        {
-            HeaderLocation = HeaderLocation.PrimaryHeader;
-        }
+        private void ResetHeaderLocation() => HeaderLocation = HeaderLocation.PrimaryHeader;
+
         #endregion
 
         #region CopyFrom

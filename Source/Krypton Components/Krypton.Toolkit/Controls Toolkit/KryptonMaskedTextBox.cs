@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("MaskInputRejected")]
     [DefaultProperty("Mask")]
     [DefaultBindingProperty("Text")]
-    [Designer(typeof(KryptonMaskedTextBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonMaskedTextBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Uses a mask to distinguish between proper and improper user input.")]
     public class KryptonMaskedTextBox : VisualControlBase,
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
                 {
                     _hint = value;
 
-                    if (string.IsNullOrEmpty(Text) && !MissingFrameWorkAPIs.IsNullOrWhiteSpace(Hint))
+                    if (string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Hint))
                     {
                         PI.SendMessage(Handle, PI.EM_SETCUEBANNER, (IntPtr)1, Hint);
                     }
@@ -229,21 +229,17 @@ namespace Krypton.Toolkit
                                     string drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
                                     try
                                     {
-                                        using (SolidBrush foreBrush = new(ForeColor))
-                                        {
-                                            g.DrawString(drawText, Font, foreBrush,
-                                                         new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(ForeColor);
+                                        g.DrawString(drawText, Font, foreBrush,
+                                            new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
+                                            stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using (SolidBrush foreBrush = new(ForeColor))
-                                        {
-                                            g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
-                                                         new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(ForeColor);
+                                        g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
+                                            new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
+                                            stringFormat);
                                     }
                                 }
 
@@ -499,7 +495,7 @@ namespace Krypton.Toolkit
             _maskedTextBox.Validating += OnMaskedTextBoxValidating;
             _maskedTextBox.Validated += OnMaskedTextBoxValidated;
 
-            // Create the element that fills the remainder space and remembers fill rectange
+            // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_maskedTextBox);
 
             // Create inner view for placing inside the drawing docker
@@ -560,7 +556,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeHint()
         {
-            return !MissingFrameWorkAPIs.IsNullOrWhiteSpace(Hint);
+            return !string.IsNullOrWhiteSpace(Hint);
         }
 
 
@@ -692,7 +688,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the text associated with the control.
         /// </summary>
-        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor", typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.All)]
         public override string Text
         {
@@ -853,7 +849,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the text should be aligned for edit controls.")]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
@@ -935,7 +931,7 @@ namespace Krypton.Toolkit
         [Category("Behavior")]
         [Description("Indicates whether the text to be copied to the clipboard includes literals and/or prompt characters.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        //[DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
         public MaskFormat CutCopyMaskFormat
         {
             get => _maskedTextBox.CutCopyMaskFormat;
@@ -960,7 +956,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates the masked text box input character typing mode.")]
-        [DefaultValue(typeof(InsertKeyMode), "Default")]
+        //[DefaultValue(typeof(InsertKeyMode), "Default")]
         public InsertKeyMode InsertKeyMode
         {
             get => _maskedTextBox.InsertKeyMode;
@@ -1060,7 +1056,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates whether the string returned from the Text property includes literal and/or prompt characters.")]
-        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        //[DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public MaskFormat TextMaskFormat
         {

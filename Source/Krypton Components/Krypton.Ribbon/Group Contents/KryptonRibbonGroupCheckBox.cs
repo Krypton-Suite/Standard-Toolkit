@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupCheckBox), "ToolboxBitmaps.KryptonRibbonGroupCheckBox.bmp")]
-    [Designer(typeof(KryptonRibbonGroupCheckBoxDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupCheckBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("CheckedChanged")]
@@ -249,7 +249,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Behavior")]
         [Description("Determines whether the group check box is checked.")]
-        [DefaultValue(typeof(CheckState), "Unchecked")]
+        //[DefaultValue(typeof(CheckState), "Unchecked")]
         public CheckState CheckState
         {
             get => _checkState;
@@ -368,7 +368,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Tooltip style for the group check box.")]
-        [DefaultValue(typeof(LabelStyle), "SuperTip")]
+        //[DefaultValue(typeof(LabelStyle), "SuperTip")]
         public LabelStyle ToolTipStyle { get; set; }
 
         /// <summary>
@@ -397,7 +397,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipTitle { get; set; }
@@ -408,7 +408,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipBody { get; set; }

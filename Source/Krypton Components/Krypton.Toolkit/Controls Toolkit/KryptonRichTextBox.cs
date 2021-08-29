@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("TextChanged")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
-    [Designer(typeof(KryptonRichTextBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonRichTextBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Enables the user to enter text, and provides multi-line editing and password character masking.")]
     public class KryptonRichTextBox : VisualControlBase,
@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
                         base.WndProc(ref m);
                         break;
                     case PI.WM_.PAINT:
-                        if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonRichTextBox.CueHint.CueHintText)
+                        if (!string.IsNullOrWhiteSpace(_kryptonRichTextBox.CueHint.CueHintText)
                             && (_kryptonRichTextBox.TextLength == 0)
                         )
                         {
@@ -679,7 +679,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the text associated associated with the control.
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => _richTextBox.Text;
@@ -826,7 +826,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the alignment of the selection.
         /// </summary>
         [Browsable(false)]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public HorizontalAlignment SelectionAlignment
         {
@@ -1083,7 +1083,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("The lines of text in a multiline edit, as an array of String values.")]
-        [Editor("System.Windows.Forms.Design.StringArrayEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1098,7 +1098,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
-        [DefaultValue(typeof(RichTextBoxScrollBars), "Both")]
+        //[DefaultValue(typeof(RichTextBoxScrollBars), "Both")]
         [Localizable(true)]
         public RichTextBoxScrollBars ScrollBars
         {
@@ -2321,7 +2321,7 @@ namespace Krypton.Toolkit
 
         private void OnRichTextBoxTextChanged(object sender, EventArgs e)
         {
-            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(CueHint.CueHintText)
+            if (!string.IsNullOrWhiteSpace(CueHint.CueHintText)
                 && TextLength <= 1)
             {
                 // Needed to prevent character turds being left behind

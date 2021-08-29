@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("LinkClicked")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
-    [Designer(typeof(KryptonLinkLabelDesigner))]
+    [Designer("Krypton.Toolkit.KryptonLinkLabelDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Displays descriptive information as a hyperlink.")]
     public class KryptonLinkLabel : KryptonLabel
@@ -63,10 +63,10 @@ namespace Krypton.Toolkit
             EnabledTarget = false;
 
             // Create the override states that redirect without inheriting
-            _stateVisitedRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalControl);
-            _stateNotVisitedRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalControl);
-            _statePressedRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalControl);
-            _stateFocusRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalControl);
+            _stateVisitedRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
+            _stateNotVisitedRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
+            _statePressedRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
+            _stateFocusRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
             OverrideVisited = new PaletteContent(_stateVisitedRedirect, NeedPaintDelegate);
             OverrideNotVisited = new PaletteContent(_stateNotVisitedRedirect, NeedPaintDelegate);
             OverrideFocus = new PaletteContent(_stateFocusRedirect, NeedPaintDelegate);

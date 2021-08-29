@@ -923,7 +923,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies docking tabs with larger selected entry.
         /// </summary>
-        DockOutsize,
+        DockOutsize
     }
     #endregion
 
@@ -946,7 +946,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies button should be disabled.
         /// </summary>
-        False,
+        False
     }
     #endregion
 
@@ -1176,7 +1176,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a mixed set of styles.
         /// </summary>
-        Mixed,
+        Mixed
     }
     #endregion
 
@@ -1520,7 +1520,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the child element should dock against the right edge.
         /// </summary>
-        Right,
+        Right
     }
     #endregion
 
@@ -1553,7 +1553,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies a pencil for the line being edited.
         /// </summary>
-        Pencil,
+        Pencil
     }
     #endregion
 
@@ -1581,7 +1581,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies bottom of context menu is adjacent to bottom of rectangle.
         /// </summary>
-        Bottom,
+        Bottom
     }
     #endregion
 
@@ -1609,7 +1609,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies right of context menu is adjacent to right of rectangle.
         /// </summary>
-        Right,
+        Right
     }
     #endregion
 
@@ -1691,7 +1691,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the Close button.
         /// </summary>
-        Close = 0x20,
+        Close = 0x20
     }
     #endregion
 
@@ -1830,7 +1830,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// A position of the Popup control that aligns its lower edge with the upper edge of the PlacementTarget and aligns its left edge with the left edge of the PlacementTarget. If the upper screen-edge obscures the Popup, the control repositions itself so that its upper edge aligns with the lower edge of the PlacementTarget.If the lower screen-edge obscures the Popup, the lower edge of the control aligns with the lower screen-edge.If the left or right screen-edge obscures the Popup, it then repositions itself to align with the obscuring screen.
         /// </summary>
-        Top = 10,
+        Top = 10
     }
     #endregion Enum PlacementMode
 }

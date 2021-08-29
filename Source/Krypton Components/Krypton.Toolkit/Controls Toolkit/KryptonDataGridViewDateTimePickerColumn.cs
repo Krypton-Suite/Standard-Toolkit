@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewDateTimePickerCell cells.
     /// </summary>
-    [Designer(typeof(KryptonDateTimePickerColumnDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDateTimePickerColumnDesigner, Krypton.Toolkit")]
     [ToolboxBitmap(typeof(KryptonDataGridViewDateTimePickerColumn), "ToolboxBitmaps.KryptonDateTimePicker.bmp")]
     public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconColumn
     {
@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Determines whether dates and times are displayed using standard or custom formatting.")]
-        [DefaultValue(typeof(DateTimePickerFormat), "Long")]
+        //[DefaultValue(typeof(DateTimePickerFormat), "Long")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
         {
@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("MonthCalendar")]
         [Description("Specifies the number of rows and columns of months displayed.")]
-        [DefaultValue(typeof(Size), "1,1")]
+        //[DefaultValue(typeof(Size), "1,1")]
         public Size CalendarDimensions
         {
             get =>
@@ -603,7 +603,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("MonthCalendar")]
         [Description("First day of the week.")]
-        [DefaultValue(typeof(Day), "Default")]
+        //[DefaultValue(typeof(Day), "Default")]
         public Day CalendarFirstDayOfWeek
         {
             get =>
@@ -867,7 +867,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 _annualDates.Clear();
@@ -897,7 +897,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -925,7 +925,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                value ??= Array.Empty<DateTime>();
 
                 _dates.Clear();
                 _dates.AddRange(value);

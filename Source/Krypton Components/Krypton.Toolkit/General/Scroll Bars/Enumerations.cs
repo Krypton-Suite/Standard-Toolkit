@@ -21,52 +21,52 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates the up arrow is in normal state.
         /// </summary>
-        UPNORMAL,
+        UpNormal,
 
         /// <summary>
         /// Indicates the up arrow is in hot state.
         /// </summary>
-        UPHOT,
+        UpHot,
 
         /// <summary>
         /// Indicates the up arrow is in active state.
         /// </summary>
-        UPACTIVE,
+        UpActive,
 
         /// <summary>
         /// Indicates the up arrow is in pressed state.
         /// </summary>
-        UPPRESSED,
+        UpPressed,
 
         /// <summary>
         /// Indicates the up arrow is in disabled state.
         /// </summary>
-        UPDISABLED,
+        UpDisabled,
 
         /// <summary>
         /// Indicates the down arrow is in normal state.
         /// </summary>
-        DOWNNORMAL,
+        DownNormal,
 
         /// <summary>
         /// Indicates the down arrow is in hot state.
         /// </summary>
-        DOWNHOT,
+        DownHot,
 
         /// <summary>
         /// Indicates the down arrow is in active state.
         /// </summary>
-        DOWNACTIVE,
+        DownActive,
 
         /// <summary>
         /// Indicates the down arrow is in pressed state.
         /// </summary>
-        DOWNPRESSED,
+        DownPressed,
 
         /// <summary>
         /// Indicates the down arrow is in disabled state.
         /// </summary>
-        DOWNDISABLED
+        DownDisabled
     }
 
     /// <summary>
@@ -77,12 +77,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates a horizontal scrollbar.
         /// </summary>
-        HORIZONTAL,
+        Horizontal,
 
         /// <summary>
         /// Indicates a vertical scrollbar.
         /// </summary>
-        VERTICAL
+        Vertical
     }
 
     /// <summary>
@@ -93,26 +93,26 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates a normal scrollbar state.
         /// </summary>
-        NORMAL,
+        Normal,
 
         /// <summary>
         /// Indicates a hot scrollbar state.
         /// </summary>
-        HOT,
+        Hot,
 
         /// <summary>
         /// Indicates an active scrollbar state.
         /// </summary>
-        ACTIVE,
+        Active,
 
         /// <summary>
         /// Indicates a pressed scrollbar state.
         /// </summary>
-        PRESSED,
+        Pressed,
 
         /// <summary>
         /// Indicates a disabled scrollbar state.
         /// </summary>
-        DISABLED
+        Disabled
     }
 }

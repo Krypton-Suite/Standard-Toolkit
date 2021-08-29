@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonBorderEdge), "ToolboxBitmaps.KryptonBorderEdge.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("Orientation")]
-    [Designer(typeof(KryptonBorderEdgeDesigner))]
+    [Designer("Krypton.Toolkit.KryptonBorderEdgeDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Displays a vertical or horizontal border edge.")]
     public class KryptonBorderEdge : VisualControlBase
@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Layout")]
         [Description("Specifies if the control grows and shrinks to fit the contents exactly.")]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        //[DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public AutoSizeMode AutoSizeMode
         {
             // ReSharper disable RedundantBaseQualifier
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Orientation of border edge used to determine sizing.")]
-        [DefaultValue(typeof(Orientation), "Horizontal")]
+        //[DefaultValue(typeof(Orientation), "Horizontal")]
         public virtual Orientation Orientation
         {
             get => _orientation;

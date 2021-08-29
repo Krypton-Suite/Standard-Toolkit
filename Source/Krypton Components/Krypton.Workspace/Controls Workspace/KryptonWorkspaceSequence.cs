@@ -19,7 +19,7 @@ namespace Krypton.Workspace
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonWorkspaceSequence), "ToolboxBitmaps.KryptonWorkspaceSequence.bmp")]
     [TypeConverter(typeof(KryptonWorkspaceSequenceConverter))]
-    [Designer(typeof(KryptonWorkspaceSequenceDesigner))]
+    [Designer("Krypton.Workspace.KryptonWorkspaceSequenceDesigner, Krypton.Workspace")]
     [DesignTimeVisible(false)]
     [DesignerCategory("code")]
     [DefaultProperty("Children")]
@@ -125,7 +125,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Workspace")]
         [Description("Orientation to layout the child entries.")]
-        [DefaultValue(typeof(Orientation), "Horizontal")]
+        //[DefaultValue(typeof(Orientation), "Horizontal")]
         public Orientation Orientation
         {
             get => _orientation;

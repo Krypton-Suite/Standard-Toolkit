@@ -201,10 +201,8 @@ namespace Krypton.Toolkit
                 if (_panel.Controls.Count == 0)
                 {
                     // Then we need to draw a watermark to indicate no children
-                    using (Graphics g = _panel.CreateGraphics())
-                    {
-                        DrawWaterMark(g);
-                    }
+                    using Graphics g = _panel.CreateGraphics();
+                    DrawWaterMark(g);
                 }
                 else
                 {
@@ -223,25 +221,23 @@ namespace Krypton.Toolkit
             string drawText = Control.Name;
 
             // Use a fixed font for the drawing
-            using (Font f = new("Arial", 8f))
+            using Font f = new("Arial", 8f);
+            try
             {
-                try
-                {
-                    // Measure the size of the text
-                    SizeF sizeF = g.MeasureString(drawText, f);
+                // Measure the size of the text
+                SizeF sizeF = g.MeasureString(drawText, f);
 
-                    // Find the drawing position to centre the text
-                    int middleX = (clientRect.Width / 2) - (((int)sizeF.Width) / 2);
-                    int middleY = (clientRect.Height / 2) - (((int)sizeF.Height) / 2);
+                // Find the drawing position to centre the text
+                int middleX = (clientRect.Width / 2) - (((int)sizeF.Width) / 2);
+                int middleY = (clientRect.Height / 2) - (((int)sizeF.Height) / 2);
 
-                    // Draw the name of the panel in the centre
-                    TextRenderer.DrawText(g, drawText, f,
-                                          new Point(middleX, middleY),
-                                          Color.Black,
-                                          TextFormatFlags.GlyphOverhangPadding);
-                }
-                catch { }
+                // Draw the name of the panel in the centre
+                TextRenderer.DrawText(g, drawText, f,
+                    new Point(middleX, middleY),
+                    Color.Black,
+                    TextFormatFlags.GlyphOverhangPadding);
             }
+            catch { }
         }
         #endregion
     }

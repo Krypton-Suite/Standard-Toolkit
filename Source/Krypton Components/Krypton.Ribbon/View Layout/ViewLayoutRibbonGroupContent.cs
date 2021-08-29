@@ -505,7 +505,7 @@ namespace Krypton.Ribbon
             // entry which is the minimum width of a group
             if (retSizes.Count == 0)
             {
-                retSizes.Add(new GroupSizeWidth(EMPTY_WIDTH, MissingFrameWorkAPIs.Array_Empty<ItemSizeWidth>()));
+                retSizes.Add(new GroupSizeWidth(EMPTY_WIDTH, Array.Empty<ItemSizeWidth>()));
             }
 
             // If adding the extra design time entry

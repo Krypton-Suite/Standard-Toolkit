@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         ButtonNavigatorPressed2 = 222,
         ButtonNavigatorChecked1 = 223,
         ButtonNavigatorChecked2 = 224,
-        ToolTipBottom = 225,
+        ToolTipBottom = 225
     }
     #endregion
 

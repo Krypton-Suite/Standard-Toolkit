@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
-    [Designer(typeof(KryptonRibbonGroupGalleryDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupGalleryDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -471,7 +471,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Tooltip style for the group button.")]
-        [DefaultValue(typeof(LabelStyle), "SuperTip")]
+        //[DefaultValue(typeof(LabelStyle), "SuperTip")]
         public LabelStyle ToolTipStyle { get; set; }
 
         /// <summary>
@@ -500,7 +500,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipTitle { get; set; }
@@ -511,7 +511,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipBody { get; set; }
@@ -585,7 +585,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [DefaultValue(typeof(GroupItemSize), "Large")]
+        //[DefaultValue(typeof(GroupItemSize), "Large")]
         [RefreshProperties(RefreshProperties.All)]
         public GroupItemSize MaximumSize
         {
@@ -601,7 +601,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [DefaultValue(typeof(GroupItemSize), "Small")]
+        //[DefaultValue(typeof(GroupItemSize), "Small")]
         [RefreshProperties(RefreshProperties.All)]
         public GroupItemSize MinimumSize
         {

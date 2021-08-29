@@ -331,25 +331,15 @@ namespace Krypton.Ribbon
         {
             // Let base class calculate fill rectangle
             base.OnLayout(levent);
-
-            // Ribbon shape determines the border rounding required
-            int borderRounding;
-            switch (_ribbon.RibbonShape)
+            var borderRounding = _ribbon.RibbonShape switch
             {
-                default:
-                case PaletteRibbonShape.Office2007:
-                    borderRounding = 2;
-                    break;
-                case PaletteRibbonShape.Office2010:
-                    borderRounding = 1;
-                    break;
-            }
+                PaletteRibbonShape.Office2010 => 1,
+                _ => 2
+            };
 
             // Update the region of the popup to be the border path
-            using (GraphicsPath roundPath = CommonHelper.RoundedRectanglePath(ClientRectangle, borderRounding))
-            {
-                Region = new Region(roundPath);
-            }
+            using GraphicsPath roundPath = CommonHelper.RoundedRectanglePath(ClientRectangle, borderRounding);
+            Region = new Region(roundPath);
         }
 
         /// <summary>

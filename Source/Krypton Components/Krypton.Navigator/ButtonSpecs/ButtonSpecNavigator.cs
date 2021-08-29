@@ -49,7 +49,7 @@ namespace Krypton.Navigator
         [Category("Behavior")]
         [Description("Defines a restricted type for a navigator button spec.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(PaletteNavButtonSpecStyle), "Generic")]
+        //[DefaultValue(typeof(PaletteNavButtonSpecStyle), "Generic")]
         public PaletteNavButtonSpecStyle TypeRestricted
         {
             get => PaletteTypeToNavigator(ProtectedType);
@@ -99,6 +99,8 @@ namespace Krypton.Navigator
                     return PaletteButtonSpecStyle.FormMin;
                 case PaletteNavButtonSpecStyle.FormRestore:
                     return PaletteButtonSpecStyle.FormRestore;
+                case PaletteNavButtonSpecStyle.FormHelp:
+                    return PaletteButtonSpecStyle.FormHelp;
                 case PaletteNavButtonSpecStyle.PendantClose:
                     return PaletteButtonSpecStyle.PendantClose;
                 case PaletteNavButtonSpecStyle.PendantMin:
@@ -148,6 +150,8 @@ namespace Krypton.Navigator
                     return PaletteNavButtonSpecStyle.FormMin;
                 case PaletteButtonSpecStyle.FormRestore:
                     return PaletteNavButtonSpecStyle.FormRestore;
+                case PaletteButtonSpecStyle.FormHelp:
+                    return PaletteNavButtonSpecStyle.FormHelp;
                 case PaletteButtonSpecStyle.PendantClose:
                     return PaletteNavButtonSpecStyle.PendantClose;
                 case PaletteButtonSpecStyle.PendantMin:

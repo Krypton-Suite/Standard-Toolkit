@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonGroupBox), "ToolboxBitmaps.KryptonGroupBox.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("ValuesPrimary")]
-    [Designer(typeof(KryptonGroupBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonGroupBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Display frame around a group of related controls with an optional caption.")]
     [Docking(DockingBehavior.Ask)]
@@ -178,7 +178,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Layout")]
         [Description("Specifies if the control grows and shrinks to fit the contents exactly.")]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        //[DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public AutoSizeMode AutoSizeMode
         {
             // ReSharper disable RedundantBaseQualifier
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Heading;
@@ -261,7 +261,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Border style.")]
-        [DefaultValue(typeof(PaletteBorderStyle), "ControlGroupBox")]
+        //[DefaultValue(typeof(PaletteBorderStyle), "ControlGroupBox")]
         public PaletteBorderStyle GroupBorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -291,7 +291,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Background style.")]
-        [DefaultValue(typeof(PaletteBackStyle), "ControlGroupBox")]
+        //[DefaultValue(typeof(PaletteBackStyle), "ControlGroupBox")]
         public PaletteBackStyle GroupBackStyle
         {
             get => StateCommon.BackStyle;
@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Caption style.")]
-        [DefaultValue(typeof(LabelStyle), "GroupBoxCaption")]
+        //[DefaultValue(typeof(LabelStyle), "GroupBoxCaption")]
         public LabelStyle CaptionStyle
         {
             get => _captionStyle;
@@ -341,7 +341,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Edge position of the caption.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        //[DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation CaptionEdge
         {
             get => _captionEdge;
@@ -397,7 +397,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Orientation of the caption.")]
-        [DefaultValue(typeof(ButtonOrientation), "Auto")]
+        //[DefaultValue(typeof(ButtonOrientation), "Auto")]
         public ButtonOrientation CaptionOrientation
         {
             get => _captionOrientation;

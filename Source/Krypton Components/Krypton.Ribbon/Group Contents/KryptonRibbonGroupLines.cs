@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupLines), "ToolboxBitmaps.KryptonRibbonGroupLines.bmp")]
-    [Designer(typeof(KryptonRibbonGroupLinesDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupLinesDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -289,7 +289,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [DefaultValue(typeof(GroupItemSize), "Large")]
+        //[DefaultValue(typeof(GroupItemSize), "Large")]
         [RefreshProperties(RefreshProperties.All)]
         public GroupItemSize MaximumSize
         {
@@ -305,7 +305,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [DefaultValue(typeof(GroupItemSize), "Small")]
+        //[DefaultValue(typeof(GroupItemSize), "Small")]
         [RefreshProperties(RefreshProperties.All)]
         public GroupItemSize MinimumSize
         {

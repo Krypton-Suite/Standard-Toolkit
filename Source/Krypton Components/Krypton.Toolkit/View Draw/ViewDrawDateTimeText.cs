@@ -946,25 +946,18 @@ namespace Krypton.Toolkit
                 get 
                 {
                     // Only certain formats can be edited
-                    switch (FragFormat)
+                    return FragFormat switch
                     {
-                        case "d":
-                        case "dd":
-                        case "M":
-                        case "MM":
-                        case "MMM":
-                        case "MMMM":
-                            return true;
-                    }
-
-                    return FragFormat.StartsWith("h") || 
-                        FragFormat.StartsWith("H") ||
-                        FragFormat.StartsWith("m") ||
-                        FragFormat.StartsWith("s") ||
-                        FragFormat.StartsWith("t") ||
-                        FragFormat.StartsWith("f") ||
-                        FragFormat.StartsWith("F") ||
-                        FragFormat.StartsWith("y");
+                        "d" or "dd" or "M" or "MM" or "MMM" or "MMMM" => true,
+                        _ => FragFormat.StartsWith("h") ||
+     FragFormat.StartsWith("H") ||
+     FragFormat.StartsWith("m") ||
+     FragFormat.StartsWith("s") ||
+     FragFormat.StartsWith("t") ||
+     FragFormat.StartsWith("f") ||
+     FragFormat.StartsWith("F") ||
+     FragFormat.StartsWith("y")
+                    };
                 }
             }
 
@@ -1677,12 +1670,10 @@ namespace Krypton.Toolkit
             _formatHandler.DateTime = _dateTimePicker.Value;
 
             // Ask the format handler to perform actual rendering of the text
-            using (Clipping clipped = new(context.Graphics, ClientRectangle))
-            {
-                _formatHandler.Render(context, GetFont(), ClientRectangle,
-                                      GetTextColor(), GetBackColor(),
-                                      _dateTimePicker.Checked);
-            }
+            using Clipping clipped = new(context.Graphics, ClientRectangle);
+            _formatHandler.Render(context, GetFont(), ClientRectangle,
+                GetTextColor(), GetBackColor(),
+                _dateTimePicker.Checked);
         }
         #endregion
 

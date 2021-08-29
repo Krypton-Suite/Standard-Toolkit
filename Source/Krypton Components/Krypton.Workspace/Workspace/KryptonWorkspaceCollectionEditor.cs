@@ -182,7 +182,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the page tooltip title text.
                 /// </summary>
                 [Category("Appearance")]
-                [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+                [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
                 [DefaultValue("")]
                 public string ToolTipTitle
                 {
@@ -194,7 +194,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the page tooltip body text.
                 /// </summary>
                 [Category("Appearance")]
-                [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+                [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
                 [DefaultValue("")]
                 public string ToolTipBody
                 {
@@ -206,7 +206,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the tooltip label style.
                 /// </summary>
                 [Category("Appearance")]
-                [DefaultValue(typeof(LabelStyle), "ToolTip")]
+                //[DefaultValue(typeof(LabelStyle), "ToolTip")]
                 public LabelStyle ToolTipStyle
                 {
                     get => _item.ToolTipStyle;
@@ -260,7 +260,7 @@ namespace Krypton.Workspace
                 /// Gets or sets the size that is the lower limit that GetPreferredSize can specify.
                 /// </summary>
                 [Category("Layout")]
-                [DefaultValue(typeof(Size), "50,50")]
+                //[DefaultValue(typeof(Size), "50,50")]
                 public Size MinimumSize
                 {
                     get => _item.MinimumSize;
@@ -271,7 +271,7 @@ namespace Krypton.Workspace
                 /// Gets or sets the size that is the upper limit that GetPreferredSize can specify.
                 /// </summary>
                 [Category("Layout")]
-                [DefaultValue(typeof(Size), "0,0")]
+                //[DefaultValue(typeof(Size), "0,0")]
                 public Size MaximumSize
                 {
                     get => _item.MaximumSize;
@@ -282,7 +282,7 @@ namespace Krypton.Workspace
                 /// Gets or sets the page padding.
                 /// </summary>
                 [Category("Layout")]
-                [DefaultValue(typeof(Padding), "0,0,0,0")]
+                //[DefaultValue(typeof(Padding), "0,0,0,0")]
                 public Padding Padding
                 {
                     get => _item.Padding;
@@ -328,7 +328,7 @@ namespace Krypton.Workspace
                 /// Gets or sets the size that is the lower limit that GetPreferredSize can specify.
                 /// </summary>
                 [Category("Layout")]
-                [DefaultValue(typeof(Size), "0,0")]
+                //[DefaultValue(typeof(Size), "0,0")]
                 public Size MinimumSize
                 {
                     get => _item.MinimumSize;
@@ -339,7 +339,7 @@ namespace Krypton.Workspace
                 /// Gets or sets the size that is the upper limit that GetPreferredSize can specify.
                 /// </summary>
                 [Category("Layout")]
-                [DefaultValue(typeof(Size), "0,0")]
+                //[DefaultValue(typeof(Size), "0,0")]
                 public Size MaximumSize
                 {
                     get => _item.MaximumSize;
@@ -479,7 +479,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the display mode.
                 /// </summary>
                 [Category("Visuals")]
-                [DefaultValue(typeof(NavigatorMode), "BarTabGroup")]
+                //[DefaultValue(typeof(NavigatorMode), "BarTabGroup")]
                 public NavigatorMode NavigatorMode
                 {
                     get => _item.NavigatorMode;
@@ -490,7 +490,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the page background style.
                 /// </summary>
                 [Category("Visuals")]
-                [DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
+                //[DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
                 public PaletteBackStyle PageBackStyle
                 {
                     get => _item.PageBackStyle;
@@ -632,7 +632,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the orientation for laying out the child entries.
                 /// </summary>
                 [Category("Workspace")]
-                [DefaultValue(typeof(Orientation), "Horizontal")]
+                //[DefaultValue(typeof(Orientation), "Horizontal")]
                 public Orientation Orientation
                 {
                     get => _item.Orientation;

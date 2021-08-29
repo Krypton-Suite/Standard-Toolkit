@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonHeader), "ToolboxBitmaps.KryptonHeader.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("Text")]
-    [Designer(typeof(KryptonHeaderDesigner))]
+    [Designer("Krypton.Toolkit.KryptonHeaderDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Display a descriptive caption.")]
     public class KryptonHeader : VisualSimpleBase
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the auto size mode.
         /// </summary>
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        //[DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public new AutoSizeMode AutoSizeMode
         {
             get => base.AutoSizeMode;
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Heading;
@@ -197,7 +197,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        //[DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Header style.")]
-        [DefaultValue(typeof(HeaderStyle), "Primary")]
+        //[DefaultValue(typeof(HeaderStyle), "Primary")]
         public HeaderStyle HeaderStyle
         {
             get => _style;

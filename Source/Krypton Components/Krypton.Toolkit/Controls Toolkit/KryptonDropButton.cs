@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonDropButton), "ToolboxBitmaps.KryptonDropButton.bmp")]
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
-    [Designer(typeof(KryptonDropButtonDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDropButtonDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Raises an event when the user clicks it.")]
     public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValues
@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Text;
@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        //[DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation ButtonOrientation
         {
             get => _drawButton.Orientation;
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Position of the drop arrow within the button.")]
-        [DefaultValue(typeof(VisualOrientation), "Right")]
+        //[DefaultValue(typeof(VisualOrientation), "Right")]
         public VisualOrientation DropDownPosition
         {
             get => _drawButton.DropDownPosition;
@@ -232,45 +232,29 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Orientation of the drop arrow within the button.")]
-        [DefaultValue(typeof(VisualOrientation), "Bottom")]
+        //[DefaultValue(typeof(VisualOrientation), "Bottom")]
         public VisualOrientation DropDownOrientation
         {
             get
             {
-                switch (_drawButton.DropDownOrientation)
+                return _drawButton.DropDownOrientation switch
                 {
-                    default:
-                    case VisualOrientation.Top:
-                        return VisualOrientation.Bottom;
-                    case VisualOrientation.Bottom:
-                        return VisualOrientation.Top;
-                    case VisualOrientation.Left:
-                        return VisualOrientation.Right;
-                    case VisualOrientation.Right:
-                        return VisualOrientation.Left;
-                }
+                    VisualOrientation.Bottom => VisualOrientation.Top,
+                    VisualOrientation.Left => VisualOrientation.Right,
+                    VisualOrientation.Right => VisualOrientation.Left,
+                    _ => VisualOrientation.Bottom
+                };
             }
 
             set
             {
-                VisualOrientation converted;
-                switch (value)
+                var converted = value switch
                 {
-                    default:
-                    case VisualOrientation.Bottom:
-                        converted = VisualOrientation.Top;
-                        break;
-                    case VisualOrientation.Top:
-                        converted = VisualOrientation.Bottom;
-                        break;
-                    case VisualOrientation.Right:
-                        converted = VisualOrientation.Left;
-                        break;
-                    case VisualOrientation.Left:
-                        converted = VisualOrientation.Right;
-                        break;
-                }
-
+                    VisualOrientation.Top => VisualOrientation.Bottom,
+                    VisualOrientation.Right => VisualOrientation.Left,
+                    VisualOrientation.Left => VisualOrientation.Right,
+                    _ => VisualOrientation.Top
+                };
                 if (_drawButton.DropDownOrientation != converted)
                 {
                     _drawButton.DropDownOrientation = converted;
@@ -451,7 +435,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("The dialog-box result produced in a modal form by clicking the button.")]
-        [DefaultValue(typeof(DialogResult), "None")]
+        //[DefaultValue(typeof(DialogResult), "None")]
         public DialogResult DialogResult { get; set; }
 
         /// <summary>
@@ -951,32 +935,22 @@ namespace Krypton.Toolkit
 
         private KryptonContextMenuPositionH GetPositionH()
         {
-            switch (DropDownOrientation)
+            return DropDownOrientation switch
             {
-                default:
-                case VisualOrientation.Bottom:
-                case VisualOrientation.Top:
-                    return KryptonContextMenuPositionH.Left;
-                case VisualOrientation.Left:
-                    return KryptonContextMenuPositionH.Before;
-                case VisualOrientation.Right:
-                    return KryptonContextMenuPositionH.After;
-            }
+                VisualOrientation.Left => KryptonContextMenuPositionH.Before,
+                VisualOrientation.Right => KryptonContextMenuPositionH.After,
+                _ => KryptonContextMenuPositionH.Left
+            };
         }
 
         private KryptonContextMenuPositionV GetPositionV()
         {
-            switch (DropDownOrientation)
+            return DropDownOrientation switch
             {
-                default:
-                case VisualOrientation.Bottom:
-                    return KryptonContextMenuPositionV.Below;
-                case VisualOrientation.Top:
-                    return KryptonContextMenuPositionV.Above;
-                case VisualOrientation.Left:
-                case VisualOrientation.Right:
-                    return KryptonContextMenuPositionV.Top;
-            }
+                VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+                VisualOrientation.Left or VisualOrientation.Right => KryptonContextMenuPositionV.Top,
+                _ => KryptonContextMenuPositionV.Below
+            };
         }
 
         private void OnContextMenuClosed(object sender, EventArgs e)

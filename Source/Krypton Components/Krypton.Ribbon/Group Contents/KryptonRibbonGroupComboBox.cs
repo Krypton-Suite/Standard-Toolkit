@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupComboBox), "ToolboxBitmaps.KryptonRibbonGroupComboBox.bmp")]
-    [Designer(typeof(KryptonRibbonGroupComboBoxDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupComboBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedTextChanged")]
@@ -400,7 +400,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the minimum size of the control.")]
-        [DefaultValue(typeof(Size), "121, 0")]
+        //[DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
             get => ComboBox.MinimumSize;
@@ -412,7 +412,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the maximum size of the control.")]
-        [DefaultValue(typeof(Size), "121, 0")]
+        //[DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
             get => ComboBox.MaximumSize;
@@ -424,7 +424,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Text associated with the control.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => ComboBox.Text;
@@ -460,7 +460,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to use as the actual value of the items in the control.")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ValueMember
         {
@@ -487,8 +487,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter")]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string DisplayMember
         {
@@ -501,7 +501,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Controls the appearance and functionality of the KryptonComboBox.")]
-        [DefaultValue(typeof(ComboBoxStyle), "DropDown")]
+        //[DefaultValue(typeof(ComboBoxStyle), "DropDown")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
         {
@@ -592,7 +592,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Data")]
         [Description("The items in the KryptonComboBox.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -634,7 +634,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
         [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -649,7 +649,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the text completion behavior of the combobox.
         /// </summary>
         [Description("Indicates the text completion behavior of the combobox.")]
-        [DefaultValue(typeof(AutoCompleteMode), "None")]
+        //[DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteMode AutoCompleteMode
@@ -662,7 +662,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
         [Description("The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
-        [DefaultValue(typeof(AutoCompleteSource), "None")]
+        //[DefaultValue(typeof(AutoCompleteSource), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteSource AutoCompleteSource
@@ -675,7 +675,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
         /// </summary>
         [Description("The format specifier characters that indicate how a value is to be displayed.")]
-        [Editor("System.Windows.Forms.Design.FormatStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
         public string FormatString

@@ -276,18 +276,13 @@ namespace Krypton.Ribbon
         {
             get
             {
-                switch (Ribbon.RibbonShape)
+                return Ribbon.RibbonShape switch
                 {
-                    default:
-                    case PaletteRibbonShape.Office2007:
-                        return _preferredBorder2007;
-                    case PaletteRibbonShape.Office2010:
-                        return _preferredBorder2010;
-                    case PaletteRibbonShape.Office2013:
-                        return _preferredBorder2010;
-                    case PaletteRibbonShape.Office365:
-                        return _preferredBorder2010;
-                }
+                    PaletteRibbonShape.Office2010 => _preferredBorder2010,
+                    PaletteRibbonShape.Office2013 => _preferredBorder2010,
+                    PaletteRibbonShape.Office365 => _preferredBorder2010,
+                    _ => _preferredBorder2007
+                };
             }
         }
         #endregion
@@ -300,18 +295,13 @@ namespace Krypton.Ribbon
         {
             get
             {
-                switch (Ribbon.RibbonShape)
+                return Ribbon.RibbonShape switch
                 {
-                    default:
-                    case PaletteRibbonShape.Office2007:
-                        return _layoutBorder2007;
-                    case PaletteRibbonShape.Office2010:
-                        return _layoutBorder2010;
-                    case PaletteRibbonShape.Office2013:
-                        return _layoutBorder2010;
-                    case PaletteRibbonShape.Office365:
-                        return _layoutBorder2010;
-                }
+                    PaletteRibbonShape.Office2010 => _layoutBorder2010,
+                    PaletteRibbonShape.Office2013 => _layoutBorder2010,
+                    PaletteRibbonShape.Office365 => _layoutBorder2010,
+                    _ => _layoutBorder2007
+                };
             }
         }
         #endregion
@@ -522,23 +512,19 @@ namespace Krypton.Ribbon
                 Rectangle contextRect = new(ClientRectangle.X - 1, parentRect.Y, ClientRectangle.Width + 2, parentRect.Height);
                 Rectangle gradientRect = new(ClientRectangle.X - 1, parentRect.Y - 1, ClientRectangle.Width + 2, parentRect.Height + 2);
 
-                using (LinearGradientBrush sepBrush = new(gradientRect, sepColor, Color.Transparent, 90f))
+                using LinearGradientBrush sepBrush = new(gradientRect, sepColor, Color.Transparent, 90f);
+                // We need to customize the way the color blends over the background
+                sepBrush.Blend = _contextBlend2007;
+
+                using Pen sepPen = new(sepBrush);
+                if (cts.IsFirstTab(this))
                 {
-                    // We need to customize the way the color blends over the background
-                    sepBrush.Blend = _contextBlend2007;
+                    context.Graphics.DrawLine(sepPen, contextRect.X, contextRect.Y, contextRect.X, contextRect.Bottom - 1);
+                }
 
-                    using (Pen sepPen = new(sepBrush))
-                    {
-                        if (cts.IsFirstTab(this))
-                        {
-                            context.Graphics.DrawLine(sepPen, contextRect.X, contextRect.Y, contextRect.X, contextRect.Bottom - 1);
-                        }
-
-                        if (cts.IsLastTab(this))
-                        {
-                            context.Graphics.DrawLine(sepPen, contextRect.Right - 1, contextRect.Y, contextRect.Right - 1, contextRect.Bottom - 1);
-                        }
-                    }
+                if (cts.IsLastTab(this))
+                {
+                    context.Graphics.DrawLine(sepPen, contextRect.Right - 1, contextRect.Y, contextRect.Right - 1, contextRect.Bottom - 1);
                 }
             }
         }
@@ -554,43 +540,39 @@ namespace Krypton.Ribbon
             Rectangle contextRect = new(ClientRectangle.X - 1, ClientRectangle.Y - 1, ClientRectangle.Width + 2, ClientRectangle.Height + 1);
             Rectangle fillRect = new(ClientRectangle.X - 2, ClientRectangle.Y - 1, ClientRectangle.Width + 4, ClientRectangle.Height);
 
-            using (LinearGradientBrush outerBrush = new(contextRect, c1, Color.Transparent, 90f),
-                                       innerBrush = new(contextRect, c3, Color.Transparent, 90f),
-                                       fillBrush = new(contextRect, Color.FromArgb(64, lightC2), Color.Transparent, 90f))
+            using LinearGradientBrush outerBrush = new(contextRect, c1, Color.Transparent, 90f),
+                innerBrush = new(contextRect, c3, Color.Transparent, 90f),
+                fillBrush = new(contextRect, Color.FromArgb(64, lightC2), Color.Transparent, 90f);
+            fillBrush.Blend = _contextBlend2010;
+
+            using Pen outerPen = new(outerBrush),
+                innerPen = new(innerBrush);
+            if (cts.IsFirstTab(this))
             {
-                fillBrush.Blend = _contextBlend2010;
+                // Draw left separators
+                context.Graphics.DrawLine(outerPen, contextRect.X, contextRect.Y, contextRect.X, contextRect.Bottom - 2);
+                context.Graphics.DrawLine(innerPen, contextRect.X + 1, contextRect.Y, contextRect.X + 1, contextRect.Bottom - 2);
+                fillRect.X += 2;
+                fillRect.Width -= 2;
 
-                using (Pen outerPen = new(outerBrush),
-                           innerPen = new(innerBrush))
+                if (cts.IsLastTab(this))
                 {
-                    if (cts.IsFirstTab(this))
-                    {
-                        // Draw left separators
-                        context.Graphics.DrawLine(outerPen, contextRect.X, contextRect.Y, contextRect.X, contextRect.Bottom - 2);
-                        context.Graphics.DrawLine(innerPen, contextRect.X + 1, contextRect.Y, contextRect.X + 1, contextRect.Bottom - 2);
-                        fillRect.X += 2;
-                        fillRect.Width -= 2;
-
-                        if (cts.IsLastTab(this))
-                        {
-                            // Draw right separators
-                            context.Graphics.DrawLine(outerPen, contextRect.Right - 1, contextRect.Y, contextRect.Right - 1, contextRect.Bottom - 2);
-                            context.Graphics.DrawLine(innerPen, contextRect.Right - 2, contextRect.Y, contextRect.Right - 2, contextRect.Bottom - 2);
-                            fillRect.Width -= 2;
-                        }
-                    }
-                    else if (cts.IsLastTab(this))
-                    {
-                        // Draw right separators
-                        context.Graphics.DrawLine(outerPen, contextRect.Right - 1, contextRect.Y, contextRect.Right - 1, contextRect.Bottom - 2);
-                        context.Graphics.DrawLine(innerPen, contextRect.Right - 2, contextRect.Y, contextRect.Right - 2, contextRect.Bottom - 2);
-                        fillRect.Width -= 2;
-                    }
-
-                    // Draw the background gradient
-                    context.Graphics.FillRectangle(fillBrush, fillRect);
+                    // Draw right separators
+                    context.Graphics.DrawLine(outerPen, contextRect.Right - 1, contextRect.Y, contextRect.Right - 1, contextRect.Bottom - 2);
+                    context.Graphics.DrawLine(innerPen, contextRect.Right - 2, contextRect.Y, contextRect.Right - 2, contextRect.Bottom - 2);
+                    fillRect.Width -= 2;
                 }
             }
+            else if (cts.IsLastTab(this))
+            {
+                // Draw right separators
+                context.Graphics.DrawLine(outerPen, contextRect.Right - 1, contextRect.Y, contextRect.Right - 1, contextRect.Bottom - 2);
+                context.Graphics.DrawLine(innerPen, contextRect.Right - 2, contextRect.Y, contextRect.Right - 2, contextRect.Bottom - 2);
+                fillRect.Width -= 2;
+            }
+
+            // Draw the background gradient
+            context.Graphics.FillRectangle(fillBrush, fillRect);
         }
 
         private void RenderAfter2010ContextTab(RenderContext context, ContextTabSet cts)

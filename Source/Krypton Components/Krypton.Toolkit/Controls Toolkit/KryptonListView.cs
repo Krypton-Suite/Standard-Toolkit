@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(ListView))]
     [DefaultEvent("AfterSelect")]
     [DefaultProperty("Nodes")]
-    [Designer(typeof(KryptonTreeViewDesigner))]
+    [Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("A Kryptonised listview. Does not support the `List or Details View` types")]
     public class KryptonListView : ListView
@@ -451,7 +451,7 @@ namespace Krypton.Toolkit
             // By default the button is in the normal state
             PaletteState buttonState;
 
-            if (MissingFrameWorkAPIs.HasFlag(e.State, ListViewItemStates.Grayed))
+            if (e.State.HasFlag(ListViewItemStates.Grayed))
             {
                 buttonState = PaletteState.Disabled;
             }
@@ -462,7 +462,7 @@ namespace Krypton.Toolkit
                 {
                     _drawButton.Checked = true;
 
-                    buttonState = MissingFrameWorkAPIs.HasFlag(e.State, ListViewItemStates.Hot)
+                    buttonState = e.State.HasFlag(ListViewItemStates.Hot)
                         ? PaletteState.CheckedTracking
                         : PaletteState.CheckedNormal;
                 }
@@ -470,7 +470,7 @@ namespace Krypton.Toolkit
                 {
                     _drawButton.Checked = false;
 
-                    buttonState = MissingFrameWorkAPIs.HasFlag(e.State, ListViewItemStates.Hot)
+                    buttonState = e.State.HasFlag(ListViewItemStates.Hot)
                         ? PaletteState.Tracking
                         : PaletteState.Normal;
                 }

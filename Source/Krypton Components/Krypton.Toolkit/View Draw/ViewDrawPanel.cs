@@ -176,14 +176,12 @@ namespace Krypton.Toolkit
                 if (_paletteBack.GetBackDraw(State) == InheritBool.True)
                 {
                     // Render the background
-                    using (GraphicsPath panelPath = new())
-                    {
-                        // The path encloses the entire panel area
-                        panelPath.AddRectangle(ClientRectangle);
+                    using GraphicsPath panelPath = new();
+                    // The path encloses the entire panel area
+                    panelPath.AddRectangle(ClientRectangle);
 
-                        // Perform actual panel drawing
-                        _memento = context.Renderer.RenderStandardBack.DrawBack(context, ClientRectangle, panelPath, _paletteBack, VisualOrientation, State, _memento);
-                    }
+                    // Perform actual panel drawing
+                    _memento = context.Renderer.RenderStandardBack.DrawBack(context, ClientRectangle, panelPath, _paletteBack, VisualOrientation, State, _memento);
                 }
             }
         }

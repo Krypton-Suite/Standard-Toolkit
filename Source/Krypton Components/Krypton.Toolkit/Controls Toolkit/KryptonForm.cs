@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonForm), "ToolboxBitmaps.KryptonForm.bmp")]
     [Description("Draws the window chrome using a Krypton palette.")]
-    [Designer(typeof(KryptonFormDesigner))]
+    [Designer("Krypton.Toolkit.KryptonFormDesigner, Krypton.Toolkit")]
     public class KryptonForm : VisualForm,
                                IContentValues
     {
@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Header style for a main form.")]
-        [DefaultValue(typeof(HeaderStyle), "Form")]
+        //[DefaultValue(typeof(HeaderStyle), "Form")]
         public HeaderStyle HeaderStyle
         {
             get => _headerStyle;
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Chrome group border style.")]
-        [DefaultValue(typeof(PaletteBorderStyle), "FormMain")]
+        //[DefaultValue(typeof(PaletteBorderStyle), "FormMain")]
         public PaletteBorderStyle GroupBorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -356,7 +356,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Chrome group background style.")]
-        [DefaultValue(typeof(PaletteBackStyle), "FormMain")]
+        //[DefaultValue(typeof(PaletteBackStyle), "FormMain")]
         public PaletteBackStyle GroupBackStyle
         {
             get => StateCommon.BackStyle;
@@ -535,10 +535,8 @@ namespace Krypton.Toolkit
                 if (style == ViewDockStyle.Fill)
                 {
                     // Incoming element must be a ViewLayoutDocker
-                    if (element is ViewLayoutDocker)
+                    if (element is ViewLayoutDocker docker)
                     {
-                        ViewLayoutDocker docker = element as ViewLayoutDocker;
-
                         // Remove the existing content
                         docker.Remove(_drawContent);
                         _drawHeading.Remove(docker);
@@ -758,10 +756,8 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Convert to a bitmap for use in drawing (get the 16x16 version if available)
-                    using (Icon temp = new(_cacheIcon, new Size(16, 16)))
-                    {
-                        _cacheBitmap = temp.ToBitmap();
-                    }
+                    using Icon temp = new(_cacheIcon, new Size(16, 16));
+                    _cacheBitmap = temp.ToBitmap();
                 }
                 catch
                 {
@@ -1049,24 +1045,11 @@ namespace Krypton.Toolkit
                 }
             }
 
-            Padding borders;
-
-            // Cache the size of the window borders to use for hit testing
-            switch (FormBorderStyle)
+            var borders = FormBorderStyle switch
             {
-                case FormBorderStyle.None:
-                case FormBorderStyle.Fixed3D:
-                case FormBorderStyle.FixedDialog:
-                case FormBorderStyle.FixedSingle:
-                case FormBorderStyle.FixedToolWindow:
-                    borders = Padding.Empty;
-                    break;
-                default:
-                    // When maximized we do not have any borders around the client
-                    borders = WindowState == FormWindowState.Maximized ? Padding.Empty : RealWindowBorders;
-
-                    break;
-            }
+                FormBorderStyle.None or FormBorderStyle.Fixed3D or FormBorderStyle.FixedDialog or FormBorderStyle.FixedSingle or FormBorderStyle.FixedToolWindow => Padding.Empty,
+                _ => WindowState == FormWindowState.Maximized ? Padding.Empty : RealWindowBorders // When maximized we do not have any borders around the client
+            };
 
             // Restrict the top border to the same size as the left as we are using
             // the values for the size of the border hit testing for resizing the window
@@ -1378,22 +1361,18 @@ namespace Krypton.Toolkit
                             _regionWindowState = WindowState;
 
                             // Get the path for the border so we can shape the form using it
-                            using (RenderContext context = new(this, null, Bounds, Renderer))
+                            using RenderContext context = new(this, null, Bounds, Renderer);
+                            using GraphicsPath path = _drawDocker.GetOuterBorderPath(context);
+                            if (!_firstCheckView)
                             {
-                                using (GraphicsPath path = _drawDocker.GetOuterBorderPath(context))
-                                {
-                                    if (!_firstCheckView)
-                                    {
-                                        SuspendPaint();
-                                    }
+                                SuspendPaint();
+                            }
 
-                                    UpdateBorderRegion(path != null ? new Region(path) : null);
+                            UpdateBorderRegion(path != null ? new Region(path) : null);
 
-                                    if (!_firstCheckView)
-                                    {
-                                        ResumePaint();
-                                    }
-                                }
+                            if (!_firstCheckView)
+                            {
+                                ResumePaint();
                             }
                         }
 

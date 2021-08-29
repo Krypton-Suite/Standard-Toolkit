@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     [ToolboxBitmap(typeof(KryptonRibbon), "ToolboxBitmaps.KryptonRibbon.bmp")]
     [DefaultEvent("SelectedTabChanged")]
     [DefaultProperty("RibbonTabs")]
-    [Designer(typeof(KryptonRibbonDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [Description("Ribbon control presents a tabbed set of user options.")]
     [Docking(DockingBehavior.Never)]
@@ -807,7 +807,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Values")]
         [Description("Vertical and horizontal minimum sizes at which the ribbon hides itself.")]
-        [DefaultValue(typeof(Size), "300,250")]
+        //[DefaultValue(typeof(Size), "300,250")]
         public Size HideRibbonSize
         {
             get => _hideRibbonSize;
@@ -879,46 +879,44 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        using (ScreenObscurer obscurer = new(_minimizedPopup, DesignMode))
+                        using ScreenObscurer obscurer = new(_minimizedPopup, DesignMode);
+                        // Remove any showing popup for the minimized area
+                        KillMinimizedPopup();
+
+                        // Remove groups from minimized panel
+                        _drawMinimizedPanel.Remove(GroupsArea);
+
+                        // Put the groups view back into the main display
+                        if (!_ribbonDocker.Contains(GroupsArea))
                         {
-                            // Remove any showing popup for the minimized area
-                            KillMinimizedPopup();
-
-                            // Remove groups from minimized panel
-                            _drawMinimizedPanel.Remove(GroupsArea);
-
-                            // Put the groups view back into the main display
-                            if (!_ribbonDocker.Contains(GroupsArea))
-                            {
-                                _ribbonDocker.Insert(0, GroupsArea);
-                                _ribbonDocker.SetDock(GroupsArea, ViewDockStyle.Fill);
-                            }
-
-                            // If there is a remembered selected tab then try and reapply it as the new selected tab
-                            if (_minSelectedTab != null)
-                            {
-                                // Check the remembered entry is actually valid
-                                if (_minSelectedTab.Visible &&
-                                    RibbonTabs.Contains(_minSelectedTab) &&
-                                    TabIsContextValid(_minSelectedTab))
-                                {
-                                    SelectedTab = _minSelectedTab;
-                                }
-
-                                _minSelectedTab = null;
-                            }
-
-                            // Ensure that selected tab is valid
-                            ValidateSelectedTab();
-
-                            // Must layout to effect changes
-                            TabsArea.RecreateButtons();
-                            PerformNeedPaint(true);
-
-                            // Allow the ribbon to be layed out and painted before we 
-                            // remove the control obscurer the reduces flicker when switching.
-                            Application.DoEvents();
+                            _ribbonDocker.Insert(0, GroupsArea);
+                            _ribbonDocker.SetDock(GroupsArea, ViewDockStyle.Fill);
                         }
+
+                        // If there is a remembered selected tab then try and reapply it as the new selected tab
+                        if (_minSelectedTab != null)
+                        {
+                            // Check the remembered entry is actually valid
+                            if (_minSelectedTab.Visible &&
+                                RibbonTabs.Contains(_minSelectedTab) &&
+                                TabIsContextValid(_minSelectedTab))
+                            {
+                                SelectedTab = _minSelectedTab;
+                            }
+
+                            _minSelectedTab = null;
+                        }
+
+                        // Ensure that selected tab is valid
+                        ValidateSelectedTab();
+
+                        // Must layout to effect changes
+                        TabsArea.RecreateButtons();
+                        PerformNeedPaint(true);
+
+                        // Allow the ribbon to be layed out and painted before we 
+                        // remove the control obscurer the reduces flicker when switching.
+                        Application.DoEvents();
                     }
 
                     // Raises change event
@@ -941,7 +939,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Values")]
         [Description("Determines how the quick access toolbar is displayed.")]
-        [DefaultValue(typeof(QATLocation), "Above")]
+        //[DefaultValue(typeof(QATLocation), "Above")]
         public QATLocation QATLocation
         {
             get => _qatLocation;
@@ -952,22 +950,20 @@ namespace Krypton.Ribbon
                 {
                     _qatLocation = value;
 
-                    using (ScreenObscurer obscurer = new(this, DesignMode))
-                    {
-                        // Only show the minimize bar if in minimized mode 
-                        // and not showing the QAT below the ribbon
-                        _minimizeBar.Visible = (RealMinimizedMode && (QATLocation != QATLocation.Below));
+                    using ScreenObscurer obscurer = new(this, DesignMode);
+                    // Only show the minimize bar if in minimized mode 
+                    // and not showing the QAT below the ribbon
+                    _minimizeBar.Visible = (RealMinimizedMode && (QATLocation != QATLocation.Below));
 
-                        // Update the fullbar version of the QAT
-                        _qatBelowRibbon.Visible = (_qatLocation == QATLocation.Below);
+                    // Update the fullbar version of the QAT
+                    _qatBelowRibbon.Visible = (_qatLocation == QATLocation.Below);
 
-                        // Update the minibar versions of the QAT
-                        CaptionArea.UpdateQAT();
+                    // Update the minibar versions of the QAT
+                    CaptionArea.UpdateQAT();
 
-                        // Must layout to effect changes
-                        PerformLayout();
-                        Refresh();
-                    }
+                    // Must layout to effect changes
+                    PerformLayout();
+                    Refresh();
                 }
             }
         }

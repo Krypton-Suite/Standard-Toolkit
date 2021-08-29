@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => _text;
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string ExtraText
         {
             get => _extraText;
@@ -406,7 +406,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("ToolTip")]
         [Description("Button tooltip title text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ToolTipTitle
         {
@@ -443,7 +443,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("ToolTip")]
         [Description("Button tooltip body text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ToolTipBody
         {
@@ -479,7 +479,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("ToolTip")]
         [Description("Button tooltip label style.")]
-        [DefaultValue(typeof(LabelStyle), "Tooltip")]
+        //[DefaultValue(typeof(LabelStyle), "Tooltip")]
         public LabelStyle ToolTipStyle { get; set; }
 
         private bool ShouldSerializeToolTipStyle()
@@ -690,7 +690,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Button style.")]
-        [DefaultValue(typeof(PaletteButtonStyle), "Inherit")]
+        //[DefaultValue(typeof(PaletteButtonStyle), "Inherit")]
         public PaletteButtonStyle Style
         {
             get => _style;
@@ -705,18 +705,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyle()
-        {
-            return (Style != PaletteButtonStyle.Inherit);
-        }
+        private bool ShouldSerializeStyle() => (Style != PaletteButtonStyle.Inherit);
 
         /// <summary>
         /// Resets the Style property to its default value.
         /// </summary>
-        public void ResetStyle()
-        {
-            Style = PaletteButtonStyle.Inherit;
-        }
+        private void ResetStyle() => Style = PaletteButtonStyle.Inherit;
         #endregion
 
         #region Orientation

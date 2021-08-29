@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("CheckedChanged")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("CheckState")]
-    [Designer(typeof(KryptonCheckBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonCheckBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Allow user to set or clear the associated option.")]
     public class KryptonCheckBox : VisualSimpleBase, IContentValues
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
                      ControlStyles.StandardDoubleClick, false);
 
             // Set default properties
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             _orientation = VisualOrientation.Top;
             _checkPosition = VisualOrientation.Left;
             _checked = false;
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
             Images = new CheckBoxImages(NeedPaintDelegate);
 
             // Create palette redirector
-            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalControl);
+            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
             _paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
 
             // Create the palette provider
@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
         [Localizable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        //[DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public new AutoSizeMode AutoSizeMode
         {
             get => base.AutoSizeMode;
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Text;
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        //[DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual position of the check box.")]
-        [DefaultValue(typeof(VisualOrientation), "Left")]
+        //[DefaultValue(typeof(VisualOrientation), "Left")]
         [Localizable(true)]
         public virtual VisualOrientation CheckPosition
         {
@@ -318,15 +318,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetLabelStyle()
-        {
-            LabelStyle = LabelStyle.NormalControl;
-        }
+        private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalPanel;
 
-        private bool ShouldSerializeLabelStyle()
-        {
-            return (LabelStyle != LabelStyle.NormalControl);
-        }
+        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalPanel);
 
         /// <summary>
         /// Gets access to the label content.
@@ -336,10 +330,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public LabelValues Values { get; }
 
-        private bool ShouldSerializeValues()
-        {
-            return !Values.IsDefault;
-        }
+        private bool ShouldSerializeValues() => !Values.IsDefault;
 
         /// <summary>
         /// Gets access to the image value overrides.
@@ -349,10 +340,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets access to the common label appearance that other states can override.
@@ -362,10 +350,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled label appearance entries.
@@ -375,10 +360,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal label appearance entries.
@@ -388,10 +370,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the label appearance when it has focus.
@@ -401,10 +380,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
@@ -489,7 +465,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates the checked state of the component.")]
-        [DefaultValue(typeof(CheckState), "Unchecked")]
+        //[DefaultValue(typeof(CheckState), "Unchecked")]
         [Bindable(true)]
         public CheckState CheckState
         {
@@ -777,10 +753,10 @@ namespace Krypton.Toolkit
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         protected override bool ProcessMnemonic(char charCode)
         {
-            // Are we allowed to process mneonics?
+            // Are we allowed to process mnemonics?
             if (UseMnemonic && AutoCheck && CanProcessMnemonic())
             {
                 // Does the button primary text contain the mnemonic?

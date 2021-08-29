@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTrackBar), "ToolboxBitmaps.KryptonRibbonGroupTrackBar.bmp")]
-    [Designer(typeof(KryptonRibbonGroupTrackBarDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupTrackBarDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("ValueChanged")]
@@ -309,7 +309,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Determines size of the track bar elements.")]
-        [DefaultValue(typeof(PaletteTrackBarSize), "Medium")]
+        //[DefaultValue(typeof(PaletteTrackBarSize), "Medium")]
         public PaletteTrackBarSize TrackBarSize
         {
             get => TrackBar.TrackBarSize;
@@ -321,7 +321,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Determines where tick marks are displayed.")]
-        [DefaultValue(typeof(TickStyle), "None")]
+        //[DefaultValue(typeof(TickStyle), "None")]
         [RefreshProperties(RefreshProperties.All)]
         public TickStyle TickStyle
         {
@@ -358,7 +358,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Background style.")]
-        [DefaultValue(typeof(Orientation), "Horizontal")]
+        //[DefaultValue(typeof(Orientation), "Horizontal")]
         [RefreshProperties(RefreshProperties.All)]
         public Orientation Orientation
         {

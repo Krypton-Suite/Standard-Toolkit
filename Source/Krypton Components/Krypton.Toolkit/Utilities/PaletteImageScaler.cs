@@ -76,6 +76,7 @@ namespace Krypton.Toolkit.Utilities
             ScaleButtonSpecImageType(bs.FormMax, scaleFactor);
             ScaleButtonSpecImageType(bs.FormMin, scaleFactor);
             ScaleButtonSpecImageType(bs.FormRestore, scaleFactor);
+            ScaleButtonSpecImageType(bs.FormHelp, scaleFactor);
             ScaleButtonSpecImageType(bs.Generic, scaleFactor);
             ScaleButtonSpecImageType(bs.Next, scaleFactor);
             ScaleButtonSpecImageType(bs.PendantClose, scaleFactor);
@@ -158,16 +159,12 @@ namespace Krypton.Toolkit.Utilities
 
             Bitmap bmp = new((int)(img.Width * scaleFactor.Width), (int)(img.Height * scaleFactor.Height), PixelFormat.Format32bppPArgb);
 
-            using (Bitmap tmpBmp = new(img))
-            {
-                tmpBmp.MakeTransparent(Color.Magenta);
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.InterpolationMode = InterpolationMode.High;
-                    g.DrawImage(tmpBmp, 0, 0, bmp.Width, bmp.Height);
-                }
-            }
+            using Bitmap tmpBmp = new(img);
+            tmpBmp.MakeTransparent(Color.Magenta);
+            using Graphics g = Graphics.FromImage(bmp);
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.High;
+            g.DrawImage(tmpBmp, 0, 0, bmp.Width, bmp.Height);
 
             return bmp;
         }

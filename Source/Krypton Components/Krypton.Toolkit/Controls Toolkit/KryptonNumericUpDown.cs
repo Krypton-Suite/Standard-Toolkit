@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("ValueChanged")]
     [DefaultProperty("Value")]
     [DefaultBindingProperty("Value")]
-    [Designer(typeof(KryptonNumericUpDownDesigner))]
+    [Designer("Krypton.Toolkit.KryptonNumericUpDownDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Represents a Windows spin box (also known as an up-down control) that displays numeric values.")]
     public class KryptonNumericUpDown : VisualControlBase,
@@ -448,18 +448,14 @@ namespace Krypton.Toolkit
 
                                     try
                                     {
-                                        using (SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state)))
-                                        {
-                                            g.DrawString(text, states.Content.GetContentShortTextFont(state), foreBrush,
-                                                rectangle, stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state));
+                                        g.DrawString(text, states.Content.GetContentShortTextFont(state), foreBrush,
+                                            rectangle, stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using (SolidBrush foreBrush = new(_internalNumericUpDown.ForeColor))
-                                        {
-                                            g.DrawString(text, _internalNumericUpDown.Font, foreBrush, rectangle, stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(_internalNumericUpDown.ForeColor);
+                                        g.DrawString(text, _internalNumericUpDown.Font, foreBrush, rectangle, stringFormat);
                                     }
                                 }
 
@@ -637,24 +633,22 @@ namespace Krypton.Toolkit
                                         PI.SelectObject(_screenDC, hBitmap);
 
                                         // Easier to draw using a graphics instance than a DC!
-                                        using (Graphics g = Graphics.FromHdc(_screenDC))
+                                        using Graphics g = Graphics.FromHdc(_screenDC);
+                                        // Drawn entire client area in the background color
+                                        using (SolidBrush backBrush =
+                                            new(NumericUpDown.NumericUpDown.BackColor))
                                         {
-                                            // Drawn entire client area in the background color
-                                            using (SolidBrush backBrush =
-                                                new(NumericUpDown.NumericUpDown.BackColor))
-                                            {
-                                                g.FillRectangle(backBrush, clientRect);
-                                            }
-
-                                            // Draw the actual up and down buttons split inside the client rectangle
-                                            DrawUpDownButtons(g,
-                                                new Rectangle(clientRect.X, clientRect.Y, clientRect.Width,
-                                                    clientRect.Height - 1));
-
-                                            // Now blit from the bitmap from the screen to the real dc
-                                            PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
-                                                _screenDC, clientRect.X, clientRect.Y, PI.SRCCOPY);
+                                            g.FillRectangle(backBrush, clientRect);
                                         }
+
+                                        // Draw the actual up and down buttons split inside the client rectangle
+                                        DrawUpDownButtons(g,
+                                            new Rectangle(clientRect.X, clientRect.Y, clientRect.Width,
+                                                clientRect.Height - 1));
+
+                                        // Now blit from the bitmap from the screen to the real dc
+                                        PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
+                                            _screenDC, clientRect.X, clientRect.Y, PI.SRCCOPY);
                                     }
                                     finally
                                     {
@@ -707,23 +701,21 @@ namespace Krypton.Toolkit
                 Rectangle downRect = new(clientRect.X, upRect.Bottom, clientRect.Width, clientRect.Bottom - upRect.Bottom);
 
                 // Position and draw the up/down buttons
-                using (ViewLayoutContext layoutContext = new(NumericUpDown, NumericUpDown.Renderer))
-                using (RenderContext renderContext = new(NumericUpDown, g, clientRect, NumericUpDown.Renderer))
-                {
-                    // Up button
-                    layoutContext.DisplayRectangle = upRect;
-                    _viewButton.ElementState = ButtonElementState(upRect);
-                    _viewButton.Layout(layoutContext);
-                    _viewButton.Render(renderContext);
-                    renderContext.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
+                using ViewLayoutContext layoutContext = new(NumericUpDown, NumericUpDown.Renderer);
+                using RenderContext renderContext = new(NumericUpDown, g, clientRect, NumericUpDown.Renderer);
+                // Up button
+                layoutContext.DisplayRectangle = upRect;
+                _viewButton.ElementState = ButtonElementState(upRect);
+                _viewButton.Layout(layoutContext);
+                _viewButton.Render(renderContext);
+                renderContext.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
 
-                    // Down button
-                    layoutContext.DisplayRectangle = downRect;
-                    _viewButton.ElementState = ButtonElementState(downRect);
-                    _viewButton.Layout(layoutContext);
-                    _viewButton.Render(renderContext);
-                    renderContext.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
-                }
+                // Down button
+                layoutContext.DisplayRectangle = downRect;
+                _viewButton.ElementState = ButtonElementState(downRect);
+                _viewButton.Layout(layoutContext);
+                _viewButton.Render(renderContext);
+                renderContext.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
             }
 
             private PaletteState ButtonElementState(Rectangle buttonRect)
@@ -1159,7 +1151,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the amount to increment or decrement one each button click.")]
-        [DefaultValue(typeof(decimal), "1")]
+        //[DefaultValue(typeof(decimal), "1")]
         public decimal Increment
         {
             get => _numericUpDown.Increment;
@@ -1172,7 +1164,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("Indicates the maximum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(decimal), "100")]
+        //[DefaultValue(typeof(decimal), "100")]
         public decimal Maximum
         {
             get => _numericUpDown.Maximum;
@@ -1185,7 +1177,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("Indicates the minimum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(decimal), "0")]
+        //[DefaultValue(typeof(decimal), "0")]
         public decimal Minimum
         {
             get => _numericUpDown.Minimum;
@@ -1210,7 +1202,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("The current value of the numeric up-down control.")]
-        [DefaultValue(typeof(decimal), "0")]
+        //[DefaultValue(typeof(decimal), "0")]
         [Bindable(true)]
         public decimal Value
         {
@@ -1223,7 +1215,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the text should be aligned for edit controls.\rDo not use this property, it is provided for backwards compatability only.")]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -1232,34 +1224,22 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (StateCommon.Content.GetContentShortTextH(PaletteState.Normal))
+                return StateCommon.Content.GetContentShortTextH(PaletteState.Normal) switch
                 {
-                    default:
-                    case PaletteRelativeAlign.Inherit:
-                    case PaletteRelativeAlign.Near:
-                        return HorizontalAlignment.Left;
-                    case PaletteRelativeAlign.Center:
-                        return HorizontalAlignment.Center;
-                    case PaletteRelativeAlign.Far:
-                        return HorizontalAlignment.Right;
-                }
+                    PaletteRelativeAlign.Center => HorizontalAlignment.Center,
+                    PaletteRelativeAlign.Far => HorizontalAlignment.Right,
+                    _ => HorizontalAlignment.Left
+                };
                 //return _numericUpDown.TextAlign;
             }
             set
             {
-                switch (value)
+                StateCommon.Content.TextH = value switch
                 {
-                    default:
-                    case HorizontalAlignment.Left:
-                        StateCommon.Content.TextH = PaletteRelativeAlign.Near;
-                        break;
-                    case HorizontalAlignment.Right:
-                        StateCommon.Content.TextH = PaletteRelativeAlign.Far;
-                        break;
-                    case HorizontalAlignment.Center:
-                        StateCommon.Content.TextH = PaletteRelativeAlign.Center;
-                        break;
-                }
+                    HorizontalAlignment.Right => PaletteRelativeAlign.Far,
+                    HorizontalAlignment.Center => PaletteRelativeAlign.Center,
+                    _ => PaletteRelativeAlign.Near
+                };
                 _numericUpDown.TextAlign = value;
             }
         }
@@ -1282,7 +1262,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the up-down control will position the up down buttons relative to its text box.")]
-        [DefaultValue(typeof(LeftRightAlignment), "Right")]
+        //[DefaultValue(typeof(LeftRightAlignment), "Right")]
         [Localizable(true)]
         public LeftRightAlignment UpDownAlign
         {

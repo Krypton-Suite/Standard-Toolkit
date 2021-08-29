@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupClusterColorButton), "ToolboxBitmaps.KryptonRibbonGroupClusterColorButton.bmp")]
-    [Designer(typeof(KryptonRibbonGroupClusterColorButtonDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupClusterColorButtonDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedColorChanged")]
@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Selected color.")]
-        [DefaultValue(typeof(Color), "Red")]
+        //[DefaultValue(typeof(Color), "Red")]
         public Color SelectedColor
         {
             get => _selectedColor;
@@ -219,7 +219,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Border color of selected block when selected color is empty.")]
-        [DefaultValue(typeof(Color), "DarkGray")]
+        //[DefaultValue(typeof(Color), "DarkGray")]
         public Color EmptyBorderColor
         {
             get => _emptyBorderColor;
@@ -240,7 +240,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Selected color drawing rectangle.")]
-        [DefaultValue(typeof(Rectangle), "0,12,16,4")]
+        //[DefaultValue(typeof(Rectangle), "0,12,16,4")]
         public Rectangle SelectedRect
         {
             get => _selectedRect;
@@ -470,7 +470,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Behavior")]
         [Description("Color scheme to use for the themes color set.")]
-        [DefaultValue(typeof(ColorScheme), "OfficeThemes")]
+        //[DefaultValue(typeof(ColorScheme), "OfficeThemes")]
         public ColorScheme SchemeThemes
         {
             get => _schemeThemes;
@@ -490,7 +490,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Behavior")]
         [Description("Color scheme to use for the standard color set.")]
-        [DefaultValue(typeof(ColorScheme), "OfficeStandard")]
+        //[DefaultValue(typeof(ColorScheme), "OfficeStandard")]
         public ColorScheme SchemeStandard
         {
             get => _schemeStandard;
@@ -593,7 +593,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Behavior")]
         [Description("Determines how the group color button operation.")]
-        [DefaultValue(typeof(GroupButtonType), "Split")]
+        //[DefaultValue(typeof(GroupButtonType), "Split")]
         public GroupButtonType ButtonType
         {
             get => _buttonType;
@@ -634,7 +634,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Tooltip style for the group color cluster button.")]
-        [DefaultValue(typeof(LabelStyle), "SuperTip")]
+        //[DefaultValue(typeof(LabelStyle), "SuperTip")]
         public LabelStyle ToolTipStyle { get; set; }
 
         /// <summary>
@@ -663,7 +663,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipTitle { get; set; }
@@ -674,7 +674,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipBody { get; set; }

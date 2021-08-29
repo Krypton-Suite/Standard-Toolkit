@@ -20,7 +20,7 @@ namespace Krypton.Navigator
     [ToolboxBitmap(typeof(KryptonNavigator), "ToolboxBitmaps.KryptonNavigator.bmp")]
     [DefaultEvent("SelectedIndexChanged")]
     [DefaultProperty("Pages")]
-    [Designer(typeof(KryptonNavigatorDesigner))]
+    [Designer("Krypton.Navigator.KryptonNavigatorDesigner, Krypton.Navigator")]
     [DesignerCategory("code")]
     [Description("Allows navigation between pages.")]
     [Docking(DockingBehavior.Ask)]
@@ -723,7 +723,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Display mode of the control instance.")]
-        [DefaultValue(typeof(NavigatorMode), "Bar - Tab - Group")]
+        //[DefaultValue(typeof(NavigatorMode), "Bar - Tab - Group")]
         public NavigatorMode NavigatorMode
         {
             get => _mode;
@@ -767,7 +767,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Page back style.")]
-        [DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
+        //[DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
         public PaletteBackStyle PageBackStyle
         {
             get => _pageBackStyle;

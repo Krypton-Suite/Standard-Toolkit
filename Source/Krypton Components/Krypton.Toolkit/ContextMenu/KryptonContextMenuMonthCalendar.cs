@@ -350,7 +350,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                value ??= Array.Empty<DateTime>();
 
                 _annualDates.Clear();
                 _annualDates.AddRange(value);
@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -435,7 +435,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 BoldedDatesList.Clear();
@@ -761,7 +761,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Appearance")]
         [Description("Specifies the number of rows and columns of months displayed.")]
-        [DefaultValue(typeof(Size), "1,1")]
+        //[DefaultValue(typeof(Size), "1,1")]
         [Localizable(true)]
         public Size CalendarDimensions
         {
@@ -887,7 +887,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Header style for the month calendar.")]
-        [DefaultValue(typeof(HeaderStyle), "Calendar")]
+        //[DefaultValue(typeof(HeaderStyle), "Calendar")]
         public HeaderStyle HeaderStyle
         {
             get => _headerStyle;
@@ -914,7 +914,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Content style for the day entries.")]
-        [DefaultValue(typeof(ButtonStyle), "Calendar Day")]
+        //[DefaultValue(typeof(ButtonStyle), "Calendar Day")]
         public ButtonStyle DayStyle
         {
             get => _dayStyle;
@@ -949,7 +949,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Content style for the day of week labels.")]
-        [DefaultValue(typeof(ButtonStyle), "CalendarDay")]
+        //[DefaultValue(typeof(ButtonStyle), "CalendarDay")]
         public ButtonStyle DayOfWeekStyle
         {
             get => _dayOfWeekStyle;

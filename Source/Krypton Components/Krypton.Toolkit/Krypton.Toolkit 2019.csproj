@@ -1,17 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Choose>
-        <When Condition="'$(TFMs)' == 'all'">
-            <PropertyGroup>
-                <TargetFrameworks>net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-            </PropertyGroup>
-        </When>
-        <Otherwise>
-            <PropertyGroup>
-                <TargetFrameworks>net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-            </PropertyGroup>
-        </Otherwise>
-    </Choose>
+   
     <PropertyGroup>
+        <TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Toolkit</RootNamespace>
         <AssemblyName>Krypton.Toolkit</AssemblyName>
@@ -23,41 +13,29 @@
         <LangVersion>preview</LangVersion>
         <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
+
     <ItemGroup>
         <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
             <SpecificVersion>True</SpecificVersion>
             <Version>4.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
         </Reference>
-        <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+        <Reference Include="System.Drawing.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+            <!-- Needed for `ParentControlDesigner ` as this was moved from `System.Design`-->
             <SpecificVersion>True</SpecificVersion>
             <Version>5.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
         </Reference>
-        <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+        <Reference Include="System.Drawing.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+            <!-- Needed for `ParentControlDesigner ` as this was moved from `System.Design`-->
             <SpecificVersion>True</SpecificVersion>
             <Version>6.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
         </Reference>
-        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'" />
-        <!--TODO: Need to specify version here-->
     </ItemGroup>
 
     <PropertyGroup>
         <PackageId>Krypton.Toolkit</PackageId>
+        <Description>This is the core toolkit module.</Description>
     </PropertyGroup>
-    <Choose>
-        <When Condition="'$(TFMs)' == 'all'">
-            <PropertyGroup>
-                <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the core module.</Description>
-            </PropertyGroup>
-        </When>
-        <Otherwise>
-            <PropertyGroup>
-                <Description>An update to Component factory's krypton toolkit to support .NET Core 3.1, .NET 5, .NET 6, and .net 4.5 Framework. This is the core module.</Description>
-            </PropertyGroup>
-        </Otherwise>
-    </Choose>
+  
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
@@ -77,10 +55,15 @@
         <Compile Update="ButtonSpec\ButtonSpecCalendar.cs">
             <SubType>Component</SubType>
         </Compile>
+        <Compile Update="Controls Toolkit\KryptonColorDialog.cs">
+          <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="Controls Toolkit\KryptonPrintDialog.cs">
+          <SubType>Component</SubType>
+        </Compile>
         <Compile Update="Designers\Other\PaletteDrawBordersSelector.cs">
             <SubType>UserControl</SubType>
         </Compile>
-        <Compile Update="Controls Toolkit\KryptonByteViewer.cs" />
         <Compile Update="Controls Toolkit\KryptonBreadCrumbItem.cs">
             <SubType>Component</SubType>
         </Compile>
@@ -165,6 +148,11 @@
         <Compile Update="Palette Builtin\PaletteOffice2007Base.cs">
             <SubType>Component</SubType>
         </Compile>
+        <Compile Update="Properties\Resources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
         <Compile Update="Rendering\RenderOffice2013.cs">
             <SubType>Component</SubType>
         </Compile>
@@ -204,10 +192,215 @@
         <Compile Update="Rendering\RenderStandard.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Global\MessageBoxResources.Designer.cs">
+        <Compile Update="Resources\ColourScaleImageResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
-          <DependentUpon>MessageBoxResources.resx</DependentUpon>
+          <DependentUpon>ColourScaleImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\DropDownArrowImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>DropDownArrowImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\GenericOffice2007ImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericOffice2007ImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\GenericProfessionalImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericProfessionalImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\GenericSparkleImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericSparkleImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\GridImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GridImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\MDIImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>MDIImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\MessageBoxResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\BlueArrowResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>BlueArrowResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\CheckBoxStripResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>CheckBoxStripResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\CursorResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>CursorResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\DataBarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>DataBarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\DropDownArrowResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>DropDownArrowResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\ElementsImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ElementsImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\GalleryImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GalleryImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\GenericImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\HelpIconResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>HelpIconResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\KryptonGenericResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>KryptonGenericResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2007BlackRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2007BlackRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2007BlueRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2007BlueRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2007ControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2007ControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2007SilverRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2007SilverRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2010Arrows.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2010Arrows.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2010BlueRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2010BlueRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2010ControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2010ControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Office2010SilverRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Office2010SilverRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\ProfessionalButtonSpecResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ProfessionalButtonSpecResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\ProfessionalControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ProfessionalControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\ProfessionalPendantImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ProfessionalPendantImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\ProfessionalPinImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ProfessionalPinImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\RibbonArrowImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>RibbonArrowImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SortArrowImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SortArrowImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SparkleBlueRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparkleBlueRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SparkleControlBoxResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparkleControlBoxResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SparkleGeneralRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparkleGeneralRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SparkleOrangeRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparkleOrangeRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\SparklePurpleRadioButtonResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SparklePurpleRadioButtonResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\StarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>StarImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\TreeItemImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>TreeItemImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\VisualStudioImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>VisualStudioImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\VisualTaskDialogImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>VisualTaskDialogImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\WhiteImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>WhiteImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="View Base\ViewControl.cs">
             <SubType>Component</SubType>
@@ -233,13 +426,10 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
         <Content Include="Krypton.ico" Pack="false" />
-        <None Include="Resources\BlackButtonCloseA.bmp" />
         <None Include="Resources\BlackDropDownButton.png" />
         <None Include="Resources\BlueDropDownButton.png" />
         <None Include="Resources\ButtonColorImageSmall.png" />
         <None Include="Resources\ButtonNoColor.png" />
-        <None Include="Resources\DisabledDropDownButton.png" />
-        <None Include="Resources\SelectParentControlFlipped.png" />
         <None Include="Resources\SilverDropDownButton.png" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonGroupBox.bmp" />
         <EmbeddedResource Include="ToolboxBitmaps\KryptonWrapLabel.bmp" />
@@ -275,6 +465,9 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonLinkLabel.bmp" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Remove="Controls Toolkit\KryptonByteViewer.cs" />
+        <Compile Remove="Controls Toolkit\KryptonDataGridViewBinaryCell.cs" />
+        <Compile Remove="Controls Toolkit\KryptonDataGridViewBinaryColumn.cs" />
         <Compile Remove="Controls Toolkit\KryptonInputBoxNew.cs" />
         <Compile Remove="Toolkit\KryptonBorderEdgeActionList.cs" />
         <Compile Remove="Toolkit\KryptonBorderEdgeDesigner.cs" />
@@ -375,10 +568,178 @@
         <EmbeddedResource Remove="Toolkit\PaletteDrawBordersSelector.resx" />
     </ItemGroup>
     <ItemGroup>
-      <EmbeddedResource Update="Global\MessageBoxResources.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
+        <EmbeddedResource Update="Resources\ColourScaleImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ColourScaleImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\DropDownArrowImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>DropDownArrowImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GenericOffice2007ImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GenericOffice2007ImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GenericProfessionalImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GenericProfessionalImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GenericSparkleImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GenericSparkleImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GridImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GridImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\MDIImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>MDIImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\MessageBoxResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\BlueArrowResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>BlueArrowResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\CheckBoxStripResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>CheckBoxStripResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\CursorResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>CursorResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\DataBarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>DataBarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\DropDownArrowResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>DropDownArrowResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\ElementsImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ElementsImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GalleryImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GalleryImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\GenericImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>GenericImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\HelpIconResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>HelpIconResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\KryptonGenericResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>KryptonGenericResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2007BlackRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2007BlackRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2007BlueRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2007BlueRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2007ControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2007ControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2007SilverRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2007SilverRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2010Arrows.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2010Arrows.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2010BlueRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2010BlueRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2010ControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2010ControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Office2010SilverRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Office2010SilverRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\ProfessionalButtonSpecResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ProfessionalButtonSpecResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\ProfessionalControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ProfessionalControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\ProfessionalPendantImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ProfessionalPendantImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\ProfessionalPinImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ProfessionalPinImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\RibbonArrowImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>RibbonArrowImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SortArrowImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SortArrowImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparkleBlueRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparkleBlueRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparkleControlBoxResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparkleControlBoxResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparkleGeneralRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparkleGeneralRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparkleOrangeRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparkleOrangeRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\SparklePurpleRadioButtonResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SparklePurpleRadioButtonResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\StarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>StarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\TreeItemImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>TreeItemImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\VisualStudioImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>VisualStudioImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\VisualTaskDialogImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>VisualTaskDialogImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\WhiteImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>WhiteImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
@@ -393,14 +754,5 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <WarningLevel>5</WarningLevel>
     </PropertyGroup>
-
-  <!--Handle AssemblyInfo-->
-  <PropertyGroup>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
-    <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
-    <AssemblyVersion>6.0.2108.1</AssemblyVersion>
-    <FileVersion>6.0.2108.1</FileVersion>
-  </PropertyGroup>
+   
 </Project>

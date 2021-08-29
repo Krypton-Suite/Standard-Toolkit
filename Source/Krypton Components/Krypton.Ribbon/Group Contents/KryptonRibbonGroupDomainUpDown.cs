@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupDomainUpDown), "ToolboxBitmaps.KryptonRibbonGroupDomainUpDown.bmp")]
-    [Designer(typeof(KryptonRibbonGroupDomainUpDownDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupDomainUpDownDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedItemChanged")]
@@ -221,7 +221,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Text associated with the control.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => DomainUpDown.Text;
@@ -255,7 +255,7 @@ namespace Krypton.Ribbon
         [Category("Data")]
         [Description("The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
         [Localizable(true)]
         public DomainUpDown.DomainUpDownItemCollection Items => DomainUpDown.Items;
 
@@ -308,7 +308,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the text should be aligned for edit controls.")]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
@@ -322,7 +322,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the up-down control will position the up down buttons relative to its text box.")]
-        [DefaultValue(typeof(LeftRightAlignment), "Right")]
+        //[DefaultValue(typeof(LeftRightAlignment), "Right")]
         [Localizable(true)]
         public LeftRightAlignment UpDownAlign
         {
@@ -429,7 +429,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the minimum size of the control.")]
-        [DefaultValue(typeof(Size), "121, 0")]
+        //[DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
             get => DomainUpDown.MinimumSize;
@@ -441,7 +441,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the maximum size of the control.")]
-        [DefaultValue(typeof(Size), "121, 0")]
+        //[DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
             get => DomainUpDown.MaximumSize;

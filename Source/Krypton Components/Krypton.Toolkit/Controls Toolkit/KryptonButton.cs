@@ -36,7 +36,8 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand _command;
-        private bool _useAsDialogButton, _isDefault, _useMnemonic, _wasEnabled;
+        private bool _useAsDialogButton, _isDefault, _useMnemonic, _wasEnabled, _useAsUACElevationButton;
+        private string _processToElevate;
         #endregion
 
         #region Events
@@ -46,6 +47,19 @@ namespace Krypton.Toolkit
         [Category("Property Changed")]
         [Description("Occurs when the value of the KryptonCommand property changes.")]
         public event EventHandler KryptonCommandChanged;
+
+        /// <summary></summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="ExecuteProcessAsAdministratorEventArgs"/> instance containing the event data.</param>
+        public delegate void ExecuteProcessAsAdministratorEventHandler(object sender, ExecuteProcessAsAdministratorEventArgs e);
+
+        /// <summary>The execute process as administrator</summary>
+        public event ExecuteProcessAsAdministratorEventHandler ExecuteProcessAsAdministrator;
+
+        /// <summary>Executes the process as an administrator.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="ExecuteProcessAsAdministratorEventArgs" /> instance containing the event data.</param>
+        protected virtual void OnExecuteProcessAsAdministrator(object sender, ExecuteProcessAsAdministratorEventArgs e) => ExecuteProcessAsAdministrator?.Invoke(sender, e);
         #endregion
 
         #region Identity
@@ -115,6 +129,10 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawButton);
 
             _useAsDialogButton = false;
+            
+            _useAsUACElevationButton = false;
+
+            _processToElevate = string.Empty;
         }
         #endregion
 
@@ -177,7 +195,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        //[DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -228,6 +246,9 @@ namespace Krypton.Toolkit
 
         [DefaultValue(false), Description("If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
         public bool UseAsADialogButton { get => _useAsDialogButton; set => _useAsDialogButton = value; }
+
+        [DefaultValue(false), Description("Transforms the button into a UAC elevated button.")]
+        public bool UseAsUACElevationButton { get => _useAsUACElevationButton; set { _useAsUACElevationButton = value; ShowUACShield(value); } }
 
         /// <summary>
         /// Gets access to the button content.
@@ -338,7 +359,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("The dialog-box result produced in a modal form by clicking the button.")]
-        [DefaultValue(typeof(DialogResult), "None")]
+        //[DefaultValue(typeof(DialogResult), "None")]
         public DialogResult DialogResult { get; set; }
 
         /// <summary>
@@ -462,6 +483,9 @@ namespace Krypton.Toolkit
             get => base.ImeMode;
             set => base.ImeMode = value;
         }
+
+        [DefaultValue(""), Description("The process path to elevate.")]
+        public string ProcessToElevate { get => _processToElevate; set => _processToElevate = value; }
         #endregion
 
         #region IContentValues
@@ -580,6 +604,24 @@ namespace Krypton.Toolkit
 
             // If we have an attached command then execute it
             KryptonCommand?.PerformExecute();
+
+            if (_useAsUACElevationButton)
+            {
+                if (_processToElevate != null || !string.IsNullOrWhiteSpace(_processToElevate))
+                {
+                    ExecuteProcessAsAdministratorEventArgs administrativeTask = new ExecuteProcessAsAdministratorEventArgs(_processToElevate);
+
+                    OnExecuteProcessAsAdministrator(this, administrativeTask);
+                }
+                else
+                {
+                    throw new ArgumentNullException();
+                }
+            }
+            else
+            {
+                Values.Image = null;
+            }
         }
 
         /// <summary>
@@ -747,6 +789,20 @@ namespace Krypton.Toolkit
             if (CanFocus)
             {
                 Focus();
+            }
+        }
+
+        private void ShowUACShield(bool showUACShield)
+        {
+            if (showUACShield)
+            {
+                Values.Image = IconExtractor.LoadIcon(IconExtractor.IconType.Shield, SystemInformation.SmallIconSize).ToBitmap();
+
+                Invalidate();
+            }
+            else
+            {
+                Values.Image = null;
             }
         }
         #endregion
