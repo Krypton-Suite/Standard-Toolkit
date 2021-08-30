@@ -2,7 +2,9 @@
 
 =======
 
+- Skip to [NuGet Information](#NuGet-Information)
 - Skip to [Version History](#version-history)
+- Skip to [Supporters](#Supporters)
 
 =======
 
@@ -41,6 +43,35 @@
 =======
 
 # <img src="https://github.com/Wagnerp/Krypton-Toolkit-Suite-NET-Core/blob/master/Assets/PNG/Help/Help_1_48_x_48.png" /><a href="https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/index.html">Online Help</a>
+
+=======
+
+## Supporters
+
+Development of the Krypton Standard Toolkit is supported by these generous organisations:
+
+<table>
+<tr>
+	<td width="200px">
+		<a href="https://www.jetbrains.com/">
+		<img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Assets/PNG/Supporter%20Logos/jetbrains-logo.png" />
+		</a>
+	</td>
+	<td width="200px">
+		<a href="https://www.yourkit.com/">
+		<img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Assets/PNG/Supporter%20Logos/yourkit-logo.png" />
+		</a>
+	</td>
+</tr>
+<tr>
+	<td width="200px">
+		JetBrains provides cutting-edge IDE and developer productivity tools.
+	</td>
+	<td width="200px">
+		YourKit provides a market-leading intelligent <a href="https://www.yourkit.com/features/">Java Profiler</a> and <a href="https://www.yourkit.com/dotnet/features/">.NET Profiler</a>.
+	</td>
+</tr>
+</table>
 
 =======
 
@@ -92,30 +123,3 @@ The Krypton Workspace allows a document area to be created that the user can cus
 
 ### Krypton Docking
 The Krypton Docking set of components allow the user to drag and drop docking pages into new locations in order to customise the organisation of the application content. It allows this in a way similar to that of Visual Studio 2008/2010. Each docking area uses an instance of the Krypton Workspace allowing a wide range of options for organising and displaying pages. It integrates with the Krypton Toolkit architecture to ensure a consistent look and feel.
-
-## Supporters
-
-Development of the Krypton Standard Toolkit is supported by these generous organisations:
-
-<table>
-<tr>
-	<td width="200px">
-		<a href="https://www.jetbrains.com/">
-		<img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Assets/PNG/Supporter%20Logos/jetbrains-logo.png" />
-		</a>
-	</td>
-	<td width="200px">
-		<a href="https://www.yourkit.com/">
-		<img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Assets/PNG/Supporter%20Logos/yourkit-logo.png" />
-		</a>
-	</td>
-</tr>
-<tr>
-	<td width="200px">
-		JetBrains provides cutting-edge IDE and developer productivity tools.
-	</td>
-	<td width="200px">
-		YourKit provides a market-leading intelligent <a href="https://www.yourkit.com/features/">Java Profiler</a> and <a href="https://www.yourkit.com/dotnet/features/">.NET Profiler</a>.
-	</td>
-</tr>
-</table>
