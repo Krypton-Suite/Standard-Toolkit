@@ -104,7 +104,7 @@ The Krypton Suite contains user interface components designed to make it quick a
 ## What is this Repository About?
 - Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV) have been fixing and adding more capabilities to this toolkit.
 - There is also an Extensions project, which takes these base controls and add more useful complete controls (Currently outside the scope of this help). To find out more, please head to this [link](https://github.com/Krypton-Suite/Extended-Toolkit)
-- All .Net Versions from 3.5 are catered for
+- All .Net Versions from 4.6.2 are catered for
 - New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
 
 ## Individual Components
