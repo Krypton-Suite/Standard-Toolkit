@@ -87,10 +87,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridCommon { get; }
 
-        private bool ShouldSerializeGridCommon()
-        {
-            return !GridCommon.IsDefault;
-        }
+        private bool ShouldSerializeGridCommon() => !GridCommon.IsDefault;
+
         #endregion
 
         #region GridList
@@ -103,10 +101,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridList { get; }
 
-        private bool ShouldSerializeGridList()
-        {
-            return !GridList.IsDefault;
-        }
+        private bool ShouldSerializeGridList() => !GridList.IsDefault;
+
         #endregion
 
         #region GridSheet
@@ -119,10 +115,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridSheet { get; }
 
-        private bool ShouldSerializeGridSheet()
-        {
-            return !GridSheet.IsDefault;
-        }
+        private bool ShouldSerializeGridSheet() => !GridSheet.IsDefault;
+
         #endregion
 
         #region GridCustom1
@@ -135,10 +129,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridCustom1 { get; }
 
-        private bool ShouldSerializeGridCustom1()
-        {
-            return !GridCustom1.IsDefault;
-        }
+        private bool ShouldSerializeGridCustom1() => !GridCustom1.IsDefault;
+
         #endregion
 
         #region GridCustom2
@@ -151,10 +143,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridCustom2 { get; }
 
-        private bool ShouldSerializeGridCustom2()
-        {
-            return !GridCustom2.IsDefault;
-        }
+        private bool ShouldSerializeGridCustom2() => !GridCustom2.IsDefault;
+
         #endregion
 
         #region GridCustom3
@@ -167,10 +157,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridCustom3 { get; }
 
-        private bool ShouldSerializeGridCustom3()
-        {
-            return !GridCustom3.IsDefault;
-        }
+        private bool ShouldSerializeGridCustom3() => !GridCustom3.IsDefault;
+
         #endregion
     }
 }

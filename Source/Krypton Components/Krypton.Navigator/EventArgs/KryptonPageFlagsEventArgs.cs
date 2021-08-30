@@ -27,11 +27,10 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the KryptonPageFlagsEventArgs class.
         /// </summary>
         /// <param name="flags">KryptonPageFlags enumeration.</param>
-        public KryptonPageFlagsEventArgs(KryptonPageFlags flags)
-        {
+        public KryptonPageFlagsEventArgs(KryptonPageFlags flags) =>
             // Remember parameter details
             Flags = flags;
-        }
+
         #endregion
 
         #region Public

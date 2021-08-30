@@ -50,38 +50,27 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return _ribbon.RibbonAppButton.AppButtonToolTipImage;
-        }
+        public Image GetImage(PaletteState state) => _ribbon.RibbonAppButton.AppButtonToolTipImage;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return _ribbon.RibbonAppButton.AppButtonToolTipImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => _ribbon.RibbonAppButton.AppButtonToolTipImageTransparentColor;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return _ribbon.RibbonAppButton.AppButtonToolTipTitle;
-        }
+        public string GetShortText() => _ribbon.RibbonAppButton.AppButtonToolTipTitle;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return _ribbon.RibbonAppButton.AppButtonToolTipBody;
-        }
+        public string GetLongText() => _ribbon.RibbonAppButton.AppButtonToolTipBody;
+
         #endregion
     }
 }

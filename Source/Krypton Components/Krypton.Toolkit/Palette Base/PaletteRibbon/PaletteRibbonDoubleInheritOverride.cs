@@ -30,10 +30,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteRibbonDoubleInheritOverride class.
         /// </summary>
-        /// <param name="primaryBack">First choice inheritence background.</param>
-        /// <param name="primaryText">First choice inheritence text.</param>
-        /// <param name="backupBack">Backup inheritence background.</param>
-        /// <param name="backupText">Backup inheritence text.</param>
+        /// <param name="primaryBack">First choice inheritance background.</param>
+        /// <param name="primaryText">First choice inheritance text.</param>
+        /// <param name="backupBack">Backup inheritance background.</param>
+        /// <param name="backupText">Backup inheritance text.</param>
         /// <param name="state">Palette state to override.</param>
         public PaletteRibbonDoubleInheritOverride(IPaletteRibbonBack primaryBack,
                                                   IPaletteRibbonText primaryText,

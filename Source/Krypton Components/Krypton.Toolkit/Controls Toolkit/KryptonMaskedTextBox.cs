@@ -554,10 +554,7 @@ namespace Krypton.Toolkit
         #region Public
         public string Hint { get => _maskedTextBox.Hint; set => _maskedTextBox.Hint = value; }
 
-        private bool ShouldSerializeHint()
-        {
-            return !string.IsNullOrWhiteSpace(Hint);
-        }
+        private bool ShouldSerializeHint() => !string.IsNullOrWhiteSpace(Hint);
 
 
         /// <summary>
@@ -571,10 +568,7 @@ namespace Krypton.Toolkit
         /// Overridden. Returns a string that represents the current masked text box. This method overrides ToString.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return _maskedTextBox.ToString();
-        }
+        public override string ToString() => _maskedTextBox.ToString();
 
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
@@ -920,10 +914,7 @@ namespace Krypton.Toolkit
             set => _maskedTextBox.Culture = value;
         }
 
-        private bool ShouldSerializeCulture()
-        {
-            return !CultureInfo.CurrentCulture.Equals(Culture);
-        }
+        private bool ShouldSerializeCulture() => !CultureInfo.CurrentCulture.Equals(Culture);
 
         /// <summary>
         /// Gets or sets a value that determines whether literals and prompt characters are copied to the clipboard.
@@ -1123,10 +1114,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeInputControlStyle()
-        {
-            return (InputControlStyle != InputControlStyle.Standalone);
-        }
+        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
 
         private void ResetInputControlStyle()
         {
@@ -1165,10 +1153,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled textbox appearance entries.
@@ -1178,10 +1163,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal textbox appearance entries.
@@ -1191,10 +1173,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the active textbox appearance entries.
@@ -1204,10 +1183,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateActive { get; }
 
-        private bool ShouldSerializeStateActive()
-        {
-            return !StateActive.IsDefault;
-        }
+        private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
 
         /// <summary>
         /// Appends text to the current text of a rich text box.
@@ -1281,30 +1257,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">The location from which to seek the nearest character.</param>
         /// <returns>The character at the specified location.</returns>
-        public int GetCharFromPosition(Point pt)
-        {
-            return _maskedTextBox.GetCharFromPosition(pt);
-        }
+        public int GetCharFromPosition(Point pt) => _maskedTextBox.GetCharFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the character nearest to the specified location.
         /// </summary>
         /// <param name="pt">The location to search.</param>
         /// <returns>The zero-based character index at the specified location.</returns>
-        public int GetCharIndexFromPosition(Point pt)
-        {
-            return _maskedTextBox.GetCharIndexFromPosition(pt);
-        }
+        public int GetCharIndexFromPosition(Point pt) => _maskedTextBox.GetCharIndexFromPosition(pt);
 
         /// <summary>
         /// Retrieves the location within the control at the specified character index.
         /// </summary>
         /// <param name="index">The index of the character for which to retrieve the location.</param>
         /// <returns>The location of the specified character.</returns>
-        public Point GetPositionFromCharIndex(int index)
-        {
-            return _maskedTextBox.GetPositionFromCharIndex(index);
-        }
+        public Point GetPositionFromCharIndex(int index) => _maskedTextBox.GetPositionFromCharIndex(index);
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -1319,10 +1286,7 @@ namespace Krypton.Toolkit
         /// Converts the user input string to an instance of the validating type.
         /// </summary>
         /// <returns></returns>
-        public object ValidateText()
-        {
-            return _maskedTextBox.ValidateText();
-        }
+        public object ValidateText() => _maskedTextBox.ValidateText();
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1444,14 +1408,11 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
@@ -1577,10 +1538,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>A new instance of Control.ControlCollection assigned to the control.</returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        protected override ControlCollection CreateControlsInstance()
-        {
-            return new KryptonReadOnlyControls(this);
-        }
+        protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
         /// <summary>
         /// Raises the HandleCreated event.

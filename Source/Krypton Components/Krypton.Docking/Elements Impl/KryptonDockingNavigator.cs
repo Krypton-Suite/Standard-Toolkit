@@ -700,10 +700,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable navigator element is required.</param>
         /// <returns>KryptonDockingNavigator reference if found; otherwise false.</returns>
-        public override KryptonDockingNavigator FindDockingNavigator(string uniqueName)
-        {
-            return this;
-        }
+        public override KryptonDockingNavigator FindDockingNavigator(string uniqueName) => this;
 
         /// <summary>
         /// Gets the number of visible pages.

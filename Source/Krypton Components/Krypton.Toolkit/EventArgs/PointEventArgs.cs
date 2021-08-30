@@ -27,10 +27,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PointEventArgs class.
         /// </summary>
         /// <param name="point">Point associated with event.</param>
-        public PointEventArgs(Point point)
-        {
-            Point = point;
-        }
+        public PointEventArgs(Point point) => Point = point;
+
         #endregion
 
         #region Point

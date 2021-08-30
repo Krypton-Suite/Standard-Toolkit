@@ -73,7 +73,7 @@ namespace Krypton.Ribbon
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public override void SetInherit(PaletteRibbonRedirect inherit)
         {
@@ -94,10 +94,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCheckBoxText => _ribbonGroupCheckBoxText;
 
-        private bool ShouldSerializeRibbonGroupCheckBoxText()
-        {
-            return !_ribbonGroupCheckBoxText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCheckBoxText() => !_ribbonGroupCheckBoxText.IsDefault;
+
         #endregion
 
         #region RibbonGroupButtonText
@@ -109,10 +107,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupButtonText => _ribbonGroupButtonText;
 
-        private bool ShouldSerializeRibbonGroupButtonText()
-        {
-            return !_ribbonGroupButtonText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupButtonText() => !_ribbonGroupButtonText.IsDefault;
+
         #endregion
 
         #region RibbonGroupLabelText
@@ -124,10 +120,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupLabelText => _ribbonGroupLabelText;
 
-        private bool ShouldSerializeRibbonGroupLabelText()
-        {
-            return !_ribbonGroupLabelText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupLabelText() => !_ribbonGroupLabelText.IsDefault;
+
         #endregion
 
         #region RibbonGroupRadioButtonTetxt
@@ -139,10 +133,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupRadioButtonText => _ribbonGroupRadioButtonText;
 
-        private bool ShouldSerializeRibbonGroupRadioButtonText()
-        {
-            return !_ribbonGroupRadioButtonText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupRadioButtonText() => !_ribbonGroupRadioButtonText.IsDefault;
+
         #endregion
     }
 }

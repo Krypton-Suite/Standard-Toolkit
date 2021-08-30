@@ -208,7 +208,7 @@ namespace Krypton.Toolkit
         {
             if (g == null)
             {
-                throw new ArgumentNullException("g");
+                throw new ArgumentNullException(nameof(g));
             }
 
             if (rect.IsEmpty || g.IsVisibleClipEmpty
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
         {
             if (g == null)
             {
-                throw new ArgumentNullException("g");
+                throw new ArgumentNullException(nameof(g));
             }
 
             if (rect.Width <= 0 || rect.Height <= 0
@@ -277,7 +277,7 @@ namespace Krypton.Toolkit
         {
             if (g == null)
             {
-                throw new ArgumentNullException("g");
+                throw new ArgumentNullException(nameof(g));
             }
 
             if (rect.IsEmpty || g.IsVisibleClipEmpty
@@ -310,7 +310,7 @@ namespace Krypton.Toolkit
         {
             if (g == null)
             {
-                throw new ArgumentNullException("g");
+                throw new ArgumentNullException(nameof(g));
             }
 
             if (rect.IsEmpty || g.IsVisibleClipEmpty
@@ -400,7 +400,7 @@ namespace Krypton.Toolkit
         {
             if (g == null)
             {
-                throw new ArgumentNullException("g");
+                throw new ArgumentNullException(nameof(g));
             }
 
             if (rect.IsEmpty || g.IsVisibleClipEmpty

@@ -55,11 +55,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
+        public override ButtonSpec ButtonSpecFromView(ViewBase element) =>
             // Ask the button manager for the button spec for this element
-            return _buttonManager.ButtonSpecFromView(element);
-        }
+            _buttonManager.ButtonSpecFromView(element);
 
         /// <summary>
         /// Process a change in the selected page

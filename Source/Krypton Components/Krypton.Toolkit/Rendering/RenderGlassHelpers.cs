@@ -65,16 +65,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoDouble cache;
 
-            if (memento is not MementoDouble)
+            if (memento is MementoDouble mementoDouble)
+            {
+                cache = mementoDouble;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoDouble();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoDouble)memento;
             }
 
             // Draw the one pixel border around the area
@@ -118,16 +118,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoDouble cache;
 
-            if (memento is not MementoDouble)
+            if (memento is MementoDouble mementoDouble)
+            {
+                cache = mementoDouble;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoDouble();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoDouble)memento;
             }
 
             // Draw the one pixel border around the area
@@ -170,16 +170,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoDouble cache;
 
-            if (memento is not MementoDouble)
+            if (memento is MementoDouble mementoDouble)
+            {
+                cache = mementoDouble;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoDouble();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoDouble)memento;
             }
 
             cache.first = DrawBackGlassFade(rect, rect,
@@ -213,13 +213,11 @@ namespace Krypton.Toolkit
                                                           Color backColor2,
                                                           VisualOrientation orientation,
                                                           GraphicsPath path,
-                                                          IDisposable memento)
-        {
-            return DrawBackGlassSimplePercent(context, rect, 
-                                              backColor1, backColor2, 
-                                              orientation, path, 
-                                              FULL_GLASS_LENGTH, memento);
-        }
+                                                          IDisposable memento) =>
+            DrawBackGlassSimplePercent(context, rect, 
+                backColor1, backColor2, 
+                orientation, path, 
+                FULL_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in normal full glass effect.
@@ -237,13 +235,11 @@ namespace Krypton.Toolkit
                                                           Color backColor2,
                                                           VisualOrientation orientation,
                                                           GraphicsPath path,
-                                                          IDisposable memento)
-        {
-            return DrawBackGlassNormalPercent(context, rect,
-                                              backColor1, backColor2,
-                                              orientation, path,
-                                              FULL_GLASS_LENGTH, memento);
-        }
+                                                          IDisposable memento) =>
+            DrawBackGlassNormalPercent(context, rect,
+                backColor1, backColor2,
+                orientation, path,
+                FULL_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in tracking full glass effect.
@@ -261,13 +257,11 @@ namespace Krypton.Toolkit
                                                             Color backColor2,
                                                             VisualOrientation orientation,
                                                             GraphicsPath path,
-                                                            IDisposable memento)
-        {
-            return DrawBackGlassTrackingPercent(context, rect, 
-                                                backColor1, backColor2,
-                                                orientation, path,
-                                                FULL_GLASS_LENGTH, memento);
-        }
+                                                            IDisposable memento) =>
+            DrawBackGlassTrackingPercent(context, rect, 
+                backColor1, backColor2,
+                orientation, path,
+                FULL_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in checked full glass effect.
@@ -285,13 +279,11 @@ namespace Krypton.Toolkit
                                                            Color backColor2,
                                                            VisualOrientation orientation,
                                                            GraphicsPath path,
-                                                           IDisposable memento)
-        {
-            return DrawBackGlassCheckedPercent(context, rect, 
-                                               backColor1, backColor2,
-                                               orientation, path, 
-                                               FULL_GLASS_LENGTH, memento);
-        }
+                                                           IDisposable memento) =>
+            DrawBackGlassCheckedPercent(context, rect, 
+                backColor1, backColor2,
+                orientation, path, 
+                FULL_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in checked/tracking full glass effect.
@@ -309,13 +301,11 @@ namespace Krypton.Toolkit
                                                                    Color backColor2,
                                                                    VisualOrientation orientation,
                                                                    GraphicsPath path,
-                                                                   IDisposable memento)
-        {
-            return DrawBackGlassCheckedTrackingPercent(context, rect, 
-                                                       backColor1, backColor2,
-                                                       orientation, path, 
-                                                       FULL_GLASS_LENGTH, memento);
-        }
+                                                                   IDisposable memento) =>
+            DrawBackGlassCheckedTrackingPercent(context, rect, 
+                backColor1, backColor2,
+                orientation, path, 
+                FULL_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in checked/pressed full glass effect.
@@ -333,13 +323,11 @@ namespace Krypton.Toolkit
                                                            Color backColor2,
                                                            VisualOrientation orientation,
                                                            GraphicsPath path,
-                                                           IDisposable memento)
-        {
-            return DrawBackGlassPressedPercent(context, rect, 
-                                               backColor1, backColor2,
-                                               orientation, path, 
-                                               FULL_GLASS_LENGTH, memento);
-        }
+                                                           IDisposable memento) =>
+            DrawBackGlassPressedPercent(context, rect, 
+                backColor1, backColor2,
+                orientation, path, 
+                FULL_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in normal stumpy glass effect.
@@ -357,13 +345,11 @@ namespace Krypton.Toolkit
                                                            Color backColor2,
                                                            VisualOrientation orientation,
                                                            GraphicsPath path,
-                                                           IDisposable memento)
-        {
-            return DrawBackGlassNormalPercent(context, rect, 
-                                              backColor1, backColor2,
-                                              orientation, path, 
-                                              STUMPY_GLASS_LENGTH, memento);
-        }
+                                                           IDisposable memento) =>
+            DrawBackGlassNormalPercent(context, rect, 
+                backColor1, backColor2,
+                orientation, path, 
+                STUMPY_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in tracking stumpy glass effect.
@@ -381,13 +367,11 @@ namespace Krypton.Toolkit
                                                              Color backColor2,
                                                              VisualOrientation orientation,
                                                              GraphicsPath path,
-                                                             IDisposable memento)
-        {
-            return DrawBackGlassTrackingPercent(context, rect, 
-                                                backColor1, backColor2,
-                                                orientation, path, 
-                                                STUMPY_GLASS_LENGTH, memento);
-        }
+                                                             IDisposable memento) =>
+            DrawBackGlassTrackingPercent(context, rect, 
+                backColor1, backColor2,
+                orientation, path, 
+                STUMPY_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in checked/pressed stumpy glass effect.
@@ -405,13 +389,11 @@ namespace Krypton.Toolkit
                                                             Color backColor2,
                                                             VisualOrientation orientation,
                                                             GraphicsPath path,
-                                                            IDisposable memento)
-        {
-            return DrawBackGlassPressedPercent(context, rect, 
-                                               backColor1, backColor2,
-                                               orientation, path, 
-                                               STUMPY_GLASS_LENGTH, memento);
-        }
+                                                            IDisposable memento) =>
+            DrawBackGlassPressedPercent(context, rect, 
+                backColor1, backColor2,
+                orientation, path, 
+                STUMPY_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in checked stumpy glass effect.
@@ -429,13 +411,11 @@ namespace Krypton.Toolkit
                                                             Color backColor2,
                                                             VisualOrientation orientation,
                                                             GraphicsPath path,
-                                                            IDisposable memento)
-        {
-            return DrawBackGlassCheckedPercent(context, rect, 
-                                               backColor1, backColor2,
-                                               orientation, path, 
-                                               STUMPY_GLASS_LENGTH, memento);
-        }
+                                                            IDisposable memento) =>
+            DrawBackGlassCheckedPercent(context, rect, 
+                backColor1, backColor2,
+                orientation, path, 
+                STUMPY_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in checked/tracking stumpy glass effect.
@@ -453,13 +433,11 @@ namespace Krypton.Toolkit
                                                                     Color backColor2,
                                                                     VisualOrientation orientation,
                                                                     GraphicsPath path,
-                                                                    IDisposable memento)
-        {
-            return DrawBackGlassCheckedTrackingPercent(context, rect, 
-                                                       backColor1, backColor2,
-                                                       orientation, path, 
-                                                       STUMPY_GLASS_LENGTH, memento);
-        }
+                                                                    IDisposable memento) =>
+            DrawBackGlassCheckedTrackingPercent(context, rect, 
+                backColor1, backColor2,
+                orientation, path, 
+                STUMPY_GLASS_LENGTH, memento);
 
         /// <summary>
         /// Draw a background in glass effect with three edges lighter.
@@ -484,17 +462,17 @@ namespace Krypton.Toolkit
             MementoBackGlassThreeEdge cache;
 
             // Access a cache instance and decide if cache resources need generating
-            if (memento is not MementoBackGlassThreeEdge)
+            if (memento is MementoBackGlassThreeEdge glassThreeEdge)
+            {
+                cache = glassThreeEdge;
+                generate = !cache.UseCachedValues(rect, backColor1, backColor2, orientation);
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoBackGlassThreeEdge(rect, backColor1, backColor2, orientation);
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoBackGlassThreeEdge)memento;
-                generate = !cache.UseCachedValues(rect, backColor1, backColor2, orientation);
             }
 
             // Do we need to generate the contents of the cache?
@@ -682,16 +660,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoDouble cache;
 
-            if (memento is not MementoDouble)
+            if (memento is MementoDouble mementoDouble)
+            {
+                cache = mementoDouble;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoDouble();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoDouble)memento;
             }
 
             // Get the drawing rectangle for the path
@@ -738,16 +716,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoDouble cache;
 
-            if (memento is not MementoDouble)
+            if (memento is MementoDouble mementoDouble)
+            {
+                cache = mementoDouble;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoDouble();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoDouble)memento;
             }
 
             // Get the drawing rectangle for the path
@@ -793,16 +771,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoDouble cache;
 
-            if (memento is not MementoDouble)
+            if (memento is MementoDouble mementoDouble)
+            {
+                cache = mementoDouble;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoDouble();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoDouble)memento;
             }
 
             // Draw the one pixel border around the area
@@ -837,16 +815,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoTriple cache;
 
-            if (memento is not MementoTriple)
+            if (memento is MementoTriple triple)
+            {
+                cache = triple;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoTriple();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoTriple)memento;
             }
 
             // Draw the one pixel border around the area
@@ -887,16 +865,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoTriple cache;
 
-            if (memento is not MementoTriple)
+            if (memento is MementoTriple triple)
+            {
+                cache = triple;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoTriple();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoTriple)memento;
             }
 
             // Draw the one pixel border around the area
@@ -939,16 +917,16 @@ namespace Krypton.Toolkit
             using Clipping clip = new(context.Graphics, path);
             MementoTriple cache;
 
-            if (memento is not MementoTriple)
+            if (memento is MementoTriple triple)
+            {
+                cache = triple;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoTriple();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoTriple)memento;
             }
 
             // Draw the one pixel border around the area
@@ -989,16 +967,16 @@ namespace Krypton.Toolkit
         {
             MementoDouble cache;
 
-            if (memento is not MementoDouble)
+            if (memento is MementoDouble mementoDouble)
+            {
+                cache = mementoDouble;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoDouble();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoDouble)memento;
             }
 
             // Draw entire background in linear gradient effect
@@ -1008,17 +986,17 @@ namespace Krypton.Toolkit
             MementoBackLinearRadial cacheThis;
 
             // Access a cache instance and decide if cache resources need generating
-            if (cache.second is not MementoBackLinearRadial)
+            if (cache.second is MementoBackLinearRadial linearRadial)
+            {
+                cacheThis = linearRadial;
+                generate = !cacheThis.UseCachedValues(drawRect, color2, color3, orientation);
+            }
+            else
             {
                 cache.second?.Dispose();
 
                 cacheThis = new MementoBackLinearRadial(drawRect, color2, color3, orientation);
                 cache.second = cacheThis;
-            }
-            else
-            {
-                cacheThis = (MementoBackLinearRadial)cache.second;
-                generate = !cacheThis.UseCachedValues(drawRect, color2, color3, orientation);
             }
 
             // Do we need to generate the contents of the cache?
@@ -1102,16 +1080,16 @@ namespace Krypton.Toolkit
         {
             MementoDouble cache;
 
-            if (memento is not MementoDouble)
+            if (memento is MementoDouble mementoDouble)
+            {
+                cache = mementoDouble;
+            }
+            else
             {
                 memento?.Dispose();
 
                 cache = new MementoDouble();
                 memento = cache;
-            }
-            else
-            {
-                cache = (MementoDouble)memento;
             }
 
             // Draw the gradient effect background
@@ -1126,17 +1104,17 @@ namespace Krypton.Toolkit
             MementoBackGlassRadial cacheThis;
 
             // Access a cache instance and decide if cache resources need generating
-            if (cache.second is not MementoBackGlassRadial)
+            if (cache.second is MementoBackGlassRadial glassRadial)
+            {
+                cacheThis = glassRadial;
+                generate = !cacheThis.UseCachedValues(drawRect, color1, color2, factorX, factorY, orientation);
+            }
+            else
             {
                 cache.second?.Dispose();
 
                 cacheThis = new MementoBackGlassRadial(drawRect, color1, color2, factorX, factorY, orientation);
                 cache.second = cacheThis;
-            }
-            else
-            {
-                cacheThis = (MementoBackGlassRadial)cache.second;
-                generate = !cacheThis.UseCachedValues(drawRect, color1, color2, factorX, factorY, orientation);
             }
 
             // Do we need to generate the contents of the cache?
@@ -1245,16 +1223,16 @@ namespace Krypton.Toolkit
             {
                 MementoDouble cache;
 
-                if (memento is not MementoDouble)
+                if (memento is MementoDouble mementoDouble)
+                {
+                    cache = mementoDouble;
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoDouble();
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoDouble)memento;
                 }
 
                 // Draw the gradient effect background
@@ -1269,17 +1247,17 @@ namespace Krypton.Toolkit
                 MementoBackGlassCenter cacheThis;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (cache.second is not MementoBackGlassCenter)
+                if (cache.second is MementoBackGlassCenter glassCenter)
+                {
+                    cacheThis = glassCenter;
+                    generate = !cacheThis.UseCachedValues(drawRect, color2);
+                }
+                else
                 {
                     cache.second?.Dispose();
 
                     cacheThis = new MementoBackGlassCenter(drawRect, color2);
                     cache.second = cacheThis;
-                }
-                else
-                {
-                    cacheThis = (MementoBackGlassCenter)cache.second;
-                    generate = !cacheThis.UseCachedValues(drawRect, color2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -1322,19 +1300,19 @@ namespace Krypton.Toolkit
                 MementoBackGlassFade cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoBackGlassFade)
+                if (memento is MementoBackGlassFade glassFade)
                 {
-                    memento?.Dispose();
-
-                    cache = new MementoBackGlassFade(drawRect, outerRect, color1, color2, 
-                                                     glassColor1, glassColor2, orientation);
-                    memento = cache;
+                    cache = glassFade;
+                    generate = !cache.UseCachedValues(drawRect, outerRect, color1, color2,
+                                                      glassColor1, glassColor2, orientation);
                 }
                 else
                 {
-                    cache = (MementoBackGlassFade)memento;
-                    generate = !cache.UseCachedValues(drawRect, outerRect, color1, color2,
-                                                      glassColor1, glassColor2, orientation);
+                    memento?.Dispose();
+
+                    cache = new MementoBackGlassFade(drawRect, outerRect, color1, color2,
+                                                     glassColor1, glassColor2, orientation);
+                    memento = cache;
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -1438,19 +1416,19 @@ namespace Krypton.Toolkit
                 MementoBackGlassLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoBackGlassLinear)
+                if (memento is MementoBackGlassLinear glassLinear)
+                {
+                    cache = glassLinear;
+                    generate = !cache.UseCachedValues(drawRect, outerRect, color1, color2,
+                        glassColor1, glassColor2, orientation, glassPercent);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoBackGlassLinear(drawRect, outerRect, color1, color2,
-                                                       glassColor1, glassColor2, orientation, glassPercent);
+                        glassColor1, glassColor2, orientation, glassPercent);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoBackGlassLinear)memento;
-                    generate = !cache.UseCachedValues(drawRect, outerRect, color1, color2,
-                                                      glassColor1, glassColor2, orientation, glassPercent);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -1546,23 +1524,23 @@ namespace Krypton.Toolkit
                 MementoBackGlassBasic cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoBackGlassBasic)
+                if (memento is MementoBackGlassBasic glassBasic)
+                {
+                    cache = glassBasic;
+                    generate = !cache.UseCachedValues(drawRect, color1, color2,
+                                                      glassColor1, glassColor2,
+                                                      factorX, factorY,
+                                                      orientation, glassPercent);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoBackGlassBasic(drawRect, color1, color2,
                                                       glassColor1, glassColor2,
-                                                      factorX, factorY, 
-                                                      orientation, glassPercent);
-                    memento = cache;
-                }
-                else
-                {
-                    cache = (MementoBackGlassBasic)memento;
-                    generate = !cache.UseCachedValues(drawRect, color1, color2,
-                                                      glassColor1, glassColor2,
                                                       factorX, factorY,
                                                       orientation, glassPercent);
+                    memento = cache;
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -1631,17 +1609,17 @@ namespace Krypton.Toolkit
                 MementoBackLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoBackLinear)
+                if (memento is MementoBackLinear backLinear)
+                {
+                    cache = backLinear;
+                    generate = !cache.UseCachedValues(drawRect, sigma, color1, color2, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoBackLinear(drawRect, sigma, color1, color2, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoBackLinear)memento;
-                    generate = !cache.UseCachedValues(drawRect, sigma, color1, color2, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -1689,17 +1667,17 @@ namespace Krypton.Toolkit
                 MementoBackDarkEdge cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoBackDarkEdge)
+                if (memento is MementoBackDarkEdge darkEdge)
+                {
+                    cache = darkEdge;
+                    generate = !cache.UseCachedValues(drawRect, color1, thickness, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoBackDarkEdge(drawRect, color1, thickness, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoBackDarkEdge)memento;
-                    generate = !cache.UseCachedValues(drawRect, color1, thickness, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -1770,11 +1748,9 @@ namespace Krypton.Toolkit
             return memento;
         }
 
-        private static bool VerticalOrientation(VisualOrientation orientation)
-        {
-            return (orientation == VisualOrientation.Top) ||
-                   (orientation == VisualOrientation.Bottom);
-        }
+        private static bool VerticalOrientation(VisualOrientation orientation) =>
+            (orientation == VisualOrientation.Top) ||
+            (orientation == VisualOrientation.Bottom);
 
         private static float AngleFromOrientation(VisualOrientation orientation)
         {

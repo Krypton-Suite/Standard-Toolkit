@@ -21,7 +21,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PalettePageRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PalettePageRedirect(PaletteRedirect redirect,
                                    NeedPaintHandler needPaint)

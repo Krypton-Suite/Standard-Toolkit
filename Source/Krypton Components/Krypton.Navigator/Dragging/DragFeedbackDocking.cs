@@ -327,11 +327,10 @@ _hintToTarget.ContainsKey(DragTargetHint.Transfer))
             return null;
         }
 
-        private DragTarget FindTarget(Point screenPt, PageDragEndData dragEndData)
-        {
+        private DragTarget FindTarget(Point screenPt, PageDragEndData dragEndData) =>
             // Nothing matches
-            return null;
-        }
+            null;
+
         #endregion
     }
 }

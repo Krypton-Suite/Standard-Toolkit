@@ -82,24 +82,20 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="checkButton">The KryptonCheckButton to locate in the collection.</param>
             /// <returns>True if found in collection; otherwise false.</returns>
-            public bool Contains(KryptonCheckButton checkButton)
-            {
+            public bool Contains(KryptonCheckButton checkButton) =>
                 // ReSharper disable RedundantBaseQualifier
-                return base.List.Contains(checkButton);
-                // ReSharper restore RedundantBaseQualifier
-            }
+                base.List.Contains(checkButton);
+            // ReSharper restore RedundantBaseQualifier
 
             /// <summary>
             /// Returns the index of the KryptonCheckButton reference.
             /// </summary>
             /// <param name="checkButton">The KryptonCheckButton to locate.</param>
             /// <returns>Index of reference; otherwise -1.</returns>
-            public int IndexOf(KryptonCheckButton checkButton)
-            {
+            public int IndexOf(KryptonCheckButton checkButton) =>
                 // ReSharper disable RedundantBaseQualifier
-                return base.List.IndexOf(checkButton);
-                // ReSharper restore RedundantBaseQualifier
-            }
+                base.List.IndexOf(checkButton);
+            // ReSharper restore RedundantBaseQualifier
 
             /// <summary>
             /// Inserts a KryptonCheckButton reference into the collection at the specified location.
@@ -253,10 +249,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonCheckSet class.
         /// </summary>
-        public KryptonCheckSet()
-        {
-            CheckButtons = new KryptonCheckButtonCollection(this);
-        }
+        public KryptonCheckSet() => CheckButtons = new KryptonCheckButtonCollection(this);
 
         /// <summary>
         /// Initialize a new instance of the KryptonCheckSet class.

@@ -334,22 +334,18 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="forward">Forward to add; otherwise subtract.</param>
             /// <returns>Modified date/time.</returns>
-            public DateTime Increment(bool forward)
-            {
+            public DateTime Increment(bool forward) =>
                 // Pass request onto the fragment itself
-                return _activeFragment >= 0 ? _fragments[_activeFragment].Increment(DateTime, forward) : DateTime;
-            }
+                _activeFragment >= 0 ? _fragments[_activeFragment].Increment(DateTime, forward) : DateTime;
 
             /// <summary>
             /// Invert the AM/PM indicator for the date.
             /// </summary>
             /// <param name="am">Am requested.</param>
             /// <returns>Modified date/time.</returns>
-            public DateTime AMPM(bool am)
-            {
+            public DateTime AMPM(bool am) =>
                 // Pass request onto the fragment itself
-                return _activeFragment >= 0 ? _fragments[_activeFragment].AMPM(DateTime, am) : DateTime;
-            }
+                _activeFragment >= 0 ? _fragments[_activeFragment].AMPM(DateTime, am) : DateTime;
 
             /// <summary>
             /// Gets a value indicating if input digits are being processed.
@@ -804,10 +800,8 @@ namespace Krypton.Toolkit
             /// Output a text representation of the fragment.
             /// </summary>
             /// <returns>String instance.</returns>
-            public override string ToString()
-            {
-                return Fragment;
-            }
+            public override string ToString() => Fragment;
+
             #endregion
 
             #region Public
@@ -859,20 +853,14 @@ namespace Krypton.Toolkit
             /// <param name="dt">Date time to modify.</param>
             /// <param name="digits">Set of digits to process.</param>
             /// <returns>Modified date time.</returns>
-            public virtual DateTime EndDigits(DateTime dt, string digits)
-            {
-                return dt;
-            }
+            public virtual DateTime EndDigits(DateTime dt, string digits) => dt;
 
             /// <summary>
             /// Gets the display string for display using the provided date time.
             /// </summary>
             /// <param name="dt">DateTime to format.</param>
             /// <returns>Display string.</returns>
-            public virtual string GetDisplay(DateTime dt)
-            {
-                return FragFormat.Length == 1 ? dt.ToString("\\" + FragFormat) : dt.ToString(FragFormat);
-            }
+            public virtual string GetDisplay(DateTime dt) => FragFormat.Length == 1 ? dt.ToString("\\" + FragFormat) : dt.ToString(FragFormat);
 
             /// <summary>
             /// Increment the current fragment value.
@@ -917,19 +905,15 @@ namespace Krypton.Toolkit
             /// <param name="character">Character that represents the format fragment.</param>
             /// <param name="count">Number characters in the fragment.</param>
             public FormatFragmentChar(int index, string format, char character, int count)
-                : base(index, format, string.Empty)
-            {
+                : base(index, format, string.Empty) =>
                 _fragFormat = new string(character, count);
-            }
 
             /// <summary>
             /// Output a text representation of the fragment.
             /// </summary>
             /// <returns>String instance.</returns>
-            public override string ToString()
-            {
-                return base.ToString() + " (" + _fragFormat + ")";
-            }
+            public override string ToString() => base.ToString() + " (" + _fragFormat + ")";
+
             #endregion
 
             #region Public
@@ -1119,10 +1103,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="dt">DateTime to format.</param>
             /// <returns>Display string.</returns>
-            public override string GetDisplay(DateTime dt)
-            {
-                return dt.ToString(CommonHelper.MakeCustomDateFormat(FragFormat));
-            }
+            public override string GetDisplay(DateTime dt) => dt.ToString(CommonHelper.MakeCustomDateFormat(FragFormat));
 
             /// <summary>
             /// Increment the current fragment value.

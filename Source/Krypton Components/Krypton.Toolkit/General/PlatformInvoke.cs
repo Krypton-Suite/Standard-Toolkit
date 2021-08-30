@@ -89,6 +89,7 @@ namespace Krypton.Toolkit
             ALL = (RANGE | PAGE | POS | TRACKPOS)
         }
 
+#pragma warning disable CA1069 // Enums values should not be duplicated
         internal enum SB_
         {
             LINEUP = 0,
@@ -112,6 +113,7 @@ namespace Krypton.Toolkit
             CTL = 2,
             BOTH = 3
         }
+#pragma warning restore CA1069 // Enums values should not be duplicated
 
         internal enum SBM_
         {
@@ -131,6 +133,7 @@ namespace Krypton.Toolkit
             Horizontal = 1
         }
 
+#pragma warning disable CA1069 // Enums values should not be duplicated
         internal enum ESB_
         {
             ENABLE_BOTH = 0,
@@ -142,6 +145,7 @@ namespace Krypton.Toolkit
             DISABLE_LTUP = 1,
             DISABLE_RTDN = 2
         }
+#pragma warning restore CA1069 // Enums values should not be duplicated
 
         #endregion  ScrollBar
 
@@ -2449,50 +2453,29 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             return (int32 > 32767) ? int32 - 65536 : int32;
         }
 
-        internal static int LOWORD(int value)
-        {
-            return (value & 0xFFFF);
-        }
+        internal static int LOWORD(int value) => (value & 0xFFFF);
 
-        internal static int HIWORD(int value)
-        {
-            return ((value >> 0x10) & 0xFFFF);
-        }
+        internal static int HIWORD(int value) => ((value >> 0x10) & 0xFFFF);
 
-        internal static int MAKELOWORD(int value)
-        {
-            return (value & 0xFFFF);
-        }
+        internal static int MAKELOWORD(int value) => (value & 0xFFFF);
 
-        internal static int MAKEHIWORD(int value)
-        {
-            return ((value & 0xFFFF) << 0x10);
-        }
+        internal static int MAKEHIWORD(int value) => ((value & 0xFFFF) << 0x10);
 
-        internal static int MakeLParam(int LoWord, int HiWord)
-        {
-            return ((HiWord << 16) | (LoWord & 0xffff));
-        }
+        internal static int MakeLParam(int LoWord, int HiWord) => ((HiWord << 16) | (LoWord & 0xffff));
 
         /// <summary>
         /// Is the specified key currently pressed down.
         /// </summary>
         /// <param name="key">Key to test.</param>
         /// <returns>True if pressed; otherwise false.</returns>
-        internal static bool IsKeyDown(Keys key)
-        {
-            return KEY_.DOWN == (GetKeyState(key) & KEY_.DOWN);
-        }
+        internal static bool IsKeyDown(Keys key) => KEY_.DOWN == (GetKeyState(key) & KEY_.DOWN);
 
         /// <summary>
         /// Is the specified key currently toggled.
         /// </summary>
         /// <param name="key">Key to test.</param>
         /// <returns>True if toggled; otherwise false.</returns>
-        internal static bool IsKeyToggled(Keys key)
-        {
-            return KEY_.TOGGLED == (GetKeyState(key) & KEY_.TOGGLED);
-        }
+        internal static bool IsKeyToggled(Keys key) => KEY_.TOGGLED == (GetKeyState(key) & KEY_.TOGGLED);
 
         private static KEY_ GetKeyState(Keys key)
         {
@@ -2621,9 +2604,8 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             public ushort wCreatorVersion;
 
             public WINDOWINFO(int _ = 0) : this()   // Allows automatic initialization of "cbSize" with "new WINDOWINFO(null/true/false)".
-            {
-                cbSize = (uint)Marshal.SizeOf(typeof(WINDOWINFO));
-            }
+                =>
+                    cbSize = (uint)Marshal.SizeOf(typeof(WINDOWINFO));
         }
         internal static bool GetWindowInfo(IntPtr hwnd, out WINDOWINFO pwi)
         {
@@ -2736,12 +2718,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         // This is aliased as a macro in 32bit Windows.
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal static IntPtr SetWindowLongPtr(IntPtr hwnd, GWL_ nIndex, IntPtr dwNewLong)
-        {
-            return (8 == IntPtr.Size)
+        internal static IntPtr SetWindowLongPtr(IntPtr hwnd, GWL_ nIndex, IntPtr dwNewLong) =>
+            (8 == IntPtr.Size)
                 ? SetWindowLongPtr64(hwnd, nIndex, dwNewLong)
                 : new IntPtr(SetWindowLongPtr32(hwnd, nIndex, dwNewLong.ToInt32()));
-        }
 
         [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist")]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -3325,14 +3305,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns>IntPtr</returns>
-        internal static IntPtr GetNativeImage(Bitmap bitmap)
-        {
-            if (bitmap == null)
-            {
-                return IntPtr.Zero;
-            }
-            return (IntPtr)FIELD_INFO_NATIVE_IMAGE.GetValue(bitmap);
-        }
+        internal static IntPtr GetNativeImage(Bitmap bitmap) => IntPtr.Zero;
 
         internal static Guid BlurEffectGuid = new("{633C80A4-1843-482B-9EF2-BE2834C5FDD4}");
 

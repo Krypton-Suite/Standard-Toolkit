@@ -69,10 +69,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return "(Items)";
-        }
+        public override string ToString() => "(Items)";
+
         #endregion
 
         #region Public
@@ -95,10 +93,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return Items.ProcessShortcut(keyData);
-        }
+        public override bool ProcessShortcut(Keys keyData) => Items.ProcessShortcut(keyData);
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -146,7 +141,7 @@ namespace Krypton.Toolkit
                 if (_standardStyle != value)
                 {
                     _standardStyle = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("StandardStyle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(StandardStyle)));
                 }
             }
         }
@@ -167,7 +162,7 @@ namespace Krypton.Toolkit
                 if (_imageColumn != value)
                 {
                     _imageColumn = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageColumn"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageColumn)));
                 }
             }
         }
@@ -181,10 +176,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
         #endregion
 
         #region Internal

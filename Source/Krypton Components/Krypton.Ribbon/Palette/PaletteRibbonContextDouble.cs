@@ -14,7 +14,7 @@
 namespace Krypton.Ribbon
 {
     /// <summary>
-    /// Return inhertied values unless empty in which case return the context color.
+    /// Return inherited values unless empty in which case return the context color.
     /// </summary>
     public class PaletteRibbonContextDouble : IPaletteRibbonBack,
                                               IPaletteRibbonText
@@ -56,7 +56,7 @@ namespace Krypton.Ribbon
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(PaletteRibbonDoubleInheritOverride inherit)
         {
@@ -70,10 +70,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
-        {
-            return _inherit.GetRibbonBackColorStyle(state);
-        }
+        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inherit.GetRibbonBackColorStyle(state);
+
         #endregion
 
         #region BackColor1

@@ -48,10 +48,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <returns>Array of child components.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual Component[] GetChildComponents()
-        {
-            return Array.Empty<Component>();
-        }
+        public virtual Component[] GetChildComponents() => Array.Empty<Component>();
+
         #endregion
     }
 }

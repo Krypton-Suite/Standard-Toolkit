@@ -34,10 +34,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the TrackBarController class.
         /// </summary>
         /// <param name="drawTB">Associated drawing element.</param>
-        public TrackBarController(ViewDrawTP drawTB)
-        {
-            _drawTB = drawTB;
-        }
+        public TrackBarController(ViewDrawTP drawTB) => _drawTB = drawTB;
+
         #endregion
 
         #region Mouse Notifications

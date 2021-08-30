@@ -73,11 +73,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns a standard textual representation of the cell.
         /// </summary>
-        public override string ToString()
-        {
-            return "DataGridViewNumericUpDownCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
-                   ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
-        }
+        public override string ToString() =>
+            "DataGridViewNumericUpDownCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
+            ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
+
         #endregion
 
         #region Public
@@ -518,18 +517,14 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool OwnsEditingNumericUpDown(int rowIndex)
-        {
-            return (rowIndex == -1) || (DataGridView == null)
+        private bool OwnsEditingNumericUpDown(int rowIndex) =>
+            (rowIndex == -1) || (DataGridView == null)
                 ? false
                 : (DataGridView.EditingControl is KryptonDataGridViewNumericUpDownEditingControl control)
-                   && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
-        }
+                  && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
-        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart)
-        {
-            return (paintParts & paintPart) != 0;
-        }
+        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
+
         #endregion
 
         #region Internal

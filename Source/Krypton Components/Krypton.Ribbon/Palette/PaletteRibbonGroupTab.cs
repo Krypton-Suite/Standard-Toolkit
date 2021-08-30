@@ -19,6 +19,7 @@ namespace Krypton.Ribbon
     public class PaletteRibbonGroupTab : PaletteRibbonJustTab
     {
         #region Instance Fields
+        private readonly PaletteRibbonBack _ribbonGroupArea;
         private readonly PaletteRibbonBack _ribbonGroupNormalBorder;
         private readonly PaletteRibbonDouble _ribbonGroupNormalTitle;
         private readonly PaletteRibbonBack _ribbonGroupCollapsedBorder;
@@ -39,6 +40,7 @@ namespace Krypton.Ribbon
             : base(inherit, needPaint)
         {
             // Create storage that maps onto the inherit instances
+            _ribbonGroupArea = new PaletteRibbonBack(inherit.RibbonGroupBackArea, needPaint);
             _ribbonGroupNormalBorder = new PaletteRibbonBack(inherit.RibbonGroupNormalBorder, needPaint);
             _ribbonGroupNormalTitle = new PaletteRibbonDouble(inherit.RibbonGroupNormalTitle, inherit.RibbonGroupNormalTitle, needPaint);
             _ribbonGroupCollapsedBorder = new PaletteRibbonBack(inherit.RibbonGroupCollapsedBorder, needPaint);
@@ -55,6 +57,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         public override bool IsDefault => (base.IsDefault &&
+                                           RibbonGroupArea.IsDefault &&
                                            RibbonGroupNormalBorder.IsDefault &&
                                            RibbonGroupNormalTitle.IsDefault &&
                                            RibbonGroupCollapsedBorder.IsDefault &&
@@ -73,6 +76,7 @@ namespace Krypton.Ribbon
         public override void PopulateFromBase(PaletteState state)
         {
             base.PopulateFromBase(state);
+            _ribbonGroupArea.PopulateFromBase(state);
             _ribbonGroupNormalBorder.PopulateFromBase(state);
             _ribbonGroupNormalTitle.PopulateFromBase(state);
             _ribbonGroupCollapsedBorder.PopulateFromBase(state);
@@ -85,11 +89,12 @@ namespace Krypton.Ribbon
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public override void SetInherit(PaletteRibbonRedirect inherit)
         {
             base.SetInherit(inherit);
+            _ribbonGroupArea.SetInherit(inherit.RibbonGroupBackArea);
             _ribbonGroupNormalBorder.SetInherit(inherit.RibbonGroupNormalBorder);
             _ribbonGroupNormalTitle.SetInherit(inherit.RibbonGroupNormalTitle, inherit.RibbonGroupNormalTitle);
             _ribbonGroupCollapsedBorder.SetInherit(inherit.RibbonGroupCollapsedBorder);
@@ -98,6 +103,19 @@ namespace Krypton.Ribbon
             _ribbonGroupCollapsedFrameBack.SetInherit(inherit.RibbonGroupCollapsedFrameBack);
             _ribbonGroupCollapsedText.SetInherit(inherit.RibbonGroupCollapsedText);
         }
+        #endregion
+
+        #region RibbonGroupArea
+        /// <summary>
+        /// Gets access to the ribbon group area palette details.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Overrides for defining ribbon group area appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public virtual PaletteRibbonBack RibbonGroupArea => _ribbonGroupArea;
+
+        private bool ShouldSerializeRibbonGroupArea() => !_ribbonGroupArea.IsDefault;
+
         #endregion
 
         #region RibbonGroupNormalBorder
@@ -109,10 +127,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupNormalBorder => _ribbonGroupNormalBorder;
 
-        private bool ShouldSerializeRibbonGroupNormalBorder()
-        {
-            return !_ribbonGroupNormalBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupNormalBorder() => !_ribbonGroupNormalBorder.IsDefault;
+
         #endregion
 
         #region RibbonGroupNormalTitle
@@ -124,10 +140,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonDouble RibbonGroupNormalTitle => _ribbonGroupNormalTitle;
 
-        private bool ShouldSerializeRibbonGroupNormalTitle()
-        {
-            return !_ribbonGroupNormalTitle.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupNormalTitle() => !_ribbonGroupNormalTitle.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedBorder
@@ -139,10 +153,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedBorder => _ribbonGroupCollapsedBorder;
 
-        private bool ShouldSerializeRibbonGroupCollapsedBorder()
-        {
-            return !_ribbonGroupCollapsedBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedBorder() => !_ribbonGroupCollapsedBorder.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedBack
@@ -154,10 +166,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedBack => _ribbonGroupCollapsedBack;
 
-        private bool ShouldSerializeRibbonGroupCollapsedBack()
-        {
-            return !_ribbonGroupCollapsedBack.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedBack() => !_ribbonGroupCollapsedBack.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedFrameBorder
@@ -169,10 +179,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBorder => _ribbonGroupCollapsedFrameBorder;
 
-        private bool ShouldSerializeRibbonGroupCollapsedFrameBorder()
-        {
-            return !_ribbonGroupCollapsedFrameBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedFrameBorder() => !_ribbonGroupCollapsedFrameBorder.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedFrameBack
@@ -184,10 +192,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBack => _ribbonGroupCollapsedFrameBack;
 
-        private bool ShouldSerializeRibbonGroupCollapsedFrameBack()
-        {
-            return !_ribbonGroupCollapsedFrameBack.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedFrameBack() => !_ribbonGroupCollapsedFrameBack.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedText
@@ -199,10 +205,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCollapsedText => _ribbonGroupCollapsedText;
 
-        private bool ShouldSerializeRibbonGroupCollapsedText()
-        {
-            return !_ribbonGroupCollapsedText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedText() => !_ribbonGroupCollapsedText.IsDefault;
+
         #endregion
     }
 }

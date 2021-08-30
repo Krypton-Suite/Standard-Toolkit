@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteContextMenuRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection.</param>
+        /// <param name="redirect">inheritance redirection.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteContextMenuRedirect(PaletteRedirect redirect,
                                           NeedPaintHandler needPaint)
@@ -128,10 +128,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect ControlInner { get; }
 
-        private bool ShouldSerializeControlInner()
-        {
-            return !ControlInner.IsDefault;
-        }
+        private bool ShouldSerializeControlInner() => !ControlInner.IsDefault;
+
         #endregion
 
         #region ControlOuter
@@ -144,10 +142,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect ControlOuter { get; }
 
-        private bool ShouldSerializeControlOuter()
-        {
-            return !ControlOuter.IsDefault;
-        }
+        private bool ShouldSerializeControlOuter() => !ControlOuter.IsDefault;
+
         #endregion
 
         #region Heading
@@ -160,10 +156,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Heading { get; }
 
-        private bool ShouldSerializeHeading()
-        {
-            return !Heading.IsDefault;
-        }
+        private bool ShouldSerializeHeading() => !Heading.IsDefault;
+
         #endregion
 
         #region ItemHighlight
@@ -175,10 +169,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleMetricRedirect ItemHighlight { get; }
 
-        private bool ShouldSerializeItemHighlight()
-        {
-            return !ItemHighlight.IsDefault;
-        }
+        private bool ShouldSerializeItemHighlight() => !ItemHighlight.IsDefault;
+
         #endregion
 
         #region ItemImage
@@ -190,10 +182,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleJustImageRedirect ItemImage { get; }
 
-        private bool ShouldSerializeItemImage()
-        {
-            return !ItemImage.IsDefault;
-        }
+        private bool ShouldSerializeItemImage() => !ItemImage.IsDefault;
+
         #endregion
 
         #region ItemImageColumn
@@ -206,10 +196,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect ItemImageColumn { get; }
 
-        private bool ShouldSerializeItemImageColumn()
-        {
-            return !ItemImageColumn.IsDefault;
-        }
+        private bool ShouldSerializeItemImageColumn() => !ItemImageColumn.IsDefault;
+
         #endregion
 
         #region ItemShortcutText
@@ -221,10 +209,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustShortText ItemShortcutText { get; }
 
-        private bool ShouldSerializeItemShortcutText()
-        {
-            return !ItemShortcutText.IsDefault;
-        }
+        private bool ShouldSerializeItemShortcutText() => !ItemShortcutText.IsDefault;
+
         #endregion
 
         #region ItemSplit
@@ -236,10 +222,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect ItemSplit { get; }
 
-        private bool ShouldSerializeItemItemSplit()
-        {
-            return !ItemSplit.IsDefault;
-        }
+        private bool ShouldSerializeItemItemSplit() => !ItemSplit.IsDefault;
+
         #endregion
 
         #region ItemTextAlternate
@@ -251,10 +235,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustText ItemTextAlternate { get; }
 
-        private bool ShouldSerializeItemTextAlternate()
-        {
-            return !ItemTextAlternate.IsDefault;
-        }
+        private bool ShouldSerializeItemTextAlternate() => !ItemTextAlternate.IsDefault;
+
         #endregion
 
         #region ItemTextStandard
@@ -266,10 +248,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustText ItemTextStandard { get; }
 
-        private bool ShouldSerializeItemTextStandard()
-        {
-            return !ItemTextStandard.IsDefault;
-        }
+        private bool ShouldSerializeItemTextStandard() => !ItemTextStandard.IsDefault;
+
         #endregion
 
         #region Separator
@@ -282,10 +262,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect Separator { get; }
 
-        private bool ShouldSerializeSeparator()
-        {
-            return !Separator.IsDefault;
-        }
+        private bool ShouldSerializeSeparator() => !Separator.IsDefault;
+
         #endregion
 
         #region Internal

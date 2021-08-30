@@ -421,10 +421,8 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool KeyUp(Control c, KeyEventArgs e)
-        {
-            return false;
-        }
+        public bool KeyUp(Control c, KeyEventArgs e) => false;
+
         #endregion
 
         #region KeyTipSelect

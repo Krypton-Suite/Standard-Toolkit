@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Initialize a new instance of the PaletteGalleryRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Paint delegate.</param>
         public PaletteGalleryRedirect(PaletteRedirect redirect,
                                       NeedPaintHandler needPaint)
@@ -85,10 +85,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGalleryBack => _ribbonBack;
 
-        private bool ShouldSerializeRibbonGalleryBack()
-        {
-            return !_ribbonBack.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGalleryBack() => !_ribbonBack.IsDefault;
+
         #endregion
 
         #region RibbonGalleryBorder
@@ -100,10 +98,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGalleryBorder => _ribbonBorder;
 
-        private bool ShouldSerializeRibbonGalleryBorder()
-        {
-            return !_ribbonBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGalleryBorder() => !_ribbonBorder.IsDefault;
+
         #endregion
 
         #region Protected

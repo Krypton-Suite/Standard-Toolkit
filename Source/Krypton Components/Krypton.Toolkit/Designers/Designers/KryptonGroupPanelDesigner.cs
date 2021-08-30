@@ -55,11 +55,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="parentDesigner">The IDesigner that manages the control to check.</param>
         /// <returns>true if the control managed by the specified designer can parent the control managed by this designer; otherwise, false.</returns>
-        public override bool CanBeParentedTo(IDesigner parentDesigner)
-        {
+        public override bool CanBeParentedTo(IDesigner parentDesigner) =>
             // We should only ever exist inside a Krypton group container
-            return ((parentDesigner is KryptonGroup) || (parentDesigner is KryptonHeaderGroup));
-        }
+            ((parentDesigner is KryptonGroup) || (parentDesigner is KryptonHeaderGroup));
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.

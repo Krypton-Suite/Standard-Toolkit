@@ -24,14 +24,11 @@ namespace Krypton.Navigator
         /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
         /// <param name="destinationType">A Type that represents the type you want to convert to.</param>
         /// <returns>true if this converter can perform the conversion; otherwise, false.</returns>
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-        {
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) =>
             // Can always convert to a string representation
-            return destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
+            destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
 
-            // Let base class do standard processing
-        }
-
+        // Let base class do standard processing
         /// <summary>
         /// Converts the given value object to the specified type, using the specified context and culture information.
         /// </summary>

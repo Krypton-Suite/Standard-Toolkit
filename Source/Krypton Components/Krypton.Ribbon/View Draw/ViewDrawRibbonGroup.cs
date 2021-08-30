@@ -53,10 +53,12 @@ namespace Krypton.Ribbon
         private ViewLayoutRibbonGroupButton _viewNormalDialog;
         private ViewLayoutDocker _layoutNormalTitle;
         private ViewDrawRibbonGroupTitle _viewNormalTitle;
-        private PaletteRibbonContextBack _paletteContextBack;
+        private PaletteRibbonContextBack _paletteContextBackArea;
+        private PaletteRibbonContextBack _paletteContextBorder;
         private PaletteRibbonShape _lastRibbonShape;
         private readonly NeedPaintHandler _needPaint;
-        private IDisposable _mementoRibbonBack1;
+        private IDisposable _mementoRibbonBackArea;
+        private IDisposable _mementoRibbonBackBorder;
         private IDisposable _mementoRibbonBack2;
         private IDisposable _mementoStandardBack;
         private Control _container;
@@ -104,11 +106,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroup:" + Id;
-        }
+            "ViewDrawRibbonGroup:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -632,7 +632,8 @@ namespace Krypton.Ribbon
             _layoutNormalTitle.Add(_viewNormalDialog, ViewDockStyle.Right);
             
             // Use this class to return the context color for any null values
-            _paletteContextBack = new PaletteRibbonContextBack(_ribbon);
+            _paletteContextBackArea = new PaletteRibbonContextBack(_ribbon);
+            _paletteContextBorder = new PaletteRibbonContextBack(_ribbon);
 
             // All values are equal to a default of Office 2007 shape
             _lastRibbonShape = PaletteRibbonShape.Office2007;
@@ -685,6 +686,7 @@ namespace Krypton.Ribbon
         {
             Rectangle drawRect = ClientRectangle;
 
+            IPaletteRibbonBack paletteBackArea;
             IPaletteRibbonBack paletteBorder;
             IPaletteRibbonBack paletteTitle;
 
@@ -703,19 +705,23 @@ namespace Krypton.Ribbon
             switch (elementState)
             {
                 case PaletteState.ContextNormal:
+                    paletteBackArea = _ribbon.StateContextNormal.RibbonGroupArea;
                     paletteBorder = _ribbon.StateContextNormal.RibbonGroupNormalBorder;
                     paletteTitle = _ribbon.StateContextNormal.RibbonGroupNormalTitle;
                     break;
                 case PaletteState.ContextTracking:
+                    paletteBackArea = _ribbon.StateContextTracking.RibbonGroupArea;
                     paletteBorder = _ribbon.StateContextTracking.RibbonGroupNormalBorder;
                     paletteTitle = _ribbon.StateContextTracking.RibbonGroupNormalTitle;
                     break;
                 case PaletteState.Tracking:
+                    paletteBackArea = _ribbon.StateTracking.RibbonGroupArea;
                     paletteBorder = _ribbon.StateTracking.RibbonGroupNormalBorder;
                     paletteTitle = _ribbon.StateTracking.RibbonGroupNormalTitle;
                     break;
                 case PaletteState.Normal:
                 default:
+                    paletteBackArea = _ribbon.StateNormal.RibbonGroupArea;
                     paletteBorder = _ribbon.StateNormal.RibbonGroupNormalBorder;
                     paletteTitle = _ribbon.StateNormal.RibbonGroupNormalTitle;
                     break;
@@ -729,9 +735,17 @@ namespace Krypton.Ribbon
                 elementState |= PaletteState.FocusOverride;
             }
 
+            if (Tracking)
+            {
+                _paletteContextBackArea.SetInherit(paletteBackArea);
+                _mementoRibbonBackArea = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context,
+                    drawRect, elementState, _paletteContextBackArea, VisualOrientation.Top, false,
+                    _mementoRibbonBackArea);
+            }
+
             // Draw the group border
-            _paletteContextBack.SetInherit(paletteBorder);
-            _mementoRibbonBack1 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, elementState, _paletteContextBack, VisualOrientation.Top, false, _mementoRibbonBack1);
+            _paletteContextBorder.SetInherit(paletteBorder);
+            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, elementState, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
 
             // Reduce the drawing rectangle to just the title area
             Rectangle titleRect = drawRect;
@@ -740,7 +754,7 @@ namespace Krypton.Ribbon
             titleRect.Y = titleRect.Bottom - _viewNormalTitle.Height;
             titleRect.Height = _viewNormalTitle.Height - 1;
 
-            if (paletteBorder.GetRibbonBackColorStyle(State) == PaletteRibbonColorStyle.RibbonGroupNormalBorderTrackingLight)
+            if (paletteBackArea.GetRibbonBackColorStyle(State) == PaletteRibbonColorStyle.RibbonGroupNormalBorderTrackingLight)
             {
                 // Redraw the title area inside the light border area
                 titleRect.X++;
@@ -799,8 +813,9 @@ namespace Krypton.Ribbon
             }
 
             // Draw the group border
-            _paletteContextBack.SetInherit(paletteBorder);
-            _mementoRibbonBack1 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBack, VisualOrientation.Top, false, _mementoRibbonBack1);
+            _paletteContextBorder.SetInherit(paletteBorder);
+            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
+            //_mementoRibbonBackArea = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackArea);
 
             Rectangle backRect = drawRect;
             backRect.Inflate(-2, -2);
@@ -859,8 +874,8 @@ namespace Krypton.Ribbon
                         }
 
                         // Draw the group border
-                        _paletteContextBack.SetInherit(paletteBorder);
-                        _mementoRibbonBack1 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, _paletteContextBack, VisualOrientation.Top, false, _mementoRibbonBack1);
+                        _paletteContextBorder.SetInherit(paletteBorder);
+                        _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
 
                         Rectangle backRect = drawRect;
                         backRect.Inflate(-2, -2);
@@ -874,10 +889,16 @@ namespace Krypton.Ribbon
 
         private void DisposeMementos()
         {
-            if (_mementoRibbonBack1 != null)
+            if (_mementoRibbonBackArea != null)
             {
-                _mementoRibbonBack1.Dispose();
-                _mementoRibbonBack1 = null;
+                _mementoRibbonBackArea.Dispose();
+                _mementoRibbonBackArea = null;
+            }
+
+            if (_mementoRibbonBackBorder != null)
+            {
+                _mementoRibbonBackBorder.Dispose();
+                _mementoRibbonBackBorder = null;
             }
 
             if (_mementoRibbonBack2 != null)

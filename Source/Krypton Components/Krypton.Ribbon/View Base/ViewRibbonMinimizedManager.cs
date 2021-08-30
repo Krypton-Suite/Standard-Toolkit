@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
                 Form ownerForm = _ribbon.FindForm();
 
                 // We do not need to layout if inside a control that is minimized
-                if ((ownerForm != null) && (ownerForm.WindowState == FormWindowState.Minimized))
+                if (ownerForm is { WindowState: FormWindowState.Minimized })
                 {
                     return;
                 }

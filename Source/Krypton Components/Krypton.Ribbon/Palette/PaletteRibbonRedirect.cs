@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonText _ribbonAppMenuDocsTitle;
         private readonly PaletteRibbonText _ribbonAppMenuDocsEntry;
         private readonly PaletteRibbonGeneral _ribbonGeneral;
-        private readonly PaletteRibbonBack _ribbonGroupArea;
+        private readonly PaletteRibbonBack _ribbonGroupBackArea;
         private readonly PaletteRibbonText _ribbonGroupButtonText;
         private readonly PaletteRibbonText _ribbonGroupCheckBoxText;
         private readonly PaletteRibbonBack _ribbonGroupCollapsedBack;
@@ -54,7 +54,7 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonTextInheritRedirect _ribbonAppMenuDocsTitleInherit;
         private readonly PaletteRibbonTextInheritRedirect _ribbonAppMenuDocsEntryInherit;
         private readonly PaletteRibbonGeneralInheritRedirect _ribbonGeneralInherit;
-        private readonly PaletteRibbonBackInheritRedirect _ribbonGroupAreaInherit;
+        private readonly PaletteRibbonBackInheritRedirect _ribbonGroupBackAreaInherit;
         private readonly PaletteRibbonTextInheritRedirect _ribbonGroupCheckBoxTextInherit;
         private readonly PaletteRibbonTextInheritRedirect _ribbonGroupButtonTextInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonGroupCollapsedBackInherit;
@@ -79,7 +79,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Initialize a new instance of the PaletteDoubleRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="panelBackStyle">Initial background style.</param>
         /// <param name="needPaint">Paint delegate.</param>
         public PaletteRibbonRedirect(PaletteRedirect redirect,
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
             _ribbonAppMenuDocsTitleInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonAppMenuDocsTitle);
             _ribbonAppMenuDocsEntryInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonAppMenuDocsEntry);
             _ribbonGeneralInherit = new PaletteRibbonGeneralInheritRedirect(redirect);
-            _ribbonGroupAreaInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGroupArea);
+            _ribbonGroupBackAreaInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGroupArea);
             _ribbonGroupButtonTextInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonGroupButtonText);
             _ribbonGroupCheckBoxTextInherit = new PaletteRibbonTextInheritRedirect(redirect, PaletteRibbonTextStyle.RibbonGroupCheckBoxText);
             _ribbonGroupCollapsedBackInherit = new PaletteRibbonBackInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonGroupCollapsedBack);
@@ -134,7 +134,7 @@ namespace Krypton.Ribbon
             _ribbonAppMenuDocsTitle = new PaletteRibbonText(_ribbonAppMenuDocsTitleInherit, needPaint);
             _ribbonAppMenuDocsEntry = new PaletteRibbonText(_ribbonAppMenuDocsEntryInherit, needPaint);
             _ribbonGeneral = new PaletteRibbonGeneral(_ribbonGeneralInherit, needPaint);
-            _ribbonGroupArea = new PaletteRibbonBack(_ribbonGroupAreaInherit, needPaint);
+            _ribbonGroupBackArea = new PaletteRibbonBack(_ribbonGroupBackAreaInherit, needPaint);
             _ribbonGroupButtonText = new PaletteRibbonText(_ribbonGroupButtonTextInherit, needPaint);
             _ribbonGroupCheckBoxText = new PaletteRibbonText(_ribbonGroupCheckBoxTextInherit, needPaint);
             _ribbonGroupCollapsedBack = new PaletteRibbonBack(_ribbonGroupCollapsedBackInherit, needPaint);
@@ -177,7 +177,7 @@ namespace Krypton.Ribbon
             _ribbonAppMenuDocsTitleInherit.SetRedirector(redirect);
             _ribbonAppMenuDocsEntryInherit.SetRedirector(redirect);
             _ribbonGeneralInherit.SetRedirector(redirect);
-            _ribbonGroupAreaInherit.SetRedirector(redirect);
+            _ribbonGroupBackAreaInherit.SetRedirector(redirect);
             _ribbonGroupCheckBoxTextInherit.SetRedirector(redirect);
             _ribbonGroupNormalBorderInherit.SetRedirector(redirect);
             _ribbonGroupNormalTitleInherit.SetRedirector(redirect);
@@ -208,7 +208,7 @@ namespace Krypton.Ribbon
                                            RibbonAppMenuDocsTitle.IsDefault &&
                                            RibbonAppMenuDocsEntry.IsDefault &&
                                            RibbonGeneral.IsDefault &&
-                                           RibbonGroupArea.IsDefault &&
+                                           RibbonGroupBackArea.IsDefault &&
                                            RibbonGroupCheckBoxText.IsDefault &&
                                            RibbonGroupNormalBorder.IsDefault &&
                                            RibbonGroupNormalTitle.IsDefault &&
@@ -238,10 +238,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppButton => _ribbonAppButton;
 
-        private bool ShouldSerializeRibbonAppButton()
-        {
-            return !_ribbonAppButton.IsDefault;
-        }
+        private bool ShouldSerializeRibbonAppButton() => !_ribbonAppButton.IsDefault;
+
         #endregion
 
         #region RibbonAppMenuOuter
@@ -253,10 +251,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppMenuOuter => _ribbonAppMenuOuter;
 
-        private bool ShouldSerializeRibbonAppMenuOuter()
-        {
-            return !_ribbonAppMenuOuter.IsDefault;
-        }
+        private bool ShouldSerializeRibbonAppMenuOuter() => !_ribbonAppMenuOuter.IsDefault;
+
         #endregion
 
         #region RibbonAppMenuInner
@@ -268,10 +264,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppMenuInner => _ribbonAppMenuInner;
 
-        private bool ShouldSerializeRibbonAppMenuInner()
-        {
-            return !_ribbonAppMenuInner.IsDefault;
-        }
+        private bool ShouldSerializeRibbonAppMenuInner() => !_ribbonAppMenuInner.IsDefault;
+
         #endregion
 
         #region RibbonAppMenuDocs
@@ -283,10 +277,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppMenuDocs => _ribbonAppMenuDocs;
 
-        private bool ShouldSerializeRibbonAppMenuDocs()
-        {
-            return !_ribbonAppMenuDocs.IsDefault;
-        }
+        private bool ShouldSerializeRibbonAppMenuDocs() => !_ribbonAppMenuDocs.IsDefault;
+
         #endregion
 
         #region RibbonAppMenuDocsTitle
@@ -298,10 +290,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonAppMenuDocsTitle => _ribbonAppMenuDocsTitle;
 
-        private bool ShouldSerializeRibbonAppMenuDocsTitle()
-        {
-            return !_ribbonAppMenuDocsTitle.IsDefault;
-        }
+        private bool ShouldSerializeRibbonAppMenuDocsTitle() => !_ribbonAppMenuDocsTitle.IsDefault;
+
         #endregion
 
         #region RibbonAppMenuDocsEntry
@@ -313,10 +303,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonAppMenuDocsEntry => _ribbonAppMenuDocsEntry;
 
-        private bool ShouldSerializeRibbonAppMenuDocsEntry()
-        {
-            return !_ribbonAppMenuDocsEntry.IsDefault;
-        }
+        private bool ShouldSerializeRibbonAppMenuDocsEntry() => !_ribbonAppMenuDocsEntry.IsDefault;
+
         #endregion
 
         #region RibbonGeneral
@@ -328,10 +316,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonGeneral RibbonGeneral => _ribbonGeneral;
 
-        private bool ShouldSerializeRibbonGeneral()
-        {
-            return !_ribbonGeneral.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGeneral() => !_ribbonGeneral.IsDefault;
+
         #endregion
 
         #region RibbonGroupArea
@@ -341,12 +327,10 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Overrides for defining ribbon group area appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteRibbonBack RibbonGroupArea => _ribbonGroupArea;
+        public virtual PaletteRibbonBack RibbonGroupBackArea => _ribbonGroupBackArea;
 
-        private bool ShouldSerializeRibbonGroupArea()
-        {
-            return !_ribbonGroupArea.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupBackArea() => !_ribbonGroupBackArea.IsDefault;
+
         #endregion
 
         #region RibbonGroupCheckBoxText
@@ -358,10 +342,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCheckBoxText => _ribbonGroupCheckBoxText;
 
-        private bool ShouldSerializeRibbonGroupCheckBoxText()
-        {
-            return !_ribbonGroupCheckBoxText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCheckBoxText() => !_ribbonGroupCheckBoxText.IsDefault;
+
         #endregion
 
         #region RibbonGroupButtonText
@@ -373,10 +355,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupButtonText => _ribbonGroupButtonText;
 
-        private bool ShouldSerializeRibbonGroupButtonText()
-        {
-            return !_ribbonGroupButtonText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupButtonText() => !_ribbonGroupButtonText.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedBorder
@@ -388,10 +368,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedBorder => _ribbonGroupCollapsedBorder;
 
-        private bool ShouldSerializeRibbonGroupCollapsedBorder()
-        {
-            return !_ribbonGroupCollapsedBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedBorder() => !_ribbonGroupCollapsedBorder.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedBack
@@ -403,10 +381,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedBack => _ribbonGroupCollapsedBack;
 
-        private bool ShouldSerializeRibbonGroupCollapsedBack()
-        {
-            return !_ribbonGroupCollapsedBack.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedBack() => !_ribbonGroupCollapsedBack.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedFrameBorder
@@ -418,10 +394,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBorder => _ribbonGroupCollapsedFrameBorder;
 
-        private bool ShouldSerializeRibbonGroupCollapsedFrameBorder()
-        {
-            return !_ribbonGroupCollapsedFrameBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedFrameBorder() => !_ribbonGroupCollapsedFrameBorder.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedFrameBack
@@ -433,10 +407,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBack => _ribbonGroupCollapsedFrameBack;
 
-        private bool ShouldSerializeRibbonGroupCollapsedFrameBack()
-        {
-            return !_ribbonGroupCollapsedFrameBack.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedFrameBack() => !_ribbonGroupCollapsedFrameBack.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedText
@@ -448,10 +420,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCollapsedText => _ribbonGroupCollapsedText;
 
-        private bool ShouldSerializeRibbonGroupCollapsedText()
-        {
-            return !_ribbonGroupCollapsedText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedText() => !_ribbonGroupCollapsedText.IsDefault;
+
         #endregion
 
         #region RibbonGroupNormalBorder
@@ -463,10 +433,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupNormalBorder => _ribbonGroupNormalBorder;
 
-        private bool ShouldSerializeRibbonGroupNormalBorder()
-        {
-            return !_ribbonGroupNormalBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupNormalBorder() => !_ribbonGroupNormalBorder.IsDefault;
+
         #endregion
 
         #region RibbonGroupNormalTitle
@@ -478,10 +446,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonDouble RibbonGroupNormalTitle => _ribbonGroupNormalTitle;
 
-        private bool ShouldSerializeRibbonGroupNormalTitle()
-        {
-            return !_ribbonGroupNormalTitle.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupNormalTitle() => !_ribbonGroupNormalTitle.IsDefault;
+
         #endregion
 
         #region RibbonGroupRadioButtonText
@@ -493,10 +459,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupRadioButtonText => _ribbonGroupRadioButtonText;
 
-        private bool ShouldSerializeRibbonGroupRadioButtonText()
-        {
-            return !_ribbonGroupRadioButtonText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupRadioButtonText() => !_ribbonGroupRadioButtonText.IsDefault;
+
         #endregion
 
         #region RibbonGroupLabelText
@@ -508,10 +472,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupLabelText => _ribbonGroupLabelText;
 
-        private bool ShouldSerializeRibbonGroupLabelText()
-        {
-            return !_ribbonGroupLabelText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupLabelText() => !_ribbonGroupLabelText.IsDefault;
+
         #endregion
 
         #region RibbonImages
@@ -523,10 +485,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonImages RibbonImages => _ribbonImages;
 
-        private bool ShouldSerializeRibbonImages()
-        {
-            return !_ribbonImages.IsDefault;
-        }
+        private bool ShouldSerializeRibbonImages() => !_ribbonImages.IsDefault;
+
         #endregion
 
         #region RibbonTab
@@ -538,10 +498,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonDouble RibbonTab => _ribbonTab;
 
-        private bool ShouldSerializeRibbonTab()
-        {
-            return !_ribbonTab.IsDefault;
-        }
+        private bool ShouldSerializeRibbonTab() => !_ribbonTab.IsDefault;
+
         #endregion
 
         #region RibbonQATFullbar
@@ -553,10 +511,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonQATFullbar => _ribbonQATFullbar;
 
-        private bool ShouldSerializeRibbonQATFullbar()
-        {
-            return !_ribbonQATFullbar.IsDefault;
-        }
+        private bool ShouldSerializeRibbonQATFullbar() => !_ribbonQATFullbar.IsDefault;
+
         #endregion
 
         #region RibbonQATMinibarActive
@@ -568,10 +524,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonQATMinibarActive => _ribbonQATMinibarActive;
 
-        private bool ShouldSerializeRibbonQATMinibarActive()
-        {
-            return !_ribbonQATMinibarActive.IsDefault;
-        }
+        private bool ShouldSerializeRibbonQATMinibarActive() => !_ribbonQATMinibarActive.IsDefault;
+
         #endregion
 
         #region RibbonQATMinibarInactive
@@ -583,10 +537,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonQATMinibarInactive => _ribbonQATMinibarInactive;
 
-        private bool ShouldSerializeRibbonQATMinibarInactive()
-        {
-            return !_ribbonQATMinibarInactive.IsDefault;
-        }
+        private bool ShouldSerializeRibbonQATMinibarInactive() => !_ribbonQATMinibarInactive.IsDefault;
+
         #endregion
 
         #region RibbonQATOverflow
@@ -598,10 +550,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonQATOverflow => _ribbonQATOverflow;
 
-        private bool ShouldSerializeRibbonQATOverflow()
-        {
-            return !_ribbonQATOverflow.IsDefault;
-        }
+        private bool ShouldSerializeRibbonQATOverflow() => !_ribbonQATOverflow.IsDefault;
+
         #endregion
 
         #region Protected

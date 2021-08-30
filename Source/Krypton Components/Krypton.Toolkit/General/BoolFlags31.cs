@@ -64,10 +64,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="flags">Flags to test.</param>
         /// <returns>True if all flags are set; otherwise false.</returns>
-        public bool AreFlagsSet(int flags)
-        {
-            return ((Flags & flags) == flags);
-        }
+        public bool AreFlagsSet(int flags) => ((Flags & flags) == flags);
+
         #endregion
     }
 }

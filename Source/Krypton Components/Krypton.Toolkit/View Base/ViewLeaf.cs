@@ -30,11 +30,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLeaf:" + Id;
-        }
+            "ViewLeaf:" + Id;
+
         #endregion
 
         #region Eval
@@ -95,22 +94,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool Contains(ViewBase item)
-        {
+        public override bool Contains(ViewBase item) =>
             // Leaf never contains view
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Determines whether any part of the view hierarchy is the specified view.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool ContainsRecurse(ViewBase item)
-        {
+        public override bool ContainsRecurse(ViewBase item) =>
             // Only need to check against ourself
-            return (this == item);
-        }
+            (this == item);
 
         /// <summary>
         /// Copies views to specified array starting at particular index.
@@ -127,11 +122,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public override bool Remove(ViewBase item)
-        {
+        public override bool Remove(ViewBase item) =>
             // Can never remove with success
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Gets the number of views in collection.
@@ -143,11 +136,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public override int IndexOf(ViewBase item)
-        {
+        public override int IndexOf(ViewBase item) =>
             // Can never find the item
-            return -1;
-        }
+            -1;
 
         /// <summary>
         /// Inserts a view to the collection at the specified index.
@@ -231,10 +222,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point in view coordinates.</param>
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
-        public override ViewBase ViewFromPoint(Point pt)
-        {
-            return ClientRectangle.Contains(pt) ? this : null;
-        }
+        public override ViewBase ViewFromPoint(Point pt) => ClientRectangle.Contains(pt) ? this : null;
+
         #endregion
     }
 }

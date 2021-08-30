@@ -253,10 +253,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="manager">The manager.</param>
         /// <returns>The current <see cref="PaletteModeManager"/>.</returns>
-        public static PaletteModeManager GetCurrentPaletteMode(KryptonManager manager)
-        {
-            return manager.GlobalPaletteMode;
-        }
+        public static PaletteModeManager GetCurrentPaletteMode(KryptonManager manager) => manager.GlobalPaletteMode;
 
         /// <summary>
         /// Sets the theme.

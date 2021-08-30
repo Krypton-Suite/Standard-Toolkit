@@ -325,10 +325,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeControlBackStyle()
-        {
-            return (ControlBackStyle != PaletteBackStyle.PanelAlternate);
-        }
+        private bool ShouldSerializeControlBackStyle() => (ControlBackStyle != PaletteBackStyle.PanelAlternate);
 
         private void ResetControlBackStyle()
         {
@@ -355,10 +352,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeCrumbButtonStyle()
-        {
-            return (CrumbButtonStyle != ButtonStyle.BreadCrumb);
-        }
+        private bool ShouldSerializeCrumbButtonStyle() => (CrumbButtonStyle != ButtonStyle.BreadCrumb);
 
         private void ResetCrumbButtonStyle()
         {
@@ -385,10 +379,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeControlBorderStyle()
-        {
-            return (ControlBorderStyle != PaletteBorderStyle.ControlClient);
-        }
+        private bool ShouldSerializeControlBorderStyle() => (ControlBorderStyle != PaletteBorderStyle.ControlClient);
 
         private void ResetControlBorderStyle()
         {
@@ -445,10 +436,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled appearance entries.
@@ -458,10 +446,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbDoubleState StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal appearance entries.
@@ -471,10 +456,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbDoubleState StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking bread crumb appearance entries.
@@ -484,10 +466,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbState StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed bread crumb appearance entries.
@@ -497,10 +476,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbState StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -543,14 +519,11 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
@@ -569,10 +542,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected override PaletteRedirect CreateRedirector()
-        {
-            return new PaletteRedirectBreadCrumb(base.CreateRedirector());
-        }
+        protected override PaletteRedirect CreateRedirector() => new PaletteRedirectBreadCrumb(base.CreateRedirector());
 
         /// <summary>
         /// Processes a mnemonic character.
@@ -683,15 +653,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal PaletteBreadCrumbRedirect GetStateCommon()
-        {
-            return StateCommon;
-        }
+        internal PaletteBreadCrumbRedirect GetStateCommon() => StateCommon;
 
-        internal PaletteRedirect GetRedirector()
-        {
-            return Redirector;
-        }
+        internal PaletteRedirect GetRedirector() => Redirector;
+
         #endregion
 
         #region Implementation

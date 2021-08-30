@@ -123,10 +123,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return "(Color Columns)";
-        }
+        public override string ToString() => "(Color Columns)";
+
         #endregion
 
         #region Public
@@ -149,10 +147,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return false;
-        }
+        public override bool ProcessShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -167,10 +162,8 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn)
-        {
-            return new ViewDrawMenuColorColumns(provider, this);
-        }
+                                              bool imageColumn) =>
+            new ViewDrawMenuColorColumns(provider, this);
 
         /// <summary>
         /// Gets and sets if clicking a color entry automatically closes the context menu.

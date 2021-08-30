@@ -27,20 +27,16 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewLayoutCenter class.
         /// </summary>
         /// <param name="orientation">Direction to stretch.</param>
-        public ViewLayoutStretch(Orientation orientation)
-        {
-            _orientation = orientation;
-        }
+        public ViewLayoutStretch(Orientation orientation) => _orientation = orientation;
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutStretch:" + Id;
-        }
+            "ViewLayoutStretch:" + Id;
+
         #endregion
 
         #region Layout

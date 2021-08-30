@@ -64,41 +64,31 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibiliy.</returns>
-        public override bool GetVisible(IPalette palette)
-        {
-            return _ribbon.ShowMinimizeButton && !_ribbon.MinimizedMode;
-        }
+        public override bool GetVisible(IPalette palette) => _ribbon.ShowMinimizeButton && !_ribbon.MinimizedMode;
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette)
-        {
-            return ButtonEnabled.True;
-        }
+        public override ButtonEnabled GetEnabled(IPalette palette) => ButtonEnabled.True;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette)
-        {
+        public override ButtonCheckState GetChecked(IPalette palette) =>
             // Close button is never shown as checked
-            return ButtonCheckState.NotCheckButton;
-        }
+            ButtonCheckState.NotCheckButton;
 
         /// <summary>
         /// Gets the button style.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
-        public override ButtonStyle GetStyle(IPalette palette)
-        {
-            return ButtonStyle.ButtonSpec;
-        }
+        public override ButtonStyle GetStyle(IPalette palette) => ButtonStyle.ButtonSpec;
+
         #endregion    
 
         #region Protected Overrides

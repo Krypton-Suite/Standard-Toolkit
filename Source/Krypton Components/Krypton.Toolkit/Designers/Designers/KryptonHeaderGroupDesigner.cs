@@ -119,22 +119,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">The Control to test.</param>
         /// <returns>true if the specified control can be a child of the control managed by this designer; otherwise, false.</returns>
-        public override bool CanParent(Control control)
-        {
+        public override bool CanParent(Control control) =>
             // We never allow anything to be added to the header group
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Returns the internal control designer with the specified index in the ControlDesigner.
         /// </summary>
         /// <param name="internalControlIndex">A specified index to select the internal control designer. This index is zero-based.</param>
         /// <returns>A ControlDesigner at the specified index.</returns>
-        public override ControlDesigner InternalControlDesigner(int internalControlIndex)
-        {
+        public override ControlDesigner InternalControlDesigner(int internalControlIndex) =>
             // Get the control designer for the requested indexed child control
-            return (_headerGroup != null) && (internalControlIndex == 0) ? (ControlDesigner)_designerHost.GetDesigner(_headerGroup.Panel) : null;
-        }
+            (_headerGroup != null) && (internalControlIndex == 0) ? (ControlDesigner)_designerHost.GetDesigner(_headerGroup.Panel) : null;
 
         /// <summary>
         /// Returns the number of internal control designers in the ControlDesigner.

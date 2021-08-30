@@ -79,11 +79,9 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawContent:" + Id;
-        }
+            "ViewDrawContent:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -182,10 +180,8 @@ namespace Krypton.Toolkit
         /// Gets the source palette used for drawing.
         /// </summary>
         /// <returns>Palette source for the content.</returns>
-        public IPaletteContent GetPalette()
-        {
-            return _paletteContent;
-        }
+        public IPaletteContent GetPalette() => _paletteContent;
+
         #endregion
 
         #region IsImageDisplayed

@@ -197,10 +197,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCommon { get; }
 
-        private bool ShouldSerializeButtonCommon()
-        {
-            return !ButtonCommon.IsDefault;
-        }
+        private bool ShouldSerializeButtonCommon() => !ButtonCommon.IsDefault;
+
         #endregion
 
         #region ButtonStandalone
@@ -213,10 +211,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonStandalone { get; }
 
-        private bool ShouldSerializeButtonStandalone()
-        {
-            return !ButtonStandalone.IsDefault;
-        }
+        private bool ShouldSerializeButtonStandalone() => !ButtonStandalone.IsDefault;
+
         #endregion
 
         #region ButtonAlternate
@@ -229,10 +225,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonAlternate { get; }
 
-        private bool ShouldSerializeButtonAlternate()
-        {
-            return !ButtonAlternate.IsDefault;
-        }
+        private bool ShouldSerializeButtonAlternate() => !ButtonAlternate.IsDefault;
+
         #endregion
 
         #region ButtonLowProfile
@@ -245,10 +239,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonLowProfile { get; }
 
-        private bool ShouldSerializeButtonLowProfile()
-        {
-            return !ButtonLowProfile.IsDefault;
-        }
+        private bool ShouldSerializeButtonLowProfile() => !ButtonLowProfile.IsDefault;
+
         #endregion
 
         #region ButtonButtonSpec
@@ -261,10 +253,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonButtonSpec { get; }
 
-        private bool ShouldSerializeButtonButtonSpec()
-        {
-            return !ButtonButtonSpec.IsDefault;
-        }
+        private bool ShouldSerializeButtonButtonSpec() => !ButtonButtonSpec.IsDefault;
+
         #endregion
 
         #region ButtonBreadCrumb
@@ -277,10 +267,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonBreadCrumb { get; }
 
-        private bool ShouldSerializeButtonBreadCrumb()
-        {
-            return !ButtonBreadCrumb.IsDefault;
-        }
+        private bool ShouldSerializeButtonBreadCrumb() => !ButtonBreadCrumb.IsDefault;
+
         #endregion
 
         #region ButtonCalendarDay
@@ -293,10 +281,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCalendarDay { get; }
 
-        private bool ShouldSerializeButtonCalendarDay()
-        {
-            return !ButtonCalendarDay.IsDefault;
-        }
+        private bool ShouldSerializeButtonCalendarDay() => !ButtonCalendarDay.IsDefault;
+
         #endregion
 
         #region ButtonCluster
@@ -309,10 +295,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCluster { get; }
 
-        private bool ShouldSerializeButtonCluster()
-        {
-            return !ButtonCluster.IsDefault;
-        }
+        private bool ShouldSerializeButtonCluster() => !ButtonCluster.IsDefault;
+
         #endregion
 
         #region ButtonGallery
@@ -325,10 +309,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonGallery { get; }
 
-        private bool ShouldSerializeButtonGallery()
-        {
-            return !ButtonGallery.IsDefault;
-        }
+        private bool ShouldSerializeButtonGallery() => !ButtonGallery.IsDefault;
+
         #endregion
 
         #region ButtonNavigatorStack
@@ -341,10 +323,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonNavigatorStack { get; }
 
-        private bool ShouldSerializeButtonNavigatorStack()
-        {
-            return !ButtonNavigatorStack.IsDefault;
-        }
+        private bool ShouldSerializeButtonNavigatorStack() => !ButtonNavigatorStack.IsDefault;
+
         #endregion
 
         #region ButtonNavigatorOverflow
@@ -357,10 +337,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonNavigatorOverflow { get; }
 
-        private bool ShouldSerializeButtonNavigatorOverflow()
-        {
-            return !ButtonNavigatorOverflow.IsDefault;
-        }
+        private bool ShouldSerializeButtonNavigatorOverflow() => !ButtonNavigatorOverflow.IsDefault;
+
         #endregion
 
         #region ButtonNavigatorMini
@@ -373,10 +351,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonNavigatorMini { get; }
 
-        private bool ShouldSerializeButtonNavigatorMini()
-        {
-            return !ButtonNavigatorMini.IsDefault;
-        }
+        private bool ShouldSerializeButtonNavigatorMini() => !ButtonNavigatorMini.IsDefault;
+
         #endregion
 
         #region ButtonInputControl
@@ -389,10 +365,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonInputControl { get; }
 
-        private bool ShouldSerializeButtonInputControl()
-        {
-            return !ButtonInputControl.IsDefault;
-        }
+        private bool ShouldSerializeButtonInputControl() => !ButtonInputControl.IsDefault;
+
         #endregion
 
         #region ButtonListItem
@@ -405,10 +379,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonListItem { get; }
 
-        private bool ShouldSerializeButtonListItem()
-        {
-            return !ButtonListItem.IsDefault;
-        }
+        private bool ShouldSerializeButtonListItem() => !ButtonListItem.IsDefault;
+
         #endregion
 
         #region ButtonForm
@@ -421,10 +393,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonForm { get; }
 
-        private bool ShouldSerializeButtonForm()
-        {
-            return !ButtonForm.IsDefault;
-        }
+        private bool ShouldSerializeButtonForm() => !ButtonForm.IsDefault;
+
         #endregion
 
         #region ButtonFormClose
@@ -437,10 +407,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonFormClose { get; }
 
-        private bool ShouldSerializeButtonFormClose()
-        {
-            return !ButtonFormClose.IsDefault;
-        }
+        private bool ShouldSerializeButtonFormClose() => !ButtonFormClose.IsDefault;
+
         #endregion
 
         #region ButtonCommand
@@ -453,10 +421,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCommand { get; }
 
-        private bool ShouldSerializeButtonCommand()
-        {
-            return !ButtonCommand.IsDefault;
-        }
+        private bool ShouldSerializeButtonCommand() => !ButtonCommand.IsDefault;
+
         #endregion
 
         #region ButtonCustom1
@@ -469,10 +435,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCustom1 { get; }
 
-        private bool ShouldSerializeButtonCustom1()
-        {
-            return !ButtonCustom1.IsDefault;
-        }
+        private bool ShouldSerializeButtonCustom1() => !ButtonCustom1.IsDefault;
+
         #endregion
 
         #region ButtonCustom2
@@ -485,10 +449,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCustom2 { get; }
 
-        private bool ShouldSerializeButtonCustom2()
-        {
-            return !ButtonCustom2.IsDefault;
-        }
+        private bool ShouldSerializeButtonCustom2() => !ButtonCustom2.IsDefault;
+
         #endregion
 
         #region ButtonCustom3
@@ -501,10 +463,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCustom3 { get; }
 
-        private bool ShouldSerializeButtonCustom3()
-        {
-            return !ButtonCustom3.IsDefault;
-        }
+        private bool ShouldSerializeButtonCustom3() => !ButtonCustom3.IsDefault;
+
         #endregion
     }
 }

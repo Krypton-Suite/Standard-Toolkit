@@ -100,11 +100,10 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteContentText class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteContentText(NeedPaintHandler needPaint)
-        {
+        public PaletteContentText(NeedPaintHandler needPaint) =>
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
-        }
+
         #endregion
 
         #region IsDefault

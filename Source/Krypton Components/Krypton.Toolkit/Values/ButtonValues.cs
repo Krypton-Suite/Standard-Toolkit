@@ -94,10 +94,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return Image != null;
-        }
+        private bool ShouldSerializeImage() => Image != null;
 
         /// <summary>
         /// Resets the Image property to its default value.
@@ -131,10 +128,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return ImageTransparentColor != Color.Empty;
-        }
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
@@ -149,10 +143,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image color is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return ImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
+
         #endregion
 
         #region ImageStates
@@ -164,10 +156,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonImageStates ImageStates { get; }
 
-        private bool ShouldSerializeImageStates()
-        {
-            return !ImageStates.IsDefault;
-        }
+        private bool ShouldSerializeImageStates() => !ImageStates.IsDefault;
+
         #endregion
 
         #region Text
@@ -194,10 +184,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeText()
-        {
-            return Text != _defaultText;
-        }
+        private bool ShouldSerializeText() => Text != _defaultText;
 
         /// <summary>
         /// Resets the Text property to its default value.
@@ -232,10 +219,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeExtraText()
-        {
-            return ExtraText != _defaultExtraText;
-        }
+        private bool ShouldSerializeExtraText() => ExtraText != _defaultExtraText;
 
         /// <summary>
         /// Resets the Description property to its default value.
@@ -251,10 +235,8 @@ namespace Krypton.Toolkit
         /// Create the storage for the image states.
         /// </summary>
         /// <returns>Storage object.</returns>
-        protected virtual ButtonImageStates CreateImageStates()
-        {
-            return new ButtonImageStates();
-        }
+        protected virtual ButtonImageStates CreateImageStates() => new ButtonImageStates();
+
         #endregion
 
         #region IContentValues
@@ -291,18 +273,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the content short text.
         /// </summary>
-        public virtual string GetShortText()
-        {
-            return Text;
-        }
+        public virtual string GetShortText() => Text;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
-        public virtual string GetLongText()
-        {
-            return ExtraText;
-        }
+        public virtual string GetLongText() => ExtraText;
+
         #endregion
     }
 }

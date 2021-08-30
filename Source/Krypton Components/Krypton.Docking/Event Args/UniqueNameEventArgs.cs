@@ -26,10 +26,8 @@ namespace Krypton.Docking
         /// Initialize a new instance of the UniqueNameEventArgs class.
         /// </summary>
         /// <param name="uniqueName">Unique name of page.</param>
-        public UniqueNameEventArgs(string uniqueName)
-        {
-            UniqueName = uniqueName;
-        }
+        public UniqueNameEventArgs(string uniqueName) => UniqueName = uniqueName;
+
         #endregion
 
         #region Public

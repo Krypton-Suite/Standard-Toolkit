@@ -36,10 +36,9 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the element.</param>
         /// <param name="storeName">Name to use for storage pages.</param>
         public KryptonDockingSpace(string name, string storeName)
-            : base(name)
-        {
+            : base(name) =>
             _storeName = storeName;
-        }
+
         #endregion
 
         #region Public
@@ -635,10 +634,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name for search.</param>
         /// <returns>Reference to KryptonWorkspaceCell if match found; otherwise null.</returns>
-        public KryptonWorkspaceCell CellForPage(string uniqueName)
-        {
-            return SpaceControl.CellForUniqueName(uniqueName);
-        }
+        public KryptonWorkspaceCell CellForPage(string uniqueName) => SpaceControl.CellForUniqueName(uniqueName);
 
         /// <summary>
         /// Ensure the provided page is selected within the cell that contains it.

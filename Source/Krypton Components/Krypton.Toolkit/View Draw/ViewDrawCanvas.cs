@@ -77,11 +77,9 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawCanvas:" + Id;
-        }
+            "ViewDrawCanvas:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -236,7 +234,7 @@ namespace Krypton.Toolkit
                 // If the decorator object used to override the border palette is not created...
                 if (_borderForced == null)
                 {
-                    // Then create it and pass the existing border palette as the inheritence
+                    // Then create it and pass the existing border palette as the inheritance
                     _borderForced = new PaletteBorderInheritForced(_paletteBorder);
 
                     // Now we want to always use the forced version instead
@@ -280,7 +278,7 @@ namespace Krypton.Toolkit
                 // If the decorator object used to override the border palette is not created...
                 if (_borderForced == null)
                 {
-                    // Then create it and pass the existing border palette as the inheritence
+                    // Then create it and pass the existing border palette as the inheritance
                     _borderForced = new PaletteBorderInheritForced(_paletteBorder);
 
                     // Now we want to always use the forced version instead

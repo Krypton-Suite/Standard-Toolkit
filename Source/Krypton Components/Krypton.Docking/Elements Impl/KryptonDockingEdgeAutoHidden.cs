@@ -86,32 +86,25 @@ namespace Krypton.Docking
         /// Create and add a new auto hidden group instance to the correct edge of the owning control.
         /// </summary>
         /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
-        public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup()
-        {
+        public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup() =>
             // Generate a unique string by creating a GUID
-            return AppendAutoHiddenGroup(CommonHelper.UniqueString);
-        }
+            AppendAutoHiddenGroup(CommonHelper.UniqueString);
 
         /// <summary>
         /// Create and add a new auto hidden group instance to the correct edge of the owning control.
         /// </summary>
         /// <param name="name">Initial name of the group element.</param>
         /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
-        public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup(string name)
-        {
-            return CreateAndInsertAutoHiddenGroup(Count, name);
-        }
+        public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup(string name) => CreateAndInsertAutoHiddenGroup(Count, name);
 
         /// <summary>
         /// Create and insert a new auto hidden group instance to the correct edge of the owning control.
         /// </summary>
         /// <param name="index">Insertion index.</param>
         /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
-        public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index)
-        {
+        public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index) =>
             // Generate a unique string by creating a GUID
-            return CreateAndInsertAutoHiddenGroup(index, CommonHelper.UniqueString);
-        }
+            CreateAndInsertAutoHiddenGroup(index, CommonHelper.UniqueString);
 
         /// <summary>
         /// Create and insert a new auto hidden group instance to the correct edge of the owning control.
@@ -119,10 +112,7 @@ namespace Krypton.Docking
         /// <param name="index">Insertion index.</param>
         /// <param name="name">Initial name of the group element.</param>
         /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
-        public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index, string name)
-        {
-            return CreateAndInsertAutoHiddenGroup(index, name);
-        }
+        public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index, string name) => CreateAndInsertAutoHiddenGroup(index, name);
 
         /// <summary>
         /// Propagates an action request down the hierarchy of docking elements.
@@ -196,10 +186,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable auto hidden edge element is required.</param>
         /// <returns>KryptonDockingEdgeAutoHidden reference if found; otherwise false.</returns>
-        public override KryptonDockingEdgeAutoHidden FindDockingEdgeAutoHidden(string uniqueName)
-        {
-            return this;
-        }
+        public override KryptonDockingEdgeAutoHidden FindDockingEdgeAutoHidden(string uniqueName) => this;
 
         /// <summary>
         /// Slide the specified page into view and optionally select.

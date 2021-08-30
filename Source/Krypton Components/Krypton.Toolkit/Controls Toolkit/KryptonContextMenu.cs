@@ -115,10 +115,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ContextMenuImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets access to the common context menu appearance entries that other states can override.
@@ -128,10 +125,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the context menu disabled appearance values.
@@ -141,10 +135,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the context menu normal appearance values.
@@ -154,10 +145,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the context menu normal appearance values.
@@ -167,10 +155,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateChecked StateChecked { get; }
 
-        private bool ShouldSerializeStateChecked()
-        {
-            return !StateChecked.IsDefault;
-        }
+        private bool ShouldSerializeStateChecked() => !StateChecked.IsDefault;
 
         /// <summary>
         /// Gets access to the context menu highlight appearance values.
@@ -180,10 +165,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateHighlight StateHighlight { get; }
 
-        private bool ShouldSerializeStateHighlight()
-        {
-            return !StateHighlight.IsDefault;
-        }
+        private bool ShouldSerializeStateHighlight() => !StateHighlight.IsDefault;
 
         /// <summary>
         /// Collection of menu items for display.
@@ -202,10 +184,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public object Tag { get; set; }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         /// <summary>
         /// </summary>
@@ -235,10 +214,7 @@ namespace Krypton.Toolkit
             set;
         }
 
-        private bool ShouldSerializePaletteMode()
-        {
-            return (PaletteMode != PaletteMode.Global);
-        }
+        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -281,11 +257,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Has the context menu become displayed.</returns>
         /// <param name="caller">Reference to object causing the context menu to be shown.</param>
-        public bool Show(object caller)
-        {
+        public bool Show(object caller) =>
             // Without a screen location we just place it at the same location as the mouse
-            return Show(caller, Control.MousePosition);
-        }
+            Show(caller, Control.MousePosition);
 
         /// <summary>
         /// Show the context menu relative to the current mouse location.
@@ -296,11 +270,9 @@ namespace Krypton.Toolkit
         /// <returns>Has the context menu become displayed.</returns>
         public bool Show(object caller,
                          KryptonContextMenuPositionH horz,
-                         KryptonContextMenuPositionV vert)
-        {
+                         KryptonContextMenuPositionV vert) =>
             // Without a screen location we just place it at the same location as the mouse
-            return Show(caller, Control.MousePosition, horz, vert);
-        }
+            Show(caller, Control.MousePosition, horz, vert);
 
 
         /// <summary>
@@ -310,11 +282,9 @@ namespace Krypton.Toolkit
         /// <param name="screenPt">Screen location.</param>
         /// <returns>Has the context menu become displayed.</returns>
         public bool Show(object caller,
-                         Point screenPt)
-        {
+                         Point screenPt) =>
             // Convert to a zero sized rectangle
-            return Show(caller, new Rectangle(screenPt, Size.Empty));
-        }
+            Show(caller, new Rectangle(screenPt, Size.Empty));
 
         /// <summary>
         /// Show the context menu relative to the provided screen rectangle.
@@ -323,12 +293,10 @@ namespace Krypton.Toolkit
         /// <param name="screenRect">Screen rectangle.</param>
         /// <returns>Has the context menu become displayed.</returns>
         public bool Show(object caller,
-                         Rectangle screenRect)
-        {
+                         Rectangle screenRect) =>
             // When the relative position is not provided we assume a default 
             // of below and aligned to the left edge of the screen rectangle.
-            return Show(caller, screenRect, KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
-        }
+            Show(caller, screenRect, KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
 
         /// <summary>
         /// Show the context menu relative to the provided screen point.
@@ -341,12 +309,10 @@ namespace Krypton.Toolkit
         public bool Show(object caller,
                          Point screenPt,
                          KryptonContextMenuPositionH horz,
-                         KryptonContextMenuPositionV vert)
-        {
+                         KryptonContextMenuPositionV vert) =>
             // When providing just a point we turn this into a rectangle that happens to
             // have a zero size. We always position relative to a screen rectangle.
-            return Show(caller, new Rectangle(screenPt, Size.Empty), horz, vert);
-        }
+            Show(caller, new Rectangle(screenPt, Size.Empty), horz, vert);
 
         /// <summary>
         /// Show the context menu relative to the provided screen rectangle.
@@ -359,11 +325,9 @@ namespace Krypton.Toolkit
         public bool Show(object caller,
                          Rectangle screenRect,
                          KryptonContextMenuPositionH horz,
-                         KryptonContextMenuPositionV vert)
-        {
+                         KryptonContextMenuPositionV vert) =>
             // By default we assume the context menu was not activated using the keyboard.
-            return Show(caller, screenRect, horz, vert, false, true);
-        }
+            Show(caller, screenRect, horz, vert, false, true);
 
         /// <summary>
         /// Show the context menu relative to the provided screen rectangle.
@@ -452,10 +416,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shortcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public bool ProcessShortcut(Keys keyData)
-        {
-            return Items.ProcessShortcut(keyData);
-        }
+        public bool ProcessShortcut(Keys keyData) => Items.ProcessShortcut(keyData);
+
         #endregion
 
         #region Protected Virtual
@@ -479,10 +441,8 @@ namespace Krypton.Toolkit
                                                               PaletteRedirectContextMenu redirectorImages,
                                                               KryptonContextMenuCollection items,
                                                               bool enabled,
-                                                              bool keyboardActivated)
-        {
-            return new VisualContextMenu(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated);
-        }
+                                                              bool keyboardActivated) =>
+            new VisualContextMenu(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated);
 
         /// <summary>
         /// Raises the Opening event.

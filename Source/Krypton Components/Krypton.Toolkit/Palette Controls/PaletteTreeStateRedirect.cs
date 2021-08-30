@@ -28,11 +28,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteTreeStateRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="back">Storage for back values.</param>
-        /// <param name="backInherit">Inheritence for back values.</param>
+        /// <param name="backInherit">inheritance for back values.</param>
         /// <param name="border">Storage for border values.</param>
-        /// <param name="borderInherit">Inheritence for border values.</param>
+        /// <param name="borderInherit">inheritance for border values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteTreeStateRedirect(PaletteRedirect redirect,
                                         PaletteBack back,
@@ -75,10 +75,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Node { get; }
 
-        private bool ShouldSerializeItem()
-        {
-            return !Node.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !Node.IsDefault;
+
         #endregion
     }
 }

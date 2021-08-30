@@ -27,10 +27,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
         public ApplicationTabToContent(KryptonRibbon ribbon,
                                        PaletteRibbonGeneral ribbonGeneral)
-            : base(ribbonGeneral)
-        {
+            : base(ribbonGeneral) =>
             _ribbon = ribbon;
-        }
+
         #endregion
         
         #region IPaletteContent
@@ -39,40 +38,29 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor1(PaletteState state)
-        {
-            return _ribbon.RibbonAppButton.AppButtonTextColor;
-        }
+        public override Color GetContentShortTextColor1(PaletteState state) => _ribbon.RibbonAppButton.AppButtonTextColor;
 
         /// <summary>
         /// Gets the second color for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor2(PaletteState state)
-        {
-            return _ribbon.RibbonAppButton.AppButtonTextColor;
-        }
+        public override Color GetContentShortTextColor2(PaletteState state) => _ribbon.RibbonAppButton.AppButtonTextColor;
 
         /// <summary>
         /// Gets the first color for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor1(PaletteState state)
-        {
-            return _ribbon.RibbonAppButton.AppButtonTextColor;
-        }
+        public override Color GetContentLongTextColor1(PaletteState state) => _ribbon.RibbonAppButton.AppButtonTextColor;
 
         /// <summary>
         /// Gets the second color for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor2(PaletteState state)
-        {
-            return _ribbon.RibbonAppButton.AppButtonTextColor;
-        }
+        public override Color GetContentLongTextColor2(PaletteState state) => _ribbon.RibbonAppButton.AppButtonTextColor;
+
         #endregion
     }
 }

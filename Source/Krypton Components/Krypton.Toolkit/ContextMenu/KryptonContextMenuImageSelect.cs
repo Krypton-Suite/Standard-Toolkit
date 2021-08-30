@@ -91,10 +91,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return "(ImageSelect)";
-        }
+        public override string ToString() => "(ImageSelect)";
+
         #endregion
 
         #region Public
@@ -117,10 +115,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return false;
-        }
+        public override bool ProcessShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -135,10 +130,8 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn)
-        {
-            return new ViewLayoutMenuItemSelect(this, provider);
-        }
+                                              bool imageColumn) =>
+            new ViewLayoutMenuItemSelect(this, provider);
 
         /// <summary>
         /// Gets and sets padding around the image selection area.

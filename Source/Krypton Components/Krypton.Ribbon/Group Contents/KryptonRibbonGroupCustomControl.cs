@@ -95,10 +95,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the custom control.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -159,7 +156,7 @@ namespace Krypton.Ribbon
                         MonitorControl(_customControl);
                     }
 
-                    OnPropertyChanged("CustomControl");
+                    OnPropertyChanged(nameof(CustomControl));
                 }
             }
         }
@@ -180,7 +177,7 @@ namespace Krypton.Ribbon
                 if (value != _enabled)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -204,7 +201,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -264,7 +261,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -277,10 +274,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupCustomControl(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupCustomControl(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -336,7 +331,7 @@ namespace Krypton.Ribbon
                     if (ShortcutKeys == keyData)
                     {
                         // Can the custom control take the focus
-                        if ((CustomControl != null) && (CustomControl.CanFocus))
+                        if (CustomControl is { CanFocus: true })
                         {
                             CustomControl.Focus();
                         }

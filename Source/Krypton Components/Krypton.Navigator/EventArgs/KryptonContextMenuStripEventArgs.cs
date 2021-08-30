@@ -32,10 +32,9 @@ namespace Krypton.Navigator
         public KryptonContextMenuEventArgs(KryptonPage page, 
                                            int index,
                                            KryptonContextMenu contextMenu)
-            : base(page, index)
-        {
+            : base(page, index) =>
             KryptonContextMenu = contextMenu;
-        }
+
         #endregion
 
         #region KryptonContextMenu

@@ -50,10 +50,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return "(Separator)";
-        }
+        public override string ToString() => "(Separator)";
+
         #endregion
 
         #region Public
@@ -76,10 +74,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return false;
-        }
+        public override bool ProcessShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -146,7 +141,7 @@ namespace Krypton.Toolkit
                 if (_horizontal != value)
                 {
                     _horizontal = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Horizontal"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Horizontal)));
                 }
             }
         }
@@ -160,10 +155,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
         #endregion
 
         #region Internal

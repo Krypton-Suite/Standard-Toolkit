@@ -89,11 +89,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupRadioButton:" + Id;
-        }
+            "ViewDrawRibbonGroupRadioButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -550,38 +548,27 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public Image GetImage(PaletteState state)
-        {
-            return null;
-        }
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image transparent color.
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the short text.
         /// </summary>
         /// <returns></returns>
-        public string GetShortText()
-        {
-            return GroupRadioButton.TextLine1;
-        }
+        public string GetShortText() => GroupRadioButton.TextLine1;
 
         /// <summary>
         /// Gets the long text.
         /// </summary>
         /// <returns></returns>
-        public string GetLongText()
-        {
-            return GroupRadioButton.TextLine2;
-        }
+        public string GetLongText() => GroupRadioButton.TextLine2;
+
         #endregion
     }
 }

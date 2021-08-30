@@ -19,10 +19,7 @@ namespace Krypton.Toolkit
         /// Represents a common dialog box that displays a list of fonts
         /// that are currently installed on the system.
         /// </summary>
-        public KryptonFontDialog()
-        {
-            _commonDialogHandler = new CommonDialogHandler(true);
-        }
+        public KryptonFontDialog() => _commonDialogHandler = new CommonDialogHandler(true);
 
         //protected override bool RunDialog(IntPtr hWndOwner)
         //{

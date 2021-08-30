@@ -54,10 +54,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public new InheritBool GetContentDraw(PaletteState state)
-        {
-            return string.IsNullOrWhiteSpace(CueHintText) ? InheritBool.True : InheritBool.False;
-        }
+        public new InheritBool GetContentDraw(PaletteState state) => string.IsNullOrWhiteSpace(CueHintText) ? InheritBool.True : InheritBool.False;
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
@@ -79,10 +76,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public new Color GetContentShortTextColor1(PaletteState state)
-        {
-            return Color1 != Color.Empty ? Color1 : ControlPaint.Light(Inherit.GetContentShortTextColor1(state));
-        }
+        public new Color GetContentShortTextColor1(PaletteState state) => Color1 != Color.Empty ? Color1 : ControlPaint.Light(Inherit.GetContentShortTextColor1(state));
 
         internal void PerformPaint(VisualControlBase textBox, Graphics g, PI.RECT rect, SolidBrush backBrush)
         {
@@ -195,10 +189,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextV(PaletteState state)
-        {
-            return _shortTextV != PaletteRelativeAlign.Inherit ? _shortTextH : Inherit.GetContentShortTextV(state);
-        }
+        public override PaletteRelativeAlign GetContentShortTextV(PaletteState state) => _shortTextV != PaletteRelativeAlign.Inherit ? _shortTextH : Inherit.GetContentShortTextV(state);
+
         #endregion
 
         #region Padding

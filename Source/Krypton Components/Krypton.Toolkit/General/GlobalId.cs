@@ -27,11 +27,10 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the GlobalId class.
         /// </summary>
         [DebuggerStepThrough]
-        public GlobalId()
-        {
+        public GlobalId() =>
             // Assign the next global identifier
             Id = CommonHelper.NextId;
-        }
+
         #endregion
 
         #region Id

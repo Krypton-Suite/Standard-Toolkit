@@ -49,11 +49,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutSeparator:" + Id;
-        }
+            "ViewLayoutSeparator:" + Id;
+
         #endregion
 
         #region SeparatorSize
@@ -77,11 +76,9 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
+        public override Size GetPreferredSize(ViewLayoutContext context) =>
             // Always return the same minimum size
-            return new Size(_width, _height);
-        }
+            new Size(_width, _height);
 
         /// <summary>
         /// Perform a layout of the elements.

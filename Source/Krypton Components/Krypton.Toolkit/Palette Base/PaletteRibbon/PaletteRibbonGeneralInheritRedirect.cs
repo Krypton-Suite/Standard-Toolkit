@@ -39,210 +39,148 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _redirect = redirect;
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
         #endregion
 
         #region IPaletteRibbon
         /// <summary>
         /// Gets access to ribbon shape.
         /// </summary>
-        public override PaletteRibbonShape GetRibbonShape()
-        {
-            return _redirect.GetRibbonShape();
-        }
+        public override PaletteRibbonShape GetRibbonShape() => _redirect.GetRibbonShape();
 
         /// <summary>
         /// Gets the text alignment for the ribbon context text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override PaletteRelativeAlign GetRibbonContextTextAlign(PaletteState state)
-        {
-            return _redirect.GetRibbonContextTextAlign(state);
-        }
+        public override PaletteRelativeAlign GetRibbonContextTextAlign(PaletteState state) => _redirect.GetRibbonContextTextAlign(state);
 
         /// <summary>
         /// Gets the font for the ribbon context text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonContextTextFont(PaletteState state)
-        {
-            return _redirect.GetRibbonContextTextFont(state);
-        }
+        public override Font GetRibbonContextTextFont(PaletteState state) => _redirect.GetRibbonContextTextFont(state);
 
         /// <summary>
         /// Gets the color for the ribbon context text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Color GetRibbonContextTextColor(PaletteState state)
-        {
-            return _redirect.GetRibbonContextTextColor(state);
-        }
+        public override Color GetRibbonContextTextColor(PaletteState state) => _redirect.GetRibbonContextTextColor(state);
 
         /// <summary>
         /// Gets the dark disabled color used for ribbon glyphs.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonDisabledDark(PaletteState state)
-        {
-            return _redirect.GetRibbonDisabledDark(state);
-        }
+        public override Color GetRibbonDisabledDark(PaletteState state) => _redirect.GetRibbonDisabledDark(state);
 
         /// <summary>
         /// Gets the light disabled color used for ribbon glyphs.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonDisabledLight(PaletteState state)
-        {
-            return _redirect.GetRibbonDisabledLight(state);
-        }
+        public override Color GetRibbonDisabledLight(PaletteState state) => _redirect.GetRibbonDisabledLight(state);
 
         /// <summary>
         /// Gets the color for the drop arrow light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonDropArrowLight(PaletteState state)
-        {
-            return _redirect.GetRibbonDropArrowLight(state);
-        }
+        public override Color GetRibbonDropArrowLight(PaletteState state) => _redirect.GetRibbonDropArrowLight(state);
 
         /// <summary>
         /// Gets the color for the drop arrow dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonDropArrowDark(PaletteState state)
-        {
-            return _redirect.GetRibbonDropArrowDark(state);
-        }
+        public override Color GetRibbonDropArrowDark(PaletteState state) => _redirect.GetRibbonDropArrowDark(state);
 
         /// <summary>
         /// Gets the color for the dialog launcher dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupDialogDark(PaletteState state)
-        {
-            return _redirect.GetRibbonGroupDialogDark(state);
-        }
+        public override Color GetRibbonGroupDialogDark(PaletteState state) => _redirect.GetRibbonGroupDialogDark(state);
 
         /// <summary>
         /// Gets the color for the dialog launcher light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupDialogLight(PaletteState state)
-        {
-            return _redirect.GetRibbonGroupDialogLight(state);
-        }
+        public override Color GetRibbonGroupDialogLight(PaletteState state) => _redirect.GetRibbonGroupDialogLight(state);
 
         /// <summary>
         /// Gets the color for the group separator dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupSeparatorDark(PaletteState state)
-        {
-            return _redirect.GetRibbonGroupSeparatorDark(state);
-        }
+        public override Color GetRibbonGroupSeparatorDark(PaletteState state) => _redirect.GetRibbonGroupSeparatorDark(state);
 
         /// <summary>
         /// Gets the color for the group separator light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonGroupSeparatorLight(PaletteState state)
-        {
-            return _redirect.GetRibbonGroupSeparatorLight(state);
-        }
+        public override Color GetRibbonGroupSeparatorLight(PaletteState state) => _redirect.GetRibbonGroupSeparatorLight(state);
 
         /// <summary>
         /// Gets the color for the minimize bar dark.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonMinimizeBarDark(PaletteState state)
-        {
-            return _redirect.GetRibbonMinimizeBarDark(state);
-        }
+        public override Color GetRibbonMinimizeBarDark(PaletteState state) => _redirect.GetRibbonMinimizeBarDark(state);
 
         /// <summary>
         /// Gets the color for the minimize bar light.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonMinimizeBarLight(PaletteState state)
-        {
-            return _redirect.GetRibbonMinimizeBarLight(state);
-        }
+        public override Color GetRibbonMinimizeBarLight(PaletteState state) => _redirect.GetRibbonMinimizeBarLight(state);
 
         /// <summary>
         /// Gets the color for the tab separator.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonTabSeparatorColor(PaletteState state)
-        {
-            return _redirect.GetRibbonTabSeparatorColor(state);
-        }
+        public override Color GetRibbonTabSeparatorColor(PaletteState state) => _redirect.GetRibbonTabSeparatorColor(state);
 
         /// <summary>
         /// Gets the color for the tab context separators.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonTabSeparatorContextColor(PaletteState state)
-        {
-            return _redirect.GetRibbonTabSeparatorContextColor(state);
-        }
+        public override Color GetRibbonTabSeparatorContextColor(PaletteState state) => _redirect.GetRibbonTabSeparatorContextColor(state);
 
         /// <summary>
         /// Gets the font for the ribbon text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonTextFont(PaletteState state)
-        {
-            return _redirect.GetRibbonTextFont(state);
-        }
+        public override Font GetRibbonTextFont(PaletteState state) => _redirect.GetRibbonTextFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
-        public override PaletteTextHint GetRibbonTextHint(PaletteState state)
-        {
-            return _redirect.GetRibbonTextHint(state);
-        }
+        public override PaletteTextHint GetRibbonTextHint(PaletteState state) => _redirect.GetRibbonTextHint(state);
 
         /// <summary>
         /// Gets the color for the extra QAT button dark content color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonQATButtonDark(PaletteState state)
-        {
-            return _redirect.GetRibbonQATButtonDark(state);
-        }
+        public override Color GetRibbonQATButtonDark(PaletteState state) => _redirect.GetRibbonQATButtonDark(state);
 
         /// <summary>
         /// Gets the color for the extra QAT button light content color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetRibbonQATButtonLight(PaletteState state)
-        {
-            return _redirect.GetRibbonQATButtonLight(state);
-        }
+        public override Color GetRibbonQATButtonLight(PaletteState state) => _redirect.GetRibbonQATButtonLight(state);
+
         #endregion
     }
 }

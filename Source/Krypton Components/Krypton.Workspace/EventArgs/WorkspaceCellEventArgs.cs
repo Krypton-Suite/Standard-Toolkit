@@ -26,10 +26,8 @@ namespace Krypton.Workspace
         /// Initialize a new instance of the WorkspaceCellEventArgs class.
         /// </summary>
         /// <param name="cell">Workspace cell associated with the event.</param>
-        public WorkspaceCellEventArgs(KryptonWorkspaceCell cell)
-        {
-            Cell = cell;
-        }
+        public WorkspaceCellEventArgs(KryptonWorkspaceCell cell) => Cell = cell;
+
         #endregion
 
         #region Public

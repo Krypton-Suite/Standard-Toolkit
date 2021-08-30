@@ -87,11 +87,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">The Control to test.</param>
         /// <returns>true if the specified control can be a child of the control managed by this designer; otherwise, false.</returns>
-        public override bool CanParent(Control control)
-        {
+        public override bool CanParent(Control control) =>
             // We never allow anything to be added to the split container
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Returns the internal control designer with the specified index in the ControlDesigner.

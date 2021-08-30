@@ -28,7 +28,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteRibbonTabContentRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonTabContentRedirect(PaletteRedirect redirect,
                                                NeedPaintHandler needPaint)
@@ -78,10 +78,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonDoubleRedirect TabDraw => _drawRedirect;
 
-        private bool ShouldSerializeTabDraw()
-        {
-            return !_drawRedirect.IsDefault;
-        }
+        private bool ShouldSerializeTabDraw() => !_drawRedirect.IsDefault;
+
         #endregion
 
         #region Content
@@ -93,10 +91,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavContent Content => _content;
 
-        private bool ShouldSerializeContent()
-        {
-            return !_content.IsDefault;
-        }
+        private bool ShouldSerializeContent() => !_content.IsDefault;
+
         #endregion
     }
 }

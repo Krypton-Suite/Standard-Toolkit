@@ -32,11 +32,10 @@ namespace Krypton.Navigator
         public ViewletHeaderGroupOutlook(KryptonNavigator navigator,
                                          PaletteRedirect redirector,
                                          NeedPaintHandler needPaintDelegate)
-            : base(navigator, redirector, needPaintDelegate)
-        {
+            : base(navigator, redirector, needPaintDelegate) =>
             // Are we using the full or mini outlook mode.
             _full = (navigator.NavigatorMode == NavigatorMode.OutlookFull);
-        }
+
         #endregion
 
         #region Public

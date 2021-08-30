@@ -264,10 +264,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeColorMap()
-        {
-            return ColorMap != Color.Empty;
-        }
+        private bool ShouldSerializeColorMap() => ColorMap != Color.Empty;
 
         /// <summary>
         /// Resets the ColorMap property to its default value.
@@ -464,10 +461,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
-        {
-            return (ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
-        }
+        public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => (ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

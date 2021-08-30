@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
                                            NeedPaintHandler needPaint)
             : base(null, needPaint)
         {
-            // Setup inheritence to recover values from the redirect instance
+            // Setup inheritance to recover values from the redirect instance
             _redirect = new PaletteElementColorInheritRedirect(redirect, element);
             SetInherit(_redirect);
         }

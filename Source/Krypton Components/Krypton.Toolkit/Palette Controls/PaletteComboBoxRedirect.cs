@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteComboBoxRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteComboBoxRedirect(PaletteRedirect redirect,
                                        NeedPaintHandler needPaint)
@@ -140,10 +140,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect ComboBox { get; }
 
-        private bool ShouldSerializeComboBox()
-        {
-            return !ComboBox.IsDefault;
-        }
+        private bool ShouldSerializeComboBox() => !ComboBox.IsDefault;
+
         #endregion
 
         #region Item
@@ -156,10 +154,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Item { get; }
 
-        private bool ShouldSerializeItem()
-        {
-            return !Item.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !Item.IsDefault;
+
         #endregion
 
         #region DropBack
@@ -172,10 +168,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack DropBack => _dropBackRedirect.Back;
 
-        private bool ShouldSerializeDropBack()
-        {
-            return !_dropBackRedirect.IsDefault;
-        }
+        private bool ShouldSerializeDropBack() => !_dropBackRedirect.IsDefault;
+
         #endregion
 
         #region Protected

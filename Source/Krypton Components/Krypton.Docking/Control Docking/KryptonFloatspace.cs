@@ -33,10 +33,7 @@ namespace Krypton.Docking
         /// Gets a string representation of the class.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return "KryptonFloatspace " + Dock.ToString();
-        }
+        public override string ToString() => "KryptonFloatspace " + Dock.ToString();
 
         /// <summary>
         /// Clean up any resources being used.

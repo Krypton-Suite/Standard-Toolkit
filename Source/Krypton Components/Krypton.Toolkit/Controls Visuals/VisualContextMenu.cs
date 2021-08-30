@@ -367,11 +367,10 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public override bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt)
-        {
+        public override bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt) =>
             // Ask the manager if the mouse down should make the stacked menu the current one
-            return ViewContextMenuManager.DoesStackedClientMouseDownBecomeCurrent(m, pt);
-        }
+            ViewContextMenuManager.DoesStackedClientMouseDownBecomeCurrent(m, pt);
+
         #endregion
 
         #region Protected

@@ -55,8 +55,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         public void GotFocus(Control c)
         {
-            if ((_gallery.LastGallery != null) &&
-                (_gallery.LastGallery.CanFocus))
+            if (_gallery.LastGallery is { CanFocus: true })
             {
                 _ribbon.LostFocusLosesKeyboard = false;
                 _gallery.LastGallery.Focus();
@@ -112,10 +111,8 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool KeyUp(Control c, KeyEventArgs e)
-        {
-            return false;
-        }
+        public bool KeyUp(Control c, KeyEventArgs e) => false;
+
         #endregion
 
         #region KeyTipSelect

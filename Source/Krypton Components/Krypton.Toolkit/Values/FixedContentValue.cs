@@ -60,10 +60,8 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         public string ShortText { get; set; }
 
-        private bool ShouldSerializeShortText()
-        {
-            return !string.IsNullOrEmpty(ShortText);
-        }
+        private bool ShouldSerializeShortText() => !string.IsNullOrEmpty(ShortText);
+
         #endregion
 
         #region LongText
@@ -76,10 +74,8 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         public string LongText { get; set; }
 
-        private bool ShouldSerializeLongText()
-        {
-            return !string.IsNullOrEmpty(LongText);
-        }
+        private bool ShouldSerializeLongText() => !string.IsNullOrEmpty(LongText);
+
         #endregion
 
         #region Image
@@ -91,10 +87,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public Image Image { get; set; }
 
-        private bool ShouldSerializeImage()
-        {
-            return (Image != null);
-        }
+        private bool ShouldSerializeImage() => (Image != null);
+
         #endregion
 
         #region ImageTransparentColor
@@ -106,10 +100,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public Color ImageTransparentColor { get; set; }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return (ImageTransparentColor != Color.Empty);
-        }
+        private bool ShouldSerializeImageTransparentColor() => (ImageTransparentColor != Color.Empty);
+
         #endregion
 
         #region IContentValues
@@ -117,39 +109,28 @@ namespace Krypton.Toolkit
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return ShortText;
-        }
+        public string GetShortText() => ShortText;
 
         /// <summary>
         /// Gets the content image.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return Image;
-        }
+        public Image GetImage(PaletteState state) => Image;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return ImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return LongText;
-        }
+        public string GetLongText() => LongText;
+
         #endregion
     }
 }

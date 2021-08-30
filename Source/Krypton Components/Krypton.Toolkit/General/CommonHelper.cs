@@ -398,22 +398,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="cms">Reference to context menu strip.</param>
         /// <returns>True to display; otherwise false.</returns>
-        public static bool ValidContextMenuStrip(ContextMenuStrip cms)
-        {
+        public static bool ValidContextMenuStrip(ContextMenuStrip cms) =>
             // Must be a valid reference to examine
-            return ((cms != null) && (cms.Items.Count > 0));
-        }
+            ((cms != null) && (cms.Items.Count > 0));
 
         /// <summary>
         /// Decide if the KryptonContextMenu should be displayed.
         /// </summary>
         /// <param name="kcm">Reference to context menu strip.</param>
         /// <returns>True to display; otherwise false.</returns>
-        public static bool ValidKryptonContextMenu(KryptonContextMenu kcm)
-        {
+        public static bool ValidKryptonContextMenu(KryptonContextMenu kcm) =>
             // Must be a valid reference to examine
-            return ((kcm != null) && (kcm.Items.Count > 0));
-        }
+            ((kcm != null) && (kcm.Items.Count > 0));
 
         /// <summary>
         /// Perform operation in a worker thread with wait dialog in main thread.
@@ -464,10 +460,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Specific state.</param>
         /// <returns>True if an override state; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool IsOverrideState(PaletteState state)
-        {
-            return (state & PaletteState.Override) == PaletteState.Override;
-        }
+        public static bool IsOverrideState(PaletteState state) => (state & PaletteState.Override) == PaletteState.Override;
 
         /// <summary>
         /// Gets a value indicating if the provided value is an override state but excludes one value.
@@ -476,10 +469,7 @@ namespace Krypton.Toolkit
         /// <param name="exclude">State that should be excluded from test.</param>
         /// <returns>True if an override state; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool IsOverrideStateExclude(PaletteState state, PaletteState exclude)
-        {
-            return (state != exclude) && IsOverrideState(state);
-        }
+        public static bool IsOverrideStateExclude(PaletteState state, PaletteState exclude) => (state != exclude) && IsOverrideState(state);
 
         /// <summary>
         /// Gets a value indicating if the enumeration specifies no borders.
@@ -487,10 +477,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if no border specified; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasNoBorders(PaletteDrawBorders borders)
-        {
-            return ((borders & PaletteDrawBorders.All) == PaletteDrawBorders.None);
-        }
+        public static bool HasNoBorders(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.All) == PaletteDrawBorders.None);
 
         /// <summary>
         /// Gets a value indicating if the enumeration specifies at least one border.
@@ -498,10 +485,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if at least one border specified; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasABorder(PaletteDrawBorders borders)
-        {
-            return ((borders & PaletteDrawBorders.All) != PaletteDrawBorders.None);
-        }     
+        public static bool HasABorder(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.All) != PaletteDrawBorders.None);
 
         /// <summary>
         /// Gets a value indicating if the enumeration specifies at least one border.
@@ -526,10 +510,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if includes the top border; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasTopBorder(PaletteDrawBorders borders)
-        {
-            return ((borders & PaletteDrawBorders.Top) == PaletteDrawBorders.Top);
-        }
+        public static bool HasTopBorder(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.Top) == PaletteDrawBorders.Top);
 
         /// <summary>
         /// Gets a value indicating if the enumeration includes the bottom border.
@@ -537,10 +518,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if includes the bottom border; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasBottomBorder(PaletteDrawBorders borders)
-        {
-            return ((borders & PaletteDrawBorders.Bottom) == PaletteDrawBorders.Bottom);
-        }
+        public static bool HasBottomBorder(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.Bottom) == PaletteDrawBorders.Bottom);
 
         /// <summary>
         /// Gets a value indicating if the enumeration includes the left border.
@@ -548,10 +526,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if includes the left border; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasLeftBorder(PaletteDrawBorders borders)
-        {
-            return ((borders & PaletteDrawBorders.Left) == PaletteDrawBorders.Left);
-        }
+        public static bool HasLeftBorder(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.Left) == PaletteDrawBorders.Left);
 
         /// <summary>
         /// Gets a value indicating if the enumeration includes the right border.
@@ -559,21 +534,15 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if includes the right border; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasRightBorder(PaletteDrawBorders borders)
-        {
-            return ((borders & PaletteDrawBorders.Right) == PaletteDrawBorders.Right);
-        }
-        
+        public static bool HasRightBorder(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.Right) == PaletteDrawBorders.Right);
+
         /// <summary>
         /// Gets a value indicating if the enumeration specifies all four borders.
         /// </summary>
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if all four borders specified; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasAllBorders(PaletteDrawBorders borders)
-        {
-            return ((borders & PaletteDrawBorders.All) == PaletteDrawBorders.All);
-        }
+        public static bool HasAllBorders(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.All) == PaletteDrawBorders.All);
 
         /// <summary>
         /// Apply an orientation to the draw border edges to get a correct value.
@@ -1024,11 +993,9 @@ namespace Krypton.Toolkit
         /// <param name="percent2">Percentage of second color to use.</param>
         /// <returns>Merged color.</returns>
         public static Color MergeColors(Color color1, float percent1,
-                                        Color color2, float percent2)
-        {
+                                        Color color2, float percent2) =>
             // Use existing three color merge
-            return MergeColors(color1, percent1, color2, percent2, Color.Empty, 0f);
-        }
+            MergeColors(color1, percent1, color2, percent2, Color.Empty, 0f);
 
         /// <summary>
         /// Merge three colors together using relative percentages.
@@ -1501,100 +1468,70 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="d">Double to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string DoubleToString(double d)
-        {
-            return _dc.ConvertToInvariantString(d);
-        }
+        public static string DoubleToString(double d) => _dc.ConvertToInvariantString(d);
 
         /// <summary>
         /// Convert a culture invariant string value to a double.
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Double value.</returns>
-        public static double StringToDouble(string s)
-        {
-            return (double)_dc.ConvertFromInvariantString(s);
-        }
+        public static double StringToDouble(string s) => (double)_dc.ConvertFromInvariantString(s);
 
         /// <summary>
         /// Convert a Size to a culture invariant string value.
         /// </summary>
         /// <param name="s">Size to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string SizeToString(Size s)
-        {
-            return _sc.ConvertToInvariantString(s);
-        }
+        public static string SizeToString(Size s) => _sc.ConvertToInvariantString(s);
 
         /// <summary>
         /// Convert a culture invariant string value to a Size.
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Size value.</returns>
-        public static Size StringToSize(string s)
-        {
-            return (Size)_sc.ConvertFromInvariantString(s);
-        }
+        public static Size StringToSize(string s) => (Size)_sc.ConvertFromInvariantString(s);
 
         /// <summary>
         /// Convert a Point to a culture invariant string value.
         /// </summary>
         /// <param name="s">Size to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string PointToString(Point s)
-        {
-            return _pc.ConvertToInvariantString(s);
-        }
+        public static string PointToString(Point s) => _pc.ConvertToInvariantString(s);
 
         /// <summary>
         /// Convert a culture invariant string value to a Point.
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Point value.</returns>
-        public static Point StringToPoint(string s)
-        {
-            return (Point)_pc.ConvertFromInvariantString(s);
-        }
+        public static Point StringToPoint(string s) => (Point)_pc.ConvertFromInvariantString(s);
 
         /// <summary>
         /// Convert a Boolean to a culture invariant string value.
         /// </summary>
         /// <param name="b">Boolean to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string BoolToString(bool b)
-        {
-            return _bc.ConvertToInvariantString(b);
-        }
+        public static string BoolToString(bool b) => _bc.ConvertToInvariantString(b);
 
         /// <summary>
         /// Convert a culture invariant string value to a Boolean.
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Boolean value.</returns>
-        public static bool StringToBool(string s)
-        {
-            return (bool)_bc.ConvertFromInvariantString(s);
-        }
+        public static bool StringToBool(string s) => (bool)_bc.ConvertFromInvariantString(s);
 
         /// <summary>
         /// Convert a Color to a culture invariant string value.
         /// </summary>
         /// <param name="c">Color to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string ColorToString(Color c)
-        {
-            return _cc.ConvertToInvariantString(c);
-        }
+        public static string ColorToString(Color c) => _cc.ConvertToInvariantString(c);
 
         /// <summary>
         /// Convert a culture invariant string value to a Color.
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Color value.</returns>
-        public static Color StringToColor(string s)
-        {
-            return (Color)_cc.ConvertFromInvariantString(s);
-        }
+        public static Color StringToColor(string s) => (Color)_cc.ConvertFromInvariantString(s);
 
         /// <summary>
         /// Convert a client mouse position inside a windows message into a screen position.

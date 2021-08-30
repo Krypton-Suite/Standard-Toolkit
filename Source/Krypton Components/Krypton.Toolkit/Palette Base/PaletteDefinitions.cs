@@ -5250,17 +5250,17 @@ namespace Krypton.Toolkit
         RibbonGroupAreaBorder,
 
         /// <summary>
-        /// Specifies using colors to draw a groups area border, variantion 2.
+        /// Specifies using colors to draw a groups area border, variation 2.
         /// </summary>
         RibbonGroupAreaBorder2,
 
         /// <summary>
-        /// Specifies using colors to draw a groups area border, variantion 3.
+        /// Specifies using colors to draw a groups area border, variation 3.
         /// </summary>
         RibbonGroupAreaBorder3,
 
         /// <summary>
-        /// Specifies using colors to draw a groups area border, variantion 4.
+        /// Specifies using colors to draw a groups area border, variation 4.
         /// </summary>
         RibbonGroupAreaBorder4,
 
@@ -5275,27 +5275,52 @@ namespace Krypton.Toolkit
         RibbonGroupNormalBorder,
 
         /// <summary>
+        /// Specifies using colors to draw a group normal area.
+        /// </summary>
+        RibbonGroupNormal,
+
+        /// <summary>
+        /// Specifies using colors to draw a group pressed area, variation based on light background.
+        /// </summary>
+        RibbonGroupNormalPressedLight,
+
+        /// <summary>
+        /// Specifies using colors to draw a group pressed area, variation based on dark background.
+        /// </summary>
+        RibbonGroupNormalPressedDark,
+
+        /// <summary>
+        /// Specifies using colors to draw a group tracking area, variation based on light background.
+        /// </summary>
+        RibbonGroupNormalTrackingLight,
+
+        /// <summary>
+        /// Specifies using colors to draw a group tracking area, variation based on dark background.
+        /// </summary>
+        RibbonGroupNormalTrackingDark,
+
+        /// <summary>
         /// Specifies using colors to draw a group normal border as a vertical separator.
         /// </summary>
         RibbonGroupNormalBorderSep,
 
         /// <summary>
-        /// Specifies using colors to draw a group pressed border as a vertical separator, variantion based on light background.
+        /// Specifies using colors to draw a group pressed border as a vertical separator, variation based on light background.
         /// </summary>
         RibbonGroupNormalBorderSepPressedLight,
 
         /// <summary>
-        /// Specifies using colors to draw a group pressed border as a vertical separator, variantion based on dark background.
+        /// Specifies using colors to draw a group pressed border as a vertical separator, variation based on dark background.
         /// </summary>
         RibbonGroupNormalBorderSepPressedDark,
 
         /// <summary>
-        /// Specifies using colors to draw a group tracking border as a vertical separator, variantion based on light background.
+        /// Specifies using colors to draw a group tracking border as a vertical separator, variation based on light background.
         /// </summary>
         RibbonGroupNormalBorderSepTrackingLight,
 
         /// <summary>
-        /// Specifies using colors to draw a group tracking border as a vertical separator, variantion based on dark background.
+        /// Specifies using colors to draw a group tracking border as a vertical separator, variation based on dark background.
         /// </summary>
         RibbonGroupNormalBorderSepTrackingDark,
 

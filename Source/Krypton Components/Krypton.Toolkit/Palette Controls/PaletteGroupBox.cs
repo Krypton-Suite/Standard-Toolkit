@@ -29,10 +29,9 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteGroupBox(PaletteGroupBoxRedirect inherit,
                                NeedPaintHandler needPaint)
-            : base(inherit, needPaint)
-        {
+            : base(inherit, needPaint) =>
             Content = new PaletteContent(inherit.PaletteContent, needPaint);
-        }
+
         #endregion
 
         #region Content
@@ -45,10 +44,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent Content { get; }
 
-        private bool ShouldSerializeContent()
-        {
-            return !Content.IsDefault;
-        }
+        private bool ShouldSerializeContent() => !Content.IsDefault;
 
         /// <summary>
         /// Gets the content palette.

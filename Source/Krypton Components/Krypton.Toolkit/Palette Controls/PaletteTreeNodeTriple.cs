@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public virtual void SetInherit(PaletteTripleRedirect inherit)
         {
@@ -81,10 +81,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteTriple Node => _paletteNode;
 
-        private bool ShouldSerializeItem()
-        {
-            return !_paletteNode.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !_paletteNode.IsDefault;
+
         #endregion
     }
 }

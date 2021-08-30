@@ -627,10 +627,7 @@ namespace Krypton.Toolkit
             return _panelMainText.Size;
         }
 
-        private Size UpdateIconSizing()
-        {
-            return _messageIcon.Image == null ? Size.Empty : _panelIcon.Size;
-        }
+        private Size UpdateIconSizing() => _messageIcon.Image == null ? Size.Empty : _panelIcon.Size;
 
         private Size UpdateRadioSizing()
         {

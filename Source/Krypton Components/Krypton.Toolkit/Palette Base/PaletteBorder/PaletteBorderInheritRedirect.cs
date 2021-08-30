@@ -59,10 +59,8 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect GetRedirector()
-        {
-            return _redirect;
-        }
+        public PaletteRedirect GetRedirector() => _redirect;
+
         #endregion
 
         #region SetRedirector

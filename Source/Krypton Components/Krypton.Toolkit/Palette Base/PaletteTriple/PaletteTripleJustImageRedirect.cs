@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteTripleJustImageRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteTripleJustImageRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
@@ -100,10 +100,8 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect GetRedirector()
-        {
-            return _backInherit.GetRedirector();
-        }
+        public PaletteRedirect GetRedirector() => _backInherit.GetRedirector();
+
         #endregion
 
         #region SetRedirector
@@ -329,10 +327,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack Back { get; }
 
-        private bool ShouldSerializeBack()
-        {
-            return !Back.IsDefault;
-        }
+        private bool ShouldSerializeBack() => !Back.IsDefault;
 
         /// <summary>
         /// Gets the background palette.
@@ -365,10 +360,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorder Border { get; }
 
-        private bool ShouldSerializeBorder()
-        {
-            return !Border.IsDefault;
-        }
+        private bool ShouldSerializeBorder() => !Border.IsDefault;
 
         /// <summary>
         /// Gets the border palette.
@@ -401,10 +393,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustImage Content { get; }
 
-        private bool ShouldSerializeContent()
-        {
-            return !Content.IsDefault;
-        }
+        private bool ShouldSerializeContent() => !Content.IsDefault;
 
         /// <summary>
         /// Gets the content palette.

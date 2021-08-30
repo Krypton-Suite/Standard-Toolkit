@@ -722,10 +722,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="next">View to investigate.</param>
         /// <returns>True is part of button; otherwise false.</returns>
-        protected virtual bool ViewIsPartOfButton(ViewBase next)
-        {
-            return Target.ContainsRecurse(next);
-        }
+        protected virtual bool ViewIsPartOfButton(ViewBase next) => Target.ContainsRecurse(next);
 
         /// <summary>
         /// Set the correct visual state of the target.

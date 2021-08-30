@@ -36,10 +36,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonDataGridViewNumericUpDownColumn class.
         /// </summary>
         public KryptonDataGridViewNumericUpDownColumn()
-            : base(new KryptonDataGridViewNumericUpDownCell())
-        {
+            : base(new KryptonDataGridViewNumericUpDownCell()) =>
             ButtonSpecs = new DataGridViewColumnSpecCollection(this);
-        }
 
         /// <summary>
         /// Returns a standard compact string representation of the column.
@@ -308,10 +306,7 @@ namespace Krypton.Toolkit
         }
 
         /// Indicates whether the Increment property should be persisted.
-        private bool ShouldSerializeIncrement()
-        {
-            return !Increment.Equals(decimal.One);
-        }
+        private bool ShouldSerializeIncrement() => !Increment.Equals(decimal.One);
 
         /// <summary>
         /// Replicates the Maximum property of the KryptonDataGridViewNumericUpDownCell cell type.
@@ -352,10 +347,7 @@ namespace Krypton.Toolkit
         }
 
         /// Indicates whether the Maximum property should be persisted.
-        private bool ShouldSerializeMaximum()
-        {
-            return !Maximum.Equals((decimal)100.0);
-        }
+        private bool ShouldSerializeMaximum() => !Maximum.Equals((decimal)100.0);
 
         /// <summary>
         /// Replicates the Minimum property of the KryptonDataGridViewNumericUpDownCell cell type.
@@ -396,10 +388,7 @@ namespace Krypton.Toolkit
         }
 
         /// Indicates whether the Maximum property should be persisted.
-        private bool ShouldSerializeMinimum()
-        {
-            return !Minimum.Equals(decimal.Zero);
-        }
+        private bool ShouldSerializeMinimum() => !Minimum.Equals(decimal.Zero);
 
         /// <summary>
         /// Replicates the ThousandsSeparator property of the KryptonDataGridViewNumericUpDownCell cell type.

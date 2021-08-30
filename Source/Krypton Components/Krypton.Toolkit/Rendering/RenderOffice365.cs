@@ -97,17 +97,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || memento is not MementoRibbonTabContextOffice2010)
+                if (memento is MementoRibbonTabContextOffice2010 office2010)
+                {
+                    cache = office2010;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabContextOffice2010(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabContextOffice2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -158,17 +158,17 @@ namespace Krypton.Toolkit
                 MementoRibbonAppTab2013 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || memento is not MementoRibbonAppTab2013)
+                if (memento is MementoRibbonAppTab2013 tab2013)
+                {
+                    cache = tab2013;
+                    generate = !cache.UseCachedValues(rect, baseColor1);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonAppTab2013(rect, baseColor1);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonAppTab2013)memento;
-                    generate = !cache.UseCachedValues(rect, baseColor1);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -264,17 +264,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabSelected2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || memento is not MementoRibbonTabSelected2010)
+                if (memento is MementoRibbonTabSelected2010 selected2010)
+                {
+                    cache = selected2010;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabSelected2010(rect, c1, c2, c3, c4, c5, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabSelected2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -361,17 +361,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabTracking2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || memento is not MementoRibbonTabTracking2010)
+                if (memento is MementoRibbonTabTracking2010 tracking2010)
+                {
+                    cache = tracking2010;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabTracking2010(rect, c1, c2, c3, c4, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabTracking2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?

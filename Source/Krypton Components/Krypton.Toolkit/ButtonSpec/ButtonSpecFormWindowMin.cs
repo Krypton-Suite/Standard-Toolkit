@@ -67,22 +67,19 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette)
-        {
+        public override ButtonEnabled GetEnabled(IPalette palette) =>
             // Has the minimize buttons been turned off?
-            return !KryptonForm.MinimizeBox ? ButtonEnabled.False : ButtonEnabled.True;
-        }
+            !KryptonForm.MinimizeBox ? ButtonEnabled.False : ButtonEnabled.True;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette)
-        {
+        public override ButtonCheckState GetChecked(IPalette palette) =>
             // Close button is never shown as checked
-            return ButtonCheckState.NotCheckButton;
-        }
+            ButtonCheckState.NotCheckButton;
+
         #endregion    
 
         #region Protected Overrides

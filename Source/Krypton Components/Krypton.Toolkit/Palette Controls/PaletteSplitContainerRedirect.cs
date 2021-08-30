@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteSplitContainerRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backContainerStyle">Initial split container background style.</param>
         /// <param name="borderContainerStyle">Initial split container border style.</param>
         /// <param name="backSeparatorStyle">Initial separator background style.</param>
@@ -38,11 +38,10 @@ namespace Krypton.Toolkit
                                              PaletteBackStyle backSeparatorStyle,
                                              PaletteBorderStyle borderSeparatorStyle,
                                              NeedPaintHandler needPaint)
-            : base(redirect, backContainerStyle, borderContainerStyle, needPaint)
-        {
+            : base(redirect, backContainerStyle, borderContainerStyle, needPaint) =>
             // Create the embedded separator palette information
             Separator = new PaletteSeparatorPaddingRedirect(redirect, backSeparatorStyle, borderSeparatorStyle, needPaint);
-        }
+
         #endregion
 
         #region IsDefault
@@ -75,10 +74,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPaddingRedirect Separator { get; }
 
-        private bool ShouldSerializeSeparator()
-        {
-            return !Separator.IsDefault;
-        }
+        private bool ShouldSerializeSeparator() => !Separator.IsDefault;
+
         #endregion
     }
 }

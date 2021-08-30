@@ -208,7 +208,7 @@ namespace Krypton.Ribbon
                     _selectedColor = value;
                     UpdateRecentColors(_selectedColor);
                     OnSelectedColorChanged(_selectedColor);
-                    OnPropertyChanged("SelectedColor");
+                    OnPropertyChanged(nameof(SelectedColor));
                 }
             }
         }
@@ -229,7 +229,7 @@ namespace Krypton.Ribbon
                 if (value != _emptyBorderColor)
                 {
                     _emptyBorderColor = value;
-                    OnPropertyChanged("EmptyBorderColor");
+                    OnPropertyChanged(nameof(EmptyBorderColor));
                 }
             }
         }
@@ -248,7 +248,7 @@ namespace Krypton.Ribbon
             set
             {
                 _selectedRect = value;
-                OnPropertyChanged("SelectedRect");
+                OnPropertyChanged(nameof(SelectedRect));
             }
         }
 
@@ -270,7 +270,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine)
                 {
                     _textLine = value;
-                    OnPropertyChanged("TextLine");
+                    OnPropertyChanged(nameof(TextLine));
                 }
             }
         }
@@ -315,15 +315,12 @@ namespace Krypton.Ribbon
                 if (_imageSmall != value)
                 {
                     _imageSmall = value;
-                    OnPropertyChanged("ImageSmall");
+                    OnPropertyChanged(nameof(ImageSmall));
                 }
             }
         }
 
-        private bool ShouldSerializeImageSmall()
-        {
-            return ImageSmall != _defaultButtonImageSmall;
-        }
+        private bool ShouldSerializeImageSmall() => ImageSmall != _defaultButtonImageSmall;
 
         /// <summary>
         /// Gets and sets the maximum number of recent colors to store and display.
@@ -340,7 +337,7 @@ namespace Krypton.Ribbon
                 if (value != _maxRecentColors)
                 {
                     _maxRecentColors = value;
-                    OnPropertyChanged("MaxRecentColors");
+                    OnPropertyChanged(nameof(MaxRecentColors));
                 }
             }
         }
@@ -360,7 +357,7 @@ namespace Krypton.Ribbon
                 if (value != _visibleThemes)
                 {
                     _visibleThemes = value;
-                    OnPropertyChanged("VisibleThemes");
+                    OnPropertyChanged(nameof(VisibleThemes));
                 }
             }
         }
@@ -380,7 +377,7 @@ namespace Krypton.Ribbon
                 if (value != _visibleStandard)
                 {
                     _visibleStandard = value;
-                    OnPropertyChanged("VisibleStandard");
+                    OnPropertyChanged(nameof(VisibleStandard));
                 }
             }
         }
@@ -400,7 +397,7 @@ namespace Krypton.Ribbon
                 if (value != _visibleRecent)
                 {
                     _visibleRecent = value;
-                    OnPropertyChanged("VisibleRecent");
+                    OnPropertyChanged(nameof(VisibleRecent));
                 }
             }
         }
@@ -420,7 +417,7 @@ namespace Krypton.Ribbon
                 if (value != _visibleNoColor)
                 {
                     _visibleNoColor = value;
-                    OnPropertyChanged("VisibleNoColor");
+                    OnPropertyChanged(nameof(VisibleNoColor));
                 }
             }
         }
@@ -440,7 +437,7 @@ namespace Krypton.Ribbon
                 if (value != _visibleMoreColors)
                 {
                     _visibleMoreColors = value;
-                    OnPropertyChanged("VisibleMoreColors");
+                    OnPropertyChanged(nameof(VisibleMoreColors));
                 }
             }
         }
@@ -460,7 +457,7 @@ namespace Krypton.Ribbon
                 if (value != _autoRecentColors)
                 {
                     _autoRecentColors = value;
-                    OnPropertyChanged("AutoRecentColors");
+                    OnPropertyChanged(nameof(AutoRecentColors));
                 }
             }
         }
@@ -480,7 +477,7 @@ namespace Krypton.Ribbon
                 if (value != _schemeThemes)
                 {
                     _schemeThemes = value;
-                    OnPropertyChanged("SchemeThemes");
+                    OnPropertyChanged(nameof(SchemeThemes));
                 }
             }
         }
@@ -500,7 +497,7 @@ namespace Krypton.Ribbon
                 if (value != _schemeStandard)
                 {
                     _schemeStandard = value;
-                    OnPropertyChanged("SchemeStandard");
+                    OnPropertyChanged(nameof(SchemeStandard));
                 }
             }
         }
@@ -524,7 +521,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -561,7 +558,7 @@ namespace Krypton.Ribbon
                 if (value != _enabled)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -582,7 +579,7 @@ namespace Krypton.Ribbon
                 if (value != _checked)
                 {
                     _checked = value;
-                    OnPropertyChanged("Checked");
+                    OnPropertyChanged(nameof(Checked));
                 }
             }
         }
@@ -603,7 +600,7 @@ namespace Krypton.Ribbon
                 if (value != _buttonType)
                 {
                     _buttonType = value;
-                    OnPropertyChanged("ButtonType");
+                    OnPropertyChanged(nameof(ButtonType));
                 }
             }
         }
@@ -616,10 +613,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to fire click event of the cluster color button.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -728,7 +722,7 @@ namespace Krypton.Ribbon
                     }
 
                     _command = value;
-                    OnPropertyChanged("KryptonCommand");
+                    OnPropertyChanged(nameof(KryptonCommand));
 
                     if (_command != null)
                     {
@@ -765,7 +759,7 @@ namespace Krypton.Ribbon
                         _itemSizeMin = GroupItemSize.Small;
                     }
 
-                    OnPropertyChanged("ItemSizeMaximum");
+                    OnPropertyChanged(nameof(ItemSizeMaximum));
                 }
             }
         }
@@ -797,7 +791,7 @@ namespace Krypton.Ribbon
                         _itemSizeMax = GroupItemSize.Medium;
                     }
 
-                    OnPropertyChanged("ItemSizeMinimum");
+                    OnPropertyChanged(nameof(ItemSizeMinimum));
                 }
             }
         }
@@ -817,7 +811,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -830,10 +824,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupClusterColorButton(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupClusterColorButton(ribbon, this, needPaint);
 
         /// <summary>
         /// Generates a Click event for a button.
@@ -890,16 +882,16 @@ namespace Krypton.Ribbon
             switch (e.PropertyName)
             {
                 case "Text":
-                    OnPropertyChanged("TextLine");
+                    OnPropertyChanged(nameof(TextLine));
                     break;
                 case "ImageSmall":
-                    OnPropertyChanged("ImageSmall");
+                    OnPropertyChanged(nameof(ImageSmall));
                     break;
                 case "Enabled":
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                     break;
                 case "Checked":
-                    OnPropertyChanged("Checked");
+                    OnPropertyChanged(nameof(Checked));
                     break;
             }
         }

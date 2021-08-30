@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public override void SetInherit(PaletteDataGridViewRedirect inherit)
         {
@@ -89,10 +89,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteBack Background => _background.Back;
 
-        private bool ShouldSerializeBackground()
-        {
-            return !_background.IsDefault;
-        }
+        private bool ShouldSerializeBackground() => !_background.IsDefault;
+
         #endregion
     }
 }

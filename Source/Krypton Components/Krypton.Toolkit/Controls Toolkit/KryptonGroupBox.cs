@@ -281,10 +281,7 @@ namespace Krypton.Toolkit
             GroupBorderStyle = PaletteBorderStyle.ControlGroupBox;
         }
 
-        private bool ShouldSerializeGroupBorderStyle()
-        {
-            return (GroupBorderStyle != PaletteBorderStyle.ControlGroupBox);
-        }
+        private bool ShouldSerializeGroupBorderStyle() => (GroupBorderStyle != PaletteBorderStyle.ControlGroupBox);
 
         /// <summary>
         /// Gets and sets the background style.
@@ -761,14 +758,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal Component DesignerComponentFromPoint(Point pt)
-        {
+        internal Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         // Simulate the mouse leaving the control so that the tracking
         // element that thinks it has the focus is informed it does not
         internal void DesignerMouseLeave() => OnMouseLeave(EventArgs.Empty);

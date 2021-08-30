@@ -116,25 +116,20 @@ namespace Krypton.Navigator
         /// Gets the screen coorindates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
-        public override Point GetContextShowPoint()
-        {
+        public override Point GetContextShowPoint() =>
             // Ask the header group for screen point of context button
-            return _headerGroup.GetContextShowPoint();
-        }
+            _headerGroup.GetContextShowPoint();
 
         /// <summary>
         /// Is the provided over a part of the view that wants the mouse.
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
-        public override bool DesignerGetHitTest(Point pt)
-        {
+        public override bool DesignerGetHitTest(Point pt) =>
             // Check if any of the button specs want the point
-            return _headerGroup.DesignerGetHitTest(pt) || base.DesignerGetHitTest(pt);
+            _headerGroup.DesignerGetHitTest(pt) || base.DesignerGetHitTest(pt);
 
-            // Let base class search individual stack items
-        }
-
+        // Let base class search individual stack items
         /// <summary>
         /// Calculate the enabled state of the next button based on the required action.
         /// </summary>

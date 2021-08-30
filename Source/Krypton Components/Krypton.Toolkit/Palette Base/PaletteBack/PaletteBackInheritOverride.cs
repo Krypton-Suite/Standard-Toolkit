@@ -28,8 +28,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteBackInheritOverride class.
         /// </summary>
-        /// <param name="primary">First choice inheritence.</param>
-        /// <param name="backup">Backup inheritence.</param>
+        /// <param name="primary">First choice inheritance.</param>
+        /// <param name="backup">Backup inheritance.</param>
         public PaletteBackInheritOverride(IPaletteBack primary,
                                           IPaletteBack backup)
         {

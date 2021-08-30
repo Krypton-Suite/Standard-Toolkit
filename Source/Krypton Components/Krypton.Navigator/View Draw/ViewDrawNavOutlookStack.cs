@@ -32,21 +32,18 @@ namespace Krypton.Navigator
         public ViewDrawNavOutlookStack(KryptonNavigator navigator,
                                        KryptonPage page,
                                        VisualOrientation orientation)
-            : base(navigator, page, orientation)
-        {
+            : base(navigator, page, orientation) =>
             // Are we mapping for the full or the mini mode?
             _full = (navigator.NavigatorMode == NavigatorMode.OutlookFull);
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawNavOutlookStack:" + Id + " Text:" + Page.Text;
-        }
+            "ViewDrawNavOutlookStack:" + Id + " Text:" + Page.Text;
+
         #endregion
 
         #region UpdateButtonSpecMapping
@@ -75,31 +72,26 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image GetImage(PaletteState state)
-        {
-            return Page.GetImageMapping(_full ? Navigator.Outlook.Full.StackMapImage :
-                                                Navigator.Outlook.Mini.StackMapImage);
-        }
+        public override Image GetImage(PaletteState state) =>
+            Page.GetImageMapping(_full ? Navigator.Outlook.Full.StackMapImage :
+                Navigator.Outlook.Mini.StackMapImage);
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetShortText()
-        {
-            return Page.GetTextMapping(_full ? Navigator.Outlook.Full.StackMapText :
-                                               Navigator.Outlook.Mini.StackMapText);
-        }
+        public override string GetShortText() =>
+            Page.GetTextMapping(_full ? Navigator.Outlook.Full.StackMapText :
+                Navigator.Outlook.Mini.StackMapText);
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetLongText()
-        {
-            return Page.GetTextMapping(_full ? Navigator.Outlook.Full.StackMapExtraText :
-                                               Navigator.Outlook.Mini.StackMapExtraText);
-        }
+        public override string GetLongText() =>
+            Page.GetTextMapping(_full ? Navigator.Outlook.Full.StackMapExtraText :
+                Navigator.Outlook.Mini.StackMapExtraText);
+
         #endregion
     }
 }

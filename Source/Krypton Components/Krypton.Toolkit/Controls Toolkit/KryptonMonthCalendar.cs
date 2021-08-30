@@ -1347,14 +1347,11 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
@@ -1388,11 +1385,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="charCode">The character to test.</param>
         /// <returns>true if the character should be sent directly to the control and not preprocessed; otherwise, false.</returns>
-        protected override bool IsInputChar(char charCode)
-        {
+        protected override bool IsInputChar(char charCode) =>
             // We take all regular input characters
-            return char.IsLetterOrDigit(charCode);
-        }
+            char.IsLetterOrDigit(charCode);
 
         /// <summary>
         /// Determines whether the specified key is a regular input key or a special key that requires preprocessing.

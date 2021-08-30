@@ -1085,12 +1085,10 @@ namespace Krypton.Toolkit
             }
 
             private bool ItemInsideCollection(KryptonContextMenuItemBase item,
-                                              KryptonContextMenuItemBase parent)
-            {
+                                              KryptonContextMenuItemBase parent) =>
                 // If it has no parent the it must be inside a collection
                 // If inside an items then not inside a collection
-                return parent is not KryptonContextMenuItems;
-            }
+                parent is not KryptonContextMenuItems;
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {

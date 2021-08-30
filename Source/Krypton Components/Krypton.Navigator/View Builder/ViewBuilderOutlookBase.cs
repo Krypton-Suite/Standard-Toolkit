@@ -942,11 +942,9 @@ namespace Krypton.Navigator
         /// Gets the screen coorindates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
-        public override Point GetContextShowPoint()
-        {
+        public override Point GetContextShowPoint() =>
             // Ask the header group for screen point of context button
-            return _headerGroup.GetContextShowPoint();
-        }
+            _headerGroup.GetContextShowPoint();
 
         /// <summary>
         /// Is the provided over a part of the view that wants the mouse.

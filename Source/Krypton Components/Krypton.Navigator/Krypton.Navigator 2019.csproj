@@ -1,43 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
-        <OutputType>Library</OutputType>
-        <RootNamespace>Krypton.Navigator</RootNamespace>
-        <AssemblyName>Krypton.Navigator</AssemblyName>
-        <SignAssembly>false</SignAssembly>
-        <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
-        <ApplicationIcon>Krypton.ico</ApplicationIcon>
-        <DelaySign>false</DelaySign>
-        <UseWindowsForms>true</UseWindowsForms>
-        <LangVersion>preview</LangVersion>
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <EnableNETAnalyzers>true</EnableNETAnalyzers>
-        <AnalysisLevel>latest</AnalysisLevel>
-        <NeutralLanguage>en</NeutralLanguage>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Krypton.Navigator</RootNamespace>
+		<AssemblyName>Krypton.Navigator</AssemblyName>
+		<SignAssembly>false</SignAssembly>
+		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<ApplicationIcon>Krypton.ico</ApplicationIcon>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<LangVersion>preview</LangVersion>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<NeutralLanguage>en</NeutralLanguage>
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
-            <SpecificVersion>True</SpecificVersion>
-            <Version>4.0.0.0</Version>
-        </Reference>
-        <Reference Include="System.Drawing.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
-            <!-- Needed for `ParentControlDesigner ` as this was moved from `System.Design`-->
-            <SpecificVersion>True</SpecificVersion>
-            <Version>5.0.0.0</Version>
-        </Reference>
-        <Reference Include="System.Drawing.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
-            <!-- Needed for `ParentControlDesigner ` as this was moved from `System.Design`-->
-            <SpecificVersion>True</SpecificVersion>
-            <Version>6.0.0.0</Version>
-        </Reference>
-    </ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Drawing.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+			<!-- Needed for `ParentControlDesigner` as this was moved from `System.Design`-->
+			<SpecificVersion>True</SpecificVersion>
+			<Version>5.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Drawing.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+			<!-- Needed for `ParentControlDesigner` as this was moved from `System.Design`-->
+			<SpecificVersion>True</SpecificVersion>
+			<Version>6.0.0.0</Version>
+		</Reference>
+	</ItemGroup>
 
 
-    <PropertyGroup>
-        <PackageId>Krypton.Navigator</PackageId>
-        <Description>This is the navigator module.</Description>
-    </PropertyGroup>
+	<PropertyGroup>
+		<PackageId>Krypton.Navigator</PackageId>
+		<Description>This is the navigator module.</Description>
+	</PropertyGroup>
 
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>

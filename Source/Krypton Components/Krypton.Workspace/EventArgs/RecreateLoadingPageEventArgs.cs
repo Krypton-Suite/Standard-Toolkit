@@ -28,10 +28,9 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="uniqueName">Unique name of the page that needs creating.</param>
         public RecreateLoadingPageEventArgs(string uniqueName)
-            : base(false)
-        {
+            : base(false) =>
             UniqueName = uniqueName;
-        }
+
         #endregion
 
         #region Public

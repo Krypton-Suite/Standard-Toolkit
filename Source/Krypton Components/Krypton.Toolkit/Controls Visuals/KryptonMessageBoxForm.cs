@@ -35,10 +35,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static KryptonMessageBoxForm()
-        {
-            OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
-        }
+        static KryptonMessageBoxForm() => OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
+
         public KryptonMessageBoxForm()
         {
             InitializeComponent();
@@ -414,7 +412,7 @@ namespace Krypton.Toolkit
                 float factorX = g.DpiX > 96 ? ((1.0f * g.DpiX) / 96) : 1.0f;
                 float factorY = g.DpiY > 96 ? ((1.0f * g.DpiY) / 96) : 1.0f;
                 messageSize.Width = messageXSize * factorX;
-                messageSize.Height = messageSize.Height * factorY;
+                messageSize.Height *= factorY;
 
                 // Always add on ad extra 5 pixels as sometimes the measure size does not draw the last 
                 // character it contains, this ensures there is always definitely enough space for it all

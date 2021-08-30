@@ -495,11 +495,10 @@ namespace Krypton.Toolkit
         /// Work out if this control needs to paint transparent areas.
         /// </summary>
         /// <returns>True if paint required; otherwise false.</returns>
-        protected override bool EvalTransparentPaint()
-        {
+        protected override bool EvalTransparentPaint() =>
             // Always need to draw the background because always transparent
-            return true;
-        }
+            true;
+
         #endregion
 
         #region Implementation

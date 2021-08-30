@@ -38,10 +38,8 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the BreadCrumbItems class.
             /// </summary>
             /// <param name="owner">Reference to owning item.</param>
-            internal BreadCrumbItems(KryptonBreadCrumbItem owner)
-            {
-                _owner = owner;
-            }
+            internal BreadCrumbItems(KryptonBreadCrumbItem owner) => _owner = owner;
+
             #endregion
 
             #region Public
@@ -203,20 +201,16 @@ namespace Krypton.Toolkit
                                      string longText,
                                      Image image,
                                      Color imageTransparentColor)
-            : base(shortText, longText, image, imageTransparentColor)
-        {
+            : base(shortText, longText, image, imageTransparentColor) =>
             // Create child collection
             Items = new BreadCrumbItems(this);
-        }
 
         /// <summary>
         /// Gets the string representation of the object.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return "(" + Items.Count.ToString() + ") " + ShortText;
-        }
+        public override string ToString() => "(" + Items.Count.ToString() + ") " + ShortText;
+
         #endregion
 
         #region Public

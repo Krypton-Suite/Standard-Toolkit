@@ -27,10 +27,8 @@ namespace Krypton.Toolkit
         /// Creates a new instance of the KryptonColorTable class.
         /// </summary>
         /// <param name="palette">Reference to associated palette.</param>
-        public KryptonColorTable(IPalette palette)
-        {
-            Palette = palette;
-        }
+        public KryptonColorTable(IPalette palette) => Palette = palette;
+
         #endregion
 
         #region Palette

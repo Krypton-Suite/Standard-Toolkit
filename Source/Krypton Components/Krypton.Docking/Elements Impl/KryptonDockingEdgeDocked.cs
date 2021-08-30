@@ -68,21 +68,16 @@ namespace Krypton.Docking
         /// Create and add a new dockspace instance to the correct edge of the owning control.
         /// </summary>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace AppendDockspace()
-        {
+        public KryptonDockingDockspace AppendDockspace() =>
             // Generate a unique string by creating a GUID
-            return AppendDockspace(CommonHelper.UniqueString);
-        }
+            AppendDockspace(CommonHelper.UniqueString);
 
         /// <summary>
         /// Create and add a new dockspace instance to the correct edge of the owning control.
         /// </summary>
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace AppendDockspace(string name)
-        {
-            return AppendDockspace(name, new Size(200, 200));
-        }
+        public KryptonDockingDockspace AppendDockspace(string name) => AppendDockspace(name, new Size(200, 200));
 
         /// <summary>
         /// Create and add a new dockspace instance to the correct edge of the owning control.
@@ -90,21 +85,16 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <param name="size">Initial size of the dockspace control.</param>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace AppendDockspace(string name, Size size)
-        {
-            return CreateAndInsertDockspace(Count, name, size);
-        }
+        public KryptonDockingDockspace AppendDockspace(string name, Size size) => CreateAndInsertDockspace(Count, name, size);
 
         /// <summary>
         /// Create and insert a new dockspace instance to the correct edge of the owning control.
         /// </summary>
         /// <param name="index">Insertion index.</param>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace InsertDockspace(int index)
-        {
+        public KryptonDockingDockspace InsertDockspace(int index) =>
             // Generate a unique string by creating a GUID
-            return InsertDockspace(index, CommonHelper.UniqueString);
-        }
+            InsertDockspace(index, CommonHelper.UniqueString);
 
         /// <summary>
         /// Create and insert a new dockspace instance to the correct edge of the owning control.
@@ -112,10 +102,7 @@ namespace Krypton.Docking
         /// <param name="index">Insertion index.</param>
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace InsertDockspace(int index, string name)
-        {
-            return InsertDockspace(index, name, new Size(200, 200));
-        }
+        public KryptonDockingDockspace InsertDockspace(int index, string name) => InsertDockspace(index, name, new Size(200, 200));
 
         /// <summary>
         /// Create and insert a new dockspace instance to the correct edge of the owning control.
@@ -124,20 +111,15 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the dockspace element.</param>
         /// <param name="size">Initial size of the dockspace control.</param>
         /// <returns>Reference to docking element that handles the new dockspace.</returns>
-        public KryptonDockingDockspace InsertDockspace(int index, string name, Size size)
-        {
-            return CreateAndInsertDockspace(index, name, size);
-        }
+        public KryptonDockingDockspace InsertDockspace(int index, string name, Size size) => CreateAndInsertDockspace(index, name, size);
 
         /// <summary>
         /// Find a edge docked element by searching the hierarchy.
         /// </summary>
        /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
         /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
-        public override KryptonDockingEdgeDocked FindDockingEdgeDocked(string uniqueName)
-        {
-            return this;
-        }        
+        public override KryptonDockingEdgeDocked FindDockingEdgeDocked(string uniqueName) => this;
+
         #endregion
 
         #region Protected
