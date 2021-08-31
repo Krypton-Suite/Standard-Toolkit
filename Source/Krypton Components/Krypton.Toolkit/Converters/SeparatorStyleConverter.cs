@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the SeparatorStyleConverter clas.
+        /// Initialize a new instance of the SeparatorStyleConverter class.
         /// </summary>
         public SeparatorStyleConverter()
             : base(typeof(SeparatorStyle))

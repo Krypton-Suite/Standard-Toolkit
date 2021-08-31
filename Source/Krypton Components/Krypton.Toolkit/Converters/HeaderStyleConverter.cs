@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the HeaderStyleConverter clas.
+        /// Initialize a new instance of the HeaderStyleConverter class.
         /// </summary>
         public HeaderStyleConverter()
             : base(typeof(HeaderStyle))

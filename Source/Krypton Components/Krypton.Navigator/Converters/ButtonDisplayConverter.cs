@@ -24,7 +24,7 @@ namespace Krypton.Navigator
                                              
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the ButtonDisplayConverter clas.
+        /// Initialize a new instance of the ButtonDisplayConverter class.
         /// </summary>
         public ButtonDisplayConverter()
             : base(typeof(ButtonDisplay))

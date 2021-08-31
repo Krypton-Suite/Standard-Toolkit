@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the HeaderGroupCollapseTargetConverter clas.
+        /// Initialize a new instance of the HeaderGroupCollapseTargetConverter class.
         /// </summary>
         public HeaderGroupCollapsedTargetConverter()
             : base(typeof(HeaderGroupCollapsedTarget))

@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the StringLookupConverter clas.
+        /// Initialize a new instance of the StringLookupConverter class.
         /// </summary>
         public StringLookupConverter(Type enumType)
             : base(enumType)

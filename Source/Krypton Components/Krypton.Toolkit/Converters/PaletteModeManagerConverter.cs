@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteModeManagerConverter clas.
+        /// Initialize a new instance of the PaletteModeManagerConverter class.
         /// </summary>
         public PaletteModeManagerConverter()
             : base(typeof(PaletteModeManager))

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the DataGridViewStyleConverter clas.
+        /// Initialize a new instance of the DataGridViewStyleConverter class.
         /// </summary>
         public DataGridViewStyleConverter()
             : base(typeof(DataGridViewStyle))

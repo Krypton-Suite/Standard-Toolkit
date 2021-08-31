@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteContentStyleConverter clas.
+        /// Initialize a new instance of the PaletteContentStyleConverter class.
         /// </summary>
         public PaletteContentStyleConverter()
             : base(typeof(PaletteContentStyle))
