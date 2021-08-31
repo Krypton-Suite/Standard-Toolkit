@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteButtonOrientation clas.
+        /// Initialize a new instance of the PaletteButtonOrientation class.
         /// </summary>
         public PaletteButtonOrientationConverter()
             : base(typeof(PaletteButtonOrientation))

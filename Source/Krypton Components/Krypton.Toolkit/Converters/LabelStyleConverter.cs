@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the LabelStyleConverter clas.
+        /// Initialize a new instance of the LabelStyleConverter class.
         /// </summary>
         public LabelStyleConverter()
             : base(typeof(LabelStyle))

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteImageEffectConverter clas.
+        /// Initialize a new instance of the PaletteImageEffectConverter class.
         /// </summary>
         public PaletteImageEffectConverter()
             : base(typeof(PaletteImageEffect))

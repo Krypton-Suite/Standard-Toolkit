@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the TabStyleConverter clas.
+        /// Initialize a new instance of the TabStyleConverter class.
         /// </summary>
         public TabStyleConverter()
             : base(typeof(TabStyle))

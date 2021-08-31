@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteDrawBordersConverter clas.
+        /// Initialize a new instance of the PaletteDrawBordersConverter class.
         /// </summary>
         public PaletteDrawBordersConverter()
             : base(typeof(PaletteDrawBorders))

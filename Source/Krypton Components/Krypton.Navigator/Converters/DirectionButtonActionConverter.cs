@@ -24,7 +24,7 @@ namespace Krypton.Navigator
                                              
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the DirectionButtonActionConverter clas.
+        /// Initialize a new instance of the DirectionButtonActionConverter class.
         /// </summary>
         public DirectionButtonActionConverter()
             : base(typeof(DirectionButtonAction))

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteBackStyleConverter clas.
+        /// Initialize a new instance of the PaletteBackStyleConverter class.
         /// </summary>
         public PaletteBackStyleConverter()
             : base(typeof(PaletteBackStyle))

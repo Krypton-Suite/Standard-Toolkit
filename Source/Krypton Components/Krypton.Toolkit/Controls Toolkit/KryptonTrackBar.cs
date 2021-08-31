@@ -74,10 +74,13 @@ namespace Krypton.Toolkit
             _overridePressed = new PaletteTrackBarPositionStatesOverride(OverrideFocus, StatePressed, PaletteState.FocusOverride);
 
             // Create the view manager instance
-            _drawTrackBar = new ViewDrawTrackBar(_overrideNormal, StateDisabled, _overrideTracking, _overridePressed, NeedPaintDelegate);
+            _drawTrackBar = new ViewDrawTrackBar(_overrideNormal, StateDisabled, _overrideTracking, _overridePressed, NeedPaintDelegate)
+            {
+                IgnoreRender = false, // (DrawBackground is true)
+                RightToLeft = RightToLeft
+            };
             _drawTrackBar.ValueChanged += OnDrawValueChanged;
             _drawTrackBar.Scroll += OnDrawScroll;
-            _drawTrackBar.RightToLeft = RightToLeft;
             ViewManager = new ViewManager(this, _drawTrackBar);
         }
         #endregion
@@ -473,21 +476,23 @@ namespace Krypton.Toolkit
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
-            _drawTrackBar.SetFixedState(state);
-        }
+        public virtual void SetFixedState(PaletteState state) => _drawTrackBar.SetFixedState(state);
 
         /// <summary>
         /// Gets and sets if the control should draw the background.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Browsable(false)]
+        [Category("Visuals")]
+        [Description("Draw Background (Default = true);\r\nNote: Does not draw correctly in designer if false.")]
+        [RefreshProperties(RefreshProperties.Repaint)]
         public bool DrawBackground
         {
             get => !_drawTrackBar.IgnoreRender;
             set => _drawTrackBar.IgnoreRender = !value;
         }
+
+        private bool ShouldSerializeDrawBackground() => !DrawBackground;
+
+        private void ResetDrawBackground() => DrawBackground = true;
 
         /// <summary>
         /// Gets and sets if the control is in the ribbon design mode.

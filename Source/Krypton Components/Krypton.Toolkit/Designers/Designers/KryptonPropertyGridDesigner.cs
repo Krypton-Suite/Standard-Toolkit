@@ -16,10 +16,8 @@ namespace Krypton.Toolkit
     {
         #region Identity
         /// <summary>Initializes a new instance of the <see cref="KryptonPropertyGridDesigner" /> class.</summary>
-        public KryptonPropertyGridDesigner()
-        {
-            AutoResizeHandles = true;
-        }
+        public KryptonPropertyGridDesigner() => AutoResizeHandles = true;
+
         #endregion
 
         #region Public Override

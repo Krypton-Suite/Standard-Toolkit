@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the GridStyleConverter clas.
+        /// Initialize a new instance of the GridStyleConverter class.
         /// </summary>
         public GridStyleConverter()
             : base(typeof(GridStyle))

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the InputControlStyleConverter clas.
+        /// Initialize a new instance of the InputControlStyleConverter class.
         /// </summary>
         public InputControlStyleConverter()
             : base(typeof(InputControlStyle))
