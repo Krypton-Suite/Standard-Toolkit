@@ -23,7 +23,7 @@ namespace Krypton.Navigator
                                              
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PopupPagePositionConverter clas.
+        /// Initialize a new instance of the PopupPagePositionConverter class.
         /// </summary>
         public PopupPageAllowConverter()
             : base(typeof(PopupPageAllow))

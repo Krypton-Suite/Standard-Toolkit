@@ -24,7 +24,7 @@ namespace Krypton.Navigator
                                              
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the CloseButtonActionConverter clas.
+        /// Initialize a new instance of the CloseButtonActionConverter class.
         /// </summary>
         public CloseButtonActionConverter()
             : base(typeof(CloseButtonAction))

@@ -23,7 +23,7 @@ namespace Krypton.Navigator
                                              
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the NavigatorMode clas.
+        /// Initialize a new instance of the NavigatorMode class.
         /// </summary>
         public NavigatorModeConverter()
             : base(typeof(NavigatorMode))

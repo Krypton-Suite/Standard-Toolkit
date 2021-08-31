@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteTextTrimConverter clas.
+        /// Initialize a new instance of the PaletteTextTrimConverter class.
         /// </summary>
         public PaletteTextTrimConverter()
             : base(typeof(PaletteTextTrim))

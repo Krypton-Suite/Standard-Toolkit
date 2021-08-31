@@ -23,7 +23,7 @@ namespace Krypton.Navigator
                                              
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the BarItemSizingConverter clas.
+        /// Initialize a new instance of the BarItemSizingConverter class.
         /// </summary>
         public BarItemSizingConverter()
             : base(typeof(BarItemSizing))

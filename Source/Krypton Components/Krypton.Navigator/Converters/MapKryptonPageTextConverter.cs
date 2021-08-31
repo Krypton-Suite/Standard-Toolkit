@@ -24,7 +24,7 @@ namespace Krypton.Navigator
                                              
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the MapKryptonPageTextConverter clas.
+        /// Initialize a new instance of the MapKryptonPageTextConverter class.
         /// </summary>
         public MapKryptonPageTextConverter()
             : base(typeof(MapKryptonPageText))
