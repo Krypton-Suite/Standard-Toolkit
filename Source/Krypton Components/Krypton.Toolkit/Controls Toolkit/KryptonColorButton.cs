@@ -1386,7 +1386,7 @@ namespace Krypton.Toolkit
             if (!cea.Cancel)
             {
                 // Use a standard color dialog for the selection of custom colors
-                ColorDialog cd = new()
+                ColorDialog cd = new() // TODO: Replace with Krypton equivelent
                 {
                     Color = SelectedColor,
                     FullOpen = true
