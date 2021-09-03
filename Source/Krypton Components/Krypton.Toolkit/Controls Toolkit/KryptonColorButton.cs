@@ -43,6 +43,8 @@ namespace Krypton.Toolkit
         private bool _wasEnabled;
         private bool _isDefault;
         private bool _useMnemonic;
+        private bool _showColorOnly;
+        private bool _allowFullOpen;
 
         // Context menu items
         private readonly KryptonContextMenu _kryptonContextMenu;
@@ -128,6 +130,8 @@ namespace Krypton.Toolkit
             _useMnemonic = true;
             MaxRecentColors = 10;
             _recentColors = new List<Color>();
+            _showColorOnly = false;
+            _allowFullOpen = false;
 
             // Create the context menu items
             _kryptonContextMenu = new KryptonContextMenu();
@@ -784,7 +788,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Determins the IME status of the object when selected.
+        /// Determines the IME status of the object when selected.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -792,6 +796,33 @@ namespace Krypton.Toolkit
         {
             get => base.ImeMode;
             set => base.ImeMode = value;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show color only].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [show color only]; otherwise, <c>false</c>.
+        /// </value>
+        [DefaultValue(false), Description("Shows the selected color only.")]
+        public bool ShowColorOnly
+        {
+            get => _showColorOnly;
+
+            set
+            {
+                _showColorOnly = value;
+
+                Invalidate();
+            }
+        }
+
+        [DefaultValue(false), Description("Full color dialog.")]
+        public bool AllowFullOpen
+        {
+            get => _allowFullOpen;
+
+            set => _allowFullOpen = value;
         }
         #endregion
 
@@ -915,6 +946,20 @@ namespace Krypton.Toolkit
 
             // If we have an attached command then execute it
             KryptonCommand?.PerformExecute();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (_showColorOnly)
+            {
+                SelectedRect = new Rectangle(0, 0, 40, 20);
+            }
+            else
+            {
+                SelectedRect = new Rectangle(0, 12, 16, 4);
+            }
+
+            base.OnPaint(e);
         }
 
         /// <summary>
@@ -1389,7 +1434,7 @@ namespace Krypton.Toolkit
                 KryptonColorDialog cd = new()
                 {
                     Color = SelectedColor,
-                    FullOpen = true
+                    FullOpen = _allowFullOpen
                 };
 
                 // Only if user selected a value do we want to use it
