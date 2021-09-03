@@ -43,7 +43,6 @@ namespace Krypton.Toolkit
         private bool _wasEnabled;
         private bool _isDefault;
         private bool _useMnemonic;
-        private bool _showColorOnly;
         private bool _allowFullOpen;
 
         // Context menu items
@@ -130,8 +129,7 @@ namespace Krypton.Toolkit
             _useMnemonic = true;
             MaxRecentColors = 10;
             _recentColors = new List<Color>();
-            _showColorOnly = false;
-            _allowFullOpen = false;
+            _allowFullOpen = true;
 
             // Create the context menu items
             _kryptonContextMenu = new KryptonContextMenu();
@@ -798,26 +796,7 @@ namespace Krypton.Toolkit
             set => base.ImeMode = value;
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether [show color only].
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [show color only]; otherwise, <c>false</c>.
-        /// </value>
-        [DefaultValue(false), Description("Shows the selected color only.")]
-        public bool ShowColorOnly
-        {
-            get => _showColorOnly;
-
-            set
-            {
-                _showColorOnly = value;
-
-                Invalidate();
-            }
-        }
-
-        [DefaultValue(false), Description("Full color dialog.")]
+        [DefaultValue(true), Description("Full color dialog.")]
         public bool AllowFullOpen
         {
             get => _allowFullOpen;
@@ -946,21 +925,7 @@ namespace Krypton.Toolkit
 
             // If we have an attached command then execute it
             KryptonCommand?.PerformExecute();
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            if (_showColorOnly)
-            {
-                SelectedRect = new Rectangle(0, 0, 40, 20);
-            }
-            else
-            {
-                SelectedRect = new Rectangle(0, 12, 16, 4);
-            }
-
-            base.OnPaint(e);
-        }
+        } 
 
         /// <summary>
         /// Processes a mnemonic character.
