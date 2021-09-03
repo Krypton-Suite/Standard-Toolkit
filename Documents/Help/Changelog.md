@@ -1,6 +1,11 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
-## 2101-09-01 - Build 2109 - September 2021 (Canary)
+## 2021-10-01 - Build 2110 - October 2021 (Canary)
+* The `KryptonColorButton` now uses the `KryptonColorDialog`
+
+=======
+
+## 2021-09-01 - Build 2109 - September 2021 (Canary)
 * Implemented [#304](https://github.com/Krypton-Suite/Standard-Toolkit/issues/304),[Feature Request]: Track Bar "Back Color" needed in State#### Designer control(s)
     - Add "DrawBackground" as a visible Designer element
 * Implemented [#227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/227), [Bug]: OverrideFocus Designer settings do not work or Prevent Ribbon MouseOver Highlighting
