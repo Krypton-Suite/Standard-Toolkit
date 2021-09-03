@@ -43,6 +43,7 @@ namespace Krypton.Toolkit
         private bool _wasEnabled;
         private bool _isDefault;
         private bool _useMnemonic;
+        private bool _allowFullOpen;
 
         // Context menu items
         private readonly KryptonContextMenu _kryptonContextMenu;
@@ -128,6 +129,7 @@ namespace Krypton.Toolkit
             _useMnemonic = true;
             MaxRecentColors = 10;
             _recentColors = new List<Color>();
+            _allowFullOpen = true;
 
             // Create the context menu items
             _kryptonContextMenu = new KryptonContextMenu();
@@ -784,7 +786,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Determins the IME status of the object when selected.
+        /// Determines the IME status of the object when selected.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -792,6 +794,14 @@ namespace Krypton.Toolkit
         {
             get => base.ImeMode;
             set => base.ImeMode = value;
+        }
+
+        [DefaultValue(true), Description("Full color dialog.")]
+        public bool AllowFullOpen
+        {
+            get => _allowFullOpen;
+
+            set => _allowFullOpen = value;
         }
         #endregion
 
@@ -915,7 +925,7 @@ namespace Krypton.Toolkit
 
             // If we have an attached command then execute it
             KryptonCommand?.PerformExecute();
-        }
+        } 
 
         /// <summary>
         /// Processes a mnemonic character.
@@ -1389,7 +1399,7 @@ namespace Krypton.Toolkit
                 KryptonColorDialog cd = new()
                 {
                     Color = SelectedColor,
-                    FullOpen = true
+                    FullOpen = _allowFullOpen
                 };
 
                 // Only if user selected a value do we want to use it
