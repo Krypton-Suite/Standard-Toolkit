@@ -1378,15 +1378,15 @@ namespace Krypton.Toolkit
 
         private void OnClickMoreColors(object sender, EventArgs e)
         {
-            // Give user a chance to cancel showing the standard more colors dialog
+            // Give user a chance to cancel showing the Krypton more colors dialog
             CancelEventArgs cea = new();
             OnMoreColors(cea);
 
             // If not instructed to cancel then...
             if (!cea.Cancel)
             {
-                // Use a standard color dialog for the selection of custom colors
-                ColorDialog cd = new()
+                // Use a Krypton color dialog for the selection of custom colors
+                KryptonColorDialog cd = new()
                 {
                     Color = SelectedColor,
                     FullOpen = true
