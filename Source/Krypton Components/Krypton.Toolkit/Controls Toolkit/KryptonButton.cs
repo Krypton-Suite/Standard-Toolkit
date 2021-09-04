@@ -47,19 +47,6 @@ namespace Krypton.Toolkit
         [Category("Property Changed")]
         [Description("Occurs when the value of the KryptonCommand property changes.")]
         public event EventHandler KryptonCommandChanged;
-
-        /// <summary></summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="ExecuteProcessAsAdministratorEventArgs"/> instance containing the event data.</param>
-        public delegate void ExecuteProcessAsAdministratorEventHandler(object sender, ExecuteProcessAsAdministratorEventArgs e);
-
-        /// <summary>The execute process as administrator</summary>
-        public event ExecuteProcessAsAdministratorEventHandler ExecuteProcessAsAdministrator;
-
-        /// <summary>Executes the process as an administrator.</summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="ExecuteProcessAsAdministratorEventArgs" /> instance containing the event data.</param>
-        protected virtual void OnExecuteProcessAsAdministrator(object sender, ExecuteProcessAsAdministratorEventArgs e) => ExecuteProcessAsAdministrator?.Invoke(sender, e);
         #endregion
 
         #region Identity
@@ -582,20 +569,12 @@ namespace Krypton.Toolkit
 
             if (_useAsUACElevationButton)
             {
-                if (_processToElevate != null || !string.IsNullOrWhiteSpace(_processToElevate))
-                {
-                    ExecuteProcessAsAdministratorEventArgs administrativeTask = new ExecuteProcessAsAdministratorEventArgs(_processToElevate);
+                Bitmap rawUACShield = SystemIcons.Shield.ToBitmap();
 
-                    OnExecuteProcessAsAdministrator(this, administrativeTask);
-                }
-                else
-                {
-                    throw new ArgumentNullException();
-                }
-            }
-            else
-            {
-                Values.Image = null;
+                // Resize rawUACShield down to 16 x 16 to make it fit
+                Bitmap resizedUACShield = new Bitmap(rawUACShield, new Size(16, 16));
+
+                Values.Image = resizedUACShield;
             }
         }
 
