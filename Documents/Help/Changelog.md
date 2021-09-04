@@ -5,7 +5,7 @@
 * The `KryptonColorButton` now uses the `KryptonColorDialog`
 * Fixed [#315](https://github.com/Krypton-Suite/Standard-Toolkit/issues/315), When adding a new KContextmenu, How do you change it's name etc
   - Sort out the Callback actions that were removed
-* Fixed [323](https://github.com/Krypton-Suite/Standard-Toolkit/issues/323), `KryptonCheckButton` Click removes image
+* Fixed [#323](https://github.com/Krypton-Suite/Standard-Toolkit/issues/323), `KryptonCheckButton` Click removes image
   
 =======
 
