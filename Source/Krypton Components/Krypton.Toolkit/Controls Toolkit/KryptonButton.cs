@@ -574,7 +574,14 @@ namespace Krypton.Toolkit
                 // Resize rawUACShield down to 16 x 16 to make it fit
                 Bitmap resizedUACShield = new Bitmap(rawUACShield, new Size(16, 16));
 
-                Values.Image = resizedUACShield;
+                if (Values.Image == null)
+                {
+                    Values.Image = resizedUACShield;
+                }
+                else if (Values.Image != null)
+                {
+                    // TODO: If Values.Image is set, and then image becomes null, to then display the UAC icon
+                }
             }
         }
 
