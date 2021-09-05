@@ -37,7 +37,6 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand _command;
         private bool _useAsDialogButton, _isDefault, _useMnemonic, _wasEnabled, _useAsUACElevationButton;
-        private string _processToElevate;
         #endregion
 
         #region Events
@@ -118,8 +117,6 @@ namespace Krypton.Toolkit
             _useAsDialogButton = false;
             
             _useAsUACElevationButton = false;
-
-            _processToElevate = string.Empty;
         }
         #endregion
 
@@ -440,13 +437,6 @@ namespace Krypton.Toolkit
         {
             get => base.ImeMode;
             set => base.ImeMode = value;
-        }
-
-        [DefaultValue(""), Description("The process path to elevate.")]
-        public string ProcessToElevate 
-        { 
-            get => _processToElevate; 
-            set => _processToElevate = value; 
         }
         #endregion
 
