@@ -37,7 +37,6 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand _command;
         private bool _useAsDialogButton, _isDefault, _useMnemonic, _wasEnabled, _useAsUACElevationButton;
-        private string _processToElevate;
         #endregion
 
         #region Events
@@ -47,19 +46,6 @@ namespace Krypton.Toolkit
         [Category("Property Changed")]
         [Description("Occurs when the value of the KryptonCommand property changes.")]
         public event EventHandler KryptonCommandChanged;
-
-        /// <summary></summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="ExecuteProcessAsAdministratorEventArgs"/> instance containing the event data.</param>
-        public delegate void ExecuteProcessAsAdministratorEventHandler(object sender, ExecuteProcessAsAdministratorEventArgs e);
-
-        /// <summary>The execute process as administrator</summary>
-        public event ExecuteProcessAsAdministratorEventHandler ExecuteProcessAsAdministrator;
-
-        /// <summary>Executes the process as an administrator.</summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="ExecuteProcessAsAdministratorEventArgs" /> instance containing the event data.</param>
-        protected virtual void OnExecuteProcessAsAdministrator(object sender, ExecuteProcessAsAdministratorEventArgs e) => ExecuteProcessAsAdministrator?.Invoke(sender, e);
         #endregion
 
         #region Identity
@@ -131,8 +117,6 @@ namespace Krypton.Toolkit
             _useAsDialogButton = false;
             
             _useAsUACElevationButton = false;
-
-            _processToElevate = string.Empty;
         }
         #endregion
 
@@ -454,13 +438,6 @@ namespace Krypton.Toolkit
             get => base.ImeMode;
             set => base.ImeMode = value;
         }
-
-        [DefaultValue(""), Description("The process path to elevate.")]
-        public string ProcessToElevate 
-        { 
-            get => _processToElevate; 
-            set => _processToElevate = value; 
-        }
         #endregion
 
         #region IContentValues
@@ -582,20 +559,19 @@ namespace Krypton.Toolkit
 
             if (_useAsUACElevationButton)
             {
-                if (_processToElevate != null || !string.IsNullOrWhiteSpace(_processToElevate))
-                {
-                    ExecuteProcessAsAdministratorEventArgs administrativeTask = new ExecuteProcessAsAdministratorEventArgs(_processToElevate);
+                Bitmap rawUACShield = SystemIcons.Shield.ToBitmap();
 
-                    OnExecuteProcessAsAdministrator(this, administrativeTask);
-                }
-                else
+                // Resize rawUACShield down to 16 x 16 to make it fit
+                Bitmap resizedUACShield = new Bitmap(rawUACShield, new Size(16, 16));
+
+                if (Values.Image == null)
                 {
-                    throw new ArgumentNullException();
+                    Values.Image = resizedUACShield;
                 }
-            }
-            else
-            {
-                Values.Image = null;
+                else if (Values.Image != null)
+                {
+                    // TODO: If Values.Image is set, and then image becomes null, to then display the UAC icon
+                }
             }
         }
 
