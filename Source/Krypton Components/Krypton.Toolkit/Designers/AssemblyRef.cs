@@ -13,7 +13,7 @@ internal static class FXAssembly
     // internal const string Version = "4.0.0.0";
     
     // SKC: Not sure what the above is saying, but it's does not seem to make the controls work !
-#if NETFRAMEWORK
+#if NETFRAMEWORK || NETCOREAPP3_1
     internal const string Version = "4.0.0.0";
 #elif NET5_0
     internal const string Version = "5.0.0.0";
