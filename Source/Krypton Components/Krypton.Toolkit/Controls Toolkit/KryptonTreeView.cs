@@ -744,7 +744,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the internal padding space.
         /// </summary>
-        //[DefaultValue(typeof(Padding), "1,1,1,1")]
+        [DefaultValue(typeof(Padding), "1,1,1,1")]
         public new Padding Padding
         {
             get => base.Padding;
@@ -838,8 +838,8 @@ namespace Krypton.Toolkit
         [Category("Behavior")]
         [Description("The default image index for nodes.")]
         [Localizable(true)]
-        [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Design, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
+        [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Toolkit")]
+        [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [RelatedImageList("ImageList")]
         [DefaultValue(-1)]
@@ -856,7 +856,7 @@ namespace Krypton.Toolkit
         [Description("The default image key for the nodes.")]
         [Localizable(true)]
         [TypeConverter(typeof(ImageKeyConverter))]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [RelatedImageList("ImageList")]
         [DefaultValue("")]
@@ -921,8 +921,8 @@ namespace Krypton.Toolkit
         [Category("Behavior")]
         [Description("The default image index for selected nodes.")]
         [Localizable(true)]
-        [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Design, Version=6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e")]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
+        [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Toolkit")]
+        [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [RelatedImageList("ImageList")]
         [DefaultValue(-1)]
         public int SelectedImageIndex
@@ -938,7 +938,7 @@ namespace Krypton.Toolkit
         [Description("The default image for selected nodes.")]
         [Localizable(true)]
         [TypeConverter(typeof(ImageKeyConverter))]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [RelatedImageList("ImageList")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue("")]
@@ -1074,7 +1074,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("The root nodes in the KryptonTreeView control.")]
-        [Editor("System.Windows.Forms.Design.TreeNodeCollectionEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.TreeNodeCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]

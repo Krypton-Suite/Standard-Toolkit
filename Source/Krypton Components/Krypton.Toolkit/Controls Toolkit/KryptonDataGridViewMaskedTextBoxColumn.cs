@@ -274,7 +274,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates whether the text to be copied to the clipboard includes literals and/or prompt characters.")]
-        //[DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
         public MaskFormat CutCopyMaskFormat
         {
             get =>
@@ -400,7 +400,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates the masked text box input character typing mode.")]
-        //[DefaultValue(typeof(InsertKeyMode), "Default")]
+        [DefaultValue(typeof(InsertKeyMode), "Default")]
         public InsertKeyMode InsertKeyMode
         {
             get =>
@@ -694,7 +694,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates whether the string returned from the Text property includes literal and/or prompt characters.")]
-        //[DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
         public MaskFormat TextMaskFormat
         {
             get =>

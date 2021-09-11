@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Category("Behavior")]
         [Description("Indicates the checked state of the command.")]
-        //[DefaultValue(typeof(CheckState), "Unchecked")]
+        [DefaultValue(typeof(CheckState), "Unchecked")]
         public CheckState CheckState
         {
             get => _checkState;

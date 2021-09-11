@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Behavior")]
         [Description("Padding used around the image selection area.")]
-        //[DefaultValue(typeof(Padding), "2,2,2,2")]
+        [DefaultValue(typeof(Padding), "2,2,2,2")]
         public Padding Padding
         {
             get => _padding;
@@ -202,7 +202,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Visuals")]
         [Description("Button style used for each image item.")]
-        //[DefaultValue(typeof(ButtonStyle), "LowProfile")]
+        [DefaultValue(typeof(ButtonStyle), "LowProfile")]
         public ButtonStyle ButtonStyle
         {
             get => _style;

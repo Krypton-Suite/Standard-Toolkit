@@ -245,7 +245,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Data")]
         [Description("Indicates the amount to increment or decrement one each button click.")]
-        //[DefaultValue(typeof(decimal), "1")]
+        [DefaultValue(typeof(decimal), "1")]
         public decimal Increment
         {
             get => NumericUpDown.Increment;
@@ -258,7 +258,7 @@ namespace Krypton.Ribbon
         [Category("Data")]
         [Description("Indicates the maximum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
-        //[DefaultValue(typeof(decimal), "100")]
+        [DefaultValue(typeof(decimal), "100")]
         public decimal Maximum
         {
             get => NumericUpDown.Maximum;
@@ -271,7 +271,7 @@ namespace Krypton.Ribbon
         [Category("Data")]
         [Description("Indicates the minimum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
-        //[DefaultValue(typeof(decimal), "0")]
+        [DefaultValue(typeof(decimal), "0")]
         public decimal Minimum
         {
             get => NumericUpDown.Minimum;
@@ -296,7 +296,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("The current value of the numeric up-down control.")]
-        //[DefaultValue(typeof(decimal), "0")]
+        [DefaultValue(typeof(decimal), "0")]
         [Bindable(true)]
         public decimal Value
         {
@@ -309,7 +309,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the text should be aligned for edit controls.")]
-        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
@@ -334,7 +334,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the up-down control will position the up down buttons relative to its text box.")]
-        //[DefaultValue(typeof(LeftRightAlignment), "Right")]
+        [DefaultValue(typeof(LeftRightAlignment), "Right")]
         [Localizable(true)]
         public LeftRightAlignment UpDownAlign
         {
@@ -441,7 +441,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the minimum size of the control.")]
-        //[DefaultValue(typeof(Size), "121, 0")]
+        [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
             get => NumericUpDown.MinimumSize;
@@ -453,7 +453,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the maximum size of the control.")]
-        //[DefaultValue(typeof(Size), "121, 0")]
+        [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
             get => NumericUpDown.MaximumSize;

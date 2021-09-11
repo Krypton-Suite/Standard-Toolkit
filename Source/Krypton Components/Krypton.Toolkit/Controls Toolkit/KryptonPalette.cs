@@ -195,7 +195,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Should KryptonForm instances show custom chrome.")]
-        //[DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(typeof(InheritBool), "Inherit")]
         public InheritBool AllowFormChrome
         {
             get => _allowFormChrome;
@@ -2546,7 +2546,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false, false)]
         [Category("Visuals")]
         [Description("Base palette used to inherit from.")]
-        //[DefaultValue(typeof(PaletteMode), "Office365Blue")]
+        [DefaultValue(typeof(PaletteMode), "Office365Blue")]
         public PaletteMode BasePaletteMode
         {
             get => _basePaletteMode;
@@ -2680,7 +2680,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false, false)]
         [Category("Visuals")]
         [Description("Renderer used to inherit from.")]
-        //[DefaultValue(typeof(RendererMode), "Inherit")]
+        [DefaultValue(typeof(RendererMode), "Inherit")]
         public RendererMode BaseRenderMode
         {
             get => _baseRenderMode;

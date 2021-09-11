@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Manages a collection of KryptonBreadCrumbItems
         /// </summary>
-        [Editor(typeof(KryptonBreadCrumbItemsEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.KryptonBreadCrumbItemsEditor", typeof(UITypeEditor))]
         public class BreadCrumbItems : TypedCollection<KryptonBreadCrumbItem>
         {
             #region Instance Fields

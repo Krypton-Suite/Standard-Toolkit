@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Behavior")]
         [Description("The shortcut key combination associated with the menu item.")]
-        //[DefaultValue(typeof(Keys), "None")]
+        [DefaultValue(typeof(Keys), "None")]
         [Localizable(true)]
         public Keys ShortcutKeys
         {
@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
         [Category("Appearance")]
         [Description("Indicates the checked state of the menu item.")]
         [RefreshProperties(RefreshProperties.All)]
-        //[DefaultValue(typeof(CheckState), "Unchecked")]
+        [DefaultValue(typeof(CheckState), "Unchecked")]
         [Bindable(true)]
         public CheckState CheckState
         {
@@ -546,7 +546,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("Collection of sub-menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonContextMenuCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.KryptonContextMenuCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         public KryptonContextMenuCollection Items { get; }
 
         /// <summary>

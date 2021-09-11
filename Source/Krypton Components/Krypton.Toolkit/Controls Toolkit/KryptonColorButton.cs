@@ -355,7 +355,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Color scheme to use for the themes color set.")]
-        //[DefaultValue(typeof(ColorScheme), "OfficeThemes")]
+        [DefaultValue(typeof(ColorScheme), "OfficeThemes")]
         public ColorScheme SchemeThemes { get; set; }
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Color scheme to use for the standard color set.")]
-        //[DefaultValue(typeof(ColorScheme), "OfficeStandard")]
+        [DefaultValue(typeof(ColorScheme), "OfficeStandard")]
         public ColorScheme SchemeStandard { get; set; }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Selected color.")]
-        //[DefaultValue(typeof(Color), "Red")]
+        [DefaultValue(typeof(Color), "Red")]
         public Color SelectedColor
         {
             get => _selectedColor;
@@ -396,7 +396,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Border color of selected block when selected color is empty.")]
-        //[DefaultValue(typeof(Color), "DarkGray")]
+        [DefaultValue(typeof(Color), "DarkGray")]
         public Color EmptyBorderColor
         {
             get => _emptyBorderColor;
@@ -418,7 +418,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Selected color drawing rectangle.")]
-        //[DefaultValue(typeof(Rectangle), "0,12,16,4")]
+        [DefaultValue(typeof(Rectangle), "0,12,16,4")]
         public Rectangle SelectedRect
         {
             get => _selectedRect;
@@ -436,7 +436,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual orientation of the control.")]
-        //[DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation ButtonOrientation
         {
             get => _drawButton.Orientation;
@@ -456,7 +456,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Position of the drop arrow within the color button.")]
-        //[DefaultValue(typeof(VisualOrientation), "Right")]
+        [DefaultValue(typeof(VisualOrientation), "Right")]
         public virtual VisualOrientation DropDownPosition
         {
             get => _drawButton.DropDownPosition;
@@ -476,7 +476,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Orientation of the drop arrow within the color button.")]
-        //[DefaultValue(typeof(VisualOrientation), "Bottom")]
+        [DefaultValue(typeof(VisualOrientation), "Bottom")]
         public virtual VisualOrientation DropDownOrientation
         {
             get
@@ -660,7 +660,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("The dialog-box result produced in a modal form by clicking the color button.")]
-        //[DefaultValue(typeof(DialogResult), "None")]
+        [DefaultValue(typeof(DialogResult), "None")]
         public DialogResult DialogResult { get; set; }
 
         /// <summary>

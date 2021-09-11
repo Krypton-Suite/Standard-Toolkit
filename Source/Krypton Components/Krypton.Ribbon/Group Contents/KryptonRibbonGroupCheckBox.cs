@@ -249,7 +249,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Behavior")]
         [Description("Determines whether the group check box is checked.")]
-        //[DefaultValue(typeof(CheckState), "Unchecked")]
+        [DefaultValue(typeof(CheckState), "Unchecked")]
         public CheckState CheckState
         {
             get => _checkState;
@@ -365,7 +365,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Tooltip style for the group check box.")]
-        //[DefaultValue(typeof(LabelStyle), "SuperTip")]
+        [DefaultValue(typeof(LabelStyle), "SuperTip")]
         public LabelStyle ToolTipStyle { get; set; }
 
         /// <summary>

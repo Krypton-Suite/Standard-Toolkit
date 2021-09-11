@@ -225,23 +225,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>Gets or sets the process to elevate.</summary>
-        /// <value>The process to elevate.</value>
-        public string ProcessToElevate
-        {
-            get => _button.ProcessToElevate;
-
-            set
-            {
-                if (_button.ProcessToElevate != value)
-                {
-                    _service.OnComponentChanged(_button, null, _button.ProcessToElevate, value);
-
-                    _button.ProcessToElevate = value;
-                }
-            }
-        }
+        
         #endregion
 
         #region Public Override

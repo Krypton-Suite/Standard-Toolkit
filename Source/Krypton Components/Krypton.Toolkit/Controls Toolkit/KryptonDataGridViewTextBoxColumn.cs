@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the maximum number of characters that can be entered into the text box.
         /// </summary>
         [Category("Behavior")]
-        //[DefaultValue(typeof(int), "32767")]
+        [DefaultValue(typeof(int), "32767")]
         public int MaxInputLength
         {
             get =>
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the sort mode for the column.
         /// </summary>
-        //[DefaultValue(typeof(DataGridViewColumnSortMode), "Automatic")]
+        [DefaultValue(typeof(DataGridViewColumnSortMode), "Automatic")]
         public new DataGridViewColumnSortMode SortMode
         {
             get => base.SortMode;

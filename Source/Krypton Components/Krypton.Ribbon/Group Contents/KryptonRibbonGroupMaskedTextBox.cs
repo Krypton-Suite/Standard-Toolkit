@@ -358,7 +358,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the minimum size of the control.")]
-        //[DefaultValue(typeof(Size), "121, 0")]
+        [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
             get => MaskedTextBox.MinimumSize;
@@ -370,7 +370,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the maximum size of the control.")]
-        //[DefaultValue(typeof(Size), "121, 0")]
+        [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
             get => MaskedTextBox.MaximumSize;
@@ -425,7 +425,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the text associated with the control.
         /// </summary>
         [Category("Appearance")]
-        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         public string Text
         {
             get => MaskedTextBox.Text;
@@ -531,7 +531,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the text should be aligned for edit controls.")]
-        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
@@ -610,7 +610,7 @@ namespace Krypton.Ribbon
         [Category("Behavior")]
         [Description("Indicates whether the text to be copied to the clipboard includes literals and/or prompt characters.")]
         [RefreshProperties(RefreshProperties.All)]
-        //[DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
         public MaskFormat CutCopyMaskFormat
         {
             get => MaskedTextBox.CutCopyMaskFormat;
@@ -635,7 +635,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates the masked text box input character typing mode.")]
-        //[DefaultValue(typeof(InsertKeyMode), "Default")]
+        [DefaultValue(typeof(InsertKeyMode), "Default")]
         public InsertKeyMode InsertKeyMode
         {
             get => MaskedTextBox.InsertKeyMode;
@@ -735,7 +735,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates whether the string returned from the Text property includes literal and/or prompt characters.")]
-        //[DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public MaskFormat TextMaskFormat
         {

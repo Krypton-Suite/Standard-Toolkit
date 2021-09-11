@@ -89,7 +89,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Primary header style.")]
-        //[DefaultValue(typeof(HeaderStyle), "Primary")]
+        [DefaultValue(typeof(HeaderStyle), "Primary")]
         public HeaderStyle HeaderStylePrimary
         {
             get => _headerStylePrimary;
@@ -111,7 +111,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Secondary header style.")]
-        //[DefaultValue(typeof(HeaderStyle), "Secondary")]
+        [DefaultValue(typeof(HeaderStyle), "Secondary")]
         public HeaderStyle HeaderStyleSecondary
         {
             get => _headerStyleSecondary;
@@ -133,7 +133,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Bar header style.")]
-        //[DefaultValue(typeof(HeaderStyle), "Secondary")]
+        [DefaultValue(typeof(HeaderStyle), "Secondary")]
         public HeaderStyle HeaderStyleBar
         {
             get => _headerStyleBar;
@@ -155,7 +155,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Edge position of the primary header.")]
-        //[DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation HeaderPositionPrimary
         {
             get => _headerPositionPrimary;
@@ -177,7 +177,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Edge position of the secondary header.")]
-        //[DefaultValue(typeof(VisualOrientation), "Bottom")]
+        [DefaultValue(typeof(VisualOrientation), "Bottom")]
         public VisualOrientation HeaderPositionSecondary
         {
             get => _headerPositionSecondary;
@@ -199,7 +199,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Edge position of the bar header.")]
-        //[DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation HeaderPositionBar
         {
             get => _headerPositionBar;

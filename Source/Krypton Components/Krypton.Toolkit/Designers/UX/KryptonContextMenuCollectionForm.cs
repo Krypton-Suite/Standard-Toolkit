@@ -11,8 +11,6 @@
 #endregion
 
 
-using System.Linq;
-
 using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit

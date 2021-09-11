@@ -21,9 +21,10 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonButton), "ToolboxBitmaps.KryptonButton.bmp")]
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
-    [Designer("Krypton.Toolkit.KryptonButtonDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Raises an event when the user clicks it.")]
+    [Designer("Krypton.Toolkit.KryptonButtonDesigner, Krypton.Toolkit")]
+
     public class KryptonButton : VisualSimpleBase, IButtonControl, IContentValues
     {
         #region Instance Fields
@@ -177,7 +178,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual orientation of the control.")]
-        //[DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -223,11 +224,25 @@ namespace Krypton.Toolkit
             ButtonStyle = ButtonStyle.Standalone;
         }
 
-        [DefaultValue(false), Description("If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
-        public bool UseAsADialogButton { get => _useAsDialogButton; set => _useAsDialogButton = value; }
+        [DefaultValue(false), 
+         Description("If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
+        public bool UseAsADialogButton 
+        { 
+            get => _useAsDialogButton; 
+            set => _useAsDialogButton = value; 
+        }
 
-        [DefaultValue(false), Description("Transforms the button into a UAC elevated button.")]
-        public bool UseAsUACElevationButton { get => _useAsUACElevationButton; set { _useAsUACElevationButton = value; ShowUACShield(value); } }
+        [DefaultValue(false), 
+         Description("Transforms the button into a UAC elevated button.")]
+        public bool UseAsUACElevationButton 
+        { 
+            get => _useAsUACElevationButton; 
+            set 
+            { 
+                _useAsUACElevationButton = value; 
+                ShowUACShield(value); 
+            } 
+        }
 
         /// <summary>
         /// Gets access to the button content.
@@ -314,7 +329,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("The dialog-box result produced in a modal form by clicking the button.")]
-        //[DefaultValue(typeof(DialogResult), "None")]
+        [DefaultValue(typeof(DialogResult), "None")]
         public DialogResult DialogResult { get; set; }
 
         /// <summary>

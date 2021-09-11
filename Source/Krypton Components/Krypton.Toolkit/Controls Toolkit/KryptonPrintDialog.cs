@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
     /// </remarks>
     [DefaultProperty(nameof(Document))]
     [Description(@"PrintDialog")]
-    [Designer("System.Windows.Forms.Design.PrintDialogDesigner")]
+    [Designer("System.Windows.Forms.Design.PrintDialogDesigner, " + AssemblyRef.SystemDesign)]
     public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
     {
         private readonly CommonDialogHandler _commonDialogHandler;
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
         /////  UseEXDialog = false means to never use the EX versions of the dialog.
         /////  ShowHelp &amp; ShowNetwork will work in this case.
         ///// </summary>
-        //[DefaultValue(false)]
+        [DefaultValue(false)]
         //[Description(@"UseEX Dialog")]
         //public bool UseEXDialog
         //{
