@@ -12,7 +12,9 @@
 
 namespace Krypton.Toolkit
 {
-    [Designer(typeof(KryptonPropertyGridDesigner)), ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersionOne.bmp"), ToolboxItem(true)]
+    [Designer(@"Krypton.Toolkit.KryptonPropertyGridDesigner, Krypton.Toolkit")]
+    [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersionOne.bmp")]
+    [ToolboxItem(true)]
     public class KryptonPropertyGrid : PropertyGrid
     {
         #region Variables

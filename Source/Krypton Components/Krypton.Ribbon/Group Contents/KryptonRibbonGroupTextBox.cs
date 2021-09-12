@@ -342,7 +342,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the minimum size of the control.")]
-        //[DefaultValue(typeof(Size), "121, 0")]
+        [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
             get => TextBox.MinimumSize;
@@ -354,7 +354,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the maximum size of the control.")]
-        //[DefaultValue(typeof(Size), "121, 0")]
+        [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
             get => TextBox.MaximumSize;
@@ -378,7 +378,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("The lines of text in a multiline edit, as an array of String values.")]
-        [Editor("System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -393,7 +393,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
-        //[DefaultValue(typeof(ScrollBars), "None")]
+        [DefaultValue(typeof(ScrollBars), "None")]
         [Localizable(true)]
         public ScrollBars ScrollBars
         {
@@ -406,7 +406,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the text should be aligned for edit controls.")]
-        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
@@ -494,7 +494,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates if all the characters should be left alone or converted to uppercase or lowercase.")]
-        //[DefaultValue(typeof(CharacterCasing), "Normal")]
+        [DefaultValue(typeof(CharacterCasing), "Normal")]
         public CharacterCasing CharacterCasing
         {
             get => TextBox.CharacterCasing;
@@ -582,7 +582,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
         [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -597,7 +597,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the text completion behavior of the textbox.
         /// </summary>
         [Description("Indicates the text completion behavior of the textbox.")]
-        //[DefaultValue(typeof(AutoCompleteMode), "None")]
+        [DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteMode AutoCompleteMode
@@ -610,7 +610,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
         [Description("The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
-        //[DefaultValue(typeof(AutoCompleteSource), "None")]
+        [DefaultValue(typeof(AutoCompleteSource), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteSource AutoCompleteSource

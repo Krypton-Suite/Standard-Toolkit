@@ -86,7 +86,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Padding used around the bar when displaying tabs.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingTabs
         {
@@ -117,7 +117,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Padding used around the bar when placed inside the group.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingInside
         {
@@ -148,7 +148,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Padding used around the bar when placed outside the group.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingOutside
         {
@@ -179,7 +179,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Padding used around the bar when placed on its own.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingOnly
         {
@@ -210,7 +210,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Padding used around each button on the button bar.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding ButtonPadding
         {

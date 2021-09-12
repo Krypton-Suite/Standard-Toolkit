@@ -252,7 +252,7 @@ namespace Krypton.Ribbon
         [Category("Data")]
         [Description("The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [Localizable(true)]
         public DomainUpDown.DomainUpDownItemCollection Items => DomainUpDown.Items;
 
@@ -305,7 +305,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the text should be aligned for edit controls.")]
-        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
@@ -319,7 +319,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the up-down control will position the up down buttons relative to its text box.")]
-        //[DefaultValue(typeof(LeftRightAlignment), "Right")]
+        [DefaultValue(typeof(LeftRightAlignment), "Right")]
         [Localizable(true)]
         public LeftRightAlignment UpDownAlign
         {
@@ -426,7 +426,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the minimum size of the control.")]
-        //[DefaultValue(typeof(Size), "121, 0")]
+        [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
             get => DomainUpDown.MinimumSize;
@@ -438,7 +438,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the maximum size of the control.")]
-        //[DefaultValue(typeof(Size), "121, 0")]
+        [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
             get => DomainUpDown.MaximumSize;

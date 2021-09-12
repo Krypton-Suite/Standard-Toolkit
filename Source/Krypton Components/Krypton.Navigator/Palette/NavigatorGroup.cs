@@ -63,7 +63,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Group back style.")]
-        //[DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
+        [DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
         public PaletteBackStyle GroupBackStyle
         {
             get => _groupBackStyle;
@@ -85,7 +85,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Visuals")]
         [Description("Group border style.")]
-        //[DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
+        [DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
         public PaletteBorderStyle GroupBorderStyle
         {
             get => _groupBorderStyle;

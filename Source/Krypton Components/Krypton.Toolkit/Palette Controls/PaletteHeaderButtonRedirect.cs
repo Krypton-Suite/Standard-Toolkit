@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Padding used around each button on the header.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding ButtonPadding
         {

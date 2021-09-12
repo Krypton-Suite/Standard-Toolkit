@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
                 /// Gets and sets the image transparent color.
                 /// </summary>
                 [Category("Appearance")]
-                //[DefaultValue(typeof(Color), "")]
+                [DefaultValue(typeof(Color), "")]
                 public Color ImageTransparentColor
                 {
                     get => _item.ImageTransparentColor;

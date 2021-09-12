@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Relative horizontal alignment of content image.")]
-        //[DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageH
         {
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Relative vertical alignment of content image.")]
-        //[DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageV
         {
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Effect applied to drawing the image.")]
-        //[DefaultValue(typeof(PaletteImageEffect), "Inherit")]
+        [DefaultValue(typeof(PaletteImageEffect), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteImageEffect Effect
         {

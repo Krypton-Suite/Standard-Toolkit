@@ -201,7 +201,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("ToolMenuStatus")]
         [Description("Should rendering use rounded or square edges.")]
-        //[DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(typeof(InheritBool), "Inherit")]
         public InheritBool UseRoundedEdges
         {
             get => InternalKCT.InternalUseRoundedEdges;

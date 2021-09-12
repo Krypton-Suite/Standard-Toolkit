@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
         [Category("Appearance")]
         [Description("Darker base color used for drawing an Office 2010 style application button.")]
         [KryptonDefaultColor()]
-        //[DefaultValue(typeof(Color), "31, 72, 161")]
+        [DefaultValue(typeof(Color), "31, 72, 161")]
         public Color AppButtonBaseColorDark
         {
             get => _appButtonBaseColorDark;
@@ -173,7 +173,7 @@ namespace Krypton.Ribbon
         [Category("Appearance")]
         [Description("Lighter base color used for drawing an Office 2010 style application button.")]
         [KryptonDefaultColor()]
-        //[DefaultValue(typeof(Color), "84, 158, 243")]
+        [DefaultValue(typeof(Color), "84, 158, 243")]
         public Color AppButtonBaseColorLight
         {
             get => _appButtonBaseColorLight;
@@ -197,7 +197,7 @@ namespace Krypton.Ribbon
         [Category("Appearance")]
         [Description("Text color used for drawing an Office 2010 style application button.")]
         [KryptonDefaultColor()]
-        //[DefaultValue(typeof(Color), "White")]
+        [DefaultValue(typeof(Color), "White")]
         public Color AppButtonTextColor
         {
             get => _appButtonTextColor;
@@ -245,7 +245,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Context menu items for the application button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonContextMenuItemCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         public virtual KryptonContextMenuItemCollection AppButtonMenuItems => _appButtonMenuItems.Items;
 
         #endregion
@@ -257,7 +257,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Recent document entries for the application buttton.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonRibbonRecentDocCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonRibbonRecentDocCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         public virtual KryptonRibbonRecentDocCollection AppButtonRecentDocs { get; }
 
         #endregion
@@ -268,7 +268,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Values")]
         [Description("Minimum size of the recent documents area of the application button.")]
-        //[DefaultValue(typeof(Size), "250,250")]
+        [DefaultValue(typeof(Size), "250,250")]
         public Size AppButtonMinRecentSize { get; set; }
 
         #endregion
@@ -279,7 +279,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Values")]
         [Description("Maximum size of the recent documents area of the application button.")]
-        //[DefaultValue(typeof(Size), "350,350")]
+        [DefaultValue(typeof(Size), "350,350")]
         public Size AppButtonMaxRecentSize { get; set; }
 
         #endregion
@@ -312,7 +312,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Tooltip style for the application button.")]
-        //[DefaultValue(typeof(LabelStyle), "SuperTip")]
+        [DefaultValue(typeof(LabelStyle), "SuperTip")]
         [Localizable(true)]
         public LabelStyle AppButtonToolTipStyle { get; set; }
 

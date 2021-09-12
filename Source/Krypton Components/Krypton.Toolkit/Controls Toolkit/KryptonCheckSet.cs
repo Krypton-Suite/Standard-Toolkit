@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
         [Category("Behavior")]
         [Description("Determine which of the associated buttons is checked.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonCheckButtonCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.KryptonCheckButtonCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.All)]
         public KryptonCheckButtonCollection CheckButtons { get; }
 

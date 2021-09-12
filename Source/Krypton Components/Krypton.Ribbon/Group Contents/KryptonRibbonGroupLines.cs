@@ -289,7 +289,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        //[DefaultValue(typeof(GroupItemSize), "Large")]
+        [DefaultValue(typeof(GroupItemSize), "Large")]
         [RefreshProperties(RefreshProperties.All)]
         public GroupItemSize MaximumSize
         {
@@ -305,7 +305,7 @@ namespace Krypton.Ribbon
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        //[DefaultValue(typeof(GroupItemSize), "Small")]
+        [DefaultValue(typeof(GroupItemSize), "Small")]
         [RefreshProperties(RefreshProperties.All)]
         public GroupItemSize MinimumSize
         {
@@ -440,7 +440,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group line items.")]
         [MergableProperty(false)]
-        [Editor(typeof(KryptonRibbonGroupLinesCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonRibbonGroupLinesCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupLinesCollection Items { get; }
 

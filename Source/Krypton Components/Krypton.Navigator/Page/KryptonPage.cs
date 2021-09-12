@@ -20,7 +20,7 @@ namespace Krypton.Navigator
     [ToolboxBitmap(typeof(KryptonPage), "ToolboxBitmaps.KryptonPage.bmp")]
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
-    [Designer(typeof(KryptonPageDesigner))]
+    [Designer(@"Krypton.Navigator.KryptonPageDesigner, Krypton.Navigator")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     public class KryptonPage : VisualPanel
@@ -619,7 +619,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Page tooltip title text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipTitle
         {
@@ -677,7 +677,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Appearance")]
         [Description("Page tooltip label style.")]
-        //[DefaultValue(typeof(LabelStyle), "ToolTip")]
+        [DefaultValue(typeof(LabelStyle), "ToolTip")]
         public virtual LabelStyle ToolTipStyle
         {
             get => _toolTipStyle;
