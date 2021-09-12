@@ -582,20 +582,15 @@ namespace Krypton.Toolkit
 
             if (_useAsUACElevationButton)
             {
-                if (_processToElevate != null || !string.IsNullOrWhiteSpace(_processToElevate))
-                {
-                    ExecuteProcessAsAdministratorEventArgs administrativeTask = new ExecuteProcessAsAdministratorEventArgs(_processToElevate);
+                Bitmap rawUACShield = SystemIcons.Shield.ToBitmap();
 
-                    OnExecuteProcessAsAdministrator(this, administrativeTask);
-                }
-                else
+                // Resize rawUACShield down to 16 x 16 to make it fit
+                Bitmap resizedUACShield = new Bitmap(rawUACShield, new Size(16, 16));
+
+                if (Values.Image == null)
                 {
-                    throw new ArgumentNullException();
+                    Values.Image = resizedUACShield;
                 }
-            }
-            else
-            {
-                Values.Image = null;
             }
         }
 

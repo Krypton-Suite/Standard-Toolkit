@@ -1,5 +1,10 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
+## 2101-09-12 - Build 2109.1 - September 2021 (Canary Update 1)
+* Fixed an issue where a image on a `KryptonButton` would disappear if a user clicked on it. A more robust fix is coming in build 2110 
+
+=======
+
 ## 2101-09-01 - Build 2109 - September 2021 (Canary)
 * Implemented [#304](https://github.com/Krypton-Suite/Standard-Toolkit/issues/304),[Feature Request]: Track Bar "Back Color" needed in State#### Designer control(s)
     - Add "DrawBackground" as a visible Designer element
