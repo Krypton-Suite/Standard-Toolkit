@@ -6,7 +6,8 @@
 * Fixed [#315](https://github.com/Krypton-Suite/Standard-Toolkit/issues/315), When adding a new KContextmenu, How do you change it's name etc
   - Sort out the Callback actions that were removed
 * Fixed [#323](https://github.com/Krypton-Suite/Standard-Toolkit/issues/323), `KryptonCheckButton` Click removes image
-  
+* Fixed [#333](https://github.com/Krypton-Suite/Standard-Toolkit/issues/333), Krypton Form - ButtonSpec (And Icon), are Cut Off when maximised
+
 =======
 
 ## 2021-09-01 - Build 2109 - September 2021 (Canary)
