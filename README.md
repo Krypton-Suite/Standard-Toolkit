@@ -10,6 +10,16 @@
 
 # NuGet Information
 
+## Nightly
+
+| Module Name | Current Version | Github License | 
+|---|---|---|
+| <img src="https://img.shields.io/badge/Module-Toolkit-000080.svg?style=flat-square" />           | [![Nuget](https://img.shields.io/nuget/v/Krypton.Toolkit.Nightly?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Toolkit.Nightly/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
+| <img src="https://img.shields.io/badge/Module-Docking-000080.svg?style=flat-square" />        | [![Nuget](https://img.shields.io/nuget/v/Krypton.Docking.Nightly?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Docking.Nightly/)               | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
+| <img src="https://img.shields.io/badge/Module-Navigator-000080.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/v/Krypton.Navigator.Nightly?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Navigator.Nightly/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
+| <img src="https://img.shields.io/badge/Module-Ribbon-000080.svg?style=flat-square" />         | [![Nuget](https://img.shields.io/nuget/v/Krypton.Ribbon.Nightly?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Ribbon.Nightly/)                 | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
+| <img src="https://img.shields.io/badge/Module-Workspace-000080.svg?style=flat-square" />      | [![Nuget](https://img.shields.io/nuget/v/Krypton.Workspace.Nightly?label=Version&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Krypton.Workspace.Nightly/)           | ![GitHub](https://img.shields.io/github/license/Krypton-Suite/Standard-Toolkit.svg?style=flat-square) |
+
 ## Canary
 
 | Module Name | Current Version | Github License | 

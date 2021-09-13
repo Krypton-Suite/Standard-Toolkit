@@ -3,21 +3,14 @@
 ## 2021-10-01 - Build 2110 - October 2021 (Canary)
 * New `KryptonColorButton` action list options
 * The `KryptonColorButton` now uses the `KryptonColorDialog`
-* Fixed [#313](https://github.com/Krypton-Suite/Standard-Toolkit/issues/313), KryptonMessagebox is not RTL compliant
-
-=======
-
-## 2101-09-12 - Build 2109.1 - September 2021 (Canary Update 1)
+* Fixed [#313](https://github.com/Krypton-Suite/Standard-Toolkit/issues/313), KryptonMessagebox is not RTL 
+* Implement [#335](https://github.com/Krypton-Suite/Standard-Toolkit/issues/335), Create 'Nightly' NuGet packages When Merges into alpha are done
 * Fixed [#315](https://github.com/Krypton-Suite/Standard-Toolkit/issues/315), When adding a new KContextmenu, How do you change it's name etc
 - Sort out the Callback actions that were removed
 * Fixed [#323](https://github.com/Krypton-Suite/Standard-Toolkit/issues/323), `KryptonCheckButton` Click removes image
 - Sort out the Callback actions that were removed
 * Fixed [#316](https://github.com/Krypton-Suite/Standard-Toolkit/issues/316), Restore `KryptonKInputBox` layout to initial intent.
 * Fixed [#333](https://github.com/Krypton-Suite/Standard-Toolkit/issues/333), Krypton Form - ButtonSpec (And Icon), are Cut Off when maximised
-
-=======
-
-## 2021-09-01 - Build 2109 - September 2021 (Canary)
 * Implemented [#304](https://github.com/Krypton-Suite/Standard-Toolkit/issues/304), [Feature Request]: Track Bar "Back Color" needed in State#### Designer control(s)
     - Add "DrawBackground" as a visible Designer element
 * Implemented [#227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/227), [Bug]: OverrideFocus Designer settings do not work or Prevent Ribbon MouseOver Highlighting
