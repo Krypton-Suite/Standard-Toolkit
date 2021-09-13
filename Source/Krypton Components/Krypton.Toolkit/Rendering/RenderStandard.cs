@@ -6066,7 +6066,7 @@ namespace Krypton.Toolkit
             {
                 for (int col = 0; col < 3; col++)
                 {
-                    // Store the widest cell in each column
+                    // Store the Highest cell in each column
                     if (allocation[col, row].Height > rowHeights[row])
                     {
                         rowHeights[row] = allocation[col, row].Height;

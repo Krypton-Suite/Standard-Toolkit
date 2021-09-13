@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         private static readonly Padding _contentPaddingHeader2 = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingDock = new(2, 2, 2, 1);
         private static readonly Padding _contentPaddingCalendar = new(2);
-        private static readonly Padding _contentPaddingHeaderForm = new(5, 2, 3, 0);
+        private static readonly Padding _contentPaddingHeaderForm = new(10, 6, 3, 0); // 10 is from the RealWindowFrameSize +1
         private static readonly Padding _contentPaddingLabel = new(3, 1, 3, 1);
         private static readonly Padding _contentPaddingLabel2 = new(8, 2, 8, 2);
         private static readonly Padding _contentPaddingButtonInputControl = new(0);
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingRibbon = new(0, 1, 1, 1);
         private static readonly Padding _metricPaddingRibbonAppButton = new(3, 0, 3, 0);
         private static readonly Padding _metricPaddingHeader = new(0, 3, 1, 3);
-        private static readonly Padding _metricPaddingHeaderForm = new(0);
+        private static readonly Padding _metricPaddingHeaderForm = new(0, 3, 0, -3); // Move the Maximised Form buttons down a bit
         private static readonly Padding _metricPaddingInputControl = new(0, 1, 0, 1);
         private static readonly Padding _metricPaddingBarInside = new(3);
         private static readonly Padding _metricPaddingBarTabs = new(0);
@@ -114,22 +114,22 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
         private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
-                                                             Color.FromArgb(214, 220, 231), 
-                                                             Color.FromArgb(188, 198, 211), 
-                                                             Color.FromArgb(254, 254, 255), 
+                                                             Color.FromArgb(214, 220, 231),
+                                                             Color.FromArgb(188, 198, 211),
+                                                             Color.FromArgb(254, 254, 255),
                                                              Color.FromArgb(206, 213, 225)
                                                            };
 
-        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), 
+        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230),
                                                             Color.FromArgb(248, 230, 143),
-                                                            Color.FromArgb(238, 213, 126), 
-                                                            Color.FromArgb(254, 247, 129), 
+                                                            Color.FromArgb(238, 213, 126),
+                                                            Color.FromArgb(254, 247, 129),
                                                             Color.FromArgb(240, 201, 41)
                                                           };
 
-        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), 
+        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196),
                                                               Color.FromArgb(228, 198, 149),
-                                                              Color.FromArgb(166, 97, 7), 
+                                                              Color.FromArgb(166, 97, 7),
                                                               Color.FromArgb(242, 155, 57),
                                                               Color.FromArgb(236, 136, 9)
                                                             };
@@ -2793,7 +2793,7 @@ namespace Krypton.Toolkit
                 case PaletteMetricInt.CheckButtonGap:
                     return 5;
                 case PaletteMetricInt.HeaderButtonEdgeInsetForm:
-                    return 4;
+                    return 9; // Needs to be the RealWindowBorderWidth Offset - No idea how to get it at this point
                 case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                     return 1;
                 case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:

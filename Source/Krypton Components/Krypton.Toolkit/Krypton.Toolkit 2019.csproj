@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
+		<TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows;</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<RootNamespace>Krypton.Toolkit</RootNamespace>
 		<AssemblyName>Krypton.Toolkit</AssemblyName>
@@ -20,17 +20,30 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Reference Include="System.Windows.Forms.Design.Editors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Condition="$(TargetFramework.StartsWith('netcore'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+		</Reference>
+
 		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
 			<SpecificVersion>True</SpecificVersion>
 			<Version>4.0.0.0</Version>
 		</Reference>
+		<Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>5.0.0.0</Version>
+		</Reference>
+		<Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>6.0.0.0</Version>
+		</Reference>
 		<Reference Include="System.Drawing.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
-			<!-- Needed for `ParentControlDesigner` as this was moved from `System.Design`-->
+			 <!--Needed for `ParentControlDesigner` as this was moved from `System.Design`-->
 			<SpecificVersion>True</SpecificVersion>
 			<Version>5.0.0.0</Version>
 		</Reference>
 		<Reference Include="System.Drawing.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
-			<!-- Needed for `ParentControlDesigner` as this was moved from `System.Design`-->
+			 <!--Needed for `ParentControlDesigner` as this was moved from `System.Design`-->
 			<SpecificVersion>True</SpecificVersion>
 			<Version>6.0.0.0</Version>
 		</Reference>
@@ -60,15 +73,9 @@
 		<Compile Update="ButtonSpec\ButtonSpecCalendar.cs">
 			<SubType>Component</SubType>
 		</Compile>
-		<Compile Update="Controls Toolkit\KryptonColorDialog.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Update="Controls Toolkit\KryptonPrintDialog.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Update="Designers\Other\PaletteDrawBordersSelector.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Update="Controls Toolkit\KryptonColorDialog.cs" />
+		<Compile Update="Controls Toolkit\KryptonPrintDialog.cs" />
+		<Compile Update="Designers\Other\PaletteDrawBordersSelector.cs" />
 		<Compile Update="Controls Toolkit\KryptonBreadCrumbItem.cs">
 			<SubType>Component</SubType>
 		</Compile>
@@ -152,11 +159,6 @@
 		</Compile>
 		<Compile Update="Palette Builtin\PaletteOffice2007Base.cs">
 			<SubType>Component</SubType>
-		</Compile>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Rendering\RenderOffice2013.cs">
 			<SubType>Component</SubType>
@@ -367,11 +369,10 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>VisualTaskDialogImageResources.resx</DependentUpon>
 		</Compile>
-		<Compile Update="View Base\ViewControl.cs">
-			<SubType>Component</SubType>
-		</Compile>
+		<Compile Update="View Base\ViewControl.cs" />
 	</ItemGroup>
 	<ItemGroup>
+		<EmbeddedResource Include="ToolboxBitmaps\KryptonButton.bmp" />
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonTreeView.bmp" />
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonInputBox.bmp" />
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonTaskDialogCommand.bmp" />
@@ -380,7 +381,6 @@
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonTrackBar.bmp" />
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonManager.bmp" />
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonHeaderGroup.bmp" />
-		<EmbeddedResource Include="ToolboxBitmaps\KryptonButton.bmp" />
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonGroup.bmp" />
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonHeader.bmp" />
 		<EmbeddedResource Include="ToolboxBitmaps\KryptonPanel.bmp" />
@@ -534,6 +534,10 @@
 		<EmbeddedResource Remove="Toolkit\PaletteDrawBordersSelector.resx" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="Controls Toolkit\KryptonButton.bmp" />
+	  <None Remove="ToolboxBitmaps\KryptonButton.bmp" />
+	</ItemGroup>
+	<ItemGroup>
 		<EmbeddedResource Update="Resources\ColourScaleImageResources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>ColourScaleImageResources.Designer.cs</LastGenOutput>
@@ -553,10 +557,6 @@
 		<EmbeddedResource Update="Resources\MessageBoxResources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\BlueArrowResources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>

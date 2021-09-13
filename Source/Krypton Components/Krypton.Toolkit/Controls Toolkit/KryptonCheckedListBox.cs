@@ -1299,7 +1299,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the internal padding space.
         /// </summary>
-        //[DefaultValue(typeof(Padding), "1,1,1,1")]
+        [DefaultValue(typeof(Padding), "1,1,1,1")]
         public new Padding Padding
         {
             get => base.Padding;
@@ -1456,7 +1456,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates if the checked list box is to be single-select or not selectable. (Multi## not supported)")]
-        //[DefaultValue(typeof(CheckedSelectionMode), "One")]
+        [DefaultValue(typeof(CheckedSelectionMode), "One")]
         public virtual CheckedSelectionMode SelectionMode
         {
             get => _listBox.SelectionMode == System.Windows.Forms.SelectionMode.One
@@ -1485,7 +1485,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("The items in the KryptonCheckedListBox.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1510,7 +1510,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
         /// </summary>
         [Description("The format specifier characters that indicate how a value is to be displayed.")]
-        [Editor("System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
         public string FormatString

@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         /// 
         /// </summary>
         [Description("Describes the placement of where a Popup control appears on the screen.")]
-        //[DefaultValue(typeof(PlacementMode), "Bottom")]
+        [DefaultValue(typeof(PlacementMode), "Bottom")]
         public PlacementMode PlacementMode { get; set; }
 
         private bool ShouldSerializePlacementMode() => PlacementMode != PlacementMode.Bottom;

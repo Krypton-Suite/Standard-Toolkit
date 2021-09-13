@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         private static readonly Padding _contentPaddingHeader2 = new(2, 1, 2, 1);
         private static readonly Padding _contentPaddingDock = new(2, 2, 2, 1);
         private static readonly Padding _contentPaddingCalendar = new(2);
-        private static readonly Padding _contentPaddingHeaderForm = new(5, 2, 3, 0);
+        private static readonly Padding _contentPaddingHeaderForm = new(10, 6, 3, 0); // 10 is from the RealWindowFrameSize +1
         private static readonly Padding _contentPaddingLabel = new(3, 1, 3, 1);
         private static readonly Padding _contentPaddingLabel2 = new(8, 2, 8, 2);
         private static readonly Padding _contentPaddingButtonInputControl = new(0);
@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingRibbon = new(0, 1, 1, 1);
         private static readonly Padding _metricPaddingRibbonAppButton = new(3, 0, 3, 0);
         private static readonly Padding _metricPaddingHeader = new(0, 3, 1, 3);
-        private static readonly Padding _metricPaddingHeaderForm = new(0);
+        private static readonly Padding _metricPaddingHeaderForm = new(0, 3, 0, -3); // Move the Maximised Form buttons down a bit
         private static readonly Padding _metricPaddingInputControl = new(0, 1, 0, 1);
         private static readonly Padding _metricPaddingBarInside = new(3);
         private static readonly Padding _metricPaddingBarTabs = new(0);

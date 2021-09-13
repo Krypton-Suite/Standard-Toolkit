@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Shortcut to toggle the ribbon minimized mode.")]
-        //[DefaultValue(typeof(Keys), "F1, Control")]
+        [DefaultValue(typeof(Keys), "F1, Control")]
         public Keys ToggleMinimizeMode { get; set; }
 
         private bool ShouldSerializeToggleMinimizeMode() => (ToggleMinimizeMode != DEFAULT_TOGGLE_MINIMIZE_MODE);
@@ -84,7 +84,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Shortcut to toggle keyboard access to the ribbon.")]
-        //[DefaultValue(typeof(Keys), "Menu, Alt")]
+        [DefaultValue(typeof(Keys), "Menu, Alt")]
         public Keys ToggleKeyboardAccess1 { get; set; }
 
         private bool ShouldSerializeToggleKeyboardAccess1() => (ToggleKeyboardAccess1 != DEFAULT_TOGGLE_KEYBOARD_ACCESS1);
@@ -106,7 +106,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Shortcut to toggle keyboard access to the ribbon.")]
-        //[DefaultValue(typeof(Keys), "F10")]
+        [DefaultValue(typeof(Keys), "F10")]
         public Keys ToggleKeyboardAccess2 { get; set; }
 
         private bool ShouldSerializeToggleKeyboardAccess2() => (ToggleKeyboardAccess2 != DEFAULT_TOGGLE_KEYBOARD_ACCESS2);

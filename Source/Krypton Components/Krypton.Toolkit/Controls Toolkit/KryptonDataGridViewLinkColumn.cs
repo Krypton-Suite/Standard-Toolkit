@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the default label style of link cell.
         /// </summary>
         [Category("Appearance")]
-        //[DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _labelStyle;
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a value that represents the behavior of links within cells in the column.
         /// </summary>
         [Category("Behavior")]
-        //[DefaultValue(typeof(LinkBehavior), "AlwaysUnderline")]
+        [DefaultValue(typeof(LinkBehavior), "AlwaysUnderline")]
         public LinkBehavior LinkBehavior
         {
             get =>

@@ -691,7 +691,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the internal padding space.
         /// </summary>
-        //[DefaultValue(typeof(Padding), "1,1,1,1")]
+        [DefaultValue(typeof(Padding), "1,1,1,1")]
         public new Padding Padding
         {
             get => base.Padding;
@@ -837,7 +837,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates if the list box is to be single-select, multi-select or not selectable.")]
-        //[DefaultValue(typeof(SelectionMode), "One")]
+        [DefaultValue(typeof(SelectionMode), "One")]
         public virtual SelectionMode SelectionMode
         {
             get => _listBox.SelectionMode;
@@ -861,7 +861,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to use as the actual value of the items in the control.")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ValueMember
         {
@@ -888,8 +888,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
+        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string DisplayMember
         {
@@ -902,7 +902,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("The items in the KryptonListBox.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -912,7 +912,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
         /// </summary>
         [Description("The format specifier characters that indicate how a value is to be displayed.")]
-        [Editor("System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
         public string FormatString

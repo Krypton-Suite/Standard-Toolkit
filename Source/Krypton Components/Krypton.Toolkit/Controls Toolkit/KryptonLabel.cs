@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
         [Localizable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        //[DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public new AutoSizeMode AutoSizeMode
         {
             get => base.AutoSizeMode;
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Visual orientation of the control.")]
-        //[DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Visuals")]
         [Description("Label style.")]
-        //[DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _style;

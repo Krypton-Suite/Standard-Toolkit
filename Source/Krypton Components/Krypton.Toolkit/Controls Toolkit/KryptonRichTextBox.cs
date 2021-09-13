@@ -821,7 +821,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the alignment of the selection.
         /// </summary>
         [Browsable(false)]
-        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public HorizontalAlignment SelectionAlignment
         {
@@ -1078,7 +1078,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("The lines of text in a multiline edit, as an array of String values.")]
-        [Editor("System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1093,7 +1093,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
-        //[DefaultValue(typeof(RichTextBoxScrollBars), "Both")]
+        [DefaultValue(typeof(RichTextBoxScrollBars), "Both")]
         [Localizable(true)]
         public RichTextBoxScrollBars ScrollBars
         {

@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the internal padding space.
         /// </summary>
-        //[DefaultValue(typeof(Padding), "0,0,0,0")]
+        [DefaultValue(typeof(Padding), "0,0,0,0")]
         public new Padding Padding
         {
             get => base.Padding;
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Determines size of the track bar elements.")]
-        //[DefaultValue(typeof(PaletteTrackBarSize), "Medium")]
+        [DefaultValue(typeof(PaletteTrackBarSize), "Medium")]
         public PaletteTrackBarSize TrackBarSize
         {
             get => _drawTrackBar.TrackBarSize;
@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Determines where tick marks are displayed.")]
-        //[DefaultValue(typeof(TickStyle), "BottomRight")]
+        [DefaultValue(typeof(TickStyle), "BottomRight")]
         [RefreshProperties(RefreshProperties.All)]
         public TickStyle TickStyle
         {
@@ -339,7 +339,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Background style.")]
-        //[DefaultValue(typeof(Orientation), "Horizontal")]
+        [DefaultValue(typeof(Orientation), "Horizontal")]
         public Orientation Orientation
         {
             get => _drawTrackBar.Orientation;

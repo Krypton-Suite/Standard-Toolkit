@@ -453,7 +453,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("ToolTip")]
         [Description("Button tooltip label style.")]
-        //[DefaultValue(typeof(LabelStyle), "Tooltip")]
+        [DefaultValue(typeof(LabelStyle), "Tooltip")]
         public LabelStyle ToolTipStyle { get; set; }
 
         private bool ShouldSerializeToolTipStyle() => ToolTipStyle != LabelStyle.ToolTip;
@@ -658,7 +658,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Behavior")]
         [Description("Button style.")]
-        //[DefaultValue(typeof(PaletteButtonStyle), "Inherit")]
+        [DefaultValue(typeof(PaletteButtonStyle), "Inherit")]
         public PaletteButtonStyle Style
         {
             get => _style;

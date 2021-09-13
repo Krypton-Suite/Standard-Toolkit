@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Padding used to position the separator.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding Padding
         {

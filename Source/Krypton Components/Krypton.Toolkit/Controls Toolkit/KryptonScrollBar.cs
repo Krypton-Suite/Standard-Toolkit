@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// A custom scrollbar control.
     /// </summary>
-    [Designer(typeof(KryptonScrollBarDesigner))]
+    [Designer(@"Krypton.Toolkit.KryptonScrollBarDesigner, Krypton.Toolkit")]
     [DefaultEvent("Scroll")]
     [DefaultProperty("Value")]
     [ToolboxBitmap(typeof(VScrollBar))]

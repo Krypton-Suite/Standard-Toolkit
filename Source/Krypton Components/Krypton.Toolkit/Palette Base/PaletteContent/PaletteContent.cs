@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Should content be drawn.")]
-        //[DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual InheritBool Draw
         {
@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Should content be drawn with focus indication..")]
-        //[DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual InheritBool DrawFocus
         {
@@ -673,7 +673,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Padding between the border and content drawing.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Padding Padding
         {

@@ -178,7 +178,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The CutCopyMaskFormat property replicates the one from the KryptonMaskedTextBox control
         /// </summary>
-        //[DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
         public MaskFormat CutCopyMaskFormat
         {
             get => _cutCopyMaskFormat;
@@ -232,7 +232,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The InsertKeyMode property replicates the one from the KryptonMaskedTextBox control
         /// </summary>
-        //[DefaultValue(typeof(InsertKeyMode), "Default")]
+        [DefaultValue(typeof(InsertKeyMode), "Default")]
         public InsertKeyMode InsertKeyMode
         {
             get => _insertKeyMode;
@@ -358,7 +358,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The TextMaskFormat property replicates the one from the KryptonMaskedTextBox control
         /// </summary>
-        //[DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
         public MaskFormat TextMaskFormat
         {
             get => _textMaskFormat;
