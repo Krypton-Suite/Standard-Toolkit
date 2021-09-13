@@ -17,14 +17,25 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <!--<PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Canary.Lite</PackageId>
+      <!--For use with Nightly packages-->
+      <CurrentDate>$([System.DateTime]::Now.ToString(ddMMyyyy-hhmmss))</CurrentDate>
+
+      <!--<PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Canary.Lite</PackageId>
         <Description Condition="'$(TFMs)' == 'lite'">
           An update to Component factory's krypton toolkit to support .NET Core 3.1, .NET 5, .NET 6, and .net 4.8 Framework. $(Description)
 
           This package supports only .NET Framework >= 4.8, .NET Core 3.1 and .NET 5/6.
           If you require .NET Framework 3.5 -> 4.7.2 support, or want to use library fully build against your specific framework version, please use non-lite package.
         </Description>-->
-		<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>
+      
+      <!--Uncomment if you want Stable packages-->
+      <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId)</PackageId>-->
+      <!--Uncomment if you want Signed packages-->
+      <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Signed</PackageId>-->  
+      <!--Uncomment if you want Canary packages-->
+		  <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>-->
+      <!--Uncomment if you want Nightly packages-->
+      <PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Nightly-$(CurrentDate)</PackageId>
         <Description Condition="'$(TFMs)' == 'all'">
           An update to Component factory's krypton toolkit to support .NET Framework 4.6.2 - 4.8, .NET Core 3.1 and .NET 5/6. $(Description)
           
