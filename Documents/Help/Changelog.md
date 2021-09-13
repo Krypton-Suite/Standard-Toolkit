@@ -3,6 +3,7 @@
 ## 2021-10-01 - Build 2110 - October 2021 (Canary)
 * New `KryptonColorButton` action list options
 * The `KryptonColorButton` now uses the `KryptonColorDialog`
+* Fixed [#313](https://github.com/Krypton-Suite/Standard-Toolkit/issues/313), KryptonMessagebox is not RTL compliant
 
 =======
 
