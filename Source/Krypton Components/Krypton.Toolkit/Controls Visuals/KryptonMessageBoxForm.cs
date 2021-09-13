@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private readonly MessageBoxIcon _messageBoxIcon;
 
         private readonly MessageBoxDefaultButton _defaultButton;
-        private MessageBoxOptions _options; // TODO: What is this used for ? e.g. MessageBoxOptions.RTL
+        private MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
         // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
         private readonly IWin32Window _showOwner;
         private readonly HelpInfo _helpInfo;
@@ -88,6 +88,8 @@ namespace Krypton.Toolkit
             _helpInfo = helpInfo;
             _showOwner = showOwner;
 
+            RightToLeftLayout = _options.HasFlag(MessageBoxOptions.RtlReading);
+
             // Create the form contents
             InitializeComponent();
 
@@ -109,6 +111,11 @@ namespace Krypton.Toolkit
         {
             Text = (string.IsNullOrEmpty(_caption) ? string.Empty : _caption.Split(Environment.NewLine.ToCharArray())[0]);
             _messageText.Text = _text;
+            _messageText.RightToLeft =  _options.HasFlag(MessageBoxOptions.RightAlign) 
+                ? RightToLeft.Yes 
+                : _options.HasFlag(MessageBoxOptions.RtlReading) 
+                    ? RightToLeft.Inherit
+                    : RightToLeft.No;
         }
 
         private void UpdateTextExtra(bool? showCtrlCopy)
