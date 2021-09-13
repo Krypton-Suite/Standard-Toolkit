@@ -56,22 +56,14 @@ namespace Krypton.Toolkit
         public override Image GetDropDownButtonImage(PaletteState state)
         {
             // Grab state specific image
-            Image retImage = null;
-            switch(state)
+            Image retImage = state switch
             {
-                case PaletteState.Disabled:
-                    retImage = _images.Disabled;
-                    break;
-                case PaletteState.Normal:
-                    retImage = _images.Normal;
-                    break;
-                case PaletteState.Tracking:
-                    retImage = _images.Tracking;
-                    break;
-                case PaletteState.Pressed:
-                    retImage = _images.Pressed;
-                    break;
-            }
+                PaletteState.Disabled => _images.Disabled,
+                PaletteState.Normal => _images.Normal,
+                PaletteState.Tracking => _images.Tracking,
+                PaletteState.Pressed => _images.Pressed,
+                _ => null
+            };
 
             // Not found, then get the common image
             if (retImage == null)

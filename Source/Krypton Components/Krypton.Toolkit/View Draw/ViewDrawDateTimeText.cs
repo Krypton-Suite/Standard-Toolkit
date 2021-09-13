@@ -1722,24 +1722,16 @@ namespace Krypton.Toolkit
 
         private string GetFormat()
         {
-            string format = string.Empty;
-
-            switch (_dateTimePicker.Format)
+            string format = _dateTimePicker.Format switch
             {
-                case DateTimePickerFormat.Long:
-                    format = CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern;
-                    break;
-                case DateTimePickerFormat.Short:
-                    format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
-                    break;
-                case DateTimePickerFormat.Time:
-                    format = CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern;
-                    break;
-                case DateTimePickerFormat.Custom:
+                DateTimePickerFormat.Long => CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern,
+                DateTimePickerFormat.Short => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
+                DateTimePickerFormat.Time => CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern,
+                DateTimePickerFormat.Custom =>
                     // Use helper to ensure single character formats are handled correctly
-                    format = CommonHelper.MakeCustomDateFormat(_dateTimePicker.CustomFormat);
-                    break;
-            }
+                    CommonHelper.MakeCustomDateFormat(_dateTimePicker.CustomFormat),
+                _ => string.Empty
+            };
 
             return format;
         }

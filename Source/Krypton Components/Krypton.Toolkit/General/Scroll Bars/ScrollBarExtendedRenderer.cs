@@ -596,22 +596,12 @@ namespace Krypton.Toolkit
         /// <param name="state">The <see cref="ScrollBarState"/> of the thumb.</param>
         private static void DrawThumbVertical(Graphics g, Rectangle rect, ScrollBarState state)
         {
-            int index = 0;
-
-            switch (state)
+            int index = state switch
             {
-                case ScrollBarState.Hot:
-                    {
-                        index = 1;
-                        break;
-                    }
-
-                case ScrollBarState.Pressed:
-                    {
-                        index = 2;
-                        break;
-                    }
-            }
+                ScrollBarState.Hot => 1,
+                ScrollBarState.Pressed => 2,
+                _ => 0
+            };
 
             Rectangle innerRect = rect;
             innerRect.Inflate(-1, -1);
@@ -702,22 +692,12 @@ namespace Krypton.Toolkit
            Rectangle rect,
            ScrollBarState state)
         {
-            int index = 0;
-
-            switch (state)
+            int index = state switch
             {
-                case ScrollBarState.Hot:
-                    {
-                        index = 1;
-                        break;
-                    }
-
-                case ScrollBarState.Pressed:
-                    {
-                        index = 2;
-                        break;
-                    }
-            }
+                ScrollBarState.Hot => 1,
+                ScrollBarState.Pressed => 2,
+                _ => 0
+            };
 
             Rectangle innerRect = rect;
             innerRect.Inflate(-1, -1);

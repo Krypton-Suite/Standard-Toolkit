@@ -180,24 +180,15 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                float angle = 0;
-
                 // Use gradient angle to match the arrow direction
-                switch (e.Direction)
+                float angle = e.Direction switch
                 {
-                    case ArrowDirection.Right:
-                        angle = 0;
-                        break;
-                    case ArrowDirection.Left:
-                        angle = 180f;
-                        break;
-                    case ArrowDirection.Down:
-                        angle = 90f;
-                        break;
-                    case ArrowDirection.Up:
-                        angle = 270f;
-                        break;
-                }
+                    ArrowDirection.Right => 0,
+                    ArrowDirection.Left => 180f,
+                    ArrowDirection.Down => 90f,
+                    ArrowDirection.Up => 270f,
+                    _ => 0
+                };
 
                 // Draw the actual arrow using a gradient
                 using LinearGradientBrush arrowBrush = new(boundsF, color1, color2, angle);
@@ -301,16 +292,12 @@ namespace Krypton.Toolkit
                 }
 
                 // Decide what graphic to draw
-                Image drawImage = null;
-                switch (checkState)
+                Image drawImage = checkState switch
                 {
-                    case CheckState.Checked:
-                        drawImage = _contextMenuChecked;
-                        break;
-                    case CheckState.Indeterminate:
-                        drawImage = _contextMenuIndeterminate;
-                        break;
-                }
+                    CheckState.Checked => _contextMenuChecked,
+                    CheckState.Indeterminate => _contextMenuIndeterminate,
+                    _ => null
+                };
 
                 if (drawImage != null)
                 {

@@ -416,24 +416,17 @@ namespace Krypton.Toolkit
                                         HotkeyPrefix = HotkeyPrefix.None
                                     };
 
-                                    switch (states.Content.GetContentShortTextH(state))
+                                    stringFormat.Alignment = states.Content.GetContentShortTextH(state) switch
                                     {
-                                        case PaletteRelativeAlign.Near:
-                                            stringFormat.Alignment = NumericUpDown.RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Far
-                                                : StringAlignment.Near;
-
-                                            break;
-                                        case PaletteRelativeAlign.Far:
-                                            stringFormat.Alignment = NumericUpDown.RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Near
-                                                : StringAlignment.Far;
-
-                                            break;
-                                        case PaletteRelativeAlign.Center:
-                                            stringFormat.Alignment = StringAlignment.Center;
-                                            break;
-                                    }
+                                        PaletteRelativeAlign.Near => NumericUpDown.RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Far
+                                            : StringAlignment.Near,
+                                        PaletteRelativeAlign.Far => NumericUpDown.RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Near
+                                            : StringAlignment.Far,
+                                        PaletteRelativeAlign.Center => StringAlignment.Center,
+                                        _ => stringFormat.Alignment
+                                    };
 
                                     Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
                                     rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle,

@@ -10,6 +10,7 @@
 * Fixed [#316](https://github.com/Krypton-Suite/Standard-Toolkit/issues/316), Restore `KryptonKInputBox` layout to initial intent.
 * Fixed [#333](https://github.com/Krypton-Suite/Standard-Toolkit/issues/333), Krypton Form - ButtonSpec (And Icon), are Cut Off when maximised
 * Fixed [#313](https://github.com/Krypton-Suite/Standard-Toolkit/issues/313), KryptonMessagebox is not RTL compliant
+* Fixed [#320](https://github.com/Krypton-Suite/Standard-Toolkit/issues/320), `KryptonColorButton` "SelectedRect" will not do anything but a "Square"
 =======
 
 ## 2021-09-01 - Build 2109 - September 2021 (Canary)

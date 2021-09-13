@@ -247,24 +247,15 @@ namespace Krypton.Toolkit
         /// <returns>Image value.</returns>
         public virtual Image GetImage(PaletteState state)
         {
-            Image image = null;
-
             // Try and find a state specific image
-            switch (state)
+            Image image = state switch
             {
-                case PaletteState.Disabled:
-                    image = ImageStates.ImageDisabled;
-                    break;
-                case PaletteState.Normal:
-                    image = ImageStates.ImageNormal;
-                    break;
-                case PaletteState.Pressed:
-                    image = ImageStates.ImagePressed;
-                    break;
-                case PaletteState.Tracking:
-                    image = ImageStates.ImageTracking;
-                    break;
-            }
+                PaletteState.Disabled => ImageStates.ImageDisabled,
+                PaletteState.Normal => ImageStates.ImageNormal,
+                PaletteState.Pressed => ImageStates.ImagePressed,
+                PaletteState.Tracking => ImageStates.ImageTracking,
+                _ => null
+            };
 
             // If there is no image then use the generic image
             return image ?? Image;

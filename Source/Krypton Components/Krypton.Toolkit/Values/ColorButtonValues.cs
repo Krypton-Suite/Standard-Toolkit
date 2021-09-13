@@ -34,6 +34,7 @@ namespace Krypton.Toolkit
         private Color _selectedColor;
         private Color _emptyBorderColor;
         private Rectangle _selectedRect;
+        private sbyte _roundedCorners;
         #endregion
 
         #region Events
@@ -42,7 +43,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public event EventHandler TextChanged;
         #endregion
-        
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ColorButtonValues class.
@@ -63,6 +64,7 @@ namespace Krypton.Toolkit
             _emptyBorderColor = Color.Gray;
             _selectedColor = Color.Red;
             _selectedRect = new Rectangle(0, 12, 16, 4);
+            _roundedCorners = 0;
         }
         #endregion
 
@@ -75,7 +77,9 @@ namespace Krypton.Toolkit
                                            (Image == _defaultImage) &&
                                            (ImageTransparentColor == Color.Empty) &&
                                            (Text == _defaultText) &&
-                                           (ExtraText == _defaultExtraText));
+                                           (ExtraText == _defaultExtraText)
+                                           && (_roundedCorners == 0)
+                                           );
 
         #endregion
 
@@ -245,8 +249,8 @@ namespace Krypton.Toolkit
         {
             get => _selectedColor;
 
-            set 
-            { 
+            set
+            {
                 _selectedColor = value;
                 _compositeImage = null;
             }
@@ -261,8 +265,8 @@ namespace Krypton.Toolkit
         {
             get => _emptyBorderColor;
 
-            set 
-            { 
+            set
+            {
                 _emptyBorderColor = value;
                 _compositeImage = null;
             }
@@ -277,12 +281,42 @@ namespace Krypton.Toolkit
         {
             get => _selectedRect;
 
-            set 
-            { 
+            set
+            {
                 _selectedRect = value;
                 _compositeImage = null;
             }
         }
+
+        /// <summary>
+        /// Gets and sets the selected color drawing rectangle.
+        /// </summary>
+        [Bindable(true)]
+        [Category("Appearance")]
+        [Description("Rounded color drawing rectangle.")]
+        [DefaultValue(0)]
+#pragma warning disable CS3003 // Type is not CLS-compliant
+        public sbyte RoundedCorners
+#pragma warning restore CS3003 // Type is not CLS-compliant
+        {
+            get => _roundedCorners;
+
+            set
+            {
+                _roundedCorners = value;
+                _compositeImage = null;
+            }
+        }
+        private bool ShouldSerializeRoundedCorners() => RoundedCorners != 0;
+
+        /// <summary>
+        /// Resets the Description property to its default value.
+        /// </summary>
+        public void ResetRoundedCorners()
+        {
+            RoundedCorners = 0;
+        }
+
         #endregion
 
         #region CreateImageStates
@@ -302,30 +336,18 @@ namespace Krypton.Toolkit
         /// <returns>Image value.</returns>
         public virtual Image GetImage(PaletteState state)
         {
-            Image image = null;
-
             // Try and find a state specific image
-            switch (state)
+            Image image = state switch
             {
-                case PaletteState.Disabled:
-                    image = ImageStates.ImageDisabled;
-                    break;
-                case PaletteState.Normal:
-                    image = ImageStates.ImageNormal;
-                    break;
-                case PaletteState.Pressed:
-                    image = ImageStates.ImagePressed;
-                    break;
-                case PaletteState.Tracking:
-                    image = ImageStates.ImageTracking;
-                    break;
-            }
+                PaletteState.Disabled => ImageStates.ImageDisabled,
+                PaletteState.Normal => ImageStates.ImageNormal,
+                PaletteState.Pressed => ImageStates.ImagePressed,
+                PaletteState.Tracking => ImageStates.ImageTracking,
+                _ => null
+            };
 
             // If there is no image then use the generic image
-            if (image == null)
-            {
-                image = Image;
-            }
+            image ??= Image;
 
             // Do we need to create another composite image?
             if ((_sourceImage != image) || (_compositeImage == null))
@@ -340,28 +362,28 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Create a copy of the source image
-                    Bitmap copyBitmap = new(image);
+                    Size selectedRectSize = _selectedRect.Size;
+                    Size imageSize = image.Size;
+                    Bitmap copyBitmap = new(image, Math.Max(selectedRectSize.Width, imageSize.Width), Math.Max(selectedRectSize.Height, imageSize.Height));
 
                     // Paint over the image with a color indicator
                     using (Graphics g = Graphics.FromImage(copyBitmap))
                     {
+                        g.SmoothingMode = SmoothingMode.AntiAlias;
                         // If the color is not defined, i.e. it is empty then...
                         if (_selectedColor.Equals(Color.Empty))
                         {
-                            // Indicate the absense of a color by drawing a border around 
+                            // Indicate the absence of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
                             using Pen borderPen = new(_emptyBorderColor);
-                            g.DrawRectangle(borderPen, new Rectangle(_selectedRect.X,
-                                _selectedRect.Y,
-                                _selectedRect.Width - 1,
-                                _selectedRect.Height - 1));
+                            DrawRoundedRectangle(g, borderPen, _selectedRect, _roundedCorners);
                         }
                         else
                         {
                             // We have a valid selected color so draw a solid block of color
                             using SolidBrush colorBrush = new(_selectedColor);
-                            g.FillRectangle(colorBrush, _selectedRect);
+                            FillRoundedRectangle(g, colorBrush, _selectedRect, _roundedCorners);
                         }
                     }
 
@@ -371,6 +393,18 @@ namespace Krypton.Toolkit
             }
 
             return _compositeImage;
+        }
+
+        private static void DrawRoundedRectangle(Graphics g, Pen pen, Rectangle rect, int radius)
+        {
+            var roundRect = new RoundedRectangleF(rect.Width - 1, rect.Height - 1, radius, rect.X, rect.Y);
+            g.DrawPath(pen, roundRect.Path);
+        }
+
+        private static void FillRoundedRectangle(Graphics g, Brush brush, Rectangle rect, int radius)
+        {
+            var roundRect = new RoundedRectangleF(rect.Width - 1, rect.Height - 1, radius, rect.X, rect.Y);
+            g.FillPath(brush, roundRect.Path);
         }
 
         /// <summary>
