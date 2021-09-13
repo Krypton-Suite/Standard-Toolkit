@@ -4,8 +4,8 @@
     -->
 
     <PropertyGroup>
-      <AssemblyVersion>6.0.2110</AssemblyVersion>
-      <FileVersion>6.0.2110</FileVersion>
+      <AssemblyVersion>6.0.2109.1</AssemblyVersion>
+      <FileVersion>6.0.2109.1</FileVersion>
     </PropertyGroup>
 
     <!--Handle AssemblyInfo-->
