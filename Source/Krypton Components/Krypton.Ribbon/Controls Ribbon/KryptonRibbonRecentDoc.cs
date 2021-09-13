@@ -130,7 +130,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Image color to make transparent.")]
-        //[DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "")]
         [Localizable(true)]
         [Bindable(true)]
         public Color ImageTransparentColor

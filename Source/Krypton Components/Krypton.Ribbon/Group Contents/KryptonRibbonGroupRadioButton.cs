@@ -308,7 +308,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Tooltip style for the group radio button.")]
-        //[DefaultValue(typeof(LabelStyle), "SuperTip")]
+        [DefaultValue(typeof(LabelStyle), "SuperTip")]
         public LabelStyle ToolTipStyle { get; set; }
 
         /// <summary>

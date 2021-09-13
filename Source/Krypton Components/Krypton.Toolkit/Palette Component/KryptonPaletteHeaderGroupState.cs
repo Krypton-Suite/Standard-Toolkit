@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Padding used to position the primary header.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding PrimaryHeaderPadding
         {
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Padding used to position the secondary header.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding SecondaryHeaderPadding
         {
@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Padding used to position the dock inactive header.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding DockInactiveHeaderPadding
         {
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Padding used to position the dock active header.")]
-        //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+        [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding DockActiveHeaderPadding
         {
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category("Visuals")]
         [Description("Should headers overlay the border.")]
-        //[DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool OverlayHeaders
         {

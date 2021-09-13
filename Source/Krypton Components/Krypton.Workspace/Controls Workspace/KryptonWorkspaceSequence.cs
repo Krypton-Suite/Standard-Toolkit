@@ -114,7 +114,7 @@ namespace Krypton.Workspace
         [Category("Workspace")]
         [Description("Collection of child workspace items.")]
         [MergableProperty(false)]
-        [Editor(typeof(KryptonWorkspaceCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Workspace.KryptonWorkspaceCollectionEditor, Krypton.Workspace", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonWorkspaceCollection Children { get; }
 
@@ -123,7 +123,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Category("Workspace")]
         [Description("Orientation to layout the child entries.")]
-        //[DefaultValue(typeof(Orientation), "Horizontal")]
+        [DefaultValue(typeof(Orientation), "Horizontal")]
         public Orientation Orientation
         {
             get => _orientation;

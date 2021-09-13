@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a value that represents the behavior of links.
         /// </summary>
         [Category("Behavior")]
-        //[DefaultValue(typeof(LinkBehavior), "AlwaysUnderline")]
+        [DefaultValue(typeof(LinkBehavior), "AlwaysUnderline")]
         public new LinkBehavior LinkBehavior
         {
             get => base.LinkBehavior;
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a display style for drawing link cell.
         /// </summary>
         [Category("Appearance")]
-        //[DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _labelStyle;

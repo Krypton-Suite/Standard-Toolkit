@@ -1,7 +1,17 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
+## 2021-10-01 - Build 2110 - October 2021 (Canary)
+* New `KryptonColorButton` action list options
+* The `KryptonColorButton` now uses the `KryptonColorDialog`
+=======
+
 ## 2101-09-12 - Build 2109.1 - September 2021 (Canary Update 1)
-* Fixed an issue where a image on a `KryptonButton` would disappear if a user clicked on it. A more robust fix is coming in build 2110 
+* Fixed [#315](https://github.com/Krypton-Suite/Standard-Toolkit/issues/315), When adding a new KContextmenu, How do you change it's name etc
+- Sort out the Callback actions that were removed
+* Fixed [#323](https://github.com/Krypton-Suite/Standard-Toolkit/issues/323), `KryptonCheckButton` Click removes image
+- Sort out the Callback actions that were removed
+* Fixed [#316](https://github.com/Krypton-Suite/Standard-Toolkit/issues/316), Restore `KryptonKInputBox` layout to initial intent.
+* Fixed [#333](https://github.com/Krypton-Suite/Standard-Toolkit/issues/333), Krypton Form - ButtonSpec (And Icon), are Cut Off when maximised
 
 =======
 

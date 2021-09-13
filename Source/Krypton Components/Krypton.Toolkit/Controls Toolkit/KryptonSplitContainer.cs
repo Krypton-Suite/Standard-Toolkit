@@ -313,7 +313,7 @@ namespace Krypton.Toolkit
         [Category("Layout")]
         [Description("Determines the minimum distance of pixels of the splitter from the left or top edge of Panel1.")]
         [Localizable(true)]
-        //[DefaultValue(typeof(int), "25")]
+        [DefaultValue(typeof(int), "25")]
         public int Panel1MinSize
         {
             get => _panel1MinSize;
@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
         [Category("Layout")]
         [Description("Determines the minimum distance of pixels of the splitter from the right or bottom edge of Panel2.")]
         [Localizable(true)]
-        //[DefaultValue(typeof(int), "25")]
+        [DefaultValue(typeof(int), "25")]
         public int Panel2MinSize
         {
             get => _panel2MinSize;
@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Layout")]
         [Description("Indicates the panel to keep the same size when resizing.")]
-        //[DefaultValue(typeof(FixedPanel), "None")]
+        [DefaultValue(typeof(FixedPanel), "None")]
         [Localizable(true)]
         public FixedPanel FixedPanel
         {
@@ -568,7 +568,7 @@ namespace Krypton.Toolkit
         [Description("Determines pixel distance of the splitter from the left or top edge.")]
         [Localizable(true)]
         [SettingsBindable(true)]
-        //[DefaultValue(typeof(int), "50")]
+        [DefaultValue(typeof(int), "50")]
         public int SplitterDistance
         {
             get => _splitterDistance;
@@ -661,7 +661,7 @@ namespace Krypton.Toolkit
         [Category("Layout")]
         [Description("Determines the thickness of the splitter.")]
         [Localizable(true)]
-        //[DefaultValue(typeof(int), "5")]
+        [DefaultValue(typeof(int), "5")]
         public int SplitterWidth
         {
             get => _splitterWidth;
@@ -701,7 +701,7 @@ namespace Krypton.Toolkit
         [Category("Layout")]
         [Description("Determines the number of pixels the splitter moves in increments.")]
         [Localizable(true)]
-        //[DefaultValue(typeof(int), "1")]
+        [DefaultValue(typeof(int), "1")]
         public int SplitterIncrement
         {
             get => _splitterIncrement;
@@ -729,7 +729,7 @@ namespace Krypton.Toolkit
         [Category("Behavior")]
         [Description("Determines if the splitter is vertical or horizontal.")]
         [Localizable(true)]
-        //[DefaultValue(typeof(Orientation), "Vertical")]
+        [DefaultValue(typeof(Orientation), "Vertical")]
         public Orientation Orientation
         {
             get => _orientation;

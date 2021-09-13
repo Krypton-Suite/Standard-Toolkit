@@ -1151,7 +1151,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the amount to increment or decrement one each button click.")]
-        //[DefaultValue(typeof(decimal), "1")]
+        [DefaultValue(typeof(decimal), "1")]
         public decimal Increment
         {
             get => _numericUpDown.Increment;
@@ -1164,7 +1164,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("Indicates the maximum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
-        //[DefaultValue(typeof(decimal), "100")]
+        [DefaultValue(typeof(decimal), "100")]
         public decimal Maximum
         {
             get => _numericUpDown.Maximum;
@@ -1177,7 +1177,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("Indicates the minimum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
-        //[DefaultValue(typeof(decimal), "0")]
+        [DefaultValue(typeof(decimal), "0")]
         public decimal Minimum
         {
             get => _numericUpDown.Minimum;
@@ -1202,7 +1202,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("The current value of the numeric up-down control.")]
-        //[DefaultValue(typeof(decimal), "0")]
+        [DefaultValue(typeof(decimal), "0")]
         [Bindable(true)]
         public decimal Value
         {
@@ -1215,7 +1215,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the text should be aligned for edit controls.\rDo not use this property, it is provided for backwards compatability only.")]
-        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -1262,7 +1262,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates how the up-down control will position the up down buttons relative to its text box.")]
-        //[DefaultValue(typeof(LeftRightAlignment), "Right")]
+        [DefaultValue(typeof(LeftRightAlignment), "Right")]
         [Localizable(true)]
         public LeftRightAlignment UpDownAlign
         {

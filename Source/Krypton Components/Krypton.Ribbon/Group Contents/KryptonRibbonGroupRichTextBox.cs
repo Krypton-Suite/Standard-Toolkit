@@ -376,7 +376,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the minimum size of the control.")]
-        //[DefaultValue(typeof(Size), "121, 0")]
+        [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
             get => RichTextBox.MinimumSize;
@@ -388,7 +388,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Layout")]
         [Description("Specifies the maximum size of the control.")]
-        //[DefaultValue(typeof(Size), "121, 0")]
+        [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
             get => RichTextBox.MaximumSize;
@@ -443,7 +443,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("The lines of text in a multiline edit, as an array of String values.")]
-        [Editor("System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -458,7 +458,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category("Appearance")]
         [Description("Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
-        //[DefaultValue(typeof(RichTextBoxScrollBars), "None")]
+        [DefaultValue(typeof(RichTextBoxScrollBars), "None")]
         [Localizable(true)]
         public RichTextBoxScrollBars ScrollBars
         {
@@ -771,7 +771,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the alignment of the selection.
         /// </summary>
         [Browsable(false)]
-        //[DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public HorizontalAlignment SelectionAlignment
         {
