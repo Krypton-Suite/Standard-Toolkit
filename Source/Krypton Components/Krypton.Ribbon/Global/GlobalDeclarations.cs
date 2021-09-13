@@ -10,7 +10,7 @@
  */
 #endregion
 
-// This file holds the global definitions > C# 10
+// This file holds the global definitions >= C# 10
 
 global using System;
 global using System.Collections;
