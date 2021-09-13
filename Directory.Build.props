@@ -4,7 +4,7 @@
 	<!--<LibraryVersion>6.0.2110</LibraryVersion>-->
 
 	<!--For use with Nightly packages-->
-	<CurrentDate>$([System.DateTime]::Now.ToString(ddMMyyyy-hhmmss))</CurrentDate>
-		<LibraryVersion>6.0.2110-$(CurrentDate)</LibraryVersion>
+	<CurrentDate>$([System.DateTime]::Now.ToString(ddMMyyyyhhmmss))</CurrentDate>
+		<LibraryVersion>6.0.2110$(CurrentDate)</LibraryVersion>
   </PropertyGroup>
 </Project>
