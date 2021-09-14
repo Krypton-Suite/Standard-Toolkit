@@ -431,6 +431,7 @@ namespace Krypton.Toolkit
             }
         }
 
+
         /// <summary>
         /// Gets and sets the visual orientation of the control.
         /// </summary>

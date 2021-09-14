@@ -718,18 +718,13 @@ namespace Krypton.Toolkit
             if (AutoCheck)
             {
                 // Change state based on the current state
-                switch (CheckState)
+                CheckState = CheckState switch
                 {
-                    case CheckState.Unchecked:
-                        CheckState = CheckState.Checked;
-                        break;
-                    case CheckState.Checked:
-                        CheckState = (ThreeState ? CheckState.Indeterminate : CheckState.Unchecked);
-                        break;
-                    case CheckState.Indeterminate:
-                        CheckState = CheckState.Unchecked;
-                        break;
-                }
+                    CheckState.Unchecked => CheckState.Checked,
+                    CheckState.Checked => (ThreeState ? CheckState.Indeterminate : CheckState.Unchecked),
+                    CheckState.Indeterminate => CheckState.Unchecked,
+                    _ => CheckState
+                };
             }
 
             base.OnClick(e);

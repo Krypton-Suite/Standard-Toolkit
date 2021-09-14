@@ -404,25 +404,17 @@ namespace Krypton.Toolkit
                                         HotkeyPrefix = HotkeyPrefix.None
                                     };
 
-
-                                    switch (states.Content.GetContentShortTextH(state))
+                                    stringFormat.Alignment = states.Content.GetContentShortTextH(state) switch
                                     {
-                                        case PaletteRelativeAlign.Near:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Far
-                                                : StringAlignment.Near;
-
-                                            break;
-                                        case PaletteRelativeAlign.Far:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Near
-                                                : StringAlignment.Far;
-
-                                            break;
-                                        case PaletteRelativeAlign.Center:
-                                            stringFormat.Alignment = StringAlignment.Center;
-                                            break;
-                                    }
+                                        PaletteRelativeAlign.Near => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Far
+                                            : StringAlignment.Near,
+                                        PaletteRelativeAlign.Far => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Near
+                                            : StringAlignment.Far,
+                                        PaletteRelativeAlign.Center => StringAlignment.Center,
+                                        _ => stringFormat.Alignment
+                                    };
 
                                     // Draw using a solid brush
                                     Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);

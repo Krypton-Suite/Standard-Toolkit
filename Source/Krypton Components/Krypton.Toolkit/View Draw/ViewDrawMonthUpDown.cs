@@ -122,18 +122,16 @@ namespace Krypton.Toolkit
 
             // Layout the button drawing elements using a reduced size
             Rectangle beforeRect = context.DisplayRectangle;
-            switch (_glyph)
+            context.DisplayRectangle = _glyph switch
             {
-                case DrawMonthCalendarGlyph.DropDownButton:
-                    context.DisplayRectangle = new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width, beforeRect.Height - 2);
-                    break;
-                case DrawMonthCalendarGlyph.UpButton:
-                    context.DisplayRectangle = new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width, beforeRect.Height - 1);
-                    break;
-                case DrawMonthCalendarGlyph.DownButton:
-                    context.DisplayRectangle = new Rectangle(beforeRect.X, beforeRect.Y, beforeRect.Width, beforeRect.Height - 1);
-                    break;
-            }
+                DrawMonthCalendarGlyph.DropDownButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
+                    beforeRect.Height - 2),
+                DrawMonthCalendarGlyph.UpButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
+                    beforeRect.Height - 1),
+                DrawMonthCalendarGlyph.DownButton => new Rectangle(beforeRect.X, beforeRect.Y, beforeRect.Width,
+                    beforeRect.Height - 1),
+                _ => context.DisplayRectangle
+            };
 
             base.Layout(context);
 

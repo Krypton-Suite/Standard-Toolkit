@@ -206,38 +206,24 @@ namespace Krypton.Toolkit
 
             // Find the horizontal position relative to screen rectangle
             Point screenPt = Point.Empty;
-            switch (horz)
+            screenPt.X = horz switch
             {
-                case KryptonContextMenuPositionH.After:
-                    screenPt.X = screenRect.Right;
-                    break;
-                case KryptonContextMenuPositionH.Before:
-                    screenPt.X = screenRect.Left - preferredSize.Width;
-                    break;
-                case KryptonContextMenuPositionH.Left:
-                    screenPt.X = screenRect.Left;
-                    break;
-                case KryptonContextMenuPositionH.Right:
-                    screenPt.X = screenRect.Right - preferredSize.Width;
-                    break;
-            }
+                KryptonContextMenuPositionH.After => screenRect.Right,
+                KryptonContextMenuPositionH.Before => screenRect.Left - preferredSize.Width,
+                KryptonContextMenuPositionH.Left => screenRect.Left,
+                KryptonContextMenuPositionH.Right => screenRect.Right - preferredSize.Width,
+                _ => screenPt.X
+            };
 
             // Find the vertical position relative to screen rectangle
-            switch (vert)
+            screenPt.Y = vert switch
             {
-                case KryptonContextMenuPositionV.Above:
-                    screenPt.Y = screenRect.Top - preferredSize.Height;
-                    break;
-                case KryptonContextMenuPositionV.Below:
-                    screenPt.Y = screenRect.Bottom;
-                    break;
-                case KryptonContextMenuPositionV.Top:
-                    screenPt.Y = screenRect.Top;
-                    break;
-                case KryptonContextMenuPositionV.Bottom:
-                    screenPt.Y = screenRect.Bottom - preferredSize.Height;
-                    break;
-            }
+                KryptonContextMenuPositionV.Above => screenRect.Top - preferredSize.Height,
+                KryptonContextMenuPositionV.Below => screenRect.Bottom,
+                KryptonContextMenuPositionV.Top => screenRect.Top,
+                KryptonContextMenuPositionV.Bottom => screenRect.Bottom - preferredSize.Height,
+                _ => screenPt.Y
+            };
 
             // Do we check for bouncing off working area edges?
             if (bounce)

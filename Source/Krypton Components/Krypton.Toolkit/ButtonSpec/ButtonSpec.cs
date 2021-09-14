@@ -886,30 +886,17 @@ namespace Krypton.Toolkit
             }
 
             // Try and recover a state specific image
-            switch (state)
+            image = state switch
             {
-                case PaletteState.Disabled:
-                    image = ImageStates.ImageDisabled;
-                    break;
-                case PaletteState.Normal:
-                    image = ImageStates.ImageNormal;
-                    break;
-                case PaletteState.Pressed:
-                    image = ImageStates.ImagePressed;
-                    break;
-                case PaletteState.Tracking:
-                    image = ImageStates.ImageTracking;
-                    break;
-                case PaletteState.CheckedNormal:
-                    image = ImageStates.ImageCheckedNormal;
-                    break;
-                case PaletteState.CheckedPressed:
-                    image = ImageStates.ImageCheckedPressed;
-                    break;
-                case PaletteState.CheckedTracking:
-                    image = ImageStates.ImageCheckedTracking;
-                    break;
-            }
+                PaletteState.Disabled => ImageStates.ImageDisabled,
+                PaletteState.Normal => ImageStates.ImageNormal,
+                PaletteState.Pressed => ImageStates.ImagePressed,
+                PaletteState.Tracking => ImageStates.ImageTracking,
+                PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
+                PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
+                PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
+                _ => image
+            };
 
             // Default to the image if no state specific image is found
             if (image == null)

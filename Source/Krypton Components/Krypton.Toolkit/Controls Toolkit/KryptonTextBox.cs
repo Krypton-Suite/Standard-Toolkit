@@ -204,24 +204,17 @@ namespace Krypton.Toolkit
                                         stringFormat.FormatFlags |= StringFormatFlags.NoWrap;
                                     }
 
-                                    switch (_kryptonTextBox.TextAlign)
+                                    stringFormat.Alignment = _kryptonTextBox.TextAlign switch
                                     {
-                                        case HorizontalAlignment.Left:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Far
-                                                : StringAlignment.Near;
-
-                                            break;
-                                        case HorizontalAlignment.Right:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Near
-                                                : StringAlignment.Far;
-
-                                            break;
-                                        case HorizontalAlignment.Center:
-                                            stringFormat.Alignment = StringAlignment.Center;
-                                            break;
-                                    }
+                                        HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Far
+                                            : StringAlignment.Near,
+                                        HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Near
+                                            : StringAlignment.Far,
+                                        HorizontalAlignment.Center => StringAlignment.Center,
+                                        _ => stringFormat.Alignment
+                                    };
 
                                     // Use the correct prefix setting
                                     stringFormat.HotkeyPrefix = HotkeyPrefix.None;
