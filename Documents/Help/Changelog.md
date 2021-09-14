@@ -3,6 +3,7 @@
 ## 2021-10-01 - Build 2110 - October 2021 (Canary)
 * New `KryptonColorButton` action list options
 * The `KryptonColorButton` now uses the `KryptonColorDialog`
+* Implement [#335](https://github.com/Krypton-Suite/Standard-Toolkit/issues/335), Create 'Nightly' NuGet packages When Merges into alpha are done
 * Fixed [#315](https://github.com/Krypton-Suite/Standard-Toolkit/issues/315), When adding a new KContextmenu, How do you change it's name etc
 - Sort out the Callback actions that were removed
 * Fixed [#323](https://github.com/Krypton-Suite/Standard-Toolkit/issues/323), `KryptonCheckButton` Click removes image
