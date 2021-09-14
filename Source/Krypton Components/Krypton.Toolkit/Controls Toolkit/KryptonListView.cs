@@ -23,6 +23,7 @@ namespace Krypton.Toolkit
     public class KryptonListView : ListView
     {
         #region Variables
+        private IPalette _localPalette;
         private IPalette _palette;
         private PaletteMode _paletteMode;
         private bool _layoutDirty;
@@ -241,6 +242,36 @@ namespace Krypton.Toolkit
         #endregion
 
         #region public
+
+        /// <summary>Gets and sets the custom palette implementation.</summary>
+        [Category("Visuals")]
+        [Description("Custom palette applied to drawing.")]
+        [DefaultValue(null)]
+        public IPalette Palette
+        {
+            [DebuggerStepThrough] get => this._localPalette;
+            set
+            {
+                if (this._localPalette == value)
+                    return;
+                CacheNewPalette(value);
+                if (value == null)
+                {
+                    _paletteMode = PaletteMode.Global;
+                    _localPalette = (IPalette) null;
+                    CacheNewPalette(KryptonManager.GetPaletteForMode(this._paletteMode));
+                }
+                else
+                {
+                    _localPalette = value;
+                    _paletteMode = PaletteMode.Custom;
+                }
+                PerformLayout();
+            }
+        }
+
+        /// <summary>Resets the Palette property to its default value.</summary>
+        public void ResetPalette() => this.PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
@@ -735,6 +766,7 @@ namespace Krypton.Toolkit
 
                 // Unhook from the static events, otherwise we cannot be garbage collected
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+                this._localPalette = (IPalette) null;
             }
 
             base.Dispose(disposing);
@@ -1014,6 +1046,8 @@ namespace Krypton.Toolkit
 
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
+            if (this.PaletteMode != PaletteMode.Global)
+                return;
             // Unhook events from old palette
             if (_palette != null)
             {
