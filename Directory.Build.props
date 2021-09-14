@@ -4,7 +4,19 @@
 	<!--<LibraryVersion>6.0.2110</LibraryVersion>-->
 
 	<!--For use with Nightly packages-->
-	<CurrentDate>$([System.DateTime]::Now.ToString(ddMMyyyyhhmmss))</CurrentDate>
-		<LibraryVersion>6.0.2110$(CurrentDate)</LibraryVersion>
+	<CurrentDate>$([System.DateTime]::Now.ToString(YYYYMMDDhhmmss))</CurrentDate>
+	
+	<!--Version layout:
+			6 = Major
+			0 = Minor
+			2110 = Build
+			2021 = Year built
+			09 = Month built
+			14 = Day built
+			10 = Hour built
+			30 = Minute built
+			00 = Seconds built
+	-->
+	<LibraryVersion>6.0.2110-$(CurrentDate)</LibraryVersion>
   </PropertyGroup>
 </Project>
