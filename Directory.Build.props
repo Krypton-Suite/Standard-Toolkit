@@ -19,6 +19,12 @@
 		-->
 		<LibraryVersion>6.0.2110</LibraryVersion>
 		<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
-		<PackageVersion>6.0.2110-alpha</PackageVersion>
+		<PackageVersion>6.0.2110-alpha.$(CurrentDate)</PackageVersion>
+
+		<!--Canary only-->
+		<!--<PackageVersion>6.0.2110-beta</PackageVersion>-->
+
+		<!--Stable/Signed-->
+		<!--<PackageVersion>6.0.2110</PackageVersion>-->
   </PropertyGroup>
 </Project>
