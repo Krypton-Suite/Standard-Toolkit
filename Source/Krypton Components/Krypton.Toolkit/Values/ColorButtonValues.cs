@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         private Color _selectedColor;
         private Color _emptyBorderColor;
         private Rectangle _selectedRect;
-        private sbyte _roundedCorners;
+        private byte _roundedCorners;
         #endregion
 
         #region Events
@@ -294,20 +294,17 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Rounded color drawing rectangle.")]
-        [DefaultValue(0)]
-#pragma warning disable CS3003 // Type is not CLS-compliant
-        public sbyte RoundedCorners
-#pragma warning restore CS3003 // Type is not CLS-compliant
+        public int RoundedCorners
         {
             get => _roundedCorners;
 
             set
             {
-                _roundedCorners = value;
+                _roundedCorners = (byte)value;
                 _compositeImage = null;
             }
         }
-        private bool ShouldSerializeRoundedCorners() => RoundedCorners != 0;
+        private bool ShouldSerializeRoundedCorners() => _roundedCorners != 0;
 
         /// <summary>
         /// Resets the Description property to its default value.

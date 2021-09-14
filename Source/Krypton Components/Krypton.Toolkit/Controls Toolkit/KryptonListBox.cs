@@ -336,7 +336,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
