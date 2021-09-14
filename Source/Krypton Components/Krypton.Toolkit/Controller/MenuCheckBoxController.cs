@@ -425,18 +425,15 @@ namespace Krypton.Toolkit
                                    _menuCheckBox.KryptonContextMenuCheckBox.CheckState;
 
                 // Change state based on the current state
-                switch (state)
+                state = state switch
                 {
-                    case CheckState.Unchecked:
-                        state = CheckState.Checked;
-                        break;
-                    case CheckState.Checked:
-                        state = (_menuCheckBox.KryptonContextMenuCheckBox.ThreeState ? CheckState.Indeterminate : CheckState.Unchecked);
-                        break;
-                    case CheckState.Indeterminate:
-                        state = CheckState.Unchecked;
-                        break;
-                }
+                    CheckState.Unchecked => CheckState.Checked,
+                    CheckState.Checked => (_menuCheckBox.KryptonContextMenuCheckBox.ThreeState
+                        ? CheckState.Indeterminate
+                        : CheckState.Unchecked),
+                    CheckState.Indeterminate => CheckState.Unchecked,
+                    _ => state
+                };
 
                 // Update correct target with new state
                 if (_menuCheckBox.KryptonContextMenuCheckBox.KryptonCommand != null)

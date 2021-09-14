@@ -776,15 +776,12 @@ namespace Krypton.Toolkit
             if (CommonHelper.GetRightToLeftLayout(control) && (control.RightToLeft == RightToLeft.Yes))
             {
                 // Only need to invert the left and right sides
-                switch (ds)
+                ds = ds switch
                 {
-                    case ViewDockStyle.Left:
-                        ds = ViewDockStyle.Right;
-                        break;
-                    case ViewDockStyle.Right:
-                        ds = ViewDockStyle.Left;
-                        break;
-                }
+                    ViewDockStyle.Left => ViewDockStyle.Right,
+                    ViewDockStyle.Right => ViewDockStyle.Left,
+                    _ => ds
+                };
             }
 
             return ds;

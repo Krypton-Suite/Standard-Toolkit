@@ -214,50 +214,17 @@ namespace Krypton.Toolkit
                     //cache.borderPen = new Pen(baseColor1);
 
                     // Create state specific colors/brushes/pens
-                    switch (state)
+                    cache.insideFillBrush = state switch
                     {
-                        case PaletteState.Normal:
+                        PaletteState.Normal =>
                             //cache.borderBrush = new SolidBrush(baseColor1);
-                            cache.insideFillBrush = new SolidBrush(baseColor1);
-
-                            //cache.insideFillBrush.SetSigmaBellShape(0.33f);
-                            //cache.highlightBrush.CenterColor = Color.FromArgb(64, Color.White);
-                            break;
-                        case PaletteState.Tracking:
-                            cache.insideFillBrush = new SolidBrush(baseColor2);
-                            //cache.borderBrush = new SolidBrush(baseColor2);
-                            //cache.insideFillBrush = new LinearGradientBrush(new RectangleF(rect.X, rect.Y + 1, rect.Width, rect.Height),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.3f, baseColor2, 0.7f),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.6f, baseColor2, 0.4f),
-                            //                                                90f);
-
-                            //cache.insideFillBrush.SetSigmaBellShape(0.33f);
-                            //cache.highlightBrush.CenterColor = Color.FromArgb(100, Color.White);
-                            break;
-                        case PaletteState.Tracking | PaletteState.FocusOverride:
-                            cache.insideFillBrush = new SolidBrush(ControlPaint.LightLight(baseColor2));
-                            //cache.borderBrush = new SolidBrush(ControlPaint.LightLight(baseColor2));
-                            //cache.insideFillBrush = new LinearGradientBrush(new RectangleF(rect.X, rect.Y + 1, rect.Width, rect.Height),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.3f, baseColor2, 0.7f),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.6f, baseColor2, 0.4f),
-                            //                                                90f);
-
-                            //cache.insideFillBrush.SetSigmaBellShape(0.33f);
-                            //cache.highlightBrush.CenterColor = ControlPaint.LightLight(baseColor2);
-                            break;
-                        case PaletteState.Pressed:
-                            cache.insideFillBrush = new SolidBrush(baseColor2);
-
-                            //cache.borderBrush = new SolidBrush(CommonHelper.MergeColors(baseColor1, 0.5f, baseColor2, 0.5f));
-                            //cache.insideFillBrush = new LinearGradientBrush(new RectangleF(rect.X, rect.Y + 1, rect.Width, rect.Height),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.3f, baseColor2, 0.7f),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.75f, baseColor2, 0.25f),
-                            //                                                90f);
-
-                            //cache.insideFillBrush.SetSigmaBellShape(0f);
-                            //cache.highlightBrush.CenterColor = Color.FromArgb(90, Color.White);
-                            break;
-                    }
+                            new SolidBrush(baseColor1),
+                        PaletteState.Tracking => new SolidBrush(baseColor2),
+                        PaletteState.Tracking | PaletteState.FocusOverride => new SolidBrush(
+                            ControlPaint.LightLight(baseColor2)),
+                        PaletteState.Pressed => new SolidBrush(baseColor2),
+                        _ => cache.insideFillBrush
+                    };
                 }
 
                 // Fill the entire tab area and then add a border around the edge

@@ -1468,22 +1468,14 @@ namespace Krypton.Toolkit
         public Image GetDropDownButtonImage(PaletteState state)
         {
             // Grab state specific image
-            Image retImage = null;
-            switch (state)
+            Image retImage = state switch
             {
-                case PaletteState.Disabled:
-                    retImage = Images.DropDownButton.Disabled;
-                    break;
-                case PaletteState.Normal:
-                    retImage = Images.DropDownButton.Normal;
-                    break;
-                case PaletteState.Tracking:
-                    retImage = Images.DropDownButton.Tracking;
-                    break;
-                case PaletteState.Pressed:
-                    retImage = Images.DropDownButton.Pressed;
-                    break;
-            }
+                PaletteState.Disabled => Images.DropDownButton.Disabled,
+                PaletteState.Normal => Images.DropDownButton.Normal,
+                PaletteState.Tracking => Images.DropDownButton.Tracking,
+                PaletteState.Pressed => Images.DropDownButton.Pressed,
+                _ => null
+            };
 
             // Use common image as the last resort
             retImage ??= Images.DropDownButton.Common;
@@ -1545,21 +1537,14 @@ namespace Krypton.Toolkit
             };
 
             // Grab the state image from the compound object
-            switch (state)
+            retImage = state switch
             {
-                case PaletteState.Disabled:
-                    retImage = images.Disabled;
-                    break;
-                case PaletteState.Normal:
-                    retImage = images.Normal;
-                    break;
-                case PaletteState.Tracking:
-                    retImage = images.Tracking;
-                    break;
-                case PaletteState.Pressed:
-                    retImage = images.Pressed;
-                    break;
-            }
+                PaletteState.Disabled => images.Disabled,
+                PaletteState.Normal => images.Normal,
+                PaletteState.Tracking => images.Tracking,
+                PaletteState.Pressed => images.Pressed,
+                _ => retImage
+            };
 
             // Use common image if the state specific image is not available
             retImage ??= images.Common;

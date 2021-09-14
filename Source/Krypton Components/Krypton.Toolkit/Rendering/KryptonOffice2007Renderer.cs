@@ -275,24 +275,15 @@ namespace Krypton.Toolkit
                 Color color1 = (e.Item.Enabled ? KCT.ToolStripText : _disabled);
                 Color color2 = (e.Item.Enabled ? CommonHelper.WhitenColor(KCT.ToolStripText, 0.7f, 0.7f, 0.7f) : _disabled);
 
-                float angle = 0;
-
                 // Use gradient angle to match the arrow direction
-                switch (e.Direction)
+                float angle = e.Direction switch
                 {
-                    case ArrowDirection.Right:
-                        angle = 0;
-                        break;
-                    case ArrowDirection.Left:
-                        angle = 180f;
-                        break;
-                    case ArrowDirection.Down:
-                        angle = 90f;
-                        break;
-                    case ArrowDirection.Up:
-                        angle = 270f;
-                        break;
-                }
+                    ArrowDirection.Right => 0,
+                    ArrowDirection.Left => 180f,
+                    ArrowDirection.Down => 90f,
+                    ArrowDirection.Up => 270f,
+                    _ => 0
+                };
 
                 // Draw the actual arrow using a gradient
                 using LinearGradientBrush arrowBrush = new(boundsF, color1, color2, angle);
@@ -435,21 +426,14 @@ namespace Krypton.Toolkit
                 }
                 else if (!e.Item.Pressed && !e.Item.Selected)
                 {
-                    switch (e.ToolStrip)
+                    e.TextColor = e.ToolStrip switch
                     {
-                        case MenuStrip _:
-                            e.TextColor = KCT.MenuStripText;
-                            break;
-                        case StatusStrip _:
-                            e.TextColor = KCT.StatusStripText;
-                            break;
-                        case ContextMenuStrip _:
-                            e.TextColor = KCT.MenuItemText;
-                            break;
-                        case ToolStripDropDownMenu _:
-                            e.TextColor = KCT.MenuItemText;
-                            break;
-                    }
+                        MenuStrip _ => KCT.MenuStripText,
+                        StatusStrip _ => KCT.StatusStripText,
+                        ContextMenuStrip _ => KCT.MenuItemText,
+                        ToolStripDropDownMenu _ => KCT.MenuItemText,
+                        _ => e.TextColor
+                    };
                 }
 
                 // Status strips under XP cannot use clear type because it ends up being cut off at edges
