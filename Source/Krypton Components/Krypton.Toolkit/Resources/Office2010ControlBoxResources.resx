@@ -169,11 +169,38 @@
   <data name="2010ButtonRestoreBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>2010ButtonRestoreBlack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Office2010BlackControlBoxButtonMinDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010BlackControlBoxButtonMinDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackControlBoxButtonMinHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010BlackControlBoxButtonMinHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlackControlBoxButtonMinNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010BlackControlBoxButtonMinNormal.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Office2010BlackMinimiseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2010BlackMinimiseDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Office2010BlueControlBoxButtonMinDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010BlueControlBoxButtonMinDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlueControlBoxButtonMinHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010BlueControlBoxButtonMinHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010BlueControlBoxButtonMinNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010BlueControlBoxButtonMinNormal.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Office2010BlueMinimiseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2010BlueMinimiseDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverControlBoxButtonMinDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010SilverControlBoxButtonMinDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverControlBoxButtonMinHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010SilverControlBoxButtonMinHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2010SilverControlBoxButtonMinNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2010SilverControlBoxButtonMinNormal.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Office2010SilverMinimiseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Office2010SilverMinimiseDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

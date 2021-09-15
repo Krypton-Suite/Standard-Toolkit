@@ -25,8 +25,9 @@ namespace Krypton.Toolkit
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources._2010ButtonCloseNormal;
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
         private static readonly Image _formMaximiseDisabled = null;
-        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources._2010ButtonMin;
-        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled;
+        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverControlBoxButtonMinNormal;
+        private static readonly Image _formMinimiseHover = null;
+        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverControlBoxButtonMinDisabled;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
         private static readonly Image _formRestoreDisabled = null;
         private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice365HelpIconWhite;

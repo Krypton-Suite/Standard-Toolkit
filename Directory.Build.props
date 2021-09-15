@@ -4,7 +4,7 @@
 		<!--<LibraryVersion>6.0.2110</LibraryVersion>-->
 
 		<!--For use with Nightly packages-->
-		<CurrentDate>$([System.DateTime]::Now.ToString(YYYYMMDDhhmmss))</CurrentDate>
+		<CurrentDate>$([System.DateTime]::Now.ToString(yyyyMMddHHmmss))</CurrentDate>
 		
 		<!--Version layout:
 				6 = Major

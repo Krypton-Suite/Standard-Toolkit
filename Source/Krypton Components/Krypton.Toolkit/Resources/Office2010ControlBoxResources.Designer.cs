@@ -233,6 +233,36 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonMinDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonMinDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonMinHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonMinHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonMinNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonMinNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2010BlackMinimiseDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2010BlackMinimiseDisabled", resourceCulture);
@@ -243,9 +273,69 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonMinDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonMinDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonMinHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonMinHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonMinNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonMinNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2010BlueMinimiseDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2010BlueMinimiseDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonMinDisabled {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonMinDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonMinHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonMinHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonMinNormal {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonMinNormal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
