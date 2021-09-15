@@ -4,7 +4,7 @@
 		<!--<LibraryVersion>6.0.2110</LibraryVersion>-->
 
 		<!--For use with Nightly packages-->
-		<CurrentDate>$([System.DateTime]::Now.ToString(yyyyMMddHHmmss))</CurrentDate>
+		<CurrentDate>$([System.DateTime]::Now.ToString(YYYYMMDD))</CurrentDate>
 		
 		<!--Version layout:
 				6 = Major
@@ -13,9 +13,6 @@
 				2021 = Year built
 				09 = Month built
 				14 = Day built
-				10 = Hour built
-				30 = Minute built
-				00 = Seconds built
 		-->
 		<LibraryVersion>6.0.2110</LibraryVersion>
 		<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
