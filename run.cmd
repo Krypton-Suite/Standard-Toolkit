@@ -42,7 +42,7 @@ if /I "%INPUT%"=="n" goto break
 :buildproject
 buildsolution.cmd
 
-echo Do you now want to create NuGet packages? (y/n)
+echo Do you now want to create NuGet packages? (REMINDER: If you are creating Nightly packages, please ensure that the 'CurrentDate' adheres to the correct ISO format, i.e. yyyyMMdd) (y/n)
 set INPUT=
 set /PINPUT=Type input: %=%
 if /I "%INPUT%"=="y" goto createpackages
