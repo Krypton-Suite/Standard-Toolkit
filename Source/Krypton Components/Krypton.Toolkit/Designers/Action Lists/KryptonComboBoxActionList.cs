@@ -54,6 +54,23 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the drop down style.</summary>
+        /// <value>The drop down style.</value>
+        public ComboBoxStyle DropDownStyle
+        {
+            get => _comboBox.DropDownStyle;
+
+            set
+            {
+                if (_comboBox.DropDownStyle != value)
+                {
+                    _service.OnComponentChanged(_comboBox, null, _comboBox.DropDownStyle, value);
+
+                    _comboBox.DropDownStyle = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
@@ -140,6 +157,7 @@ namespace Krypton.Toolkit
                 // Add the list of label specific actions
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem("DropDownStyle", "Drop Down Style", "Appearance", "The combobox drop down style."));
                 actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "ComboBox display style."));
                 actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "The font for the combobox."));
                 actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));

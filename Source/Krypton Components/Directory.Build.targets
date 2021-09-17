@@ -3,17 +3,32 @@
     <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../../'))" />
     -->
 
+    <!--Nightly NuGets only!!!!!!!!!!!-->
     <PropertyGroup>
+      <!--For use with Nightly packages-->
+      <!--REMINDER: When packing, use the proper ISO layout, i.e ddHH-->
+      <CurrentDate>$([System.DateTime]::Now.ToString(ddHH))</CurrentDate>
+
+      <NightlyMinorVersion>$([System.DateTime]::Now.ToString(yyMM)</NightlyMinorVersion>
+      
+      <NightlyBuildVersion>$([System.DateTime]::Now.ToString(DateTime.DayOfYear())</NightlyBuildVersion>
+
+      <AssemblyVersion>6.2110.$(CurrentDate)</AssemblyVersion>
+      <FileVersion>6.2110.$(CurrentDate)</FileVersion>
+      <Version>6.$(NightlyMinorVersion).$(NightlyBuildVersion)</Version>
+    </PropertyGroup>
+
+    <!--<PropertyGroup>
       <AssemblyVersion>6.0.2110</AssemblyVersion>
       <FileVersion>6.0.2110</FileVersion>
-    </PropertyGroup>
+    </PropertyGroup>-->
 
     <!--Handle AssemblyInfo-->
     <PropertyGroup>
       <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
       <NeutralLanguage>en</NeutralLanguage>
-      <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
-      <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
+      <Authors>Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV), Phil Wright (A.K.A ComponentFactory)</Authors>
+      <Copyright>© Krypton Suite (Peter Wagner (Wagnerp) and Simon Coghlan (Smurf-IV)), 2017 - 2021. Component Factory Pty Ltd (Phil Wright), 2006 - 2016. All rights reserved.</Copyright>
     </PropertyGroup>
 
     <PropertyGroup>

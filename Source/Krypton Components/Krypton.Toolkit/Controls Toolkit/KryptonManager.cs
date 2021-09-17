@@ -56,6 +56,8 @@ namespace Krypton.Toolkit
         private static PaletteOffice2013 _paletteOffice2013;
         private static PaletteOffice2013White _paletteOffice2013White;
         private static PaletteSparkleBlue _paletteSparkleBlue;
+        private static PaletteSparkleBlueDarkMode _paletteSparkleBlueDarkMode;
+        private static PaletteSparkleBlueLightMode _paletteSparkleBlueLightMode;
         private static PaletteSparkleOrange _paletteSparkleOrange;
         private static PaletteSparklePurple _paletteSparklePurple;
         private static PaletteOffice365Black _paletteOffice365Black;
@@ -462,6 +464,10 @@ namespace Krypton.Toolkit
                         return PaletteOffice2013White;
                     case PaletteModeManager.SparkleBlue:
                         return PaletteSparkleBlue;
+                    case PaletteModeManager.SparkleBlueDarkMode:
+                        return PaletteSparkleBlueDarkMode;
+                    case PaletteModeManager.SparkleBlueLightMode:
+                        return PaletteSparkleBlueLightMode;
                     case PaletteModeManager.SparkleOrange:
                         return PaletteSparkleOrange;
                     case PaletteModeManager.SparklePurple:
@@ -548,6 +554,10 @@ namespace Krypton.Toolkit
                     return PaletteOffice2013White;
                 case PaletteMode.SparkleBlue:
                     return PaletteSparkleBlue;
+                case PaletteMode.SparkleBlueDarkMode:
+                    return PaletteSparkleBlueDarkMode;
+                case PaletteMode.SparkleBlueLightMode:
+                    return PaletteSparkleBlueLightMode;
                 case PaletteMode.SparkleOrange:
                     return PaletteSparkleOrange;
                 case PaletteMode.SparklePurple:
@@ -699,6 +709,10 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the Blue variant sparkle palette.
         /// </summary>
         public static PaletteSparkleBlue PaletteSparkleBlue => _paletteSparkleBlue ?? (_paletteSparkleBlue = new PaletteSparkleBlue());
+
+        public static PaletteSparkleBlueDarkMode PaletteSparkleBlueDarkMode => _paletteSparkleBlueDarkMode ?? (_paletteSparkleBlueDarkMode = new PaletteSparkleBlueDarkMode());
+
+        public static PaletteSparkleBlueLightMode PaletteSparkleBlueLightMode => _paletteSparkleBlueLightMode ?? (_paletteSparkleBlueLightMode = new PaletteSparkleBlueLightMode());
 
         /// <summary>
         /// Gets the single instance of the Orange variant sparkle palette.

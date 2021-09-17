@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// </summary>
         private static readonly string[] _supportedThemes = new string[]
         {
-             "Professional - System",
+            "Professional - System",
 
             "Professional - Office 2003",
 
@@ -90,9 +90,21 @@ namespace Krypton.Toolkit
 
             "Sparkle - Blue",
 
+            "Sparkle - Blue (Dark Mode)",
+
+            "Sparkle - Blue (Light Mode)",
+
             "Sparkle - Orange",
 
+            "Sparkle - Orange (Dark Mode)",
+
+            "Sparkle - Orange (Light Mode)",
+
             "Sparkle - Purple",
+
+            "Sparkle - Purple (Dark Mode)",
+
+            "Sparkle - Purple (Light Mode)",
 
             "Custom"
         };
