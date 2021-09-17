@@ -11,7 +11,7 @@
 
       <NightlyMinorVersion>$([System.DateTime]::Now.ToString(yyMM)</NightlyMinorVersion>
       
-      <NightlyBuildVersion>$([System.DateTime]::Now.ToString(DateTime.DayOfYear())</NightlyBuildVersion>
+      <NightlyBuildVersion>$([System.DateTime]::Now.DayOfYear().ToString()</NightlyBuildVersion>
 
       <AssemblyVersion>6.2110.$(CurrentDate)</AssemblyVersion>
       <FileVersion>6.2110.$(CurrentDate)</FileVersion>
