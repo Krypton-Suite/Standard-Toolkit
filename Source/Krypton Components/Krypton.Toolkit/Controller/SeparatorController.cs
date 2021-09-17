@@ -629,9 +629,10 @@ namespace Krypton.Toolkit
 
             var rect = _source.SeparatorControl.RectangleToScreen(splitRectangle);
 
-            var area = Screen.GetWorkingArea(rect);
-
-            rect = new Rectangle(rect.Location - (Size)area.Location, rect.Size);
+            //https://github.com/Krypton-Suite/Standard-Toolkit/issues/364
+            // remove the following 2 lines as this causes problems in Win 10  - No idea what the intention was here ?
+            //var area = Screen.GetWorkingArea(rect);
+            //rect = new Rectangle(rect.Location - (Size)area.Location, rect.Size);
 
             return rect;
         }
