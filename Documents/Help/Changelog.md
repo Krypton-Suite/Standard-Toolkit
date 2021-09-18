@@ -1,6 +1,7 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
 ## 2021-10-01 - Build 2110 - October 2021 (Canary)
+* New `KryptonThemeComboBox` control, switch between themes with a few clicks
 * New `KryptonColorButton` action list options
 * The `KryptonColorButton` now uses the `KryptonColorDialog`
 * Fixed [#361](https://github.com/Krypton-Suite/Standard-Toolkit/issues/361), Nightlies version needs to have something that allows installers to upgrade correctly
