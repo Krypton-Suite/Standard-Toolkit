@@ -59,7 +59,11 @@ namespace Krypton.Toolkit
         private static PaletteSparkleBlueDarkMode _paletteSparkleBlueDarkMode;
         private static PaletteSparkleBlueLightMode _paletteSparkleBlueLightMode;
         private static PaletteSparkleOrange _paletteSparkleOrange;
+        private static PaletteSparkleOrangeDarkMode _paletteSparkleOrangeDarkMode;
+        private static PaletteSparkleOrangeLightMode _paletteSparkleOrangeLightMode;
         private static PaletteSparklePurple _paletteSparklePurple;
+        private static PaletteSparklePurpleDarkMode _paletteSparklePurpleDarkMode;
+        private static PaletteSparklePurpleLightMode _paletteSparklePurpleLightMode;
         private static PaletteOffice365Black _paletteOffice365Black;
         private static PaletteOffice365BlackDarkMode _paletteOffice365BlackDarkMode;
         private static PaletteOffice365Blue _paletteOffice365Blue;
@@ -470,8 +474,16 @@ namespace Krypton.Toolkit
                         return PaletteSparkleBlueLightMode;
                     case PaletteModeManager.SparkleOrange:
                         return PaletteSparkleOrange;
+                    case PaletteModeManager.SparkleOrangeDarkMode:
+                        return PaletteSparkleOrangeDarkMode;
+                    case PaletteModeManager.SparkleOrangeLightMode:
+                        return PaletteSparkleOrangeLightMode;
                     case PaletteModeManager.SparklePurple:
                         return PaletteSparklePurple;
+                    case PaletteModeManager.SparklePurpleDarkMode:
+                        return PaletteSparklePurpleDarkMode;
+                    case PaletteModeManager.SparklePurpleLightMode:
+                        return PaletteSparklePurpleLightMode;
                     case PaletteModeManager.Office365Black:
                         return PaletteOffice365Black;
                     case PaletteModeManager.Office365BlackDarkMode:
@@ -560,8 +572,16 @@ namespace Krypton.Toolkit
                     return PaletteSparkleBlueLightMode;
                 case PaletteMode.SparkleOrange:
                     return PaletteSparkleOrange;
+                case PaletteMode.SparkleOrangeDarkMode:
+                    return PaletteSparkleOrangeDarkMode;
+                case PaletteMode.SparkleOrangeLightMode:
+                    return PaletteSparkleOrangeLightMode;
                 case PaletteMode.SparklePurple:
                     return PaletteSparklePurple;
+                case PaletteMode.SparklePurpleDarkMode:
+                    return PaletteSparklePurpleDarkMode;
+                case PaletteMode.SparklePurpleLightMode:
+                    return PaletteSparklePurpleLightMode;
                 case PaletteMode.Office365Black:
                     return PaletteOffice365Black;
                 case PaletteMode.Office365BlackDarkMode:
@@ -719,10 +739,18 @@ namespace Krypton.Toolkit
         /// </summary>
         public static PaletteSparkleOrange PaletteSparkleOrange => _paletteSparkleOrange ?? (_paletteSparkleOrange = new PaletteSparkleOrange());
 
+        public static PaletteSparkleOrangeDarkMode PaletteSparkleOrangeDarkMode => _paletteSparkleOrangeDarkMode ?? (_paletteSparkleOrangeDarkMode = new PaletteSparkleOrangeDarkMode());
+
+        public static PaletteSparkleOrangeLightMode PaletteSparkleOrangeLightMode => _paletteSparkleOrangeLightMode ?? (_paletteSparkleOrangeLightMode = new PaletteSparkleOrangeLightMode());
+
         /// <summary>
         /// Gets the single instance of the Purple variant sparkle palette.
         /// </summary>
         public static PaletteSparklePurple PaletteSparklePurple => _paletteSparklePurple ?? (_paletteSparklePurple = new PaletteSparklePurple());
+
+        public static PaletteSparklePurpleDarkMode PaletteSparklePurpleDarkMode => _paletteSparklePurpleDarkMode ?? (_paletteSparklePurpleDarkMode = new PaletteSparklePurpleDarkMode());
+
+        public static PaletteSparklePurpleLightMode PaletteSparklePurpleLightMode => _paletteSparklePurpleLightMode ?? (_paletteSparklePurpleLightMode = new PaletteSparklePurpleLightMode());
 
 
         /// <summary>
