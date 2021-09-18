@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
         private static readonly Image _formMaximiseDisabled = null;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMinNormal;
-        private static readonly Image _formMinimiseHover = null;
+        private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMinHover;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMinDisabled;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
         private static readonly Image _formRestoreDisabled = null;
@@ -614,7 +614,8 @@ namespace Krypton.Toolkit
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
-                    PaletteState.Tracking or PaletteState.Pressed => _formMinimiseNormal,
+                    PaletteState.Normal => _formMinimiseNormal,
+                    PaletteState.Tracking => _formMinimiseHover,
                     _ => _formMinimiseDisabled
                 },
                 PaletteButtonSpecStyle.FormMax => _formMaximiseNormal,
