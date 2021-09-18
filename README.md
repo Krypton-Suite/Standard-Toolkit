@@ -2,6 +2,14 @@
 
 =======
 
+## Notification of LTS Package Support
+
+In November 2020, we released LTS packages to give developers an extra year to migrate their projects to the then new namespaces. As we're coming up to the elapsed time, those packages **will no longer** be listed on NuGet, and the relevant branch will be removed from GitHub.
+
+In order to continue receiving support and new features, please migrate to either the `Stable` or `Signed` versions of the packages.
+
+=======
+
 - Skip to [Version History](#version-history)
 
 =======
