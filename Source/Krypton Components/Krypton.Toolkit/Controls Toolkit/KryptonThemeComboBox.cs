@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
 
             ThemeManager.PropagateThemeSelector(this);
 
-            SelectedIndex = 24;
+            Text = KryptonManager.GlobalPaletteMode.ToString();
         }
         #endregion
 
