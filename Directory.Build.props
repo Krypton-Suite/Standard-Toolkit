@@ -1,28 +1,27 @@
 <Project>
-  <PropertyGroup>
-		<!-- Version number used for the assemblies and the NuGet packages -->
-		<!--<LibraryVersion>6.0.2110</LibraryVersion>-->
-
+	<!--Nightly NuGets only!!!!!!!!!!!-->
+	<PropertyGroup>
 		<!--For use with Nightly packages-->
-		<!--REMINDER: When packing, use the proper ISO layout, i.e yyyyMMdd-->
-		<CurrentDate>$([System.DateTime]::Now.ToString(yyyyMMdd))</CurrentDate>
-		<NightlyMinorVersion>$([System.DateTime]::Now.ToString(yyMM)</NightlyMinorVersion>
-		<NightlyBuildVersion>$([System.DateTime]::Now.ToString(dd)</NightlyBuildVersion>
-		
+		<!--REMINDER: When packing, use the proper ISO layout, i.e ddHH-->
+		<!--<CurrentDate>$([System.DateTime]::Now.ToString(ddHH))</CurrentDate>-->
+
+		<Minor>$([System.DateTime]::Now.ToString(yyMM))</Minor>
+		<Build>$([System.DateTime]::Now.get_DayOfYear().ToString())</Build>
+
 		<!--Version layout:
 			6 = Major
-			2110 = Minor
-			210916 = Build
+			2109 = Minor
+			18 = Build
 			-alpha = Indicates a pre-release package
 		-->
-		<LibraryVersion>6.$(NightlyMinorVersion).$(NightlyBuildVersion)</LibraryVersion>
+		<LibraryVersion>6.$(Minor).$(Build)</LibraryVersion>
 		<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
-		<PackageVersion>6.2110.$(CurrentDate)-alpha</PackageVersion>
+		<PackageVersion>6.$(Minor).$(Build)-alpha</PackageVersion>
 
 		<!--Canary only-->
-		<!--<PackageVersion>6.0.2110-beta</PackageVersion>-->
+		<!--<PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>-->
 
 		<!--Stable/Signed-->
-		<!--<PackageVersion>6.0.2110</PackageVersion>-->
-  </PropertyGroup>
+		<!--<PackageVersion>6.$(Minor).$(Build)</PackageVersion>-->
+	</PropertyGroup>
 </Project>
