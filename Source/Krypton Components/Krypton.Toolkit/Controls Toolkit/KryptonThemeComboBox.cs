@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
-            ThemeManager.ApplyGlobalTheme(_internalKryptonManager, ThemeManager.ApplyThemeMode(Text));
+            ThemeManager.ApplyGlobalTheme(_internalKryptonManager, ThemeManager.ApplyThemeMode(Text)); // TODO: Protect the current value to prevent conflict
 
             base.OnSelectedIndexChanged(e);
         }
