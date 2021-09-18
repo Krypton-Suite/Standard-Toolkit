@@ -12,6 +12,10 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>
+    /// Allows the user to change themes using a <see cref="KryptonComboBox"/>.
+    /// </summary>
+    /// <seealso cref="Krypton.Toolkit.KryptonComboBox" />
     public class KryptonThemeComboBox : KryptonComboBox
     {
         #region Instance Fields
@@ -19,7 +23,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        public new KryptonManager KryptonManager
+        /// <summary>Gets or sets the krypton manager.</summary>
+        /// <value>The krypton manager.</value>
+        public KryptonManager KryptonManager
         {
             get => _internalKryptonManager;
 
@@ -50,6 +56,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected
+        /// <summary>Raises the SelectedIndexChanged event.</summary>
+        /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
             ThemeManager.ApplyGlobalTheme(_internalKryptonManager, ThemeManager.ApplyThemeMode(Text));
