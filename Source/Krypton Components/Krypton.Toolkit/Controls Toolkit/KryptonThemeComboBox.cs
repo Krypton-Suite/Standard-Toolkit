@@ -14,7 +14,30 @@ namespace Krypton.Toolkit
 {
     public class KryptonThemeComboBox : KryptonComboBox
     {
-        #region Constructor
+        #region Instance Fields
+        private KryptonManager _internalKryptonManager;
+        #endregion
+
+        #region Public
+        public new KryptonManager KryptonManager
+        {
+            get => _internalKryptonManager;
+
+            set 
+            {
+                if (_internalKryptonManager == null)
+                {
+                    _internalKryptonManager = new KryptonManager();
+                }
+                else
+                {
+                    _internalKryptonManager = value;
+                }
+            }
+        }
+        #endregion
+
+        #region Identity
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
         public KryptonThemeComboBox()
         {
@@ -24,6 +47,16 @@ namespace Krypton.Toolkit
 
             SelectedIndex = 24;
         }
+        #endregion
+
+        #region Protected
+        protected override void OnSelectedIndexChanged(EventArgs e)
+        {
+            ThemeManager.ApplyGlobalTheme(_internalKryptonManager, ThemeManager.ApplyThemeMode(Text));
+
+            base.OnSelectedIndexChanged(e);
+        }
+
         #endregion
     }
 }
