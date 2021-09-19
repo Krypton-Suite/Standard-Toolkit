@@ -430,6 +430,7 @@ namespace Krypton.Toolkit
 
         private static void DrawRoundedRectangle(Graphics g, Pen pen, Point location, Size size, int radius)
         {
+            g.SmoothingMode = SmoothingMode.AntiAlias;
             var roundRect = new RoundedRectangleF(size.Width, size.Height, radius, location.X, location.Y);
             g.DrawPath(pen, roundRect.Path);
         }
