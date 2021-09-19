@@ -551,6 +551,13 @@ namespace Krypton.Toolkit
 
             return modeManager;
         }
+
+        /// <summary>Returns the theme array.</summary>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        public static string[] ReturnThemeArray() => _supportedThemes;
+
         #endregion
     }
 }

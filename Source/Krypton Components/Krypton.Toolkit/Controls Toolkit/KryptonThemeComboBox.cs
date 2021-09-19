@@ -48,10 +48,16 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
         public KryptonThemeComboBox()
         {
-            DropDownStyle = ComboBoxStyle.DropDownList;
+            DropDownStyle = ComboBoxStyle.DropDown;
 
             ThemeManager.PropagateThemeSelector(this);
 
+            AutoCompleteCustomSource = new AutoCompleteStringCollection() { ThemeManager.ReturnThemeArray().ToString() };
+
+            AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            
             if (KryptonManager == null)
             {
                 KryptonManager = new KryptonManager();
