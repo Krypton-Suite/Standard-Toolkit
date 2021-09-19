@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Blue color scheme variant of the Office 2010 palette.
     /// </summary>
-    public class PaletteOffice2010BlueDarkMode : PaletteOffice2010Base
+    public class PaletteOffice2010BlueLightMode : PaletteOffice2010Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxNormal;
         private static readonly Image _formMaximiseDisabled = null;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinNormal;
-        private static readonly Image _formMinimiseHover = null;
+        private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinHover;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinDisabled;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
         private static readonly Image _formRestoreDisabled = null;
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(63, 101, 152)        // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb(30,  57,  91),    // TextLabelControl
+        private static readonly Color[] _schemeColors = { Color.FromArgb( 30,  57,  91),    // TextLabelControl
                                                                       Color.FromArgb( 30,  57,  91),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(171, 186, 208),    // ButtonNormalBorder
@@ -219,11 +219,11 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(245, 210,  87),    // GridSheetRowSelected
                                                                       Color.FromArgb(218, 220, 221),    // GridDataCellBorder
                                                                       Color.FromArgb(183, 219, 255),    // GridDataCellSelected
-                                                                      Color.FromArgb(30,  57,  91),     // InputControlTextNormal
+                                                                      Color.FromArgb( 30,  57,  91),    // InputControlTextNormal
                                                                       Color.FromArgb(168, 168, 168),    // InputControlTextDisabled
                                                                       Color.FromArgb(177, 192, 214),    // InputControlBorderNormal
                                                                       Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled
-                                                                      Color.FromArgb(126, 154, 188),    // InputControlBackNormal
+                                                                      Color.FromArgb(201, 222, 245),    // InputControlBackNormal
                                                                       Color.FromArgb(240, 240, 240),    // InputControlBackDisabled
                                                                       Color.FromArgb(237, 245, 253),    // InputControlBackInactive
                                                                       Color.Black,                      // InputDropDownNormal1
@@ -273,14 +273,14 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static PaletteOffice2010BlueDarkMode()
+        static PaletteOffice2010BlueLightMode()
         {
             _checkBoxList = new ImageList
             {
                 ImageSize = new Size(13, 13),
                 ColorDepth = ColorDepth.Depth24Bit
             };
-            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparkle);
+            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Blue);
             _galleryButtonList = new ImageList
             {
                 ImageSize = new Size(13, 7),
@@ -301,7 +301,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteOffice2010Blue class.
         /// </summary>
-        public PaletteOffice2010BlueDarkMode()
+        public PaletteOffice2010BlueLightMode()
             : base(_schemeColors,
                    _checkBoxList,
                    _galleryButtonList,
@@ -345,7 +345,8 @@ namespace Krypton.Toolkit
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
-                    PaletteState.Tracking or PaletteState.Pressed => _formMinimiseNormal,
+                    PaletteState.Normal => _formMinimiseNormal,
+                    PaletteState.Tracking => _formMinimiseHover,
                     _ => _formMinimiseDisabled
                 },
                 PaletteButtonSpecStyle.FormMax => _formMaximiseNormal,

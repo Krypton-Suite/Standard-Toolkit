@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -13,7 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class PaletteOffice365BlueLightMode : PaletteOffice365Base
+    public class PaletteOffice365Blue : PaletteOffice365Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxNormal;
         private static readonly Image _formMaximiseDisabled = null;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinNormal;
-        private static readonly Image _formMinimiseHover = null;
+        private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinHover;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinDisabled;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
         private static readonly Image _formRestoreDisabled = null;
@@ -216,11 +216,11 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(245, 210,  87),    // GridSheetRowSelected
                                                                       Color.FromArgb(218, 220, 221),    // GridDataCellBorder
                                                                       Color.FromArgb(183, 219, 255),    // GridDataCellSelected
-                                                                      Color.FromArgb(30,  57,  91),     // InputControlTextNormal
+                                                                      Color.Black,                      // InputControlTextNormal
                                                                       Color.FromArgb(168, 168, 168),    // InputControlTextDisabled
                                                                       Color.FromArgb(177, 192, 214),    // InputControlBorderNormal
                                                                       Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled
-                                                                      Color.FromArgb(201, 222, 245),    // InputControlBackNormal
+                                                                      Color.FromArgb(255, 255, 255),    // InputControlBackNormal
                                                                       Color.FromArgb(240, 240, 240),    // InputControlBackDisabled
                                                                       Color.FromArgb(237, 245, 253),    // InputControlBackInactive
                                                                       Color.Black,                      // InputDropDownNormal1
@@ -270,7 +270,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructors
-        static PaletteOffice365BlueLightMode()
+        static PaletteOffice365Blue()
         {
             _checkBoxList = new ImageList
             {
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initializes a new instance of the PaletteOffice365Blue class.
         /// </summary>
-        public PaletteOffice365BlueLightMode() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        public PaletteOffice365Blue() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
 
         }
@@ -342,7 +342,8 @@ namespace Krypton.Toolkit
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
-                    PaletteState.Tracking or PaletteState.Pressed => _formMinimiseNormal,
+                    PaletteState.Normal => _formMinimiseNormal,
+                    PaletteState.Tracking => _formMinimiseHover,
                     _ => _formMinimiseDisabled
                 },
                 PaletteButtonSpecStyle.FormMax => _formMaximiseNormal,

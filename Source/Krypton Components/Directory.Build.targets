@@ -3,17 +3,42 @@
     <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../../'))" />
     -->
 
-    <PropertyGroup>
-      <AssemblyVersion>6.0.2110</AssemblyVersion>
-      <FileVersion>6.0.2110</FileVersion>
+  <PropertyGroup>
+    <!--REMINDER: When packing, use the proper ISO layout, i.e ddHH-->
+    <!--<CurrentDate>$([System.DateTime]::Now.ToString(ddHH))</CurrentDate>-->
+
+    <Minor>$([System.DateTime]::Now.ToString(yyMM))</Minor>
+    <Build>$([System.DateTime]::Now.get_DayOfYear().ToString())</Build>
+
+    <!--Version layout:
+			6 = Major
+			2109 = Minor
+			18 = Build
+			-alpha = Indicates a pre-release package
+		-->
+    <LibraryVersion>6.$(Minor).$(Build)</LibraryVersion>
+
+    <!--Nightly-->
+    <!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
+    <PackageVersion>6.$(Minor).$(Build)-alpha</PackageVersion>
+
+    <!--Canary only-->
+    <!--<PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>-->
+
+    <!--Stable/Signed-->
+    <!--<PackageVersion>6.$(Minor).$(Build)</PackageVersion>-->
+
+    <AssemblyVersion>6.$(Minor).$(Build)</AssemblyVersion>
+    
+    <FileVersion>6.$(Minor).$(Build)</FileVersion>
     </PropertyGroup>
 
     <!--Handle AssemblyInfo-->
     <PropertyGroup>
       <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
       <NeutralLanguage>en</NeutralLanguage>
-      <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
-      <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
+      <Authors>Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV), Phil Wright (A.K.A ComponentFactory)</Authors>
+      <Copyright>© Krypton Suite (Peter Wagner (Wagnerp) and Simon Coghlan (Smurf-IV)), 2017 - 2021. Component Factory Pty Ltd (Phil Wright), 2006 - 2016. All rights reserved.</Copyright>
     </PropertyGroup>
 
     <PropertyGroup>

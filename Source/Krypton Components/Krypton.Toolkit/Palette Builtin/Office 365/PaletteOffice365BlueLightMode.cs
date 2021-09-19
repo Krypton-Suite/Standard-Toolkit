@@ -2,7 +2,7 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
@@ -13,10 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>
-    /// Provides the Blue color scheme variant of the Office 2010 palette.
-    /// </summary>
-    public class PaletteOffice2010Blue : PaletteOffice2010Base
+    public class PaletteOffice365BlueLightMode : PaletteOffice365Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -29,13 +26,13 @@ namespace Krypton.Toolkit
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxNormal;
         private static readonly Image _formMaximiseDisabled = null;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinNormal;
-        private static readonly Image _formMinimiseHover = null;
+        private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinHover;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinDisabled;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
         private static readonly Image _formRestoreDisabled = null;
-        private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice2010HelpIconBlue;
-        private static readonly Image _formHelpHover = HelpIconResources.GenericOffice2010HelpIconHover;
-        private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice2010HelpIconDisabled;
+        private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice365HelpIconBlue;
+        private static readonly Image _formHelpHover = HelpIconResources.GenericOffice365HelpIconHover;
+        private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice365HelpIconDisabled;
         private static readonly Color[] _trackBarColors = { Color.FromArgb(116, 150, 194),      // Tick marks
                                                                         Color.FromArgb(116, 150, 194),      // Top track
                                                                         Color.FromArgb(152, 190, 241),      // Bottom track
@@ -219,11 +216,11 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(245, 210,  87),    // GridSheetRowSelected
                                                                       Color.FromArgb(218, 220, 221),    // GridDataCellBorder
                                                                       Color.FromArgb(183, 219, 255),    // GridDataCellSelected
-                                                                      Color.Black,                      // InputControlTextNormal
+                                                                      Color.FromArgb(30,  57,  91),     // InputControlTextNormal
                                                                       Color.FromArgb(168, 168, 168),    // InputControlTextDisabled
                                                                       Color.FromArgb(177, 192, 214),    // InputControlBorderNormal
                                                                       Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled
-                                                                      Color.FromArgb(255, 255, 255),    // InputControlBackNormal
+                                                                      Color.FromArgb(201, 222, 245),    // InputControlBackNormal
                                                                       Color.FromArgb(240, 240, 240),    // InputControlBackDisabled
                                                                       Color.FromArgb(237, 245, 253),    // InputControlBackInactive
                                                                       Color.Black,                      // InputDropDownNormal1
@@ -272,8 +269,8 @@ namespace Krypton.Toolkit
         };
         #endregion
 
-        #region Identity
-        static PaletteOffice2010Blue()
+        #region Constructors
+        static PaletteOffice365BlueLightMode()
         {
             _checkBoxList = new ImageList
             {
@@ -289,52 +286,52 @@ namespace Krypton.Toolkit
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
             _radioButtonArray = new Image[]{Office2010BlueRadioButtonResources.RadioButton2010BlueD,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueN,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueT,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueP,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueNC,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BlueTC,
-                                            Office2010BlueRadioButtonResources.RadioButton2010BluePC};
+                Office2010BlueRadioButtonResources.RadioButton2010BlueN,
+                Office2010BlueRadioButtonResources.RadioButton2010BlueT,
+                Office2010BlueRadioButtonResources.RadioButton2010BlueP,
+                Office2010BlueRadioButtonResources.RadioButton2010BlueDC,
+                Office2010BlueRadioButtonResources.RadioButton2010BlueNC,
+                Office2010BlueRadioButtonResources.RadioButton2010BlueTC,
+                Office2010BlueRadioButtonResources.RadioButton2010BluePC};
         }
 
         /// <summary>
-        /// Initialize a new instance of the PaletteOffice2010Blue class.
+        /// Initializes a new instance of the PaletteOffice365Blue class.
         /// </summary>
-        public PaletteOffice2010Blue()
-            : base(_schemeColors, 
-                   _checkBoxList, 
-                   _galleryButtonList, 
-                   _radioButtonArray,
-                   _trackBarColors)
+        public PaletteOffice365BlueLightMode() : base(_schemeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
         {
+
         }
         #endregion
 
-        #region Images
+        #region Images        
         /// <summary>
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
+        /// <returns></returns>
         public override Image GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blueDropDownButton : base.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
-        /// <returns>Appropriate image for drawing; otherwise null.</returns>
+        /// <returns>
+        /// Appropriate image for drawing; otherwise null.
+        /// </returns>
         public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         #endregion
 
-        #region ButtonSpec
+        #region ButtonSpec        
         /// <summary>
         /// Gets the image to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
-        /// <returns>Image value.</returns>
-        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
-                                                 PaletteState state)
+        /// <returns>
+        /// Image value.
+        /// </returns>
+        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state)
         {
             return style switch
             {
@@ -345,7 +342,8 @@ namespace Krypton.Toolkit
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
                 {
-                    PaletteState.Tracking or PaletteState.Pressed => _formMinimiseNormal,
+                    PaletteState.Normal => _formMinimiseNormal,
+                    PaletteState.Tracking => _formMinimiseHover,
                     _ => _formMinimiseDisabled
                 },
                 PaletteButtonSpecStyle.FormMax => _formMaximiseNormal,

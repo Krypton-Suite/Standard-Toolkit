@@ -50,8 +50,14 @@ namespace Krypton.Toolkit
                                              new(PaletteMode.Office365SilverLightMode, "Office 365 - Silver (Light Mode)"),
                                              new(PaletteMode.Office365White,        "Office 365 - White"),
                                              new(PaletteMode.SparkleBlue,           "Sparkle - Blue"),
+                                             new(PaletteMode.SparkleBlueDarkMode, "Sparkle - Blue (Dark Mode)"),
+                                             new(PaletteMode.SparkleBlueLightMode, "Sparkle - Blue (Light Mode)"),
                                              new(PaletteMode.SparkleOrange,         "Sparkle - Orange"),
-                                             new(PaletteMode.SparklePurple,         "Sparkle - Purple")
+                                             new(PaletteMode.SparkleOrangeDarkMode, "Sparkle - Orange (Dark Mode)"),
+                                             new(PaletteMode.SparkleOrangeLightMode, "Sparkle - Orange (Light Mode)"),
+                                             new(PaletteMode.SparklePurple,         "Sparkle - Purple"),
+                                             new(PaletteMode.SparklePurpleDarkMode, "Sparkle - Purple (Dark Mode)"),
+                                             new(PaletteMode.SparklePurpleLightMode, "Sparkle - Purple (Light Mode)")
                                              //new(PaletteMode.VisualStudioDark,      "Visual Studio (Dark Mode)"),
                                              //new(PaletteMode.VisualStudioLight,     "Visual Studio (Light Mode)")
                                              };
