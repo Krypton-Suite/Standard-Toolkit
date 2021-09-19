@@ -52,6 +52,11 @@ namespace Krypton.Toolkit
 
             ThemeManager.PropagateThemeSelector(this);
 
+            if (KryptonManager == null)
+            {
+                KryptonManager = new KryptonManager();
+            }
+
             Text = KryptonManager.GlobalPaletteMode.ToString();
 
             // Store the current GlobalPaletteMode, so we don't run into any issues
@@ -64,7 +69,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
-            ThemeManager.ApplyGlobalTheme(_internalKryptonManager, ThemeManager.ApplyThemeMode(Text)); // TODO: Protect the current value to prevent conflict
+            ThemeManager.ApplyTheme(Text, KryptonManager); // TODO: Protect the current value to prevent conflict
 
             base.OnSelectedIndexChanged(e);
         }

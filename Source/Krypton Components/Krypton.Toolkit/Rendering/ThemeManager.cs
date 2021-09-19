@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <param name="manager">The manager.</param>
-        private static void ApplyTheme(string themeName, KryptonManager manager)
+        public static void ApplyTheme(string themeName, KryptonManager manager)
         {
             switch (themeName)
             {

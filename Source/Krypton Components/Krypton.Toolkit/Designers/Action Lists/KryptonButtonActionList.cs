@@ -257,7 +257,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
                 actions.Add(new DesignerActionHeaderItem("UAC Elevation"));
                 actions.Add(new DesignerActionPropertyItem("UseAsUACElevatedButton", "Use as an UAC Elevated Button", "UAC Elevation", "Use this button to elevate a process."));
-                actions.Add(new DesignerActionPropertyItem("ProcessToElevate", "Process to Elevate", "UAC Elevation", "The process to elevate."));
             }
 
             return actions;
