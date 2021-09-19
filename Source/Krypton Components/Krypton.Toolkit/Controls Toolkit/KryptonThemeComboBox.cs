@@ -20,6 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private KryptonManager _internalKryptonManager;
+        private readonly PaletteModeManager _paletteMode;
         #endregion
 
         #region Public
@@ -52,6 +53,9 @@ namespace Krypton.Toolkit
             ThemeManager.PropagateThemeSelector(this);
 
             Text = KryptonManager.GlobalPaletteMode.ToString();
+
+            // Store the current GlobalPaletteMode, so we don't run into any issues
+            _paletteMode = KryptonManager.GlobalPaletteMode;
         }
         #endregion
 
