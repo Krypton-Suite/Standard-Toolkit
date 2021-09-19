@@ -200,6 +200,7 @@ namespace Krypton.Toolkit
 
             // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
         }
 
         /// <summary>
@@ -593,7 +594,15 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner rounding radius.</summary>
         /// <value>The corner rounding radius.</value>
         [DefaultValue(-1), Description("Defines the corner roundness on the current window (-1 is the default look).")]
-        public float CornerRoundingRadius { get => _cornerRoundingRadius; set { _cornerRoundingRadius = value; Invalidate(); } }
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+            set
+            {
+                _cornerRoundingRadius = value;
+                Invalidate();
+            }
+        }
 
         /// <summary>Gets or sets the active control on the container control.</summary>
         [DefaultValue(null), Description("Defines an active control for this window.")]
@@ -615,6 +624,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
         #endregion
 
         #region Public Chrome
@@ -1438,8 +1448,7 @@ namespace Krypton.Toolkit
                                              (_statusStrip.Dock == DockStyle.Bottom) &&
                                              (_statusStrip.Bottom == ClientRectangle.Bottom) &&
                                              (_statusStrip.RenderMode == ToolStripRenderMode.ManagerRenderMode) &&
-                                             ((ToolStripManager.Renderer is KryptonOffice2007Renderer) ||
-                                              (ToolStripManager.Renderer is KryptonSparkleRenderer)));
+                                             (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonSparkleRenderer));
 
         private void MonitorStatusStrip(StatusStrip statusStrip)
         {

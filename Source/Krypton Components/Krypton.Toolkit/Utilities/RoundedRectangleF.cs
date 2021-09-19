@@ -52,11 +52,6 @@ namespace Krypton.Toolkit
             RectangleF arc = new (Rect.Location, size);
 
             // The border is made of up a quarter of a circle arc, in each corner
-            //_graphicsPath.AddArc(rectF.Left, rectF.Top, radius, radius, 180f, 90f);
-            //_graphicsPath.AddArc(rectF.Right - radius, rectF.Top, radius, radius, 270f, 90f);
-            //_graphicsPath.AddArc(rectF.Right - radius, rectF.Bottom - radius, radius, radius, 0f, 90f);
-            //_graphicsPath.AddArc(rectF.Left, rectF.Bottom - radius, radius, radius, 90f, 90f);
-
             // top left arc  
             _graphicsPath.AddArc(arc, 180, 90);
 
