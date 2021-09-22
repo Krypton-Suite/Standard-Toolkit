@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public class PaletteOffice365BlackDarkMode : PaletteOffice365Base
+    public class PaletteOffice365BlackDarkMode : PaletteOffice365BlackThemeBase
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -49,9 +49,9 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.White,    // TextLabelControl
-                                                                      Color.Black,                      // TextButtonNormal
-                                                                      Color.Black,                      // TextButtonChecked
+        private static readonly Color[] _schemeColors = {             Color.White,             // TextLabelControl
+                                                                      Color.White,                                   // TextButtonNormal
+                                                                      Color.FromArgb(128, 128, 128),    // TextButtonChecked
                                                                       Color.FromArgb(106, 106, 106),    // ButtonNormalBorder1
                                                                       Color.FromArgb( 94,  94,  94),    // ButtonNormalDefaultBorder
                                                                       Color.FromArgb(189, 189, 189),    // ButtonNormalBack1
@@ -227,14 +227,14 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(218, 220, 221),    // GridDataCellBorder
                                                                       Color.FromArgb(183, 219, 255),    // GridDataCellSelected
                                                                       Color.FromArgb(255, 255, 255),    // InputControlTextNormal
-                                                                      Color.FromArgb(168, 168, 168),    // InputControlTextDisabled
+                                                                      Color.FromArgb(128, 128, 128),    // InputControlTextDisabled
                                                                       Color.FromArgb(132, 132, 132),    // InputControlBorderNormal
                                                                       Color.FromArgb(187, 187, 187),    // InputControlBorderDisabled
                                                                       Color.FromArgb(38, 38, 38),       // InputControlBackNormal
                                                                       Color.FromArgb(240, 240, 240),    // InputControlBackDisabled
                                                                       Color.FromArgb(192, 192, 192),    // InputControlBackInactive
-                                                                      Color.Black,                      // InputDropDownNormal1
-                                                                      Color.Transparent,                // InputDropDownNormal2
+                                                                      Color.FromArgb(38, 38, 38),       // InputDropDownNormal1
+                                                                      Color.FromArgb(38, 38, 38),       // InputDropDownNormal2
                                                                       Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
                                                                       Color.Transparent,                // InputDropDownDisabled2
                                                                       Color.FromArgb(240, 242, 245),    // ContextMenuHeadingBack

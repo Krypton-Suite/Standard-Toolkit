@@ -217,11 +217,29 @@ namespace Krypton.Toolkit
                 case "Sparkle - Blue":
                     ApplyTheme(PaletteModeManager.SparkleBlue, manager);
                     break;
+                case "Sparkle - Blue (Dark Mode)":
+                    ApplyTheme(PaletteModeManager.SparkleBlueDarkMode, manager);
+                    break;
+                case "Sparkle - Blue (Light Mode)":
+                    ApplyTheme(PaletteModeManager.SparkleBlueLightMode, manager);
+                    break;
                 case "Sparkle - Orange":
                     ApplyTheme(PaletteModeManager.SparkleOrange, manager);
                     break;
+                case "Sparkle - Orange (Dark Mode)":
+                    ApplyTheme(PaletteModeManager.SparkleOrangeDarkMode, manager);
+                    break;
+                case "Sparkle - Orange (Light Mode)":
+                    ApplyTheme(PaletteModeManager.SparkleOrangeLightMode, manager);
+                    break;
                 case "Sparkle - Purple":
                     ApplyTheme(PaletteModeManager.SparklePurple, manager);
+                    break;
+                case "Sparkle - Purple (Dark Mode)":
+                    ApplyTheme(PaletteModeManager.SparklePurpleDarkMode, manager);
+                    break;
+                case "Sparkle - Purple (Light Mode)":
+                    ApplyTheme(PaletteModeManager.SparklePurpleLightMode, manager);
                     break;
                 case "Office 365 - Blue":
                     ApplyTheme(PaletteModeManager.Office365Blue, manager);
