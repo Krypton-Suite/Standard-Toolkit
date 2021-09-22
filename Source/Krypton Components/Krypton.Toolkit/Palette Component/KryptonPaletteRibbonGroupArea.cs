@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
             StateCommon = new PaletteRibbonBack(_stateInherit, needPaint);
             StateCheckedNormal = new PaletteRibbonBack(StateCommon, needPaint);
             StateContextCheckedNormal = new PaletteRibbonBack(StateCommon, needPaint);
+            StateTracking = new PaletteRibbonBack(StateCommon, needPaint);
         }
         #endregion
 
@@ -58,7 +59,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public override bool IsDefault => StateCommon.IsDefault &&
                                           StateCheckedNormal.IsDefault &&
-                                          StateContextCheckedNormal.IsDefault;
+                                          StateContextCheckedNormal.IsDefault &&
+                                          StateTracking.IsDefault;
 
         #endregion
 
@@ -71,6 +73,7 @@ namespace Krypton.Toolkit
             // Populate only the designated styles
             StateCheckedNormal.PopulateFromBase(PaletteState.CheckedNormal);
             StateContextCheckedNormal.PopulateFromBase(PaletteState.ContextCheckedNormal);
+            StateTracking.PopulateFromBase(PaletteState.Tracking);
         }
         #endregion
 
@@ -113,6 +116,20 @@ namespace Krypton.Toolkit
         public PaletteRibbonBack StateContextCheckedNormal { get; }
 
         private bool ShouldSerializeStateContextCheckedNormal() => !StateContextCheckedNormal.IsDefault;
+
+        #endregion
+
+        #region StateTracking
+        /// <summary>
+        /// Gets access to the tracking ribbon group area appearance entries.
+        /// </summary>
+        [KryptonPersist]
+        [Category("Visuals")]
+        [Description("Overrides for defining tracking ribbon group area appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteRibbonBack StateTracking { get; }
+
+        public bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         #endregion
     }

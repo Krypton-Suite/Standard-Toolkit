@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
 
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
-        private static readonly Color _disabledText = Color.GhostWhite; // Color.FromArgb(167, 167, 167);
+        private static readonly Color _disabledText = Color.FromArgb(255, 198, 0); // Color.FromArgb(167, 167, 167);
         private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
         private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
