@@ -195,7 +195,6 @@ namespace Krypton.Toolkit
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "KryptonMessageBoxForm";
-            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
