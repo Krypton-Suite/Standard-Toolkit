@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public class PaletteOffice365Black : PaletteOffice365Base
+    public class PaletteOffice365Black : PaletteOffice365BlackThemeBase
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
         private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010Black;
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010Black;
-        private static readonly Color _disabledRibbonText = Color.FromArgb(205, 205, 205);
+        private static readonly Color _disabledRibbonText = Color.White; // Color.FromArgb(205, 205, 205);
         private static readonly Color[] _trackBarColors = { Color.FromArgb( 17,  17,  17),      // Tick marks
                                                                         Color.FromArgb( 37,  37,  37),      // Top track
                                                                         Color.FromArgb(174, 174, 174),      // Bottom track
@@ -226,8 +226,8 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(245, 210,  87),    // GridSheetRowSelected
                                                                       Color.FromArgb(218, 220, 221),    // GridDataCellBorder
                                                                       Color.FromArgb(183, 219, 255),    // GridDataCellSelected
-                                                                      Color.Black,                                     // InputControlTextNormal
-                                                                      Color.FromArgb(168, 168, 168),    // InputControlTextDisabled
+                                                                      Color.Black,                                   // InputControlTextNormal
+                                                                      Color.White,                                   // InputControlTextDisabled
                                                                       Color.FromArgb(132, 132, 132),    // InputControlBorderNormal
                                                                       Color.FromArgb(187, 187, 187),    // InputControlBorderDisabled
                                                                       Color.FromArgb(255, 255, 255),    // InputControlBackNormal

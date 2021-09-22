@@ -619,8 +619,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the single instance of the professional office palette.
         /// </summary>
-        public static PaletteProfessionalOffice2003 PaletteProfessionalOffice2003 => _paletteProfessionalOffice2003 ??
-                                                                                     (_paletteProfessionalOffice2003 = new PaletteProfessionalOffice2003());
+        public static PaletteProfessionalOffice2003 PaletteProfessionalOffice2003 => _paletteProfessionalOffice2003 ?? (_paletteProfessionalOffice2003 = new PaletteProfessionalOffice2003());
 
         /// <summary>
         /// Gets the single instance of the Blue variant Office 2007 palette.
