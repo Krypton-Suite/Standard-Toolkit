@@ -266,11 +266,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public override void CopyTo(ViewBase[] array, int arrayIndex)
-        {
+        public override void CopyTo(ViewBase[] array, int arrayIndex) =>
             // Let type safe collection perform operation
             _views?.CopyTo(array, arrayIndex);
-        }
 
         /// <summary>
         /// Removes first occurence of specified view.

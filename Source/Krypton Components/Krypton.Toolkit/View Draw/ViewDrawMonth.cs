@@ -299,15 +299,10 @@ namespace Krypton.Toolkit
             _numberStack.Visible = showWeekNumbers;
         }
 
-        private void OnNextMonth(object sender, EventArgs e)
-        {
-            _months.NextMonth();
-        }
+        private void OnNextMonth(object sender, EventArgs e) => _months.NextMonth();
 
-        private void OnPrevMonth(object sender, EventArgs e)
-        {
-            _months.PrevMonth();
-        }
+        private void OnPrevMonth(object sender, EventArgs e) => _months.PrevMonth();
+
         #endregion
     }
 }

@@ -294,10 +294,7 @@ namespace Krypton.Toolkit
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -584,10 +581,7 @@ namespace Krypton.Toolkit
         /// Reset the internal counters.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void KryptonResetCounters()
-        {
-            ViewManager.ResetCounters();
-        }
+        public void KryptonResetCounters() => ViewManager.ResetCounters();
 
         /// <summary>
         /// Gets the number of layout cycles performed since last reset.
@@ -720,10 +714,7 @@ namespace Krypton.Toolkit
         /// Raises the Initialized event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnInitialized(EventArgs e)
-        {
-            Initialized?.Invoke(this, EventArgs.Empty);
-        }
+        protected virtual void OnInitialized(EventArgs e) => Initialized?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
         /// Raises the PaletteChanged event.
@@ -1165,10 +1156,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-        {
-            PerformNeedPaint(true);
-        }
+        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => PerformNeedPaint(true);
 
         private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
         {
@@ -1187,10 +1175,8 @@ namespace Krypton.Toolkit
             KryptonContextMenu = null;
         }
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            ContextMenuClosed();
-        }
+        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
+
         #endregion
     }
 }

@@ -56,34 +56,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// This target should display as the active target.
         /// </summary>
-        public virtual void ShowTarget()
-        {
-            HighlightState();
-        }
+        public virtual void ShowTarget() => HighlightState();
 
         /// <summary>
         /// This target should clear any active display.
         /// </summary>
-        public virtual void ClearTarget()
-        {
-            NormalState();
-        }
+        public virtual void ClearTarget() => NormalState();
 
         /// <summary>
         /// This target should show any appropriate sub menu.
         /// </summary>
-        public void ShowSubMenu()
-        {
-            _menuItem.ShowSubMenu(false);
-        }
+        public void ShowSubMenu() => _menuItem.ShowSubMenu(false);
 
         /// <summary>
         /// This target should remove any showing sub menu.
         /// </summary>
-        public void ClearSubMenu()
-        {
-            _menuItem.ClearSubMenu();
-        }
+        public void ClearSubMenu() => _menuItem.ClearSubMenu();
 
         /// <summary>
         /// Determine if the keys value matches the mnemonic setting for this target.
@@ -402,10 +390,8 @@ namespace Krypton.Toolkit
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="layout">Does a layout need to occur.</param>
-        public void PerformNeedPaint(bool layout)
-        {
-            OnNeedPaint(layout);
-        }
+        public void PerformNeedPaint(bool layout) => OnNeedPaint(layout);
+
         #endregion
 
         #region Implementation
@@ -476,10 +462,8 @@ namespace Krypton.Toolkit
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _menuItem.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _menuItem.ClientRectangle));
+
         #endregion
     }
 }

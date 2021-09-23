@@ -251,10 +251,8 @@ namespace Krypton.Toolkit
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+
         #endregion    
     }
 }

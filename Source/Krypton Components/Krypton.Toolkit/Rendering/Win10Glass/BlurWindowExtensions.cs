@@ -43,10 +43,7 @@ namespace Krypton.Toolkit
         /// 
         /// </summary>
         /// <param name="window"></param>
-        public static void DisableBlur(this Form window)
-        {
-            SetAccentPolicy(window, PI.AccentState.ACCENT_DISABLED);
-        }
+        public static void DisableBlur(this Form window) => SetAccentPolicy(window, PI.AccentState.ACCENT_DISABLED);
 
         private static void SetAccentPolicy(Form window, PI.AccentState accentState)
         {

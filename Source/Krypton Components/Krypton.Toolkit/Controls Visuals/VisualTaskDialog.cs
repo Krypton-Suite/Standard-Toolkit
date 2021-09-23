@@ -916,15 +916,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void _linkLabelFooter_LinkClicked(object sender, EventArgs e)
-        {
-            _taskDialog?.RaiseFooterHyperlinkClicked();
-        }
+        private void _linkLabelFooter_LinkClicked(object sender, EventArgs e) => _taskDialog?.RaiseFooterHyperlinkClicked();
 
-        private void _buttonClose_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void _buttonClose_Click(object sender, EventArgs e) => Close();
 
 #pragma warning disable IDE1006 // Naming Styles
         private void button_keyDown(object sender, KeyEventArgs e)

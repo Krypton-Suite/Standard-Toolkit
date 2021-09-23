@@ -68,10 +68,9 @@ namespace Krypton.Toolkit
         /// <param name="normalStates">New normal palette.</param>
         /// <param name="overrideStates">New override palette.</param>
         public void SetPalettes(PaletteTrackBarRedirect normalStates,
-                                PaletteTrackBarPositionStates overrideStates)
-        {
+                                PaletteTrackBarPositionStates overrideStates) =>
             Position.SetPalettes(normalStates.Position, overrideStates.Position);
-        }
+
         #endregion
 
         #region Apply

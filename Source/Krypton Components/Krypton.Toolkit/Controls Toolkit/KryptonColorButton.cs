@@ -264,11 +264,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
+        public override void ResetText() =>
             // Map onto the color button property from the values
             Values.ResetText();
-        }
 
         /// <summary>
         /// Gets or sets the ContextMenuStrip associated with this control.

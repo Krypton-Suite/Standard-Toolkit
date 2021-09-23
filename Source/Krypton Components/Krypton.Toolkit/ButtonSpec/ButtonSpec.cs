@@ -853,19 +853,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Generates a Click event for the control.
         /// </summary>
-        public void PerformClick()
-        {
-            PerformClick(EventArgs.Empty);
-        }
+        public void PerformClick() => PerformClick(EventArgs.Empty);
 
         /// <summary>
         /// Generates a Click event for the control.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        public void PerformClick(EventArgs e)
-        {
-            OnClick(e);
-        }
+        public void PerformClick(EventArgs e) => OnClick(e);
+
         #endregion
 
         #region IButtonSpecValues
@@ -1082,10 +1077,7 @@ namespace Krypton.Toolkit
         /// Raises the ButtonSpecPropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of the appearance property that has changed.</param>
-        protected virtual void OnButtonSpecPropertyChanged(string propertyName)
-        {
-            ButtonSpecPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnButtonSpecPropertyChanged(string propertyName) => ButtonSpecPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         /// <summary>
         /// Handles a change in the property of an attached command.
@@ -1208,10 +1200,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnImageStateChanged(object sender, NeedLayoutEventArgs e)
-        {
-            OnButtonSpecPropertyChanged(nameof(Image));
-        }
+        private void OnImageStateChanged(object sender, NeedLayoutEventArgs e) => OnButtonSpecPropertyChanged(nameof(Image));
+
         #endregion
     }
 }

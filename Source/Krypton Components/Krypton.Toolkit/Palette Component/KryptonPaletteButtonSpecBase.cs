@@ -276,10 +276,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e)
-        {
-            ButtonSpecChanged?.Invoke(this, e);
-        }
+        protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
+
         #endregion
     }
 }

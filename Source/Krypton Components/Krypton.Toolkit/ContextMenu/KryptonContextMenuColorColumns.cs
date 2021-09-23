@@ -343,19 +343,14 @@ namespace Krypton.Toolkit
         /// Raises the SelectedColorChanged event.
         /// </summary>
         /// <param name="e">An ColorEventArgs that contains the event data.</param>
-        protected virtual void OnSelectedColorChanged(ColorEventArgs e)
-        {
-            SelectedColorChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedColorChanged(ColorEventArgs e) => SelectedColorChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackingColor event.
         /// </summary>
         /// <param name="e">An ColorEventArgs that contains the event data.</param>
-        protected internal virtual void OnTrackingColor(ColorEventArgs e)
-        {
-            TrackingColor?.Invoke(this, e);
-        }
+        protected internal virtual void OnTrackingColor(ColorEventArgs e) => TrackingColor?.Invoke(this, e);
+
         #endregion
 
         #region Internal

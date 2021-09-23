@@ -184,7 +184,6 @@ namespace Krypton.Toolkit
                                                 Dock = DockStyle.Fill,
                                                 LabelStyle = LabelStyle.NormalPanel,
                                                 Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0,
-                                                Checked = (control.WinInfo.dwStyle & PI.WS_.TABSTOP) == PI.WS_.TABSTOP
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;
@@ -218,8 +217,6 @@ namespace Krypton.Toolkit
                                                 Dock = DockStyle.Fill,
                                                 LabelStyle = LabelStyle.NormalPanel,
                                                 Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0,
-                                                Checked = (control.WinInfo.dwStyle & PI.WS_.TABSTOP) == PI.WS_.TABSTOP
-
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;

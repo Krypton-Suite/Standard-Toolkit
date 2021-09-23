@@ -103,10 +103,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnClick(object sender, MouseEventArgs e)
-        {
-            Click?.Invoke(this, EventArgs.Empty);
-        }
+        private void OnClick(object sender, MouseEventArgs e) => Click?.Invoke(this, EventArgs.Empty);
+
         #endregion
 
         /// <summary>

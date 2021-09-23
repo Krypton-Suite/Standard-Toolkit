@@ -780,60 +780,27 @@ namespace Krypton.Toolkit
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddItem_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItem)));
-            }
+            private void buttonAddItem_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItem)));
 
-            private void buttonAddItems_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItems)));
-            }
+            private void buttonAddItems_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItems)));
 
-            private void buttonAddHeading_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuHeading)));
-            }
+            private void buttonAddHeading_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuHeading)));
 
-            private void buttonAddMonthCalendar_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuMonthCalendar)));
-            }
+            private void buttonAddMonthCalendar_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuMonthCalendar)));
 
-            private void buttonAddSeparator_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuSeparator)));
-            }
+            private void buttonAddSeparator_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuSeparator)));
 
-            private void buttonAddCheckBox_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckBox)));
-            }
+            private void buttonAddCheckBox_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckBox)));
 
-            private void buttonAddCheckButton_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckButton)));
-            }
+            private void buttonAddCheckButton_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckButton)));
 
-            private void buttonAddRadioButton_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuRadioButton)));
-            }
+            private void buttonAddRadioButton_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuRadioButton)));
 
-            private void buttonAddLinkLabel_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuLinkLabel)));
-            }
+            private void buttonAddLinkLabel_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuLinkLabel)));
 
-            private void buttonAddColorColumns_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
-            }
+            private void buttonAddColorColumns_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
 
-            private void buttonAddImageSelect_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
-            }
+            private void buttonAddImageSelect_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
 
             private void buttonDelete_Click(object sender, EventArgs e)
             {

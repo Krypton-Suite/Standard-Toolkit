@@ -1105,11 +1105,9 @@ namespace Krypton.Toolkit
 
         private void DrawGradientToolItem(Graphics g,
                                           ToolStripItem item,
-                                          GradientItemColors colors)
-        {
+                                          GradientItemColors colors) =>
             // Perform drawing into the entire background of the item
             DrawGradientItem(g, new Rectangle(Point.Empty, item.Bounds.Size), colors);
-        }
 
         private void RenderToolSplitButtonBackground(Graphics g,
                                                      ToolStripSplitButton splitButton,

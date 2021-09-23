@@ -992,10 +992,7 @@ namespace Krypton.Toolkit
         /// <param name="needLayout">Does the palette change require a layout.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        protected virtual void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected virtual void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -1201,10 +1198,7 @@ namespace Krypton.Toolkit
             KryptonContextMenu = null;
         }
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            ContextMenuClosed();
-        }
+        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
         /// <summary>
         /// Called when a context menu has just been closed.

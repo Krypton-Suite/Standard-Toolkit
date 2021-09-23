@@ -172,11 +172,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="popupLocation">Intended top left of parent area.</param>
         /// <param name="popupSize">Size of the popup to show.</param>
-        public void Show(Point popupLocation, Size popupSize)
-        {
+        public void Show(Point popupLocation, Size popupSize) =>
             // Show the requested popup below the parent screen rectangle
             Show(CalculateBelowPopupRect(popupLocation, popupSize));
-        }
 
         /// <summary>
         /// Define the drawing paths for the shadow.
@@ -316,10 +314,7 @@ namespace Krypton.Toolkit
         /// <param name="needLayout">Does the palette change require a layout.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Gets and sets the delegate to fire when the popup is dismissed.

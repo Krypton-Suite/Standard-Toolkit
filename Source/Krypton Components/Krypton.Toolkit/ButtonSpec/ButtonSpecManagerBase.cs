@@ -425,21 +425,16 @@ namespace Krypton.Toolkit
         /// Requests a repaint and optional layout be performed.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            PerformNeedPaint(this, needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => PerformNeedPaint(this, needLayout);
 
         /// <summary>
         /// Requests a repaint and optional layout be performed.
         /// </summary>
         /// <param name="sender">Source of the paint event.</param>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(object sender, bool needLayout)
-        {
+        public void PerformNeedPaint(object sender, bool needLayout) =>
             // Fire the actual event
             OnNeedPaint(sender, needLayout);
-        }
 
         /// <summary>
         /// Find the ButtonSpec definition associated with the provided button view.
@@ -691,10 +686,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the paint event.</param>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(object sender, bool needLayout)
-        {
-            NeedPaint?.Invoke(sender, new NeedLayoutEventArgs(needLayout));
-        }
+        protected virtual void OnNeedPaint(object sender, bool needLayout) => NeedPaint?.Invoke(sender, new NeedLayoutEventArgs(needLayout));
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 

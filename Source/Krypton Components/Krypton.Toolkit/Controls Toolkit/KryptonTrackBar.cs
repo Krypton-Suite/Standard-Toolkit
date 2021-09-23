@@ -672,10 +672,7 @@ namespace Krypton.Toolkit
         /// Raises the Scroll event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnScroll(EventArgs e)
-        {
-            Scroll?.Invoke(this, e);
-        }
+        protected virtual void OnScroll(EventArgs e) => Scroll?.Invoke(this, e);
 
         /// <summary>
         /// Raises the RightToLeftChanged event.
@@ -752,15 +749,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnDrawValueChanged(object sender, EventArgs e)
-        {
-            OnValueChanged(e);
-        }
+        private void OnDrawValueChanged(object sender, EventArgs e) => OnValueChanged(e);
 
-        private void OnDrawScroll(object sender, EventArgs e)
-        {
-            OnScroll(e);
-        }
+        private void OnDrawScroll(object sender, EventArgs e) => OnScroll(e);
+
         #endregion
     }
 }

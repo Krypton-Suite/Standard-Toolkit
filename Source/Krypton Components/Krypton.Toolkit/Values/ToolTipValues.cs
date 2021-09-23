@@ -71,10 +71,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.
         /// </summary>
-        public void ResetToolTipPosition()
-        {
-            ToolTipPosition.Reset();
-        }
+        public void ResetToolTipPosition() => ToolTipPosition.Reset();
 
         #region ToolTipStyle
 

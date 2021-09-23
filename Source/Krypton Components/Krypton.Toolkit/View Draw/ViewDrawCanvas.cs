@@ -140,10 +140,8 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette source for the background.</param>        
         /// <param name="paletteBorder">Palette source for the border.</param>
         public virtual void SetPalettes(IPaletteBack paletteBack,
-                                        IPaletteBorder paletteBorder)
-        {
+                                        IPaletteBorder paletteBorder) =>
             SetPalettes(paletteBack, paletteBorder, null);
-        }
 
         /// <summary>
         /// Update the source palettes for drawing.

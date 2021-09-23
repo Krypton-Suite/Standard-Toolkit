@@ -111,11 +111,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonManager class.
         /// </summary>
-        public KryptonManager()
-        {
+        public KryptonManager() =>
             // This may not be the first form / object to init, so set to the global static
             GlobalPaletteMode = InternalGlobalPaletteMode;
-        }
 
         /// <summary>
         /// Initialize a new instance of the KryptonManager class.
@@ -958,10 +956,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void OnGlobalAllowFormChromeChanged(EventArgs e)
-        {
-            GlobalAllowFormChromeChanged?.Invoke(null, e);
-        }
+        private static void OnGlobalAllowFormChromeChanged(EventArgs e) => GlobalAllowFormChromeChanged?.Invoke(null, e);
 
         private static void OnGlobalPaletteChanged(EventArgs e)
         {
