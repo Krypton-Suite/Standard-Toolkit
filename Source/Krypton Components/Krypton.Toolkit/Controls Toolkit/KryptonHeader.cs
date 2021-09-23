@@ -184,11 +184,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
+        public override void ResetText() =>
             // Map onto the heading property from the values
             Values.ResetHeading();
-        }
 
         /// <summary>
         /// Gets and sets the visual orientation of the control.
@@ -434,12 +432,11 @@ namespace Krypton.Toolkit
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected Overrides
@@ -517,10 +514,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnHeaderTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(EventArgs.Empty);
-        }
+        private void OnHeaderTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void OnShowToolTip(object sender, ToolTipEventArgs e)
         {
@@ -585,11 +579,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {

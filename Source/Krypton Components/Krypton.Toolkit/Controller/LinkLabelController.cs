@@ -350,27 +350,19 @@ namespace Krypton.Toolkit
         /// Set the correct visual state of the target.
         /// </summary>
         /// <param name="c">Control that controller is operating within.</param>
-        public void Update(Control c)
-        {
-            UpdateTargetState(c);
-        }
+        public void Update(Control c) => UpdateTargetState(c);
 
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint(false);
-        }
+        public void PerformNeedPaint() => OnNeedPaint(false);
 
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(needLayout);
+
         #endregion
 
         #region Protected
@@ -507,10 +499,8 @@ namespace Krypton.Toolkit
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
+
         #endregion
     }
 }

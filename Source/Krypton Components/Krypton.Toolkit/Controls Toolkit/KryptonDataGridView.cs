@@ -628,10 +628,7 @@ namespace Krypton.Toolkit
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Recovers the back/border/content palettes to use for drawing the provided cell.
@@ -818,10 +815,7 @@ namespace Krypton.Toolkit
         /// Highlight search strings in the DataGridView 
         /// </summary>
         /// <param name="s">The string to search.</param>
-        public void HighlightSearch(string s)
-        {
-            HighlightSearch(s, new List<int>());
-        }
+        public void HighlightSearch(string s) => HighlightSearch(s, new List<int>());
 
         /// <summary>
         /// Highlight search strings in the DataGridView 
@@ -2572,17 +2566,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-        {
-            OnNeedResyncPaint(Palette, new NeedLayoutEventArgs(true));
-        }
+        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette, new NeedLayoutEventArgs(true));
 
-        private void OnSyncPropertyChanged(object sender, EventArgs e)
-        {
+        private void OnSyncPropertyChanged(object sender, EventArgs e) =>
             // Ensure the current cell style values are in sync with the new palette 
             // setting and any state overrides that are defined.
             SyncCellStylesWithPalette();
-        }
 
         private void OnSyncBackPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -2621,10 +2610,7 @@ namespace Krypton.Toolkit
             KryptonContextMenu = null;
         }
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            ContextMenuClosed();
-        }
+        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
         /// <summary>
         /// Called when a context menu has just been closed.

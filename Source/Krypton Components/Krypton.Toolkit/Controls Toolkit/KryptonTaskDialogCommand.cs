@@ -241,10 +241,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Generates a Execute event for a button.
         /// </summary>
-        public void PerformExecute()
-        {
-            OnExecute(EventArgs.Empty);
-        }
+        public void PerformExecute() => OnExecute(EventArgs.Empty);
+
         #endregion
 
         #region Protected
@@ -252,19 +250,14 @@ namespace Krypton.Toolkit
         /// Raises the Execute event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnExecute(EventArgs e)
-        {
-            Execute?.Invoke(this, e);
-        }
+        protected virtual void OnExecute(EventArgs e) => Execute?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+
         #endregion
 
         #region Private

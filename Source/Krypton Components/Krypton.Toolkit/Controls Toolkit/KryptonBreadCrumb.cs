@@ -529,12 +529,11 @@ namespace Krypton.Toolkit
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected Overrides
@@ -619,37 +618,26 @@ namespace Krypton.Toolkit
         /// Raises the CrumbDropDown event.
         /// </summary>
         /// <param name="e">An ContextPositionMenuArgs containing the event data.</param>
-        protected internal virtual void OnCrumbDropDown(BreadCrumbMenuArgs e)
-        {
-            CrumbDropDown?.Invoke(this, e);
-        }
+        protected internal virtual void OnCrumbDropDown(BreadCrumbMenuArgs e) => CrumbDropDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the OverflowDropDown event.
         /// </summary>
         /// <param name="e">An ContextPositionMenuArgs containing the event data.</param>
-        protected internal virtual void OnOverflowDropDown(ContextPositionMenuArgs e)
-        {
-            OverflowDropDown?.Invoke(this, e);
-        }
+        protected internal virtual void OnOverflowDropDown(ContextPositionMenuArgs e) => OverflowDropDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedItemChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSelectedItemChanged(EventArgs e)
-        {
-            SelectedItemChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedItemChanged(EventArgs e) => SelectedItemChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Initialized event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnInitialized(EventArgs e)
-        {
-            Initialized?.Invoke(this, EventArgs.Empty);
-        }
+        protected virtual void OnInitialized(EventArgs e) => Initialized?.Invoke(this, EventArgs.Empty);
+
         #endregion
 
         #region Internal
@@ -750,11 +738,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {

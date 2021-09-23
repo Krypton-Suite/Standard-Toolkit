@@ -1117,10 +1117,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An PaletteLayoutEventArgs containing event data.</param>
-        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
-        {
-            PalettePaint?.Invoke(this, e);
-        }
+        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => PalettePaint?.Invoke(this, e);
+
         #endregion
 
         #region OnAllowFormChromeChanged
@@ -1129,10 +1127,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e)
-        {
-            AllowFormChromeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e) => AllowFormChromeChanged?.Invoke(this, e);
+
         #endregion
 
         #region OnBasePaletteChanged
@@ -1141,10 +1137,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBasePaletteChanged(object sender, EventArgs e)
-        {
-            BasePaletteChanged?.Invoke(this, e);
-        }
+        protected virtual void OnBasePaletteChanged(object sender, EventArgs e) => BasePaletteChanged?.Invoke(this, e);
+
         #endregion
 
         #region OnBaseRendererChanged
@@ -1153,10 +1147,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBaseRendererChanged(object sender, EventArgs e)
-        {
-            BaseRendererChanged?.Invoke(this, e);
-        }
+        protected virtual void OnBaseRendererChanged(object sender, EventArgs e) => BaseRendererChanged?.Invoke(this, e);
+
         #endregion
 
         #region OnButtonSpecChanged
@@ -1165,10 +1157,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e)
-        {
-            ButtonSpecChanged?.Invoke(this, e);
-        }
+        protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
+
         #endregion
     }
 }

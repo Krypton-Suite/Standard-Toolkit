@@ -398,10 +398,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Generates a Click event for the component.
         /// </summary>
-        public void PerformClick()
-        {
-            OnClick(EventArgs.Empty);
-        }
+        public void PerformClick() => OnClick(EventArgs.Empty);
+
         #endregion
 
         #region Protected

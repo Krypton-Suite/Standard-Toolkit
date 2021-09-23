@@ -455,11 +455,9 @@ namespace Krypton.Toolkit
         /// Raises the <see cref="Scroll"/> event.
         /// </summary>
         /// <param name="e">The <see cref="ScrollEventArgs"/> that contains the event data.</param>
-        protected virtual void OnScroll(ScrollEventArgs e)
-        {
+        protected virtual void OnScroll(ScrollEventArgs e) =>
             // if event handler is attached - raise scroll event
             Scroll?.Invoke(this, e);
-        }
 
         /// <summary>
         /// Paints the background of the control.
@@ -1126,10 +1124,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">An object that contains the event data.</param>
-        private void ProgressTimerTick(object sender, EventArgs e)
-        {
-            ProgressThumb(true);
-        }
+        private void ProgressTimerTick(object sender, EventArgs e) => ProgressThumb(true);
 
         /// <summary>
         /// Resets the scroll status of the scrollbar.
@@ -1271,10 +1266,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Stops the progress timer.
         /// </summary>
-        private void StopTimer()
-        {
-            _progressTimer.Stop();
-        }
+        private void StopTimer() => _progressTimer.Stop();
 
         /// <summary>
         /// Changes the position of the thumb.

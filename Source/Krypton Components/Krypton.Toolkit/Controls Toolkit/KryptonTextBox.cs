@@ -528,12 +528,10 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
         }
 
-        private void OnTextBoxClick(object sender, EventArgs e)
-        {
+        private void OnTextBoxClick(object sender, EventArgs e) =>
             // ReSharper disable RedundantBaseQualifier
             base.OnClick(e);
-            // ReSharper restore RedundantBaseQualifier
-        }
+        // ReSharper restore RedundantBaseQualifier
 
         /// <summary>
         /// Clean up any resources being used.
@@ -1375,12 +1373,11 @@ namespace Krypton.Toolkit
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected
@@ -1725,10 +1722,7 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">A PaintEventArgs containing the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-        }
+        protected override void OnPaint(PaintEventArgs e) => base.OnPaint(e);
 
         /// <summary>
         /// Raises the TabStop event.
@@ -1962,10 +1956,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnEditorButtonClicked(object sender, EventArgs e)
-        {
-            new MultilineStringEditor(this).ShowEditor();
-        }
+        private void OnEditorButtonClicked(object sender, EventArgs e) => new MultilineStringEditor(this).ShowEditor();
+
         #endregion
     }
 }

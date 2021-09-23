@@ -577,19 +577,14 @@ namespace Krypton.Toolkit
         /// Raises the MouseDownProcessed event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        public void PerformMouseDownProcessed(MouseEventArgs e)
-        {
-            MouseDownProcessed?.Invoke(this, e);
-        }
+        public void PerformMouseDownProcessed(MouseEventArgs e) => MouseDownProcessed?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MouseUpProcessed event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        public void PerformMouseUpProcessed(MouseEventArgs e)
-        {
-            MouseUpProcessed?.Invoke(this, e);
-        }
+        public void PerformMouseUpProcessed(MouseEventArgs e) => MouseUpProcessed?.Invoke(this, e);
+
         #endregion
 
         #region Key

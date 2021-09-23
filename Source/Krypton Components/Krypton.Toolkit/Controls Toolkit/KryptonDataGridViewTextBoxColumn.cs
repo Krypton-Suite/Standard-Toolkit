@@ -251,10 +251,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void PerformButtonSpecClick(DataGridViewButtonSpecClickEventArgs args)
-        {
-            ButtonSpecClick?.Invoke(this, args);
-        }
+        internal void PerformButtonSpecClick(DataGridViewButtonSpecClickEventArgs args) => ButtonSpecClick?.Invoke(this, args);
+
         #endregion
     }
 }

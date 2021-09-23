@@ -108,13 +108,12 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
-        {
+        public override void RenderBefore(RenderContext context) =>
             context.Renderer.RenderGlyph.DrawRadioButton(context, ClientRectangle, 
-                                                         _palette, Enabled, 
-                                                         CheckState, Tracking, 
-                                                         Pressed);
-        }
+                _palette, Enabled, 
+                CheckState, Tracking, 
+                Pressed);
+
         #endregion
     }
 }

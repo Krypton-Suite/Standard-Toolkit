@@ -55,10 +55,8 @@ namespace Krypton.Toolkit
         /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritComboBox">Source for inheriting combo box values.</param>
-        public void SetInherit(IPaletteTriple inheritComboBox)
-        {
-            ComboBox.SetInherit(inheritComboBox);
-        }
+        public void SetInherit(IPaletteTriple inheritComboBox) => ComboBox.SetInherit(inheritComboBox);
+
         #endregion
 
         #region PopulateFromBase
@@ -66,10 +64,8 @@ namespace Krypton.Toolkit
         /// Populate values from the base palette.
         /// </summary>
         /// <param name="state">Palette state to use when populating.</param>
-        public void PopulateFromBase(PaletteState state)
-        {
-            ComboBox.PopulateFromBase(state);
-        }
+        public void PopulateFromBase(PaletteState state) => ComboBox.PopulateFromBase(state);
+
         #endregion
 
         #region ComboBox
@@ -92,11 +88,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout)
-        {
+        protected void OnNeedPaint(object sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
-        }
+
         #endregion
     }
 }

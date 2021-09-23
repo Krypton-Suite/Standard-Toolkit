@@ -61,6 +61,8 @@ namespace Krypton.Toolkit
             // Create the form contents
             InitializeComponent();
 
+            RightToLeftLayout = _options.HasFlag(MessageBoxOptions.RtlReading);
+
             // Update contents to match requirements
             UpdateText();
             UpdateIcon();
@@ -88,10 +90,10 @@ namespace Krypton.Toolkit
             _helpInfo = helpInfo;
             _showOwner = showOwner;
 
-            RightToLeftLayout = _options.HasFlag(MessageBoxOptions.RtlReading);
-
             // Create the form contents
             InitializeComponent();
+
+            RightToLeftLayout = _options.HasFlag(MessageBoxOptions.RtlReading);
 
             // Update contents to match requirements
             UpdateText();

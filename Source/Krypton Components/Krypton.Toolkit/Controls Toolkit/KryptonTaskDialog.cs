@@ -526,26 +526,19 @@ namespace Krypton.Toolkit
         /// Raises the PropertyFooterHyperlinkClickedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnFooterHyperlinkClicked(EventArgs e)
-        {
-            FooterHyperlinkClicked?.Invoke(this, e);
-        }
+        protected virtual void OnFooterHyperlinkClicked(EventArgs e) => FooterHyperlinkClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+
         #endregion
 
         #region Internal
-        internal void RaiseFooterHyperlinkClicked()
-        {
-            OnFooterHyperlinkClicked(EventArgs.Empty);
-        }
+        internal void RaiseFooterHyperlinkClicked() => OnFooterHyperlinkClicked(EventArgs.Empty);
+
         #endregion
     }
 }

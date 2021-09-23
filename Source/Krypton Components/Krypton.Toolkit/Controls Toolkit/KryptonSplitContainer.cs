@@ -977,11 +977,9 @@ namespace Krypton.Toolkit
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void DesignMouseEnter()
-        {
+        public void DesignMouseEnter() =>
             // Pass message directly onto the separator controller
             _separatorController.MouseEnter(this);
-        }
 
         /// <summary>
         /// Internal design time method.
@@ -1018,31 +1016,26 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="button">Mouse button.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void DesignMouseUp(MouseButtons button)
-        {
+        public void DesignMouseUp(MouseButtons button) =>
             // Pass message directly onto the separator controller
             _separatorController.MouseUp(this, _designLastPt, button);
-        }
 
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void DesignMouseLeave()
-        {
+        public void DesignMouseLeave() =>
             // Pass message directly onto the separator controller
             _separatorController.MouseLeave(this, null);
-        }
 
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void DesignAbortMoving()
-        {
+        public void DesignAbortMoving() =>
             // Pass message directly onto the separator controller
             _separatorController.AbortMoving();
-        }
+
         #endregion
 
         #region Protected
@@ -1050,19 +1043,13 @@ namespace Krypton.Toolkit
         /// Raises the SplitterMoved event.
         /// </summary>
         /// <param name="e">A SplitterEventArgs containing the event data.</param>
-        protected virtual void OnSplitterMoved(SplitterEventArgs e)
-        {
-            SplitterMoved?.Invoke(this, e);
-        }
+        protected virtual void OnSplitterMoved(SplitterEventArgs e) => SplitterMoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SplitterMoving event.
         /// </summary>
         /// <param name="e">A SplitterEventArgs containing the event data.</param>
-        protected virtual void OnSplitterMoving(SplitterCancelEventArgs e)
-        {
-            SplitterMoving?.Invoke(this, e);
-        }
+        protected virtual void OnSplitterMoving(SplitterCancelEventArgs e) => SplitterMoving?.Invoke(this, e);
 
         /// <summary>
         /// Force the layout logic to size and position the panels.
@@ -1390,55 +1377,39 @@ namespace Krypton.Toolkit
         /// Raises the AutoSizeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnAutoSizeChanged(EventArgs e)
-        {
-            AutoSizeChanged?.Invoke(this, e);
-        }
+        protected override void OnAutoSizeChanged(EventArgs e) => AutoSizeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnBackgroundImageChanged(EventArgs e)
-        {
-            BackgroundImageChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageChanged(EventArgs e) => BackgroundImageChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnBackgroundImageLayoutChanged(EventArgs e)
-        {
-            BackgroundImageLayoutChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageLayoutChanged(EventArgs e) => BackgroundImageLayoutChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ControlAdded event.
         /// </summary>
         /// <param name="e">An ControlEventArgs containing the event data.</param>
-        protected override void OnControlAdded(ControlEventArgs e)
-        {
-            ControlAdded?.Invoke(this, e);
-        }
+        protected override void OnControlAdded(ControlEventArgs e) => ControlAdded?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ControlRemoved event.
         /// </summary>
         /// <param name="e">An ControlEventArgs containing the event data.</param>
-        protected override void OnControlRemoved(ControlEventArgs e)
-        {
-            ControlRemoved?.Invoke(this, e);
-        }
+        protected override void OnControlRemoved(ControlEventArgs e) => ControlRemoved?.Invoke(this, e);
+
         #endregion
 
         #region Implementation
         private bool Collapsed => Panel1.Collapsed || Panel2.Collapsed;
 
-        private void SetStyles(SeparatorStyle separatorStyle)
-        {
-            StateCommon.Separator.SetStyles(separatorStyle);
-        }
+        private void SetStyles(SeparatorStyle separatorStyle) => StateCommon.Separator.SetStyles(separatorStyle);
+
         #endregion
     }
 }

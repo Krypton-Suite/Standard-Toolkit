@@ -743,10 +743,7 @@ namespace Krypton.Toolkit
         }
 
         //Kripton Palette Events
-        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
-        {
-            Invalidate();
-        }
+        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
 
         #endregion
     }

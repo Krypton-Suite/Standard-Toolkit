@@ -150,10 +150,8 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
-        {
-            _child.Layout(context);
-        }
+        public override void Layout(ViewLayoutContext context) => _child.Layout(context);
+
         #endregion
 
         #region Paint
@@ -161,10 +159,8 @@ namespace Krypton.Toolkit
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
-        {
-            _child.Render(context);
-        }
+        public override void Render(RenderContext context) => _child.Render(context);
+
         #endregion
 
         #region Collection
@@ -172,18 +168,12 @@ namespace Krypton.Toolkit
         /// Append a view to the collection.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
-        public override void Add(ViewBase item)
-        {
-            _child.Add(item);
-        }
+        public override void Add(ViewBase item) => _child.Add(item);
 
         /// <summary>
         /// Remove all views from the collection.
         /// </summary>
-        public override void Clear()
-        {
-            _child.Clear();
-        }
+        public override void Clear() => _child.Clear();
 
         /// <summary>
         /// Determines whether the collection contains the view.
@@ -204,10 +194,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public override void CopyTo(ViewBase[] array, int arrayIndex)
-        {
-            _child.CopyTo(array, arrayIndex);
-        }
+        public override void CopyTo(ViewBase[] array, int arrayIndex) => _child.CopyTo(array, arrayIndex);
 
         /// <summary>
         /// Removes first occurance of specified view.
@@ -233,19 +220,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="item">ViewBase reference.</param>
-        public override void Insert(int index, ViewBase item)
-        {
-            _child.Insert(index, item);
-        }
+        public override void Insert(int index, ViewBase item) => _child.Insert(index, item);
 
         /// <summary>
         /// Removes the view at the specified index.
         /// </summary>
         /// <param name="index">Remove index.</param>
-        public override void RemoveAt(int index)
-        {
-            _child.RemoveAt(index);
-        }
+        public override void RemoveAt(int index) => _child.RemoveAt(index);
 
         /// <summary>
         /// Gets or sets the view at the specified index.
@@ -317,21 +298,17 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Mouse has entered the view.
         /// </summary>
-        public override void MouseEnter()
-        {
+        public override void MouseEnter() =>
             // Bubble event up to the parent
             Parent?.MouseEnter();
-        }
 
         /// <summary>
         /// Mouse has moved inside the view.
         /// </summary>
         /// <param name="pt">Mouse position relative to control.</param>
-        public override void MouseMove(Point pt)
-        {
+        public override void MouseMove(Point pt) =>
             // Bubble event up to the parent
             Parent?.MouseMove(pt);
-        }
 
         /// <summary>
         /// Mouse button has been pressed in the view.
@@ -348,21 +325,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button released.</param>
-        public override void MouseUp(Point pt, MouseButtons button)
-        {
+        public override void MouseUp(Point pt, MouseButtons button) =>
             // Bubble event up to the parent
             Parent?.MouseUp(pt, button);
-        }
 
         /// <summary>
         /// Mouse has left the view.
         /// </summary>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public override void MouseLeave(ViewBase next)
-        {
+        public override void MouseLeave(ViewBase next) =>
             // Bubble event up to the parent
             Parent?.MouseLeave(next);
-        }
+
         #endregion
 
         #region Key Events
@@ -370,21 +344,17 @@ namespace Krypton.Toolkit
         /// Key has been pressed down.
         /// </summary>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public override void KeyDown(KeyEventArgs e)
-        {
+        public override void KeyDown(KeyEventArgs e) =>
             // Bubble event up to the parent
             Parent?.KeyDown(e);
-        }
 
         /// <summary>
         /// Key has been pressed.
         /// </summary>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
-        public override void KeyPress(KeyPressEventArgs e)
-        {
+        public override void KeyPress(KeyPressEventArgs e) =>
             // Bubble event up to the parent
             Parent?.KeyPress(e);
-        }
 
         /// <summary>
         /// Key has been released.
@@ -402,21 +372,18 @@ namespace Krypton.Toolkit
         /// Source control has got the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void GotFocus(Control c)
-        {
+        public override void GotFocus(Control c) =>
             // Bubble event up to the parent
             Parent?.GotFocus(c);
-        }
 
         /// <summary>
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus(Control c)
-        {
+        public override void LostFocus(Control c) =>
             // Bubble event up to the parent
             Parent?.LostFocus(c);
-        }
+
         #endregion
 
         #region ElementState
@@ -452,10 +419,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Clear down the use of the fixed state
         /// </summary>
-        public override void ClearFixedState()
-        {
-            _child.ClearFixedState();
-        }
+        public override void ClearFixedState() => _child.ClearFixedState();
 
         /// <summary>
         /// Gets a value indicating if view is using a fixed state.

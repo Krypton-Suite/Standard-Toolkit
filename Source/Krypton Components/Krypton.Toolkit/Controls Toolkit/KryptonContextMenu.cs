@@ -392,10 +392,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Close any showing context menu.
         /// </summary>
-        public void Close()
-        {
-            Close(ToolStripDropDownCloseReason.CloseCalled);
-        }
+        public void Close() => Close(ToolStripDropDownCloseReason.CloseCalled);
 
         /// <summary>
         /// Close any showing context menu.
@@ -448,37 +445,25 @@ namespace Krypton.Toolkit
         /// Raises the Opening event.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        protected virtual void OnOpening(CancelEventArgs e)
-        {
-            Opening?.Invoke(this, e);
-        }
+        protected virtual void OnOpening(CancelEventArgs e) => Opening?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Opened event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnOpened(EventArgs e)
-        {
-            Opened?.Invoke(this, e);
-        }
+        protected virtual void OnOpened(EventArgs e) => Opened?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Closing event.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        protected internal virtual void OnClosing(CancelEventArgs e)
-        {
-            Closing?.Invoke(this, e);
-        }
+        protected internal virtual void OnClosing(CancelEventArgs e) => Closing?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Closed event.
         /// </summary>
         /// <param name="e">An ToolStripDropDownClosedEventArgs containing the event data.</param>
-        protected virtual void OnClosed(ToolStripDropDownClosedEventArgs e)
-        {
-            Closed?.Invoke(this, e);
-        }
+        protected virtual void OnClosed(ToolStripDropDownClosedEventArgs e) => Closed?.Invoke(this, e);
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 
@@ -490,10 +475,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        private void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         private void OnNeedPaint(object sender, NeedLayoutEventArgs e)
         {

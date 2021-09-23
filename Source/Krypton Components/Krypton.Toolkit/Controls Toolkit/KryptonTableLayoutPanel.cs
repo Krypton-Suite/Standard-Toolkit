@@ -42,11 +42,9 @@ namespace Krypton.Toolkit
             base.BackgroundImageLayout = ImageLayout.None;
         }
 
-        private void State_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
+        private void State_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             // Handle explicit settings to the controls
             _backGroundPanel_Refreshed();
-        }
 
         #endregion
 

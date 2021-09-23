@@ -295,10 +295,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void RecalculateComposition()
-        {
-            UpdateComposition();
-        }
+        public void RecalculateComposition() => UpdateComposition();
 
         /// <summary>
         /// Gets and sets the interface to the composition interface cooperating with the form.
@@ -485,10 +482,7 @@ namespace Krypton.Toolkit
         /// <param name="needLayout">Does the palette change require a layout.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
@@ -509,10 +503,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sysCommand">System command.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        internal void SendSysCommand(PI.SC_ sysCommand)
-        {
-            SendSysCommand(sysCommand, IntPtr.Zero);
-        }
+        internal void SendSysCommand(PI.SC_ sysCommand) => SendSysCommand(sysCommand, IntPtr.Zero);
 
         /// <summary>
         /// Send the provided system command to the window for processing.
@@ -520,11 +511,9 @@ namespace Krypton.Toolkit
         /// <param name="sysCommand">System command.</param>
         /// <param name="lParam">LPARAM value.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        internal void SendSysCommand(PI.SC_ sysCommand, IntPtr lParam)
-        {
+        internal void SendSysCommand(PI.SC_ sysCommand, IntPtr lParam) =>
             // Send window message to ourself
             PI.SendMessage(Handle, PI.WM_.SYSCOMMAND, (IntPtr)sysCommand, lParam);
-        }
 
         /// <summary>
         /// Gets the size of the borders requested by the real window.
@@ -585,10 +574,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Request the non-client area be repainted.
         /// </summary>
-        public void RedrawNonClient()
-        {
-            InvalidateNonClient(Rectangle.Empty, true);
-        }
+        public void RedrawNonClient() => InvalidateNonClient(Rectangle.Empty, true);
 
         /// <summary>
         /// Request the non-client area be recalculated.
@@ -630,10 +616,7 @@ namespace Krypton.Toolkit
         /// Reset the internal counters.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void KryptonResetCounters()
-        {
-            ViewManager.ResetCounters();
-        }
+        public void KryptonResetCounters() => ViewManager.ResetCounters();
 
         /// <summary>
         /// Gets the number of layout cycles performed since last reset.
@@ -702,19 +685,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Request the non-client area be repainted.
         /// </summary>
-        public void InvalidateNonClient()
-        {
-            InvalidateNonClient(Rectangle.Empty, true);
-        }
+        public void InvalidateNonClient() => InvalidateNonClient(Rectangle.Empty, true);
 
         /// <summary>
         /// Request the non-client area be repainted.
         /// </summary>
         /// <param name="invalidRect">Area to invalidate.</param>
-        protected void InvalidateNonClient(Rectangle invalidRect)
-        {
-            InvalidateNonClient(invalidRect, true);
-        }
+        protected void InvalidateNonClient(Rectangle invalidRect) => InvalidateNonClient(invalidRect, true);
 
         /// <summary>
         /// Request the non-client area be repainted.
@@ -962,10 +939,7 @@ namespace Krypton.Toolkit
         /// Raises the ApplyCustomChrome event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnApplyCustomChromeChanged(EventArgs e)
-        {
-            ApplyCustomChromeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnApplyCustomChromeChanged(EventArgs e) => ApplyCustomChromeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Occurs when the AllowFormChromeChanged event is fired for the current palette.
@@ -1636,10 +1610,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Called when the active state of the window changes.
         /// </summary>
-        protected virtual void OnWindowActiveChanged()
-        {
-            WindowActiveChanged?.Invoke(this, EventArgs.Empty);
-        }
+        protected virtual void OnWindowActiveChanged() => WindowActiveChanged?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
         /// Gets and sets the need to layout the view.
@@ -1684,10 +1655,7 @@ namespace Krypton.Toolkit
         /// Perform non-client mouse movement processing.
         /// </summary>
         /// <param name="pt">Point in window coordinates.</param>
-        protected virtual void WindowChromeNonClientMouseMove(Point pt)
-        {
-            ViewManager.MouseMove(new MouseEventArgs(MouseButtons.None, 0, pt.X, pt.Y, 0), pt);
-        }
+        protected virtual void WindowChromeNonClientMouseMove(Point pt) => ViewManager.MouseMove(new MouseEventArgs(MouseButtons.None, 0, pt.X, pt.Y, 0), pt);
 
         /// <summary>
         /// Process the left mouse down event.
@@ -1720,11 +1688,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Perform mouse leave processing.
         /// </summary>
-        protected virtual void WindowChromeMouseLeave()
-        {
+        protected virtual void WindowChromeMouseLeave() =>
             // Pass message onto the view elements
             ViewManager.MouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Implementation

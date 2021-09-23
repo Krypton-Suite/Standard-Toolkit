@@ -932,11 +932,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnAllowFormChromeChanged(object sender, EventArgs e)
-        {
+        protected override void OnAllowFormChromeChanged(object sender, EventArgs e) =>
             // Test if we need to change the custom chrome usage
             UpdateCustomChromeDecision();
-        }
+
         #endregion
 
         #region Protected Chrome
@@ -1532,11 +1531,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
@@ -1592,10 +1589,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnGlobalAllowFormChromeChanged(object sender, EventArgs e)
-        {
-            UpdateCustomChromeDecision();
-        }
+        private void OnGlobalAllowFormChromeChanged(object sender, EventArgs e) => UpdateCustomChromeDecision();
 
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {

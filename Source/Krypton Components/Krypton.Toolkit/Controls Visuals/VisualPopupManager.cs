@@ -282,10 +282,8 @@ namespace Krypton.Toolkit
         /// <param name="cms">Reference to ContextMenuStrip.</param>
         /// <param name="screenPt">Screen position for showing the context menu strip.</param>
         public void ShowContextMenuStrip(ContextMenuStrip cms,
-                                         Point screenPt)
-        {
+                                         Point screenPt) =>
             ShowContextMenuStrip(cms, screenPt, null);
-        }
 
         /// <summary>
         /// Show the provided context strip in a way compatible with any popups.

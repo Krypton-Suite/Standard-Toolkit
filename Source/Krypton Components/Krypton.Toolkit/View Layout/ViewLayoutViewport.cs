@@ -384,20 +384,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Move the viewport to show the next part of area.
         /// </summary>
-        public void MoveNext()
-        {
-            MoveDirection(true);
-        }
+        public void MoveNext() => MoveDirection(true);
+
         #endregion
 
         #region MovePrevious
         /// <summary>
         /// Move the viewport to show the previous part of area.
         /// </summary>
-        public void MovePrevious()
-        {
-            MoveDirection(false);
-        }
+        public void MovePrevious() => MoveDirection(false);
+
         #endregion
 
         #region NeedScrolling

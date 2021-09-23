@@ -166,10 +166,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Clear all the active flags.
         /// </summary>
-        public void ClearActive()
-        {
-            _flags.ClearFlags(0x07C0);
-        }
+        public void ClearActive() => _flags.ClearFlags(0x07C0);
 
         /// <summary>
         /// Gets and sets the hot rectangle of the left docking indicator.

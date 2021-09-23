@@ -229,10 +229,7 @@ namespace Krypton.Toolkit
         /// <param name="needLayout">Does the palette change require a layout.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public virtual void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public virtual void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Check if the layout is dirty and if so perform the layout now.
@@ -447,10 +444,7 @@ namespace Krypton.Toolkit
         /// Reset the internal counters.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void KryptonResetCounters()
-        {
-            ViewManager.ResetCounters();
-        }
+        public void KryptonResetCounters() => ViewManager.ResetCounters();
 
         /// <summary>
         /// Gets the number of layout cycles performed since last reset.
@@ -571,10 +565,7 @@ namespace Krypton.Toolkit
         /// <param name="g">Graphics reference for drawing.</param>
         /// <param name="backBrush">Brush to use when painting.</param>
         /// <param name="backRect">Client area to paint.</param>
-        protected virtual void PaintBackground(Graphics g, Brush backBrush, Rectangle backRect)
-        {
-            g.FillRectangle(backBrush, backRect);
-        }
+        protected virtual void PaintBackground(Graphics g, Brush backBrush, Rectangle backRect) => g.FillRectangle(backBrush, backRect);
 
         /// <summary>
         /// Gets a value indicating is processing of mnemonics should be allowed.
@@ -1207,10 +1198,8 @@ namespace Krypton.Toolkit
             KryptonContextMenu = null;
         }
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            ContextMenuClosed();
-        }
+        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
+
         #endregion
     }
 }
