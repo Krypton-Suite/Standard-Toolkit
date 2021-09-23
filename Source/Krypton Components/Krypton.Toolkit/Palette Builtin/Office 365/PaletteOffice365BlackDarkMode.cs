@@ -50,18 +50,18 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
         private static readonly Color[] _schemeColors = {             Color.White,             // TextLabelControl
-                                                                           Color.Black,                      // TextButtonNormal
-                                                                      Color.Black,                      // TextButtonChecked
+                                                                      Color.White,                      // TextButtonNormal
+                                                                      Color.FromArgb(128, 128, 128),                      // TextButtonChecked
                                                                       Color.FromArgb(106, 106, 106),    // ButtonNormalBorder1
                                                                       Color.FromArgb( 32, 32, 32),    // ButtonNormalDefaultBorder
-                                                                      Color.FromArgb(189, 189, 189),    // ButtonNormalBack1
-                                                                      Color.FromArgb(169, 169, 169),    // ButtonNormalBack2
+                                                                      Color.FromArgb(38, 38, 38),    // ButtonNormalBack1
+                                                                      Color.FromArgb(34, 34, 34),    // ButtonNormalBack2
                                                                       Color.FromArgb(225, 225, 225),    // ButtonNormalDefaultBack1
                                                                       Color.FromArgb(185, 185, 185),    // ButtonNormalDefaultBack2
                                                                       Color.FromArgb( 32, 32, 32),    // ButtonNormalNavigatorBack1
                                                                       Color.FromArgb( 32, 32, 32),    // ButtonNormalNavigatorBack2
-                                                                      Color.FromArgb(113, 113, 113),    // PanelClient
-                                                                      Color.FromArgb( 71,  71,  71),    // PanelAlternative
+                                                                      Color.FromArgb(99, 99, 99),    // PanelClient - Panel, ribbon etc
+                                                                      Color.FromArgb(61, 61, 61),    // PanelAlternative
                                                                       Color.FromArgb( 46,  46,  46),    // ControlBorder
                                                                       Color.FromArgb(172, 172, 172),    // SeparatorHighBorder1
                                                                       Color.FromArgb(111, 111, 111),    // SeparatorHighBorder2
@@ -87,8 +87,8 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(167, 167, 167),    // OverflowMiddle
                                                                       Color.FromArgb( 44,  44,  44),    // OverflowEnd
                                                                       Color.FromArgb( 44,  44,  44),    // ToolStripBorder
-                                                                      Color.FromArgb( 99,  99,  99),    // FormBorderActive
-                                                                      Color.FromArgb(119, 119, 119),    // FormBorderInactive
+                                                                      Color.FromArgb(38, 38, 38),    // FormBorderActive
+                                                                      Color.FromArgb(34, 34, 34),    // FormBorderInactive
                                                                       Color.FromArgb(113, 113, 113),    // FormBorderActiveLight
                                                                       Color.FromArgb(131, 131, 131),    // FormBorderActiveDark
                                                                       Color.FromArgb(158, 158, 158),    // FormBorderInactiveLight
@@ -110,8 +110,8 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(113, 113, 113),    // FormButtonBack1Pressed
                                                                       Color.FromArgb( 93,  93,  93),    // FormButtonBack2Pressed
                                                                       Color.FromArgb( 70,  70,  70),    // TextButtonFormNormal
-                                                                      Color.FromArgb(255, 255, 255),    // TextButtonFormTracking
-                                                                      Color.FromArgb(255, 255, 255),    // TextButtonFormPressed
+                                                                      Color.FromArgb(76, 76, 76),    // TextButtonFormTracking
+                                                                      Color.FromArgb(75, 75, 75),    // TextButtonFormPressed
                                                                       Color.Blue,                       // LinkNotVisitedOverrideControl
                                                                       Color.Purple,                     // LinkVisitedOverrideControl
                                                                       Color.Red,                        // LinkPressedOverrideControl
@@ -120,13 +120,13 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(255,  90,  90),    // LinkPressedOverridePanel
                                                                       Color.White,                      // TextLabelPanel
                                                                       //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
-                                                                      Color.White,                      // RibbonTabTextNormal
+                                                                      Color.FromArgb(128, 128, 128), // RibbonTabTextNormal - The unselected tab text colour
                                                                       Color.Black,                      // RibbonTabTextChecked
                                                                       Color.FromArgb( 32, 32, 32),    // RibbonTabSelected1
-                                                                      Color.FromArgb(201, 201, 201),    // RibbonTabSelected2
-                                                                      Color.FromArgb(192, 192, 192),    // RibbonTabSelected3
-                                                                      Color.FromArgb(192, 192, 192),    // RibbonTabSelected4
-                                                                      Color.FromArgb(192, 192, 192),    // RibbonTabSelected5
+                                                                      Color.FromArgb(99, 99, 99),    // RibbonTabSelected2
+                                                                      Color.FromArgb(61, 61, 61),    // RibbonTabSelected3
+                                                                      Color.FromArgb(61, 61, 61),    // RibbonTabSelected4
+                                                                      Color.FromArgb(61, 61, 61),    // RibbonTabSelected5
                                                                       Color.FromArgb( 32, 32, 32),    // RibbonTabTracking1
                                                                       Color.FromArgb(183, 183, 183),    // RibbonTabTracking2
                                                                       Color.FromArgb( 32, 32, 32),    // RibbonTabHighlight1
