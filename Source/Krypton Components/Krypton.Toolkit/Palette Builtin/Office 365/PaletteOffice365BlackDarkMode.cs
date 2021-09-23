@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
                                                                       Color.White,                      // TextLabelPanel
                                                                       //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
                                                                       Color.FromArgb(128, 128, 128), // RibbonTabTextNormal - The unselected tab text colour
-                                                                      Color.Black,                      // RibbonTabTextChecked
+                                                                      Color.White,                      // RibbonTabTextChecked
                                                                       Color.FromArgb( 32, 32, 32),    // RibbonTabSelected1
                                                                       Color.FromArgb(99, 99, 99),    // RibbonTabSelected2
                                                                       Color.FromArgb(61, 61, 61),    // RibbonTabSelected3
