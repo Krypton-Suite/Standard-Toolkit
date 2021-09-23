@@ -51,10 +51,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Populate values from the base palette.
         /// </summary>
-        public void PopulateFromBase()
-        {
-            Bar.PopulateFromBase();
-        }
+        public void PopulateFromBase() => Bar.PopulateFromBase();
+
         #endregion
 
         #region Bar

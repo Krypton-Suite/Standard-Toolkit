@@ -100,10 +100,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnExportClick(object sender, EventArgs e)
-        {
-            _palette?.Export();
-        }
+        private void OnExportClick(object sender, EventArgs e) => _palette?.Export();
+
         #endregion
     }
 }

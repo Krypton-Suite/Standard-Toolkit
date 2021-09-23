@@ -45,10 +45,7 @@ namespace Krypton.Toolkit
         /// <summary>
         ///  Programmatically executes the method associated with the item.
         /// </summary>
-        public override void Invoke()
-        {
-            _verb.Invoke();
-        }
+        public override void Invoke() => _verb.Invoke();
 
         /// <summary>
         /// Gets the group name for an item.

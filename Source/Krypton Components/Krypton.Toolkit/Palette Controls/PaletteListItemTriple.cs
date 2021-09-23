@@ -54,20 +54,16 @@ namespace Krypton.Toolkit
         /// Populate values from the base palette.
         /// </summary>
         /// <param name="state">The palette state to populate with.</param>
-        public virtual void PopulateFromBase(PaletteState state)
-        {
-            _paletteItem.PopulateFromBase(state);
-        }
+        public virtual void PopulateFromBase(PaletteState state) => _paletteItem.PopulateFromBase(state);
+
         #endregion
 
         #region SetInherit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public virtual void SetInherit(PaletteTripleRedirect inherit)
-        {
-            _paletteItem.SetInherit(inherit);
-        }
+        public virtual void SetInherit(PaletteTripleRedirect inherit) => _paletteItem.SetInherit(inherit);
+
         #endregion
 
         #region Item

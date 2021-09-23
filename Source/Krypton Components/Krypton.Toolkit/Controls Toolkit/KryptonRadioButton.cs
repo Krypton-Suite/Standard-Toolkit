@@ -218,11 +218,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
+        public override void ResetText() =>
             // Map onto the text property from the label values
             Values.ResetText();
-        }
 
         /// <summary>
         /// Gets and sets the visual orientation of the control.
@@ -450,10 +448,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select()
-        {
-            Focus();
-        }
+        public new void Select() => Focus();
 
         /// <summary>
         /// Fix the control to a particular palette state.
@@ -484,37 +479,25 @@ namespace Krypton.Toolkit
         /// Raises the DoubleClick event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnDoubleClick(EventArgs e)
-        {
-            DoubleClick?.Invoke(this, e);
-        }
+        protected override void OnDoubleClick(EventArgs e) => DoubleClick?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MouseDoubleClick event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnMouseDoubleClick(EventArgs e)
-        {
-            MouseDoubleClick?.Invoke(this, e);
-        }
+        protected virtual void OnMouseDoubleClick(EventArgs e) => MouseDoubleClick?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ImeModeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnMouseImeModeChanged(EventArgs e)
-        {
-            ImeModeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMouseImeModeChanged(EventArgs e) => ImeModeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GotFocus event.
@@ -659,10 +642,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRadioButtonTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(EventArgs.Empty);
-        }
+        private void OnRadioButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void AutoUpdateOthers()
         {
@@ -692,10 +672,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnControllerClick(object sender, EventArgs e)
-        {
-            OnClick(e);
-        }
+        private void OnControllerClick(object sender, EventArgs e) => OnClick(e);
 
         private void UpdateForOrientation()
         {

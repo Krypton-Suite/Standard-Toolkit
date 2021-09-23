@@ -214,10 +214,7 @@ namespace Krypton.Toolkit
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <remarks></remarks>
-        private void VScrollBar1_miScroll(object sender, ScrollEventArgs e)
-        {
-            PI.PostMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)(PI.SB_.THUMBPOSITION + (0x10000 * VScrollBar1.Value)), IntPtr.Zero);
-        }
+        private void VScrollBar1_miScroll(object sender, ScrollEventArgs e) => PI.PostMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)(PI.SB_.THUMBPOSITION + (0x10000 * VScrollBar1.Value)), IntPtr.Zero);
 
         #endregion
 
@@ -553,10 +550,7 @@ namespace Krypton.Toolkit
         }
 
         //Kripton Palette Events
-        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
-        {
-            Invalidate();
-        }
+        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
 
         #endregion
     }

@@ -500,10 +500,8 @@ namespace Krypton.Toolkit
         /// Raises a need paint event.
         /// </summary>
         /// <param name="needLayout">Does the layout need recalculating.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
+
         #endregion
 
         #region Protected
@@ -511,19 +509,14 @@ namespace Krypton.Toolkit
         /// Raises the ValueChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueChanged(EventArgs e)
-        {
-            ValueChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueChanged(EventArgs e) => ValueChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Scroll event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnScroll(EventArgs e)
-        {
-            Scroll?.Invoke(this, e);
-        }
+        protected virtual void OnScroll(EventArgs e) => Scroll?.Invoke(this, e);
+
         #endregion
     }
 }

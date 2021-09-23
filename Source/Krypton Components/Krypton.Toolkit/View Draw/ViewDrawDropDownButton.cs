@@ -92,14 +92,13 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
-        {
+        public override void RenderBefore(RenderContext context) =>
             context.Renderer.RenderGlyph.DrawDropDownButton(context, 
-                                                            ClientRectangle, 
-                                                            Palette, 
-                                                            State,
-                                                            Orientation);
-        }
+                ClientRectangle, 
+                Palette, 
+                State,
+                Orientation);
+
         #endregion
     }
 }

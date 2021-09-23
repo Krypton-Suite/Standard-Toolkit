@@ -179,11 +179,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
+        public override void ResetText() =>
             // Map onto the button property from the values
             Values.ResetText();
-        }
 
         /// <summary>
         /// Gets and sets the visual orientation of the control.
@@ -692,10 +690,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Called when a context menu has just been closed.
         /// </summary>
-        protected override void ContextMenuClosed()
-        {
-            _buttonController.RemoveFixed();
-        }
+        protected override void ContextMenuClosed() => _buttonController.RemoveFixed();
 
         /// <summary>
         /// Process Windows-based messages.
@@ -716,10 +711,7 @@ namespace Krypton.Toolkit
         /// Raises the DropDown event.
         /// </summary>
         /// <param name="e">An ContextPositionMenuArgs containing the event data.</param>
-        protected virtual void OnDropDown(ContextPositionMenuArgs e)
-        {
-            DropDown?.Invoke(this, e);
-        }
+        protected virtual void OnDropDown(ContextPositionMenuArgs e) => DropDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KryptonCommandChanged event.
@@ -785,10 +777,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnButtonTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(EventArgs.Empty);
-        }
+        private void OnButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void OnButtonClick(object sender, MouseEventArgs e)
         {
@@ -918,10 +907,7 @@ namespace Krypton.Toolkit
             };
         }
 
-        private void OnContextMenuClosed(object sender, EventArgs e)
-        {
-            ContextMenuClosed();
-        }
+        private void OnContextMenuClosed(object sender, EventArgs e) => ContextMenuClosed();
 
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {

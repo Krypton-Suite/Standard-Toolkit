@@ -93,28 +93,20 @@ namespace Krypton.Toolkit
         /// Update the combo box input control style.
         /// </summary>
         /// <param name="style">New input control style.</param>
-        public void SetStyles(InputControlStyle style)
-        {
-            ComboBox.SetStyles(style);
-        }
+        public void SetStyles(InputControlStyle style) => ComboBox.SetStyles(style);
 
         /// <summary>
         /// Update the combo box item style.
         /// </summary>
         /// <param name="style">New item style.</param>
-        public void SetStyles(ButtonStyle style)
-        {
-            Item.SetStyles(style);
-        }
+        public void SetStyles(ButtonStyle style) => Item.SetStyles(style);
 
         /// <summary>
         /// Update the combo box drop background style.
         /// </summary>
         /// <param name="style">New drop background style.</param>
-        public void SetStyles(PaletteBackStyle style)
-        {
-            _dropBackRedirect.SetStyles(style, PaletteBorderStyle.ButtonStandalone);
-        }
+        public void SetStyles(PaletteBackStyle style) => _dropBackRedirect.SetStyles(style, PaletteBorderStyle.ButtonStandalone);
+
         #endregion
 
         #region PopulateFromBase
@@ -178,11 +170,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout)
-        {
+        protected void OnNeedPaint(object sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
-        }
+
         #endregion
     }
 }

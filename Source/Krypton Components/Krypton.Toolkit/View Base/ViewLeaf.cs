@@ -75,11 +75,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void Add(ViewBase item)
-        {
+        public override void Add(ViewBase item) => throw
             // Can never add a view to a leaf view
-            throw new NotSupportedException("Cannot add to a leaf view.");
-        }
+            new NotSupportedException("Cannot add to a leaf view.");
 
         /// <summary>
         /// Remove all views from the collection.
@@ -146,22 +144,18 @@ namespace Krypton.Toolkit
         /// <param name="index">Insert index.</param>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void Insert(int index, ViewBase item)
-        {
+        public override void Insert(int index, ViewBase item) => throw
             // Can never insert a view to a leaf view
-            throw new NotSupportedException("Cannot insert to a leaf view.");
-        }
+            new NotSupportedException("Cannot insert to a leaf view.");
 
         /// <summary>
         /// Removes the view at the specified index.
         /// </summary>
         /// <param name="index">Remove index.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void RemoveAt(int index)
-        {
+        public override void RemoveAt(int index) => throw
             // Can never remove a view from a leaf view
-            throw new NotSupportedException("Cannot remove a view from a leaf view.");
-        }
+            new NotSupportedException("Cannot remove a view from a leaf view.");
 
         /// <summary>
         /// Gets or sets the view at the specified index.

@@ -133,11 +133,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="value">Object reference.</param>
-        public virtual void Insert(int index, object value)
-        {
+        public virtual void Insert(int index, object value) =>
             // Use strongly typed implementation
             Insert(index, value as T);
-        }
 
         /// <summary>
         /// Gets a value indicating whether the collection has a fixed size. 
@@ -148,11 +146,9 @@ namespace Krypton.Toolkit
         /// Removes first occurence of specified item.
         /// </summary>
         /// <param name="value">Object reference.</param>
-        public void Remove(object value)
-        {
+        public void Remove(object value) =>
             // Use strongly typed implementation
             Remove(value as T);
-        }
 
         /// <summary>
         /// Gets or sets the item at the specified index.
@@ -438,64 +434,44 @@ namespace Krypton.Toolkit
         /// Raises the Inserting event.
         /// </summary>
         /// <param name="e">A KryptonRibbonTabEventArgs instance containing event data.</param>
-        protected virtual void OnInserting(TypedCollectionEventArgs<T> e)
-        {
-            Inserting?.Invoke(this, e);
-        }
+        protected virtual void OnInserting(TypedCollectionEventArgs<T> e) => Inserting?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Inserted event.
         /// </summary>
         /// <param name="e">A TypedCollectionEventArgs instance containing event data.</param>
-        protected virtual void OnInserted(TypedCollectionEventArgs<T> e)
-        {
-            Inserted?.Invoke(this, e);
-        }
+        protected virtual void OnInserted(TypedCollectionEventArgs<T> e) => Inserted?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Removing event.
         /// </summary>
         /// <param name="e">A TypedCollectionEventArgs instance containing event data.</param>
-        protected virtual void OnRemoving(TypedCollectionEventArgs<T> e)
-        {
-            Removing?.Invoke(this, e);
-        }
+        protected virtual void OnRemoving(TypedCollectionEventArgs<T> e) => Removing?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Removed event.
         /// </summary>
         /// <param name="e">A TypedCollectionEventArgs instance containing event data.</param>
-        protected virtual void OnRemoved(TypedCollectionEventArgs<T> e)
-        {
-            Removed?.Invoke(this, e);
-        }
+        protected virtual void OnRemoved(TypedCollectionEventArgs<T> e) => Removed?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Clearing event.
         /// </summary>
         /// <param name="e">An EventArgs instance containing event data.</param>
-        protected virtual void OnClearing(EventArgs e)
-        {
-            Clearing?.Invoke(this, e);
-        }
+        protected virtual void OnClearing(EventArgs e) => Clearing?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Cleared event.
         /// </summary>
         /// <param name="e">An EventArgs instance containing event data.</param>
-        protected virtual void OnCleared(EventArgs e)
-        {
-            Cleared?.Invoke(this, e);
-        }
+        protected virtual void OnCleared(EventArgs e) => Cleared?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Reordered event.
         /// </summary>
         /// <param name="e">An EventArgs instance containing event data.</param>
-        protected virtual void OnReordered(EventArgs e)
-        {
-            Reordered?.Invoke(this, e);
-        }
+        protected virtual void OnReordered(EventArgs e) => Reordered?.Invoke(this, e);
+
         #endregion
     }
 }
