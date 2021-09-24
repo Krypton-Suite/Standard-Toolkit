@@ -13,7 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class PaletteOffice365BlueDarkMode : PaletteOffice365Base
+    public class PaletteOffice365BlueDarkMode : PaletteOffice365BlueThemeDarkModeBase // PaletteOffice365Base
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
                                                                       Color.Transparent,                // InputDropDownDisabled2
                                                                       Color.FromArgb(240, 242, 245),    // ContextMenuHeadingBack
                                                                       Color.FromArgb( 30,  57,  91),    // ContextMenuHeadingText
-                                                                      Color.White,                      // ContextMenuImageColumn
+                                                                      Color.FromArgb(174, 194, 219),                      // ContextMenuImageColumn
                                                                       Color.FromArgb(195, 212, 235),    // AppButtonBack1
                                                                       Color.FromArgb(195, 212, 235),    // AppButtonBack2
                                                                       Color.FromArgb(114, 142, 173),    // AppButtonBorder
