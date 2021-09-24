@@ -286,10 +286,7 @@ namespace Krypton.Toolkit
         /// Raises the CheckedChanging event.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanging(CancelEventArgs e)
-        {
-            CheckedChanging?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanging(CancelEventArgs e) => CheckedChanging?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckedChanged event.

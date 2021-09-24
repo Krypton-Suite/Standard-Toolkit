@@ -5,6 +5,7 @@
  */
 #endregion
 
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -31,6 +32,24 @@ namespace Krypton.Toolkit
         protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
         {
             var (handled, retValue) = _commonDialogHandler.HookProc(hWnd, msg, wparam, lparam);
+            if (!handled)
+            {
+                if (msg == PI.WM_.PRINTCLIENT )
+                {
+                    // Supposedly finished init, so go finalise the checkboxes
+                    foreach (var control in _commonDialogHandler.Controls)
+                    {
+                        if (control.Button is KryptonCheckBox checkBox)
+                        {
+                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
+                            checkBox.Checked = (state != PI.BST_.UNCHECKED);
+                        }
+                    }
+                }
+
+                Debug.WriteLine(@"0x{0:X} : {1}", msg, hWnd);
+            }
+
             return handled ? retValue :base.HookProc(hWnd, msg, wparam, lparam);
         }
 

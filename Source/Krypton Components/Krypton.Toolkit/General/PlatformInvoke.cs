@@ -27,9 +27,9 @@ namespace Krypton.Toolkit
     {
         #region statics
 
-        internal static readonly IntPtr InvalidIntPtr = new (-1);
+        internal static readonly IntPtr InvalidIntPtr = new(-1);
         internal static readonly IntPtr LPSTR_TEXTCALLBACK = new(-1);
-        internal static readonly HandleRef NullHandleRef = new (null, IntPtr.Zero);
+        internal static readonly HandleRef NullHandleRef = new(null, IntPtr.Zero);
 
         /// <summary>
         ///     Places the window above all non-topmost windows. The window maintains its topmost position even when it is deactivated.
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         internal static object PtrToStructure(IntPtr lparam, Type cls) => Marshal.PtrToStructure(lparam, cls);
-        internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld=false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
+        internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld = false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
 
         #region Constants
         /// <summary>
@@ -73,6 +73,14 @@ namespace Krypton.Toolkit
         {
             FALSE = 0,
             TRUE = 1,
+        }
+
+        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked
+        internal enum BST_ : uint
+        {
+            UNCHECKED = 0x0000,
+            CHECKED = 0x0001,
+            INDETERMINATE = 0x0002
         }
 
         #region ScrollBar
@@ -2498,6 +2506,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #endregion
 
         #region Static User32
+
+        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked
+        [DllImport(@"user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern BST_ IsDlgButtonChecked(IntPtr hDlg, int nIDButton);
 
         [DllImport(@"user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]

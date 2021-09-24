@@ -157,10 +157,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Recreate the set of button spec instances.
         /// </summary>
-        public void RecreateButtons()
-        {
-            ButtonManager.RecreateButtons();
-        }
+        public void RecreateButtons() => ButtonManager.RecreateButtons();
 
         /// <summary>
         /// Gets access to the month calendar.
@@ -849,11 +846,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {

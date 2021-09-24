@@ -167,11 +167,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
+        public override void ResetText() =>
             // Map onto the button property from the values
             Values.ResetText();
-        }
 
         /// <summary>
         /// Gets and sets the visual orientation of the control.
@@ -616,10 +614,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Called when a context menu has just been closed.
         /// </summary>
-        protected override void ContextMenuClosed()
-        {
-            _buttonController.RemoveFixed();
-        }
+        protected override void ContextMenuClosed() => _buttonController.RemoveFixed();
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -732,10 +727,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnButtonTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(EventArgs.Empty);
-        }
+        private void OnButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void OnButtonClick(object sender, MouseEventArgs e)
         {

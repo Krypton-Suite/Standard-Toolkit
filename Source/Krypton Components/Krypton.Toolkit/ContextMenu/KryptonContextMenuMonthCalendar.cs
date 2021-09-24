@@ -1317,28 +1317,20 @@ namespace Krypton.Toolkit
         /// Raises when the DateChanged event.
         /// </summary>
         /// <param name="e">An DateRangeEventArgs that contains the event data.</param>
-        protected virtual void OnDateChanged(DateRangeEventArgs e)
-        {
-            DateChanged?.Invoke(this, e);
-        }
+        protected virtual void OnDateChanged(DateRangeEventArgs e) => DateChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises when the SelectionStartChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnSelectionStartChanged(EventArgs e)
-        {
-            SelectionStartChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectionStartChanged(EventArgs e) => SelectionStartChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises when the SelectionEndChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnSelectionEndChanged(EventArgs e)
-        {
-            SelectionEndChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectionEndChanged(EventArgs e) => SelectionEndChanged?.Invoke(this, e);
+
         #endregion
 
         #region Internal

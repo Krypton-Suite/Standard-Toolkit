@@ -580,8 +580,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>For internal use only.</summary>
-        public override void Dispose(bool disposing)
-        {
+        public override void Dispose(bool disposing) =>
             //if (borderPath != null)
             //{
             //    borderPath.Dispose();
@@ -590,7 +589,6 @@ namespace Krypton.Toolkit
             //    borderPen.Dispose();
             //    borderBrush.Dispose();
             //    insideFillBrush.Dispose();
-
             //    borderPath = null;
             //    borderFillPath = null;
             //    insideFillPath = null;
@@ -598,9 +596,7 @@ namespace Krypton.Toolkit
             //    borderBrush = null;
             //    insideFillBrush = null;
             //}
-
             base.Dispose(disposing);
-        }
     }
     #endregion
 

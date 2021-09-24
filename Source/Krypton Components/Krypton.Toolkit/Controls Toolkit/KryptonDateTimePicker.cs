@@ -1532,12 +1532,11 @@ namespace Krypton.Toolkit
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected Virtual
@@ -1546,91 +1545,61 @@ namespace Krypton.Toolkit
         /// Raises the RightToLeftLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnRightToLeftLayoutChanged(EventArgs e)
-        {
-            RightToLeftLayoutChanged?.Invoke(this, e);
-        }
+        protected virtual void OnRightToLeftLayoutChanged(EventArgs e) => RightToLeftLayoutChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FormatChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnFormatChanged(EventArgs e)
-        {
-            FormatChanged?.Invoke(this, e);
-        }
+        protected virtual void OnFormatChanged(EventArgs e) => FormatChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DropDown event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnDropDown(DateTimePickerDropArgs e)
-        {
-            DropDown?.Invoke(this, e);
-        }
+        protected virtual void OnDropDown(DateTimePickerDropArgs e) => DropDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CloseUp event.
         /// </summary>
         /// <param name="e">An DateTimePickerCloseArgs containing the event data.</param>
-        protected virtual void OnCloseUp(DateTimePickerCloseArgs e)
-        {
-            CloseUp?.Invoke(this, e);
-        }
+        protected virtual void OnCloseUp(DateTimePickerCloseArgs e) => CloseUp?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CloseUpMonthCalendarChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCloseUpMonthCalendarChanged(EventArgs e)
-        {
-            CloseUpMonthCalendarChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCloseUpMonthCalendarChanged(EventArgs e) => CloseUpMonthCalendarChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AutoShiftOverflow event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected internal virtual void OnAutoShiftOverflow(CancelEventArgs e)
-        {
-            AutoShiftOverflow?.Invoke(this, e);
-        }
+        protected internal virtual void OnAutoShiftOverflow(CancelEventArgs e) => AutoShiftOverflow?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ValueChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueChanged(EventArgs e)
-        {
-            ValueChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueChanged(EventArgs e) => ValueChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ValueNullableChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueNullableChanged(EventArgs e)
-        {
-            ValueNullableChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueNullableChanged(EventArgs e) => ValueNullableChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ActiveFragmentChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnActiveFragmentChanged(EventArgs e)
-        {
-            ActiveFragmentChanged?.Invoke(this, e);
-        }
+        protected virtual void OnActiveFragmentChanged(EventArgs e) => ActiveFragmentChanged?.Invoke(this, e);
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 
@@ -2334,11 +2303,9 @@ namespace Krypton.Toolkit
             _buttonDown.RemoveFixed();
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {

@@ -291,10 +291,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnControllerClick(object sender, MouseEventArgs e)
-        {
-            OnLinkClicked(new LinkClickedEventArgs(Text));
-        }
+        private void OnControllerClick(object sender, MouseEventArgs e) => OnLinkClicked(new LinkClickedEventArgs(Text));
+
         #endregion
     }
 }

@@ -1234,11 +1234,9 @@ namespace Krypton.Toolkit
 
         private void DrawGradientToolItem(Graphics g,
                                           ToolStripItem item,
-                                          GradientItemColors colors)
-        {
+                                          GradientItemColors colors) =>
             // Perform drawing into the entire background of the item
             colors.DrawItem(g, new Rectangle(Point.Empty, item.Bounds.Size));
-        }
 
         private void RenderToolSplitButtonBackground(Graphics g,
                                                      ToolStripSplitButton splitButton,
@@ -1295,11 +1293,9 @@ namespace Krypton.Toolkit
                                    int x,
                                    int y,
                                    Brush darkBrush,
-                                   Brush lightBrush)
-        {
+                                   Brush lightBrush) =>
             //g.FillRectangle(lightBrush, x + _gripOffset, y + _gripOffset, _gripSquare, _gripSquare);
             g.FillRectangle(darkBrush, x, y, _gripSquare, _gripSquare);
-        }
 
         private void DrawContextMenuSeparator(Graphics g,
                                               bool vertical,

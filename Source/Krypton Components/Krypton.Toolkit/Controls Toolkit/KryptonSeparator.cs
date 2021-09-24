@@ -549,37 +549,26 @@ namespace Krypton.Toolkit
         /// Raises the SplitterMoveRect event.
         /// </summary>
         /// <param name="e">A SplitterMoveRectMenuArgs containing the event data.</param>
-        protected virtual void OnSplitterMoveRect(SplitterMoveRectMenuArgs e)
-        {
-            SplitterMoveRect?.Invoke(this, e);
-        }
+        protected virtual void OnSplitterMoveRect(SplitterMoveRectMenuArgs e) => SplitterMoveRect?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SplitterMoved event.
         /// </summary>
         /// <param name="e">A SplitterEventArgs containing the event data.</param>
-        protected virtual void OnSplitterMoved(SplitterEventArgs e)
-        {
-            SplitterMoved?.Invoke(this, e);
-        }
+        protected virtual void OnSplitterMoved(SplitterEventArgs e) => SplitterMoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SplitterNotMoved event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSplitterNotMoved(EventArgs e)
-        {
-            SplitterNotMoved?.Invoke(this, e);
-        }
+        protected virtual void OnSplitterNotMoved(EventArgs e) => SplitterNotMoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SplitterMoving event.
         /// </summary>
         /// <param name="e">A SplitterEventArgs containing the event data.</param>
-        protected virtual void OnSplitterMoving(SplitterCancelEventArgs e)
-        {
-            SplitterMoving?.Invoke(this, e);
-        }
+        protected virtual void OnSplitterMoving(SplitterCancelEventArgs e) => SplitterMoving?.Invoke(this, e);
+
         #endregion
 
         #region Protected Overrides
@@ -640,46 +629,32 @@ namespace Krypton.Toolkit
         /// Raises the AutoSizeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnAutoSizeChanged(EventArgs e)
-        {
-            AutoSizeChanged?.Invoke(this, e);
-        }
+        protected override void OnAutoSizeChanged(EventArgs e) => AutoSizeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnBackgroundImageChanged(EventArgs e)
-        {
-            BackgroundImageChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageChanged(EventArgs e) => BackgroundImageChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnBackgroundImageLayoutChanged(EventArgs e)
-        {
-            BackgroundImageLayoutChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageLayoutChanged(EventArgs e) => BackgroundImageLayoutChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ControlAdded event.
         /// </summary>
         /// <param name="e">An ControlEventArgs containing the event data.</param>
-        protected override void OnControlAdded(ControlEventArgs e)
-        {
-            ControlAdded?.Invoke(this, e);
-        }
+        protected override void OnControlAdded(ControlEventArgs e) => ControlAdded?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ControlRemoved event.
         /// </summary>
         /// <param name="e">An ControlEventArgs containing the event data.</param>
-        protected override void OnControlRemoved(ControlEventArgs e)
-        {
-            ControlRemoved?.Invoke(this, e);
-        }
+        protected override void OnControlRemoved(ControlEventArgs e) => ControlRemoved?.Invoke(this, e);
+
         #endregion
 
         #region Internal (Design Time Support)
@@ -695,11 +670,9 @@ namespace Krypton.Toolkit
             return null;
         }
 
-        internal void DesignMouseEnter()
-        {
+        internal void DesignMouseEnter() =>
             // Pass message directly onto the separator controller
             _separatorController.MouseEnter(this);
-        }
 
         internal bool DesignMouseDown(Point pt, MouseButtons button)
         {
@@ -719,23 +692,18 @@ namespace Krypton.Toolkit
             _separatorController.MouseMove(this, pt);
         }
 
-        internal void DesignMouseUp(MouseButtons button)
-        {
+        internal void DesignMouseUp(MouseButtons button) =>
             // Pass message directly onto the separator controller
             _separatorController.MouseUp(this, _designLastPt, button);
-        }
 
-        internal void DesignMouseLeave()
-        {
+        internal void DesignMouseLeave() =>
             // Pass message directly onto the separator controller
             _separatorController.MouseLeave(this, null);
-        }
 
-        internal void DesignAbortMoving()
-        {
+        internal void DesignAbortMoving() =>
             // Pass message directly onto the separator controller
             _separatorController.AbortMoving();
-        }
+
         #endregion
 
         #region Private

@@ -126,25 +126,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ShadowValues_ColourChanged(object sender, ColorEventArgs e)
-        {
-            ReCalcBrushes();
-        }
+        private void ShadowValues_ColourChanged(object sender, ColorEventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_BlurDistanceChanged(object sender, EventArgs e)
-        {
-            ReCalcBrushes();
-        }
+        private void ShadowValues_BlurDistanceChanged(object sender, EventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_OpacityChanged(object sender, EventArgs e)
-        {
-            ReCalcBrushes();
-        }
+        private void ShadowValues_OpacityChanged(object sender, EventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_MarginsChanged(object sender, EventArgs e)
-        {
-            SetShadowFormsSizes();
-        }
+        private void ShadowValues_MarginsChanged(object sender, EventArgs e) => SetShadowFormsSizes();
 
         private void ShadowValues_EnableShadowsChanged(object sender, EventArgs e)
         {

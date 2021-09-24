@@ -141,18 +141,12 @@ namespace Krypton.Toolkit
         /// Requests a repaint and optional layout be performed.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            Manager.PerformNeedPaint(this, needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => Manager.PerformNeedPaint(this, needLayout);
 
         /// <summary>
         /// Update the button style to reflect new button style setting.
         /// </summary>
-        public void UpdateButtonStyle()
-        {
-            _palette.SetStyles(ButtonSpec.GetStyle(_redirector));
-        }
+        public void UpdateButtonStyle() => _palette.SetStyles(ButtonSpec.GetStyle(_redirector));
 
         /// <summary>
         /// Update view button to reflect new button visible setting.
@@ -305,11 +299,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnFinishDelegate(object sender, EventArgs e)
-        {
+        protected virtual void OnFinishDelegate(object sender, EventArgs e) =>
             // Ask the button to remove the fixed pressed appearance
             _controller.RemoveFixed();
-        }
+
         #endregion
 
         #region IContentValues
@@ -415,10 +408,7 @@ namespace Krypton.Toolkit
             OnFinishDelegate(sender, e);
         }
 
-        private void OnNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
-            PerformNeedPaint(e.NeedLayout);
-        }
+        private void OnNeedPaint(object sender, NeedLayoutEventArgs e) => PerformNeedPaint(e.NeedLayout);
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

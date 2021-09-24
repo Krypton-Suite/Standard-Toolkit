@@ -428,10 +428,8 @@ namespace Krypton.Toolkit
         /// Raises the WndProcHitTest event.
         /// </summary>
         /// <param name="e">A ViewControlHitTestArgs containing the event data.</param>
-        protected virtual void OnWndProcHitTest(ViewControlHitTestArgs e)
-        {
-            WndProcHitTest?.Invoke(this, e);
-        }
+        protected virtual void OnWndProcHitTest(ViewControlHitTestArgs e) => WndProcHitTest?.Invoke(this, e);
+
         #endregion
 
         #region Implementation

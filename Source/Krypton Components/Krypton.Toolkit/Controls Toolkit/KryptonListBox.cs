@@ -597,12 +597,10 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
         }
 
-        private void OnListBoxClick(object sender, EventArgs e)
-        {
+        private void OnListBoxClick(object sender, EventArgs e) =>
             // ReSharper disable RedundantBaseQualifier
             base.OnClick(e);
-            // ReSharper restore RedundantBaseQualifier
-        }
+        // ReSharper restore RedundantBaseQualifier
 
         /// <summary>
         /// Releases all resources used by the Control. 

@@ -86,10 +86,7 @@ namespace Krypton.Toolkit
         /// Raises the Inserted event.
         /// </summary>
         /// <param name="e">A NavButtonSpecEventArgs instance containing event data.</param>
-        protected void OnInserted(ButtonSpecEventArgs e)
-        {
-            Inserted?.Invoke(this, e);
-        }
+        protected void OnInserted(ButtonSpecEventArgs e) => Inserted?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Removing event.
@@ -105,10 +102,8 @@ namespace Krypton.Toolkit
         /// Raises the Removed event.
         /// </summary>
         /// <param name="e">A NavButtonSpecEventArgs instance containing event data.</param>
-        protected void OnRemoved(ButtonSpecEventArgs e)
-        {
-            Removed?.Invoke(this, e);
-        }
+        protected void OnRemoved(ButtonSpecEventArgs e) => Removed?.Invoke(this, e);
+
         #endregion
     }
 
@@ -195,11 +190,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="value">Object reference.</param>
-        public void Insert(int index, object value)
-        {
+        public void Insert(int index, object value) =>
             // Use strongly typed implementation
             Insert(index, value as T);
-        }
 
         /// <summary>
         /// Gets a value indicating whether the collection has a fixed size. 
@@ -210,11 +203,9 @@ namespace Krypton.Toolkit
         /// Removes first occurance of specified object.
         /// </summary>
         /// <param name="value">Object reference.</param>
-        public void Remove(object value)
-        {
+        public void Remove(object value) =>
             // Use strongly typed implementation
             Remove(value as T);
-        }
 
         /// <summary>
         /// Gets or sets the button spec at the specified index.
