@@ -3820,6 +3820,8 @@ namespace Krypton.Toolkit
                     return ribbonGroupArea.StateCheckedNormal;
                 case PaletteState.ContextCheckedNormal:
                     return ribbonGroupArea.StateContextCheckedNormal;
+                case PaletteState.Tracking:
+                    return ribbonGroupArea.StateTracking;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
