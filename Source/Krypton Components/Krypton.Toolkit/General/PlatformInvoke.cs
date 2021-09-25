@@ -2507,6 +2507,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         #region Static User32
 
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool SetWindowText(IntPtr hwnd, String lpString);
+
         // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked
         [DllImport(@"user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]

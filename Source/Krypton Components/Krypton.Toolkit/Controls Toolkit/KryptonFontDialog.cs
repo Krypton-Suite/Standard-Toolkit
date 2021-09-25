@@ -22,6 +22,16 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonFontDialog() => _commonDialogHandler = new CommonDialogHandler(true);
 
+        /// <summary>
+        /// Changes the title of the common Font Dialog
+        /// </summary>
+        public string Title 
+        { 
+            get => _commonDialogHandler.Title; 
+            set => _commonDialogHandler.Title = value;
+        }
+
+
         //protected override bool RunDialog(IntPtr hWndOwner)
         //{
         //    var ret = base.RunDialog(hWndOwner);
