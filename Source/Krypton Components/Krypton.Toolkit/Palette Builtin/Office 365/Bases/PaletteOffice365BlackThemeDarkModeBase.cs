@@ -151,8 +151,8 @@ namespace Krypton.Toolkit
                                                               Color.FromArgb(61, 61, 61), // Button, Tracking, Back 2
                                                               Color.FromArgb(121, 121, 121), // Button, Pressed, Back 1
                                                               Color.FromArgb(91, 91, 91),  // Button, Pressed, Back 2
-                                                              Color.FromArgb(255, 216, 108), // Button, Checked, Back 1
-                                                              Color.FromArgb(255, 244, 128), // Button, Checked, Back 2
+                                                              Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
+                                                              Color.FromArgb(61, 61, 61), // Button, Checked, Back 2
                                                               Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
                                                               Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
                                                             };
