@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(80, 81, 82)          // Border (normal) position
                                                                       };
         private static readonly Color[] _schemeColors = { Color.FromArgb(255, 255, 255),    // TextLabelControl
-                                                                      Color.FromArgb(255, 255, 255),    // TextButtonNormal
+                                                                      Color.FromArgb(54, 79, 110),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(187, 191, 196),    // ButtonNormalBorder1
                                                                       Color.FromArgb(158, 166, 172),    // ButtonNormalDefaultBorder
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(248, 252, 255),    // GridListNormal1                                                    
                                                                       Color.FromArgb(223, 227, 232),    // GridListNormal2                                                    
                                                                       Color.FromArgb(203, 207, 212),    // GridListPressed1                                                    
-                                                                      Color.White,                      // GridListPressed2                                                    
+                                                                      Color.White,                                   // GridListPressed2                                                    
                                                                       Color.FromArgb(186, 189, 194),    // GridListSelected                                                    
                                                                       Color.FromArgb(238, 241, 247),    // GridSheetColNormal1                                                    
                                                                       Color.FromArgb(218, 222, 227),    // GridSheetColNormal2                                                    
@@ -226,8 +226,8 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(118, 135, 156),    // InputControlBackNormal
                                                                       Color.FromArgb(240, 240, 240),    // InputControlBackDisabled
                                                                       Color.FromArgb(247, 247, 247),    // InputControlBackInactive
-                                                                      Color.Black,                      // InputDropDownNormal1
-                                                                      Color.Transparent,                // InputDropDownNormal2
+                                                                      Color.Black,    // InputDropDownNormal1
+                                                                      Color.Transparent,    // InputDropDownNormal2
                                                                       Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
                                                                       Color.Transparent,                // InputDropDownDisabled2
                                                                       Color.FromArgb(240, 242, 245),    // ContextMenuHeadingBack
