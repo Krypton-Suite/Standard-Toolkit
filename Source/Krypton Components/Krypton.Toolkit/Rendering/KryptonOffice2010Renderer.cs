@@ -393,24 +393,15 @@ namespace Krypton.Toolkit
                     color2 = CommonHelper.WhitenColor(color1, 0.7f, 0.7f, 0.7f);
                 }
 
-                float angle = 0;
-
                 // Use gradient angle to match the arrow direction
-                switch (e.Direction)
+                float angle = e.Direction switch
                 {
-                    case ArrowDirection.Right:
-                        angle = 0;
-                        break;
-                    case ArrowDirection.Left:
-                        angle = 180f;
-                        break;
-                    case ArrowDirection.Down:
-                        angle = 90f;
-                        break;
-                    case ArrowDirection.Up:
-                        angle = 270f;
-                        break;
-                }
+                    ArrowDirection.Right => 0,
+                    ArrowDirection.Left => 180f,
+                    ArrowDirection.Down => 90f,
+                    ArrowDirection.Up => 270f,
+                    _ => 0
+                };
 
                 // Draw the actual arrow using a gradient
                 using LinearGradientBrush arrowBrush = new(boundsF, color1, color2, angle);
@@ -1251,11 +1242,9 @@ namespace Krypton.Toolkit
 
         private void DrawGradientToolItem(Graphics g,
                                           ToolStripItem item,
-                                          GradientItemColors colors)
-        {
+                                          GradientItemColors colors) =>
             // Perform drawing into the entire background of the item
             colors.DrawItem(g, new Rectangle(Point.Empty, item.Bounds.Size));
-        }
 
         private void RenderToolSplitButtonBackground(Graphics g,
                                                      ToolStripSplitButton splitButton,

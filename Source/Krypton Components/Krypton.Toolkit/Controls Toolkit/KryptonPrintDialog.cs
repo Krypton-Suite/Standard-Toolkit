@@ -53,6 +53,15 @@ namespace Krypton.Toolkit
                 ClickCallback = ClickCallback
             };
 
+        /// <summary>
+        /// Changes the title of the common Print Dialog
+        /// </summary>
+        public string Title 
+        { 
+            get => _commonDialogHandler.Title; 
+            set => _commonDialogHandler.Title = value;
+        }
+
         private void ClickCallback(CommonDialogHandler.Attributes originalControl)
         {
             // When the radio button is clicked
@@ -86,17 +95,11 @@ namespace Krypton.Toolkit
             {
                 _editHwnd = _commonDialogHandler.Controls.First(ctl => ctl.DlgCtrlId == 0x00000482).hWnd;
                 _collateCheckbox = _commonDialogHandler.Controls.First(ctl => ctl.DlgCtrlId == 0x00000411).Button as KryptonCheckBox;
-                _collateCheckbox.Checked = true;
             }
 
             if (!handled)
             {
-                if (msg == PI.WM_.ERASEBKGND)
-                {
-                    // Got to prevent the CommonDialog redrawing over the KryptonControls !!
-                    return IntPtr.Zero;
-                }
-                else if ((msg == PI.WM_.COMMAND)
+                if ((msg == PI.WM_.COMMAND)
                     && (_editHwnd == lparam)
                     && (PI.HIWORD(wparam) == PI.EN_CHANGE)
                     )
@@ -105,7 +108,30 @@ namespace Krypton.Toolkit
                     PI.GetWindowText(_editHwnd.Value, text, 8);
                     _collateCheckbox.Enabled = (int.Parse(text.ToString()) > 1);
                 }
-                //Debug.WriteLine(@"{0} : {1}", msg, hWnd);
+                else if (msg == PI.WM_.PRINTCLIENT )
+                {
+                    // Supposedly finished init, so go finalise the checkboxes and radios
+                    foreach (var control in _commonDialogHandler.Controls)
+                    {
+                        if (control.Button is KryptonCheckBox checkBox)
+                        {
+                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
+                            checkBox.Checked = (state != PI.BST_.UNCHECKED);
+                        }
+                        else if (control.Button is KryptonRadioButton radioBut)
+                        {
+                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
+                            radioBut.Checked = (state != PI.BST_.UNCHECKED);
+                        }
+                    }
+                }
+                else if (msg == PI.WM_.ERASEBKGND)
+                {
+                    // Got to prevent the CommonDialog redrawing over the KryptonControls !!
+                    return IntPtr.Zero;
+                }
+
+                Debug.WriteLine(@"0x{0:X} : {1}", msg, hWnd);
             }
 
             return handled ? retValue : base.HookProc(hWnd, msg, wparam, lparam);

@@ -310,10 +310,7 @@ namespace Krypton.Toolkit
         /// Raises the SelectedIndexChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSelectedIndexChanged(EventArgs e)
-        {
-            SelectedIndexChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedIndexChanged(EventArgs e) => SelectedIndexChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.

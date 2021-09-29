@@ -733,10 +733,8 @@ namespace Krypton.Toolkit
             }
 
             private void ParseCharacter(char charater, FormatFragmentList fragList,
-                                        ref int literal, ref int current, ref string format)
-            {
+                                        ref int literal, ref int current, ref string format) =>
                 ParseCharacter(charater, int.MaxValue, fragList, ref literal, ref current, ref format);
-            }
 
             private void ParseCharacter(char charater, int max, FormatFragmentList fragList,
                                         ref int literal, ref int current, ref string format)
@@ -1320,10 +1318,8 @@ namespace Krypton.Toolkit
         /// Raises the AutoShiftOverflow event.
         /// </summary>
         /// <param name="e">An CancelEventArgs the contains the event data.</param>
-        public void OnAutoShiftOverflow(CancelEventArgs e)
-        {
-            _dateTimePicker.OnAutoShiftOverflow(e);
-        }
+        public void OnAutoShiftOverflow(CancelEventArgs e) => _dateTimePicker.OnAutoShiftOverflow(e);
+
         #endregion
 
         #region HasFocus
@@ -1673,10 +1669,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void PerformNeedPaint(bool needLayout)
-        {
-            _needPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        private void PerformNeedPaint(bool needLayout) => _needPaint(this, new NeedLayoutEventArgs(needLayout));
 
         private Font GetFont()
         {
@@ -1722,24 +1715,16 @@ namespace Krypton.Toolkit
 
         private string GetFormat()
         {
-            string format = string.Empty;
-
-            switch (_dateTimePicker.Format)
+            string format = _dateTimePicker.Format switch
             {
-                case DateTimePickerFormat.Long:
-                    format = CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern;
-                    break;
-                case DateTimePickerFormat.Short:
-                    format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
-                    break;
-                case DateTimePickerFormat.Time:
-                    format = CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern;
-                    break;
-                case DateTimePickerFormat.Custom:
+                DateTimePickerFormat.Long => CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern,
+                DateTimePickerFormat.Short => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
+                DateTimePickerFormat.Time => CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern,
+                DateTimePickerFormat.Custom =>
                     // Use helper to ensure single character formats are handled correctly
-                    format = CommonHelper.MakeCustomDateFormat(_dateTimePicker.CustomFormat);
-                    break;
-            }
+                    CommonHelper.MakeCustomDateFormat(_dateTimePicker.CustomFormat),
+                _ => string.Empty
+            };
 
             return format;
         }

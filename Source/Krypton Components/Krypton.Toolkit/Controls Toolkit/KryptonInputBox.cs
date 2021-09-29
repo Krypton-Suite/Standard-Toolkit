@@ -22,10 +22,6 @@ namespace Krypton.Toolkit
     [DesignTimeVisible(false)]
     public class KryptonInputBox : KryptonForm
     {
-        #region Static Fields
-        private static readonly int GAP = 10;
-        #endregion
-
         #region Instance Fields
         private readonly bool _usePasswordOption;
         private readonly Color _cueColour;

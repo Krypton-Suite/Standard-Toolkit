@@ -109,10 +109,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Remove the fixed appearance of the button.
         /// </summary>
-        public void RemoveFixed()
-        {
-            _controller.RemoveFixed();
-        }
+        public void RemoveFixed() => _controller.RemoveFixed();
+
         #endregion
 
         #region Layout
@@ -141,18 +139,16 @@ namespace Krypton.Toolkit
 
             // Layout the button drawing elements using a reduced size
             Rectangle beforeRect = context.DisplayRectangle;
-            switch (_glyph)
+            context.DisplayRectangle = _glyph switch
             {
-                case DrawDateTimeGlyph.DropDownButton:
-                    context.DisplayRectangle = new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width, beforeRect.Height - 2);
-                    break;
-                case DrawDateTimeGlyph.UpButton:
-                    context.DisplayRectangle = new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width, beforeRect.Height - 1);
-                    break;
-                case DrawDateTimeGlyph.DownButton:
-                    context.DisplayRectangle = new Rectangle(beforeRect.X, beforeRect.Y, beforeRect.Width, beforeRect.Height - 1);
-                    break;
-            }
+                DrawDateTimeGlyph.DropDownButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
+                    beforeRect.Height - 2),
+                DrawDateTimeGlyph.UpButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
+                    beforeRect.Height - 1),
+                DrawDateTimeGlyph.DownButton => new Rectangle(beforeRect.X, beforeRect.Y, beforeRect.Width,
+                    beforeRect.Height - 1),
+                _ => context.DisplayRectangle
+            };
 
             base.Layout(context);
 
@@ -228,20 +224,15 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments assocaited with the event.</param>
-        protected void OnButtonClick(object sender, MouseEventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected void OnButtonClick(object sender, MouseEventArgs e) => Click?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MouseSelect event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments assocaited with the event.</param>
-        protected void OnButtonMouseSelect(object sender, MouseEventArgs e)
-        {
-            MouseSelect?.Invoke(this, e);
-        }
+        protected void OnButtonMouseSelect(object sender, MouseEventArgs e) => MouseSelect?.Invoke(this, e);
+
         #endregion
     }
 }

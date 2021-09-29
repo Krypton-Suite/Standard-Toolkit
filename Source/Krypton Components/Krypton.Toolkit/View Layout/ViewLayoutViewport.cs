@@ -384,20 +384,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Move the viewport to show the next part of area.
         /// </summary>
-        public void MoveNext()
-        {
-            MoveDirection(true);
-        }
+        public void MoveNext() => MoveDirection(true);
+
         #endregion
 
         #region MovePrevious
         /// <summary>
         /// Move the viewport to show the previous part of area.
         /// </summary>
-        public void MovePrevious()
-        {
-            MoveDirection(false);
-        }
+        public void MovePrevious() => MoveDirection(false);
+
         #endregion
 
         #region NeedScrolling
@@ -725,15 +721,12 @@ namespace Krypton.Toolkit
                 if (_rightToLeftLayout && (_rightToLeft == RightToLeft.Yes))
                 {
                     // Reverse the left and right only
-                    switch (orientation)
+                    orientation = orientation switch
                     {
-                        case VisualOrientation.Left:
-                            orientation = VisualOrientation.Right;
-                            break;
-                        case VisualOrientation.Right:
-                            orientation = VisualOrientation.Left;
-                            break;
-                    }
+                        VisualOrientation.Left => VisualOrientation.Right,
+                        VisualOrientation.Right => VisualOrientation.Left,
+                        _ => orientation
+                    };
                 }
 
                 // The orientation determines how the border padding is 

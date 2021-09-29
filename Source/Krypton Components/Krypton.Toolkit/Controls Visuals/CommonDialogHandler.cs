@@ -47,12 +47,16 @@ namespace Krypton.Toolkit
             _labelFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
         }
 
+        internal string Title { get; set; }
+
         internal (bool handled, IntPtr retValue) HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
         {
             switch (msg)
             {
                 case PI.WM_.INITDIALOG:
                     {
+                        if ( !string.IsNullOrWhiteSpace(Title))
+                            PI.SetWindowText(hWnd, Title);
                         var childHandles = new List<IntPtr>();
                         GCHandle gch = GCHandle.Alloc(childHandles);
                         try
@@ -184,7 +188,6 @@ namespace Krypton.Toolkit
                                                 Dock = DockStyle.Fill,
                                                 LabelStyle = LabelStyle.NormalPanel,
                                                 Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0,
-                                                Checked = (control.WinInfo.dwStyle & PI.WS_.TABSTOP) == PI.WS_.TABSTOP
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;
@@ -218,8 +221,6 @@ namespace Krypton.Toolkit
                                                 Dock = DockStyle.Fill,
                                                 LabelStyle = LabelStyle.NormalPanel,
                                                 Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0,
-                                                Checked = (control.WinInfo.dwStyle & PI.WS_.TABSTOP) == PI.WS_.TABSTOP
-
                                             };
                                             panel.Controls.Add(button);
                                             control.Button = button;
@@ -430,6 +431,7 @@ namespace Krypton.Toolkit
 
         private static void DrawRoundedRectangle(Graphics g, Pen pen, Point location, Size size, int radius)
         {
+            g.SmoothingMode = SmoothingMode.AntiAlias;
             var roundRect = new RoundedRectangleF(size.Width, size.Height, radius, location.X, location.Y);
             g.DrawPath(pen, roundRect.Path);
         }

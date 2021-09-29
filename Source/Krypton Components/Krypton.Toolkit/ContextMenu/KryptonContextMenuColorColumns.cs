@@ -343,19 +343,14 @@ namespace Krypton.Toolkit
         /// Raises the SelectedColorChanged event.
         /// </summary>
         /// <param name="e">An ColorEventArgs that contains the event data.</param>
-        protected virtual void OnSelectedColorChanged(ColorEventArgs e)
-        {
-            SelectedColorChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedColorChanged(ColorEventArgs e) => SelectedColorChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackingColor event.
         /// </summary>
         /// <param name="e">An ColorEventArgs that contains the event data.</param>
-        protected internal virtual void OnTrackingColor(ColorEventArgs e)
-        {
-            TrackingColor?.Invoke(this, e);
-        }
+        protected internal virtual void OnTrackingColor(ColorEventArgs e) => TrackingColor?.Invoke(this, e);
+
         #endregion
 
         #region Internal
@@ -368,27 +363,16 @@ namespace Krypton.Toolkit
         {
             _colorScheme = scheme;
 
-            switch (scheme)
+            Colors = scheme switch
             {
-                case ColorScheme.None:
-                    Colors = _noneScheme;
-                    break;
-                case ColorScheme.Mono2:
-                    Colors = _mono2Scheme;
-                    break;
-                case ColorScheme.Mono8:
-                    Colors = _mono8Scheme;
-                    break;
-                case ColorScheme.Basic16:
-                    Colors = _basic16Scheme;
-                    break;
-                case ColorScheme.OfficeStandard:
-                    Colors = _officeStandardScheme;
-                    break;
-                case ColorScheme.OfficeThemes:
-                    Colors = _officeThemeScheme;
-                    break;
-            }
+                ColorScheme.None => _noneScheme,
+                ColorScheme.Mono2 => _mono2Scheme,
+                ColorScheme.Mono8 => _mono8Scheme,
+                ColorScheme.Basic16 => _basic16Scheme,
+                ColorScheme.OfficeStandard => _officeStandardScheme,
+                ColorScheme.OfficeThemes => _officeThemeScheme,
+                _ => Colors
+            };
         }
         #endregion
     }

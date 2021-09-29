@@ -149,11 +149,10 @@ namespace Krypton.Toolkit
         /// Make the provided control parented to ourself.
         /// </summary>
         /// <param name="c">Control to reparent.</param>
-        public void MakeParent(Control c)
-        {
+        public void MakeParent(Control c) =>
             // Ask the view control to perform reparenting
             ViewControl.MakeParent(c);
-        }
+
         #endregion
 
         #region RevertParent
@@ -407,21 +406,18 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Ask the base docker element to perform a layout.
         /// </summary>
-        protected void DockerLayout(ViewLayoutContext context)
-        {
+        protected void DockerLayout(ViewLayoutContext context) =>
             // Get base class to perform actual layout
             base.Layout(context);
-        }
 
         /// <summary>
         /// Requests a paint and optional layout of the control.
         /// </summary>
         /// <param name="needLayout">Is a layout required.</param>
-        protected void NeedPaint(bool needLayout)
-        {
+        protected void NeedPaint(bool needLayout) =>
             // Request a layout be performed immediately
             _needPaintDelegate?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+
         #endregion
 
         #region Implementation
@@ -459,10 +455,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnAnimateStep(object sender, EventArgs e)
-        {
-            AnimateStep?.Invoke(sender, e);
-        }
+        private void OnAnimateStep(object sender, EventArgs e) => AnimateStep?.Invoke(sender, e);
+
         #endregion
     }
 }

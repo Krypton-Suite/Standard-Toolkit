@@ -397,10 +397,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Generates a Click event for the component.
         /// </summary>
-        public void PerformClick()
-        {
-            OnClick(EventArgs.Empty);
-        }
+        public void PerformClick() => OnClick(EventArgs.Empty);
+
         #endregion
 
         #region Protected
@@ -408,19 +406,14 @@ namespace Krypton.Toolkit
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnClick(EventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected virtual void OnClick(EventArgs e) => Click?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
+
         #endregion
 
         #region Internal

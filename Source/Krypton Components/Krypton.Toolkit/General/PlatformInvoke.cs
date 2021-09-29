@@ -27,9 +27,9 @@ namespace Krypton.Toolkit
     {
         #region statics
 
-        internal static readonly IntPtr InvalidIntPtr = new (-1);
+        internal static readonly IntPtr InvalidIntPtr = new(-1);
         internal static readonly IntPtr LPSTR_TEXTCALLBACK = new(-1);
-        internal static readonly HandleRef NullHandleRef = new (null, IntPtr.Zero);
+        internal static readonly HandleRef NullHandleRef = new(null, IntPtr.Zero);
 
         /// <summary>
         ///     Places the window above all non-topmost windows. The window maintains its topmost position even when it is deactivated.
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         internal static object PtrToStructure(IntPtr lparam, Type cls) => Marshal.PtrToStructure(lparam, cls);
-        internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld=false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
+        internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld = false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
 
         #region Constants
         /// <summary>
@@ -73,6 +73,29 @@ namespace Krypton.Toolkit
         {
             FALSE = 0,
             TRUE = 1,
+        }
+
+        internal enum CBN_
+        {
+            ERRSPACE = -1,
+            SELCHANGE = 1,
+            DBLCLK = 2,
+            SETFOCUS = 3,
+            KILLFOCUS = 4,
+            EDITCHANGE = 5,
+            EDITUPDATE = 6,
+            DROPDOWN = 7,
+            CLOSEUP = 8,
+            SELENDOK = 9,
+            SELENDCANCEL = 10
+        }
+
+        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked
+        internal enum BST_ : uint
+        {
+            UNCHECKED = 0x0000,
+            CHECKED = 0x0001,
+            INDETERMINATE = 0x0002
         }
 
         #region ScrollBar
@@ -1631,6 +1654,40 @@ namespace Krypton.Toolkit
             // A static control, or an edit control that is read-only or disabled, sends the WM_CTLCOLORSTATIC message to its parent window when the control is about to be drawn. By responding to this message, the parent window can use the specified device context handle to set the text and background colors of the static control.
             // </summary>
             CTLCOLORSTATIC = 0x0138,
+            CB_GETEDITSEL = 0x0140,
+            CB_LIMITTEXT = 0x0141,
+            CB_SETEDITSEL = 0x0142,
+            CB_ADDSTRING = 0x0143,
+            CB_DELETESTRING = 0x0144,
+            CB_DIR = 0x0145,
+            CB_GETCOUNT = 0x0146,
+            CB_GETCURSEL = 0x0147,
+            CB_GETLBTEXT = 0x0148,
+            CB_GETLBTEXTLEN = 0x0149,
+            CB_INSERTSTRING = 0x014A,
+            CB_RESETCONTENT = 0x014B,
+            CB_FINDSTRING = 0x014C,
+            CB_SELECTSTRING = 0x014D,
+            CB_SETCURSEL = 0x014E,
+            CB_SHOWDROPDOWN = 0x014F,
+            CB_GETITEMDATA = 0x0150,
+            CB_SETITEMDATA = 0x0151,
+            CB_GETDROPPEDCONTROLRECT = 0x0152,
+            CB_SETITEMHEIGHT = 0x0153,
+            CB_GETITEMHEIGHT = 0x0154,
+            CB_SETEXTENDEDUI = 0x0155,
+            CB_GETEXTENDEDUI = 0x0156,
+            CB_GETDROPPEDSTATE = 0x0157,
+            CB_FINDSTRINGEXACT = 0x0158,
+            CB_SETLOCALE = 0x0159,
+            CB_GETLOCALE = 0x015A,
+            CB_GETTOPINDEX = 0x015B,
+            CB_SETTOPINDEX = 0x015C,
+            CB_GETHORIZONTALEXTENT = 0x015D,
+            CB_SETHORIZONTALEXTENT = 0x015E,
+            CB_GETDROPPEDWIDTH = 0x015F,
+            CB_SETDROPPEDWIDTH = 0x0160,
+            CB_INITSTORAGE = 0x0161,
             // <summary>
             // Use WM_MOUSEFIRST to specify the first mouse message. Use the PeekMessage() Function.
             // </summary>
@@ -2463,6 +2520,8 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static int MakeLParam(int LoWord, int HiWord) => ((HiWord << 16) | (LoWord & 0xffff));
 
+        internal static IntPtr MakeWParam(int LoWord, int HiWord) => new IntPtr((long)((HiWord << 16) | (LoWord & 0xffff)));
+
         /// <summary>
         /// Is the specified key currently pressed down.
         /// </summary>
@@ -2498,6 +2557,15 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #endregion
 
         #region Static User32
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool SetWindowText(IntPtr hwnd, String lpString);
+
+        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked
+        [DllImport(@"user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern BST_ IsDlgButtonChecked(IntPtr hDlg, int nIDButton);
 
         [DllImport(@"user32.dll")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -2760,6 +2828,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern ushort GetKeyState(int virtKey);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr SendDlgItemMessage(IntPtr hDlg, int nIDDlgItem, int Msg, IntPtr wParam, IntPtr lParam);
 
         [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]

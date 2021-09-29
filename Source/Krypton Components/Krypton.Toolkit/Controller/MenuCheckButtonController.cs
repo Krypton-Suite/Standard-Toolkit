@@ -74,18 +74,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// This target should display as the active target.
         /// </summary>
-        public virtual void ShowTarget()
-        {
-            HighlightState();
-        }
+        public virtual void ShowTarget() => HighlightState();
 
         /// <summary>
         /// This target should clear any active display.
         /// </summary>
-        public virtual void ClearTarget()
-        {
-            NormalState();
-        }
+        public virtual void ClearTarget() => NormalState();
 
         /// <summary>
         /// This target should show any appropriate sub menu.
@@ -384,10 +378,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint();
-        }
+        public void PerformNeedPaint() => OnNeedPaint();
+
         #endregion
 
         #region Private
@@ -450,10 +442,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnNeedPaint()
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(false));
-        }
+        private void OnNeedPaint() => _needPaint?.Invoke(this, new NeedLayoutEventArgs(false));
 
         private void HighlightState()
         {

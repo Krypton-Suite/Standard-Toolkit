@@ -169,10 +169,7 @@ namespace Krypton.Toolkit
         /// Fires the Dispose event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        public void OnDispose(EventArgs e)
-        {
-            Dispose?.Invoke(this, e);
-        }
+        public void OnDispose(EventArgs e) => Dispose?.Invoke(this, e);
 
         /// <summary>
         /// Fires the Closing event.

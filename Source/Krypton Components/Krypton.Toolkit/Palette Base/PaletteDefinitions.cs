@@ -2188,15 +2188,27 @@ namespace Krypton.Toolkit
         /// </summary>
         SparkleBlue,
 
+        SparkleBlueDarkMode,
+
+        SparkleBlueLightMode,
+
         /// <summary>
         /// Specifies the Orange color variant on the Sparkle palette theme.
         /// </summary>
         SparkleOrange,
 
+        SparkleOrangeDarkMode,
+
+        SparkleOrangeLightMode,
+
         /// <summary>
         /// Specifies the Purple color variant on the Sparkle palette theme.
         /// </summary>
         SparklePurple,
+
+        SparklePurpleDarkMode,
+
+        SparklePurpleLightMode,
 
         ///// <summary>
         ///// Specifies the visual studio dark palette theme.
@@ -2336,15 +2348,27 @@ namespace Krypton.Toolkit
         /// </summary>
         SparkleBlue,
 
+        SparkleBlueDarkMode,
+
+        SparkleBlueLightMode,
+
         /// <summary>
         /// Specifies the Orange color variant on the Sparkle palette theme.
         /// </summary>
         SparkleOrange,
 
+        SparkleOrangeDarkMode,
+
+        SparkleOrangeLightMode,
+
         /// <summary>
         /// Specifies the Purple color variant on the Sparkle palette theme.
         /// </summary>
         SparklePurple,
+
+        SparklePurpleDarkMode,
+
+        SparklePurpleLightMode,
 
         // /// <summary>
         // /// Specifies the visual studio dark palette theme.

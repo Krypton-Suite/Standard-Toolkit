@@ -89,10 +89,8 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
-        {
-            Debug.Assert(context != null);
-        }
+        public override void RenderBefore(RenderContext context) => Debug.Assert(context != null);
+
         #endregion
     }
 }

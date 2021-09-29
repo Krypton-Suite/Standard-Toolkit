@@ -853,19 +853,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Generates a Click event for the control.
         /// </summary>
-        public void PerformClick()
-        {
-            PerformClick(EventArgs.Empty);
-        }
+        public void PerformClick() => PerformClick(EventArgs.Empty);
 
         /// <summary>
         /// Generates a Click event for the control.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        public void PerformClick(EventArgs e)
-        {
-            OnClick(e);
-        }
+        public void PerformClick(EventArgs e) => OnClick(e);
+
         #endregion
 
         #region IButtonSpecValues
@@ -886,30 +881,17 @@ namespace Krypton.Toolkit
             }
 
             // Try and recover a state specific image
-            switch (state)
+            image = state switch
             {
-                case PaletteState.Disabled:
-                    image = ImageStates.ImageDisabled;
-                    break;
-                case PaletteState.Normal:
-                    image = ImageStates.ImageNormal;
-                    break;
-                case PaletteState.Pressed:
-                    image = ImageStates.ImagePressed;
-                    break;
-                case PaletteState.Tracking:
-                    image = ImageStates.ImageTracking;
-                    break;
-                case PaletteState.CheckedNormal:
-                    image = ImageStates.ImageCheckedNormal;
-                    break;
-                case PaletteState.CheckedPressed:
-                    image = ImageStates.ImageCheckedPressed;
-                    break;
-                case PaletteState.CheckedTracking:
-                    image = ImageStates.ImageCheckedTracking;
-                    break;
-            }
+                PaletteState.Disabled => ImageStates.ImageDisabled,
+                PaletteState.Normal => ImageStates.ImageNormal,
+                PaletteState.Pressed => ImageStates.ImagePressed,
+                PaletteState.Tracking => ImageStates.ImageTracking,
+                PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
+                PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
+                PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
+                _ => image
+            };
 
             // Default to the image if no state specific image is found
             if (image == null)
@@ -1095,10 +1077,7 @@ namespace Krypton.Toolkit
         /// Raises the ButtonSpecPropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of the appearance property that has changed.</param>
-        protected virtual void OnButtonSpecPropertyChanged(string propertyName)
-        {
-            ButtonSpecPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnButtonSpecPropertyChanged(string propertyName) => ButtonSpecPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         /// <summary>
         /// Handles a change in the property of an attached command.
@@ -1221,10 +1200,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnImageStateChanged(object sender, NeedLayoutEventArgs e)
-        {
-            OnButtonSpecPropertyChanged(nameof(Image));
-        }
+        private void OnImageStateChanged(object sender, NeedLayoutEventArgs e) => OnButtonSpecPropertyChanged(nameof(Image));
+
         #endregion
     }
 }

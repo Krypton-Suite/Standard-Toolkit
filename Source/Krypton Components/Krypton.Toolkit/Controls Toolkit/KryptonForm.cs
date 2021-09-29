@@ -97,8 +97,6 @@ namespace Krypton.Toolkit
         private Icon _cacheIcon;
         private float _cornerRoundingRadius;
         private Control _activeControl;
-        private KryptonManager _internalKryptonManager;
-        private KryptonPalette _internalKryptonPalette;
         #endregion
 
         #region Identity
@@ -203,9 +201,6 @@ namespace Krypton.Toolkit
             // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            _internalKryptonManager = new KryptonManager();
-
-            _internalKryptonPalette = new KryptonPalette();
         }
 
         /// <summary>
@@ -599,7 +594,15 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner rounding radius.</summary>
         /// <value>The corner rounding radius.</value>
         [DefaultValue(-1), Description("Defines the corner roundness on the current window (-1 is the default look).")]
-        public float CornerRoundingRadius { get => _cornerRoundingRadius; set { _cornerRoundingRadius = value; Invalidate(); } }
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+            set
+            {
+                _cornerRoundingRadius = value;
+                Invalidate();
+            }
+        }
 
         /// <summary>Gets or sets the active control on the container control.</summary>
         [DefaultValue(null), Description("Defines an active control for this window.")]
@@ -622,15 +625,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets the internal krypton manager.</summary>
-        /// <value>The internal krypton manager.</value>
-        [Description("Manages the current theme.")]
-        public KryptonManager KryptonManager { get => _internalKryptonManager; private set => _internalKryptonManager = value; }
-
-        /// <summary>Gets the internal krypton palette.</summary>
-        /// <value>The internal krypton palette.</value>
-        [Description("Create a custom theme palette.")]
-        public KryptonPalette KryptonPalette { get => _internalKryptonPalette; private set => _internalKryptonPalette = value; }
         #endregion
 
         #region Public Chrome
@@ -938,11 +932,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnAllowFormChromeChanged(object sender, EventArgs e)
-        {
+        protected override void OnAllowFormChromeChanged(object sender, EventArgs e) =>
             // Test if we need to change the custom chrome usage
             UpdateCustomChromeDecision();
-        }
+
         #endregion
 
         #region Protected Chrome
@@ -1454,8 +1447,7 @@ namespace Krypton.Toolkit
                                              (_statusStrip.Dock == DockStyle.Bottom) &&
                                              (_statusStrip.Bottom == ClientRectangle.Bottom) &&
                                              (_statusStrip.RenderMode == ToolStripRenderMode.ManagerRenderMode) &&
-                                             ((ToolStripManager.Renderer is KryptonOffice2007Renderer) ||
-                                              (ToolStripManager.Renderer is KryptonSparkleRenderer)));
+                                             (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonSparkleRenderer));
 
         private void MonitorStatusStrip(StatusStrip statusStrip)
         {
@@ -1539,11 +1531,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
@@ -1599,10 +1589,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnGlobalAllowFormChromeChanged(object sender, EventArgs e)
-        {
-            UpdateCustomChromeDecision();
-        }
+        private void OnGlobalAllowFormChromeChanged(object sender, EventArgs e) => UpdateCustomChromeDecision();
 
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {

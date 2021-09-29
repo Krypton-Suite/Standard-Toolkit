@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
             this._messageText.Font = new System.Drawing.Font("Segoe UI", 9F);
             this._messageText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             this._messageText.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
-            this._messageText.Location = new System.Drawing.Point(64, 0);
+            this._messageText.Location = new System.Drawing.Point(0, 0);
             this._messageText.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this._messageText.Name = "_messageText";
             this._messageText.Size = new System.Drawing.Size(180, 51);
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
             // 
             this._messageIcon.BackColor = System.Drawing.Color.Transparent;
             this._messageIcon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._messageIcon.Location = new System.Drawing.Point(10, 5);
+            this._messageIcon.Location = new System.Drawing.Point(190, 5);
             this._messageIcon.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
             this._messageIcon.Name = "_messageIcon";
             this._messageIcon.Size = new System.Drawing.Size(44, 41);
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
             this._button4.Margin = new System.Windows.Forms.Padding(0);
             this._button4.MinimumSize = new System.Drawing.Size(50, 26);
             this._button4.Name = "_button4";
-            this._button4.Size = new System.Drawing.Size(50, 26);
+            this._button4.Size = new System.Drawing.Size(50, 28);
             this._button4.TabIndex = 2;
             this._button4.Values.Text = "B4";
             this._button4.Visible = false;
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
             this._button3.Margin = new System.Windows.Forms.Padding(0);
             this._button3.MinimumSize = new System.Drawing.Size(50, 26);
             this._button3.Name = "_button3";
-            this._button3.Size = new System.Drawing.Size(50, 26);
+            this._button3.Size = new System.Drawing.Size(50, 28);
             this._button3.TabIndex = 2;
             this._button3.Values.Text = "B3";
             this._button3.Visible = false;
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
             this._button1.Margin = new System.Windows.Forms.Padding(0);
             this._button1.MinimumSize = new System.Drawing.Size(50, 26);
             this._button1.Name = "_button1";
-            this._button1.Size = new System.Drawing.Size(50, 26);
+            this._button1.Size = new System.Drawing.Size(50, 28);
             this._button1.TabIndex = 0;
             this._button1.Values.Text = "B1";
             this._button1.Visible = false;
@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
             this._button2.Margin = new System.Windows.Forms.Padding(0);
             this._button2.MinimumSize = new System.Drawing.Size(50, 26);
             this._button2.Name = "_button2";
-            this._button2.Size = new System.Drawing.Size(50, 26);
+            this._button2.Size = new System.Drawing.Size(50, 28);
             this._button2.TabIndex = 1;
             this._button2.Values.Text = "B2";
             this._button2.Visible = false;

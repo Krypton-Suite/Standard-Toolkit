@@ -259,12 +259,11 @@ namespace Krypton.Toolkit
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
         protected override void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            Checked = e.PropertyName switch
             {
-                case "CheckState":
-                    Checked = KryptonCommand.Checked;
-                    break;
-            }
+                "CheckState" => KryptonCommand.Checked,
+                _ => Checked
+            };
 
             base.OnCommandPropertyChanged(sender, e);
         }
@@ -287,10 +286,7 @@ namespace Krypton.Toolkit
         /// Raises the CheckedChanging event.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanging(CancelEventArgs e)
-        {
-            CheckedChanging?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanging(CancelEventArgs e) => CheckedChanging?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckedChanged event.

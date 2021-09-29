@@ -133,11 +133,9 @@ namespace Krypton.Toolkit
         /// Raises the PaintBackground event.
         /// </summary>
         /// <param name="pevent">A PaintEventArgs containing the event data.</param>
-        protected override void OnPaintBackground(PaintEventArgs pevent)
-        {
+        protected override void OnPaintBackground(PaintEventArgs pevent) =>
             // Magenta is the transparent color
             pevent.Graphics.FillRectangle(Brushes.Magenta, pevent.ClipRectangle);
-        }
 
         /// <summary>
         /// Raises the Paint event.

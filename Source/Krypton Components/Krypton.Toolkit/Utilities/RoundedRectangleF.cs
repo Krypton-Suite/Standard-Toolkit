@@ -47,12 +47,26 @@ namespace Krypton.Toolkit
                 return;
             }
 
-            // The border is made of up a quarter of a circle arc, in each corner
-            _graphicsPath.AddArc(rectF.Left, rectF.Top, radius, radius, 180f, 90f);
-            _graphicsPath.AddArc(rectF.Right - radius, rectF.Top, radius, radius, 270f, 90f);
-            _graphicsPath.AddArc(rectF.Right - radius, rectF.Bottom - radius, radius, radius, 0f, 90f);
-            _graphicsPath.AddArc(rectF.Left, rectF.Bottom - radius, radius, radius, 90f, 90f);
+            var diameter = radius * 2;
+            var size = new SizeF(diameter, diameter);
+            RectangleF arc = new (Rect.Location, size);
 
+            // The border is made of up a quarter of a circle arc, in each corner
+            // top left arc  
+            _graphicsPath.AddArc(arc, 180, 90);
+
+            // top right arc  
+            arc.X = rectF.Right - diameter;
+            _graphicsPath.AddArc(arc, 270, 90);
+
+            // bottom right arc  
+            arc.Y = rectF.Bottom - diameter;
+            _graphicsPath.AddArc(arc, 0, 90);
+
+            // bottom left arc 
+            arc.X = rectF.Left;
+            _graphicsPath.AddArc(arc, 90, 90);
+            
             _graphicsPath.CloseFigure();
 
         }

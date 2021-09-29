@@ -314,10 +314,7 @@ namespace Krypton.Toolkit
 
             private bool InnerArrayGetState(int index, int stateMask) => _internalListBox.InnerArrayGetState(index, stateMask);
 
-            private void InnerArraySetState(int index, int stateMask, bool value)
-            {
-                _internalListBox.InnerArraySetState(index, stateMask, value);
-            }
+            private void InnerArraySetState(int index, int stateMask, bool value) => _internalListBox.InnerArraySetState(index, stateMask, value);
 
             private IEnumerator InnerArrayGetEnumerator(int stateMask, bool anyBit) => _internalListBox.InnerArrayGetEnumerator(stateMask, anyBit);
 
@@ -459,10 +456,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Recreate the window handle.
             /// </summary>
-            public void Recreate()
-            {
-                RecreateHandle();
-            }
+            public void Recreate() => RecreateHandle();
 
             /// <summary>
             /// Gets access to the contained view draw panel instance.
@@ -703,19 +697,14 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e)
-            {
-                TrackMouseEnter?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e)
-            {
-                TrackMouseLeave?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+
             #endregion
 
             #region Internal
@@ -1206,12 +1195,10 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
         }
 
-        private void OnCheckedListClick(object sender, EventArgs e)
-        {
+        private void OnCheckedListClick(object sender, EventArgs e) =>
             // ReSharper disable RedundantBaseQualifier
             base.OnClick(e);
-            // ReSharper restore RedundantBaseQualifier
-        }
+        // ReSharper restore RedundantBaseQualifier
 
         /// <summary>
         /// Releases all resources used by the Control. 
@@ -1717,10 +1704,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Unselects all items in the KryptonCheckedListBox.
         /// </summary>
-        public void ClearSelected()
-        {
-            _listBox.ClearSelected();
-        }
+        public void ClearSelected() => _listBox.ClearSelected();
 
         /// <summary>
         /// Returns a value indicating whether the specified item is checked.
@@ -1746,10 +1730,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">The index of the item to set the check state for.</param>
         /// <param name="value">true to set the item as checked; otherwise, false.</param>
-        public void SetItemChecked(int index, bool value)
-        {
-            SetItemCheckState(index, value ? CheckState.Checked : CheckState.Unchecked);
-        }
+        public void SetItemChecked(int index, bool value) => SetItemCheckState(index, value ? CheckState.Checked : CheckState.Unchecked);
 
         /// <summary>
         /// Sets the check state of the item at the specified index.
@@ -1853,10 +1834,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">The zero-based index of the item in a KryptonCheckedListBox to select or clear the selection for.</param>
         /// <param name="value">true to select the specified item; otherwise, false.</param>
-        public void SetSelected(int index, bool value)
-        {
-            _listBox.SetSelected(index, value);
-        }
+        public void SetSelected(int index, bool value) => _listBox.SetSelected(index, value);
 
         /// <summary>
         /// Returns the text representation of the specified item.
@@ -1868,18 +1846,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Maintains performance while items are added to the ListBox one at a time by preventing the control from drawing until the EndUpdate method is called.
         /// </summary>
-        public void BeginUpdate()
-        {
-            _listBox.BeginUpdate();
-        }
+        public void BeginUpdate() => _listBox.BeginUpdate();
 
         /// <summary>
         /// Resumes painting the ListBox control after painting is suspended by the BeginUpdate method. 
         /// </summary>
-        public void EndUpdate()
-        {
-            _listBox.EndUpdate();
-        }
+        public void EndUpdate() => _listBox.EndUpdate();
 
         /// <summary>
         /// Sets the fixed state of the control.

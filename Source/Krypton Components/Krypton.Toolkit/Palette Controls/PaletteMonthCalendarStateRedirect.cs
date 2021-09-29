@@ -59,10 +59,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            Day.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => Day.SetRedirector(redirect);
+
         #endregion
 
         #region Styles

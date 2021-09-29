@@ -213,10 +213,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteTripleRedirect redirector)
-        {
-            _redirectHeading.SetRedirectStates(redirector, redirector);
-        }
+        internal void SetPaletteRedirect(PaletteTripleRedirect redirector) => _redirectHeading.SetRedirectStates(redirector, redirector);
+
         #endregion
     }
 }

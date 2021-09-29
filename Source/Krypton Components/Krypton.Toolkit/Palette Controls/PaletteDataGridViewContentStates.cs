@@ -804,10 +804,8 @@ namespace Krypton.Toolkit
         /// Raises the SyncPropertyChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSyncPropertyChanged(EventArgs e)
-        {
-            SyncPropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSyncPropertyChanged(EventArgs e) => SyncPropertyChanged?.Invoke(this, e);
+
         #endregion
     }
 }

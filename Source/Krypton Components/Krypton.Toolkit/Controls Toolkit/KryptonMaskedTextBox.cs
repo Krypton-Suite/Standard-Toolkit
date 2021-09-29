@@ -203,24 +203,17 @@ namespace Krypton.Toolkit
                                         Trimming = StringTrimming.None
                                     };
 
-                                    switch (_kryptonMaskedTextBox.TextAlign)
+                                    stringFormat.Alignment = _kryptonMaskedTextBox.TextAlign switch
                                     {
-                                        case HorizontalAlignment.Left:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Far
-                                                : StringAlignment.Near;
-
-                                            break;
-                                        case HorizontalAlignment.Right:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Near
-                                                : StringAlignment.Far;
-
-                                            break;
-                                        case HorizontalAlignment.Center:
-                                            stringFormat.Alignment = StringAlignment.Center;
-                                            break;
-                                    }
+                                        HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Far
+                                            : StringAlignment.Near,
+                                        HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Near
+                                            : StringAlignment.Far,
+                                        HorizontalAlignment.Center => StringAlignment.Center,
+                                        _ => stringFormat.Alignment
+                                    };
 
                                     // Use the correct prefix setting
                                     stringFormat.HotkeyPrefix = HotkeyPrefix.None;
@@ -285,19 +278,14 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e)
-            {
-                TrackMouseEnter?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e)
-            {
-                TrackMouseLeave?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+
             #endregion
         }
         #endregion
@@ -1189,68 +1177,44 @@ namespace Krypton.Toolkit
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text)
-        {
-            _maskedTextBox.AppendText(text);
-        }
+        public void AppendText(string text) => _maskedTextBox.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear()
-        {
-            _maskedTextBox.Clear();
-        }
+        public void Clear() => _maskedTextBox.Clear();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy()
-        {
-            _maskedTextBox.Copy();
-        }
+        public void Copy() => _maskedTextBox.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut()
-        {
-            _maskedTextBox.Cut();
-        }
+        public void Cut() => _maskedTextBox.Cut();
 
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste()
-        {
-            _maskedTextBox.Paste();
-        }
+        public void Paste() => _maskedTextBox.Paste();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length)
-        {
-            _maskedTextBox.Select(start, length);
-        }
+        public void Select(int start, int length) => _maskedTextBox.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll()
-        {
-            _maskedTextBox.SelectAll();
-        }
+        public void SelectAll() => _maskedTextBox.SelectAll();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll()
-        {
-            _maskedTextBox.DeselectAll();
-        }
+        public void DeselectAll() => _maskedTextBox.DeselectAll();
 
         /// <summary>
         /// Retrieves the character that is closest to the specified location within the control.
@@ -1418,12 +1382,11 @@ namespace Krypton.Toolkit
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected
@@ -1444,91 +1407,61 @@ namespace Krypton.Toolkit
         /// Raises the TextAlignChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTextAlignChanged(EventArgs e)
-        {
-            TextAlignChanged?.Invoke(this, e);
-        }
+        protected virtual void OnTextAlignChanged(EventArgs e) => TextAlignChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the HideSelectionChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnHideSelectionChanged(EventArgs e)
-        {
-            HideSelectionChanged?.Invoke(this, e);
-        }
+        protected virtual void OnHideSelectionChanged(EventArgs e) => HideSelectionChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ModifiedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnModifiedChanged(EventArgs e)
-        {
-            ModifiedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnModifiedChanged(EventArgs e) => ModifiedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ReadOnlyChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnReadOnlyChanged(EventArgs e)
-        {
-            ReadOnlyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnReadOnlyChanged(EventArgs e) => ReadOnlyChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MaskChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnMaskChanged(EventArgs e)
-        {
-            MaskChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMaskChanged(EventArgs e) => MaskChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the IsOverwriteModeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnIsOverwriteModeChanged(EventArgs e)
-        {
-            IsOverwriteModeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnIsOverwriteModeChanged(EventArgs e) => IsOverwriteModeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MaskInputRejected event.
         /// </summary>
         /// <param name="e">An MaskInputRejectedEventArgs that contains the event data.</param>
-        protected virtual void OnMaskInputRejected(MaskInputRejectedEventArgs e)
-        {
-            MaskInputRejected?.Invoke(this, e);
-        }
+        protected virtual void OnMaskInputRejected(MaskInputRejectedEventArgs e) => MaskInputRejected?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TypeValidationCompleted event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnTypeValidationCompleted(TypeValidationEventArgs e)
-        {
-            TypeValidationCompleted?.Invoke(this, e);
-        }
+        protected virtual void OnTypeValidationCompleted(TypeValidationEventArgs e) => TypeValidationCompleted?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackMouseEnter event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTrackMouseEnter(EventArgs e)
-        {
-            TrackMouseEnter?.Invoke(this, e);
-        }
+        protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackMouseLeave event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTrackMouseLeave(EventArgs e)
-        {
-            TrackMouseLeave?.Invoke(this, e);
-        }
+        protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 
@@ -1585,37 +1518,25 @@ namespace Krypton.Toolkit
         /// Raises the BackColorChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackColorChanged(EventArgs e)
-        {
-            BackColorChanged?.Invoke(this, e);
-        }
+        protected override void OnBackColorChanged(EventArgs e) => BackColorChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackgroundImageChanged(EventArgs e)
-        {
-            BackgroundImageChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageChanged(EventArgs e) => BackgroundImageChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackgroundImageLayoutChanged(EventArgs e)
-        {
-            BackgroundImageLayoutChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageLayoutChanged(EventArgs e) => BackgroundImageLayoutChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ForeColorChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnForeColorChanged(EventArgs e)
-        {
-            ForeColorChanged?.Invoke(this, e);
-        }
+        protected override void OnForeColorChanged(EventArgs e) => ForeColorChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Resize event.
@@ -1874,50 +1795,23 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnMaskedTextBoxTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(e);
-        }
+        private void OnMaskedTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnMaskedTextBoxTextAlignChanged(object sender, EventArgs e)
-        {
-            OnTextAlignChanged(e);
-        }
+        private void OnMaskedTextBoxTextAlignChanged(object sender, EventArgs e) => OnTextAlignChanged(e);
 
-        private void OnMaskedTextBoxHideSelectionChanged(object sender, EventArgs e)
-        {
-            OnHideSelectionChanged(e);
-        }
+        private void OnMaskedTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnMaskedTextBoxModifiedChanged(object sender, EventArgs e)
-        {
-            OnModifiedChanged(e);
-        }
+        private void OnMaskedTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnMaskedTextBoxReadOnlyChanged(object sender, EventArgs e)
-        {
-            OnReadOnlyChanged(e);
-        }
+        private void OnMaskedTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnMaskedMaskChanged(object sender, EventArgs e)
-        {
-            OnMaskChanged(e);
-        }
+        private void OnMaskedMaskChanged(object sender, EventArgs e) => OnMaskChanged(e);
 
-        private void OnMaskedIsOverwriteModeChanged(object sender, EventArgs e)
-        {
-            OnIsOverwriteModeChanged(e);
-        }
+        private void OnMaskedIsOverwriteModeChanged(object sender, EventArgs e) => OnIsOverwriteModeChanged(e);
 
-        private void OnMaskedMaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-            OnMaskInputRejected(e);
-        }
+        private void OnMaskedMaskInputRejected(object sender, MaskInputRejectedEventArgs e) => OnMaskInputRejected(e);
 
-        private void OnMaskedTypeValidationCompleted(object sender, TypeValidationEventArgs e)
-        {
-            OnTypeValidationCompleted(e);
-        }
+        private void OnMaskedTypeValidationCompleted(object sender, TypeValidationEventArgs e) => OnTypeValidationCompleted(e);
 
         private void OnMaskedTextBoxGotFocus(object sender, EventArgs e)
         {
@@ -1933,35 +1827,17 @@ namespace Krypton.Toolkit
             OnLostFocus(e);
         }
 
-        private void OnMaskedTextBoxKeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnKeyPress(e);
-        }
+        private void OnMaskedTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnMaskedTextBoxKeyUp(object sender, KeyEventArgs e)
-        {
-            OnKeyUp(e);
-        }
+        private void OnMaskedTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnMaskedTextBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            OnKeyDown(e);
-        }
+        private void OnMaskedTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnMaskedTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            OnPreviewKeyDown(e);
-        }
+        private void OnMaskedTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnMaskedTextBoxValidated(object sender, EventArgs e)
-        {
-            OnValidated(e);
-        }
+        private void OnMaskedTextBoxValidated(object sender, EventArgs e) => OnValidated(e);
 
-        private void OnMaskedTextBoxValidating(object sender, CancelEventArgs e)
-        {
-            OnValidating(e);
-        }
+        private void OnMaskedTextBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
 
         private void OnShowToolTip(object sender, ToolTipEventArgs e)
         {
@@ -2026,11 +1902,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {

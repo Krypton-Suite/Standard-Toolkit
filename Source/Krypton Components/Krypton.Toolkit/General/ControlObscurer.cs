@@ -170,10 +170,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// If covering an area then uncover it now.
         /// </summary>
-        public void Uncover()
-        {
-            _obscurer?.Hide();
-        }
+        public void Uncover() => _obscurer?.Hide();
 
         /// <summary>
         /// Hide the obscurer from display.

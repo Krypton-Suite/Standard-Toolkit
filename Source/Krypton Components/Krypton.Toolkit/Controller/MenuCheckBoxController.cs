@@ -71,18 +71,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// This target should display as the active target.
         /// </summary>
-        public virtual void ShowTarget()
-        {
-            HighlightState();
-        }
+        public virtual void ShowTarget() => HighlightState();
 
         /// <summary>
         /// This target should clear any active display.
         /// </summary>
-        public virtual void ClearTarget()
-        {
-            NormalState();
-        }
+        public virtual void ClearTarget() => NormalState();
 
         /// <summary>
         /// This target should show any appropriate sub menu.
@@ -381,10 +375,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint();
-        }
+        public void PerformNeedPaint() => OnNeedPaint();
+
         #endregion
 
         #region Private
@@ -425,18 +417,15 @@ namespace Krypton.Toolkit
                                    _menuCheckBox.KryptonContextMenuCheckBox.CheckState;
 
                 // Change state based on the current state
-                switch (state)
+                state = state switch
                 {
-                    case CheckState.Unchecked:
-                        state = CheckState.Checked;
-                        break;
-                    case CheckState.Checked:
-                        state = (_menuCheckBox.KryptonContextMenuCheckBox.ThreeState ? CheckState.Indeterminate : CheckState.Unchecked);
-                        break;
-                    case CheckState.Indeterminate:
-                        state = CheckState.Unchecked;
-                        break;
-                }
+                    CheckState.Unchecked => CheckState.Checked,
+                    CheckState.Checked => (_menuCheckBox.KryptonContextMenuCheckBox.ThreeState
+                        ? CheckState.Indeterminate
+                        : CheckState.Unchecked),
+                    CheckState.Indeterminate => CheckState.Unchecked,
+                    _ => state
+                };
 
                 // Update correct target with new state
                 if (_menuCheckBox.KryptonContextMenuCheckBox.KryptonCommand != null)
@@ -461,10 +450,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnNeedPaint()
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(false));
-        }
+        private void OnNeedPaint() => _needPaint?.Invoke(this, new NeedLayoutEventArgs(false));
 
         private void HighlightState()
         {
