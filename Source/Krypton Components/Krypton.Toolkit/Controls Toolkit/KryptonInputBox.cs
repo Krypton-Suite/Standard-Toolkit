@@ -35,6 +35,8 @@ namespace Krypton.Toolkit
         private KryptonInputBox()
         {
             InitializeComponent();
+
+            _textBoxResponse.KeyDown += textBoxResponse_KeyDown;
         }
 
         #region Identity
@@ -143,6 +145,14 @@ namespace Krypton.Toolkit
             ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
             return ib.ShowDialog(showOwner) == DialogResult.OK ? ib.InputResponse : string.Empty;
+        }
+
+        private void textBoxResponse_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                _buttonOk.PerformClick();
+            }
         }
 
         internal string InputResponse => _textBoxResponse.Text;
