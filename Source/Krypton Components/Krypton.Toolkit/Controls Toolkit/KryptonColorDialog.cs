@@ -16,6 +16,15 @@ namespace Krypton.Toolkit
         private readonly CommonDialogHandler _commonDialogHandler;
 
         /// <summary>
+        /// Changes the title of the common Print Dialog
+        /// </summary>
+        public string Title
+        {
+            get => _commonDialogHandler.Title;
+            set => _commonDialogHandler.Title = value;
+        }
+
+        /// <summary>
         /// Represents a common dialog box that displays colours
         /// that are currently installed on the system.
         /// </summary>

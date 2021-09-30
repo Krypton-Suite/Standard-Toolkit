@@ -42,6 +42,15 @@ namespace Krypton.Toolkit
 
         //private bool _useExDialog;
 
+        /// <summary>
+        /// Changes the title of the common Print Dialog
+        /// </summary>
+        public string Title
+        {
+            get => _commonDialogHandler.Title;
+            set => _commonDialogHandler.Title = value;
+        }
+
         // Implementing "current page" would require switching to PrintDlgEx, which is windows 2000 and later only
 
         /// <summary>

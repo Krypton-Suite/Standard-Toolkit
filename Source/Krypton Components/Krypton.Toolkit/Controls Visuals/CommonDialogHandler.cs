@@ -47,12 +47,19 @@ namespace Krypton.Toolkit
             _labelFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
         }
 
+        internal string Title { get; set; }
+
         internal (bool handled, IntPtr retValue) HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
         {
             switch (msg)
             {
                 case PI.WM_.INITDIALOG:
                     {
+                        if (!string.IsNullOrWhiteSpace(Title))
+                        {
+                            PI.SetWindowText(hWnd, Title);
+                        }
+
                         var childHandles = new List<IntPtr>();
                         GCHandle gch = GCHandle.Alloc(childHandles);
                         try
