@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// Provides a base for Office 365 palettes.
     /// </summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteOffice365BlackThemeDarkModeBase : PaletteBase
+    public abstract class PaletteOffice365SilverThemeDarkModeBase : PaletteBase
     {
         #region Static Fields
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
@@ -81,9 +81,9 @@ namespace Krypton.Toolkit
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
 
         private static readonly Color _gridTextColor = Color.Black;
+        private static readonly Color _disabledText3 = Color.GhostWhite; // For Black themes
         private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
-        private static readonly Color _ribbonDisabledText = Color.FromArgb(167, 167, 167);
-        private static readonly Color _genericDisabledText = Color.FromArgb(167, 167, 167);
+        private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
         private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
         private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
@@ -93,14 +93,14 @@ namespace Krypton.Toolkit
         private static readonly Color _contextCheckedTabBorder3 = Color.FromArgb(220, 202, 171);
         private static readonly Color _contextCheckedTabBorder4 = Color.FromArgb(255, 252, 247);
         private static readonly Color _contextTabSeparator = Color.White;
-        private static readonly Color _contextTextColor = Color.FromArgb(38, 38, 38);
+        private static readonly Color _contextTextColor = Color.White;
         private static readonly Color _todayBorder = Color.FromArgb(187, 85, 3);
         private static readonly Color _toolTipBack1 = Color.FromArgb(255, 255, 255);
         private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
-        private static readonly Color _contextMenuBack = Color.FromArgb(61, 61, 61); // Context menu background
-        private static readonly Color _contextMenuBorder = Color.FromArgb(38, 38, 38); // Color.FromArgb(134, 134, 134);
+        private static readonly Color _contextMenuBack = Color.FromArgb(162, 174, 188);
+        private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(252, 241, 194);
         private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
@@ -137,26 +137,26 @@ namespace Krypton.Toolkit
                                                             };
 
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                Color.FromArgb(187, 186, 186),  // Button, Tracking, Border 1
-                                                                Color.FromArgb(139, 139, 139),  // Button, Tracking, Border 2
-                                                                Color.FromArgb(30, 30, 30),  // Button, Pressed, Border 1
-                                                                Color.FromArgb(4, 3, 3),  // Button, Pressed, Border 2
-                                                                Color.FromArgb(30, 30, 30),  // Button, Checked, Border 1
-                                                                Color.FromArgb(4, 3, 3)   // Button, Checked, Border 2
+                                                                Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
+                                                                Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
+                                                                Color.FromArgb(118, 135, 156),  // Button, Pressed, Border 1
+                                                                Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
+                                                                Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
+                                                                Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
                                                               };
 
         private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
                                                               Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-                                                              Color.FromArgb(91, 91, 91), // Button, Tracking, Back 1
-                                                              Color.FromArgb(61, 61, 61), // Button, Tracking, Back 2
-                                                              Color.FromArgb(121, 121, 121), // Button, Pressed, Back 1
-                                                              Color.FromArgb(91, 91, 91),  // Button, Pressed, Back 2
-                                                              Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
-                                                              Color.FromArgb(61, 61, 61), // Button, Checked, Back 2
+                                                              Color.FromArgb(162, 174, 188), // Button, Tracking, Back 1
+                                                              Color.FromArgb(118, 135, 156), // Button, Tracking, Back 2
+                                                              Color.FromArgb(162, 174, 188), // Button, Pressed, Back 1
+                                                              Color.FromArgb(118, 135, 156),  // Button, Pressed, Back 2
+                                                              Color.FromArgb(162, 174, 188), // Button, Checked, Back 1
+                                                              Color.FromArgb(118, 135, 156), // Button, Checked, Back 2
                                                               Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
                                                               Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
                                                             };
-
+                                                            
         /*private static readonly Color[] _appButtonNormal = new Color[] { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
         private static readonly Color[] _appButtonTrack = new Color[] { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
         private static readonly Color[] _appButtonPressed = new Color[] { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
@@ -213,14 +213,14 @@ namespace Krypton.Toolkit
 
         #region Constructor        
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaletteOffice365BlackThemeDarkModeBase"/> class.
+        /// Initializes a new instance of the <see cref="PaletteOffice365SilverThemeDarkModeBase"/> class.
         /// </summary>
         /// <param name="schemeColours">The scheme colours.</param>
         /// <param name="checkBoxList">The check box list.</param>
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        public PaletteOffice365BlackThemeDarkModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
+        public PaletteOffice365SilverThemeDarkModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);
@@ -2001,7 +2001,7 @@ namespace Krypton.Toolkit
                 (style != PaletteContentStyle.ButtonInputControl) &&
                 (style != PaletteContentStyle.ButtonCalendarDay))
             {
-                return _genericDisabledText;
+                return _disabledText;
             }
 
             return style switch
@@ -2079,7 +2079,7 @@ namespace Krypton.Toolkit
                 (style != PaletteContentStyle.ButtonInputControl) &&
                 (style != PaletteContentStyle.ButtonCalendarDay))
             {
-                return _genericDisabledText;
+                return _disabledText;
             }
 
             return style switch
@@ -2479,7 +2479,7 @@ namespace Krypton.Toolkit
                 (style != PaletteContentStyle.InputControlCustom3) &&
                 (style != PaletteContentStyle.ButtonInputControl))
             {
-                return _genericDisabledText;
+                return _disabledText;
             }
 
             return style switch
@@ -2555,7 +2555,7 @@ namespace Krypton.Toolkit
                 (style != PaletteContentStyle.InputControlCustom3) &&
                 (style != PaletteContentStyle.ButtonInputControl))
             {
-                return _genericDisabledText;
+                return _disabledText;
             }
 
             return style switch
@@ -4219,7 +4219,7 @@ namespace Krypton.Toolkit
                     switch (state)
                     {
                         case PaletteState.Disabled:
-                            return _ribbonDisabledText;
+                            return _disabledText;
                         case PaletteState.Pressed:
                             return _ribbonColours[(int)SchemeOfficeColors.RibbonTabTracking2];
                         case PaletteState.Tracking:
@@ -4265,31 +4265,23 @@ namespace Krypton.Toolkit
                 case PaletteRibbonTextStyle.RibbonGroupNormalTitle:
                     return state switch
                     {
-                        PaletteState.Disabled => _ribbonDisabledText,
+                        PaletteState.Disabled => _disabledText,
                         _ => _ribbonColours[(int)SchemeOfficeColors.RibbonGroupTitleText]
                     };
                 case PaletteRibbonTextStyle.RibbonTab:
                     return state switch
                     {
-                        PaletteState.Disabled => _ribbonDisabledText,
+                        PaletteState.Disabled => _disabledText,
                         PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.ContextCheckedNormal or PaletteState.ContextCheckedTracking or PaletteState.FocusOverride => _ribbonColours[(int)SchemeOfficeColors.RibbonTabTextChecked],
                         _ => _ribbonColours[(int)SchemeOfficeColors.RibbonTabTextNormal]
                     };
                 case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
                     return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
                 case PaletteRibbonTextStyle.RibbonGroupButtonText:
-                    return state switch
-                    {
-                        PaletteState.Disabled => _genericDisabledText,
-                        PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or
-                            PaletteState.ContextCheckedNormal or PaletteState.ContextCheckedTracking or
-                            PaletteState.FocusOverride => _ribbonColours[(int)SchemeOfficeColors.RibbonTabTextChecked],
-                        _ => Color.White
-                    };
                 case PaletteRibbonTextStyle.RibbonGroupLabelText:
                 case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
                 case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                    return state == PaletteState.Disabled ? _ribbonDisabledText : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
+                    return state == PaletteState.Disabled ? _disabledText : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
 
                 default:
                     // Should never happen!

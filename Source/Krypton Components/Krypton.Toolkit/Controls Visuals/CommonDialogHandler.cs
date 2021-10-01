@@ -55,8 +55,10 @@ namespace Krypton.Toolkit
             {
                 case PI.WM_.INITDIALOG:
                     {
-                        if ( !string.IsNullOrWhiteSpace(Title))
+                        if (!string.IsNullOrWhiteSpace(Title))
+                        {
                             PI.SetWindowText(hWnd, Title);
+                        }
                         var childHandles = new List<IntPtr>();
                         GCHandle gch = GCHandle.Alloc(childHandles);
                         try

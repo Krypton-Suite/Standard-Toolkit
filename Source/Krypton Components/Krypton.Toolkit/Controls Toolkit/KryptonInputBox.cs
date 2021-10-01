@@ -145,6 +145,18 @@ namespace Krypton.Toolkit
             return ib.ShowDialog(showOwner) == DialogResult.OK ? ib.InputResponse : string.Empty;
         }
 
+        private void textBoxResponse_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                _buttonOk.PerformClick();
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                _buttonCancel.PerformClick();
+            }
+        }
+
         internal string InputResponse => _textBoxResponse.Text;
 
         private void UpdateText()
@@ -214,7 +226,7 @@ namespace Krypton.Toolkit
             this._textBoxResponse.Name = "_textBoxResponse";
             this._textBoxResponse.Size = new System.Drawing.Size(444, 27);
             this._textBoxResponse.TabIndex = 0;
-            this._textBoxResponse.KeyDown += new System.Windows.Forms.KeyEventHandler(this.button_keyDown);
+            this._textBoxResponse.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxResponse_KeyDown);
             // 
             // _labelPrompt
             // 
@@ -263,8 +275,10 @@ namespace Krypton.Toolkit
             // 
             // KryptonInputBox1
             // 
+            this.AcceptButton = this._buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this._buttonCancel;
             this.ClientSize = new System.Drawing.Size(476, 145);
             this.Controls.Add(this._panelMessage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

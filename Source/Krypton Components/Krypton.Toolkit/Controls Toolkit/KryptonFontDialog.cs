@@ -18,6 +18,15 @@ namespace Krypton.Toolkit
         private bool _displayExtendedColorsButton;
 
         /// <summary>
+        /// Changes the title of the common Print Dialog
+        /// </summary>
+        public string Title
+        {
+            get => _commonDialogHandler.Title;
+            set => _commonDialogHandler.Title = value;
+        }
+
+        /// <summary>
         /// Represents a common dialog box that displays a list of fonts
         /// that are currently installed on the system.
         /// </summary>
