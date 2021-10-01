@@ -5,6 +5,7 @@
 * Fixed [#403](https://github.com/Krypton-Suite/Standard-Toolkit/issues/403), Krypton.Toolkit.Nightly `Version="6.2109.272-alpha"` has removed code that was in 270 
 
 ## 2021-10-01 - Build 2110 - October 2021 (Canary)
+* Implements [#384](https://github.com/Krypton-Suite/Standard-Toolkit/issues/384), FontDialog only has 16 colours, Bring back the ColourChooser button
 * Fixed [#381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/381), Allow Common Dialog Titles to be changed
 * Fixed [#383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/383), KFontDialog shows checked items that are not applied
 * Fixed [#382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/382), `RibbonGroupNumericUpDown` does not have tooltips
@@ -27,6 +28,7 @@
 * Fixed [#313](https://github.com/Krypton-Suite/Standard-Toolkit/issues/313), KryptonMessagebox is not RTL compliant
 * Fixed [#320](https://github.com/Krypton-Suite/Standard-Toolkit/issues/320), `KryptonColorButton` "SelectedRect" will not do anything but a "Square"
 * Implemented [#304](https://github.com/Krypton-Suite/Standard-Toolkit/issues/304), [Feature Request]: Track Bar "Back Color" needed in State#### Designer control(s)
+* Implemented [#304](https://github.com/Krypton-Suite/Standard-Toolkit/issues/304),[Feature Request]: Track Bar "Back Color" needed in State#### Designer control(s)
     - Add "DrawBackground" as a visible Designer element
 * Implemented [#227](https://github.com/Krypton-Suite/Standard-Toolkit/issues/227), [Bug]: OverrideFocus Designer settings do not work or Prevent Ribbon MouseOver Highlighting
     - The Fix works in "All Themes" apart from `Office2k7` and `Sparkle`, where it is diminished but still highlights with white!

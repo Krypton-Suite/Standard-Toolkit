@@ -59,7 +59,6 @@ namespace Krypton.Toolkit
                         {
                             PI.SetWindowText(hWnd, Title);
                         }
-
                         var childHandles = new List<IntPtr>();
                         GCHandle gch = GCHandle.Alloc(childHandles);
                         try
