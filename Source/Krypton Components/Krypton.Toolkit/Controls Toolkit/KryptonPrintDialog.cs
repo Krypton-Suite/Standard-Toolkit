@@ -62,15 +62,6 @@ namespace Krypton.Toolkit
                 ClickCallback = ClickCallback
             };
 
-        /// <summary>
-        /// Changes the title of the common Print Dialog
-        /// </summary>
-        public string Title 
-        { 
-            get => _commonDialogHandler.Title; 
-            set => _commonDialogHandler.Title = value;
-        }
-
         private void ClickCallback(CommonDialogHandler.Attributes originalControl)
         {
             // When the radio button is clicked
