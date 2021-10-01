@@ -31,16 +31,6 @@ namespace Krypton.Toolkit
         /// that are currently installed on the system.
         /// </summary>
         public KryptonFontDialog() => _commonDialogHandler = new CommonDialogHandler(true);
-
-        /// <summary>
-        /// Changes the title of the common Font Dialog
-        /// </summary>
-        public string Title
-        {
-            get => _commonDialogHandler.Title;
-            set => _commonDialogHandler.Title = value;
-        }
-
         /// <summary>
         /// Display the Legacy Extended colours choice
         /// </summary>
