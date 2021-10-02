@@ -73,6 +73,26 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon color_chart {
+            get {
+                object obj = ResourceManager.GetObject("color_chart", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon color_wheel {
+            get {
+                object obj = ResourceManager.GetObject("color_wheel", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon font {
             get {
                 object obj = ResourceManager.GetObject("font", resourceCulture);
@@ -86,6 +106,36 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Icon printer {
             get {
                 object obj = ResourceManager.GetObject("printer", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon printer_blue {
+            get {
+                object obj = ResourceManager.GetObject("printer_blue", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon printer_green {
+            get {
+                object obj = ResourceManager.GetObject("printer_green", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon printer_orange {
+            get {
+                object obj = ResourceManager.GetObject("printer_orange", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

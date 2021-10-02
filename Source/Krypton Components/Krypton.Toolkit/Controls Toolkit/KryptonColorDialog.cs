@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             _commonDialogHandler = new CommonDialogHandler(true)
             {
                 ClickCallback = ClickCallback,
-                Icon = Resources.CommonDialogIcons.color,
+                Icon = CommonDialogIcons.color_wheel,
                 ShowIcon = false
             };
 
