@@ -25,13 +25,34 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
+        /// Changes the default Icon to Developer set
+        /// </summary>
+        public Icon Icon
+        {
+            get => _commonDialogHandler.Icon;
+            set => _commonDialogHandler.Icon = value;
+        } 
+
+        /// <summary>
+        /// Changes the default Icon to Developer set
+        /// </summary>
+        [DefaultValue(false)]
+        public bool ShowIcon
+        {
+            get => _commonDialogHandler.ShowIcon;
+            set => _commonDialogHandler.ShowIcon = value;
+        }
+
+        /// <summary>
         /// Represents a common dialog box that displays colours
         /// that are currently installed on the system.
         /// </summary>
         public KryptonColorDialog() =>
             _commonDialogHandler = new CommonDialogHandler(true)
             {
-                ClickCallback = ClickCallback
+                ClickCallback = ClickCallback,
+                Icon = Resources.CommonDialogIcons.color,
+                ShowIcon = false
             };
 
         private void ClickCallback(CommonDialogHandler.Attributes originalControl)

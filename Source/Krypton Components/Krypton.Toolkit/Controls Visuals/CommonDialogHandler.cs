@@ -49,6 +49,11 @@ namespace Krypton.Toolkit
 
         internal string Title { get; set; }
 
+        internal Icon Icon { get; set; }
+
+        internal bool ShowIcon { get; set; }
+
+
         internal (bool handled, IntPtr retValue) HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
         {
             switch (msg)
@@ -59,6 +64,7 @@ namespace Krypton.Toolkit
                         {
                             PI.SetWindowText(hWnd, Title);
                         }
+
                         var childHandles = new List<IntPtr>();
                         GCHandle gch = GCHandle.Alloc(childHandles);
                         try
@@ -378,6 +384,7 @@ namespace Krypton.Toolkit
             controlType &= ~(PI.WS_.POPUPWINDOW | PI.WS_.CAPTION | PI.WS_.DLGFRAME | PI.WS_.OVERLAPPEDWINDOW);
             controlType |= PI.WS_.CHILD | PI.WS_.VISIBLE | PI.WS_.GROUP;
             PI.SetWindowLong(hWnd, PI.GWL_.STYLE, controlType);
+
             var lExStyle = PI.GetWindowLong(hWnd, PI.GWL_.EXSTYLE);
             lExStyle &= ~(PI.WS_EX_.DLGMODALFRAME | PI.WS_EX_.CLIENTEDGE | PI.WS_EX_.STATICEDGE);
             PI.SetWindowLong(hWnd, PI.GWL_.EXSTYLE, lExStyle);
@@ -396,6 +403,14 @@ namespace Krypton.Toolkit
                 Padding = new Padding(0),
                 TopMost = true
             };
+            if (ShowIcon)
+            {
+                _toolBox.FormBorderStyle = FormBorderStyle.Fixed3D;
+                _toolBox.MaximizeBox = false;
+                _toolBox.MinimizeBox = false;
+                _toolBox.Icon = Icon;
+            }
+
             var kryptonPanel1 = new KryptonPanel
             {
                 Dock = DockStyle.Fill,

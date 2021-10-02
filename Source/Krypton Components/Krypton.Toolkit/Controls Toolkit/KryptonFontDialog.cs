@@ -27,10 +27,34 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
+        /// Changes the default Icon to Developer set
+        /// </summary>
+        public Icon Icon
+        {
+            get => _commonDialogHandler.Icon;
+            set => _commonDialogHandler.Icon = value;
+        } 
+
+        /// <summary>
+        /// Changes the default Icon to Developer set
+        /// </summary>
+        [DefaultValue(false)]
+        public bool ShowIcon
+        {
+            get => _commonDialogHandler.ShowIcon;
+            set => _commonDialogHandler.ShowIcon = value;
+        }
+
+        /// <summary>
         /// Represents a common dialog box that displays a list of fonts
         /// that are currently installed on the system.
         /// </summary>
-        public KryptonFontDialog() => _commonDialogHandler = new CommonDialogHandler(true);
+        public KryptonFontDialog() =>
+            _commonDialogHandler = new CommonDialogHandler(true)
+            {
+                Icon = Resources.CommonDialogIcons.font,
+                ShowIcon = false
+            };
         /// <summary>
         /// Display the Legacy Extended colours choice
         /// </summary>

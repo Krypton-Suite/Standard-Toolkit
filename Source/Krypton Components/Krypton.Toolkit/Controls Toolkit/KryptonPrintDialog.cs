@@ -51,6 +51,25 @@ namespace Krypton.Toolkit
             set => _commonDialogHandler.Title = value;
         }
 
+        /// <summary>
+        /// Changes the default Icon to Developer set
+        /// </summary>
+        public Icon Icon
+        {
+            get => _commonDialogHandler.Icon;
+            set => _commonDialogHandler.Icon = value;
+        } 
+
+        /// <summary>
+        /// Changes the default Icon to Developer set
+        /// </summary>
+        [DefaultValue(false)]
+        public bool ShowIcon
+        {
+            get => _commonDialogHandler.ShowIcon;
+            set => _commonDialogHandler.ShowIcon = value;
+        }
+
         // Implementing "current page" would require switching to PrintDlgEx, which is windows 2000 and later only
 
         /// <summary>
@@ -59,7 +78,9 @@ namespace Krypton.Toolkit
         public KryptonPrintDialog() =>
             _commonDialogHandler = new CommonDialogHandler(true)
             {
-                ClickCallback = ClickCallback
+                ClickCallback = ClickCallback,
+                Icon = Resources.CommonDialogIcons.printer,
+                ShowIcon = false
             };
 
         private void ClickCallback(CommonDialogHandler.Attributes originalControl)
