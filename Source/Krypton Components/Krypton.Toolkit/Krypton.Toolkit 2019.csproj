@@ -204,6 +204,11 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>ColourScaleImageResources.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Resources\CommonDialogIcons.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>CommonDialogIcons.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Resources\DropDownArrowImageResources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -541,6 +546,10 @@
 		<EmbeddedResource Update="Resources\ColourScaleImageResources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>ColourScaleImageResources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\CommonDialogIcons.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>CommonDialogIcons.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\DropDownArrowImageResources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
