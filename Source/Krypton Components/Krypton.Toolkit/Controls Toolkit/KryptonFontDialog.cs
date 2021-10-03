@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         public KryptonFontDialog() =>
             _commonDialogHandler = new CommonDialogHandler(true)
             {
-                Icon = CommonDialogIcons.font,
+                Icon = CommonDialogIcons.Font_New,
                 ShowIcon = false
             };
         /// <summary>

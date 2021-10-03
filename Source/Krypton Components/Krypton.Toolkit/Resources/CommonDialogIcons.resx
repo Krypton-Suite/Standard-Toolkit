@@ -121,23 +121,17 @@
   <data name="color" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>color.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="color_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>color_chart.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="color_wheel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>color_wheel.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="colour_picker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>colour-picker.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="font" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>font.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Font_New" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Font_New.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="printer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>printer.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="printer_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>printer-blue.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="printer_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>printer-green.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="printer_orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>printer-orange.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
