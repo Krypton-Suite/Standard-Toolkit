@@ -73,9 +73,19 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon colour_picker {
+        internal static System.Drawing.Icon Colour {
             get {
-                object obj = ResourceManager.GetObject("colour_picker", resourceCulture);
+                object obj = ResourceManager.GetObject("Colour", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Colour_V3 {
+            get {
+                object obj = ResourceManager.GetObject("Colour_V3", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -93,9 +103,39 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon Font_New {
+        internal static System.Drawing.Icon Font_V5 {
             get {
-                object obj = ResourceManager.GetObject("Font_New", resourceCulture);
+                object obj = ResourceManager.GetObject("Font_V5", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Font_V6 {
+            get {
+                object obj = ResourceManager.GetObject("Font_V6", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Font_V7 {
+            get {
+                object obj = ResourceManager.GetObject("Font_V7", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Font_V8 {
+            get {
+                object obj = ResourceManager.GetObject("Font_V8", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -113,9 +153,29 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon printer_orange {
+        internal static System.Drawing.Icon Printer_V1 {
             get {
-                object obj = ResourceManager.GetObject("printer_orange", resourceCulture);
+                object obj = ResourceManager.GetObject("Printer_V1", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Printer_V7 {
+            get {
+                object obj = ResourceManager.GetObject("Printer_V7", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Printer_V8 {
+            get {
+                object obj = ResourceManager.GetObject("Printer_V8", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

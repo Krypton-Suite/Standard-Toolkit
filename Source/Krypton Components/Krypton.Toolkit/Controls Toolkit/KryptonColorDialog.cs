@@ -7,104 +7,104 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>
-    /// Represents a common dialog box that displays colours
-    /// that are currently installed on the system.
-    /// </summary>
-    public class KryptonColorDialog : ColorDialog
-    {
-        private readonly CommonDialogHandler _commonDialogHandler;
+	/// <summary>
+	/// Represents a common dialog box that displays colours
+	/// that are currently installed on the system.
+	/// </summary>
+	public class KryptonColorDialog : ColorDialog
+	{
+		private readonly CommonDialogHandler _commonDialogHandler;
 
-        /// <summary>
-        /// Changes the title of the common Print Dialog
-        /// </summary>
-        public string Title
-        {
-            get => _commonDialogHandler.Title;
-            set => _commonDialogHandler.Title = value;
-        }
+		/// <summary>
+		/// Changes the title of the common Print Dialog
+		/// </summary>
+		public string Title
+		{
+			get => _commonDialogHandler.Title;
+			set => _commonDialogHandler.Title = value;
+		}
 
-        /// <summary>
-        /// Changes the default Icon to Developer set
-        /// </summary>
-        public Icon Icon
-        {
-            get => _commonDialogHandler.Icon;
-            set => _commonDialogHandler.Icon = value;
-        } 
+		/// <summary>
+		/// Changes the default Icon to Developer set
+		/// </summary>
+		public Icon Icon
+		{
+			get => _commonDialogHandler.Icon;
+			set => _commonDialogHandler.Icon = value;
+		}
 
-        /// <summary>
-        /// Changes the default Icon to Developer set
-        /// </summary>
-        [DefaultValue(false)]
-        public bool ShowIcon
-        {
-            get => _commonDialogHandler.ShowIcon;
-            set => _commonDialogHandler.ShowIcon = value;
-        }
+		/// <summary>
+		/// Changes the default Icon to Developer set
+		/// </summary>
+		[DefaultValue(false)]
+		public bool ShowIcon
+		{
+			get => _commonDialogHandler.ShowIcon;
+			set => _commonDialogHandler.ShowIcon = value;
+		}
 
-        /// <summary>
-        /// Represents a common dialog box that displays colours
-        /// that are currently installed on the system.
-        /// </summary>
-        public KryptonColorDialog() =>
-            _commonDialogHandler = new CommonDialogHandler(true)
-            {
-                ClickCallback = ClickCallback,
-                Icon = CommonDialogIcons.colour_picker,
-                ShowIcon = false
-            };
+		/// <summary>
+		/// Represents a common dialog box that displays colours
+		/// that are currently installed on the system.
+		/// </summary>
+		public KryptonColorDialog() =>
+			_commonDialogHandler = new CommonDialogHandler(true)
+			{
+				ClickCallback = ClickCallback,
+				Icon = CommonDialogIcons.Colour,
+				ShowIcon = false
+			};
 
-        private void ClickCallback(CommonDialogHandler.Attributes originalControl)
-        {
-            // When the expand is clicked
-            // - Disable it
-            // - Enable Add custom colour
-            if (originalControl.DlgCtrlId == 0x000002CF)
-            {
-                originalControl.Button.Enabled = false;
-                foreach (var control in _commonDialogHandler.Controls)
-                {
-                    if (control.DlgCtrlId == 0x000002C8)
-                    {
-                        control.Button.Enabled = true;
-                        break;
-                    }
-                }
-            }
-        }
+		private void ClickCallback(CommonDialogHandler.Attributes originalControl)
+		{
+			// When the expand is clicked
+			// - Disable it
+			// - Enable Add custom colour
+			if (originalControl.DlgCtrlId == 0x000002CF)
+			{
+				originalControl.Button.Enabled = false;
+				foreach (var control in _commonDialogHandler.Controls)
+				{
+					if (control.DlgCtrlId == 0x000002C8)
+					{
+						control.Button.Enabled = true;
+						break;
+					}
+				}
+			}
+		}
 
-        //protected override bool RunDialog(IntPtr hWndOwner)
-        //{
-        //    var ret = base.RunDialog(hWndOwner);
-        //}
+		//protected override bool RunDialog(IntPtr hWndOwner)
+		//{
+		//    var ret = base.RunDialog(hWndOwner);
+		//}
 
-        /// <inheritdoc />
-        protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
-        {
-            var (handled, retValue) = _commonDialogHandler.HookProc(hWnd, msg, wparam, lparam);
-            if (!handled
-                && (msg == PI.WM_.WINDOWPOSCHANGING)
-                && _commonDialogHandler.EmbeddingDone
-            )
-            {
-                PI.WINDOWPOS pos = (PI.WINDOWPOS)PI.PtrToStructure(lparam, typeof(PI.WINDOWPOS));
-                if ( !pos.flags.HasFlag(PI.SWP_.NOSIZE)
-                    && (pos.hwnd == hWnd)
-                    )
-                {
-                    handled = _commonDialogHandler.SetNewPosAndClientSize(new Point(pos.x, pos.y), new Size(pos.cx, pos.cy));
-                    if (!handled)
-                    {
-                        pos.flags |= PI.SWP_.NOSIZE;
-                        PI.StructureToPtr(pos, lparam);
-                    }
+		/// <inheritdoc />
+		protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
+		{
+			var (handled, retValue) = _commonDialogHandler.HookProc(hWnd, msg, wparam, lparam);
+			if (!handled
+				&& (msg == PI.WM_.WINDOWPOSCHANGING)
+				&& _commonDialogHandler.EmbeddingDone
+			)
+			{
+				PI.WINDOWPOS pos = (PI.WINDOWPOS)PI.PtrToStructure(lparam, typeof(PI.WINDOWPOS));
+				if (!pos.flags.HasFlag(PI.SWP_.NOSIZE)
+					&& (pos.hwnd == hWnd)
+					)
+				{
+					handled = _commonDialogHandler.SetNewPosAndClientSize(new Point(pos.x, pos.y), new Size(pos.cx, pos.cy));
+					if (!handled)
+					{
+						pos.flags |= PI.SWP_.NOSIZE;
+						PI.StructureToPtr(pos, lparam);
+					}
 
-                    retValue = IntPtr.Zero;
-                }
-            }
-            return handled ? retValue :base.HookProc(hWnd, msg, wparam, lparam);
-        }
+					retValue = IntPtr.Zero;
+				}
+			}
+			return handled ? retValue : base.HookProc(hWnd, msg, wparam, lparam);
+		}
 
-    }
+	}
 }
