@@ -1,12 +1,14 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
-## 2021-11-01 - Build 2111 - November 2021
+## 2022-01-05 - Build 2201 - January 2022
 * Implemented [#372](https://github.com/Krypton-Suite/Standard-Toolkit/issues/372), Office 2007 Themes last ribbon tab is not fully selectable
 * Implemented [#395](https://github.com/Krypton-Suite/Standard-Toolkit/issues/395), Add ability to add form icon to common dialogs
 * Implemented [#404](https://github.com/Krypton-Suite/Standard-Toolkit/issues/404), `KryptonInputBox` to have a default button
 * Fixed [#403](https://github.com/Krypton-Suite/Standard-Toolkit/issues/403), Krypton.Toolkit.Nightly `Version="6.2109.272-alpha"` has removed code that was in 270 
 
-## 2021-10-01 - Build 2110 - October 2021 (Canary)
+## 2021-11-01 - Build 2111 - November 2021
+* Implemented [#85](https://github.com/Krypton-Suite/Standard-Toolkit/issues/85), Update the project names from `2019` to `2022`
+* Implemented [#49](https://github.com/Krypton-Suite/Standard-Toolkit/issues/49), Support for .NET 6
 * Implements [#384](https://github.com/Krypton-Suite/Standard-Toolkit/issues/384), FontDialog only has 16 colours, Bring back the ColourChooser button
 * Fixed [#381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/381), Allow Common Dialog Titles to be changed
 * Fixed [#383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/383), KFontDialog shows checked items that are not applied
