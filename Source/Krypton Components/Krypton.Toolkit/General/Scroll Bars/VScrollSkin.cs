@@ -222,14 +222,14 @@ namespace Krypton.Toolkit
                 IntPtr max = IntPtr.Zero;
                 PI.GetScrollRange(listView1.Handle, PI.SB_.VERT, ref min, ref max);
 
-                int nMax = max.ToInt32();
+                var nMax = max.ToInt32();
                 nMax += 3;
 
-                int nHeight = listView1.DisplayRectangle.Height;
-                int itemRectHeight = listView1.GetItemRect(0).Height;
+                var nHeight = listView1.DisplayRectangle.Height;
+                var itemRectHeight = listView1.GetItemRect(0).Height;
 
-                int nTimes = (nHeight - 17) / itemRectHeight;
-                int nScrollPositions = (nMax - nTimes) + 1;
+                var nTimes = (nHeight - 17) / itemRectHeight;
+                var nScrollPositions = (nMax - nTimes) + 1;
 
                 double nThePos = VScrollBar1.Maximum / nScrollPositions;
 
@@ -239,12 +239,12 @@ namespace Krypton.Toolkit
                 else
                     RealPos = VScrollBar1.Value / nThePos;
 
-                int nPos = PI.GetScrollPos(listView1.Handle, PI.SB_.VERT);
+                var nPos = PI.GetScrollPos(listView1.Handle, PI.SB_.VERT);
 
-                double nShouldBeAt = RealPos * itemRectHeight;
+                var nShouldBeAt = RealPos * itemRectHeight;
                 double nIsAt = nPos * itemRectHeight;
 
-                int pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
+                var pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
 
                 PI.SendMessage(listView1.Handle, PI.LVM_SCROLL, IntPtr.Zero, (IntPtr)pixelsToScroll);
 
@@ -338,10 +338,10 @@ namespace Krypton.Toolkit
             {
                 ListView listView1 = (ListView)_win;
 
-                int nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
-                int nShouldBeAt = (int)e.NewValue;
+                var nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
+                var nShouldBeAt = (int)e.NewValue;
 
-                int pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
+                var pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
 
                 PI.SendMessage(listView1.Handle, PI.LVM_SCROLL, (IntPtr)pixelsToScroll, IntPtr.Zero);
 
@@ -525,9 +525,9 @@ namespace Krypton.Toolkit
                 //listStyle |= WIN32ScrollBars.WS_HSCROLL;
                 //listStyle = WIN32ScrollBars.SetWindowLong(_win.Handle, WIN32ScrollBars.GWL_STYLE, listStyle);
 
-                uint wndStyle = PI.GetWindowLong(_win.Handle, PI.GWL_.STYLE);
-                bool hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
-                bool vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
+                var wndStyle = PI.GetWindowLong(_win.Handle, PI.GWL_.STYLE);
+                var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
+                var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
                 //Vertical
                 if (vsVisible)
@@ -619,7 +619,7 @@ namespace Krypton.Toolkit
 
         public static bool GetDGVScrollbar(ref DataGridView dgv, out VScrollBar VSB)
         {
-            bool isPresent = false;
+            var isPresent = false;
             VSB = new VScrollBar();
 
             foreach (Control ctr in dgv.Controls)
@@ -635,7 +635,7 @@ namespace Krypton.Toolkit
 
         public void SetDGVScrollBarValue(ref DataGridView dgv, ref VScrollBar VSB)
         {
-            uint listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
+            var listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
             //listStyle |= WIN32ScrollBars.WS_VSCROLL | WIN32ScrollBars.WS_HSCROLL;
             listStyle |= PI.WS_.VSCROLL;
             listStyle = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
@@ -652,7 +652,7 @@ namespace Krypton.Toolkit
 
         public static bool GetDGHScrollbar(ref DataGridView dgv, out HScrollBar HSB)
         {
-            bool isPresent = false;
+            var isPresent = false;
             HSB = new HScrollBar();
 
             foreach (Control ctr in dgv.Controls)
@@ -668,7 +668,7 @@ namespace Krypton.Toolkit
 
         public void SetDGVScrollBarValue(ref DataGridView dgv, ref HScrollBar HSB)
         {
-            uint listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
+            var listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
             //listStyle |= WIN32ScrollBars.WS_VSCROLL | WIN32ScrollBars.WS_HSCROLL;
             listStyle |= PI.WS_.HSCROLL;
             listStyle = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
@@ -684,9 +684,9 @@ namespace Krypton.Toolkit
         }
         protected static ScrollBars GetVisibleScrollbars(Control ctl)
         {
-            uint wndStyle = PI.GetWindowLong(ctl.Handle, PI.GWL_.STYLE);
-            bool hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
-            bool vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
+            var wndStyle = PI.GetWindowLong(ctl.Handle, PI.GWL_.STYLE);
+            var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
+            var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
             return hsVisible 
                 ? vsVisible 

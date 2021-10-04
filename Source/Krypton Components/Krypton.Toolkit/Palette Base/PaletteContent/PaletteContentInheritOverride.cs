@@ -581,7 +581,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                float ret = _primary.GetContentShortTextColorAngle(Override ? OverrideState : state);
+                var ret = _primary.GetContentShortTextColorAngle(Override ? OverrideState : state);
 
                 if (ret == -1f)
                 {
@@ -974,7 +974,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                float ret = _primary.GetContentLongTextColorAngle(Override ? OverrideState : state);
+                var ret = _primary.GetContentLongTextColorAngle(Override ? OverrideState : state);
 
                 if (ret == -1f)
                 {
@@ -1089,7 +1089,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                int ret = _primary.GetContentAdjacentGap(Override ? OverrideState : state);
+                var ret = _primary.GetContentAdjacentGap(Override ? OverrideState : state);
 
                 if (ret == -1)
                 {

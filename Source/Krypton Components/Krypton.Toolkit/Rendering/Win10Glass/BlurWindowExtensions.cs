@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
                 AccentFlags = GetAccentFlagsForTaskbarPosition()
             };
 
-            int accentStructSize = Marshal.SizeOf(accent);
+            var accentStructSize = Marshal.SizeOf(accent);
 
             IntPtr accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);

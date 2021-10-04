@@ -205,8 +205,8 @@ namespace Krypton.Ribbon
                     // flicker after the restore so prevent it from disappearing in the first case.
                     if (!CommonHelper.IsFormMinimized(topForm))
                     {
-                        bool show = (topForm.ClientSize.Width >= _ribbon.HideRibbonSize.Width) &&
-                                    (topForm.ClientSize.Height >= _ribbon.HideRibbonSize.Height);
+                        var show = (topForm.ClientSize.Width >= _ribbon.HideRibbonSize.Width) &&
+                                   (topForm.ClientSize.Height >= _ribbon.HideRibbonSize.Height);
 
                         // How we handle visibility differs in OS
                         if (Environment.OSVersion.Version.Major >= 6)
@@ -340,7 +340,7 @@ namespace Krypton.Ribbon
 
             // Remove all those that do not intercept the scroll port the tabs are inside
             Rectangle scrollRect = new(Point.Empty, _tabsViewport.ClientSize);
-            for (int i = 0; i < keyTips.Count; i++)
+            for (var i = 0; i < keyTips.Count; i++)
             {
                 if (!scrollRect.Contains(keyTips[i].ClientRect))
                 {
@@ -627,7 +627,7 @@ namespace Krypton.Ribbon
 
             if (_activeMdiChild != null)
             {
-                uint windowStyle = PI.GetWindowLong(_activeMdiChild.Handle, PI.GWL_.STYLE);
+                var windowStyle = PI.GetWindowLong(_activeMdiChild.Handle, PI.GWL_.STYLE);
                 windowStyle |= PI.WS_.SYSMENU;
                 PI.SetWindowLong(_activeMdiChild.Handle, PI.GWL_.STYLE, windowStyle);
             }
@@ -698,7 +698,7 @@ namespace Krypton.Ribbon
 
                         if (_ribbon.RibbonShape == PaletteRibbonShape.Office2007)
                         {
-                            // Find screen location of the applicaton button lower half
+                            // Find screen location of the application button lower half
                             Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppButton.AppButton.ClientRectangle);
                             appRectBottom = new Rectangle(appButtonRect.X, appButtonRect.Y + 22, appButtonRect.Width, appButtonRect.Height - 21);
                             appRectTop = new Rectangle(appRectBottom.X, appRectBottom.Y - 21, appRectBottom.Width, 21);
@@ -706,7 +706,7 @@ namespace Krypton.Ribbon
                         }
                         else
                         {
-                            // Find screen location of the applicaton tab lower half
+                            // Find screen location of the application tab lower half
                             Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppTab.AppTab.ClientRectangle);
                             appRectBottom = Rectangle.Empty;
                             appRectTop = appButtonRect;

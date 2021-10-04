@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
             if (_richTextBox != null)
             {
                 // Ask the control if it wants to process the point
-                bool ret = _richTextBox.DesignerGetHitTest(_richTextBox.PointToClient(point));
+                var ret = _richTextBox.DesignerGetHitTest(_richTextBox.PointToClient(point));
 
                 // If the navigator does not want the mouse point then make sure the 
                 // tracking element is informed that the mouse has left the control
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
-                for (int i = _richTextBox.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = _richTextBox.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     // Get access to the indexed button spec
                     ButtonSpec spec = _richTextBox.ButtonSpecs[i];

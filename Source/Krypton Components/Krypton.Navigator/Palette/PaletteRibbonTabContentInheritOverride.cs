@@ -747,7 +747,7 @@ namespace Krypton.Navigator
         {
             if (Apply)
             {
-                float ret = _primaryContent.GetContentShortTextColorAngle(Override ? OverrideState : state);
+                var ret = _primaryContent.GetContentShortTextColorAngle(Override ? OverrideState : state);
 
                 if (ret == -1f)
                 {
@@ -1140,7 +1140,7 @@ namespace Krypton.Navigator
         {
             if (Apply)
             {
-                float ret = _primaryContent.GetContentLongTextColorAngle(Override ? OverrideState : state);
+                var ret = _primaryContent.GetContentLongTextColorAngle(Override ? OverrideState : state);
 
                 if (ret == -1f)
                 {
@@ -1255,7 +1255,7 @@ namespace Krypton.Navigator
         {
             if (Apply)
             {
-                int ret = _primaryContent.GetContentAdjacentGap(Override ? OverrideState : state);
+                var ret = _primaryContent.GetContentAdjacentGap(Override ? OverrideState : state);
 
                 if (ret == -1)
                 {

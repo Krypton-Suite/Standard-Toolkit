@@ -111,17 +111,17 @@ namespace Krypton.Toolkit
                 CreateViewAndPalettes(kDGV);
 
                 // Is this cell the currently active cell
-                bool currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
-                                   (ColumnIndex == DataGridView.CurrentCellAddress.X);
+                var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
+                                  (ColumnIndex == DataGridView.CurrentCellAddress.X);
 
                 // Is this cell the same as the one with the mouse inside it
                 Point mouseEnteredCellAddress = MouseEnteredCellAddressInternal;
-                bool mouseCell = (rowIndex == mouseEnteredCellAddress.Y) &&
-                                 (ColumnIndex == mouseEnteredCellAddress.X);
+                var mouseCell = (rowIndex == mouseEnteredCellAddress.Y) &&
+                                (ColumnIndex == mouseEnteredCellAddress.X);
 
                 // Snoop tracking and pressed status from the base class implementation
-                bool tracking = mouseCell && MouseInContentBoundsInternal;
-                bool pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
+                var tracking = mouseCell && MouseInContentBoundsInternal;
+                var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                 // Update the button state to reflect the tracking/pressed values
                 if (base.ReadOnly)
@@ -215,17 +215,17 @@ namespace Krypton.Toolkit
                     Rectangle startBounds = cellBounds;
 
                     // Is this cell the currently active cell
-                    bool currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
-                                       (ColumnIndex == DataGridView.CurrentCellAddress.X);
+                    var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
+                                      (ColumnIndex == DataGridView.CurrentCellAddress.X);
 
                     // Is this cell the same as the one with the mouse inside it
                     Point mouseEnteredCellAddress = MouseEnteredCellAddressInternal;
-                    bool mouseCell = (rowIndex == mouseEnteredCellAddress.Y) &&
-                                     (ColumnIndex == mouseEnteredCellAddress.X);
+                    var mouseCell = (rowIndex == mouseEnteredCellAddress.Y) &&
+                                    (ColumnIndex == mouseEnteredCellAddress.X);
 
                     // Snoop tracking and pressed status from the base class implementation
-                    bool tracking = mouseCell && MouseInContentBoundsInternal;
-                    bool pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
+                    var tracking = mouseCell && MouseInContentBoundsInternal;
+                    var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                     // Update the button state to reflect the tracking/pressed values
                     if (base.ReadOnly)

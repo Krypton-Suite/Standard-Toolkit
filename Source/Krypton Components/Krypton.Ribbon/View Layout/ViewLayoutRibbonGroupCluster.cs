@@ -357,7 +357,7 @@ namespace Krypton.Ribbon
             Size preferredSize = Size.Empty;
 
             // Find total width and maximum height across all child elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 ViewBase child = this[i];
 
@@ -409,8 +409,8 @@ namespace Krypton.Ribbon
 
                 viewToSize = _currentSize == GroupItemSize.Small ? _viewToSizeSmall : _viewToSizeMedium;
 
-                int x = ClientLocation.X;
-                int y = ClientLocation.Y;
+                var x = ClientLocation.X;
+                var y = ClientLocation.Y;
 
                 // At design time we reserve space at the left side for the selection flap
                 if (_ribbon.InDesignHelperMode)
@@ -419,7 +419,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Position each item from left/top to right/bottom 
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                 {
                     ViewBase child = this[i];
 
@@ -489,10 +489,10 @@ namespace Krypton.Ribbon
             // Grab the shape of the ribbon
             _lastShape = _ribbon.RibbonShape;
 
-            bool itemEdgeVisible = (_lastShape != PaletteRibbonShape.Office2010);
-            bool itemEdgeIgnoreNormal = (_lastShape == PaletteRibbonShape.Office2010);
-            bool itemConstantBorder = (_lastShape != PaletteRibbonShape.Office2010);
-            bool itemDrawNonTrackingAreas = (_lastShape != PaletteRibbonShape.Office2010);
+            var itemEdgeVisible = (_lastShape != PaletteRibbonShape.Office2010);
+            var itemEdgeIgnoreNormal = (_lastShape == PaletteRibbonShape.Office2010);
+            var itemConstantBorder = (_lastShape != PaletteRibbonShape.Office2010);
+            var itemDrawNonTrackingAreas = (_lastShape != PaletteRibbonShape.Office2010);
 
             // Remove all child elements
             Clear();
@@ -655,7 +655,7 @@ namespace Krypton.Ribbon
 
         private void OnClusterPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            bool updateLayout = false;
+            var updateLayout = false;
 
             switch (e.PropertyName)
             {

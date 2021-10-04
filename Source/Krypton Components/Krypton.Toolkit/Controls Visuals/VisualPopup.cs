@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
         /// <returns>True to end tracking; otherwise false.</returns>
         public virtual bool DoesCurrentMouseDownEndAllTracking(Message m, Point pt)
         {
-            bool endTracking = !ClientRectangle.Contains(pt);
+            var endTracking = !ClientRectangle.Contains(pt);
 
             // The mouse is not over our client area but the focus is
             if (endTracking && ContainsFocus)
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
                 if (hWnd != IntPtr.Zero)
                 {
                     StringBuilder className = new(256);
-                    int length = PI.GetClassName(hWnd, className, className.Capacity);
+                    var length = PI.GetClassName(hWnd, className, className.Capacity);
 
                     // If we got back a valid name
                     if (length > 0)
@@ -444,7 +444,7 @@ namespace Krypton.Toolkit
                 if (ViewManager != null)
                 {
                     // Prevent infinite loop by looping a maximum number of times
-                    int max = 5;
+                    var max = 5;
 
                     do
                     {

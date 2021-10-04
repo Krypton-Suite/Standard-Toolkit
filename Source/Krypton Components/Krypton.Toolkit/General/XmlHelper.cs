@@ -31,7 +31,7 @@
         {
             try
             {
-                string ret = xmlReader.GetAttribute(name) ?? defaultValue;
+                var ret = xmlReader.GetAttribute(name) ?? defaultValue;
 
                 return ret;
             }
@@ -57,7 +57,7 @@
                 MemoryStream memory = new();
                 image.Save(memory, image.RawFormat);
                 memory.Position = 0;
-                string base64 = Convert.ToBase64String(memory.ToArray());
+                var base64 = Convert.ToBase64String(memory.ToArray());
 
                 // Store the base64 Hex as a CDATA inside the element
                 xmlWriter.WriteStartElement(name);
@@ -74,7 +74,7 @@
         public static Bitmap XmlCDataToImage(XmlReader xmlReader)
         {
             // Convert the content of the element into base64
-            byte[] bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());
+            var bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());
 
             // Convert the bytes back into an Image
             using MemoryStream memory = new(bytes);

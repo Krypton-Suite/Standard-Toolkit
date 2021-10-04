@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
                 {
                     foreach (KryptonTaskDialogCommand item in this)
                     {
-                        string text = item.Text;
+                        var text = item.Text;
                         if (!string.IsNullOrEmpty(text) && (text == name))
                         {
                             return item;

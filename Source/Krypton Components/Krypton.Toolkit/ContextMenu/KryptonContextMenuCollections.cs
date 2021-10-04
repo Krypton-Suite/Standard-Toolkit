@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
             if (radioButton.Checked)
             {
                 // Find the position of this element in the collection
-                int index = IndexOf(radioButton);
+                var index = IndexOf(radioButton);
 
                 // Scan upwards for other radio button instances
                 UncheckRadioButtons(index - 1, 0, -1);

@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
                     _renderStrip.Height = StatusStrip.Height + borders.Bottom;
 
                     // Find vertical start of the status strip
-                    int y = StatusStrip.Top + borders.Top;
+                    var y = StatusStrip.Top + borders.Top;
 
                     try
                     {

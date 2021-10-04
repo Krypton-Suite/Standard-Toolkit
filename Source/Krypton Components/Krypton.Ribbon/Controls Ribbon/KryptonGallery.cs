@@ -426,7 +426,7 @@ namespace Krypton.Ribbon
         public void BringIntoView(int index)
         {
             // Get number of images available
-            int images = _imageList?.Images.Count ?? 0;
+            var images = _imageList?.Images.Count ?? 0;
 
             // Check the index is within range of what we actually have
             if ((index >= 0) && (index < images))
@@ -786,7 +786,7 @@ namespace Krypton.Ribbon
             }
 
             // Number of line items equals the number actually used
-            int lineItems = Math.Max(DropMinItemWidth, Math.Min(DropMaxItemWidth, actualLineItems));
+            var lineItems = Math.Max(DropMinItemWidth, Math.Min(DropMaxItemWidth, actualLineItems));
 
             // If there are no ranges defined, just add a single entry showing all enties
             if (DropButtonRanges.Count == 0)

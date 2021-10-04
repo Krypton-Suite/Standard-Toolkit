@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
         protected override void Dispose(bool disposing)
         {
             // Dispose of the mementos to prevent memory leak
-            for(int i=0; i<_dayMementos.Length; i++)
+            for(var i=0; i<_dayMementos.Length; i++)
             {
                 if (_dayMementos[i] != null)
                 {
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
         public DateTime? DayFromPoint(Point pt, bool exact)
         {
             // Search the list of days for the one containing the requested point
-            for (int i = 0; i < DAYS; i++)
+            for (var i = 0; i < DAYS; i++)
             {
                 if ((_dayMementos[i] != null) && (_dayRects[i].Contains(pt)))
                 {
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
             DateTime retDate = _month;
 
             // Search for an exact match
-            DateTime? day = DayFromPoint(pt, true);
+            var day = DayFromPoint(pt, true);
             if (day.HasValue)
             {
                 retDate = day.Value;
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
                     else
                     {
                         // Find the row the mouse is within
-                        for (int row = 0; row < WEEKS; row++)
+                        for (var row = 0; row < WEEKS; row++)
                         {
                             if (pt.Y < _dayRects[row * WEEKDAYS].Bottom)
                             {
@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
                                 }
                                 else
                                 {
-                                    int offsetDays = (pt.X - ClientLocation.X) / _dayRects[row * WEEKDAYS].Width;
+                                    var offsetDays = (pt.X - ClientLocation.X) / _dayRects[row * WEEKDAYS].Width;
                                     retDate = startRowDate.AddDays(offsetDays);
                                 }
 
@@ -235,21 +235,21 @@ namespace Krypton.Toolkit
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
-            int layoutXCell = ClientLocation.X;
-            int layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
+            var layoutXCell = ClientLocation.X;
+            var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
             Rectangle layoutRectCell = new(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
             Rectangle layoutRectDay = new(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
 
             // Layout each week as a row
             DateTime todayDate = _calendar.TodayDate;
             DateTime displayDate = _firstDay;
-            for (int j = 0; j < WEEKS; j++)
+            for (var j = 0; j < WEEKS; j++)
             {
                 // Layout each day as a column
-                for (int i = 0; i < WEEKDAYS; i++)
+                for (var i = 0; i < WEEKDAYS; i++)
                 {
                     // Memento index
-                    int index = (j * WEEKDAYS) + i;
+                    var index = (j * WEEKDAYS) + i;
 
                     // Define text to be drawn
                     _drawText = displayDate.Day.ToString();
@@ -260,7 +260,7 @@ namespace Krypton.Toolkit
                         _dayMementos[index] = null;
                     }
 
-                    bool skip = false;
+                    var skip = false;
                     PaletteState paletteState = PaletteState.Normal;
                     IPaletteTriple paletteTriple = _calendar.OverrideNormal;
 
@@ -368,26 +368,26 @@ namespace Krypton.Toolkit
             DateTime selectStart = _calendar.SelectionStart.Date;
             DateTime selectEnd = _calendar.SelectionEnd.Date;
 
-            int layoutXCell = ClientLocation.X;
-            int layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
+            var layoutXCell = ClientLocation.X;
+            var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
             Rectangle drawRectCell = new(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
             Rectangle drawRectDay = new(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
 
             // Draw each week as a row
             DateTime todayDate = _calendar.TodayDate;
             DateTime displayDate = _firstDay;
-            for (int j = 0; j < WEEKS; j++)
+            for (var j = 0; j < WEEKS; j++)
             {
                 // Draw each day as a column
-                for (int i = 0; i < WEEKDAYS; i++)
+                for (var i = 0; i < WEEKDAYS; i++)
                 {
                     // Memento index
-                    int index = (j * WEEKDAYS) + i;
+                    var index = (j * WEEKDAYS) + i;
 
                     // Draw using memento cached from the layout call
                     if (_dayMementos[index] != null)
                     {
-                        bool skip = false;
+                        var skip = false;
                         PaletteState paletteState = PaletteState.Normal;
                         IPaletteTriple paletteTriple = _calendar.OverrideNormal;
 
@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
         private bool BoldedDate(DateTime date)
         {
             // Convert date to a month mask
-            int monthMask = 1 << (date.Day - 1);
+            var monthMask = 1 << (date.Day - 1);
 
             // Check the month bolded mask
             if ((monthMask & _calendar.MonthlyBoldedDatesMask) != 0)

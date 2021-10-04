@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
                     _lastMovePt = pt;
 
                     // Find the new target value given mouse position
-                    int newTargetValue = _drawTB.NearestValueFromPoint(pt);
+                    var newTargetValue = _drawTB.NearestValueFromPoint(pt);
 
                     // If this is a change in value then update now
                     if (_drawTB.ViewDrawTrackBar.Value != newTargetValue)

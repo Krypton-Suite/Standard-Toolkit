@@ -220,7 +220,7 @@ namespace Krypton.Toolkit
                                     stringFormat.HotkeyPrefix = HotkeyPrefix.None;
 
                                     // Decide on the text to draw disabled
-                                    string drawString = Text;
+                                    var drawString = Text;
                                     if (PasswordChar != '\0')
                                     {
                                         drawString = new string(PasswordChar, Text.Length);
@@ -1596,7 +1596,7 @@ namespace Krypton.Toolkit
             {
                 Rectangle fillRect = _layoutFill.FillRect;
                 //  for centering the inner text field vertically
-                int y = Height / 2 - _textBox.Height / 2;
+                var y = Height / 2 - _textBox.Height / 2;
 
                 _textBox.SetBounds(fillRect.X, y, fillRect.Width, fillRect.Height);
             }

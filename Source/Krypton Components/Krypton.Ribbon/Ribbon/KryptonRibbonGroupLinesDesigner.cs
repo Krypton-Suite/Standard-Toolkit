@@ -229,11 +229,11 @@ namespace Krypton.Ribbon
                                                      _clearItemsVerb, _deleteLinesVerb });
             }
 
-            bool moveFirst = false;
-            bool movePrev = false;
-            bool moveNext = false;
-            bool moveLast = false;
-            bool clearItems = false;
+            var moveFirst = false;
+            var movePrev = false;
+            var moveNext = false;
+            var moveLast = false;
+            var clearItems = false;
 
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
@@ -306,7 +306,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the triple
                     KryptonRibbonGroup ribbonGroup = _ribbonLines.RibbonGroup;
-                    int index = ribbonGroup.Items.IndexOf(_ribbonLines) - 1;
+                    var index = ribbonGroup.Items.IndexOf(_ribbonLines) - 1;
                     index = Math.Max(index, 0);
                     ribbonGroup.Items.Remove(_ribbonLines);
                     ribbonGroup.Items.Insert(index, _ribbonLines);
@@ -338,7 +338,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the triple
                     KryptonRibbonGroup ribbonGroup = _ribbonLines.RibbonGroup;
-                    int index = ribbonGroup.Items.IndexOf(_ribbonLines) + 1;
+                    var index = ribbonGroup.Items.IndexOf(_ribbonLines) + 1;
                     index = Math.Min(index, ribbonGroup.Items.Count - 1);
                     ribbonGroup.Items.Remove(_ribbonLines);
                     ribbonGroup.Items.Insert(index, _ribbonLines);
@@ -834,7 +834,7 @@ namespace Krypton.Ribbon
                     IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the items from the lines group
-                    for (int i = _ribbonLines.Items.Count - 1; i >= 0; i--)
+                    for (var i = _ribbonLines.Items.Count - 1; i >= 0; i--)
                     {
                         KryptonRibbonGroupItem item = _ribbonLines.Items[i];
                         _ribbonLines.Items.Remove(item);
@@ -961,7 +961,7 @@ namespace Krypton.Ribbon
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all items from the lines groups
-                for (int j = _ribbonLines.Items.Count - 1; j >= 0; j--)
+                for (var j = _ribbonLines.Items.Count - 1; j >= 0; j--)
                 {
                     KryptonRibbonGroupItem item = _ribbonLines.Items[j] as KryptonRibbonGroupItem;
                     _ribbonLines.Items.Remove(item);

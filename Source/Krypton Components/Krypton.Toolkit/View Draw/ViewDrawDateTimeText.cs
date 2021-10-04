@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
                 {
                     _activeFragment = -1;
 
-                    for (int i = 0; i < _fragments.Count; i++)
+                    for (var i = 0; i < _fragments.Count; i++)
                     {
                         if (_fragments[i].AllowActive)
                         {
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
                 {
                     _activeFragment = -1;
 
-                    for (int i = 0; i < _fragments.Count; i++)
+                    for (var i = 0; i < _fragments.Count; i++)
                     {
                         if (_fragments[i].AllowActive)
                         {
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
                 {
                     _activeFragment = -1;
 
-                    for (int i = 0; i < _fragments.Count; i++)
+                    for (var i = 0; i < _fragments.Count; i++)
                     {
                         if (_fragments[i].AllowActive)
                         {
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
                 {
                     _activeFragment = -1;
 
-                    for (int i = 0; i < _fragments.Count; i++)
+                    for (var i = 0; i < _fragments.Count; i++)
                     {
                         if (_fragments[i].AllowActive)
                         {
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
                 {
                     _activeFragment = -1;
 
-                    for (int i = 0; i < _fragments.Count; i++)
+                    for (var i = 0; i < _fragments.Count; i++)
                     {
                         if (_fragments[i].AllowActive)
                         {
@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
             {
                 if (ImplRightToLeft)
                 {
-                    for (int i = _activeFragment + 1; i < _fragments.Count; i++)
+                    for (var i = _activeFragment + 1; i < _fragments.Count; i++)
                     {
                         if (_fragments[i].AllowActive)
                         {
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    for (int i = _activeFragment - 1; i >= 0; i--)
+                    for (var i = _activeFragment - 1; i >= 0; i--)
                     {
                         if (_fragments[i].AllowActive)
                         {
@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
             {
                 if (ImplRightToLeft)
                 {
-                    for (int i = _activeFragment - 1; i >= 0; i--)
+                    for (var i = _activeFragment - 1; i >= 0; i--)
                     {
                         if (_fragments[i].AllowActive)
                         {
@@ -238,7 +238,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    for (int i = _activeFragment + 1; i < _fragments.Count; i++)
+                    for (var i = _activeFragment + 1; i < _fragments.Count; i++)
                     {
                         if (_fragments[i].AllowActive)
                         {
@@ -287,8 +287,8 @@ namespace Krypton.Toolkit
             {
                 if (ImplRightToLeft)
                 {
-                    int totalWidth = 0;
-                    for (int i = _fragments.Count - 1; i >= 0; i--)
+                    var totalWidth = 0;
+                    for (var i = _fragments.Count - 1; i >= 0; i--)
                     {
                         totalWidth += (i == 0 ? _fragments[i].TotalWidth : _fragments[i].TotalWidth - _fragments[i - 1].TotalWidth);
                         if (_fragments[i].AllowActive)
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
                     // Adjust point for the location of the text
                     pt.X -= _timeText.ClientLocation.X;
 
-                    for (int i = 0; i < _fragments.Count; i++)
+                    for (var i = 0; i < _fragments.Count; i++)
                     {
                         if (_fragments[i].AllowActive)
                         {
@@ -377,7 +377,7 @@ namespace Krypton.Toolkit
                     if (_fragments[_activeFragment].FragFormat.Contains("MMM"))
                     {
                         // Get the actual month number entered
-                        int monthNumber = int.Parse(_inputDigits);
+                        var monthNumber = int.Parse(_inputDigits);
 
                         // If two digits is not valid then use just the last digit
                         if (monthNumber > 12)
@@ -537,16 +537,16 @@ namespace Krypton.Toolkit
                         if (ImplRightToLeft)
                         {
                             // Right align by updating the drawing rectangle
-                            int textWidth = _fragments[_fragments.Count - 1].TotalWidth;
+                            var textWidth = _fragments[_fragments.Count - 1].TotalWidth;
                             rect.X = rect.Right - textWidth - 1;
                             rect.Width = textWidth;
                         }
 
-                        int lastTotalWidth = 0;
-                        for (int i = 0; i < _fragments.Count; i++)
+                        var lastTotalWidth = 0;
+                        for (var i = 0; i < _fragments.Count; i++)
                         {
                             Color foreColor = textColor;
-                            int totalWidth = _fragments[i].TotalWidth;
+                            var totalWidth = _fragments[i].TotalWidth;
                             if (totalWidth > rect.Width)
                             {
                                 totalWidth = rect.Width;
@@ -608,8 +608,8 @@ namespace Krypton.Toolkit
             #region Private
             private void ValidateActiveFragment()
             {
-                int firstFocus = -1;
-                for (int i = 0; i < _fragments.Count; i++)
+                var firstFocus = -1;
+                for (var i = 0; i < _fragments.Count; i++)
                 {
                     if (_fragments[i].AllowActive)
                     {
@@ -641,10 +641,10 @@ namespace Krypton.Toolkit
             private void MeasureFragments(Graphics g, Font font, DateTime dt)
             {
                 // Create a character range/character region for each of the fragments
-                CharacterRange[] charRanges = new CharacterRange[_fragments.Count];
+                var charRanges = new CharacterRange[_fragments.Count];
 
                 // Generate the output for each fragment and measure the length of that fragment output
-                for (int i = 0; i < _fragments.Count; i++)
+                for (var i = 0; i < _fragments.Count; i++)
                 {
                     charRanges[i] = new CharacterRange(0, _fragments[i].GenerateOutput(dt).Length);
                 }
@@ -654,10 +654,10 @@ namespace Krypton.Toolkit
                 measureFormat.SetMeasurableCharacterRanges(charRanges);
 
                 // Perform measuring using the output of the last fragment (last frag must be the whole output string)
-                Region[] charRegion = g.MeasureCharacterRanges(_fragments[_fragments.Count - 1].Output, font, _measureRect, measureFormat);
+                var charRegion = g.MeasureCharacterRanges(_fragments[_fragments.Count - 1].Output, font, _measureRect, measureFormat);
 
                 // Push return values into the individual fragment entries
-                for (int i = 0; i < _fragments.Count; i++)
+                for (var i = 0; i < _fragments.Count; i++)
                 {
                     _fragments[i].TotalWidth = (int)Math.Ceiling(charRegion[i].GetBounds(g).Width);
                 }
@@ -668,9 +668,9 @@ namespace Krypton.Toolkit
                 FormatFragmentList fragList = new();
 
                 // Grab the string used for formatting
-                int length = format.Length;
-                int current = 0;
-                int literal = 0;
+                var length = format.Length;
+                var current = 0;
+                var literal = 0;
 
                 // Use state machine to parse the format one character at a time
                 while (current < length)
@@ -744,15 +744,15 @@ namespace Krypton.Toolkit
                     fragList.Add(new FormatFragment(current, format, format.Substring(current - literal, literal)));
                 }
 
-                int count = CountUptoMaxCharacters(charater, max, ref current, ref format);
+                var count = CountUptoMaxCharacters(charater, max, ref current, ref format);
                 fragList.Add(new FormatFragmentChar(current, format, charater, count));
                 literal = 0;
             }
 
             private int CountUptoMaxCharacters(char character, int max, ref int current, ref string format)
             {
-                int count = 0;
-                int length = format.Length;
+                var count = 0;
+                var length = format.Length;
 
                 // Keep consuming until we run out of characters
                 while ((current < length) && (count < max))
@@ -1006,7 +1006,7 @@ namespace Krypton.Toolkit
                 {
                     case "d":
                     case "dd":
-                        int dayNumber = int.Parse(digits);
+                        var dayNumber = int.Parse(digits);
                         if ((dayNumber <= LastDayOfMonth(dt).Day) && (dayNumber > 0))
                         {
                             dt = dt.AddDays(dayNumber - dt.Day);
@@ -1015,7 +1015,7 @@ namespace Krypton.Toolkit
                         break;
                     case "M":
                     case "MM":
-                        int monthNumber = int.Parse(digits);
+                        var monthNumber = int.Parse(digits);
                         if ((monthNumber <= 12) && (monthNumber > 0))
                         {
                             dt = dt.AddMonths(monthNumber - dt.Month);
@@ -1042,7 +1042,7 @@ namespace Krypton.Toolkit
 
                 if (FragFormat.StartsWith("h") || FragFormat.StartsWith("H"))
                 {
-                    int hoursNumber = int.Parse(digits);
+                    var hoursNumber = int.Parse(digits);
                     if ((hoursNumber < 24) && (hoursNumber >= 0))
                     {
                         dt = dt.AddHours(hoursNumber - dt.Hour);
@@ -1050,7 +1050,7 @@ namespace Krypton.Toolkit
                 } 
                 else if (FragFormat.StartsWith("m"))
                 {
-                    int minutesNumber = int.Parse(digits);
+                    var minutesNumber = int.Parse(digits);
                     if ((minutesNumber < 60) && (minutesNumber >= 0))
                     {
                         dt = dt.AddMinutes(minutesNumber - dt.Minute);
@@ -1058,7 +1058,7 @@ namespace Krypton.Toolkit
                 }
                 else if (FragFormat.StartsWith("s"))
                 {
-                    int secondsNumber = int.Parse(digits);
+                    var secondsNumber = int.Parse(digits);
                     if ((secondsNumber < 60) && (secondsNumber >= 0))
                     {
                         dt = dt.AddSeconds(secondsNumber - dt.Second);
@@ -1066,7 +1066,7 @@ namespace Krypton.Toolkit
                 }
                 else if (FragFormat.StartsWith("y"))
                 {
-                    int yearNumber = int.Parse(digits);
+                    var yearNumber = int.Parse(digits);
 
                     // A zero year makes to change to the date
                     if (yearNumber != 0)
@@ -1211,11 +1211,11 @@ namespace Krypton.Toolkit
                 if (FragFormat.StartsWith("f") || FragFormat.StartsWith("F"))
                 {
                     // We increment by the last digit (upto a maximum of 3 digits)
-                    int digits = Math.Min(FragFormat.Length, 3);
+                    var digits = Math.Min(FragFormat.Length, 3);
 
                     // Convert to correct increment size
                     double increment = 1000;
-                    for (int i = 0; i < digits; i++)
+                    for (var i = 0; i < digits; i++)
                     {
                         increment /= 10;
                     }
@@ -1715,7 +1715,7 @@ namespace Krypton.Toolkit
 
         private string GetFormat()
         {
-            string format = _dateTimePicker.Format switch
+            var format = _dateTimePicker.Format switch
             {
                 DateTimePickerFormat.Long => CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern,
                 DateTimePickerFormat.Short => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,

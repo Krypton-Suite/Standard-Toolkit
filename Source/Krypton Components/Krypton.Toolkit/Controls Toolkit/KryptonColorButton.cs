@@ -1073,7 +1073,7 @@ namespace Krypton.Toolkit
 
         private void OnButtonClick(object sender, MouseEventArgs e)
         {
-            bool showingContextMenu = false;
+            var showingContextMenu = false;
 
             // Do we need to show a drop down menu?
             if (!Splitter || (Splitter && _drawButton.SplitRectangle.Contains(e.Location)))
@@ -1098,7 +1098,7 @@ namespace Krypton.Toolkit
 
         private bool ShowDropDown()
         {
-            bool showingContextMenu = false;
+            var showingContextMenu = false;
 
             // Update the context menu state
             UpdateContextMenu();
@@ -1277,7 +1277,7 @@ namespace Krypton.Toolkit
                 // If this color valid and so possible to become a recent color
                 if ((color != null) && !color.Equals(Color.Empty))
                 {
-                    bool found = false;
+                    var found = false;
                     foreach (Color recentColor in _recentColors)
                     {
                         if (recentColor.Equals(color))
@@ -1331,10 +1331,10 @@ namespace Krypton.Toolkit
             else
             {
                 // Create an array of color arrays
-                Color[][] colors = new Color[_recentColors.Count][];
+                var colors = new Color[_recentColors.Count][];
 
                 // Each column is just a single color
-                for (int i = 0; i < _recentColors.Count; i++)
+                for (var i = 0; i < _recentColors.Count; i++)
                 {
                     colors[i] = new Color[] { _recentColors[i] };
                 }
@@ -1348,7 +1348,7 @@ namespace Krypton.Toolkit
 
         private void DecideOnVisible(KryptonContextMenuItemBase visible, KryptonContextMenuItemBase target)
         {
-            bool previous = false;
+            var previous = false;
 
             // Only search if the target itself is visible
             if (target.Visible)

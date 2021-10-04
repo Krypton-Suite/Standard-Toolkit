@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
                         {
                             // Find the item under the mouse
                             Point mousePoint = new((int)m.LParam.ToInt64());
-                            int mouseIndex = IndexFromPoint(mousePoint);
+                            var mouseIndex = IndexFromPoint(mousePoint);
 
                             // If we have an actual item from the point
                             if ((mouseIndex >= 0) && (mouseIndex < Items.Count))
@@ -1548,7 +1548,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Is the mouse over the item about to be drawn
-                bool mouseOver = (e.Index >= 0) && (e.Index == _listBox.MouseIndex);
+                var mouseOver = (e.Index >= 0) && (e.Index == _listBox.MouseIndex);
 
                 // If selected then show as a checked item
                 if (((e.State & DrawItemState.Selected) == DrawItemState.Selected) &&
@@ -1567,8 +1567,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Do we need to show item as having the focus
-                bool hasFocus = ((e.State & DrawItemState.Focus) == DrawItemState.Focus) &&
-                                ((e.State & DrawItemState.NoFocusRect) != DrawItemState.NoFocusRect);
+                var hasFocus = ((e.State & DrawItemState.Focus) == DrawItemState.Focus) &&
+                               ((e.State & DrawItemState.NoFocusRect) != DrawItemState.NoFocusRect);
 
                 _overrideNormal.Apply = hasFocus;
                 _overrideTracking.Apply = hasFocus;

@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
 
         private void OnMaskedTextBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            bool updateLayout = false;
+            var updateLayout = false;
             const bool UPDATE_PAINT = false;
 
             switch (e.PropertyName)
@@ -498,7 +498,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                bool enabled = GroupMaskedTextBox.Enabled;
+                var enabled = GroupMaskedTextBox.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupMaskedTextBox.MaskedTextBoxDesigner != null))
@@ -516,7 +516,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                bool visible = GroupMaskedTextBox.Visible;
+                var visible = GroupMaskedTextBox.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupMaskedTextBox.MaskedTextBoxDesigner != null))
@@ -536,7 +536,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                bool visible = GroupMaskedTextBox.Visible;
+                var visible = GroupMaskedTextBox.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupMaskedTextBox.MaskedTextBoxDesigner != null))

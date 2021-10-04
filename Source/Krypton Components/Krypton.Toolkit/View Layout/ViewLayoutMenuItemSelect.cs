@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
                 preferredSize = this[0].GetPreferredSize(context);
 
                 // Find preferred size from the preferred item size
-                int lineItems = Math.Max(1, _lineItems);
+                var lineItems = Math.Max(1, _lineItems);
                 preferredSize.Width *= lineItems;
                 preferredSize.Height *= (Count + (lineItems - 1)) / lineItems;
             }
@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
 
                 // Starting position for first item
                 Point nextPoint = displayRect.Location;
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                 {
                     // Find rectangle for the child
                     context.DisplayRectangle = new Rectangle(nextPoint, itemSize);
@@ -223,8 +223,8 @@ namespace Krypton.Toolkit
             if (Count < _imageIndexCount)
             {
                 // Create and add the number extra needed
-                int create = _imageIndexCount - Count;
-                for (int i = 0; i < create; i++)
+                var create = _imageIndexCount - Count;
+                for (var i = 0; i < create; i++)
                 {
                     Add(new ViewDrawMenuImageSelectItem(_viewManager, _itemSelect, _triple, this, _needPaint));
                 }
@@ -232,17 +232,17 @@ namespace Krypton.Toolkit
             else if (Count > _imageIndexCount)
             {
                 // Destroy the extra ones no longer needed
-                int remove = Count - _imageIndexCount;
-                for (int i = 0; i < remove; i++)
+                var remove = Count - _imageIndexCount;
+                for (var i = 0; i < remove; i++)
                 {
                     RemoveAt(0);
                 }
             }
 
             // Tell each item the image it should be displaying
-            for (int i = 0; i < _imageIndexCount; i++)
+            for (var i = 0; i < _imageIndexCount; i++)
             {
-                int imageIndex = i + _imageIndexStart;
+                var imageIndex = i + _imageIndexStart;
                 ViewDrawMenuImageSelectItem item = (ViewDrawMenuImageSelectItem)this[i];
                 item.ImageList = _imageList;
                 item.ImageIndex = imageIndex;

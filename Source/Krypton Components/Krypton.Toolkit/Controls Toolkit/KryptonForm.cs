@@ -579,7 +579,7 @@ namespace Krypton.Toolkit
         {
             // Get the current window style (cannot use the 
             // WindowState property as it can be slightly out of date)
-            uint style = PI.GetWindowLong(Handle, PI.GWL_.STYLE);
+            var style = PI.GetWindowLong(Handle, PI.GWL_.STYLE);
 
             if ((style & PI.WS_.MINIMIZE) != 0)
             {
@@ -1128,7 +1128,7 @@ namespace Krypton.Toolkit
         protected override bool WindowChromeLeftMouseDown(Point pt)
         {
             // Let base class perform standard processing of the event
-            bool ret = base.WindowChromeLeftMouseDown(pt);
+            var ret = base.WindowChromeLeftMouseDown(pt);
 
             // Has pressing down made a view active and indicated it also wants to capture mouse?
             if ((ViewManager.ActiveView != null) && ViewManager.MouseCaptured)
@@ -1292,7 +1292,7 @@ namespace Krypton.Toolkit
                     // If any of the buttons are tracking or pressed then need to layout
                     if (!NeedLayout)
                     {
-                        bool notNormal = false;
+                        var notNormal = false;
                         foreach (ButtonSpecView bsv in _buttonManager.ButtonSpecViews)
                         {
                             switch (bsv.ViewButton.State)
@@ -1426,9 +1426,9 @@ namespace Krypton.Toolkit
             if (IsHandleCreated)
             {
                 // Decide if we should have custom chrome applied
-                bool needChrome = AllowFormChrome &&
-                                  KryptonManager.AllowFormChrome &&
-                                  (GetResolvedPalette().GetAllowFormChrome() == InheritBool.True);
+                var needChrome = AllowFormChrome &&
+                                 KryptonManager.AllowFormChrome &&
+                                 (GetResolvedPalette().GetAllowFormChrome() == InheritBool.True);
 
                 // Is there a change in custom chrome requirement?
                 if (ApplyCustomChrome != needChrome)
@@ -1699,7 +1699,7 @@ namespace Krypton.Toolkit
             {
                 WindowsPrincipal principal = new(WindowsIdentity.GetCurrent());
 
-                bool hasAdministrativeRights = principal.IsInRole(WindowsBuiltInRole.Administrator);
+                var hasAdministrativeRights = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
                 if (hasAdministrativeRights)
                 {

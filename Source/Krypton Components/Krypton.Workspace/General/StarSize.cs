@@ -67,7 +67,7 @@ namespace Krypton.Workspace
                 }
 
                 // Split the string into comma separated parts
-                string[] parts = value.Split(',');
+                var parts = value.Split(',');
 
                 // Must consist of two values
                 if (parts.Length != 2)
@@ -104,7 +104,7 @@ namespace Krypton.Workspace
 
             set
             {
-                string[] parts = value.Split(':');
+                var parts = value.Split(':');
                 StarWidth.PersistString = parts[0];
                 StarHeight.PersistString = parts[1];
             }

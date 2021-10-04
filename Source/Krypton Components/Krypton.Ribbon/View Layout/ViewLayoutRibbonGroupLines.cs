@@ -350,8 +350,8 @@ namespace Krypton.Ribbon
         /// <param name="keyTipList">List to add new entries into.</param>
         public void GetGroupKeyTips(KeyTipInfoList keyTipList)
         {
-            int visibleIndex = 0;
-            int lineHint = (_currentSize == GroupItemSize.Small ? 1 : 4);
+            var visibleIndex = 0;
+            var lineHint = (_currentSize == GroupItemSize.Small ? 1 : 4);
 
             // Scan all the children, which must be containers or items
             foreach (ViewBase child in this)
@@ -416,7 +416,7 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonGroupItems();
 
             // Create a list of results
-            List<ItemSizeWidth> results = new List<ItemSizeWidth>();
+            var results = new List<ItemSizeWidth>();
 
             // Are we allowed to be in the large size?
             if (_ribbonLines.ItemSizeMaximum == GroupItemSize.Large)
@@ -520,11 +520,11 @@ namespace Krypton.Ribbon
             _viewList.Clear();
             _viewToGap.Clear();
 
-            int totalWidth = 0;
+            var totalWidth = 0;
             ViewBase previousChild = null;
 
             // Find the size of each individual visible child item
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 ViewBase child = this[i];
 
@@ -790,18 +790,18 @@ namespace Krypton.Ribbon
             // Default to not splitting anywhere
             split1 = int.MaxValue;
 
-            int bestTop = 0;
-            int bestBottom = 0;
+            var bestTop = 0;
+            var bestBottom = 0;
 
             // Only worth finding the best split position if more than 1 item is present
             if (_sizeList.Count > 1)
             {
-                int bestDelta = int.MaxValue;
-                int afterWidth = totalWidth;
-                int beforeWidth = 0;
+                var bestDelta = int.MaxValue;
+                var afterWidth = totalWidth;
+                var beforeWidth = 0;
 
                 // Test splitting into two lines after each item in turn
-                for (int i = 0; i <= (_sizeList.Count - 2); i++)
+                for (var i = 0; i <= (_sizeList.Count - 2); i++)
                 {
                     // Get size of this item
                     Size itemSize = _sizeList[i];
@@ -811,7 +811,7 @@ namespace Krypton.Ribbon
                     afterWidth -= itemSize.Width;
 
                     // What is the delta between them both?
-                    int delta = Math.Abs(beforeWidth - afterWidth);
+                    var delta = Math.Abs(beforeWidth - afterWidth);
 
                     // We remember the best delta encountered
                     if (delta < bestDelta)
@@ -882,15 +882,15 @@ namespace Krypton.Ribbon
                     break;
                 default:
                     {
-                        int bestDelta = int.MaxValue;
-                        int bestTop = 0;
-                        int bestMiddle = 0;
-                        int bestBottom = 0;
-                        int afterFirstWidth = totalWidth;
-                        int beforeFirstWidth = 0;
+                        var bestDelta = int.MaxValue;
+                        var bestTop = 0;
+                        var bestMiddle = 0;
+                        var bestBottom = 0;
+                        var afterFirstWidth = totalWidth;
+                        var beforeFirstWidth = 0;
 
                         // Test all combinations of the first split
-                        for (int i = 0; i < (_sizeList.Count - 2); i++)
+                        for (var i = 0; i < (_sizeList.Count - 2); i++)
                         {
                             // Get size of this item
                             Size itemFirstSize = _sizeList[i];
@@ -900,11 +900,11 @@ namespace Krypton.Ribbon
                             afterFirstWidth -= itemFirstSize.Width;
 
                             // Remainder of space is needed for testing the second split
-                            int afterSecondWidth = afterFirstWidth;
-                            int beforeSecondWidth = 0;
+                            var afterSecondWidth = afterFirstWidth;
+                            var beforeSecondWidth = 0;
 
                             // Check all combinations of the second split for this first split
-                            for (int j = i + 1; j < (_sizeList.Count - 1); j++)
+                            for (var j = i + 1; j < (_sizeList.Count - 1); j++)
                             {
                                 // Get size of this item
                                 Size itemSecondSize = _sizeList[j];
@@ -914,9 +914,9 @@ namespace Krypton.Ribbon
                                 afterSecondWidth -= itemSecondSize.Width;
 
                                 // Find shortest and longest lines and then delta between them
-                                int shortest = Math.Min(beforeFirstWidth, Math.Min(beforeSecondWidth, afterSecondWidth));
-                                int longest = Math.Max(beforeFirstWidth, Math.Max(beforeSecondWidth, afterSecondWidth));
-                                int delta = Math.Abs(longest - shortest);
+                                var shortest = Math.Min(beforeFirstWidth, Math.Min(beforeSecondWidth, afterSecondWidth));
+                                var longest = Math.Max(beforeFirstWidth, Math.Max(beforeSecondWidth, afterSecondWidth));
+                                var delta = Math.Abs(longest - shortest);
 
                                 // We remember the best delta encountered
                                 if (delta < bestDelta)
@@ -960,8 +960,8 @@ namespace Krypton.Ribbon
 
         private void LargeMediumLayout(ViewLayoutContext context, ref int split1)
         {
-            int x = ClientLocation.X;
-            int y = ClientLocation.Y + _ribbon.CalculatedValues.GroupLineGapHeight;
+            var x = ClientLocation.X;
+            var y = ClientLocation.Y + _ribbon.CalculatedValues.GroupLineGapHeight;
 
             // At design time we reserve space at the left side for the selection flap
             if (_ribbon.InDesignHelperMode)
@@ -1047,8 +1047,8 @@ namespace Krypton.Ribbon
 
         private void SmallLayout(ViewLayoutContext context)
         {
-            int x = ClientLocation.X;
-            int y = ClientLocation.Y;
+            var x = ClientLocation.X;
+            var y = ClientLocation.Y;
 
             // At design time we reserve space at the left side for the selection flap
             if (_ribbon.InDesignHelperMode)
@@ -1133,10 +1133,10 @@ namespace Krypton.Ribbon
 
         private int GetItemSpacingGap(int start, int end)
         {
-            int gapTotal = 0;
+            var gapTotal = 0;
 
             // Only interested in gaps after the first item
-            for (int i = start + 1; i <= end; i++)
+            for (var i = start + 1; i <= end; i++)
             {
                 gapTotal += _viewToGap[_viewList[i]];
             }
@@ -1146,7 +1146,7 @@ namespace Krypton.Ribbon
 
         private void OnLinesPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            bool updateLayout = false;
+            var updateLayout = false;
 
             switch (e.PropertyName)
             {
