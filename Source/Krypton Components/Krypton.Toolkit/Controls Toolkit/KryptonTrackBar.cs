@@ -730,7 +730,7 @@ namespace Krypton.Toolkit
         {
             if (IsHandleCreated)
             {
-                int requestedDim = _requestedDim;
+                var requestedDim = _requestedDim;
                 try
                 {
                     if (Orientation == Orientation.Horizontal)

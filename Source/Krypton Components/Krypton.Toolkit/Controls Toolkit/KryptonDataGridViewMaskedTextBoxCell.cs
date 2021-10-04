@@ -588,7 +588,7 @@ namespace Krypton.Toolkit
             DataGridViewCellStyle cellStyle)
         {
             // Adjust the vertical location of the editing control:
-            int preferredHeight = _paintingMaskedTextBox.GetPreferredSize(_sizeLarge).Height + 2;
+            var preferredHeight = _paintingMaskedTextBox.GetPreferredSize(_sizeLarge).Height + 2;
             if (preferredHeight < editingControlBounds.Height)
             {
                 switch (cellStyle.Alignment)

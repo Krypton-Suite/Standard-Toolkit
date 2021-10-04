@@ -849,16 +849,16 @@ namespace Krypton.Toolkit
 
                 if (Orientation == Orientation.Vertical)
                 {
-                    int start = Math.Min(before, rect.Width);
-                    int end = Math.Max(rect.Right - after, 0);
+                    var start = Math.Min(before, rect.Width);
+                    var end = Math.Max(rect.Right - after, 0);
                     end = Math.Max(start, end);
                     rect.X = start;
                     rect.Width = end - start;
                 }
                 else
                 {
-                    int start = Math.Min(before, rect.Height);
-                    int end = Math.Max(rect.Bottom - after, 0);
+                    var start = Math.Min(before, rect.Height);
+                    var end = Math.Max(rect.Bottom - after, 0);
                     end = Math.Max(start, end);
                     rect.Y = start;
                     rect.Height = end - start;
@@ -1174,7 +1174,7 @@ namespace Krypton.Toolkit
             if (IsInitialized || _forcedLayout || (DesignMode && (_drawSeparator != null)))
             {
                 // Do we need to perform right to left layout of the control?
-                bool rtl = (CommonHelper.GetRightToLeftLayout(this) && (RightToLeft == RightToLeft.Yes));
+                var rtl = (CommonHelper.GetRightToLeftLayout(this) && (RightToLeft == RightToLeft.Yes));
 
                 // If we are zero sized then reflect that in the child panels
                 if (Width == 0)
@@ -1244,10 +1244,10 @@ namespace Krypton.Toolkit
                                     break;
                                 default:
                                     // Find the maximum allowed panel width
-                                    int panelMax = Width - SplitterWidth;
+                                    var panelMax = Width - SplitterWidth;
 
                                     // Find actual pixel width of first panel but limited to maximum allowed
-                                    int panel1Width = Math.Min(SplitterDistance, panelMax);
+                                    var panel1Width = Math.Min(SplitterDistance, panelMax);
 
                                     // Enfore the minimum panel1 width
                                     panel1Width = Math.Max(Panel1MinSize, panel1Width);
@@ -1314,10 +1314,10 @@ namespace Krypton.Toolkit
                                     break;
                                 default:
                                     // Find the maximum allowed panel1 height
-                                    int panel1Max = Height - SplitterWidth;
+                                    var panel1Max = Height - SplitterWidth;
 
                                     // Find actual pixel height of first panel but limited to maximum allowed
-                                    int panel1Height = Math.Min(SplitterDistance, panel1Max);
+                                    var panel1Height = Math.Min(SplitterDistance, panel1Max);
 
                                     // Enfore the minimum panel1 height
                                     panel1Height = Math.Max(Panel1MinSize, panel1Height);

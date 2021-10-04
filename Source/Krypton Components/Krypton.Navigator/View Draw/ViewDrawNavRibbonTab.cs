@@ -354,7 +354,7 @@ namespace Krypton.Navigator
             CheckPaletteState(context);
 
             // Use renderer to draw the tab background
-            int mementoIndex = StateIndex(State);
+            var mementoIndex = StateIndex(State);
             _mementos[mementoIndex] = context.Renderer.RenderRibbon.DrawRibbonBack(_lastRibbonShape,
                                                                                    context,
                                                                                    CommonHelper.ApplyPadding(_borderBackOrient, ClientRectangle, _drawBorder),
@@ -449,7 +449,7 @@ namespace Krypton.Navigator
         {
             Array stateValues = Enum.GetValues(typeof(PaletteState));
 
-            for (int i = 0; i < stateValues.Length; i++)
+            for (var i = 0; i < stateValues.Length; i++)
             {
                 if ((PaletteState)stateValues.GetValue(i) == state)
                 {

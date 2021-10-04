@@ -258,7 +258,7 @@ namespace Krypton.Navigator
         protected override bool GetHitTest(Point point)
         {
             // Ask the control if it wants to process the point
-            bool ret = Navigator.DesignerGetHitTest(Navigator.PointToClient(point));
+            var ret = Navigator.DesignerGetHitTest(Navigator.PointToClient(point));
 
             // If the navigator does not want the mouse point then make sure the 
             // tracking element is informed that the mouse has left the control
@@ -331,7 +331,7 @@ namespace Krypton.Navigator
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
-                for (int i = Navigator.Button.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = Navigator.Button.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     ButtonSpec spec = Navigator.Button.ButtonSpecs[i];
                     _changeService.OnComponentChanging(Navigator, null);
@@ -341,7 +341,7 @@ namespace Krypton.Navigator
                 }
 
                 // We need to remove all the page instances
-                for (int i = Navigator.Pages.Count - 1; i >= 0; i--)
+                for (var i = Navigator.Pages.Count - 1; i >= 0; i--)
                 {
                     KryptonPage page = Navigator.Pages[i];
                     _changeService.OnComponentChanging(Navigator, null);
@@ -383,7 +383,7 @@ namespace Krypton.Navigator
                     (propertyText != null) && (propertyText.PropertyType == typeof(string)))
                 {
                     // Grab the design time name
-                    string name = (string)propertyName.GetValue(page);
+                    var name = (string)propertyName.GetValue(page);
 
                     // If the name is valid
                     if ((name != null) && (name.Length > 0))
@@ -456,7 +456,7 @@ namespace Krypton.Navigator
                     RaiseComponentChanging(propertyPages);
 
                     // Get the designer to destroy each page in turn
-                    for (int i = Navigator.Pages.Count; i > 0; i--)
+                    for (var i = Navigator.Pages.Count; i > 0; i--)
                     {
                         _designerHost.DestroyComponent(Navigator.Pages[0]);
                     }

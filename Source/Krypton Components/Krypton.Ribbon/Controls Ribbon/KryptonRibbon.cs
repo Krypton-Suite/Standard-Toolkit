@@ -1153,7 +1153,7 @@ namespace Krypton.Ribbon
                                 // Only interested if over the ribbon control
                                 if (ClientRectangle.Contains(PointToClient(pt)))
                                 {
-                                    short delta = (short)PI.HIWORD((int)m.WParam.ToInt64());
+                                    var delta = (short)PI.HIWORD((int)m.WParam.ToInt64());
                                     TabsArea.LayoutTabs.ProcessMouseWheel(delta < 0);
                                     return true;
                                 }
@@ -1185,11 +1185,11 @@ namespace Krypton.Ribbon
             ViewBase mouseView = ViewManager.Root.ViewFromPoint(pt);
 
             // Do we match of the views we always allow?
-            bool matchView = (mouseView?.Parent != null)
-                             && ((mouseView is ViewDrawRibbonScrollButton) ||
+            var matchView = (mouseView?.Parent != null)
+                            && ((mouseView is ViewDrawRibbonScrollButton) ||
                                 (mouseView is ViewDrawRibbonDesignBase) ||
                                 (mouseView.Parent is ViewDrawRibbonDesignBase)
-                                 );
+                            );
 
             // If the mouse is over a scroll button or a component then take the mouse
             return matchView || (DesignerComponentFromPoint(pt) != null);
@@ -1523,7 +1523,7 @@ namespace Krypton.Ribbon
             // If we want to intercept key pressed for use with key tips
             if (InKeyboardMode && InKeyTipsMode)
             {
-                char key = (char)processData;
+                var key = (char)processData;
 
                 // We only want letters and digits and not control keys such as arrow left/right
                 if (char.IsLetterOrDigit(key))
@@ -2899,10 +2899,10 @@ namespace Krypton.Ribbon
                 if (!string.IsNullOrEmpty(SelectedContext))
                 {
                     // Get list of all valid contexts
-                    string[] contexts = SelectedContext.Split(',');
+                    var contexts = SelectedContext.Split(',');
 
                     // If the tab context name is one of the selected contexts, then fine
-                    foreach (string context in contexts)
+                    foreach (var context in contexts)
                     {
                         if (context == tab.ContextName)
                         {
@@ -3004,7 +3004,7 @@ namespace Krypton.Ribbon
                 Control next = focus;
 
                 // Have we wrapped around the end yet?
-                bool wrapped = false;
+                var wrapped = false;
 
                 do
                 {
@@ -3329,7 +3329,7 @@ namespace Krypton.Ribbon
             KryptonContextMenuItem menuItem = (KryptonContextMenuItem)sender;
 
             // Find index of the item to toggle
-            int index = (int)menuItem.Tag;
+            var index = (int)menuItem.Tag;
 
             // Double check the index is still valid
             if ((index >= 0) && (index < QATButtons.Count))

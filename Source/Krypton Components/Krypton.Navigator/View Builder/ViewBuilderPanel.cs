@@ -109,7 +109,7 @@ namespace Krypton.Navigator
             IPaletteBack back;
 
             // If whole navigator is disabled then all of view is disabled
-            bool enabled = Navigator.Enabled;
+            var enabled = Navigator.Enabled;
             
             // If there is no selected page
             if (Navigator.SelectedPage == null)

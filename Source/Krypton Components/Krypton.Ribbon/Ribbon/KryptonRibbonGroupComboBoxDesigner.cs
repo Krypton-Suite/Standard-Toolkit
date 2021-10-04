@@ -150,11 +150,11 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            Attribute[] attributes = new Attribute[0];
+            var attributes = new Attribute[0];
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
-            for (int i = 0; i < strArray.Length; i++)
+            for (var i = 0; i < strArray.Length; i++)
             {
                 PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
                 if (descrip != null)
@@ -203,14 +203,14 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteComboBoxVerb });
             }
 
-            bool moveFirst = false;
-            bool movePrev = false;
-            bool moveNext = false;
-            bool moveLast = false;
+            var moveFirst = false;
+            var movePrev = false;
+            var moveNext = false;
+            var moveLast = false;
 
             if (_ribbonComboBox?.Ribbon != null)
             {
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonComboBox) > 0);
                 movePrev = (items.IndexOf(_ribbonComboBox) > 0);
                 moveNext = (items.IndexOf(_ribbonComboBox) < (items.Count - 1));
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
             if (_ribbonComboBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupComboBoxBox MoveFirst");
@@ -269,7 +269,7 @@ namespace Krypton.Ribbon
             if (_ribbonComboBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupComboBox MovePrevious");
@@ -282,7 +282,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the combotextbox
-                    int index = items.IndexOf(_ribbonComboBox) - 1;
+                    var index = items.IndexOf(_ribbonComboBox) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonComboBox);
                     items.Insert(index, _ribbonComboBox);
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
             if (_ribbonComboBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupComboBox MoveNext");
@@ -316,7 +316,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the combobox
-                    int index = items.IndexOf(_ribbonComboBox) + 1;
+                    var index = items.IndexOf(_ribbonComboBox) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonComboBox);
                     items.Insert(index, _ribbonComboBox);
@@ -337,7 +337,7 @@ namespace Krypton.Ribbon
             if (_ribbonComboBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupComboBox MoveLast");
@@ -369,7 +369,7 @@ namespace Krypton.Ribbon
             if (_ribbonComboBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupComboBox DeleteComboBox");
@@ -404,8 +404,8 @@ namespace Krypton.Ribbon
             if (_ribbonComboBox?.Ribbon != null)
             {
                 PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonComboBox)["Enabled"];
-                bool oldValue = (bool)propertyEnabled.GetValue(_ribbonComboBox);
-                bool newValue = !oldValue;
+                var oldValue = (bool)propertyEnabled.GetValue(_ribbonComboBox);
+                var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonComboBox, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonComboBox, newValue);
             }
@@ -416,8 +416,8 @@ namespace Krypton.Ribbon
             if (_ribbonComboBox?.Ribbon != null)
             {
                 PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonComboBox)["Visible"];
-                bool oldValue = (bool)propertyVisible.GetValue(_ribbonComboBox);
-                bool newValue = !oldValue;
+                var oldValue = (bool)propertyVisible.GetValue(_ribbonComboBox);
+                var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonComboBox, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonComboBox, newValue);
             }

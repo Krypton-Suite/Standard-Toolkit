@@ -47,7 +47,7 @@ namespace Krypton.Navigator
             navigator?.SuspendLayout();
 
             // Let base class update the collection
-            object ret = base.SetItems(editValue, value);
+            var ret = base.SetItems(editValue, value);
 
             navigator?.ResumeLayout(true);
 

@@ -607,7 +607,7 @@ namespace Krypton.Toolkit
            Rectangle rect,
            ScrollBarState state)
         {
-            int index = state switch
+            var index = state switch
             {
                 ScrollBarState.Hot => 1,
                 ScrollBarState.Pressed => 2,
@@ -703,7 +703,7 @@ namespace Krypton.Toolkit
            Rectangle rect,
            ScrollBarState state)
         {
-            int index = state switch
+            var index = state switch
             {
                 ScrollBarState.Hot => 1,
                 ScrollBarState.Pressed => 2,
@@ -850,7 +850,7 @@ namespace Krypton.Toolkit
             g.SmoothingMode = SmoothingMode.None;
             g.InterpolationMode = InterpolationMode.Low;
 
-            int index = -1;
+            var index = -1;
 
             switch (state)
             {

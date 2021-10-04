@@ -67,8 +67,8 @@ namespace Krypton.Toolkit
             KryptonDataGridViewDomainUpDownColumn cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn;
 
             // Convert collection of strings to an array
-            string[] strings = new string[Items.Count];
-            for (int i = 0; i < strings.Length; i++)
+            var strings = new string[Items.Count];
+            for (var i = 0; i < strings.Length; i++)
             {
                 strings[i] = Items[i];
             }

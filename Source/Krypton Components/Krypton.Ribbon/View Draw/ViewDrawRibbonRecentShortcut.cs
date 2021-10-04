@@ -56,7 +56,7 @@ namespace Krypton.Ribbon
             }
 
             // Only draw the shortcut text if there is some defined
-            string shortcut = Values.GetShortText();
+            var shortcut = Values.GetShortText();
             if (!string.IsNullOrEmpty(shortcut))
             {
                 // Only draw shortcut if the shortcut is not equal to the fixed string 'A'

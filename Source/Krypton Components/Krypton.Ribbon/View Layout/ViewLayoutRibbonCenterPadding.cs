@@ -106,8 +106,8 @@ namespace Krypton.Ribbon
                     }
 
                     // Find vertical and horizontal offsets for centering
-                    int xOffset = (innerRectangle.Width - childPreferred.Width) / 2;
-                    int yOffset = (innerRectangle.Height - childPreferred.Height) / 2;
+                    var xOffset = (innerRectangle.Width - childPreferred.Width) / 2;
+                    var yOffset = (innerRectangle.Height - childPreferred.Height) / 2;
 
                     // Create the rectangle that centers the child in our space
                     context.DisplayRectangle = new Rectangle(innerRectangle.X + xOffset,

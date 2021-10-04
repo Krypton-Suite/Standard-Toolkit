@@ -1075,8 +1075,8 @@ namespace Krypton.Workspace
             private void buttonOK_Click(object sender, EventArgs e)
             {
                 // Create an array with all the root items
-                object[] rootItems = new object[treeView.Nodes.Count];
-                for (int i = 0; i < rootItems.Length; i++)
+                var rootItems = new object[treeView.Nodes.Count];
+                for (var i = 0; i < rootItems.Length; i++)
                 {
                     rootItems[i] = ((MenuTreeNode)treeView.Nodes[i]).Item;
                 }
@@ -1103,13 +1103,13 @@ namespace Krypton.Workspace
                 MenuTreeNode node = (MenuTreeNode)treeView.SelectedNode;
                 if (node != null)
                 {
-                    NodeToType(node, out bool isNodePage, out bool isNodeCell, out bool isNodeSequence);
+                    NodeToType(node, out var isNodePage, out var isNodeCell, out var isNodeSequence);
 
                     // Find the previous node compatible as target for the selected node
                     MenuTreeNode previousNode = (MenuTreeNode)PreviousNode(node);
                     if (previousNode != null)
                     {
-                        NodeToType(previousNode, out bool isPreviousPage, out bool isPreviousCell, out bool isPreviousSequence);
+                        NodeToType(previousNode, out var isPreviousPage, out var isPreviousCell, out var isPreviousSequence);
 
                         // If moving a page...
                         if (isNodePage)
@@ -1124,7 +1124,7 @@ namespace Krypton.Workspace
                             {
                                 // Add page to the parent cell of target page
                                 MenuTreeNode previousParent = (MenuTreeNode)previousNode.Parent;
-                                int pageIndex = previousParent.CellItem.Pages.IndexOf(previousNode.PageItem);
+                                var pageIndex = previousParent.CellItem.Pages.IndexOf(previousNode.PageItem);
 
                                 // If the current and previous nodes are inside different cells
                                 if (previousParent != parentNode)
@@ -1150,7 +1150,7 @@ namespace Krypton.Workspace
                         else if (isNodeCell)
                         {
                             // Is the current node contained inside the next node
-                            bool contained = ContainsNode(previousNode, node);
+                            var contained = ContainsNode(previousNode, node);
 
                             // Remove cell from parent collection
                             MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
@@ -1164,7 +1164,7 @@ namespace Krypton.Workspace
                                 // Add cell to the parent sequence of target cell
                                 MenuTreeNode previousParent = (MenuTreeNode)previousNode.Parent;
                                 parentCollection = (previousNode.Parent == null ? treeView.Nodes : previousNode.Parent.Nodes);
-                                int pageIndex = parentCollection.IndexOf(previousNode);
+                                var pageIndex = parentCollection.IndexOf(previousNode);
 
                                 // If the current and previous nodes are inside different cells
                                 if (!contained && ((previousParent != null) && (previousParent != parentNode)))
@@ -1190,7 +1190,7 @@ namespace Krypton.Workspace
                         else if (isNodeSequence)
                         {
                             // Is the current node contained inside the next node
-                            bool contained = ContainsNode(previousNode, node);
+                            var contained = ContainsNode(previousNode, node);
 
                             // Remove sequence from parent collection
                             MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
@@ -1204,7 +1204,7 @@ namespace Krypton.Workspace
                                 // Add sequence to the parent sequence of target cell
                                 MenuTreeNode previousParent = (MenuTreeNode)previousNode.Parent;
                                 parentCollection = (previousNode.Parent == null ? treeView.Nodes : previousNode.Parent.Nodes);
-                                int pageIndex = parentCollection.IndexOf(previousNode);
+                                var pageIndex = parentCollection.IndexOf(previousNode);
 
                                 // If the current and previous nodes are inside different cells
                                 if (!contained && ((previousParent != null) && (previousParent != parentNode)))
@@ -1243,13 +1243,13 @@ namespace Krypton.Workspace
                 MenuTreeNode node = (MenuTreeNode)treeView.SelectedNode;
                 if (node != null)
                 {
-                    NodeToType(node, out bool isNodePage, out bool isNodeCell, out bool isNodeSequence);
+                    NodeToType(node, out var isNodePage, out var isNodeCell, out var isNodeSequence);
 
                     // Find the next node compatible as target for the selected node
                     MenuTreeNode nextNode = (MenuTreeNode)NextNode(node);
                     if (nextNode != null)
                     {
-                        NodeToType(nextNode, out bool isNextPage, out bool isNextCell, out bool isNextSequence);
+                        NodeToType(nextNode, out var isNextPage, out var isNextCell, out var isNextSequence);
 
                         // If moving a page...
                         if (isNodePage)
@@ -1264,7 +1264,7 @@ namespace Krypton.Workspace
                             {
                                 // Add page to the parent cell of target page
                                 MenuTreeNode previousParent = (MenuTreeNode)nextNode.Parent;
-                                int pageIndex = previousParent.CellItem.Pages.IndexOf(nextNode.PageItem);
+                                var pageIndex = previousParent.CellItem.Pages.IndexOf(nextNode.PageItem);
                                 previousParent.CellItem.Pages.Insert(pageIndex + 1, node.PageItem);
                                 previousParent.Nodes.Insert(pageIndex + 1, node);
                             }
@@ -1279,7 +1279,7 @@ namespace Krypton.Workspace
                         else if (isNodeCell)
                         {
                             // Is the current node contained inside the next node
-                            bool contained = ContainsNode(nextNode, node);
+                            var contained = ContainsNode(nextNode, node);
 
                             // Remove cell from parent collection
                             MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
@@ -1293,7 +1293,7 @@ namespace Krypton.Workspace
                                 // Add cell to the parent sequence of target cell
                                 MenuTreeNode previousParent = (MenuTreeNode)nextNode.Parent;
                                 parentCollection = (nextNode.Parent == null ? treeView.Nodes : nextNode.Parent.Nodes);
-                                int pageIndex = parentCollection.IndexOf(nextNode);
+                                var pageIndex = parentCollection.IndexOf(nextNode);
                                 previousParent?.SequenceItem.Children.Insert(pageIndex + 1, node.CellItem);
                                 parentCollection.Insert(pageIndex + 1, node);
                             }
@@ -1308,7 +1308,7 @@ namespace Krypton.Workspace
                         else if (isNodeSequence)
                         {
                             // Is the current node contained inside the next node
-                            bool contained = ContainsNode(nextNode, node);
+                            var contained = ContainsNode(nextNode, node);
 
                             // Remove sequence from parent collection
                             MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
@@ -1322,7 +1322,7 @@ namespace Krypton.Workspace
                                 // Add sequence to the parent sequence of target cell
                                 MenuTreeNode previousParent = (MenuTreeNode)nextNode.Parent;
                                 parentCollection = (nextNode.Parent == null ? treeView.Nodes : nextNode.Parent.Nodes);
-                                int pageIndex = parentCollection.IndexOf(nextNode);
+                                var pageIndex = parentCollection.IndexOf(nextNode);
                                 previousParent?.SequenceItem.Children.Insert(pageIndex + 1, node.SequenceItem);
                                 parentCollection.Insert(pageIndex + 1, node);
                             }
@@ -1361,7 +1361,7 @@ namespace Krypton.Workspace
                 {
                     // Selected node is a page, so insert after this page
                     MenuTreeNode selectedParentNode = (MenuTreeNode)selectedNode.Parent;
-                    int selectedIndex = selectedParentNode.Nodes.IndexOf(selectedNode);
+                    var selectedIndex = selectedParentNode.Nodes.IndexOf(selectedNode);
                     selectedParentNode.CellItem.Pages.Insert(selectedIndex + 1, page);
                     selectedParentNode.Nodes.Insert(selectedIndex + 1, newNode);
                 }
@@ -1410,7 +1410,7 @@ namespace Krypton.Workspace
                     {
                         // Selected node is a cell, so insert after this cell
                         MenuTreeNode selectedParentNode = (MenuTreeNode)selectedNode.Parent;
-                        int selectedIndex = selectedParentNode.Nodes.IndexOf(selectedNode);
+                        var selectedIndex = selectedParentNode.Nodes.IndexOf(selectedNode);
                         selectedParentNode.SequenceItem.Children.Insert(selectedIndex + 1, cell);
                         selectedParentNode.Nodes.Insert(selectedIndex + 1, newNode);
                     }
@@ -1447,7 +1447,7 @@ namespace Krypton.Workspace
                     {
                         // Selected node is a cell, so insert after this cell
                         MenuTreeNode selectedParentNode = (MenuTreeNode)selectedNode.Parent;
-                        int selectedIndex = selectedParentNode.Nodes.IndexOf(selectedNode);
+                        var selectedIndex = selectedParentNode.Nodes.IndexOf(selectedNode);
                         selectedParentNode.SequenceItem.Children.Insert(selectedIndex + 1, sequence);
                         selectedParentNode.Nodes.Insert(selectedIndex + 1, newNode);
                     }
@@ -1547,8 +1547,8 @@ namespace Krypton.Workspace
                     return null;
                 }
 
-                bool found = false;
-                NodeToType(currentNode, out bool isPage, out bool isCell, out bool isSequence);
+                var found = false;
+                NodeToType(currentNode, out var isPage, out var isCell, out var isSequence);
                 TreeNode returnNode = currentNode;
 
                 do
@@ -1582,8 +1582,8 @@ namespace Krypton.Workspace
                     return null;
                 }
 
-                bool found = false;
-                NodeToType(currentNode, out bool isPage, out bool isCell, out bool isSequence);
+                var found = false;
+                NodeToType(currentNode, out var isPage, out var isCell, out var isSequence);
                 TreeNode returnNode = currentNode;
 
                 do
@@ -1619,10 +1619,10 @@ namespace Krypton.Workspace
                                            bool findSequence,
                                            bool forward)
             {
-                for (int i = 0; i < nodes.Count; i++)
+                for (var i = 0; i < nodes.Count; i++)
                 {
                     TreeNode node = nodes[forward ? i : nodes.Count - 1 - i];
-                    NodeToType(node, out bool isPage, out bool isCell, out bool isSequence);
+                    NodeToType(node, out var isPage, out var isCell, out var isSequence);
 
                     // Searching forward we check the node before any child collection
                     if (forward)
@@ -1687,7 +1687,7 @@ namespace Krypton.Workspace
 
                 // Previous items might be invisible and so search till we find the visible one we expect
                 before = null;
-                for (int i = beforeSequence.Children.IndexOf(after) - 1; i >= 0; i--)
+                for (var i = beforeSequence.Children.IndexOf(after) - 1; i >= 0; i--)
                 {
                     if ((beforeSequence.Children[i] is IWorkspaceItem item) && item.WorkspaceVisible)
                     {
@@ -1700,10 +1700,10 @@ namespace Krypton.Workspace
             private void UpdateButtons()
             {
                 MenuTreeNode node = (MenuTreeNode)treeView.SelectedNode;
-                bool isNone = (node == null);
-                bool isPage = node?.PageItem != null;
-                bool isCell = node?.CellItem != null;
-                bool isSequence = node?.SequenceItem != null;
+                var isNone = (node == null);
+                var isPage = node?.PageItem != null;
+                var isCell = node?.CellItem != null;
+                var isSequence = node?.SequenceItem != null;
 
                 buttonMoveUp.Enabled = !isNone && (PreviousNode(node) != null);
                 buttonMoveDown.Enabled = !isNone && (NextNode(node) != null);

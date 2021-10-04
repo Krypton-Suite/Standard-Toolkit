@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
                 if (_applyCustomChrome != value)
                 {
                     // Cache old setting
-                    bool oldApplyCustomChrome = _applyCustomChrome;
+                    var oldApplyCustomChrome = _applyCustomChrome;
 
                     // Store the new setting
                     _applyCustomChrome = value;
@@ -816,7 +816,7 @@ namespace Krypton.Toolkit
         /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
         protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
         {
-            int updatedHeight = height;
+            var updatedHeight = height;
 
             // With the Aero glass appearance we need to reduce height by the top border, 
             // otherwise each time the window is maximized and restored it grows in size
@@ -994,7 +994,7 @@ namespace Krypton.Toolkit
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
-            bool processed = false;
+            var processed = false;
 
             // We do not process the message if on an MDI child, because doing so prevents the 
             // LayoutMdi call on the parent from working and cascading/tiling the children
@@ -1547,7 +1547,7 @@ namespace Krypton.Toolkit
                                                                  windowBounds.Width - borders.Horizontal,
                                                                  windowBounds.Height - borders.Vertical);
 
-                        bool minimized = CommonHelper.IsFormMinimized(this);
+                        var minimized = CommonHelper.IsFormMinimized(this);
 
                         // After excluding the client area, is there anything left to draw?
                         if (minimized || ((clipClientRect.Width > 0) && (clipClientRect.Height > 0)))
@@ -1703,11 +1703,11 @@ namespace Krypton.Toolkit
                 _insideUpdateComposition = true;
 
                 // Are we allowed to apply composition to the window
-                bool applyComposition = !DesignMode &&
-                                        TopLevel &&
-                                        ApplyCustomChrome &&
-                                        AllowComposition &&
-                                        DWM.IsCompositionEnabled;
+                var applyComposition = !DesignMode &&
+                                       TopLevel &&
+                                       ApplyCustomChrome &&
+                                       AllowComposition &&
+                                       DWM.IsCompositionEnabled;
 
                 // Only need to process changes in value
                 if (ApplyComposition != applyComposition)
@@ -1739,7 +1739,7 @@ namespace Krypton.Toolkit
                 }
                 else if (ApplyComposition)
                 {
-                    int newCompHeight = DEFAULT_COMPOSITION_HEIGHT;
+                    var newCompHeight = DEFAULT_COMPOSITION_HEIGHT;
                     if (Composition != null)
                     {
                         newCompHeight = Composition.CompHeight;

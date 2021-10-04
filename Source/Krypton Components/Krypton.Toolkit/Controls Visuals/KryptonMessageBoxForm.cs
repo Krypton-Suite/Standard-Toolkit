@@ -416,10 +416,10 @@ namespace Krypton.Toolkit
                 // SKC: Don't forget to add the TextExtra into the calculation
                 SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", _messageText.Font, scaledMonitorSize);
 
-                float messageXSize = Math.Max(messageSize.Width, captionSize.Width);
+                var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
                 // Work out DPI adjustment factor
-                float factorX = g.DpiX > 96 ? ((1.0f * g.DpiX) / 96) : 1.0f;
-                float factorY = g.DpiY > 96 ? ((1.0f * g.DpiY) / 96) : 1.0f;
+                var factorX = g.DpiX > 96 ? ((1.0f * g.DpiX) / 96) : 1.0f;
+                var factorY = g.DpiY > 96 ? ((1.0f * g.DpiY) / 96) : 1.0f;
                 messageSize.Width = messageXSize * factorX;
                 messageSize.Height *= factorY;
 
@@ -440,7 +440,7 @@ namespace Krypton.Toolkit
 
         private Size UpdateButtonsSizing()
         {
-            int numButtons = 1;
+            var numButtons = 1;
 
             // Button1 is always visible
             Size button1Size = _button1.GetPreferredSize(Size.Empty);
@@ -473,7 +473,7 @@ namespace Krypton.Toolkit
             }
 
             // Start positioning buttons 10 pixels from right edge
-            int right = _panelButtons.Right - GAP;
+            var right = _panelButtons.Right - GAP;
 
             // If Button4 is visible
             if (_button4.Enabled)

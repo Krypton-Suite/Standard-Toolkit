@@ -566,7 +566,7 @@ namespace Krypton.Toolkit
                         if (imgList != null)
                         {
                             Image drawImage = null;
-                            int imageCount = imgList.Images.Count;
+                            var imageCount = imgList.Images.Count;
 
                             try
                             {
@@ -1141,7 +1141,7 @@ namespace Krypton.Toolkit
                 if (ViewManager != null)
                 {
                     // Prevent infinite loop by looping a maximum number of times
-                    int max = 5;
+                    var max = 5;
 
                     do
                     {

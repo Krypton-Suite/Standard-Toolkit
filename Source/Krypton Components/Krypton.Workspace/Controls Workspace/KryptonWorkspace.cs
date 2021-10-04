@@ -670,7 +670,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                int count = 0;
+                var count = 0;
 
                 // Iterate over the workspace hierarchy looking for cells
                 KryptonWorkspaceCell cell = FirstCell();
@@ -694,7 +694,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                int count = 0;
+                var count = 0;
 
                 // Iterate over the workspace hierarchy looking for cells
                 KryptonWorkspaceCell cell = FirstVisibleCell();
@@ -714,7 +714,7 @@ namespace Krypton.Workspace
         /// <returns>Array of all workspace pages.</returns>
         public KryptonPage[] AllPages()
         {
-            List<KryptonPage> pages = new List<KryptonPage>();
+            var pages = new List<KryptonPage>();
 
             KryptonWorkspaceCell cell = FirstCell();
             while (cell != null)
@@ -736,7 +736,7 @@ namespace Krypton.Workspace
         /// <returns>Array of all workspace visible pages.</returns>
         public KryptonPage[] AllVisiblePages()
         {
-            List<KryptonPage> pages = new List<KryptonPage>();
+            var pages = new List<KryptonPage>();
 
             KryptonWorkspaceCell cell = FirstVisibleCell();
             while (cell != null)
@@ -765,7 +765,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                int count = 0;
+                var count = 0;
 
                 // Iterate over the workspace hierarchy looking for cells
                 KryptonWorkspaceCell cell = FirstCell();
@@ -789,7 +789,7 @@ namespace Krypton.Workspace
         {
             get
             {
-                int count = 0;
+                var count = 0;
 
                 // Iterate over the workspace hierarchy looking for cells
                 KryptonWorkspaceCell cell = FirstVisibleCell();
@@ -1150,7 +1150,7 @@ namespace Krypton.Workspace
                 KryptonWorkspaceCell nextCell = NextCell(cellForPage);
 
                 // Does the cell with the page currently have the focus?
-                bool hadFocus = cellForPage.ContainsFocus;
+                var hadFocus = cellForPage.ContainsFocus;
 
                 // Move the page across
                 cellForPage.Pages.Remove(page);
@@ -1196,7 +1196,7 @@ namespace Krypton.Workspace
                 KryptonWorkspaceCell previousCell = PreviousCell(cellForPage);
 
                 // Does the cell with the page currently have the focus?
-                bool hadFocus = cellForPage.ContainsFocus;
+                var hadFocus = cellForPage.ContainsFocus;
 
                 // Move the page across
                 cellForPage.Pages.Remove(page);
@@ -1247,7 +1247,7 @@ namespace Krypton.Workspace
                                   bool applyStar,
                                   bool applyFixed)
         {
-            bool needLayout = false;
+            var needLayout = false;
 
             // Process each item in the sequence
             foreach (Component c in sequence.Children)
@@ -1311,7 +1311,7 @@ namespace Krypton.Workspace
         public void ApplySingleCell(bool createCellIfNoPages)
         {
             // Record the focus state before the changes occur
-            bool hasFocus = ContainsFocus;
+            var hasFocus = ContainsFocus;
             Control activePageFocus = (hasFocus ? GetActiverPageControlWithFocus() : null);
 
             // Do not generate active page change event during method
@@ -1394,7 +1394,7 @@ namespace Krypton.Workspace
             CellList cells = CopyToCellList();
 
             // Find the number of items per sequence to get a square like grid
-            int sequenceItems = Math.Max(1, (int)Math.Ceiling(Math.Sqrt(cells.Count)));
+            var sequenceItems = Math.Max(1, (int)Math.Ceiling(Math.Sqrt(cells.Count)));
             ApplyGridCells(createCellIfEmpty, rootOrientation, sequenceItems);
         }
 
@@ -1409,7 +1409,7 @@ namespace Krypton.Workspace
                                    int sequenceItems)
         {
             // Record the focus state before the changes occur
-            bool hasFocus = ContainsFocus;
+            var hasFocus = ContainsFocus;
             Control activePageFocus = (hasFocus ? GetActiverPageControlWithFocus() : null);
 
             // Do not generate active page change event during method
@@ -1454,7 +1454,7 @@ namespace Krypton.Workspace
                     {
                         // Add a maximum of sequenceItems to the sequence
                         KryptonWorkspaceSequence sequence = new(sequenceDirection);
-                        for (int j = 0; j < sequenceItems; j++)
+                        for (var j = 0; j < sequenceItems; j++)
                         {
                             // If no cells then do we need to create a cell?
                             if (createCellIfEmpty || (cells.Count > 0))
@@ -1531,7 +1531,7 @@ namespace Krypton.Workspace
             PageList pages = CopyToPageList();
 
             // Find the number of items per sequence to get a square like grid
-            int sequenceItems = Math.Max(1, (int)Math.Ceiling(Math.Sqrt(pages.Count)));
+            var sequenceItems = Math.Max(1, (int)Math.Ceiling(Math.Sqrt(pages.Count)));
             ApplyGridPages(createCellIfNoPages, rootOrientation, sequenceItems);
         }
 
@@ -1546,7 +1546,7 @@ namespace Krypton.Workspace
                                   int sequenceItems)
         {
             // Record the focus state before the changes occur
-            bool hasFocus = ContainsFocus;
+            var hasFocus = ContainsFocus;
             Control activePageFocus = (hasFocus ? GetActiverPageControlWithFocus() : null);
 
             // Do not generate active page change event during method
@@ -1592,7 +1592,7 @@ namespace Krypton.Workspace
                     {
                         // Add a maximum of sequenceItems to the sequence
                         KryptonWorkspaceSequence sequence = new(sequenceDirection);
-                        for (int j = 0; j < sequenceItems; j++)
+                        for (var j = 0; j < sequenceItems; j++)
                         {
                             // If no pages then do we need to create a cell?
                             if (createCellIfNoPages || (pages.Count > 0))
@@ -1682,8 +1682,8 @@ namespace Krypton.Workspace
         {
             DragTargetList targets = new();
 
-            int visibleCells = 0;
-            int numPages = 0;
+            var visibleCells = 0;
+            var numPages = 0;
 
             if ((MaximizedCell != null)
                 && MaximizedCell.AllowDroppingPages
@@ -1714,7 +1714,7 @@ namespace Krypton.Workspace
             // We do not allow docking at control edges if there are no pages and we are compacting away empty cells. As that would
             // result in compacting away the empty cell and leaving just the dropped created cell. Instead it would be better to allow
             // just the transfer to the original empty cell.
-            bool preventEdges = ((numPages == 0) && (!DesignMode && ((CompactFlags & CompactFlags.RemoveEmptyCells) == CompactFlags.RemoveEmptyCells)));
+            var preventEdges = ((numPages == 0) && (!DesignMode && ((CompactFlags & CompactFlags.RemoveEmptyCells) == CompactFlags.RemoveEmptyCells)));
 
             // If the root sequence is visible then there must be at least one cell showing
             Rectangle screenRect = RectangleToScreen(ClientRectangle);
@@ -1725,8 +1725,8 @@ namespace Krypton.Workspace
                 if (visibleCells > 1)
                 {
                     // Generate targets for the four control edges
-                    Rectangle[] rectsDraw = SubdivideRectangle(screenRect, 3, int.MaxValue);
-                    Rectangle[] rectsHot = SubdivideRectangle(screenRect, 10, 20);
+                    var rectsDraw = SubdivideRectangle(screenRect, 3, int.MaxValue);
+                    var rectsHot = SubdivideRectangle(screenRect, 10, 20);
 
                     // Must insert at start of target list as they are higher priority than cell targets
                     targets.Insert(0, new DragTargetWorkspaceEdge(screenRect, rectsHot[0], rectsDraw[0], DragTargetHint.EdgeLeft | DragTargetHint.ExcludeCluster, this, allowFlags));
@@ -1929,11 +1929,11 @@ namespace Krypton.Workspace
                 }
 
                 // Load the format version number
-                string version = xmlReader.GetAttribute("V");
-                string activePageUniqueName = xmlReader.GetAttribute(@"A");
+                var version = xmlReader.GetAttribute("V");
+                var activePageUniqueName = xmlReader.GetAttribute(@"A");
 
                 // Convert format version from string to double
-                int formatVersion = (int)Convert.ToDouble(version);
+                var formatVersion = (int)Convert.ToDouble(version);
 
                 // We can only load 1 upward version formats
                 if (formatVersion < 1)
@@ -1971,7 +1971,7 @@ namespace Krypton.Workspace
                         throw new ArgumentException(@"Expected 'CGD' element was not found.");
                     }
 
-                    bool finished = xmlReader.IsEmptyElement;
+                    var finished = xmlReader.IsEmptyElement;
 
                     // Give handlers chance to reload custom saved data
                     OnGlobalLoading(new XmlLoadingEventArgs(this, xmlReader));
@@ -2025,7 +2025,7 @@ namespace Krypton.Workspace
                     if (existingPages.Count > 0)
                     {
                         // Create list of the pages unmatched with loaded info
-                        List<KryptonPage> unmatched = new List<KryptonPage>();
+                        var unmatched = new List<KryptonPage>();
                         foreach (KryptonPage page in existingPages.Values)
                         {
                             unmatched.Add(page);
@@ -2109,7 +2109,7 @@ namespace Krypton.Workspace
             // Grab the mandatory attributes
             cell.UniqueName = xmlReader.GetAttribute(@"UN");
             cell.WorkspaceStarSize.PersistString = xmlReader.GetAttribute(@"S");
-            string selectedPageUniqueName = xmlReader.GetAttribute(@"SP");
+            var selectedPageUniqueName = xmlReader.GetAttribute(@"SP");
             cell.NavigatorMode = (NavigatorMode)Enum.Parse(typeof(NavigatorMode), xmlReader.GetAttribute(@"NM"));
             cell.UseMnemonic = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"UM", @"True"));
             cell.AllowTabFocus = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"ATF", @"False"));
@@ -2576,7 +2576,7 @@ namespace Krypton.Workspace
                 }
 
                 // Remove all view separators no longer needed
-                for (int i = _drawPanel.Count - 1; i >= 0; i--)
+                for (var i = _drawPanel.Count - 1; i >= 0; i--)
                 {
                     ViewDrawWorkspaceSeparator separator = _drawPanel[i] as ViewDrawWorkspaceSeparator;
                     if (!separators.Contains(separator))
@@ -2587,7 +2587,7 @@ namespace Krypton.Workspace
                 }
 
                 // Remove all controls no longer needed
-                for (int i = Controls.Count - 1; i >= 0; i--)
+                for (var i = Controls.Count - 1; i >= 0; i--)
                 {
                     if (!controls.Contains(Controls[i]))
                     {
@@ -2614,8 +2614,8 @@ namespace Krypton.Workspace
                     }
                 }
 
-                int cellCount = 0;
-                int cellVisibleCount = 0;
+                var cellCount = 0;
+                var cellVisibleCount = 0;
                 KryptonWorkspaceCell order = FirstCell();
                 while (order != null)
                 {
@@ -2852,7 +2852,7 @@ namespace Krypton.Workspace
             {
                 return false;
             }
-            SeparatorToMovement(separator, after, before, out int moveBefore, out int moveAfter);
+            SeparatorToMovement(separator, after, before, out var moveBefore, out var moveAfter);
 
             // If there is no movement allowed before or after then cannot move separator
             if ((moveBefore == 0) && (moveAfter == 0))
@@ -2873,7 +2873,7 @@ namespace Krypton.Workspace
             {
                 return Rectangle.Empty;
             }
-            SeparatorToMovement(separator, after, before, out int moveBefore, out int moveAfter);
+            SeparatorToMovement(separator, after, before, out var moveBefore, out var moveAfter);
 
             if (separator.Orientation == Orientation.Horizontal)
             {
@@ -2933,7 +2933,7 @@ namespace Krypton.Workspace
                             }
 
                             // The default new star value is the pixel size
-                            int newStar = directionActualSize;
+                            var newStar = directionActualSize;
 
                             // The before and after items are adjusted by the splitter offset
                             if (item == before)
@@ -2971,7 +2971,7 @@ namespace Krypton.Workspace
             if (!e.Cancel)
             {
                 // Update with any changes made by the event
-                List<KryptonPage> list = new List<KryptonPage>();
+                var list = new List<KryptonPage>();
                 foreach (KryptonPage p in e.Pages)
                 {
                     list.Add(p);
@@ -3014,7 +3014,7 @@ namespace Krypton.Workspace
             // Do not generate active page changes during drop processing
             SuspendActivePageChangedEvent();
 
-            bool ret = false;
+            var ret = false;
             if (DragPageNotify != null)
             {
                 ret = DragPageNotify.PageDragEnd(sender, e);
@@ -3100,17 +3100,17 @@ namespace Krypton.Workspace
             seq.WorkspaceActualSize = client.Size;
 
             // Find orientation specific length that needs allocating
-            int availableSpace = (seq.Orientation == Orientation.Vertical) ? client.Height : client.Width;
+            var availableSpace = (seq.Orientation == Orientation.Vertical) ? client.Height : client.Width;
 
             // Temporary structures used to cache info during calculations
-            LayoutInfo[] info = new LayoutInfo[seq.Children.Count];
+            var info = new LayoutInfo[seq.Children.Count];
 
-            int visibleChildren = 0;
-            int visibleStarChildren = 0;
+            var visibleChildren = 0;
+            var visibleStarChildren = 0;
             double starTotal = 0.0f;
 
             // Pass #1, Determine which children are visible and cache sizing information
-            for (int i = 0; i < seq.Children.Count; i++)
+            for (var i = 0; i < seq.Children.Count; i++)
             {
                 info[i].WorkspaceItem = seq.Children[i] as IWorkspaceItem;
 
@@ -3160,8 +3160,8 @@ namespace Krypton.Workspace
             availableSpace = Math.Max(0, availableSpace - (Math.Max(0, visibleChildren - 1) * SplitterWidth));
 
             // Pass #2, Allocate space to fixed size items
-            bool displayMaximizeButton = (visibleChildren > 1) && ShowMaximizeButton;
-            for (int i = 0; i < seq.Children.Count; i++)
+            var displayMaximizeButton = (visibleChildren > 1) && ShowMaximizeButton;
+            for (var i = 0; i < seq.Children.Count; i++)
             {
                 // Can only work with items that have an IWorkspaceItem interface
                 if (info[i].WorkspaceItem != null)
@@ -3205,7 +3205,7 @@ namespace Krypton.Workspace
             if (visibleChildren > 0)
             {
                 // Pass #3, Check if items with a min/max need to have those min/max values enforced
-                for (int i = 0; i < seq.Children.Count; i++)
+                for (var i = 0; i < seq.Children.Count; i++)
                 {
                     // Can only work with items that have an IWorkspaceItem interface
                     if (info[i].WorkspaceItem != null)
@@ -3216,7 +3216,7 @@ namespace Krypton.Workspace
                             if ((info[i].CacheMinSize > 0) || (info[i].CacheMaxSize > 0))
                             {
                                 // Calculate space based on the items star setting
-                                int itemSpace = availableSpace;
+                                var itemSpace = availableSpace;
                                 if (visibleStarChildren > 1)
                                 {
                                     itemSpace = (int)((availableSpace / starTotal) * info[i].CacheStarSize.StarSize);
@@ -3258,14 +3258,14 @@ namespace Krypton.Workspace
                 if (visibleChildren > 0)
                 {
                     // Pass #4, Allocate space to remaining entries based on their star values
-                    for (int i = 0; i < seq.Children.Count; i++)
+                    for (var i = 0; i < seq.Children.Count; i++)
                     {
                         // Can only work with items that have an IWorkspaceItem interface
                         if (info[i].WorkspaceItem != null)
                         {
                             if (info[i].WorkspaceVisible && !info[i].AllocatedSpace)
                             {
-                                int itemSpace = availableSpace;
+                                var itemSpace = availableSpace;
 
                                 // If not the last item then find correct proportional size
                                 if (visibleStarChildren > 1)
@@ -3287,9 +3287,9 @@ namespace Krypton.Workspace
             }
 
             // Pass #5, Create display rectangles based on space allocated to each item
-            int offset = 0;
-            bool first = true;
-            for (int i = 0; i < seq.Children.Count; i++)
+            var offset = 0;
+            var first = true;
+            for (var i = 0; i < seq.Children.Count; i++)
             {
                 // Can only work with items that have an IWorkspaceItem interface
                 if (info[i].WorkspaceItem != null)
@@ -3367,7 +3367,7 @@ namespace Krypton.Workspace
             }
 
             // Pass #6, Position children and recurse into child sequences
-            for (int i = 0; i < seq.Children.Count; i++)
+            for (var i = 0; i < seq.Children.Count; i++)
             {
                 // Can only work with items that have an IWorkspaceItem interface
                 if (info[i].WorkspaceItem != null)
@@ -3452,7 +3452,7 @@ namespace Krypton.Workspace
                                                    KryptonWorkspaceCell target)
         {
             // Scan all sequence children looking for a matching cell
-            for (int i = 0; i < sequence.Children.Count; i++)
+            for (var i = 0; i < sequence.Children.Count; i++)
             {
                 // If we find the target, then done
                 if (sequence.Children[i] == target)
@@ -3475,13 +3475,13 @@ namespace Krypton.Workspace
                                                                  bool forwards,
                                                                  bool onlyVisible)
         {
-            int count = sequence.Children.Count;
-            int index = sequence.Children.IndexOf(target);
+            var count = sequence.Children.Count;
+            var index = sequence.Children.IndexOf(target);
 
             // Are we look for entries after the provided one?
             if (forwards)
             {
-                for (int i = index + 1; i < count; i++)
+                for (var i = index + 1; i < count; i++)
                 {
                     switch (sequence.Children[i])
                     {
@@ -3506,7 +3506,7 @@ namespace Krypton.Workspace
             else
             {
                 // Now try each entry before that given
-                for (int i = index - 1; i >= 0; i--)
+                for (var i = index - 1; i >= 0; i--)
                 {
                     switch (sequence.Children[i])
                     {
@@ -3544,12 +3544,12 @@ namespace Krypton.Workspace
                                                                  bool forwards,
                                                                  bool onlyVisible)
         {
-            int count = sequence.Children.Count;
+            var count = sequence.Children.Count;
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 // Index depends on which direction we are processing
-                int index = forwards ? i : (sequence.Children.Count - i - 1);
+                var index = forwards ? i : (sequence.Children.Count - i - 1);
 
                 switch (sequence.Children[index])
                 {
@@ -3587,7 +3587,7 @@ namespace Krypton.Workspace
 
             // Previous items might be invisible and so search till we find the visible one we expect
             before = null;
-            for (int i = beforeSequence.Children.IndexOf(after) - 1; i >= 0; i--)
+            for (var i = beforeSequence.Children.IndexOf(after) - 1; i >= 0; i--)
             {
                 if ((beforeSequence.Children[i] is IWorkspaceItem item) && item.WorkspaceVisible)
                 {
@@ -3604,14 +3604,14 @@ namespace Krypton.Workspace
                                          out int moveAfter)
         {
             // Get the actual pixel size of the two items
-            int afterSize = (separator.Orientation == Orientation.Vertical) ? after.WorkspaceActualSize.Width : after.WorkspaceActualSize.Height;
-            int beforeSize = (separator.Orientation == Orientation.Vertical) ? before.WorkspaceActualSize.Width : before.WorkspaceActualSize.Height;
+            var afterSize = (separator.Orientation == Orientation.Vertical) ? after.WorkspaceActualSize.Width : after.WorkspaceActualSize.Height;
+            var beforeSize = (separator.Orientation == Orientation.Vertical) ? before.WorkspaceActualSize.Width : before.WorkspaceActualSize.Height;
 
             // Get the min/max values for the two items
-            int afterMin = (separator.Orientation == Orientation.Vertical) ? after.WorkspaceMinSize.Width : after.WorkspaceMinSize.Height;
-            int beforeMin = (separator.Orientation == Orientation.Vertical) ? before.WorkspaceMinSize.Width : before.WorkspaceMinSize.Height;
-            int afterMax = (separator.Orientation == Orientation.Vertical) ? after.WorkspaceMaxSize.Width : after.WorkspaceMaxSize.Height;
-            int beforeMax = (separator.Orientation == Orientation.Vertical) ? before.WorkspaceMaxSize.Width : before.WorkspaceMaxSize.Height;
+            var afterMin = (separator.Orientation == Orientation.Vertical) ? after.WorkspaceMinSize.Width : after.WorkspaceMinSize.Height;
+            var beforeMin = (separator.Orientation == Orientation.Vertical) ? before.WorkspaceMinSize.Width : before.WorkspaceMinSize.Height;
+            var afterMax = (separator.Orientation == Orientation.Vertical) ? after.WorkspaceMaxSize.Width : after.WorkspaceMaxSize.Height;
+            var beforeMax = (separator.Orientation == Orientation.Vertical) ? before.WorkspaceMaxSize.Width : before.WorkspaceMaxSize.Height;
 
             // How far can the separator move to shrink the before item
             moveBefore = beforeSize - beforeMin;
@@ -3728,7 +3728,7 @@ namespace Krypton.Workspace
                                              KryptonPageFlags allowFlags)
         {
             Rectangle screenRect = cell.RectangleToScreen(cell.ClientRectangle);
-            Rectangle[] rectsHot = SubdivideRectangle(screenRect, 3, int.MaxValue);
+            var rectsHot = SubdivideRectangle(screenRect, 3, int.MaxValue);
 
             // If the cell has no pages and we compact away empty cells then do not allow the user to drop at edges
             // of the cell as this will only cause the existing cell to be compacted away and leave the new drop in
@@ -3750,7 +3750,7 @@ namespace Krypton.Workspace
                                                int divisor,
                                                int maxLength)
         {
-            int length = Math.Min(area.Width / divisor, Math.Min(area.Height / divisor, maxLength));
+            var length = Math.Min(area.Width / divisor, Math.Min(area.Height / divisor, maxLength));
 
             // Find the left, right, top, bottom, center rectangles
             return new Rectangle[]{ new(area.X, area.Y, length, area.Height),
@@ -4029,7 +4029,7 @@ namespace Krypton.Workspace
                                         KryptonPage page,
                                         Orientation orientation)
         {
-            bool hadFocus = cell.ContainsFocus;
+            var hadFocus = cell.ContainsFocus;
 
             // Prevent ActivePageChanged when only moving it to another cell
             SuspendActivePageChangedEvent();
@@ -4038,7 +4038,7 @@ namespace Krypton.Workspace
             if (cell.WorkspaceParent is KryptonWorkspaceSequence parentSequence)
             {
                 // Find position of cell inside its parent sequence
-                int index = parentSequence.Children.IndexOf(cell);
+                var index = parentSequence.Children.IndexOf(cell);
 
                 // Create a new cell and move the context page into it
                 KryptonWorkspaceCell newCell = new();

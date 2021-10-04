@@ -41,7 +41,7 @@ namespace Krypton.Ribbon
         { 
             get 
             {
-                IQuickAccessToolbarButton[] qatButtons = new IQuickAccessToolbarButton[Ribbon.QATButtons.Count];
+                var qatButtons = new IQuickAccessToolbarButton[Ribbon.QATButtons.Count];
 
                 // Copy all the entries into the new array 
                 Ribbon.QATButtons.CopyTo(qatButtons, 0);

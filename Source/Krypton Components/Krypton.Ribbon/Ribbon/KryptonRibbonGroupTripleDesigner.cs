@@ -223,12 +223,12 @@ namespace Krypton.Ribbon
                                                      _addButtonVerb, _addColorButtonVerb, _addCheckBoxVerb, _addComboBoxVerb, _addCustomControlVerb, _addDateTimePickerVerb, _addDomainUpDownVerb, _addLabelVerb, _addNumericUpDownVerb, _addRadioButtonVerb, _addRichTextBoxVerb, _addTextBoxVerb, _addTrackBarVerb, _addMaskedTextBoxVerb, _clearItemsVerb, _deleteTripleVerb });
             }
 
-            bool moveFirst = false;
-            bool movePrev = false;
-            bool moveNext = false;
-            bool moveLast = false;
-            bool add = false;
-            bool clearItems = false;
+            var moveFirst = false;
+            var movePrev = false;
+            var moveNext = false;
+            var moveLast = false;
+            var add = false;
+            var clearItems = false;
 
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -316,7 +316,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the triple
                     KryptonRibbonGroup ribbonGroup = _ribbonTriple.RibbonGroup;
-                    int index = ribbonGroup.Items.IndexOf(_ribbonTriple) - 1;
+                    var index = ribbonGroup.Items.IndexOf(_ribbonTriple) - 1;
                     index = Math.Max(index, 0);
                     ribbonGroup.Items.Remove(_ribbonTriple);
                     ribbonGroup.Items.Insert(index, _ribbonTriple);
@@ -348,7 +348,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the triple
                     KryptonRibbonGroup ribbonGroup = _ribbonTriple.RibbonGroup;
-                    int index = ribbonGroup.Items.IndexOf(_ribbonTriple) + 1;
+                    var index = ribbonGroup.Items.IndexOf(_ribbonTriple) + 1;
                     index = Math.Min(index, ribbonGroup.Items.Count - 1);
                     ribbonGroup.Items.Remove(_ribbonTriple);
                     ribbonGroup.Items.Insert(index, _ribbonTriple);
@@ -804,7 +804,7 @@ namespace Krypton.Ribbon
                     IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the items from the triple group
-                    for (int i = _ribbonTriple.Items.Count - 1; i >= 0; i--)
+                    for (var i = _ribbonTriple.Items.Count - 1; i >= 0; i--)
                     {
                         KryptonRibbonGroupItem item = _ribbonTriple.Items[i];
                         _ribbonTriple.Items.Remove(item);
@@ -931,7 +931,7 @@ namespace Krypton.Ribbon
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all items from the triple group
-                for (int j = _ribbonTriple.Items.Count - 1; j >= 0; j--)
+                for (var j = _ribbonTriple.Items.Count - 1; j >= 0; j--)
                 {
                     KryptonRibbonGroupItem item = _ribbonTriple.Items[j] as KryptonRibbonGroupItem;
                     _ribbonTriple.Items.Remove(item);

@@ -128,14 +128,14 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteRadioButtonVerb });
             }
 
-            bool moveFirst = false;
-            bool movePrev = false;
-            bool moveNext = false;
-            bool moveLast = false;
+            var moveFirst = false;
+            var movePrev = false;
+            var moveNext = false;
+            var moveLast = false;
 
             if (_ribbonRadioButton?.Ribbon != null)
             {
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonRadioButton) > 0);
                 movePrev = (items.IndexOf(_ribbonRadioButton) > 0);
                 moveNext = (items.IndexOf(_ribbonRadioButton) < (items.Count - 1));
@@ -162,7 +162,7 @@ namespace Krypton.Ribbon
             if (_ribbonRadioButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupRadioButton MoveFirst");
@@ -194,7 +194,7 @@ namespace Krypton.Ribbon
             if (_ribbonRadioButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupRadioButton MovePrevious");
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    int index = items.IndexOf(_ribbonRadioButton) - 1;
+                    var index = items.IndexOf(_ribbonRadioButton) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonRadioButton);
                     items.Insert(index, _ribbonRadioButton);
@@ -228,7 +228,7 @@ namespace Krypton.Ribbon
             if (_ribbonRadioButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupRadioButton MoveNext");
@@ -241,7 +241,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    int index = items.IndexOf(_ribbonRadioButton) + 1;
+                    var index = items.IndexOf(_ribbonRadioButton) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonRadioButton);
                     items.Insert(index, _ribbonRadioButton);
@@ -262,7 +262,7 @@ namespace Krypton.Ribbon
             if (_ribbonRadioButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupRadioButton MoveLast");
@@ -294,7 +294,7 @@ namespace Krypton.Ribbon
             if (_ribbonRadioButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupRadioButton DeleteRadioButton");

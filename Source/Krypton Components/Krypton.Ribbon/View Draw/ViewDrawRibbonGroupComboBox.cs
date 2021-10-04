@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
 
         private void OnComboBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            bool updateLayout = false;
+            var updateLayout = false;
             const bool UPDATE_PAINT = false;
 
             switch (e.PropertyName)
@@ -498,7 +498,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                bool enabled = GroupComboBox.Enabled;
+                var enabled = GroupComboBox.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupComboBox.ComboBoxDesigner != null))
@@ -516,7 +516,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                bool visible = GroupComboBox.Visible;
+                var visible = GroupComboBox.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupComboBox.ComboBoxDesigner != null))
@@ -536,7 +536,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                bool visible = GroupComboBox.Visible;
+                var visible = GroupComboBox.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupComboBox.ComboBoxDesigner != null))

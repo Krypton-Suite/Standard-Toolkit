@@ -383,7 +383,7 @@ namespace Krypton.Toolkit
             if (!CommonHelper.IsOverrideState(state))
             {
                 // By default an underline is not added to the short text font
-                bool underline = false;
+                var underline = false;
 
                 // Action to take depends on the link behavior setting
                 switch (LinkBehavior)

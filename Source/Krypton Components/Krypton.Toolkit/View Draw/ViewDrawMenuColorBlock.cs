@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
             Color inside = Color.Empty;
 
             // Is this element selected?
-            bool selected = (KryptonContextMenuColorColumns.SelectedColor != null) && (KryptonContextMenuColorColumns.SelectedColor.Equals(Color));
+            var selected = (KryptonContextMenuColorColumns.SelectedColor != null) && (KryptonContextMenuColorColumns.SelectedColor.Equals(Color));
 
             switch (ElementState)
             {

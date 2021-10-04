@@ -112,8 +112,8 @@ namespace Krypton.Toolkit
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
-                        int count = rows.Count;
-                        for (int i = 0; i < count; i++)
+                        var count = rows.Count;
+                        for (var i = 0; i < count; i++)
                         {
                             DataGridViewCheckBoxCell cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
                             if (cell != null)
@@ -147,8 +147,8 @@ namespace Krypton.Toolkit
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
-                        int count = rows.Count;
-                        for (int i = 0; i < count; i++)
+                        var count = rows.Count;
+                        for (var i = 0; i < count; i++)
                         {
                             DataGridViewCheckBoxCell cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
                             if (cell != null)
@@ -182,8 +182,8 @@ namespace Krypton.Toolkit
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
-                        int count = rows.Count;
-                        for (int i = 0; i < count; i++)
+                        var count = rows.Count;
+                        for (var i = 0; i < count; i++)
                         {
                             DataGridViewCheckBoxCell cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
                             if (cell != null)
@@ -216,8 +216,8 @@ namespace Krypton.Toolkit
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
-                        int count = rows.Count;
-                        for (int i = 0; i < count; i++)
+                        var count = rows.Count;
+                        for (var i = 0; i < count; i++)
                         {
                             DataGridViewCheckBoxCell cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
                             if (cell != null)

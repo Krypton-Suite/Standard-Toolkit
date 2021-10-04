@@ -76,12 +76,12 @@ namespace Krypton.Toolkit
                             temp2 = (Luminance + Saturation) - (Luminance * Saturation);
                         }
 
-                        double temp1 = (2.0 * Luminance) - temp2;
+                        var temp1 = (2.0 * Luminance) - temp2;
 
                         double[] t3 = { Hue + (1.0 / 3.0), Hue, Hue - (1.0 / 3.0) };
                         double[] clr = { 0, 0, 0 };
 
-                        for (int i = 0; i < 3; i++)
+                        for (var i = 0; i < 3; i++)
                         {
                             if (t3[i] < 0)
                             {

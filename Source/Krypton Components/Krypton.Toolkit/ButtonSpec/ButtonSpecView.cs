@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
         public bool UpdateVisible()
         {
             // Decide if the view should be visible or not
-            bool prevVisible = ViewCenter.Visible;
+            var prevVisible = ViewCenter.Visible;
             ViewCenter.Visible = ButtonSpec.GetVisible(_redirector);
 
             // Return if a change has occured
@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
         /// <returns>True is a change in state has occured.</returns>
         public bool UpdateEnabled()
         {
-            bool changed = false;
+            var changed = false;
 
             // Remember the initial state
             ViewBase newDependant;

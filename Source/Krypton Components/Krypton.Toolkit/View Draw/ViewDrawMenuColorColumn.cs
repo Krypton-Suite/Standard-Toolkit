@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         {
             ViewLayoutColorStack vertical = new();
 
-            for (int i = start; i < end; i++)
+            for (var i = start; i < end; i++)
             {
                 vertical.Add(new ViewDrawMenuColorBlock(provider, colorColumns, colors[i], 
                                                         (i == start), (i == (end - 1)), enabled));

@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
         private void UpdateWeekNumberViews()
         {
             // Update display of week numbers views
-            bool showWeekNumbers = _months.ShowWeekNumbers;
+            var showWeekNumbers = _months.ShowWeekNumbers;
             _drawWeekCorner.Visible = showWeekNumbers;
             _numberStack.Visible = showWeekNumbers;
         }
