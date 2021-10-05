@@ -115,17 +115,22 @@ namespace Krypton.Toolkit
                     PI.ScreenToClient(hWnd, ref lpPoint);
                     clrComboBox.ClientLocation = new Point(lpPoint.X, lpPoint.Y+2);
                     clrComboBox.Size = new Size(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top + 4);
+                    var panel = new KryptonPanel
+                    {
+                        Size = clrComboBox.Size
+                    };
+                    panel.Location = clrComboBox.ClientLocation;
+                    PI.SetParent(panel.Handle, PI.GetParent(clrComboBox.hWnd));
                     var kryptonColorButton1 = new KryptonColorButton
                     {
-                        Location = clrComboBox.ClientLocation,
+                        Dock = DockStyle.Fill,
                         Name = "kryptonColorButton1",
                         SelectedColor = Color,
-                        Size = clrComboBox.Size,
                         Splitter = false,
                         SchemeStandard = ColorScheme.OfficeThemes,
                         SchemeThemes = ColorScheme.Basic16
-                        //TabIndex = 7
                     };
+                    panel.Controls.Add(kryptonColorButton1);
                     kryptonColorButton1.Values.Text = Color.Name;
                     kryptonColorButton1.StateCommon.Content.AdjacentGap = 3;
                     kryptonColorButton1.StateCommon.Content.Image.ImageH = PaletteRelativeAlign.Near;
@@ -147,7 +152,6 @@ namespace Krypton.Toolkit
                         PI.PostMessage(hWnd, PI.WM_.COMMAND, PI.MakeWParam(CLR_COMBOBOX_ID,(int)PI.CBN_.SELCHANGE),clrComboBoxHwnd);
                     };
                     clrComboBox.Button = kryptonColorButton1;
-                    PI.SetParent(kryptonColorButton1.Handle, PI.GetParent(clrComboBox.hWnd));
                     PI.ShowWindow(clrComboBox.hWnd, PI.ShowWindowCommands.SW_HIDE);
 
                 }
