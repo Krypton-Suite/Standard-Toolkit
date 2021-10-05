@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
 			_commonDialogHandler = new CommonDialogHandler(true)
 			{
 				ClickCallback = ClickCallback,
-				Icon = CommonDialogIcons.Printer_V7,
+				Icon = CommonDialogIcons.Printer_V10,
 				ShowIcon = false
 			};
 

@@ -118,35 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="color" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>color.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Colour" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Colour.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Colour_V3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Colour_V3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="font" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>font.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Font_V5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Font_V5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Font_V6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Font_V6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Font_V7" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Font_V7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Font_V8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Font_V8.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="printer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>printer.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Printer_V1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Printer_V1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Printer_V10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Printer_V10.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Printer_V7" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Printer_V7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
