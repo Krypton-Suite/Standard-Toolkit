@@ -17,6 +17,7 @@
 		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
 		<NoWarn>1701;1702</NoWarn>
 		<WarningLevel>5</WarningLevel>
+		<Configurations>Debug;Release;Installer</Configurations>
 	</PropertyGroup>
 
 	<ItemGroup>

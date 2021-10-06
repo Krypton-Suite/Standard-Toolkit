@@ -15,6 +15,7 @@
         <AnalysisLevel>latest</AnalysisLevel>
         <NeutralLanguage>en</NeutralLanguage>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+        <Configurations>Debug;Release;Installer</Configurations>
     </PropertyGroup>
 
     <PropertyGroup>

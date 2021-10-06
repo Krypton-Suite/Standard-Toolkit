@@ -58,27 +58,38 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Installer|Any CPU = Installer|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0D932DC6-53EA-4DE7-903C-C2E404505CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0D932DC6-53EA-4DE7-903C-C2E404505CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D932DC6-53EA-4DE7-903C-C2E404505CAC}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{0D932DC6-53EA-4DE7-903C-C2E404505CAC}.Installer|Any CPU.Build.0 = Installer|Any CPU
 		{0D932DC6-53EA-4DE7-903C-C2E404505CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D932DC6-53EA-4DE7-903C-C2E404505CAC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28E83440-1BEC-4D48-B4EA-D85E30638BDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{28E83440-1BEC-4D48-B4EA-D85E30638BDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28E83440-1BEC-4D48-B4EA-D85E30638BDD}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{28E83440-1BEC-4D48-B4EA-D85E30638BDD}.Installer|Any CPU.Build.0 = Installer|Any CPU
 		{28E83440-1BEC-4D48-B4EA-D85E30638BDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28E83440-1BEC-4D48-B4EA-D85E30638BDD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{43C7CFAF-03AB-47BD-A60D-1F3C5A3B68D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{43C7CFAF-03AB-47BD-A60D-1F3C5A3B68D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43C7CFAF-03AB-47BD-A60D-1F3C5A3B68D5}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{43C7CFAF-03AB-47BD-A60D-1F3C5A3B68D5}.Installer|Any CPU.Build.0 = Installer|Any CPU
 		{43C7CFAF-03AB-47BD-A60D-1F3C5A3B68D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43C7CFAF-03AB-47BD-A60D-1F3C5A3B68D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F379A7A0-66CC-4295-90E6-2471433D12B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F379A7A0-66CC-4295-90E6-2471433D12B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F379A7A0-66CC-4295-90E6-2471433D12B8}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{F379A7A0-66CC-4295-90E6-2471433D12B8}.Installer|Any CPU.Build.0 = Installer|Any CPU
 		{F379A7A0-66CC-4295-90E6-2471433D12B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F379A7A0-66CC-4295-90E6-2471433D12B8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{408B2F95-0322-4EEF-9A1B-889B7759976B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{408B2F95-0322-4EEF-9A1B-889B7759976B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{408B2F95-0322-4EEF-9A1B-889B7759976B}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{408B2F95-0322-4EEF-9A1B-889B7759976B}.Installer|Any CPU.Build.0 = Installer|Any CPU
 		{408B2F95-0322-4EEF-9A1B-889B7759976B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{408B2F95-0322-4EEF-9A1B-889B7759976B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
@@ -96,7 +107,7 @@ Global
 		{408B2F95-0322-4EEF-9A1B-889B7759976B} = {7639F185-EAEE-4483-BE71-7EC62EDDBEA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {ECEA7A85-0CA8-47A4-93BE-6AA896E9749D}
 		BuildVersion_StartDate = 2000/1/1
+		SolutionGuid = {ECEA7A85-0CA8-47A4-93BE-6AA896E9749D}
 	EndGlobalSection
 EndGlobal
