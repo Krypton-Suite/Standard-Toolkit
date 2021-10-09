@@ -8,6 +8,9 @@
 * Implemented [#404](https://github.com/Krypton-Suite/Standard-Toolkit/issues/404), `KryptonInputBox` to have a default button
 * Fixed [#403](https://github.com/Krypton-Suite/Standard-Toolkit/issues/403), Krypton.Toolkit.Nightly `Version="6.2109.272-alpha"` has removed code that was in 270 
 * Implemented [#85](https://github.com/Krypton-Suite/Standard-Toolkit/issues/85), Update the project names from `2019` to `2022`
+* New optional `UseWindows11RoundingValue`, if you have Windows 11 installed, the corner rounding radius will now match the default UI, if you have this turned on
+
+=======
 
 ## 2021-11-01 - Build 2111 - November 2021
 * Implemented [#49](https://github.com/Krypton-Suite/Standard-Toolkit/issues/49), Support for .NET 6
