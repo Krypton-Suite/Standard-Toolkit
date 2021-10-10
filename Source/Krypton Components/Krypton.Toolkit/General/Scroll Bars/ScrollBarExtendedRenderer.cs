@@ -74,7 +74,9 @@ namespace Krypton.Toolkit
 
             // add Palette Handler
             if (_palette != null)
+            {
                 _palette.PalettePaint += OnPalettePaint;
+            }
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -1016,7 +1018,9 @@ namespace Krypton.Toolkit
         private static void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
+            {
                 _palette.PalettePaint -= OnPalettePaint;
+            }
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect.Target = _palette;

@@ -125,7 +125,10 @@ namespace Krypton.Toolkit
                         // Need to fiddle the width and height to workaround the Magic hidden "&d" button
                         // https://github.com/Krypton-Suite/Standard-Toolkit/issues/416
                         if (!ShowIcon)
+                        {
                             newSize.Width -= 16;
+                        }
+
                         newSize.Height -= 44;
                     }
 

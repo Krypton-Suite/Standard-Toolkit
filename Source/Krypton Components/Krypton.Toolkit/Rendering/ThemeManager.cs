@@ -436,13 +436,22 @@ namespace Krypton.Toolkit
         /// Propagates the theme selector.
         /// </summary>
         /// <param name="target">The target.</param>
-        public static void PropagateThemeSelector(KryptonComboBox target)
+        /// <param name="excludePartials">do not include any string containing</param>
+        public static void PropagateThemeSelector(KryptonComboBox target, params string[] excludePartials)
+        {
+            AddToCollection(target.Items, excludePartials);
+        }
+
+        private static void AddToCollection(IList target, string[] excludes)
         {
             try
             {
                 foreach (var theme in SupportedThemeArray)
                 {
-                    target.Items.Add(theme);
+                    if ( !excludes.Any(t => theme.IndexOf(t, StringComparison.InvariantCultureIgnoreCase) > -1))
+                    {
+                        target.Add(theme);
+                    }
                 }
             }
             catch (Exception exc)
@@ -451,99 +460,55 @@ namespace Krypton.Toolkit
             }
         }
 
+
         /// <summary>
         /// Propagates the theme selector.
         /// </summary>
         /// <param name="target">The target.</param>
-        public static void PropagateThemeSelector(KryptonListBox target)
+        /// <param name="excludePartials">do not include any string containing</param>
+        public static void PropagateThemeSelector(KryptonListBox target, params string[] excludePartials)
         {
-            try
-            {
-                foreach (var theme in SupportedThemeArray)
-                {
-                    target.Items.Add(theme);
-                }
-            }
-            catch (Exception exc)
-            {
-                ExceptionHandler.CaptureException(exc);
-            }
+            AddToCollection(target.Items, excludePartials);
         }
 
         /// <summary>
         /// Propagates the theme selector.
         /// </summary>
         /// <param name="target">The target.</param>
-        public static void PropagateThemeSelector(KryptonDomainUpDown target)
+        /// <param name="excludePartials">do not include any string containing</param>
+        public static void PropagateThemeSelector(KryptonDomainUpDown target, params string[] excludePartials)
         {
-            try
-            {
-                foreach (var theme in SupportedThemeArray)
-                {
-                    target.Items.Add(theme);
-                }
-            }
-            catch (Exception exc)
-            {
-                ExceptionHandler.CaptureException(exc);
-            }
+            AddToCollection(target.Items, excludePartials);
         }
 
         /// <summary>
         /// Propagates the theme selector.
         /// </summary>
         /// <param name="target">The target.</param>
-        public static void PropagateThemeSelector(ComboBox target)
+        /// <param name="excludePartials">do not include any string containing</param>
+        public static void PropagateThemeSelector(ComboBox target, params string[] excludePartials)
         {
-            try
-            {
-                foreach (var theme in SupportedThemeArray)
-                {
-                    target.Items.Add(theme);
-                }
-            }
-            catch (Exception exc)
-            {
-                ExceptionHandler.CaptureException(exc);
-            }
+            AddToCollection(target.Items, excludePartials);
         }
 
         /// <summary>
         /// Propagates the theme selector.
         /// </summary>
         /// <param name="target">The target.</param>
-        public static void PropagateThemeSelector(DomainUpDown target)
+        /// <param name="excludePartials">do not include any string containing</param>
+        public static void PropagateThemeSelector(DomainUpDown target, params string[] excludePartials)
         {
-            try
-            {
-                foreach (var theme in SupportedThemeArray)
-                {
-                    target.Items.Add(theme);
-                }
-            }
-            catch (Exception exc)
-            {
-                ExceptionHandler.CaptureException(exc);
-            }
+            AddToCollection(target.Items, excludePartials);
         }
 
         /// <summary>
         /// Propagates the theme selector.
         /// </summary>
         /// <param name="target">The target.</param>
-        public static void PropagateThemeSelector(ToolStripComboBox target)
+        /// <param name="excludePartials">do not include any string containing</param>
+        public static void PropagateThemeSelector(ToolStripComboBox target, params string[] excludePartials)
         {
-            try
-            {
-                foreach (var theme in SupportedThemeArray)
-                {
-                    target.Items.Add(theme);
-                }
-            }
-            catch (Exception exc)
-            {
-                ExceptionHandler.CaptureException(exc);
-            }
+            AddToCollection(target.Items, excludePartials);
         }
 
         /// <summary>

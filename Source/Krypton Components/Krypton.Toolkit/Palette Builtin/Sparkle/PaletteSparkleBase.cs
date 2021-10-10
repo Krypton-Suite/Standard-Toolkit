@@ -269,7 +269,10 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ContextMenuItemImage:
                 case PaletteBackStyle.ContextMenuItemHighlight:
                     if (state is PaletteState.Normal or PaletteState.NormalDefaultOverride)
+                    {
                         return InheritBool.False;
+                    }
+
                     return InheritBool.True;
                 case PaletteBackStyle.ButtonInputControl:
                     return state is PaletteState.Disabled or PaletteState.Normal ? InheritBool.False : InheritBool.True;
