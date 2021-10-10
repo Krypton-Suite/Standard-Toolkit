@@ -1129,12 +1129,11 @@ namespace Krypton.Toolkit
         /// <returns>True if the message was processed; otherwise false.</returns>
         protected virtual void OnWM_GETMINMAXINFO(ref Message m)
         {
-
             PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO));
 
             // Adjust the maximized size and position to fit the work area of the correct monitor
-            const int MONITOR_DEFAULTTONEAREST = 0x00000002;
-            IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULTTONEAREST);
+            const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
+            IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
 
             if (monitor != IntPtr.Zero)
             {
@@ -1146,7 +1145,8 @@ namespace Krypton.Toolkit
                 mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
                 mmi.ptMaxSize.X = Math.Abs(rcWorkArea.right - rcWorkArea.left);
                 mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
-                mmi.ptMinTrackSize.X = Math.Max(mmi.ptMinTrackSize.X * 2, MinimumSize.Width);
+                // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415 so changed to "* 3 / 2"
+                mmi.ptMinTrackSize.X = Math.Max(mmi.ptMinTrackSize.X * 3 / 2, MinimumSize.Width);
                 mmi.ptMinTrackSize.Y = Math.Max(mmi.ptMinTrackSize.Y * 2, MinimumSize.Height);
             }
 

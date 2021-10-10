@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         private IntPtr _backBrush = IntPtr.Zero;
         private readonly Font _labelFont;
         private bool _embeddingDone;
-        private KryptonForm _toolBox;
+        internal KryptonForm _toolBox;
 
 
         public CommonDialogHandler(bool embed)
@@ -393,7 +393,7 @@ namespace Krypton.Toolkit
             PI.GetWindowText(hWnd, text, 64);
             _toolBox = new KryptonForm
             {
-                AutoScaleMode = AutoScaleMode.None,
+                AutoScaleMode = AutoScaleMode.Font,
                 ClientSize = new Size(winInfo.rcClient.right - winInfo.rcClient.left, winInfo.rcClient.bottom - winInfo.rcClient.top),
                 FormBorderStyle = FormBorderStyle.FixedToolWindow,
                 StartPosition = FormStartPosition.Manual,
@@ -411,19 +411,20 @@ namespace Krypton.Toolkit
                 _toolBox.Icon = Icon;
             }
 
+            Size toolBoxClientSize = _toolBox.ClientSize;
             var kryptonPanel1 = new KryptonPanel
             {
                 Dock = DockStyle.Fill,
                 Location = new Point(0, 0),
                 Name = "kryptonPanel1",
-                Size = _toolBox.ClientSize,
+                ClientSize = toolBoxClientSize,
                 TabIndex = 0,
                 Margin = new Padding(0),
                 Padding = new Padding(0)
             };
             _toolBox.Controls.Add(kryptonPanel1);
 
-            PI.MoveWindow(hWnd, 0, 0, _toolBox.ClientSize.Width, _toolBox.ClientSize.Height, false);
+            PI.MoveWindow(hWnd, 0, 0, toolBoxClientSize.Width, toolBoxClientSize.Height, false);
             var toolParent = PI.GetParent(hWnd);
             PI.SetParent(hWnd, kryptonPanel1.Handle);
             var nativeWindow = new NativeWindow();
