@@ -2716,7 +2716,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             {
                 var error = Marshal.GetLastWin32Error();
                 if (error != 0)
+                {
                     throw new Win32Exception(error);
+                }
             }
             return ret;
         }
@@ -2731,7 +2733,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             {
                 var error = Marshal.GetLastWin32Error();
                 if (error != 0)
+                {
                     throw new Win32Exception(error);
+                }
             }
             return ret;
         }

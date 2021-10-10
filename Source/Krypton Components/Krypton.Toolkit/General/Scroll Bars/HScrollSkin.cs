@@ -66,7 +66,9 @@ namespace Krypton.Toolkit
         {
             // add Palette Handler
             if (_palette != null)
+            {
                 _palette.PalettePaint += OnPalettePaint;
+            }
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -87,7 +89,9 @@ namespace Krypton.Toolkit
 
             // add Palette Handler
             if (_palette != null)
+            {
                 _palette.PalettePaint += OnPalettePaint;
+            }
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -165,8 +169,9 @@ namespace Krypton.Toolkit
             ResumeLayout(false);
 
             if (_win != null)
+            {
                 __win.Resize += win_Resize;
-
+            }
         }
         #endregion
 
@@ -243,8 +248,11 @@ namespace Krypton.Toolkit
                     {
                         foreach (Control control in dgv.Controls)
                         {
-                            if (control is not HScrollBar { Visible: true }) 
+                            if (control is not HScrollBar { Visible: true })
+                            {
                                 continue;
+                            }
+
                             if (e.Type == ScrollEventType.ThumbTrack)
                             {
                                 if (e.NewValue >= e.OldValue)
@@ -536,7 +544,9 @@ namespace Krypton.Toolkit
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
+            {
                 _palette.PalettePaint -= OnPalettePaint;
+            }
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect.Target = _palette;

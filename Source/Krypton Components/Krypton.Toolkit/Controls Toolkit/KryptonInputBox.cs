@@ -172,10 +172,14 @@ namespace Krypton.Toolkit
             _textBoxResponse.CueHint.CueHintText = _cueText;
 
             if ( !_cueColour.IsEmpty )
+            {
                 _textBoxResponse.CueHint.Color1 = _cueColour;
+            }
 
             if ( _cueTypeface != null )
+            {
                 _textBoxResponse.CueHint.Font = _cueTypeface;
+            }
         }
 
         private void UpdateButtons()
@@ -190,7 +194,9 @@ namespace Krypton.Toolkit
         {
             // Escape key kills the dialog if we allow it to be closed
             if ((e.KeyCode == Keys.Escape) && ControlBox)
+            {
                 Close();
+            }
         }
 
         private void InitializeComponent()

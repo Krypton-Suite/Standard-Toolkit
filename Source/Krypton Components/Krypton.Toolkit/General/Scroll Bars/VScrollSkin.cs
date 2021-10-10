@@ -67,7 +67,9 @@ namespace Krypton.Toolkit
         {
             // add Palette Handler
             if (_palette != null)
+            {
                 _palette.PalettePaint += OnPalettePaint;
+            }
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -87,7 +89,9 @@ namespace Krypton.Toolkit
 
             // add Palette Handler
             if (_palette != null)
+            {
                 _palette.PalettePaint += OnPalettePaint;
+            }
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -235,9 +239,13 @@ namespace Krypton.Toolkit
 
                 double RealPos;
                 if (nThePos <= 0.0)
+                {
                     RealPos = VScrollBar1.Value;
+                }
                 else
+                {
                     RealPos = VScrollBar1.Value / nThePos;
+                }
 
                 var nPos = PI.GetScrollPos(listView1.Handle, PI.SB_.VERT);
 
@@ -729,7 +737,9 @@ namespace Krypton.Toolkit
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
+            {
                 _palette.PalettePaint -= OnPalettePaint;
+            }
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect.Target = _palette;

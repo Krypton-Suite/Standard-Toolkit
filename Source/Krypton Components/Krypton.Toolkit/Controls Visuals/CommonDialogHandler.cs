@@ -85,7 +85,10 @@ namespace Krypton.Toolkit
                                     PI.GetWindowInfo(child, out attributes.WinInfo);
                                     var nRet = PI.GetClassName(child, name, name.Capacity);
                                     if (nRet != 0)
+                                    {
                                         attributes.ClassName = name.ToString().ToLowerInvariant();
+                                    }
+
                                     _controls.Add(attributes);
                                 }
                             }
@@ -163,7 +166,10 @@ namespace Krypton.Toolkit
                                     {
 
                                         if ((control.WinInfo.dwStyle & PI.WS_.VISIBLE) != PI.WS_.VISIBLE)
+                                        {
                                             break;
+                                        }
+
                                         var text = new StringBuilder(64);
                                         PI.GetWindowText(control.hWnd, text, 64);
                                         control.Text = text.ToString();
@@ -291,9 +297,15 @@ namespace Krypton.Toolkit
                         foreach (Attributes control in _controls)
                         {
                             if ((control.WinInfo.dwStyle & PI.WS_.VISIBLE) != PI.WS_.VISIBLE)
+                            {
                                 continue;
+                            }
+
                             if (control.ClassName != @"button")
+                            {
                                 continue;
+                            }
+
                             if ((control.WinInfo.dwStyle & PI.BS_.GROUPBOX) == PI.BS_.GROUPBOX)
                             {
                                 PI.PAINTSTRUCT ps = new();
@@ -301,7 +313,10 @@ namespace Krypton.Toolkit
                                 // Do we need to BeginPaint or just take the given HDC?
                                 var hdc = PI.BeginPaint(control.hWnd, ref ps);
                                 if (hdc == IntPtr.Zero)
+                                {
                                     break;
+                                }
+
                                 using (Graphics g = Graphics.FromHdc(hdc))
                                 {
                                     g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -457,7 +472,10 @@ namespace Krypton.Toolkit
         internal bool SetNewPosAndClientSize(Point loc, Size size)
         {
             if (size == Size.Empty)
+            {
                 return false; // Probably already been triggered !
+            }
+
             _toolBox.Location = loc;
             _toolBox.ClientSize = size;
             return true;
