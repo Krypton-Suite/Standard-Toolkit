@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
 
             "Office 2010 - Black (Dark Mode)",
 
-            "Office 2010 - Black (Light Mode)",
+            //"Office 2010 - Black (Light Mode)",
 
             "Office 2010 - Blue",
 
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
 
             "Office 365 - Black (Dark Mode)",
 
-            "Office 365 - Black (Light Mode)",
+            //"Office 365 - Black (Light Mode)",
 
             "Office 365 - Blue",
 
