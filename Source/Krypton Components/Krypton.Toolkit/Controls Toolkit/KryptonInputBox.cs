@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
             this._panelMessage.Size = new System.Drawing.Size(466, 131);
             this._panelMessage.TabIndex = 0;
             // 
-            // tableLayoutPanel1
+            // _tableLayoutPanel1
             // 
             this._tableLayoutPanel1.AutoSize = true;
             this._tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -248,6 +248,8 @@ namespace Krypton.Toolkit
             // 
             // _labelPrompt
             // 
+            this._labelPrompt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this._labelPrompt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             this._labelPrompt.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
             this._labelPrompt.Location = new System.Drawing.Point(5, 5);
             this._labelPrompt.Margin = new System.Windows.Forms.Padding(5);
@@ -257,15 +259,16 @@ namespace Krypton.Toolkit
             // 
             // _textBoxResponse
             // 
+            this._textBoxResponse.Dock = System.Windows.Forms.DockStyle.Fill;
             this._textBoxResponse.Location = new System.Drawing.Point(10, 34);
             this._textBoxResponse.Margin = new System.Windows.Forms.Padding(10, 4, 10, 4);
             this._textBoxResponse.MinimumSize = new System.Drawing.Size(444, 27);
             this._textBoxResponse.Name = "_textBoxResponse";
-            this._textBoxResponse.Size = new System.Drawing.Size(444, 27);
+            this._textBoxResponse.Size = new System.Drawing.Size(446, 27);
             this._textBoxResponse.TabIndex = 0;
             this._textBoxResponse.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxResponse_KeyDown);
             // 
-            // kryptonBorderEdge1
+            // _kryptonBorderEdge1
             // 
             this._kryptonBorderEdge1.AutoSize = false;
             this._kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -275,7 +278,7 @@ namespace Krypton.Toolkit
             this._kryptonBorderEdge1.Size = new System.Drawing.Size(466, 1);
             this._kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
-            // kryptonPanel1
+            // _kryptonPanel1
             // 
             this._kryptonPanel1.Controls.Add(this._buttonOk);
             this._kryptonPanel1.Controls.Add(this._buttonCancel);
@@ -303,6 +306,7 @@ namespace Krypton.Toolkit
             // 
             // _buttonCancel
             // 
+            this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._buttonCancel.AutoSize = true;
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.Location = new System.Drawing.Point(378, 0);
@@ -322,7 +326,7 @@ namespace Krypton.Toolkit
             this.CancelButton = this._buttonCancel;
             this.ClientSize = new System.Drawing.Size(466, 131);
             this.Controls.Add(this._panelMessage);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
