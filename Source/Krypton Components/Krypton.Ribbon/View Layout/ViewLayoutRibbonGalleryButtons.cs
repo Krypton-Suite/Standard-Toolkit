@@ -79,8 +79,8 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Layout children from top to bottom with equal height and the total width
-            int yOffset = 0;
-            int childHeight = (ClientHeight / Count) + 1;
+            var yOffset = 0;
+            var childHeight = (ClientHeight / Count) + 1;
             foreach (ViewBase child in this)
             {
                 // If this is the last child in collection...

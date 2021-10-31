@@ -404,14 +404,14 @@ namespace Krypton.Ribbon
         private void UpdateEnabledState()
         {
             // Get the correct enabled state from the button definition
-            bool buttonEnabled = GroupCheckBox.Enabled;
+            var buttonEnabled = GroupCheckBox.Enabled;
             if (GroupCheckBox.KryptonCommand != null)
             {
                 buttonEnabled = GroupCheckBox.KryptonCommand.Enabled;
             }
 
             // Take into account the ribbon state and mode
-            bool enabled = _ribbon.InDesignHelperMode || (buttonEnabled && _ribbon.Enabled);
+            var enabled = _ribbon.InDesignHelperMode || (buttonEnabled && _ribbon.Enabled);
 
             // Update enabled for the large check box view
             _viewLarge.Enabled = enabled;
@@ -490,8 +490,8 @@ namespace Krypton.Ribbon
 
         private void OnCheckBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            bool updateLayout = false;
-            bool updatePaint = false;
+            var updateLayout = false;
+            var updatePaint = false;
 
             switch (e.PropertyName)
             {

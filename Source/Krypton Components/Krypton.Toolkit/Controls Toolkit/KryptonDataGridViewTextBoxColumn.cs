@@ -114,8 +114,8 @@ namespace Krypton.Toolkit
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
-                        int count = rows.Count;
-                        for (int i = 0; i < count; i++)
+                        var count = rows.Count;
+                        for (var i = 0; i < count; i++)
                         {
                             if (rows.SharedRow(i).Cells[Index] is DataGridViewTextBoxCell cell)
                             {
@@ -189,8 +189,8 @@ namespace Krypton.Toolkit
                 if (DataGridView != null)
                 {
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
-                    int rowCount = dataGridViewRows.Count;
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    var rowCount = dataGridViewRows.Count;
+                    for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                         if (dataGridViewRow.Cells[Index] is KryptonDataGridViewTextBoxCell dataGridViewCell)
@@ -227,8 +227,8 @@ namespace Krypton.Toolkit
                 if (DataGridView != null)
                 {
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
-                    int rowCount = dataGridViewRows.Count;
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    var rowCount = dataGridViewRows.Count;
+                    for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                         if (dataGridViewRow.Cells[Index] is KryptonDataGridViewTextBoxCell dataGridViewCell)

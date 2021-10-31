@@ -229,7 +229,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(context != null);
 
-            bool visibleQATButtons = false;
+            var visibleQATButtons = false;
 
             // Scan to see if there are any visible quick access toolbar buttons
             foreach(IQuickAccessToolbarButton qatButton in _ribbon.QATButtons)
@@ -266,7 +266,7 @@ namespace Krypton.Ribbon
             if (OwnerForm == null)
             {
                 // Limit the width, so we do not flow over right edge of caption area
-                int maxWidth = _ribbon.Width - clientRect.X;
+                var maxWidth = _ribbon.Width - clientRect.X;
                 clientRect.Width = Math.Min(clientRect.Width, maxWidth);
             }
 

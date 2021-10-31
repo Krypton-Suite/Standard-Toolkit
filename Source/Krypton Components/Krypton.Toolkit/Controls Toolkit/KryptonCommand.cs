@@ -152,8 +152,8 @@ namespace Krypton.Toolkit
                 {
                     // Store new values
                     _checkState = value;
-                    bool newChecked = (_checkState != CheckState.Unchecked);
-                    bool checkedChanged = (_checked != newChecked);
+                    var newChecked = (_checkState != CheckState.Unchecked);
+                    var checkedChanged = (_checked != newChecked);
                     _checked = newChecked;
 
                     // Generate events
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
                 {
                     foreach (KryptonCommand item in this)
                     {
-                        string text = item.Text;
+                        var text = item.Text;
                         if (!string.IsNullOrEmpty(text) && (text == name))
                         {
                             return item;

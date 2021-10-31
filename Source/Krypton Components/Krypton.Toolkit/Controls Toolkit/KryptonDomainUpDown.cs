@@ -2026,9 +2026,9 @@ namespace Krypton.Toolkit
         private void OnDomainUpDownMouseChange(object sender, EventArgs e)
         {
             // Find new tracking mouse change state
-            bool tracking = _domainUpDown.MouseOver ||
-                            ((_subclassEdit != null) && _subclassEdit.MouseOver) ||
-                            ((_subclassButtons != null) && _subclassButtons.MouseOver);
+            var tracking = _domainUpDown.MouseOver ||
+                           ((_subclassEdit != null) && _subclassEdit.MouseOver) ||
+                           ((_subclassButtons != null) && _subclassButtons.MouseOver);
 
             // Change in tracking state?
             if (tracking != _trackingMouseEnter)

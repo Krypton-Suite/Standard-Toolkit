@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
                 documentStack.Add(new ViewLayoutSeparator(2));
 
                 // Then generate an item per recent document entry
-                int index = 1;
+                var index = 1;
                 foreach (KryptonRibbonRecentDoc recentDoc in _ribbon.RibbonAppButton.AppButtonRecentDocs)
                 {
                     documentStack.Add(new ViewDrawRibbonAppMenuRecentDec(_ribbon, _provider, recentDoc, _ribbon.RibbonAppButton.AppButtonMaxRecentSize.Width, NeedPaintDelegate, index++));

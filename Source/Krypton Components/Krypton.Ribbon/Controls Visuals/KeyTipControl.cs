@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
                     // Enlarge the rect to enclose the new point
                     if (keyTip.ScreenPt.X < enclosingRect.Left)
                     {
-                        int diff = enclosingRect.Left - keyTip.ScreenPt.X;
+                        var diff = enclosingRect.Left - keyTip.ScreenPt.X;
                         enclosingRect.Width += diff;
                         enclosingRect.X -= diff;
                     }
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
 
                     if (keyTip.ScreenPt.Y < enclosingRect.Top)
                     {
-                        int diff = enclosingRect.Top - keyTip.ScreenPt.Y;
+                        var diff = enclosingRect.Top - keyTip.ScreenPt.Y;
                         enclosingRect.Height += diff;
                         enclosingRect.Y -= diff;
                     }
@@ -135,7 +135,7 @@ namespace Krypton.Ribbon
             key = char.ToUpper(key);
 
             // Find the new prefix with the additional key
-            string newPrefix = _prefix + key;
+            var newPrefix = _prefix + key;
 
             // Search for any keytip that is an exact match
             foreach (ViewDrawRibbonKeyTip viewKeyTip in _viewList)
@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
             }
 
             // Search to see if any keytip has this as a prefix
-            bool found = false;
+            var found = false;
             foreach (ViewDrawRibbonKeyTip viewKeyTip in _viewList)
             {
                 if (viewKeyTip.KeyTipInfo.KeyString.StartsWith(newPrefix))
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
                     if ((_showDisabled && !viewKeyTip.KeyTipInfo.Enabled) ||
                         (!_showDisabled && viewKeyTip.KeyTipInfo.Enabled))
                     {
-                        bool visible = viewKeyTip.KeyTipInfo.Visible;
+                        var visible = viewKeyTip.KeyTipInfo.Visible;
 
                         // Only make the view visible if the key tip matches the prefix
                         if (visible && !string.IsNullOrEmpty(_prefix))

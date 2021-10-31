@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
             if (sender is DesignerVerb verb)
             {
                 // Decide on the new orientation required
-                bool isChecked = verb.Text.Equals("Uncheck the button");
+                var isChecked = verb.Text.Equals("Uncheck the button");
 
                 // Decide on the next action to take given the new setting
                 _action = isChecked ? "Uncheck the button" : "Check the button";

@@ -133,14 +133,14 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteButtonVerb });
             }
 
-            bool moveFirst = false;
-            bool movePrev = false;
-            bool moveNext = false;
-            bool moveLast = false;
+            var moveFirst = false;
+            var movePrev = false;
+            var moveNext = false;
+            var moveLast = false;
 
             if (_ribbonColorButton?.Ribbon != null)
             {
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonColorButton) > 0);
                 movePrev = (items.IndexOf(_ribbonColorButton) > 0);
                 moveNext = (items.IndexOf(_ribbonColorButton) < (items.Count - 1));
@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupColorButton MoveFirst");
@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupColorButton MovePrevious");
@@ -212,7 +212,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    int index = items.IndexOf(_ribbonColorButton) - 1;
+                    var index = items.IndexOf(_ribbonColorButton) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonColorButton);
                     items.Insert(index, _ribbonColorButton);
@@ -233,7 +233,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupColorButton MoveNext");
@@ -246,7 +246,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    int index = items.IndexOf(_ribbonColorButton) + 1;
+                    var index = items.IndexOf(_ribbonColorButton) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonColorButton);
                     items.Insert(index, _ribbonColorButton);
@@ -267,7 +267,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupColorButton MoveLast");
@@ -299,7 +299,7 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupColorButton DeleteButton");

@@ -59,9 +59,9 @@ namespace Krypton.Toolkit
             ClientRectangle = original;
 
             // Layout each child
-            int offset = 0;
-            int space = (_orientation == Orientation.Vertical ? ClientHeight : ClientWidth);
-            for(int i=0; i<Count; i++)
+            var offset = 0;
+            var space = (_orientation == Orientation.Vertical ? ClientHeight : ClientWidth);
+            for(var i=0; i<Count; i++)
             {
                 ViewBase child = this[i];
 

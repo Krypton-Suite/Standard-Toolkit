@@ -74,7 +74,7 @@ namespace Krypton.Navigator
         {
             if (_pageLookup != null)
             {
-                foreach (KeyValuePair<KryptonPage, ViewDrawNavCheckButtonBase> pair in _pageLookup)
+                foreach (var pair in _pageLookup)
                 {
                     if (pair.Value == element)
                     {
@@ -96,7 +96,7 @@ namespace Krypton.Navigator
             // Check each page level button spec
             if (_pageLookup != null)
             {
-                foreach (KeyValuePair<KryptonPage, ViewDrawNavCheckButtonBase> pair in _pageLookup)
+                foreach (var pair in _pageLookup)
                 {
                     ButtonSpec bs = pair.Value.ButtonSpecFromView(element);
                     if (bs != null)
@@ -236,8 +236,8 @@ namespace Krypton.Navigator
                 PaletteBorderEdge buttonEdge;
 
                 // If whole navigator is disabled then all of view is disabled
-                bool enabled = Navigator.Enabled;
-                bool checkEnabled = enabled;
+                var enabled = Navigator.Enabled;
+                var checkEnabled = enabled;
 
                 // If there is no selected page
                 if (Navigator.SelectedPage == null)
@@ -368,8 +368,8 @@ namespace Krypton.Navigator
         public override bool ProcessDialogKey(Keys keyData)
         {
             // Find out which modifier keys are being pressed
-            bool shift = ((keyData & Keys.Shift) == Keys.Shift);
-            bool control = ((keyData & Keys.Control) == Keys.Control);
+            var shift = ((keyData & Keys.Shift) == Keys.Shift);
+            var control = ((keyData & Keys.Control) == Keys.Control);
 
             // Extract just the key and not modifier keys
             Keys keyCode = (keyData & Keys.KeyCode);
@@ -389,7 +389,7 @@ namespace Krypton.Navigator
 
                             if (!ce.Cancel)
                             {
-                                bool changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                var changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
                             }
                         }
                         return true;
@@ -612,7 +612,7 @@ namespace Krypton.Navigator
                                                                        Navigator.StateDisabled.BorderEdge);
 
             // Start stacking from the top/left if not explicitly set to be far aligned
-            bool dockTopLeft = (alignment != RelativePositionAlign.Far);
+            var dockTopLeft = (alignment != RelativePositionAlign.Far);
 
             // Create a check button to represent each krypton page
             foreach (KryptonPage page in Navigator.Pages)
@@ -724,7 +724,7 @@ namespace Krypton.Navigator
             // Update each individual button with the new style for remapping page level button specs
             if (_pageLookup != null)
             {
-                foreach (KeyValuePair<KryptonPage, ViewDrawNavCheckButtonBase> pair in _pageLookup)
+                foreach (var pair in _pageLookup)
                 {
                     pair.Value.ButtonSpecManager?.SetRemapTarget(Navigator.Stack.CheckButtonStyle);
                 }
@@ -877,7 +877,7 @@ namespace Krypton.Navigator
             ViewDockStyle dockFar = (stackOrient == Orientation.Vertical ? ViewDockStyle.Bottom : ViewDockStyle.Right);
 
             // Start stacking from the top/left if not explicitly set to be far aligned
-            bool dockTopLeft = (alignment != RelativePositionAlign.Far);
+            var dockTopLeft = (alignment != RelativePositionAlign.Far);
 
             // Add back the pages in the order they are in collection
             foreach (KryptonPage page in Navigator.Pages)
@@ -978,7 +978,7 @@ namespace Krypton.Navigator
             ViewDrawNavCheckButtonStack reorderView = (ViewDrawNavCheckButtonStack)sender;
 
             // Scan the collection of children
-            bool foundReorderView = false;
+            var foundReorderView = false;
             Orientation stackOrient = Navigator.Stack.StackOrientation;
             foreach (KryptonPage page in Navigator.Pages)
             {
@@ -995,13 +995,13 @@ namespace Krypton.Navigator
                         {
                             if (stackOrient == Orientation.Vertical)
                             {
-                                int shrink = childRect.Height - Math.Min(childRect.Height, reorderView.ClientHeight);
+                                var shrink = childRect.Height - Math.Min(childRect.Height, reorderView.ClientHeight);
                                 childRect.Y += shrink;
                                 childRect.Height -= shrink;
                             }
                             else
                             {
-                                int shrink = childRect.Width - Math.Min(childRect.Width, reorderView.ClientWidth);
+                                var shrink = childRect.Width - Math.Min(childRect.Width, reorderView.ClientWidth);
                                 childRect.X += shrink;
                                 childRect.Width -= shrink;
                             }
@@ -1079,7 +1079,7 @@ namespace Krypton.Navigator
             ViewDockStyle dockNear = (stackOrient == Orientation.Vertical ? ViewDockStyle.Top : ViewDockStyle.Left);
             ViewDockStyle dockFar = (stackOrient == Orientation.Vertical ? ViewDockStyle.Bottom : ViewDockStyle.Right);
 
-            bool dockTopLeft = (alignment != RelativePositionAlign.Far);
+            var dockTopLeft = (alignment != RelativePositionAlign.Far);
 
             foreach (KryptonPage page in Navigator.Pages)
             {

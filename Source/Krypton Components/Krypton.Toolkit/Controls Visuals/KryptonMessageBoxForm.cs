@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
         private const int GAP = 10;
         private static readonly int OS_MAJOR_VERSION;
         #endregion
+
         #region Instance Fields
         private readonly string _text;
         private readonly string _caption;
@@ -113,9 +114,9 @@ namespace Krypton.Toolkit
         {
             Text = (string.IsNullOrEmpty(_caption) ? string.Empty : _caption.Split(Environment.NewLine.ToCharArray())[0]);
             _messageText.Text = _text;
-            _messageText.RightToLeft =  _options.HasFlag(MessageBoxOptions.RightAlign) 
-                ? RightToLeft.Yes 
-                : _options.HasFlag(MessageBoxOptions.RtlReading) 
+            _messageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign)
+                ? RightToLeft.Yes
+                : _options.HasFlag(MessageBoxOptions.RtlReading)
                     ? RightToLeft.Inherit
                     : RightToLeft.No;
         }
@@ -193,7 +194,17 @@ namespace Krypton.Toolkit
                     _messageIcon.Image = SystemIcons.Shield.ToBitmap();
                     break;
                 case KryptonMessageBoxIcon.WINDOWSLOGO:
-                    _messageIcon.Image = SystemIcons.WinLogo.ToBitmap();
+                    // Because Windows 11 displays a generic application icon,
+                    // we need to rely on a image instead
+                    if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                    {
+                        _messageIcon.Image = MessageBoxResources.Windows11;
+                    }
+                    else
+                    {
+                        _messageIcon.Image = SystemIcons.WinLogo.ToBitmap();
+                    }
+
                     break;
             }
 
@@ -212,18 +223,18 @@ namespace Krypton.Toolkit
                     SystemSounds.Question.Play();
                     break;
                 case MessageBoxIcon.Error:
-                //case MessageBoxIcon.Hand:
-                //case MessageBoxIcon.Stop:
+                    //case MessageBoxIcon.Hand:
+                    //case MessageBoxIcon.Stop:
                     _messageIcon.Image = SystemIcons.Error.ToBitmap();
                     SystemSounds.Hand.Play();
                     break;
-                case MessageBoxIcon.Warning: 
+                case MessageBoxIcon.Warning:
                     //case MessageBoxIcon.Exclamation:
                     _messageIcon.Image = SystemIcons.Warning.ToBitmap();
                     SystemSounds.Exclamation.Play();
                     break;
                 case MessageBoxIcon.Information:
-                // case MessageBoxIcon.Asterisk:
+                    // case MessageBoxIcon.Asterisk:
                     _messageIcon.Image = SystemIcons.Information.ToBitmap();
                     SystemSounds.Asterisk.Play();
                     break;
@@ -416,10 +427,10 @@ namespace Krypton.Toolkit
                 // SKC: Don't forget to add the TextExtra into the calculation
                 SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", _messageText.Font, scaledMonitorSize);
 
-                float messageXSize = Math.Max(messageSize.Width, captionSize.Width);
+                var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
                 // Work out DPI adjustment factor
-                float factorX = g.DpiX > 96 ? ((1.0f * g.DpiX) / 96) : 1.0f;
-                float factorY = g.DpiY > 96 ? ((1.0f * g.DpiY) / 96) : 1.0f;
+                var factorX = g.DpiX > 96 ? ((1.0f * g.DpiX) / 96) : 1.0f;
+                var factorY = g.DpiY > 96 ? ((1.0f * g.DpiY) / 96) : 1.0f;
                 messageSize.Width = messageXSize * factorX;
                 messageSize.Height *= factorY;
 
@@ -432,7 +443,7 @@ namespace Krypton.Toolkit
             // Find size of icon area plus the text area added together
             if (_messageIcon.Image != null)
             {
-                return new Size(textSize.Width +_messageIcon.Width, Math.Max(_messageIcon.Height + 10, textSize.Height));
+                return new Size(textSize.Width + _messageIcon.Width, Math.Max(_messageIcon.Height + 10, textSize.Height));
             }
 
             return textSize;
@@ -440,7 +451,7 @@ namespace Krypton.Toolkit
 
         private Size UpdateButtonsSizing()
         {
-            int numButtons = 1;
+            var numButtons = 1;
 
             // Button1 is always visible
             Size button1Size = _button1.GetPreferredSize(Size.Empty);
@@ -473,7 +484,7 @@ namespace Krypton.Toolkit
             }
 
             // Start positioning buttons 10 pixels from right edge
-            int right = _panelButtons.Right - GAP;
+            var right = _panelButtons.Right - GAP;
 
             // If Button4 is visible
             if (_button4.Enabled)

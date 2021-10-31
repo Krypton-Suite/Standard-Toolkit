@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             // We allow an empty string or a string with DBNull/null/Nothing to be converted to a DBNull value.
             if (value is string)
             {
-                string stringValue = value.ToString().ToLower();
+                var stringValue = value.ToString().ToLower();
                 if ((stringValue == "dbnull") || (stringValue == "null") || (stringValue == "nothing"))
                 {
                     return DBNull.Value;

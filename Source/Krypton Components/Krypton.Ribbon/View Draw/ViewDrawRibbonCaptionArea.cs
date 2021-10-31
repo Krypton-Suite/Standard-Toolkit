@@ -889,7 +889,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public void UpdateQAT()
         {
-            bool before = _captionQAT.Visible;
+            var before = _captionQAT.Visible;
             _captionQAT.Visible = _ribbon.Visible && (_ribbon.QATLocation == QATLocation.Above);
             _nonCaptionQAT.Visible = _ribbon.Visible && (_ribbon.QATLocation == QATLocation.Above);
             UpdateVisible();
@@ -906,7 +906,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public void AppButtonVisibleChanged()
         {
-            bool appButtonVisible = (_ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007));
+            var appButtonVisible = (_ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007));
             if (_captionAppButton.Visible != appButtonVisible)
             {
                 // Update visible state of the app button to reflect current state
@@ -1167,8 +1167,8 @@ namespace Krypton.Ribbon
 
         private void OnFormChromeCheck(object sender, EventArgs e)
         {
-            bool needLayout = false;
-            bool integrated = false;
+            var needLayout = false;
+            var integrated = false;
 
             // Are we inside a KryptonForm instance that is using custom chrome?
             if (_kryptonForm is { ApplyCustomChrome: true })
@@ -1177,7 +1177,7 @@ namespace Krypton.Ribbon
                 if (_ribbon.Location == Point.Empty)
                 {
                     // Find the height of the top caption area for the form
-                    int height = _kryptonForm.RealWindowBorders.Top;
+                    var height = _kryptonForm.RealWindowBorders.Top;
 
                     // Must be at least the minimum for the application button and spacing gap above it
                     if (height >= MIN_INTEGRATED_HEIGHT)
@@ -1190,7 +1190,7 @@ namespace Krypton.Ribbon
 
             if (_kryptonForm != null)
             {
-                bool overrideIntegrated = integrated;
+                var overrideIntegrated = integrated;
 
                 // If told to prevent the integration, then prevent it now
                 if (PreventIntegration && overrideIntegrated)
@@ -1245,11 +1245,11 @@ namespace Krypton.Ribbon
                 _kryptonForm.AllowComposition = _ribbon.AllowFormIntegrate && !_ribbon.InDesignMode;
 
                 //TODO call this function when palette is changing
-                bool newAllowIconDisplay = (!_integrated
-                                            || !_ribbon.RibbonAppButton.AppButtonVisible
-                                            || (_ribbon.RibbonAppButton.AppButtonVisible
-                                                    && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365)
-                                                )
+                var newAllowIconDisplay = (!_integrated
+                                           || !_ribbon.RibbonAppButton.AppButtonVisible
+                                           || (_ribbon.RibbonAppButton.AppButtonVisible
+                                               && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365)
+                                           )
                                             );
                 if (_kryptonForm.AllowIconDisplay != newAllowIconDisplay)
                 {
@@ -1272,7 +1272,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Calculate the desired height of our own area
-                int calculatedHeight = Math.Max(_cacheRibbonFontHeight + CAPTION_TEXT_GAPS, MIN_SELF_HEIGHT);
+                var calculatedHeight = Math.Max(_cacheRibbonFontHeight + CAPTION_TEXT_GAPS, MIN_SELF_HEIGHT);
 
                 // If a change in desired height then request layout to effect change
                 if (_calculatedHeight != calculatedHeight)

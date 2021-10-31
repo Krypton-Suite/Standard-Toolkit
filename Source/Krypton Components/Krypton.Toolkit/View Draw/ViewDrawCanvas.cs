@@ -438,7 +438,7 @@ namespace Krypton.Toolkit
                 if (child is ViewDrawContent viewContent)
                 {
                     // Do we need to draw the background?
-                    bool drawBackground = DrawCanvas && (_paletteBack.GetBackDraw(State) == InheritBool.True);
+                    var drawBackground = DrawCanvas && (_paletteBack.GetBackDraw(State) == InheritBool.True);
 
                     // Update the content accordingly
                     viewContent.DrawContentOnComposition = DrawCanvasOnComposition && !drawBackground;

@@ -115,7 +115,7 @@ namespace Krypton.Workspace
                 }
 
                 // We need to remove all children from the sequence
-                for (int j = _sequence.Children.Count - 1; j >= 0; j--)
+                for (var j = _sequence.Children.Count - 1; j >= 0; j--)
                 {
                     Component comp = _sequence.Children[j] as Component;
 

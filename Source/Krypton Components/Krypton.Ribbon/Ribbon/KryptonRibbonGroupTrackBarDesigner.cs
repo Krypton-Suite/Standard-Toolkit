@@ -150,11 +150,11 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            Attribute[] attributes = Array.Empty<Attribute>();
+            var attributes = Array.Empty<Attribute>();
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
-            for (int i = 0; i < strArray.Length; i++)
+            for (var i = 0; i < strArray.Length; i++)
             {
                 PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
                 if (descrip != null)
@@ -203,14 +203,14 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteTrackBarVerb });
             }
 
-            bool moveFirst = false;
-            bool movePrev = false;
-            bool moveNext = false;
-            bool moveLast = false;
+            var moveFirst = false;
+            var movePrev = false;
+            var moveNext = false;
+            var moveLast = false;
 
             if (_ribbonTrackBar?.Ribbon != null)
             {
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonTrackBar) > 0);
                 movePrev = (items.IndexOf(_ribbonTrackBar) > 0);
                 moveNext = (items.IndexOf(_ribbonTrackBar) < (items.Count - 1));
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
             if (_ribbonTrackBar?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTrackBar MoveFirst");
@@ -269,7 +269,7 @@ namespace Krypton.Ribbon
             if (_ribbonTrackBar?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTrackBar MovePrevious");
@@ -282,7 +282,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the trackbar
-                    int index = items.IndexOf(_ribbonTrackBar) - 1;
+                    var index = items.IndexOf(_ribbonTrackBar) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonTrackBar);
                     items.Insert(index, _ribbonTrackBar);
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
             if (_ribbonTrackBar?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTrackBar MoveNext");
@@ -316,7 +316,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the trackbar
-                    int index = items.IndexOf(_ribbonTrackBar) + 1;
+                    var index = items.IndexOf(_ribbonTrackBar) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonTrackBar);
                     items.Insert(index, _ribbonTrackBar);
@@ -337,7 +337,7 @@ namespace Krypton.Ribbon
             if (_ribbonTrackBar?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTrackBar MoveLast");
@@ -369,7 +369,7 @@ namespace Krypton.Ribbon
             if (_ribbonTrackBar?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupTrackBar DeleteTrackBar");
@@ -404,8 +404,8 @@ namespace Krypton.Ribbon
             if (_ribbonTrackBar?.Ribbon != null)
             {
                 PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonTrackBar)["Enabled"];
-                bool oldValue = (bool)propertyEnabled.GetValue(_ribbonTrackBar);
-                bool newValue = !oldValue;
+                var oldValue = (bool)propertyEnabled.GetValue(_ribbonTrackBar);
+                var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTrackBar, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonTrackBar, newValue);
             }
@@ -416,8 +416,8 @@ namespace Krypton.Ribbon
             if (_ribbonTrackBar?.Ribbon != null)
             {
                 PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonTrackBar)["Visible"];
-                bool oldValue = (bool)propertyVisible.GetValue(_ribbonTrackBar);
-                bool newValue = !oldValue;
+                var oldValue = (bool)propertyVisible.GetValue(_ribbonTrackBar);
+                var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonTrackBar, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonTrackBar, newValue);
             }

@@ -201,7 +201,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            bool isDisplayed = false;
+            var isDisplayed = false;
 
             // If we have some content to investigate
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)
@@ -396,7 +396,7 @@ namespace Krypton.Toolkit
             // Do we need to draw the content?
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)
             {
-                bool allowFocusRect = (TestForFocusCues ? ShowFocusCues(context.Control) : true);
+                var allowFocusRect = (TestForFocusCues ? ShowFocusCues(context.Control) : true);
 
                 // Draw using memento returned from render layout
                 context.Renderer.RenderStandardContent.DrawContent(context,

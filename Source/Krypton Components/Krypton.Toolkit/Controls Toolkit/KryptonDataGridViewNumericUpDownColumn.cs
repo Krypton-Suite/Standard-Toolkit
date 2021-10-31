@@ -126,8 +126,8 @@ namespace Krypton.Toolkit
                 {
                     // Update all the existing KryptonDataGridViewNumericUpDownCell cells in the column accordingly.
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
-                    int rowCount = dataGridViewRows.Count;
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    var rowCount = dataGridViewRows.Count;
+                    for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         // Be careful not to unshare rows unnecessarily. 
                         // This could have severe performance repercussions.
@@ -169,8 +169,8 @@ namespace Krypton.Toolkit
                 {
                     // Update all the existing KryptonDataGridViewNumericUpDownCell cells in the column accordingly.
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
-                    int rowCount = dataGridViewRows.Count;
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    var rowCount = dataGridViewRows.Count;
+                    for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         // Be careful not to unshare rows unnecessarily. 
                         // This could have severe performance repercussions.
@@ -211,8 +211,8 @@ namespace Krypton.Toolkit
                 {
                     // Update all the existing KryptonDataGridViewNumericUpDownCell cells in the column accordingly.
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
-                    int rowCount = dataGridViewRows.Count;
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    var rowCount = dataGridViewRows.Count;
+                    for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         // Be careful not to unshare rows unnecessarily. 
                         // This could have severe performance repercussions.
@@ -253,8 +253,8 @@ namespace Krypton.Toolkit
                 {
                     // Update all the existing KryptonDataGridViewNumericUpDownCell cells in the column accordingly.
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
-                    int rowCount = dataGridViewRows.Count;
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    var rowCount = dataGridViewRows.Count;
+                    for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         // Be careful not to unshare rows unnecessarily. 
                         // This could have severe performance repercussions.
@@ -292,8 +292,8 @@ namespace Krypton.Toolkit
                 if (DataGridView != null)
                 {
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
-                    int rowCount = dataGridViewRows.Count;
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    var rowCount = dataGridViewRows.Count;
+                    for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                         if (dataGridViewRow.Cells[Index] is KryptonDataGridViewNumericUpDownCell dataGridViewCell)
@@ -331,8 +331,8 @@ namespace Krypton.Toolkit
                 if (DataGridView != null)
                 {
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
-                    int rowCount = dataGridViewRows.Count;
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    var rowCount = dataGridViewRows.Count;
+                    for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                         if (dataGridViewRow.Cells[Index] is KryptonDataGridViewNumericUpDownCell dataGridViewCell)
@@ -372,8 +372,8 @@ namespace Krypton.Toolkit
                 if (DataGridView != null)
                 {
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
-                    int rowCount = dataGridViewRows.Count;
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    var rowCount = dataGridViewRows.Count;
+                    for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                         if (dataGridViewRow.Cells[Index] is KryptonDataGridViewNumericUpDownCell dataGridViewCell)
@@ -413,8 +413,8 @@ namespace Krypton.Toolkit
                 if (DataGridView != null)
                 {
                     DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
-                    int rowCount = dataGridViewRows.Count;
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                    var rowCount = dataGridViewRows.Count;
+                    for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
                     {
                         DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
                         if (dataGridViewRow.Cells[Index] is KryptonDataGridViewNumericUpDownCell dataGridViewCell)

@@ -321,13 +321,13 @@ namespace Krypton.Ribbon
             IRibbonViewGroupSize viewSize = _layoutNormalContent;
 
             // Get the permutations from the content area
-            List<GroupSizeWidth> retWidths = new List<GroupSizeWidth>();
+            var retWidths = new List<GroupSizeWidth>();
             retWidths.AddRange(viewSize.GetPossibleSizes(context));
 
             // Grab the requested min/max sizes of the group
-            int minWidth = _ribbonGroup.MinimumWidth;
-            int maxWidth = _ribbonGroup.MaximumWidth;
-            bool ignoreMin = (minWidth < 0);
+            var minWidth = _ribbonGroup.MinimumWidth;
+            var maxWidth = _ribbonGroup.MaximumWidth;
+            var ignoreMin = (minWidth < 0);
 
             // If a minus number then max width is effectively as big as you like
             if (maxWidth <= 0)
@@ -342,10 +342,10 @@ namespace Krypton.Ribbon
             // Prevent the minimum being bigger than the maximum
             minWidth = Math.Min(minWidth, maxWidth);
 
-            int firstUnderMax = -1;
-            int lastOverMin = -1;
-            int smallestWidth = int.MaxValue;
-            for(int i=0; i<retWidths.Count; i++)
+            var firstUnderMax = -1;
+            var lastOverMin = -1;
+            var smallestWidth = int.MaxValue;
+            for(var i=0; i<retWidths.Count; i++)
             {
                 // Add on the fixed widths of the left and right borders so that the
                 // permutations all reflect the actual width of the whole group
@@ -395,7 +395,7 @@ namespace Krypton.Ribbon
                 else if ((firstUnderMax > 0) || (smallestWidth < minWidth))
                 {
                     // Create new list list with just the allowed sizes
-                    List<GroupSizeWidth> newWidths = new List<GroupSizeWidth>();
+                    var newWidths = new List<GroupSizeWidth>();
 
                     // If the min/max are such that they both fall betweem two of the items then switch 
                     // to using the smaller of the two items. This can happen when max is same as min
@@ -407,7 +407,7 @@ namespace Krypton.Ribbon
 
                     // Reset smallest value which needs finding again
                     smallestWidth = int.MaxValue;
-                    for (int i = firstUnderMax; i <= lastOverMin; i++)
+                    for (var i = firstUnderMax; i <= lastOverMin; i++)
                     {
                         // Get the original value
                         GroupSizeWidth retWidth = retWidths[i];
@@ -438,7 +438,7 @@ namespace Krypton.Ribbon
                 if (smallestWidth > MINIMUM_GROUP_WIDTH)
                 {
                     // Find the size of the group when collapsed
-                    bool collapsed = Collapsed;
+                    var collapsed = Collapsed;
                     Collapsed = true;
                     GroupSizeWidth retCollapsed = new(GetPreferredSize(context).Width, null);
                     Collapsed = collapsed;
@@ -945,8 +945,8 @@ namespace Krypton.Ribbon
 
         private void OnGroupPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            bool updateLayout = false;
-            bool updatePaint = false;
+            var updateLayout = false;
+            var updatePaint = false;
 
             switch (e.PropertyName)
             {

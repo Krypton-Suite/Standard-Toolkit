@@ -1004,7 +1004,7 @@ namespace Krypton.Toolkit
                 if ((remapTransparent != Color.Empty) ||
                     ((remapColor != Color.Empty) && (remapNew != Color.Empty)))
                 {
-                    List<ColorMap> colorMaps = new List<ColorMap>();
+                    var colorMaps = new List<ColorMap>();
 
                     // Create remapping for the transparent color
                     if (remapTransparent != Color.Empty)
@@ -1031,9 +1031,9 @@ namespace Krypton.Toolkit
                     attribs.SetRemapTable(colorMaps.ToArray(), ColorAdjustType.Bitmap);
                 }
 
-                int translateX = 0;
-                int translateY = 0;
-                float rotation = 0f;
+                var translateX = 0;
+                var translateY = 0;
+                var rotation = 0f;
 
                 // Perform any transformations needed for orientation
                 switch (orientation)

@@ -132,10 +132,10 @@ namespace Krypton.Ribbon
             if (OwnerForm != null)
             {
                 // Calculate the maximum width allowed
-                int maxWidth = ((OwnerForm.Width - 100) / 3) * 2;
+                var maxWidth = ((OwnerForm.Width - 100) / 3) * 2;
 
                 // Adjust so the width is a multiple of a button size
-                int buttons = (maxWidth - BarPadding.Horizontal) / QAT_BUTTON_WIDTH;
+                var buttons = (maxWidth - BarPadding.Horizontal) / QAT_BUTTON_WIDTH;
                 maxWidth = (buttons * QAT_BUTTON_WIDTH) + BarPadding.Horizontal;
 
                 preferredSize.Width = Math.Min(maxWidth, preferredSize.Width);
@@ -227,7 +227,7 @@ namespace Krypton.Ribbon
             }
 
             // Decide if we need to draw onto a composition area
-            bool composition = (OwnerForm != null) ? OwnerForm.ApplyComposition && OwnerForm.ApplyCustomChrome : false;
+            var composition = (OwnerForm != null) ? OwnerForm.ApplyComposition && OwnerForm.ApplyCustomChrome : false;
 
             // Perform actual drawing
             _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, palette, VisualOrientation.Top, composition, _memento);
