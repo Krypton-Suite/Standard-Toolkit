@@ -489,7 +489,7 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            var applyFocus = (_highlight && !_mouseReallyOver);
+            bool applyFocus = (_highlight && !_mouseReallyOver);
             _menuCheckBox.KryptonContextMenuCheckBox.OverrideNormal.Apply = applyFocus;
             _menuCheckBox.KryptonContextMenuCheckBox.OverrideDisabled.Apply = applyFocus;
             _menuCheckBox.ViewDrawContent.ElementState = state;

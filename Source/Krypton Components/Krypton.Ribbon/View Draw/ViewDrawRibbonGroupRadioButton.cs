@@ -403,7 +403,7 @@ namespace Krypton.Ribbon
 
         private void UpdateEnabledState()
         {
-            var enabled = _ribbon.InDesignHelperMode || (GroupRadioButton.Enabled && _ribbon.Enabled);
+            bool enabled = _ribbon.InDesignHelperMode || (GroupRadioButton.Enabled && _ribbon.Enabled);
 
             // Update enabled for the large radio button view
             _viewLarge.Enabled = enabled;
@@ -480,8 +480,8 @@ namespace Krypton.Ribbon
 
         private void OnRadioButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var updateLayout = false;
-            var updatePaint = false;
+            bool updateLayout = false;
+            bool updatePaint = false;
 
             switch (e.PropertyName)
             {

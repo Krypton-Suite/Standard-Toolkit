@@ -340,7 +340,7 @@ namespace Krypton.Toolkit
         {
             NumberFormatInfo numberFormatInfo = CultureInfo.CurrentCulture.NumberFormat;
             Keys negativeSignKey = Keys.None;
-            var negativeSignStr = numberFormatInfo.NegativeSign;
+            string negativeSignStr = numberFormatInfo.NegativeSign;
             if (!string.IsNullOrEmpty(negativeSignStr) && (negativeSignStr.Length == 1))
             {
                 negativeSignKey = (Keys)(PI.VkKeyScan(negativeSignStr[0]));
@@ -406,15 +406,15 @@ namespace Krypton.Toolkit
             DataGridViewDataErrorContexts context)
         {
             // By default, the base implementation converts the Decimal 1234.5 into the string "1234.5"
-            var formattedValue = base.GetFormattedValue(value, rowIndex, ref cellStyle, valueTypeConverter, formattedValueTypeConverter, context);
-            var formattedNumber = formattedValue as string;
+            object formattedValue = base.GetFormattedValue(value, rowIndex, ref cellStyle, valueTypeConverter, formattedValueTypeConverter, context);
+            string formattedNumber = formattedValue as string;
             if (!string.IsNullOrEmpty(formattedNumber)
                 && (value != null)
                 && (value != DBNull.Value)
                 )
             {
-                var unformattedDecimal = Convert.ToDecimal(value);
-                var formattedDecimal = Convert.ToDecimal(formattedNumber);
+                decimal unformattedDecimal = Convert.ToDecimal(value);
+                decimal formattedDecimal = Convert.ToDecimal(formattedNumber);
                 if (unformattedDecimal == formattedDecimal)
                 {
                     if (!Hexadecimal && !TrailingZeroes)
@@ -481,7 +481,7 @@ namespace Krypton.Toolkit
             DataGridViewCellStyle cellStyle)
         {
             // Adjust the vertical location of the editing control:
-            var preferredHeight = _paintingNumericUpDown.GetPreferredSize(_sizeLarge).Height + 2;
+            int preferredHeight = _paintingNumericUpDown.GetPreferredSize(_sizeLarge).Height + 2;
             if (preferredHeight < editingControlBounds.Height)
             {
                 switch (cellStyle.Alignment)
@@ -581,11 +581,11 @@ namespace Krypton.Toolkit
                 _minimum = _maximum;
             }
 
-            var cellValue = GetValue(rowIndex);
+            object cellValue = GetValue(rowIndex);
             if (cellValue != null)
             {
-                var currentValue = Convert.ToDecimal(cellValue);
-                var constrainedValue = Constrain(currentValue);
+                decimal currentValue = Convert.ToDecimal(cellValue);
+                decimal constrainedValue = Constrain(currentValue);
                 if (constrainedValue != currentValue)
                 {
                     SetValue(rowIndex, constrainedValue);
@@ -606,11 +606,11 @@ namespace Krypton.Toolkit
                 _maximum = value;
             }
 
-            var cellValue = GetValue(rowIndex);
+            object cellValue = GetValue(rowIndex);
             if (cellValue != null)
             {
-                var currentValue = Convert.ToDecimal(cellValue);
-                var constrainedValue = Constrain(currentValue);
+                decimal currentValue = Convert.ToDecimal(cellValue);
+                decimal constrainedValue = Constrain(currentValue);
                 if (constrainedValue != currentValue)
                 {
                     SetValue(rowIndex, constrainedValue);

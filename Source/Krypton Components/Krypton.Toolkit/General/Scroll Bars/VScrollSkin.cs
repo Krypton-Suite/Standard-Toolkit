@@ -67,9 +67,7 @@ namespace Krypton.Toolkit
         {
             // add Palette Handler
             if (_palette != null)
-            {
                 _palette.PalettePaint += OnPalettePaint;
-            }
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -89,9 +87,7 @@ namespace Krypton.Toolkit
 
             // add Palette Handler
             if (_palette != null)
-            {
                 _palette.PalettePaint += OnPalettePaint;
-            }
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -226,33 +222,29 @@ namespace Krypton.Toolkit
                 IntPtr max = IntPtr.Zero;
                 PI.GetScrollRange(listView1.Handle, PI.SB_.VERT, ref min, ref max);
 
-                var nMax = max.ToInt32();
+                int nMax = max.ToInt32();
                 nMax += 3;
 
-                var nHeight = listView1.DisplayRectangle.Height;
-                var itemRectHeight = listView1.GetItemRect(0).Height;
+                int nHeight = listView1.DisplayRectangle.Height;
+                int itemRectHeight = listView1.GetItemRect(0).Height;
 
-                var nTimes = (nHeight - 17) / itemRectHeight;
-                var nScrollPositions = (nMax - nTimes) + 1;
+                int nTimes = (nHeight - 17) / itemRectHeight;
+                int nScrollPositions = (nMax - nTimes) + 1;
 
                 double nThePos = VScrollBar1.Maximum / nScrollPositions;
 
                 double RealPos;
                 if (nThePos <= 0.0)
-                {
                     RealPos = VScrollBar1.Value;
-                }
                 else
-                {
                     RealPos = VScrollBar1.Value / nThePos;
-                }
 
-                var nPos = PI.GetScrollPos(listView1.Handle, PI.SB_.VERT);
+                int nPos = PI.GetScrollPos(listView1.Handle, PI.SB_.VERT);
 
-                var nShouldBeAt = RealPos * itemRectHeight;
+                double nShouldBeAt = RealPos * itemRectHeight;
                 double nIsAt = nPos * itemRectHeight;
 
-                var pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
+                int pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
 
                 PI.SendMessage(listView1.Handle, PI.LVM_SCROLL, IntPtr.Zero, (IntPtr)pixelsToScroll);
 
@@ -346,10 +338,10 @@ namespace Krypton.Toolkit
             {
                 ListView listView1 = (ListView)_win;
 
-                var nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
-                var nShouldBeAt = (int)e.NewValue;
+                int nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
+                int nShouldBeAt = (int)e.NewValue;
 
-                var pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
+                int pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
 
                 PI.SendMessage(listView1.Handle, PI.LVM_SCROLL, (IntPtr)pixelsToScroll, IntPtr.Zero);
 
@@ -533,9 +525,9 @@ namespace Krypton.Toolkit
                 //listStyle |= WIN32ScrollBars.WS_HSCROLL;
                 //listStyle = WIN32ScrollBars.SetWindowLong(_win.Handle, WIN32ScrollBars.GWL_STYLE, listStyle);
 
-                var wndStyle = PI.GetWindowLong(_win.Handle, PI.GWL_.STYLE);
-                var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
-                var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
+                uint wndStyle = PI.GetWindowLong(_win.Handle, PI.GWL_.STYLE);
+                bool hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
+                bool vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
                 //Vertical
                 if (vsVisible)
@@ -627,7 +619,7 @@ namespace Krypton.Toolkit
 
         public static bool GetDGVScrollbar(ref DataGridView dgv, out VScrollBar VSB)
         {
-            var isPresent = false;
+            bool isPresent = false;
             VSB = new VScrollBar();
 
             foreach (Control ctr in dgv.Controls)
@@ -643,7 +635,7 @@ namespace Krypton.Toolkit
 
         public void SetDGVScrollBarValue(ref DataGridView dgv, ref VScrollBar VSB)
         {
-            var listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
+            uint listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
             //listStyle |= WIN32ScrollBars.WS_VSCROLL | WIN32ScrollBars.WS_HSCROLL;
             listStyle |= PI.WS_.VSCROLL;
             listStyle = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
@@ -660,7 +652,7 @@ namespace Krypton.Toolkit
 
         public static bool GetDGHScrollbar(ref DataGridView dgv, out HScrollBar HSB)
         {
-            var isPresent = false;
+            bool isPresent = false;
             HSB = new HScrollBar();
 
             foreach (Control ctr in dgv.Controls)
@@ -676,7 +668,7 @@ namespace Krypton.Toolkit
 
         public void SetDGVScrollBarValue(ref DataGridView dgv, ref HScrollBar HSB)
         {
-            var listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
+            uint listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
             //listStyle |= WIN32ScrollBars.WS_VSCROLL | WIN32ScrollBars.WS_HSCROLL;
             listStyle |= PI.WS_.HSCROLL;
             listStyle = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
@@ -692,9 +684,9 @@ namespace Krypton.Toolkit
         }
         protected static ScrollBars GetVisibleScrollbars(Control ctl)
         {
-            var wndStyle = PI.GetWindowLong(ctl.Handle, PI.GWL_.STYLE);
-            var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
-            var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
+            uint wndStyle = PI.GetWindowLong(ctl.Handle, PI.GWL_.STYLE);
+            bool hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
+            bool vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
             return hsVisible 
                 ? vsVisible 
@@ -737,9 +729,7 @@ namespace Krypton.Toolkit
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
-            {
                 _palette.PalettePaint -= OnPalettePaint;
-            }
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect.Target = _palette;

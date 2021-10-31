@@ -130,14 +130,14 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteCheckBoxVerb });
             }
 
-            var moveFirst = false;
-            var movePrev = false;
-            var moveNext = false;
-            var moveLast = false;
+            bool moveFirst = false;
+            bool movePrev = false;
+            bool moveNext = false;
+            bool moveLast = false;
 
             if (_ribbonCheckBox?.Ribbon != null)
             {
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonCheckBox) > 0);
                 movePrev = (items.IndexOf(_ribbonCheckBox) > 0);
                 moveNext = (items.IndexOf(_ribbonCheckBox) < (items.Count - 1));
@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
             if (_ribbonCheckBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCheckBox MoveFirst");
@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
             if (_ribbonCheckBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCheckBox MovePrevious");
@@ -209,7 +209,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    var index = items.IndexOf(_ribbonCheckBox) - 1;
+                    int index = items.IndexOf(_ribbonCheckBox) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonCheckBox);
                     items.Insert(index, _ribbonCheckBox);
@@ -230,7 +230,7 @@ namespace Krypton.Ribbon
             if (_ribbonCheckBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCheckBox MoveNext");
@@ -243,7 +243,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    var index = items.IndexOf(_ribbonCheckBox) + 1;
+                    int index = items.IndexOf(_ribbonCheckBox) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonCheckBox);
                     items.Insert(index, _ribbonCheckBox);
@@ -264,7 +264,7 @@ namespace Krypton.Ribbon
             if (_ribbonCheckBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCheckBox MoveLast");
@@ -296,7 +296,7 @@ namespace Krypton.Ribbon
             if (_ribbonCheckBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCheckBox DeleteCheckBox");

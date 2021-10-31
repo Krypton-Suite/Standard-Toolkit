@@ -133,7 +133,7 @@ namespace Krypton.Ribbon
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the range instances
-                for (var i = _gallery.DropButtonRanges.Count - 1; i >= 0; i--)
+                for (int i = _gallery.DropButtonRanges.Count - 1; i >= 0; i--)
                 {
                     KryptonGalleryRange dropRange = _gallery.DropButtonRanges[i];
                     _gallery.DropButtonRanges.Remove(dropRange);

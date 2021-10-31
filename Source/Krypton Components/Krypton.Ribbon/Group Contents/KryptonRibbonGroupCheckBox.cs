@@ -259,8 +259,8 @@ namespace Krypton.Ribbon
                 if (value != _checkState)
                 {
                     _checkState = value;
-                    var newChecked = (_checkState != CheckState.Unchecked);
-                    var checkedChanged = (_checked != newChecked);
+                    bool newChecked = (_checkState != CheckState.Unchecked);
+                    bool checkedChanged = (_checked != newChecked);
                     _checked = newChecked;
                     OnPropertyChanged(nameof(CheckState));
 
@@ -570,7 +570,7 @@ namespace Krypton.Ribbon
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
         protected virtual void OnClick(EventHandler finishDelegate)
         {
-            var fireDelegate = true;
+            bool fireDelegate = true;
 
             if (!Ribbon.InDesignMode)
             {

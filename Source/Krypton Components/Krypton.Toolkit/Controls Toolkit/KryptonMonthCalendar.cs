@@ -414,7 +414,7 @@ namespace Krypton.Toolkit
                 _annualDates.Clear();
                 _annualDates.AddRange(value);
 
-                for (var i = 0; i < 12; i++)
+                for (int i = 0; i < 12; i++)
                 {
                     AnnuallyBoldedDatesMask[i] = 0;
                 }
@@ -1090,7 +1090,7 @@ namespace Krypton.Toolkit
         public void RemoveAllAnnuallyBoldedDates()
         {
             _annualDates.Clear();
-            for (var i = 0; i < 12; i++)
+            for (int i = 0; i < 12; i++)
             {
                 AnnuallyBoldedDatesMask[i] = 0;
             }
@@ -1609,8 +1609,8 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 // Find the correct size for the control
-                var width = Width;
-                var height = Height;
+                int width = Width;
+                int height = Height;
                 AdjustSize(ref width, ref height);
 
                 // If the current size is not correct then change now
@@ -1662,9 +1662,9 @@ namespace Krypton.Toolkit
             Size singleMonthSize = _drawMonths.GetSingleMonthSize(context);
 
             // How many full months can be fit in each dimension (with a minimum of 1 month showing)
-            var gap = ViewLayoutMonths.GAP;
-            var widthMonths = Math.Max(1, (width - backBorderSize.Width - gap) / (singleMonthSize.Width + gap));
-            var heightMonths = Math.Max(1, (height - backBorderSize.Height - gap) / (singleMonthSize.Height + gap));
+            int gap = ViewLayoutMonths.GAP;
+            int widthMonths = Math.Max(1, (width - backBorderSize.Width - gap) / (singleMonthSize.Width + gap));
+            int heightMonths = Math.Max(1, (height - backBorderSize.Height - gap) / (singleMonthSize.Height + gap));
 
             // Calculate new sizes based on showing only full months
             width = backBorderSize.Width + (widthMonths * singleMonthSize.Width) + (gap * (widthMonths + 1));
@@ -1681,8 +1681,8 @@ namespace Krypton.Toolkit
 
         private void SetRange()
         {
-            var startChanged = false;
-            var endChanged = false;
+            bool startChanged = false;
+            bool endChanged = false;
 
             DateTime minDate = EffectiveMinDate(_minDate);
             DateTime maxDate = EffectiveMaxDate(_maxDate);
@@ -1733,8 +1733,8 @@ namespace Krypton.Toolkit
 
         private void SetSelRange(DateTime lower, DateTime upper)
         {
-            var startChanged = false;
-            var endChanged = false;
+            bool startChanged = false;
+            bool endChanged = false;
 
             if (lower != _selectionStart)
             {

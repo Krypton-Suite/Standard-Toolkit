@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
             // Default valies
             DockWindowSize = Size.Empty;
             _rects = new Rectangle[5];
-            for (var i = 0; i < _rects.Length; i++)
+            for (int i = 0; i < _rects.Length; i++)
             {
                 _rects[i] = Rectangle.Empty;
             }

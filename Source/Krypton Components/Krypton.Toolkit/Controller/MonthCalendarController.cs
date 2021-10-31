@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Set the selection to be the day clicked
-                var clickDay = _months.DayFromPoint(pt, false);
+                DateTime? clickDay = _months.DayFromPoint(pt, false);
                 if (clickDay != null)
                 {
                     _months.Calendar.SetSelectionRange(clickDay.Value, clickDay.Value);

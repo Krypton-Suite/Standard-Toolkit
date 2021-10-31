@@ -115,7 +115,7 @@ namespace Krypton.Workspace
 
             set
             {
-                var parts = value.Split(',');
+                string[] parts = value.Split(',');
                 UsingStar = (parts[0] == "T");
                 FixedSize = int.Parse(parts[1]);
                 StarSize = CommonHelper.StringToDouble(parts[2]);

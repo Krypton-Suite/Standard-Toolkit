@@ -2974,7 +2974,7 @@ namespace Krypton.Toolkit
         private object ImportFromByteArray(object parameter)
         {
             // Cast to an array of parameters
-            var byteArray = (byte[])parameter;
+            byte[] byteArray = (byte[])parameter;
 
             // Create a memory based stream
             MemoryStream ms = new(byteArray);
@@ -3020,7 +3020,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the version number of the format being loaded
-                var version = int.Parse(root.GetAttribute("Version"));
+                int version = int.Parse(root.GetAttribute("Version"));
 
                 if (version < _paletteVersion)
                 {
@@ -3060,11 +3060,11 @@ namespace Krypton.Toolkit
         private object ExportToFile(object parameter)
         {
             // Cast to an array of parameters
-            var parameters = (object[])parameter;
+            object[] parameters = (object[])parameter;
 
             // Extract the two provided parameters
-            var filename = (string)parameters[0];
-            var ignoreDefaults = (bool)parameters[1];
+            string filename = (string)parameters[0];
+            bool ignoreDefaults = (bool)parameters[1];
 
             FileInfo info = new(filename);
 
@@ -3086,11 +3086,11 @@ namespace Krypton.Toolkit
         private object ExportToStream(object parameter)
         {
             // Cast to an array of parameters
-            var parameters = (object[])parameter;
+            object[] parameters = (object[])parameter;
 
             // Extract the two provided parameters
             Stream stream = (Stream)parameters[0];
-            var ignoreDefaults = (bool)parameters[1];
+            bool ignoreDefaults = (bool)parameters[1];
 
             // Create an XmlDocument containing palette settings
             XmlDocument doc = ExportToXmlDocument(ignoreDefaults);
@@ -3104,10 +3104,10 @@ namespace Krypton.Toolkit
         private object ExportToByteArray(object parameter)
         {
             // Cast to an array of parameters
-            var parameters = (object[])parameter;
+            object[] parameters = (object[])parameter;
 
             // Extract the two provided parameters
-            var ignoreDefaults = (bool)parameters[0];
+            bool ignoreDefaults = (bool)parameters[0];
 
             // Create a memory based stream
             MemoryStream ms = new();
@@ -3186,7 +3186,7 @@ namespace Krypton.Toolkit
                 foreach (PropertyInfo prop in t.GetProperties())
                 {
                     // Search each of the attributes applied to the property
-                    foreach (var attrib in prop.GetCustomAttributes(false))
+                    foreach (object attrib in prop.GetCustomAttributes(false))
                     {
                         // Is it marked with the special krypton persist marker?
                         if (attrib is KryptonPersistAttribute persistAttribute)
@@ -3206,7 +3206,7 @@ namespace Krypton.Toolkit
                                     if (prop.CanRead)
                                     {
                                         // Grab the property object and recurse into it
-                                        var childObj = prop.GetValue(obj, null);
+                                        object childObj = prop.GetValue(obj, null);
                                         ImportObjectFromElement(childElement, imageCache, childObj);
                                     }
                                 }
@@ -3217,8 +3217,8 @@ namespace Krypton.Toolkit
                                         childElement.HasAttribute(@"Value"))
                                     {
                                         // Get the type/value attributes
-                                        var valueType = childElement.GetAttribute(@"Type");
-                                        var valueValue = childElement.GetAttribute(@"Value");
+                                        string valueType = childElement.GetAttribute(@"Type");
+                                        string valueValue = childElement.GetAttribute(@"Value");
 
                                         // We special case the loading of images
                                         if (prop.PropertyType.Equals(typeof(Image)))
@@ -3292,13 +3292,13 @@ namespace Krypton.Toolkit
                         try
                         {
                             // Extract the image name
-                            var name = imageElement.GetAttribute(@"Name");
+                            string name = imageElement.GetAttribute(@"Name");
 
                             // Grab the CDATA section that contains the base64 value
                             XmlCDataSection cdata = (XmlCDataSection)imageElement.ChildNodes[0];
 
                             // Convert to back from a string to bytes
-                            var bytes = Convert.FromBase64String(cdata.Value);
+                            byte[] bytes = Convert.FromBase64String(cdata.Value);
 
                             // Convert the bytes back into an Image
                             MemoryStream memory = new(bytes);
@@ -3347,7 +3347,7 @@ namespace Krypton.Toolkit
                 foreach (PropertyInfo prop in t.GetProperties())
                 {
                     // Search each of the attributes applied to the property
-                    foreach (var attrib in prop.GetCustomAttributes(false))
+                    foreach (object attrib in prop.GetCustomAttributes(false))
                     {
                         // Is it marked with the special krypton persist marker?
                         if (attrib is KryptonPersistAttribute persist)
@@ -3359,7 +3359,7 @@ namespace Krypton.Toolkit
                                 if (prop.CanRead)
                                 {
                                     // Grab the property object
-                                    var childObj = prop.GetValue(obj, null);
+                                    object childObj = prop.GetValue(obj, null);
 
                                     // Should be test if the object contains only default values?
                                     if (ignoreDefaults)
@@ -3391,15 +3391,15 @@ namespace Krypton.Toolkit
                             }
                             else
                             {
-                                var ignore = false;
+                                bool ignore = false;
 
                                 // Grab the actual property value
-                                var childObj = prop.GetValue(obj, null);
+                                object childObj = prop.GetValue(obj, null);
 
                                 // Should we test if the property value is the default?
                                 if (ignoreDefaults)
                                 {
-                                    var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
+                                    object[] defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
                                     // Does this property have a default value attribute?
                                     if (defaultAttribs.Length == 1)
@@ -3454,7 +3454,7 @@ namespace Krypton.Toolkit
                                             else
                                             {
                                                 // Generate a placeholder string
-                                                var imageName = @"ImageCache" + (imageCache.Count + 1);
+                                                string imageName = @"ImageCache" + (imageCache.Count + 1);
 
                                                 // Add the actual image instance into the cache
                                                 imageCache.Add(image, imageName);
@@ -3492,7 +3492,7 @@ namespace Krypton.Toolkit
 
                     entry.Key.Save(memory, entry.Key.RawFormat);
                     memory.Position = 0;
-                    var base64 = Convert.ToBase64String(memory.ToArray());
+                    string base64 = Convert.ToBase64String(memory.ToArray());
 
                     // Create and add a new xml element
                     XmlElement imageElement = doc.CreateElement(@"Image");
@@ -3522,7 +3522,7 @@ namespace Krypton.Toolkit
                 foreach (PropertyInfo prop in t.GetProperties())
                 {
                     // Search each of the attributes applied to the property
-                    foreach (var attrib in prop.GetCustomAttributes(false))
+                    foreach (object attrib in prop.GetCustomAttributes(false))
                     {
                         // Is it marked with the special krypton persist marker?
                         if (attrib is KryptonPersistAttribute persist)
@@ -3534,7 +3534,7 @@ namespace Krypton.Toolkit
                                 if (prop.CanRead)
                                 {
                                     // Grab the property object
-                                    var childObj = prop.GetValue(obj, null);
+                                    object childObj = prop.GetValue(obj, null);
 
                                     PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)[@"IsDefault"];
 
@@ -3562,7 +3562,7 @@ namespace Krypton.Toolkit
                                 // operation and the persist property indicates it can be reset in a populate scenario
                                 if (!populate || persist.Populate)
                                 {
-                                    var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
+                                    object[] defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
                                     // Does this property have a default value attribute?
                                     if (defaultAttribs.Length == 1)
@@ -3571,7 +3571,7 @@ namespace Krypton.Toolkit
                                         DefaultValueAttribute defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
 
                                         // Grab the actual property value
-                                        var childObj = prop.GetValue(obj, null);
+                                        object childObj = prop.GetValue(obj, null);
 
                                         // If the default is for a 'null' value
                                         if (defaultAttrib.Value == null)

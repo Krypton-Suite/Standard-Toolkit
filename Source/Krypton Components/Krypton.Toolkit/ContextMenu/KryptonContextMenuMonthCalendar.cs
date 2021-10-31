@@ -345,7 +345,7 @@ namespace Krypton.Toolkit
                 _annualDates.Clear();
                 _annualDates.AddRange(value);
 
-                for (var i = 0; i < 12; i++)
+                for (int i = 0; i < 12; i++)
                 {
                     AnnuallyBoldedDatesMask[i] = 0;
                 }
@@ -1097,7 +1097,7 @@ namespace Krypton.Toolkit
         public void RemoveAllAnnuallyBoldedDates()
         {
             _annualDates.Clear();
-            for (var i = 0; i < 12; i++)
+            for (int i = 0; i < 12; i++)
             {
                 AnnuallyBoldedDatesMask[i] = 0;
             }
@@ -1346,8 +1346,8 @@ namespace Krypton.Toolkit
         #region Implementation
         private void SetRange()
         {
-            var startChanged = false;
-            var endChanged = false;
+            bool startChanged = false;
+            bool endChanged = false;
 
             if (_selectionStart < _minDate)
             {
@@ -1393,8 +1393,8 @@ namespace Krypton.Toolkit
 
         private void SetSelRange(DateTime lower, DateTime upper)
         {
-            var startChanged = false;
-            var endChanged = false;
+            bool startChanged = false;
+            bool endChanged = false;
 
             if (lower != _selectionStart)
             {

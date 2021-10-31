@@ -110,9 +110,9 @@ namespace Krypton.Toolkit
         public int NearestValueFromPoint(Point pt)
         {
             // Grab range and current position from the bar
-            var min = ViewDrawTrackBar.Minimum;
-            var max = ViewDrawTrackBar.Maximum;
-            var range = Math.Abs(max - min);
+            int min = ViewDrawTrackBar.Minimum;
+            int max = ViewDrawTrackBar.Maximum;
+            int range = Math.Abs(max - min);
 
             // If min and max are the same, we are done!
             if (range == 0)
@@ -137,9 +137,9 @@ namespace Krypton.Toolkit
                     else
                     {
                         float offset = trackRect.Right - pt.X;
-                        var x = offset / trackRect.Width;
-                        var y = min + (x * range);
-                        var ret = (int)Math.Round(y, 0, MidpointRounding.AwayFromZero);
+                        float x = offset / trackRect.Width;
+                        float y = min + (x * range);
+                        int ret = (int)Math.Round(y, 0, MidpointRounding.AwayFromZero);
                         return ret;
                     }
                 }
@@ -157,9 +157,9 @@ namespace Krypton.Toolkit
                     else
                     {
                         float offset = pt.X - trackRect.X;
-                        var x = offset / trackRect.Width;
-                        var y = min + (x * range);
-                        var ret = (int)Math.Round(y, 0, MidpointRounding.AwayFromZero);
+                        float x = offset / trackRect.Width;
+                        float y = min + (x * range);
+                        int ret = (int)Math.Round(y, 0, MidpointRounding.AwayFromZero);
                         return ret;
                     }
                 }
@@ -178,9 +178,9 @@ namespace Krypton.Toolkit
 
                 {
                     float offset = trackRect.Bottom - pt.Y;
-                    var x = offset / trackRect.Height;
-                    var y = min + (x * range);
-                    var ret = (int)Math.Round(y, 0, MidpointRounding.AwayFromZero);
+                    float x = offset / trackRect.Height;
+                    float y = min + (x * range);
+                    int ret = (int)Math.Round(y, 0, MidpointRounding.AwayFromZero);
                     return ret;
                 }
             }
@@ -208,10 +208,10 @@ namespace Krypton.Toolkit
             Size positionSize = ViewDrawTrackPosition.GetPreferredSize(context);
 
             // Grab range and current position from the bar
-            var min = ViewDrawTrackBar.Minimum;
-            var max = ViewDrawTrackBar.Maximum;
-            var range = max - min;
-            var offset = ViewDrawTrackBar.Value - min;
+            int min = ViewDrawTrackBar.Minimum;
+            int max = ViewDrawTrackBar.Maximum;
+            int range = max - min;
+            int offset = ViewDrawTrackBar.Value - min;
 
             Rectangle trackRect = ClientRectangle;
             Rectangle positionRect = ClientRectangle;

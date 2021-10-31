@@ -455,7 +455,7 @@ namespace Krypton.Ribbon
         /// <param name="e">A PropertyChangedEventArgs that contains the event data.</param>
         protected virtual void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var refresh = false;
+            bool refresh = false;
 
             switch (e.PropertyName)
             {

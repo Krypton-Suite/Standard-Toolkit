@@ -483,14 +483,14 @@ namespace Krypton.Toolkit
             set
             {
                 // Are we currently checked?
-                var areChecked = (CheckState != CheckState.Unchecked);
+                bool areChecked = (CheckState != CheckState.Unchecked);
 
                 // Only interested in a change of value
                 if (areChecked != value)
                 {
                     // Work out if the check state has changed, and update to new value
                     CheckState newCheckState = (value ? CheckState.Checked : CheckState.Unchecked);
-                    var checkStateChanged = (newCheckState != _checkState);
+                    bool checkStateChanged = (newCheckState != _checkState);
                     _checkState = newCheckState;
 
                     // Checked value has always changed
@@ -524,7 +524,7 @@ namespace Krypton.Toolkit
             {
                 if (_checkState != value)
                 {
-                    var oldChecked = Checked;
+                    bool oldChecked = Checked;
                     _checkState = value;
 
                     // Checked might have changed

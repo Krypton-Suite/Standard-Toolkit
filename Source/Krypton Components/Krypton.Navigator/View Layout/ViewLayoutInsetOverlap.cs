@@ -69,8 +69,8 @@ namespace Krypton.Navigator
             get
             {
                 // Get the rounding and width values for the border
-                var rounding = _drawCanvas.PaletteBorder.GetBorderRounding(_drawCanvas.State);
-                var width = _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
+                float rounding = _drawCanvas.PaletteBorder.GetBorderRounding(_drawCanvas.State);
+                int width = _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
 
                 // We have to add half the width as that increases the rounding effect
                 return rounding + (width / 2);
@@ -128,7 +128,7 @@ namespace Krypton.Navigator
             RectangleF childRectF = ClientRectangle;
 
             // Find the amount of rounding to apply
-            var rounding = Rounding;
+            float rounding = Rounding;
 
             // Apply the rounding in the appropriate orientation
             if ((Orientation == VisualOrientation.Top) || (Orientation == VisualOrientation.Bottom))

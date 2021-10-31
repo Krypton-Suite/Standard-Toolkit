@@ -394,7 +394,7 @@ namespace Krypton.Ribbon
 
         private void OnCustomPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var updateLayout = false;
+            bool updateLayout = false;
             const bool UPDATE_PAINT = false;
 
             switch (e.PropertyName)
@@ -500,7 +500,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                var enabled = GroupCustomControl.Enabled;
+                bool enabled = GroupCustomControl.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupCustomControl.CustomControlDesigner != null))
@@ -518,7 +518,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupCustomControl.Visible;
+                bool visible = GroupCustomControl.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupCustomControl.CustomControlDesigner != null))
@@ -538,7 +538,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupCustomControl.Visible;
+                bool visible = GroupCustomControl.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupCustomControl.CustomControlDesigner != null))

@@ -467,7 +467,7 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            var applyFocus = (_highlight && !_mouseReallyOver);
+            bool applyFocus = (_highlight && !_mouseReallyOver);
             _menuRadioButton.KryptonContextMenuRadioButton.OverrideNormal.Apply = applyFocus;
             _menuRadioButton.KryptonContextMenuRadioButton.OverrideDisabled.Apply = applyFocus;
             _menuRadioButton.ViewDrawContent.ElementState = state;

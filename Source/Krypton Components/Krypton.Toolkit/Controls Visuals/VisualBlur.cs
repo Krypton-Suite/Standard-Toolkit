@@ -198,7 +198,7 @@ namespace Krypton.Toolkit
                 Radius = _blurValues.Radius,
                 ExpandEdges = false
             };
-            var result = PI.GdipCreateEffect(PI.BlurEffectGuid, out IntPtr blurEffect);
+            int result = PI.GdipCreateEffect(PI.BlurEffectGuid, out IntPtr blurEffect);
             if (result == 0)
             {
                 IntPtr handle = IntPtr.Zero;

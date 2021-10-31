@@ -34,9 +34,9 @@ namespace Krypton.Toolkit
         static VisualPopupShadow()
         {
             _brushes = new Brush[SHADOW_SIZE];
-            for (var i = 0; i < SHADOW_SIZE; i++)
+            for (int i = 0; i < SHADOW_SIZE; i++)
             {
-                var shade = (i * 70);
+                int shade = (i * 70);
                 _brushes[i] = new SolidBrush(Color.FromArgb(shade, shade, shade));
             }
         }

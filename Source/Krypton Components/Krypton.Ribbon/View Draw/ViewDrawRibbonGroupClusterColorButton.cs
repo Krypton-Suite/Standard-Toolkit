@@ -307,7 +307,7 @@ namespace Krypton.Ribbon
             if (GroupClusterColorButton.ButtonType == GroupButtonType.Split)
             {
                 // Find the position of the split area
-                var smallSplitRight = _viewMediumSmallText2Sep1.ClientLocation.X;
+                int smallSplitRight = _viewMediumSmallText2Sep1.ClientLocation.X;
                 _viewMediumSmall.SplitRectangle = new Rectangle(smallSplitRight, ClientLocation.Y, ClientRectangle.Right - smallSplitRight, ClientHeight);
             }
             else
@@ -425,13 +425,13 @@ namespace Krypton.Ribbon
         private void UpdateEnabledState()
         {
             // Get the correct enabled state from the button definition
-            var buttonEnabled = GroupClusterColorButton.Enabled;
+            bool buttonEnabled = GroupClusterColorButton.Enabled;
             if (GroupClusterColorButton.KryptonCommand != null)
             {
                 buttonEnabled = GroupClusterColorButton.KryptonCommand.Enabled;
             }
 
-            var enabled = _ribbon.InDesignHelperMode || (buttonEnabled && _ribbon.Enabled);
+            bool enabled = _ribbon.InDesignHelperMode || (buttonEnabled && _ribbon.Enabled);
 
             _viewMediumSmall.Enabled = enabled;
             _viewMediumSmallText1.Enabled = enabled;
@@ -441,7 +441,7 @@ namespace Krypton.Ribbon
 
         private void UpdateCheckedState()
         {
-            var checkedState = false;
+            bool checkedState = false;
 
             // Only show as checked if also a check type button
             if (GroupClusterColorButton.ButtonType == GroupButtonType.Check)
@@ -455,8 +455,8 @@ namespace Krypton.Ribbon
         private void UpdateDropDownState()
         {
             // Only show the drop down if the button is the correct type
-            var dropDown = ((GroupClusterColorButton.ButtonType == GroupButtonType.DropDown) ||
-                            (GroupClusterColorButton.ButtonType == GroupButtonType.Split));
+            bool dropDown = ((GroupClusterColorButton.ButtonType == GroupButtonType.DropDown) ||
+                             (GroupClusterColorButton.ButtonType == GroupButtonType.Split));
 
             _viewMediumSmallDropArrow.Visible = dropDown;
             _viewMediumSmallText2Sep2.Visible = dropDown;
@@ -483,8 +483,8 @@ namespace Krypton.Ribbon
 
         private void OnButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var updateLayout = false;
-            var updatePaint = false;
+            bool updateLayout = false;
+            bool updatePaint = false;
 
             switch (e.PropertyName)
             {

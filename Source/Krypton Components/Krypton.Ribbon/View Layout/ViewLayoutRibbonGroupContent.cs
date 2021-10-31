@@ -357,9 +357,9 @@ namespace Krypton.Ribbon
             _listWidths = new List<ItemSizeWidth[]>();
 
             // Scan all child containers
-            var pixelGaps = 0;
-            var maxEntries = 0;
-            for (var i = 0; i < Count; i++)
+            int pixelGaps = 0;
+            int maxEntries = 0;
+            for (int i = 0; i < Count; i++)
             {
                 if (this[i].Visible && (this[i] is IRibbonViewGroupContainerView))
                 {
@@ -367,7 +367,7 @@ namespace Krypton.Ribbon
                     IRibbonViewGroupContainerView container = (IRibbonViewGroupContainerView)this[i];
 
                     // Find list of possible sizes for this container
-                    var widths = container.GetPossibleSizes(context);
+                    ItemSizeWidth[] widths = container.GetPossibleSizes(context);
 
                     // Track how many extra pixels are needed for inter container gaps
                     if (_listWidths.Count > 0)
@@ -384,31 +384,31 @@ namespace Krypton.Ribbon
             }
 
             // Create list for holding resultant permutations
-            var retSizes = new List<GroupSizeWidth>();
+            List<GroupSizeWidth> retSizes = new List<GroupSizeWidth>();
 
             // Create array of indexes into each of the containers and set to zero
-            var indexes = new int[_listWidths.Count];
+            int[] indexes = new int[_listWidths.Count];
 
             // Cycle around and around the indexes to create permutations
-            var cycleMax = _listWidths.Count - 1;
-            var cycleCurrent = cycleMax;
+            int cycleMax = _listWidths.Count - 1;
+            int cycleCurrent = cycleMax;
 
             // Decide if we need to break out the process and generate a new perm
             bool breakOut;
-            var tags = true;
+            bool tags = true;
 
             do
             {
                 // Generate permutation from current set of indexes
-                var permTotalWidth = pixelGaps;
+                int permTotalWidth = pixelGaps;
                 new List<int>().Clear();
 
                 // Per-permutation values
-                var permSize = new List<ItemSizeWidth>();
+                List<ItemSizeWidth> permSize = new List<ItemSizeWidth>();
                 permSize.Clear();
 
                 // Generate permutation by taking cell values
-                for (var k = _listWidths.Count - 1; k >= 0; k--)
+                for (int k = _listWidths.Count - 1; k >= 0; k--)
                 {
                     // Find width and size of the entry
                     ItemSizeWidth size = _listWidths[k][indexes[k]];
@@ -432,7 +432,7 @@ namespace Krypton.Ribbon
                 // Do we need to process tags?
                 if (tags)
                 {
-                    for (var i = 0; i <= cycleMax; i++)
+                    for (int i = 0; i <= cycleMax; i++)
                     {
                         // Is this column not at the end of the options?
                         if (_listWidths[cycleCurrent].Length > (indexes[cycleCurrent] + 1))
@@ -471,7 +471,7 @@ namespace Krypton.Ribbon
                 // If no perm found yet...
                 if (!breakOut)
                 {
-                    for (var i = 0; i <= cycleMax; i++)
+                    for (int i = 0; i <= cycleMax; i++)
                     {
                         // Is this column not at the end of the options?
                         if (_listWidths[cycleCurrent].Length > (indexes[cycleCurrent] + 1))
@@ -510,7 +510,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignHelperMode)
             {
                 // Get the requested width of the add view
-                var viewAddWidth = _viewAddContainer.GetPreferredSize(context).Width;
+                int viewAddWidth = _viewAddContainer.GetPreferredSize(context).Width;
 
                 // Add it onto each permutation
                 foreach (GroupSizeWidth retSize in retSizes)
@@ -532,7 +532,7 @@ namespace Krypton.Ribbon
             if ((size == null) || (size.Length == 0))
             {
                 // Look for visible child containers
-                for (var i = 0; i < Count; i++)
+                for (int i = 0; i < Count; i++)
                 {
                     if (this[i].Visible && (this[i] is IRibbonViewGroupContainerView))
                     {
@@ -630,13 +630,13 @@ namespace Krypton.Ribbon
             // We take on all the available display area and then remove our constant padding
             ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context.DisplayRectangle, _padding);
 
-            var x = ClientLocation.X;
+            int x = ClientLocation.X;
 
             // Are there any children to layout?
             if (Count > 0)
             {
-                var y = ClientLocation.Y;
-                var height = ClientHeight;
+                int y = ClientLocation.Y;
+                int height = ClientHeight;
 
                 // Position each item from left to right taking up entire height
                 for (int i = 0, j = 0; i < Count; i++)

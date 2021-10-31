@@ -902,7 +902,7 @@ namespace Krypton.Ribbon
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
         protected virtual void OnClick(EventHandler finishDelegate)
         {
-            var fireDelegate = true;
+            bool fireDelegate = true;
 
             if (!Ribbon.InDesignMode)
             {
@@ -958,7 +958,7 @@ namespace Krypton.Ribbon
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
         protected virtual void OnDropDown(EventHandler finishDelegate)
         {
-            var fireDelegate = true;
+            bool fireDelegate = true;
 
             if (!Ribbon.InDesignMode)
             {
@@ -1185,7 +1185,7 @@ namespace Krypton.Ribbon
                 // If this color valid and so possible to become a recent color
                 if ((color != null) && !color.Equals(Color.Empty))
                 {
-                    var found = false;
+                    bool found = false;
                     foreach (Color recentColor in _recentColors)
                     {
                         if (recentColor.Equals(color))
@@ -1239,10 +1239,10 @@ namespace Krypton.Ribbon
             else
             {
                 // Create an array of color arrays
-                var colors = new Color[_recentColors.Count][];
+                Color[][] colors = new Color[_recentColors.Count][];
 
                 // Each column is just a single color
-                for (var i = 0; i < _recentColors.Count; i++)
+                for (int i = 0; i < _recentColors.Count; i++)
                 {
                     colors[i] = new Color[] { _recentColors[i] };
                 }
@@ -1256,7 +1256,7 @@ namespace Krypton.Ribbon
 
         private void DecideOnVisible(KryptonContextMenuItemBase visible, KryptonContextMenuItemBase target)
         {
-            var previous = false;
+            bool previous = false;
 
             // Only search if the target itself is visible
             if (target.Visible)

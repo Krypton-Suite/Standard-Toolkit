@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all items from the context menu
-                for (var j = _contextMenu.Items.Count - 1; j >= 0; j--)
+                for (int j = _contextMenu.Items.Count - 1; j >= 0; j--)
                 {
                     Component item = _contextMenu.Items[j] as Component;
                     _contextMenu.Items.Remove(item);

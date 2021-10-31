@@ -260,8 +260,8 @@ namespace Krypton.Toolkit
                     }
 
                     // Find vertical and horizontal offsets for centering
-                    var xOffset = (ClientWidth - childPreferred.Width) / 2;
-                    var yOffset = (ClientHeight - childPreferred.Height) / 2;
+                    int xOffset = (ClientWidth - childPreferred.Width) / 2;
+                    int yOffset = (ClientHeight - childPreferred.Height) / 2;
 
                     // Create the rectangle that centers the child in our space
                     context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,

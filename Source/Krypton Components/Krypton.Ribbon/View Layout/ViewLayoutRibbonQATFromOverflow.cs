@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
         { 
             get 
             {
-                var qatOverflow = new List<IQuickAccessToolbarButton>();
+                List<IQuickAccessToolbarButton> qatOverflow = new List<IQuickAccessToolbarButton>();
 
                 // Scan all the defined buttons for ones to show as overflowing
                 foreach (IQuickAccessToolbarButton qatButton in Ribbon.QATButtons)

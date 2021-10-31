@@ -2500,13 +2500,13 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #region Static Methods
         internal static int LOWORD(IntPtr value)
         {
-            var int32 = ((int)value.ToInt64() & 0xFFFF);
+            int int32 = ((int)value.ToInt64() & 0xFFFF);
             return (int32 > 32767) ? int32 - 65536 : int32;
         }
 
         internal static int HIWORD(IntPtr value)
         {
-            var int32 = (((int)value.ToInt64() >> 0x10) & 0xFFFF);
+            int int32 = (((int)value.ToInt64() >> 0x10) & 0xFFFF);
             return (int32 > 32767) ? int32 - 65536 : int32;
         }
 
@@ -2540,7 +2540,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         {
             KEY_ state = KEY_.NONE;
 
-            var retVal = GetKeyState((int)key);
+            ushort retVal = GetKeyState((int)key);
 
             if ((retVal & 0x8000) == 0x8000)
             {
@@ -2716,9 +2716,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             {
                 var error = Marshal.GetLastWin32Error();
                 if (error != 0)
-                {
                     throw new Win32Exception(error);
-                }
             }
             return ret;
         }
@@ -2733,9 +2731,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             {
                 var error = Marshal.GetLastWin32Error();
                 if (error != 0)
-                {
                     throw new Win32Exception(error);
-                }
             }
             return ret;
         }

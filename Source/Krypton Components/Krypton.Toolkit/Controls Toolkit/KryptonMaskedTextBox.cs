@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
                                     stringFormat.HotkeyPrefix = HotkeyPrefix.None;
 
                                     // Draw using a solid brush
-                                    var drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
+                                    string drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
                                     try
                                     {
                                         using SolidBrush foreBrush = new(ForeColor);

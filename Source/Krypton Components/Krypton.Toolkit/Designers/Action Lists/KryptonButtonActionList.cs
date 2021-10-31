@@ -71,23 +71,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the krypton context menu.</summary>
-        /// <value>The krypton context menu.</value>
-        public KryptonContextMenu KryptonContextMenu
-        {
-            get => _button.KryptonContextMenu;
-
-            set
-            {
-                if (_button.KryptonContextMenu != value)
-                {
-                    _service.OnComponentChanged(_button, null, _button.KryptonContextMenu, value);
-
-                    _button.KryptonContextMenu = value;
-                }
-            }
-        }
-
         /// <summary>
         /// Gets and sets the visual orientation.
         /// </summary>
@@ -262,8 +245,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem("Appearance"));
                 actions.Add(new DesignerActionPropertyItem("ButtonStyle", "Style", "Appearance", "Button style"));
                 actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
-                actions.Add(new DesignerActionPropertyItem("KryptonContextMenu", "Krypton Context Menu", "Appearance",
-                    "The krypton context menu strip for the control."));
                 actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Button orientation"));
                 actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
                 actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));

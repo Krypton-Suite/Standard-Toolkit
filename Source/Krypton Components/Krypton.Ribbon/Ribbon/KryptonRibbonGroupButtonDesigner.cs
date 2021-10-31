@@ -133,14 +133,14 @@ namespace Krypton.Ribbon
                                                          _moveNextVerb, _moveLastVerb, _deleteButtonVerb });
             }
 
-            var moveFirst = false;
-            var movePrev = false;
-            var moveNext = false;
-            var moveLast = false;
+            bool moveFirst = false;
+            bool movePrev = false;
+            bool moveNext = false;
+            bool moveLast = false;
 
             if (_ribbonButton?.Ribbon != null)
             {
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonButton) > 0);
                 movePrev = (items.IndexOf(_ribbonButton) > 0);
                 moveNext = (items.IndexOf(_ribbonButton) < (items.Count - 1));
@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
             if (_ribbonButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupButton MoveFirst");
@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
             if (_ribbonButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupButton MovePrevious");
@@ -212,7 +212,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    var index = items.IndexOf(_ribbonButton) - 1;
+                    int index = items.IndexOf(_ribbonButton) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonButton);
                     items.Insert(index, _ribbonButton);
@@ -233,7 +233,7 @@ namespace Krypton.Ribbon
             if (_ribbonButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupButton MoveNext");
@@ -246,7 +246,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    var index = items.IndexOf(_ribbonButton) + 1;
+                    int index = items.IndexOf(_ribbonButton) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonButton);
                     items.Insert(index, _ribbonButton);
@@ -267,7 +267,7 @@ namespace Krypton.Ribbon
             if (_ribbonButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupButton MoveLast");
@@ -299,7 +299,7 @@ namespace Krypton.Ribbon
             if (_ribbonButton?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupButton DeleteButton");

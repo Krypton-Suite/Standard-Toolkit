@@ -113,8 +113,8 @@ namespace Krypton.Toolkit
                         else
                         {
                             DataGridViewRowCollection rows = DataGridView.Rows;
-                            var count = rows.Count;
-                            for (var i = 0; i < count; i++)
+                            int count = rows.Count;
+                            for (int i = 0; i < count; i++)
                             {
                                 if ((rows.SharedRow(i).Cells[Index] is KryptonDataGridViewLinkCell cell) && cell.UseColumnTextForLinkValue)
                                 {
@@ -148,8 +148,8 @@ namespace Krypton.Toolkit
                     // ReSharper restore RedundantBaseQualifier
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
-                        var count = rows.Count;
-                        for (var i = 0; i < count; i++)
+                        int count = rows.Count;
+                        for (int i = 0; i < count; i++)
                         {
                             if (rows.SharedRow(i).Cells[Index] is KryptonDataGridViewLinkCell cell)
                             {
@@ -183,8 +183,8 @@ namespace Krypton.Toolkit
                     // ReSharper restore RedundantBaseQualifier
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
-                        var count = rows.Count;
-                        for (var i = 0; i < count; i++)
+                        int count = rows.Count;
+                        for (int i = 0; i < count; i++)
                         {
                             if (rows.SharedRow(i).Cells[Index] is KryptonDataGridViewLinkCell cell)
                             {
@@ -216,8 +216,8 @@ namespace Krypton.Toolkit
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
-                        var count = rows.Count;
-                        for (var i = 0; i < count; i++)
+                        int count = rows.Count;
+                        for (int i = 0; i < count; i++)
                         {
                             if (rows.SharedRow(i).Cells[Index] is DataGridViewLinkCell cell)
                             {
@@ -250,8 +250,8 @@ namespace Krypton.Toolkit
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
-                        var count = rows.Count;
-                        for (var i = 0; i < count; i++)
+                        int count = rows.Count;
+                        for (int i = 0; i < count; i++)
                         {
                             if (rows.SharedRow(i).Cells[Index] is DataGridViewLinkCell cell)
                             {

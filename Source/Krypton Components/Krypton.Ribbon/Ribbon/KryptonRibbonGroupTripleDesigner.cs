@@ -220,29 +220,15 @@ namespace Krypton.Ribbon
                 _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
                 _deleteTripleVerb = new DesignerVerb("Delete Triple", OnDeleteTriple);
                 _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
-                                                     _addButtonVerb, 
-                                                     _addCheckBoxVerb,
-                                                     _addColorButtonVerb, 
-                                                     _addComboBoxVerb, 
-                                                     _addCustomControlVerb, 
-                                                     _addDateTimePickerVerb, 
-                                                     _addDomainUpDownVerb, 
-                                                     _addLabelVerb, 
-                                                     _addMaskedTextBoxVerb,
-                                                     _addNumericUpDownVerb, 
-                                                     _addRadioButtonVerb, 
-                                                     _addRichTextBoxVerb, 
-                                                     _addTextBoxVerb, 
-                                                     _addTrackBarVerb, 
-                                                     _clearItemsVerb, _deleteTripleVerb });
+                                                     _addButtonVerb, _addColorButtonVerb, _addCheckBoxVerb, _addComboBoxVerb, _addCustomControlVerb, _addDateTimePickerVerb, _addDomainUpDownVerb, _addLabelVerb, _addNumericUpDownVerb, _addRadioButtonVerb, _addRichTextBoxVerb, _addTextBoxVerb, _addTrackBarVerb, _addMaskedTextBoxVerb, _clearItemsVerb, _deleteTripleVerb });
             }
 
-            var moveFirst = false;
-            var movePrev = false;
-            var moveNext = false;
-            var moveLast = false;
-            var add = false;
-            var clearItems = false;
+            bool moveFirst = false;
+            bool movePrev = false;
+            bool moveNext = false;
+            bool moveLast = false;
+            bool add = false;
+            bool clearItems = false;
 
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
@@ -330,7 +316,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the triple
                     KryptonRibbonGroup ribbonGroup = _ribbonTriple.RibbonGroup;
-                    var index = ribbonGroup.Items.IndexOf(_ribbonTriple) - 1;
+                    int index = ribbonGroup.Items.IndexOf(_ribbonTriple) - 1;
                     index = Math.Max(index, 0);
                     ribbonGroup.Items.Remove(_ribbonTriple);
                     ribbonGroup.Items.Insert(index, _ribbonTriple);
@@ -362,7 +348,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the triple
                     KryptonRibbonGroup ribbonGroup = _ribbonTriple.RibbonGroup;
-                    var index = ribbonGroup.Items.IndexOf(_ribbonTriple) + 1;
+                    int index = ribbonGroup.Items.IndexOf(_ribbonTriple) + 1;
                     index = Math.Min(index, ribbonGroup.Items.Count - 1);
                     ribbonGroup.Items.Remove(_ribbonTriple);
                     ribbonGroup.Items.Insert(index, _ribbonTriple);
@@ -818,7 +804,7 @@ namespace Krypton.Ribbon
                     IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the items from the triple group
-                    for (var i = _ribbonTriple.Items.Count - 1; i >= 0; i--)
+                    for (int i = _ribbonTriple.Items.Count - 1; i >= 0; i--)
                     {
                         KryptonRibbonGroupItem item = _ribbonTriple.Items[i];
                         _ribbonTriple.Items.Remove(item);
@@ -945,7 +931,7 @@ namespace Krypton.Ribbon
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all items from the triple group
-                for (var j = _ribbonTriple.Items.Count - 1; j >= 0; j--)
+                for (int j = _ribbonTriple.Items.Count - 1; j >= 0; j--)
                 {
                     KryptonRibbonGroupItem item = _ribbonTriple.Items[j] as KryptonRibbonGroupItem;
                     _ribbonTriple.Items.Remove(item);
@@ -982,16 +968,16 @@ namespace Krypton.Ribbon
                     _addButtonMenu = new ToolStripMenuItem("Add Button", Properties.Resources.KryptonRibbonGroupButton, OnAddButton);
                     _addColorButtonMenu = new ToolStripMenuItem("Add Color Button", Properties.Resources.KryptonRibbonGroupColorButton, OnAddColorButton);
                     _addCheckBoxMenu = new ToolStripMenuItem("Add CheckBox", Properties.Resources.KryptonRibbonGroupCheckBox, OnAddCheckBox);
-                    _addComboBoxMenu = new ToolStripMenuItem("Add ComboBox", Properties.Resources.KryptonRibbonGroupComboBox, OnAddComboBox);
-                    _addCustomControlMenu = new ToolStripMenuItem("Add Custom Control", Properties.Resources.KryptonRibbonGroupCustomControl, OnAddCustomControl);
-                    _addDateTimePickerMenu = new ToolStripMenuItem("Add DateTimePicker", Properties.Resources.KryptonRibbonGroupDateTimePicker, OnAddDateTimePicker);
-                    _addDomainUpDownMenu = new ToolStripMenuItem("Add DomainUpDown", Properties.Resources.KryptonRibbonGroupDomainUpDown, OnAddDomainUpDown);
-                    _addLabelMenu = new ToolStripMenuItem("Add Label", Properties.Resources.KryptonRibbonGroupLabel, OnAddLabel);
-                    _addMaskedTextBoxMenu = new ToolStripMenuItem("Add MaskedTextBox", Properties.Resources.KryptonRibbonGroupMaskedTextBox, OnAddMaskedTextBox);
-                    _addNumericUpDownMenu = new ToolStripMenuItem("Add NumericUpDown", Properties.Resources.KryptonRibbonGroupNumericUpDown, OnAddNumericUpDown);
                     _addRadioButtonMenu = new ToolStripMenuItem("Add RadioButton", Properties.Resources.KryptonRibbonGroupRadioButton, OnAddRadioButton);
-                    _addRichTextBoxMenu = new ToolStripMenuItem("Add RichTextBox", Properties.Resources.KryptonRibbonGroupRichTextBox, OnAddRichTextBox);
+                    _addLabelMenu = new ToolStripMenuItem("Add Label", Properties.Resources.KryptonRibbonGroupLabel, OnAddLabel);
+                    _addCustomControlMenu = new ToolStripMenuItem("Add Custom Control", Properties.Resources.KryptonRibbonGroupCustomControl, OnAddCustomControl);
                     _addTextBoxMenu = new ToolStripMenuItem("Add TextBox", Properties.Resources.KryptonRibbonGroupTextBox, OnAddTextBox);
+                    _addMaskedTextBoxMenu = new ToolStripMenuItem("Add MaskedTextBox", Properties.Resources.KryptonRibbonGroupMaskedTextBox, OnAddMaskedTextBox);
+                    _addRichTextBoxMenu = new ToolStripMenuItem("Add RichTextBox", Properties.Resources.KryptonRibbonGroupRichTextBox, OnAddRichTextBox);
+                    _addComboBoxMenu = new ToolStripMenuItem("Add ComboBox", Properties.Resources.KryptonRibbonGroupComboBox, OnAddComboBox);
+                    _addNumericUpDownMenu = new ToolStripMenuItem("Add NumericUpDown", Properties.Resources.KryptonRibbonGroupNumericUpDown, OnAddNumericUpDown);
+                    _addDomainUpDownMenu = new ToolStripMenuItem("Add DomainUpDown", Properties.Resources.KryptonRibbonGroupDomainUpDown, OnAddDomainUpDown);
+                    _addDateTimePickerMenu = new ToolStripMenuItem("Add DateTimePicker", Properties.Resources.KryptonRibbonGroupDateTimePicker, OnAddDateTimePicker);
                     _addTrackBarMenu = new ToolStripMenuItem("Add TrackBar", Properties.Resources.KryptonRibbonGroupTrackBar, OnAddTrackBar);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
                     _deleteTripleMenu = new ToolStripMenuItem("Delete Triple", Properties.Resources.delete2, OnDeleteTriple);
@@ -999,21 +985,7 @@ namespace Krypton.Ribbon
                                                               _visibleMenu, _maximumSizeMenu, _minimumSizeMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
                                                               _moveToGroupMenu, new ToolStripSeparator(),
-                                                              _addButtonMenu, 
-                                                              _addCheckBoxMenu, 
-                                                              _addColorButtonMenu, 
-                                                              _addComboBoxMenu, 
-                                                              _addCustomControlMenu, 
-                                                              _addDateTimePickerMenu, 
-                                                              _addDomainUpDownMenu, 
-                                                              _addLabelMenu, 
-                                                              _addMaskedTextBoxMenu, 
-                                                              _addNumericUpDownMenu, 
-                                                              _addRadioButtonMenu, 
-                                                              _addRichTextBoxMenu, 
-                                                              _addTextBoxMenu, 
-                                                              _addTrackBarMenu, 
-                                                              new ToolStripSeparator(),
+                                                              _addButtonMenu, _addColorButtonMenu, _addCheckBoxMenu, _addComboBoxMenu, _addCustomControlMenu, _addDateTimePickerMenu, _addDomainUpDownMenu, _addLabelMenu, _addNumericUpDownMenu, _addRadioButtonMenu, _addRichTextBoxMenu, _addTextBoxMenu, _addTrackBarMenu, _addMaskedTextBoxMenu, new ToolStripSeparator(),
                                                               _clearItemsMenu, new ToolStripSeparator(),
                                                               _deleteTripleMenu});
 

@@ -202,7 +202,7 @@ namespace Krypton.Navigator
         {
             if (_pageLookup != null)
             {
-                foreach (var pair in _pageLookup)
+                foreach (KeyValuePair<KryptonPage, INavCheckItem> pair in _pageLookup)
                 {
                     if (pair.Value.View == element)
                     {
@@ -227,7 +227,7 @@ namespace Krypton.Navigator
             // Check each page level button spec
             if ((bs == null) && (_pageLookup != null))
             {
-                foreach (var pair in _pageLookup)
+                foreach (KeyValuePair<KryptonPage, INavCheckItem> pair in _pageLookup)
                 {
                     bs = pair.Value.ButtonSpecFromView(element);
                     if (bs != null)
@@ -275,7 +275,7 @@ namespace Krypton.Navigator
             PaletteNavigatorRedirect paletteCommon;
             
             // If whole navigator is disabled then all views are disabled
-            var enabled = Navigator.Enabled;
+            bool enabled = Navigator.Enabled;
 
             // If there is no selected page
             if (Navigator.SelectedPage == null)
@@ -576,8 +576,8 @@ namespace Krypton.Navigator
         public override bool ProcessDialogKey(Keys keyData)
         {
             // Find out which modifier keys are being pressed
-            var shift = ((keyData & Keys.Shift) == Keys.Shift);
-            var control = ((keyData & Keys.Control) == Keys.Control);
+            bool shift = ((keyData & Keys.Shift) == Keys.Shift);
+            bool control = ((keyData & Keys.Control) == Keys.Control);
 
             // Extract just the key and not modifier keys
             Keys keyCode = (keyData & Keys.KeyCode);
@@ -598,7 +598,7 @@ namespace Krypton.Navigator
 
                             if (!ce.Cancel)
                             {
-                                var changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                bool changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
                             }
                         }
                         return true;
@@ -1007,7 +1007,7 @@ namespace Krypton.Navigator
             // Update each individual button with the new style for remapping page level button specs
             if (PageLookup != null)
             {
-                foreach (var pair in PageLookup)
+                foreach (KeyValuePair<KryptonPage, INavCheckItem> pair in PageLookup)
                 {
                     switch (pair.Value)
                     {
@@ -1217,7 +1217,7 @@ namespace Krypton.Navigator
             ViewBase reorderView = reorderItem.View;
 
             // Scan the collection of children
-            var foundReorderView = false;
+            bool foundReorderView = false;
             VisualOrientation orientation = ConvertButtonBorderBackOrientation();
             foreach (KryptonPage page in Navigator.Pages)
             {
@@ -1234,13 +1234,13 @@ namespace Krypton.Navigator
                         {
                             if ((orientation == VisualOrientation.Left) || (orientation == VisualOrientation.Right))
                             {
-                                var shrink = childRect.Height - Math.Min(childRect.Height, reorderView.ClientHeight);
+                                int shrink = childRect.Height - Math.Min(childRect.Height, reorderView.ClientHeight);
                                 childRect.Y += shrink;
                                 childRect.Height -= shrink;
                             }
                             else
                             {
-                                var shrink = childRect.Width - Math.Min(childRect.Width, reorderView.ClientWidth);
+                                int shrink = childRect.Width - Math.Min(childRect.Width, reorderView.ClientWidth);
                                 childRect.X += shrink;
                                 childRect.Width -= shrink;
                             }

@@ -16,10 +16,10 @@
 		-->
 		<LibraryVersion>6.$(Minor).$(Build)</LibraryVersion>
 		<!--https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages-->
-		<PackageVersion>6.$(Minor).$(Build)-alpha</PackageVersion>
+		<!--<PackageVersion>6.$(Minor).$(Build)-alpha</PackageVersion>-->
 
 		<!--Canary only-->
-		<!--<PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>-->
+		<PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>
 
 		<!--Stable/Signed-->
 		<!--<PackageVersion>6.$(Minor).$(Build)</PackageVersion>-->

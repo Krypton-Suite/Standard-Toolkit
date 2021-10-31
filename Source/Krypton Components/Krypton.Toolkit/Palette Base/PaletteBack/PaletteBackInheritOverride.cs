@@ -240,7 +240,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                var ret = _primary.GetBackColorAngle(Override ? OverrideState : state);
+                float ret = _primary.GetBackColorAngle(Override ? OverrideState : state);
 
                 if (ret == -1)
                 {

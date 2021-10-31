@@ -63,7 +63,7 @@ namespace Krypton.Ribbon
                 ViewManager.MouseLeave(EventArgs.Empty);
 
                 // Remove all child controls so they do not become disposed
-                for (var i = Controls.Count - 1; i >= 0; i--)
+                for (int i = Controls.Count - 1; i >= 0; i--)
                 {
                     Controls.RemoveAt(0);
                 }

@@ -781,7 +781,7 @@ namespace Krypton.Toolkit
 
         private void OnButtonClick(object sender, MouseEventArgs e)
         {
-            var showingContextMenu = false;
+            bool showingContextMenu = false;
 
             // Do we need to show a drop down menu?
             if (!Splitter || (Splitter && _drawButton.SplitRectangle.Contains(e.Location)))
@@ -806,7 +806,7 @@ namespace Krypton.Toolkit
 
         private bool ShowDropDown()
         {
-            var showingContextMenu = false;
+            bool showingContextMenu = false;
 
             // Update the krypton menu with this controls palette state
             if (KryptonContextMenu != null)

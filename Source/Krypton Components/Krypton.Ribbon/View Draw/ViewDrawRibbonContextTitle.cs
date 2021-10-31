@@ -178,7 +178,7 @@ namespace Krypton.Ribbon
             ClientRectangle = adjustRect;
 
             // Use the font height to decide on the text rectangle
-            var fontHeight = _ribbon.CalculatedValues.DrawFontHeight;
+            int fontHeight = _ribbon.CalculatedValues.DrawFontHeight;
             _textRect = new Rectangle(ClientLocation.X + TEXT_SIDE_GAP,
                                       ClientLocation.Y + (ClientHeight - fontHeight - TEXT_BOTTOM_GAP),
                                       ClientWidth - (TEXT_SIDE_GAP * 2),

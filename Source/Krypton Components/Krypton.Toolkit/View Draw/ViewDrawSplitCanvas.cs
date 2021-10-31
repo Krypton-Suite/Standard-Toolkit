@@ -456,7 +456,7 @@ namespace Krypton.Toolkit
                 if (child is ViewDrawContent viewContent)
                 {
                     // Do we need to draw the background?
-                    var drawBackground = DrawCanvas && (PaletteBack.GetBackDraw(State) == InheritBool.True);
+                    bool drawBackground = DrawCanvas && (PaletteBack.GetBackDraw(State) == InheritBool.True);
 
                     // Update the content accordingly
                     viewContent.DrawContentOnComposition = DrawCanvasOnComposition && !drawBackground;
@@ -568,7 +568,7 @@ namespace Krypton.Toolkit
             {
                 if (Splitter)
                 {
-                    var mouseInSplit = MouseInSplit;
+                    bool mouseInSplit = MouseInSplit;
                     switch (State)
                     {
                         case PaletteState.Tracking:
@@ -646,7 +646,7 @@ namespace Krypton.Toolkit
             {
                 if (Splitter)
                 {
-                    var mouseInSplit = MouseInSplit;
+                    bool mouseInSplit = MouseInSplit;
                     switch (State)
                     {
                         case PaletteState.Tracking:

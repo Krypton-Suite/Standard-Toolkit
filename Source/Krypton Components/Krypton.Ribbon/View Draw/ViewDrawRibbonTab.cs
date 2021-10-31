@@ -423,7 +423,7 @@ namespace Krypton.Ribbon
             }
 
             // Use renderer to draw the tab background
-            var mementoIndex = StateIndex(State);
+            int mementoIndex = StateIndex(State);
             _mementos[mementoIndex] = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, ClientRectangle, State, _paletteContextCurrent, VisualOrientation.Top, false, _mementos[mementoIndex]);
         }
 
@@ -580,7 +580,7 @@ namespace Krypton.Ribbon
         {
             Array stateValues = Enum.GetValues(typeof(PaletteState));
 
-            for (var i = 0; i < stateValues.Length; i++)
+            for (int i = 0; i < stateValues.Length; i++)
             {
                 if ((PaletteState)stateValues.GetValue(i) == state)
                 {
@@ -594,7 +594,7 @@ namespace Krypton.Ribbon
         private void CheckPaletteState(ViewContext context)
         {
             // Should control be enabled or disabled
-            var enabled = IsFixed || context.Control.Enabled;
+            bool enabled = IsFixed || context.Control.Enabled;
 
             // Ensure we and child and in correct enabled state
             Enabled = enabled;
@@ -620,7 +620,7 @@ namespace Krypton.Ribbon
                 Checked = (Ribbon.SelectedTab == RibbonTab);
 
                 // Is this tab a context tab?
-                var contextTab = !string.IsNullOrEmpty(RibbonTab.ContextName);
+                bool contextTab = !string.IsNullOrEmpty(RibbonTab.ContextName);
 
                 // Apply the checked state if not fixed
                 if (!IsFixed)

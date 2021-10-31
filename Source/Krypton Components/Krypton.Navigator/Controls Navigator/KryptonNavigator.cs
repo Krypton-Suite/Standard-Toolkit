@@ -1264,14 +1264,14 @@ namespace Krypton.Navigator
         protected override bool ProcessDialogKey(Keys keyData)
         {
             // Find out which modifier keys are being pressed
-            var shift = ((keyData & Keys.Shift) == Keys.Shift);
-            var control = ((keyData & Keys.Control) == Keys.Control);
-            var alt = ((keyData & Keys.Alt) == Keys.Alt);
+            bool shift = ((keyData & Keys.Shift) == Keys.Shift);
+            bool control = ((keyData & Keys.Control) == Keys.Control);
+            bool alt = ((keyData & Keys.Alt) == Keys.Alt);
 
             // Extract just the key and not modifier keys
             Keys keyCode = (keyData & Keys.KeyCode);
 
-            var handled = false;
+            bool handled = false;
 
             // Process keys without modifiers
             switch (keyCode)
@@ -1894,7 +1894,7 @@ namespace Krypton.Navigator
                 if (SelectedPage != null)
                 {
                     // Search from start for any page that is visible
-                    for (var i = 0; i < SelectedIndex; i++)
+                    for (int i = 0; i < SelectedIndex; i++)
                     {
                         if (Pages[i].LastVisibleSet && Pages[i].Enabled)
                         {
@@ -1915,7 +1915,7 @@ namespace Krypton.Navigator
                 if (SelectedPage != null)
                 {
                     // Search from end for any page that is visible
-                    for (var i = Pages.Count - 1; i > SelectedIndex; i--)
+                    for (int i = Pages.Count - 1; i > SelectedIndex; i--)
                     {
                         if (Pages[i].LastVisibleSet && Pages[i].Enabled)
                         {
@@ -1939,7 +1939,7 @@ namespace Krypton.Navigator
         internal KryptonPage LastActionPage()
         {
             // Search backwards from end of collection to start
-            for (var i = Pages.Count - 1; i >= 0; i++)
+            for (int i = Pages.Count - 1; i >= 0; i++)
             {
                 if (Pages[i].LastVisibleSet && Pages[i].Enabled)
                 {
@@ -1956,10 +1956,10 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Get the index of the page
-            var pos = Pages.IndexOf(page);
+            int pos = Pages.IndexOf(page);
 
             // Search backwards towards start of pages collection
-            for (var i = pos - 1; i >= 0; i--)
+            for (int i = pos - 1; i >= 0; i--)
             {
                 if (Pages[i].LastVisibleSet && Pages[i].Enabled)
                 {
@@ -1976,10 +1976,10 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Get the index of the page
-            var pos = Pages.IndexOf(page);
+            int pos = Pages.IndexOf(page);
 
             // Search towards end of pages collection
-            for (var i = pos + 1; i < Pages.Count; i++)
+            for (int i = pos + 1; i < Pages.Count; i++)
             {
                 if (Pages[i].LastVisibleSet && Pages[i].Enabled)
                 {
@@ -2010,7 +2010,7 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
             Debug.Assert(relative != null);
 
-            var delayDelegate = false;
+            bool delayDelegate = false;
 
             // We must have a page and relative element in order to show popup
             if (!DesignMode
@@ -2104,7 +2104,7 @@ namespace Krypton.Navigator
                 }
 
                 // Do any of the dragging pages have a flag set saying they can be dragged?
-                var allowPageDrag = _dragPages.Any(p => p.AreFlagsSet(KryptonPageFlags.AllowPageDrag));
+                bool allowPageDrag = _dragPages.Any(p => p.AreFlagsSet(KryptonPageFlags.AllowPageDrag));
 
                 // Generate event allowing the DragPageNotify setting to be updated before the
                 // actual drag processing occurs. You can even cancel the drag entirely.
@@ -2643,13 +2643,13 @@ namespace Krypton.Navigator
             KryptonPage firstDisabled = null;
 
             // Start the search by moving forwards
-            var forward = true;
+            bool forward = true;
 
             // Start searching from the provided page
             KryptonPage start = begin;
 
             // Process all pages except the current one to find available page
-            for (var i = 0; i < (Pages.Count - 1); i++)
+            for (int i = 0; i < (Pages.Count - 1); i++)
             {
                 KryptonPage next;
 
@@ -2816,7 +2816,7 @@ namespace Krypton.Navigator
                     contextMenu.Items.Add(contextMenuItems);
 
                     // Process each page for those that need adding to context strip
-                    var menuItems = 0;
+                    int menuItems = 0;
                     foreach (KryptonPage page in Pages)
                     {
                         // We always add the currently selected page and 
@@ -3098,7 +3098,7 @@ namespace Krypton.Navigator
                     Control next = focus;
 
                     // Have we wrapped around the end yet?
-                    var wrapped = false;
+                    bool wrapped = false;
 
                     do
                     {
@@ -3123,7 +3123,7 @@ namespace Krypton.Navigator
                             if ((next != this) || ((next == this) && ViewBuilder.CanFocus))
                             {
                                 // Is the next control inside ourself as a container?
-                                var nextInside = Contains(next);
+                                bool nextInside = Contains(next);
 
                                 // Cannot select a control if that control is on an unselected krypton page
                                 if (!NextOnUnselectedKryptonPage(next))

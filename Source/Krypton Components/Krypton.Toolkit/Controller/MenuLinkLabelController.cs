@@ -432,7 +432,7 @@ namespace Krypton.Toolkit
 
         private void UpdateTarget()
         {
-            var pressed = false;
+            bool pressed = false;
             PaletteState state = (_menuLinkLabel.ItemEnabled ? PaletteState.Normal : PaletteState.Disabled);
 
             // Find new state for drawing the label

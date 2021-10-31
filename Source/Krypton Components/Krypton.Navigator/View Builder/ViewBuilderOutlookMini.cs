@@ -69,8 +69,8 @@ namespace Krypton.Navigator
         public override bool ProcessDialogKey(Keys keyData)
         {
             // Find out which modifier keys are being pressed
-            var shift = ((keyData & Keys.Shift) == Keys.Shift);
-            var control = ((keyData & Keys.Control) == Keys.Control);
+            bool shift = ((keyData & Keys.Shift) == Keys.Shift);
+            bool control = ((keyData & Keys.Control) == Keys.Control);
 
             // Extract just the key and not modifier keys
             Keys keyCode = (keyData & Keys.KeyCode);

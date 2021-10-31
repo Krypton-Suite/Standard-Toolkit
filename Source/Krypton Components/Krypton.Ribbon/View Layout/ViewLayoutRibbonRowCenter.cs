@@ -172,7 +172,7 @@ namespace Krypton.Ribbon
             }
 
             // Starting left offset is half the difference between the client width and the total child widths
-            var xOffset = (ClientWidth - preferredSize.Width) / 2;
+            int xOffset = (ClientWidth - preferredSize.Width) / 2;
 
             // Layout each child centered within this space
             foreach (ViewBase child in this)
@@ -203,7 +203,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Find vertical offset for centering
-                    var yOffset = (ClientHeight - childPreferred.Height) / 2;
+                    int yOffset = (ClientHeight - childPreferred.Height) / 2;
 
                     // Create the rectangle that centers the child in our space
                     context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,

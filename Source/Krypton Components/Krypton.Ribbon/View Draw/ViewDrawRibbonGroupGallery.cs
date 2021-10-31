@@ -307,16 +307,16 @@ namespace Krypton.Ribbon
                 GroupItemSize originalSize = _currentSize;
 
                 // Create a list of results
-                var results = new List<ItemSizeWidth>();
+                List<ItemSizeWidth> results = new List<ItemSizeWidth>();
 
                 // Are we allowed to be in the large size?
                 if (GroupGallery.ItemSizeMaximum == GroupItemSize.Large)
                 {
                     // Allow a maximum of 39 steps between the large and medium values (with a minimum of 1)
-                    var step = Math.Max(1, (GroupGallery.LargeItemCount - GroupGallery.MediumItemCount) / 20);
+                    int step = Math.Max(1, (GroupGallery.LargeItemCount - GroupGallery.MediumItemCount) / 20);
 
                     // Process each step from large to medium
-                    var itemCount = GroupGallery.LargeItemCount;
+                    int itemCount = GroupGallery.LargeItemCount;
                     while (itemCount > GroupGallery.MediumItemCount)
                     {
                         LastGallery.InternalPreferredItemSize = new Size(itemCount, 1);
@@ -619,7 +619,7 @@ namespace Krypton.Ribbon
 
         private void OnGalleryPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var updateLayout = false;
+            bool updateLayout = false;
             const bool UPDATE_PAINT = false;
 
             switch (e.PropertyName)
@@ -751,7 +751,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                var enabled = GroupGallery.Enabled;
+                bool enabled = GroupGallery.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupGallery.GalleryDesigner != null))
@@ -769,7 +769,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupGallery.Visible;
+                bool visible = GroupGallery.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupGallery.GalleryDesigner != null))
@@ -789,7 +789,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupGallery.Visible;
+                bool visible = GroupGallery.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupGallery.GalleryDesigner != null))

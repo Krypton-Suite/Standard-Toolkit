@@ -94,7 +94,7 @@ namespace Krypton.Navigator
             PaletteNavigator paletteState;
 
             // If whole navigator is disabled then all views are disabled
-            var enabled = Navigator.Enabled;
+            bool enabled = Navigator.Enabled;
 
             // If there is no selected page
             if (Navigator.SelectedPage == null)

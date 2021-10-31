@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
                     {
                         foreach (KryptonBreadCrumbItem item in this)
                         {
-                            var text = item.ShortText;
+                            string text = item.ShortText;
                             if (!string.IsNullOrEmpty(text) && (text == name))
                             {
                                 return item;

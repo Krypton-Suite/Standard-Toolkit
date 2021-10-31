@@ -111,8 +111,8 @@ namespace Krypton.Ribbon
                 }
             }
 
-            var xLeftMost = ClientRectangle.Right;
-            var xRightMost = ClientRectangle.Left;
+            int xLeftMost = ClientRectangle.Right;
+            int xRightMost = ClientRectangle.Left;
 
             // Find the correct position for each child context set
             foreach (ViewBase child in this)
@@ -135,7 +135,7 @@ namespace Krypton.Ribbon
                         // If our position is above the ribbon control we must be in the chrome
                         if (_captionArea.UsingCustomChrome && !_captionArea.KryptonForm.ApplyComposition)
                         {
-                            var leftPadding = _captionArea.RealWindowBorders.Left;
+                            int leftPadding = _captionArea.RealWindowBorders.Left;
                             leftTab.X += leftPadding;
                             rightTab.X += leftPadding;
                         }
@@ -159,8 +159,8 @@ namespace Krypton.Ribbon
             if (filler != null)
             {
                 // How much space available on the left side
-                var leftSpace = xLeftMost - ClientRectangle.Left;
-                var rightSpace = ClientRectangle.Right - xRightMost;
+                int leftSpace = xLeftMost - ClientRectangle.Left;
+                int rightSpace = ClientRectangle.Right - xRightMost;
 
                 // Use the side with the most space
                 context.DisplayRectangle = leftSpace >= rightSpace
@@ -212,7 +212,7 @@ namespace Krypton.Ribbon
             // Make sure we have enough cached elements
             if (_contextTitlesCache.Count < ViewLayoutRibbonTabs.ContextTabSets.Count)
             {
-                for (var i = _contextTitlesCache.Count; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
+                for (int i = _contextTitlesCache.Count; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
                 {
                     // Create a new view element and an associated button controller
                     ViewDrawRibbonContextTitle viewContextTitle = new(_ribbon, _ribbon.StateContextCheckedNormal.RibbonTab)
@@ -224,7 +224,7 @@ namespace Krypton.Ribbon
             }
 
             // Add a view element per context and update with correct reference
-            for (var i = 0; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
+            for (int i = 0; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
             {
                 ViewDrawRibbonContextTitle viewContext = _contextTitlesCache[i];
                 ContextTitleController viewController = (ContextTitleController)viewContext.MouseController;

@@ -116,7 +116,7 @@ namespace Krypton.Navigator
         protected override Rectangle UpdateFillerRect(Rectangle fillerRect, 
                                                       Control control)
         {
-            var borderWidth = BorderWidth;
+            int borderWidth = BorderWidth;
 
             // Docking edge determines how to apply the overlapping
             switch (CalculateDock(GetDock(_layoutOverlap), control))

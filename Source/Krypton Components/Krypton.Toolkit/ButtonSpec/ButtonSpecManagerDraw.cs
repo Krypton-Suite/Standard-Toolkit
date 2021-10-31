@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// <returns>Index of docker; otherwise -1.</returns>
         protected override int DockerIndex(ViewBase viewDocker)
         {
-            for (var i = 0; i < _viewDockers.Length; i++)
+            for (int i = 0; i < _viewDockers.Length; i++)
             {
                 if (_viewDockers[i] == viewDocker)
                 {
@@ -169,12 +169,12 @@ namespace Krypton.Toolkit
             ViewDrawDocker viewDocker = _viewDockers[i];
 
             // By default add to the end of the children
-            var insertIndex = viewDocker.Count;
+            int insertIndex = viewDocker.Count;
 
             // If using spacers, then insert before the first spacer
             if (usingSpacers)
             {
-                for(var j=0; j<insertIndex; j++)
+                for(int j=0; j<insertIndex; j++)
                 {
                     if (viewDocker[j] is ViewLayoutMetricSpacer)
                     {

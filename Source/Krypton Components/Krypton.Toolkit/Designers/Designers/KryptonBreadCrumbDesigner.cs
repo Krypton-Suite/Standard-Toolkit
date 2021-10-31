@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
             if (_breadCrumb != null)
             {
                 // Ask the control if it wants to process the point
-                var ret = _breadCrumb.DesignerGetHitTest(_breadCrumb.PointToClient(point));
+                bool ret = _breadCrumb.DesignerGetHitTest(_breadCrumb.PointToClient(point));
 
                 // If the navigator does not want the mouse point then make sure the 
                 // tracking element is informed that the mouse has left the control
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
-                for (var i = _breadCrumb.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (int i = _breadCrumb.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     // Get access to the indexed button spec
                     ButtonSpec spec = _breadCrumb.ButtonSpecs[i];

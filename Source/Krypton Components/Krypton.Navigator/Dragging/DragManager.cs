@@ -307,7 +307,7 @@ namespace Krypton.Navigator
             _dragFeedback.Quit();
 
             // Inform target it needs to perform the drop action
-            var ret = false;
+            bool ret = false;
             if (_currentTarget != null)
             {
                 ret = _currentTarget.PerformDrop(screenPt, _pageDragEndData);

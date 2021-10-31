@@ -403,13 +403,13 @@ namespace Krypton.Toolkit
             Debug.Assert(item != null);
 
             // Cache the index of the button spec
-            var index = IndexOf(item);
+            int index = IndexOf(item);
 
             // Generate before event
             OnRemoving(new ButtonSpecEventArgs(item, index));
 
             // Remove from the internal list
-            var ret = _specs.Remove(item);
+            bool ret = _specs.Remove(item);
 
             // Generate after event
             OnRemoved(new ButtonSpecEventArgs(item, index));
@@ -449,7 +449,7 @@ namespace Krypton.Toolkit
         public void Clear()
         {
             // Remove all the button specs that are allowed to be removed
-            for (var i = Count - 1; i >= 0; i--)
+            for (int i = Count - 1; i >= 0; i--)
             {
                 RemoveAt(i);
             }

@@ -148,7 +148,7 @@ namespace Krypton.Workspace
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all children from the workspace
-                for (var i = _workspace.Root.Children.Count - 1; i >= 0; i--)
+                for (int i = _workspace.Root.Children.Count - 1; i >= 0; i--)
                 {
                     Component comp = _workspace.Root.Children[i] as Component;
 

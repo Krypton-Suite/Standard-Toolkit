@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
                 case PI.WM_.WINDOWPOSCHANGED:
                     {
                         PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
-                        var move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
+                        bool move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
                         PositionShadowForms(move);
                         if (!move)
                         {
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
             }
             _shadowForms = new VisualShadowBase[4];
 
-            for (var i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 _shadowForms[i] = new VisualShadowBase(_shadowValues, (VisualOrientation)i);
             }
@@ -179,13 +179,13 @@ namespace Krypton.Toolkit
         private Bitmap DrawShadowBitmap(Rectangle clientRectangle)
         {
             int extraWidth = _shadowValues.ExtraWidth;
-            var w = clientRectangle.Width + extraWidth * 2;
-            var h = clientRectangle.Height + extraWidth * 2;
+            int w = clientRectangle.Width + extraWidth * 2;
+            int h = clientRectangle.Height + extraWidth * 2;
 
-            var blur = (float)(_shadowValues.BlurDistance / 100.0 * extraWidth);
-            var solidW = clientRectangle.Width + blur * 2;
-            var solidH = clientRectangle.Height + blur * 2;
-            var blurOffset = _shadowValues.ExtraWidth - blur;
+            float blur = (float)(_shadowValues.BlurDistance / 100.0 * extraWidth);
+            float solidW = clientRectangle.Width + blur * 2;
+            float solidH = clientRectangle.Height + blur * 2;
+            float blurOffset = _shadowValues.ExtraWidth - blur;
             Bitmap bitmap = new(w, h);
             bitmap.MakeTransparent();
             using Graphics g = Graphics.FromImage(bitmap);
@@ -277,7 +277,7 @@ namespace Krypton.Toolkit
 
             void Mi()
             {
-                var shadowFormVisible = AllowDrawing;
+                bool shadowFormVisible = AllowDrawing;
                 foreach (VisualShadowBase shadowForm in _shadowForms)
                 {
                     shadowForm.Visible = shadowFormVisible;
@@ -349,7 +349,7 @@ namespace Krypton.Toolkit
 
         static FlashWindowExListener()
         {
-            var processId = PI.GetCurrentThreadId();
+            int processId = PI.GetCurrentThreadId();
             // create an instance of the delegate that
             // won't be garbage collected to avoid:
             //   Managed Debugging Assistant 'CallbackOnCollectedDelegate' :** 

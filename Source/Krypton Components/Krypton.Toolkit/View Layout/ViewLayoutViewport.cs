@@ -304,8 +304,8 @@ namespace Krypton.Toolkit
         {
             get 
             {
-                var limit = 0;
-                var offset = 0;
+                int limit = 0;
+                int offset = 0;
 
                 // Orientation determines which axis of values to use
                 switch (Orientation)
@@ -346,8 +346,8 @@ namespace Krypton.Toolkit
         {
             get
             {
-                var limit = 0;
-                var offset = 0;
+                int limit = 0;
+                int offset = 0;
 
                 // Orientation determines which axis of values to use
                 switch (Orientation)
@@ -769,7 +769,7 @@ namespace Krypton.Toolkit
                 (Orientation == VisualOrientation.Bottom))
             {
                 // Find the distance to move horizontally
-                var change = Math.Max((int)(ClientSize.Width * _scrollPercentage), _scrollMinimum);
+                int change = Math.Max((int)(ClientSize.Width * _scrollPercentage), _scrollMinimum);
 
                 switch (AlignmentRTL)
                 {
@@ -801,7 +801,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Find the distance to move vertically
-                var change = Math.Max((int)(ClientSize.Height * _scrollPercentage), _scrollMinimum);
+                int change = Math.Max((int)(ClientSize.Height * _scrollPercentage), _scrollMinimum);
 
                 switch (AlignmentRTL)
                 {
@@ -856,7 +856,7 @@ namespace Krypton.Toolkit
             Point offset = _offset;
 
             // Find how far to over position the viewport
-            var overs = 0;
+            int overs = 0;
             
             // We might not be provided with metrics, so only use if reference provided
             if (_paletteMetrics != null)
@@ -958,8 +958,8 @@ namespace Krypton.Toolkit
             _animationOffset.Y = Math.Min(Math.Max(_animationOffset.Y, _limit.Y), 0);
 
             // Find distance half way to the destination
-            var distanceX = (_animationOffset.X - _offset.X) / 2;
-            var distanceY = (_animationOffset.Y - _offset.Y) / 2;
+            int distanceX = (_animationOffset.X - _offset.X) / 2;
+            int distanceY = (_animationOffset.Y - _offset.Y) / 2;
 
             // Enfore a minimum distance to move towards destination in order
             // to prevent small moves at the end of the animation duration

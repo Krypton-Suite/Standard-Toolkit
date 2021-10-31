@@ -315,22 +315,22 @@ namespace Krypton.Navigator
             {
                 // Default to no space between each child item
                 // If we have a metric provider then get the child gap to use
-                var gap = _paletteMetric?.GetMetricInt(State, _metricGap) ?? context.Renderer.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
+                int gap = _paletteMetric?.GetMetricInt(State, _metricGap) ?? context.Renderer.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
 
                 // Line spacing gap can never be less than zero
-                var lineGap = (gap < 0 ? 0 : gap);
+                int lineGap = (gap < 0 ? 0 : gap);
                 
                 // Do we need to apply right to left by positioning children in reverse order?
-                var reversed = (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes));
+                bool reversed = (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes));
 
                 // Allocate caching for size of each child element
                 _childSizes = new Size[Count];
 
                 // Find the child index of the selected page
-                var selectedChildIndex = -1;
+                int selectedChildIndex = -1;
 
                 // Find the size of each child in turn
-                for(var i=0; i<Count; i++)
+                for(int i=0; i<Count; i++)
                 {
                     // Get access to the indexed child
                     ViewBase child = this[reversed ? (Count - i - 1) : i];
@@ -375,7 +375,7 @@ namespace Krypton.Navigator
                     case BarItemSizing.SameHeight:
                         if (!BarVertical)
                         {
-                            for (var i = 0; i < _childSizes.Length; i++)
+                            for (int i = 0; i < _childSizes.Length; i++)
                             {
                                 if (!_childSizes[i].IsEmpty)
                                 {
@@ -385,7 +385,7 @@ namespace Krypton.Navigator
                         }
                         else
                         {
-                            for (var i = 0; i < _childSizes.Length; i++)
+                            for (int i = 0; i < _childSizes.Length; i++)
                             {
                                 if (!_childSizes[i].IsEmpty)
                                 {
@@ -397,7 +397,7 @@ namespace Krypton.Navigator
                     case BarItemSizing.SameWidth:
                         if (!BarVertical)
                         {
-                            for (var i = 0; i < _childSizes.Length; i++)
+                            for (int i = 0; i < _childSizes.Length; i++)
                             {
                                 if (!_childSizes[i].IsEmpty)
                                 {
@@ -407,7 +407,7 @@ namespace Krypton.Navigator
                         }
                         else
                         {
-                            for (var i = 0; i < _childSizes.Length; i++)
+                            for (int i = 0; i < _childSizes.Length; i++)
                             {
                                 if (!_childSizes[i].IsEmpty)
                                 {
@@ -417,7 +417,7 @@ namespace Krypton.Navigator
                         }
                         break;
                     case BarItemSizing.SameWidthAndHeight:
-                        for (var i = 0; i < _childSizes.Length; i++)
+                        for (int i = 0; i < _childSizes.Length; i++)
                         {
                             if (!_childSizes[i].IsEmpty)
                             {
@@ -434,24 +434,24 @@ namespace Krypton.Navigator
                 // Store a list of the individual line vectors (height or width depending on orientation)
                 _lineDetails = new List<LineDetails>();
 
-                var itemCount = 0;
-                var startIndex = 0;
-                var visibleItems = 0;
+                int itemCount = 0;
+                int startIndex = 0;
+                int visibleItems = 0;
 
                 if (BarVertical)
                 {
-                    var yPos = 0;
-                    var yMaxPos = 0;
-                    var lineWidth = 0;
+                    int yPos = 0;
+                    int yMaxPos = 0;
+                    int lineWidth = 0;
                     _preferredOrientLength = 0;
 
-                    for (var i = 0; i < _childSizes.Length; i++)
+                    for (int i = 0; i < _childSizes.Length; i++)
                     {
                         // Ignore invisible items, which are zero sized
                         if (!_childSizes[i].IsEmpty)
                         {
                             // If not the first visible item on line, then need a spacing gap
-                            var yAdd = (visibleItems > 0) ? gap : 0;
+                            int yAdd = (visibleItems > 0) ? gap : 0;
 
                             // Add on the heght of the child
                             yAdd += _childSizes[i].Height;
@@ -516,16 +516,16 @@ namespace Krypton.Navigator
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to shrink each item by?
-                                    var shrink = Math.Max(1, (yMaxPos - context.DisplayRectangle.Height) / visibleItems);
+                                    int shrink = Math.Max(1, (yMaxPos - context.DisplayRectangle.Height) / visibleItems);
 
                                     // Reduce size of each item
-                                    for (var i = 0; i < _childSizes.Length; i++)
+                                    for (int i = 0; i < _childSizes.Length; i++)
                                     {
                                         // Cannot make smaller then zero height
                                         if (_childSizes[i].Height > 0)
                                         {
                                             // Reduce size
-                                            var tempHeight = _childSizes[i].Height;
+                                            int tempHeight = _childSizes[i].Height;
                                             _childSizes[i].Height -= shrink;
 
                                             // Prevent going smaller then zero
@@ -570,10 +570,10 @@ namespace Krypton.Navigator
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to expand each item by?
-                                    var expand = Math.Max(1, (context.DisplayRectangle.Height - yMaxPos) / visibleItems);
+                                    int expand = Math.Max(1, (context.DisplayRectangle.Height - yMaxPos) / visibleItems);
 
                                     // Expand size of each item
-                                    for (var i = 0; i < _childSizes.Length; i++)
+                                    for (int i = 0; i < _childSizes.Length; i++)
                                     {
                                         // Expand size
                                         _childSizes[i].Height += expand;
@@ -603,18 +603,18 @@ namespace Krypton.Navigator
                 }
                 else
                 {
-                    var xPos = 0;
-                    var xMaxPos = 0;
-                    var lineHeight = 0;
+                    int xPos = 0;
+                    int xMaxPos = 0;
+                    int lineHeight = 0;
                     _preferredOrientLength = 0;
 
-                    for (var i = 0; i < _childSizes.Length; i++)
+                    for (int i = 0; i < _childSizes.Length; i++)
                     {
                         // Ignore invisible items, which are zero sized
                         if (!_childSizes[i].IsEmpty)
                         {
                             // If not the first item on line, then need a spacing gap
-                            var xAdd = (visibleItems > 0) ? gap : 0;
+                            int xAdd = (visibleItems > 0) ? gap : 0;
 
                             // Add on the width of the child
                             xAdd += _childSizes[i].Width;
@@ -679,16 +679,16 @@ namespace Krypton.Navigator
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to shrink each item by?
-                                    var shrink = Math.Max(1, (xMaxPos - context.DisplayRectangle.Width) / visibleItems);
+                                    int shrink = Math.Max(1, (xMaxPos - context.DisplayRectangle.Width) / visibleItems);
 
                                     // Reduce size of each item
-                                    for (var i = 0; i < _childSizes.Length; i++)
+                                    for (int i = 0; i < _childSizes.Length; i++)
                                     {
                                         // Cannot make smaller then zero width
                                         if (_childSizes[i].Width > 0)
                                         {
                                             // Reduce size
-                                            var tempWidth = _childSizes[i].Width;
+                                            int tempWidth = _childSizes[i].Width;
                                             _childSizes[i].Width -= shrink;
 
                                             // Prevent going smaller then zero
@@ -733,10 +733,10 @@ namespace Krypton.Navigator
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to expand each item by?
-                                    var expand = Math.Max(1, (context.DisplayRectangle.Width - xMaxPos) / visibleItems);
+                                    int expand = Math.Max(1, (context.DisplayRectangle.Width - xMaxPos) / visibleItems);
 
                                     // Expand size of each item
-                                    for (var i = 0; i < _childSizes.Length; i++)
+                                    for (int i = 0; i < _childSizes.Length; i++)
                                     {
                                         // Expand size
                                         _childSizes[i].Width += expand;
@@ -780,7 +780,7 @@ namespace Krypton.Navigator
                     if (selectedChildIndex >= 0)
                     {
                         // Find the line details that contains this child index
-                        for(var i=0; i<_lineDetails.Count; i++)
+                        for(int i=0; i<_lineDetails.Count; i++)
                         {
                             // Is the selected item in the range of items for this line?
                             if ((selectedChildIndex >= _lineDetails[i].StartIndex) && 
@@ -839,13 +839,13 @@ namespace Krypton.Navigator
             {
                 // Default to no space between each child item
                 // If we have a metric provider then get the child gap to use
-                var gap = _paletteMetric?.GetMetricInt(State, _metricGap) ?? context.Renderer.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
+                int gap = _paletteMetric?.GetMetricInt(State, _metricGap) ?? context.Renderer.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
 
                 // Line spacing gap can never be less than zero
-                var lineGap = (gap < 0 ? 0 : gap);
+                int lineGap = (gap < 0 ? 0 : gap);
 
-                var reverseAccess = false;
-                var reversePosition = false;
+                bool reverseAccess = false;
+                bool reversePosition = false;
 
                 // Do we need to apply right to left by positioning children in reverse order?
                 if (!BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
@@ -878,13 +878,13 @@ namespace Krypton.Navigator
                     foreach (LineDetails lineDetails in _lineDetails)
                     {
                         // Get starting position for first button on the line
-                        var yPos = FindStartingYPosition(context, lineDetails, reversePosition);
+                        int yPos = FindStartingYPosition(context, lineDetails, reversePosition);
 
                         // Layout each button on the line
-                        for (var i = 0; i < lineDetails.ItemCount; i++)
+                        for (int i = 0; i < lineDetails.ItemCount; i++)
                         {
                             // Get the actual child index to use
-                            var itemIndex = lineDetails.StartIndex + i;
+                            int itemIndex = lineDetails.StartIndex + i;
 
                             // Ignore invisible items, which are zero sized
                             if (!_childSizes[itemIndex].IsEmpty)
@@ -894,10 +894,10 @@ namespace Krypton.Navigator
                                                                        lineDetails.StartIndex + i)];
 
                                 // Add on the height of the child
-                                var yAdd = _childSizes[itemIndex].Height;
+                                int yAdd = _childSizes[itemIndex].Height;
 
-                                var xPosition = xPos;
-                                var yPosition = (reversePosition ? yPos - _childSizes[itemIndex].Height : yPos);
+                                int xPosition = xPos;
+                                int yPosition = (reversePosition ? yPos - _childSizes[itemIndex].Height : yPos);
 
                                 // At the left edge, we need to ensure buttons are align by there right edges
                                 if (Orientation == VisualOrientation.Left)
@@ -945,13 +945,13 @@ namespace Krypton.Navigator
                     foreach (LineDetails lineDetails in _lineDetails)
                     {
                         // Get starting position for first button on the line
-                        var xPos = FindStartingXPosition(context, lineDetails, reversePosition);
+                        int xPos = FindStartingXPosition(context, lineDetails, reversePosition);
 
                         // Layout each button on the line
-                        for (var i = 0; i < lineDetails.ItemCount; i++)
+                        for (int i = 0; i < lineDetails.ItemCount; i++)
                         {
                             // Get the actual child index to use
-                            var itemIndex = lineDetails.StartIndex + i;
+                            int itemIndex = lineDetails.StartIndex + i;
 
                             // Ignore invisible items, which are zero sized
                             if (!_childSizes[itemIndex].IsEmpty)
@@ -961,10 +961,10 @@ namespace Krypton.Navigator
                                                                        lineDetails.StartIndex + i)];
 
                                 // Add on the width of the child
-                                var xAdd = _childSizes[itemIndex].Width;
+                                int xAdd = _childSizes[itemIndex].Width;
 
-                                var yPosition = yPos;
-                                var xPosition = (reversePosition ? xPos - _childSizes[itemIndex].Width : xPos);
+                                int yPosition = yPos;
+                                int xPosition = (reversePosition ? xPos - _childSizes[itemIndex].Width : xPos);
 
                                 // At the top edge, we need to ensure buttons are align by there bottom edges
                                 if (Orientation == VisualOrientation.Top)

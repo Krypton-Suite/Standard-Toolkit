@@ -150,11 +150,11 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            var attributes = new Attribute[0];
+            Attribute[] attributes = new Attribute[0];
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
-            for (var i = 0; i < strArray.Length; i++)
+            for (int i = 0; i < strArray.Length; i++)
             {
                 PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
                 if (descrip != null)
@@ -203,14 +203,14 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteDateTimePickerVerb });
             }
 
-            var moveFirst = false;
-            var movePrev = false;
-            var moveNext = false;
-            var moveLast = false;
+            bool moveFirst = false;
+            bool movePrev = false;
+            bool moveNext = false;
+            bool moveLast = false;
 
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonDateTimePicker) > 0);
                 movePrev = (items.IndexOf(_ribbonDateTimePicker) > 0);
                 moveNext = (items.IndexOf(_ribbonDateTimePicker) < (items.Count - 1));
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDateTimePicker MoveFirst");
@@ -269,7 +269,7 @@ namespace Krypton.Ribbon
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDateTimePicker MovePrevious");
@@ -282,7 +282,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the date time picker
-                    var index = items.IndexOf(_ribbonDateTimePicker) - 1;
+                    int index = items.IndexOf(_ribbonDateTimePicker) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonDateTimePicker);
                     items.Insert(index, _ribbonDateTimePicker);
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDateTimePicker MoveNext");
@@ -316,7 +316,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the date time picker
-                    var index = items.IndexOf(_ribbonDateTimePicker) + 1;
+                    int index = items.IndexOf(_ribbonDateTimePicker) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonDateTimePicker);
                     items.Insert(index, _ribbonDateTimePicker);
@@ -337,7 +337,7 @@ namespace Krypton.Ribbon
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDateTimePicker MoveLast");
@@ -369,7 +369,7 @@ namespace Krypton.Ribbon
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDateTimePicker DeleteDateTimePicker");
@@ -404,8 +404,8 @@ namespace Krypton.Ribbon
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
                 PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonDateTimePicker)["Enabled"];
-                var oldValue = (bool)propertyEnabled.GetValue(_ribbonDateTimePicker);
-                var newValue = !oldValue;
+                bool oldValue = (bool)propertyEnabled.GetValue(_ribbonDateTimePicker);
+                bool newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonDateTimePicker, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonDateTimePicker, newValue);
             }
@@ -416,8 +416,8 @@ namespace Krypton.Ribbon
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
                 PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonDateTimePicker)["Visible"];
-                var oldValue = (bool)propertyVisible.GetValue(_ribbonDateTimePicker);
-                var newValue = !oldValue;
+                bool oldValue = (bool)propertyVisible.GetValue(_ribbonDateTimePicker);
+                bool newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonDateTimePicker, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonDateTimePicker, newValue);
             }

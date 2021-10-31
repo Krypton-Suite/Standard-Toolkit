@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <return>Set of flags that have changed in value.</return>
         public int SetFlags(int flags)
         {
-            var before = Flags;
+            int before = Flags;
 
             // Set all the provided flags
             Flags |= flags;
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// <return>Set of flags that have changed in value.</return>
         public int ClearFlags(int flags)
         {
-            var before = Flags;
+            int before = Flags;
 
             // Clear all the provided flags
             Flags &= ~flags;

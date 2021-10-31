@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Remove all child controls so they do not become disposed
-                for (var i = Controls.Count - 1; i >= 0; i--)
+                for (int i = Controls.Count - 1; i >= 0; i--)
                 {
                     Controls.RemoveAt(0);
                 }
@@ -315,7 +315,7 @@ namespace Krypton.Ribbon
                 if (popupRect.Left < workingArea.Left)
                 {
                     // Reduce left side of popup to start at screen left edge
-                    var reduce = (workingArea.Left - popupRect.Left);
+                    int reduce = (workingArea.Left - popupRect.Left);
                     popupRect.Width -= reduce;
                     popupRect.X += reduce;
 
@@ -339,8 +339,8 @@ namespace Krypton.Ribbon
                 else
                 {
                     // Cannot show entire popup above or below, find which has most space
-                    var spareAbove = parentTabsRect.Top - workingArea.Top;
-                    var spareBelow = workingArea.Bottom - parentTabsRect.Bottom;
+                    int spareAbove = parentTabsRect.Top - workingArea.Top;
+                    int spareBelow = workingArea.Bottom - parentTabsRect.Bottom;
 
                     // Place it in the area with the most space
                     popupRect.Y = spareAbove > spareBelow ? workingArea.Top : parentTabsRect.Bottom;

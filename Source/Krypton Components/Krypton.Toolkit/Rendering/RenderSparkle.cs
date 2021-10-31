@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
                                                    IDisposable memento)
         {
             // Note is the incoming state is detailed we are drawing inside a popup
-            var showingInPopup = ((state & PaletteState.FocusOverride) == PaletteState.FocusOverride);
+            bool showingInPopup = ((state & PaletteState.FocusOverride) == PaletteState.FocusOverride);
             if (showingInPopup)
             {
                 state &= ~PaletteState.FocusOverride;
@@ -196,8 +196,8 @@ namespace Krypton.Toolkit
             Color c1 = paletteContent.GetContentShortTextColor1(state);
 
             // Find the top left starting position for drawing lines
-            var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
-            var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
+            int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
+            int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
             using Pen darkPen = new(c1);
             context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
@@ -235,8 +235,8 @@ namespace Krypton.Toolkit
             Color c1 = paletteContent.GetContentShortTextColor1(state);
 
             // Find the top left starting position for drawing lines
-            var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
-            var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
+            int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
+            int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
             using Pen darkPen = new(c1);
             context.Graphics.DrawLine(darkPen, xStart, yStart + 3, xStart + 4, yStart + 3);
@@ -274,8 +274,8 @@ namespace Krypton.Toolkit
             Color c1 = paletteContent.GetContentShortTextColor1(state);
 
             // Find the top left starting position for drawing lines
-            var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
-            var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
+            int xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
+            int yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
 
             using Pen darkPen = new(c1);
             context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
@@ -328,7 +328,7 @@ namespace Krypton.Toolkit
                 Color c1 = paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
                 Color c2 = paletteBack.GetRibbonBackColor5(PaletteState.ContextCheckedNormal);
 
-                var generate = true;
+                bool generate = true;
                 MementoRibbonTabContextOffice cache;
 
                 // Access a cache instance and decide if cache resources need generating

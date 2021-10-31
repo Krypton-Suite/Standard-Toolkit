@@ -150,11 +150,11 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            var attributes = Array.Empty<Attribute>();
+            Attribute[] attributes = Array.Empty<Attribute>();
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
-            for (var i = 0; i < strArray.Length; i++)
+            for (int i = 0; i < strArray.Length; i++)
             {
                 PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
                 if (descrip != null)
@@ -203,14 +203,14 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteRichTextBoxVerb });
             }
 
-            var moveFirst = false;
-            var movePrev = false;
-            var moveNext = false;
-            var moveLast = false;
+            bool moveFirst = false;
+            bool movePrev = false;
+            bool moveNext = false;
+            bool moveLast = false;
 
             if (_ribbonRichTextBox?.Ribbon != null)
             {
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonRichTextBox) > 0);
                 movePrev = (items.IndexOf(_ribbonRichTextBox) > 0);
                 moveNext = (items.IndexOf(_ribbonRichTextBox) < (items.Count - 1));
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
             if (_ribbonRichTextBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupRichTextBox MoveFirst");
@@ -269,7 +269,7 @@ namespace Krypton.Ribbon
             if (_ribbonRichTextBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupRichTextBox MovePrevious");
@@ -282,7 +282,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the richtextbox
-                    var index = items.IndexOf(_ribbonRichTextBox) - 1;
+                    int index = items.IndexOf(_ribbonRichTextBox) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonRichTextBox);
                     items.Insert(index, _ribbonRichTextBox);
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
             if (_ribbonRichTextBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupRichTextBox MoveNext");
@@ -316,7 +316,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the richtextbox
-                    var index = items.IndexOf(_ribbonRichTextBox) + 1;
+                    int index = items.IndexOf(_ribbonRichTextBox) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonRichTextBox);
                     items.Insert(index, _ribbonRichTextBox);
@@ -337,7 +337,7 @@ namespace Krypton.Ribbon
             if (_ribbonRichTextBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupRichTextBox MoveLast");
@@ -369,7 +369,7 @@ namespace Krypton.Ribbon
             if (_ribbonRichTextBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupRichTextBox DeleteRichTextBox");
@@ -404,8 +404,8 @@ namespace Krypton.Ribbon
             if (_ribbonRichTextBox?.Ribbon != null)
             {
                 PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonRichTextBox)["Enabled"];
-                var oldValue = (bool)propertyEnabled.GetValue(_ribbonRichTextBox);
-                var newValue = !oldValue;
+                bool oldValue = (bool)propertyEnabled.GetValue(_ribbonRichTextBox);
+                bool newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonRichTextBox, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonRichTextBox, newValue);
             }
@@ -416,8 +416,8 @@ namespace Krypton.Ribbon
             if (_ribbonRichTextBox?.Ribbon != null)
             {
                 PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonRichTextBox)["Visible"];
-                var oldValue = (bool)propertyVisible.GetValue(_ribbonRichTextBox);
-                var newValue = !oldValue;
+                bool oldValue = (bool)propertyVisible.GetValue(_ribbonRichTextBox);
+                bool newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonRichTextBox, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonRichTextBox, newValue);
             }

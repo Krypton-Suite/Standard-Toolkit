@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
                 Color c1 = paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
                 Color c2 = paletteBack.GetRibbonBackColor5(PaletteState.ContextCheckedNormal);
 
-                var generate = true;
+                bool generate = true;
                 MementoRibbonTabContextOffice2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
         {
             if ((rect.Width > 0) && (rect.Height > 0))
             {
-                var generate = true;
+                bool generate = true;
                 MementoRibbonAppTab2013 cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
                 Color c4 = palette.GetRibbonBackColor4(state);
                 Color c5 = palette.GetRibbonBackColor5(state);
 
-                var generate = true;
+                bool generate = true;
                 MementoRibbonTabSelected2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -324,7 +324,7 @@ namespace Krypton.Toolkit
                 Color c4 = palette.GetRibbonBackColor4(state);
                 Color c5 = palette.GetRibbonBackColor5(state);
 
-                var generate = true;
+                bool generate = true;
                 MementoRibbonTabTracking2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating

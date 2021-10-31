@@ -111,22 +111,22 @@ namespace Krypton.Ribbon
         public KeyTipInfo[] GetQATKeyTips(KryptonForm ownerForm)
         {
             // Create all the list of all possible QAT key tip strings
-            var keyTipsPool = new Stack<string>();
+            Stack<string> keyTipsPool = new Stack<string>();
 
             // Then use the alphanumeric 0A - 0Z
-            for (var i = 25; i >= 0; i--)
+            for (int i = 25; i >= 0; i--)
             {
                 keyTipsPool.Push("0" + (char)(65 + i));
             }
 
             // Then use the number 09 - 01
-            for (var i = 1; i <= 9; i++)
+            for (int i = 1; i <= 9; i++)
             {
                 keyTipsPool.Push("0" + i.ToString());
             }
 
             // Start with the number 1 - 9
-            for (var i = 9; i >= 1; i--)
+            for (int i = 9; i >= 1; i--)
             {
                 keyTipsPool.Push(i.ToString());
             }
@@ -201,7 +201,7 @@ namespace Krypton.Ribbon
             Size preferredSize = Size.Empty;
 
             // Find total width and maximum height across all child elements
-            for (var i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 ViewBase child = this[i];
 
@@ -263,8 +263,8 @@ namespace Krypton.Ribbon
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
-            var x = ClientLocation.X;
-            var right = ClientRectangle.Right;
+            int x = ClientLocation.X;
+            int right = ClientRectangle.Right;
 
             // If we need to show the extra button
             if (_extraButton != null)
@@ -276,15 +276,15 @@ namespace Krypton.Ribbon
                 right -= childSize.Width;
             }
 
-            var y = ClientLocation.Y;
-            var height = ClientHeight;
+            int y = ClientLocation.Y;
+            int height = ClientHeight;
             Overflow = false;
 
             // Are there any children to layout?
             if (Count > 0)
             {
                 // Position each item from left to right taking up entire height
-                for (var i = 0; i < Count; i++)
+                for (int i = 0; i < Count; i++)
                 {
                     ViewBase child = this[i];
 
@@ -416,11 +416,11 @@ namespace Krypton.Ribbon
             }
 
             // Extract the set of views into an array
-            var qatViews = new ViewDrawRibbonQATButton[_qatButtonToView.Count];
+            ViewDrawRibbonQATButton[] qatViews = new ViewDrawRibbonQATButton[_qatButtonToView.Count];
             _qatButtonToView.Values.CopyTo(qatViews, 0);
 
             // Search the list in reverse order
-            for (var i = qatViews.Length - 1; i >= 0; i--)
+            for (int i = qatViews.Length - 1; i >= 0; i--)
             {
                 // Extract the correct view to test
                 ViewDrawRibbonQATButton qatView = qatViews[i];
@@ -444,7 +444,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase if found; otherwise false.</returns>
         public ViewBase GetNextQATView(ViewBase qatButton)
         {
-            var found = false;
+            bool found = false;
 
             // Find the one after the target view
             foreach (ViewBase qatView in _qatButtonToView.Values)
@@ -478,14 +478,14 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousQATView(ViewBase qatButton)
         {
             // If the provided view is the extra button, then implicitly already found previous entry
-            var found = ((qatButton != null) && (qatButton == _extraButton));
+            bool found = ((qatButton != null) && (qatButton == _extraButton));
 
             // Extract the set of views into an array
-            var qatViews = new ViewDrawRibbonQATButton[_qatButtonToView.Count];
+            ViewDrawRibbonQATButton[] qatViews = new ViewDrawRibbonQATButton[_qatButtonToView.Count];
             _qatButtonToView.Values.CopyTo(qatViews, 0);
             
             // Search the list in reverse order
-            for (var i = qatViews.Length - 1; i >= 0; i--)
+            for (int i = qatViews.Length - 1; i >= 0; i--)
             {
                 // Extract the correct view to test
                 ViewDrawRibbonQATButton qatView = qatViews[i];
@@ -523,7 +523,7 @@ namespace Krypton.Ribbon
             QATButtonToView regenerate = new();
 
             // Get an array with all the buttons to be considered for display
-            var qatButtons = QATButtons;
+            IQuickAccessToolbarButton[] qatButtons = QATButtons;
 
             // Make sure we have a view element to match each QAT button definition
             foreach (IQuickAccessToolbarButton qatButton in qatButtons)
@@ -547,7 +547,7 @@ namespace Krypton.Ribbon
             }
 
             // Add child elements appropriate for each qat button
-            for (var i = 0; i < qatButtons.Length; i++)
+            for (int i = 0; i < qatButtons.Length; i++)
             {
                 IQuickAccessToolbarButton qatButton = qatButtons[i];
 

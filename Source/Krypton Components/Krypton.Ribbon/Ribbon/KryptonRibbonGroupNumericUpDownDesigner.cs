@@ -150,11 +150,11 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            var attributes = new Attribute[0];
+            Attribute[] attributes = new Attribute[0];
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
-            for (var i = 0; i < strArray.Length; i++)
+            for (int i = 0; i < strArray.Length; i++)
             {
                 PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
                 if (descrip != null)
@@ -203,14 +203,14 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteNumericUpDownVerb });
             }
 
-            var moveFirst = false;
-            var movePrev = false;
-            var moveNext = false;
-            var moveLast = false;
+            bool moveFirst = false;
+            bool movePrev = false;
+            bool moveNext = false;
+            bool moveLast = false;
 
             if (_ribbonNumericUpDown?.Ribbon != null)
             {
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonNumericUpDown) > 0);
                 movePrev = (items.IndexOf(_ribbonNumericUpDown) > 0);
                 moveNext = (items.IndexOf(_ribbonNumericUpDown) < (items.Count - 1));
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
             if (_ribbonNumericUpDown?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupNumericUpDown MoveFirst");
@@ -269,7 +269,7 @@ namespace Krypton.Ribbon
             if (_ribbonNumericUpDown?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupNumericUpDown MovePrevious");
@@ -282,7 +282,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the numeric up-down
-                    var index = items.IndexOf(_ribbonNumericUpDown) - 1;
+                    int index = items.IndexOf(_ribbonNumericUpDown) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonNumericUpDown);
                     items.Insert(index, _ribbonNumericUpDown);
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
             if (_ribbonNumericUpDown?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupNumericUpDown MoveNext");
@@ -316,7 +316,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the numeric up-down
-                    var index = items.IndexOf(_ribbonNumericUpDown) + 1;
+                    int index = items.IndexOf(_ribbonNumericUpDown) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonNumericUpDown);
                     items.Insert(index, _ribbonNumericUpDown);
@@ -337,7 +337,7 @@ namespace Krypton.Ribbon
             if (_ribbonNumericUpDown?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupNumericUpDown MoveLast");
@@ -369,7 +369,7 @@ namespace Krypton.Ribbon
             if (_ribbonNumericUpDown?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupNumericUpDown DeleteNumericUpDown");
@@ -404,8 +404,8 @@ namespace Krypton.Ribbon
             if (_ribbonNumericUpDown?.Ribbon != null)
             {
                 PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonNumericUpDown)["Enabled"];
-                var oldValue = (bool)propertyEnabled.GetValue(_ribbonNumericUpDown);
-                var newValue = !oldValue;
+                bool oldValue = (bool)propertyEnabled.GetValue(_ribbonNumericUpDown);
+                bool newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonNumericUpDown, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonNumericUpDown, newValue);
             }
@@ -416,8 +416,8 @@ namespace Krypton.Ribbon
             if (_ribbonNumericUpDown?.Ribbon != null)
             {
                 PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonNumericUpDown)["Visible"];
-                var oldValue = (bool)propertyVisible.GetValue(_ribbonNumericUpDown);
-                var newValue = !oldValue;
+                bool oldValue = (bool)propertyVisible.GetValue(_ribbonNumericUpDown);
+                bool newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonNumericUpDown, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonNumericUpDown, newValue);
             }

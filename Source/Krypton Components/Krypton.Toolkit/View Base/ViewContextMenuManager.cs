@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
         /// <returns>Did the calculation hit the left edge.</returns>
         public bool KeyLeft(bool wrap)
         {
-            var hitEdge = false;
+            bool hitEdge = false;
             TargetList targets = ConstructKeyboardTargets(Root);
 
             // Find the next appropriate target
@@ -279,7 +279,7 @@ namespace Krypton.Toolkit
                 {
                     // Find the currently selected target
                     TargetList targets = ConstructKeyboardTargets(Root);
-                    for (var i = targets.Count - 1; i >= 0; i--)
+                    for (int i = targets.Count - 1; i >= 0; i--)
                     {
                         if (targets[i] == _target)
                         {
@@ -312,7 +312,7 @@ namespace Krypton.Toolkit
                 {
                     // Find the currently selected target
                     TargetList targets = ConstructKeyboardTargets(Root);
-                    for(var i=0; i<targets.Count; i++)
+                    for(int i=0; i<targets.Count; i++)
                     {
                         if (targets[i] == _target)
                         {
@@ -373,7 +373,7 @@ namespace Krypton.Toolkit
             TargetList targets = ConstructKeyboardTargets(Root);
 
             // Scan the targets after ourself and until the end
-            var found = false;
+            bool found = false;
             foreach (IContextMenuTarget target in targets)
             {
                 if (!found)
@@ -607,8 +607,8 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        var currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.X, nextRect.Y, nextRect.Width, 0));
-                        var nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.X, targetRect.Y, targetRect.Width, 0));
+                        double currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.X, nextRect.Y, nextRect.Width, 0));
+                        double nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.X, targetRect.Y, targetRect.Width, 0));
 
                         // If next target is nearer than the current best...
                         if (nextDistance < currentDistance)
@@ -669,8 +669,8 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        var currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.X, nextRect.Bottom, nextRect.Width, 0));
-                        var nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.X, targetRect.Bottom, targetRect.Width, 0));
+                        double currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.X, nextRect.Bottom, nextRect.Width, 0));
+                        double nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.X, targetRect.Bottom, targetRect.Width, 0));
 
                         // If next target is nearer than the current best...
                         if (nextDistance < currentDistance)
@@ -732,8 +732,8 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        var currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.X, nextRect.Y, 0, nextRect.Height));
-                        var nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.X, targetRect.Y, 0, targetRect.Height));
+                        double currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.X, nextRect.Y, 0, nextRect.Height));
+                        double nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.X, targetRect.Y, 0, targetRect.Height));
 
                         // If next target is nearer than the current best...
                         if (nextDistance < currentDistance)
@@ -805,8 +805,8 @@ namespace Krypton.Toolkit
                     else
                     {
                         // Compare the right edge only
-                        var currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.Right, nextRect.Y, 0, nextRect.Height));
-                        var nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.Right, targetRect.Y, 0, targetRect.Height));
+                        double currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.Right, nextRect.Y, 0, nextRect.Height));
+                        double nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.Right, targetRect.Y, 0, targetRect.Height));
 
                         // If next target is nearer than the current best...
                         if (nextDistance < currentDistance)
@@ -826,7 +826,7 @@ namespace Krypton.Toolkit
         {
             double horzDistance = Math.Abs(((source.Left + source.Right) / 2) - ((compare.Left + compare.Right) / 2));
             double vertDistance = Math.Abs(((source.Top + source.Bottom) / 2) - ((compare.Top + compare.Bottom) / 2));
-            var distance = Math.Sqrt((horzDistance * horzDistance) + (vertDistance * vertDistance));
+            double distance = Math.Sqrt((horzDistance * horzDistance) + (vertDistance * vertDistance));
             return distance;
         }
 
