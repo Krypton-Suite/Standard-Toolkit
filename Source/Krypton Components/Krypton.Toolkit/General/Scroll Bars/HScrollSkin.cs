@@ -66,7 +66,9 @@ namespace Krypton.Toolkit
         {
             // add Palette Handler
             if (_palette != null)
+            {
                 _palette.PalettePaint += OnPalettePaint;
+            }
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -87,7 +89,9 @@ namespace Krypton.Toolkit
 
             // add Palette Handler
             if (_palette != null)
+            {
                 _palette.PalettePaint += OnPalettePaint;
+            }
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -165,8 +169,9 @@ namespace Krypton.Toolkit
             ResumeLayout(false);
 
             if (_win != null)
+            {
                 __win.Resize += win_Resize;
-
+            }
         }
         #endregion
 
@@ -225,10 +230,10 @@ namespace Krypton.Toolkit
             {
                 ListView listView1 = (ListView)_win;
 
-                int nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
-                int nShouldBeAt = (int)e.NewValue;
+                var nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
+                var nShouldBeAt = (int)e.NewValue;
 
-                int pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
+                var pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
 
                 PI.SendMessage(listView1.Handle, PI.LVM_SCROLL, (IntPtr)pixelsToScroll, IntPtr.Zero);
 
@@ -243,8 +248,11 @@ namespace Krypton.Toolkit
                     {
                         foreach (Control control in dgv.Controls)
                         {
-                            if (control is not HScrollBar { Visible: true }) 
+                            if (control is not HScrollBar { Visible: true })
+                            {
                                 continue;
+                            }
+
                             if (e.Type == ScrollEventType.ThumbTrack)
                             {
                                 if (e.NewValue >= e.OldValue)
@@ -398,9 +406,9 @@ namespace Krypton.Toolkit
             if (!DesignMode && !(!Parent.CanFocus | (_win == null)))
             {
 
-                uint wndStyle = PI.GetWindowLong(_win.Handle, PI.GWL_.STYLE);
-                bool hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
-                bool vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
+                var wndStyle = PI.GetWindowLong(_win.Handle, PI.GWL_.STYLE);
+                var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
+                var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
                 //horizontal
                 if (hsVisible)
@@ -458,7 +466,7 @@ namespace Krypton.Toolkit
 
         public static bool GetDGVScrollbar(ref DataGridView dgv, out HScrollBar HSB)
         {
-            bool isPresent = false;
+            var isPresent = false;
             HSB = new HScrollBar();
 
             foreach (Control ctr in dgv.Controls)
@@ -474,7 +482,7 @@ namespace Krypton.Toolkit
 
         public void SetDGVScrollBarValue(ref DataGridView dgv, ref HScrollBar HSC)
         {
-            uint listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
+            var listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
             //listStyle |= WIN32ScrollBars.WS_VSCROLL | WIN32ScrollBars.WS_HSCROLL;
             listStyle |= PI.WS_.HSCROLL;
             listStyle = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
@@ -491,9 +499,9 @@ namespace Krypton.Toolkit
 
         protected static ScrollBars GetVisibleScrollbars(Control ctl)
         {
-            uint wndStyle = PI.GetWindowLong(ctl.Handle, PI.GWL_.STYLE);
-            bool hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
-            bool vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
+            var wndStyle = PI.GetWindowLong(ctl.Handle, PI.GWL_.STYLE);
+            var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
+            var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
             return hsVisible 
                 ? vsVisible 
@@ -536,7 +544,9 @@ namespace Krypton.Toolkit
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
+            {
                 _palette.PalettePaint -= OnPalettePaint;
+            }
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect.Target = _palette;

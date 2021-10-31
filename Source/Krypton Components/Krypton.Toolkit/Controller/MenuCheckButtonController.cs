@@ -416,8 +416,8 @@ namespace Krypton.Toolkit
             if (_menuCheckButton.KryptonContextMenuCheckButton.AutoCheck)
             {
                 // Get the current checked state
-                bool checkState = _menuCheckButton.KryptonContextMenuCheckButton.KryptonCommand?.Checked ??
-                                  _menuCheckButton.KryptonContextMenuCheckButton.Checked;
+                var checkState = _menuCheckButton.KryptonContextMenuCheckButton.KryptonCommand?.Checked ??
+                                 _menuCheckButton.KryptonContextMenuCheckButton.Checked;
 
                 // Invert state
                 checkState = !checkState;
@@ -471,7 +471,7 @@ namespace Krypton.Toolkit
                 state |= PaletteState.Checked;
             }
 
-            bool applyFocus = (_highlight && !_mouseReallyOver);
+            var applyFocus = (_highlight && !_mouseReallyOver);
             _menuCheckButton.KryptonContextMenuCheckButton.OverrideDisabled.Apply = applyFocus;
             _menuCheckButton.KryptonContextMenuCheckButton.OverrideNormal.Apply = applyFocus;
             _menuCheckButton.KryptonContextMenuCheckButton.OverrideTracking.Apply = applyFocus;

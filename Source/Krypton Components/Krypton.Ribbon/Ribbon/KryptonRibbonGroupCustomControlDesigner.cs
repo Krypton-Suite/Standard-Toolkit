@@ -147,11 +147,11 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            Attribute[] attributes = Array.Empty<Attribute>();
+            var attributes = Array.Empty<Attribute>();
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
-            for (int i = 0; i < strArray.Length; i++)
+            for (var i = 0; i < strArray.Length; i++)
             {
                 PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
                 if (descrip != null)
@@ -200,14 +200,14 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteCustomControlVerb });
             }
 
-            bool moveFirst = false;
-            bool movePrev = false;
-            bool moveNext = false;
-            bool moveLast = false;
+            var moveFirst = false;
+            var movePrev = false;
+            var moveNext = false;
+            var moveLast = false;
 
             if (_ribbonCustomControl?.Ribbon != null)
             {
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonCustomControl) > 0);
                 movePrev = (items.IndexOf(_ribbonCustomControl) > 0);
                 moveNext = (items.IndexOf(_ribbonCustomControl) < (items.Count - 1));
@@ -234,7 +234,7 @@ namespace Krypton.Ribbon
             if (_ribbonCustomControl?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCustomControl MoveFirst");
@@ -266,7 +266,7 @@ namespace Krypton.Ribbon
             if (_ribbonCustomControl?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCustomControl MovePrevious");
@@ -279,7 +279,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the custom control
-                    int index = items.IndexOf(_ribbonCustomControl) - 1;
+                    var index = items.IndexOf(_ribbonCustomControl) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonCustomControl);
                     items.Insert(index, _ribbonCustomControl);
@@ -300,7 +300,7 @@ namespace Krypton.Ribbon
             if (_ribbonCustomControl?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCustomControl MoveNext");
@@ -313,7 +313,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the custom control
-                    int index = items.IndexOf(_ribbonCustomControl) + 1;
+                    var index = items.IndexOf(_ribbonCustomControl) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonCustomControl);
                     items.Insert(index, _ribbonCustomControl);
@@ -334,7 +334,7 @@ namespace Krypton.Ribbon
             if (_ribbonCustomControl?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCustomControl MoveLast");
@@ -366,7 +366,7 @@ namespace Krypton.Ribbon
             if (_ribbonCustomControl?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
+                var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCustomControl DeleteCustomControl");
@@ -402,8 +402,8 @@ namespace Krypton.Ribbon
             if (_ribbonCustomControl?.Ribbon != null)
             {
                 PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonCustomControl)["Enabled"];
-                bool oldValue = (bool)propertyEnabled.GetValue(_ribbonCustomControl);
-                bool newValue = !oldValue;
+                var oldValue = (bool)propertyEnabled.GetValue(_ribbonCustomControl);
+                var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonCustomControl, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonCustomControl, newValue);
             }
@@ -414,8 +414,8 @@ namespace Krypton.Ribbon
             if (_ribbonCustomControl?.Ribbon != null)
             {
                 PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonCustomControl)["Visible"];
-                bool oldValue = (bool)propertyVisible.GetValue(_ribbonCustomControl);
-                bool newValue = !oldValue;
+                var oldValue = (bool)propertyVisible.GetValue(_ribbonCustomControl);
+                var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonCustomControl, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonCustomControl, newValue);
             }

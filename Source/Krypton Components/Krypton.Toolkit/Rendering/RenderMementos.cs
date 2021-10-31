@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r, Color color1)
         {
-            bool ret = rect.Equals(r) && c1.Equals(color1);
+            var ret = rect.Equals(r) && c1.Equals(color1);
 
             rect = r;
             c1 = color1;
@@ -164,9 +164,9 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(Rectangle r, Color color1, Color color2)
         {
-            bool ret = rect.Equals(r) &&
-                       c1.Equals(color1) &&
-                       c2.Equals(color2);
+            var ret = rect.Equals(r) &&
+                      c1.Equals(color1) &&
+                      c2.Equals(color2);
 
             rect = r;
             c1 = color1;
@@ -198,8 +198,8 @@ namespace Krypton.Toolkit
                                     Color color1, Color color2,
                                     Color color3)
         {
-            bool ret = (base.UseCachedValues(r, color1, color2) &&
-                        c3.Equals(color3));
+            var ret = (base.UseCachedValues(r, color1, color2) &&
+                       c3.Equals(color3));
 
             c3 = color3;
 
@@ -229,8 +229,8 @@ namespace Krypton.Toolkit
                                     Color color1, Color color2,
                                     Color color3, Color color4)
         {
-            bool ret = (base.UseCachedValues(r, color1, color2, color3) &&
-                        c4.Equals(color4));
+            var ret = (base.UseCachedValues(r, color1, color2, color3) &&
+                       c4.Equals(color4));
 
             c4 = color4;
 
@@ -262,8 +262,8 @@ namespace Krypton.Toolkit
                                     Color color3, Color color4,
                                     Color color5)
         {
-            bool ret = (base.UseCachedValues(r, color1, color2, color3, color4) &&
-                        c5.Equals(color5));
+            var ret = (base.UseCachedValues(r, color1, color2, color3, color4) &&
+                       c5.Equals(color5));
 
             c5 = color5;
 
@@ -797,9 +797,9 @@ namespace Krypton.Toolkit
                                     Color color5,
                                     bool tracking, bool dark)
         {
-            bool ret = base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
-                       (_tracking == tracking) &&
-                       (_dark == dark);
+            var ret = base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
+                      (_tracking == tracking) &&
+                      (_dark == dark);
 
             _tracking = tracking;
             _dark = dark;
@@ -934,9 +934,9 @@ namespace Krypton.Toolkit
                                     Color color5,
                                     bool tracking, bool dark)
         {
-            bool ret = base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
-                       (_tracking == tracking) &&
-                       (_dark == dark);
+            var ret = base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
+                      (_tracking == tracking) &&
+                      (_dark == dark);
 
             _tracking = tracking;
             _dark = dark;
@@ -1266,10 +1266,10 @@ namespace Krypton.Toolkit
                                     Color color1, Color color2,
                                     VisualOrientation orient)
         {
-            bool ret = rect.Equals(r) &&
-                       c1.Equals(color1) &&
-                       c2.Equals(color2) &&
-                       (orient == orientation);
+            var ret = rect.Equals(r) &&
+                      c1.Equals(color1) &&
+                      c2.Equals(color2) &&
+                      (orient == orientation);
 
             rect = r;
             c1 = color1;
@@ -1357,12 +1357,12 @@ namespace Krypton.Toolkit
                                     Color color3, Color color4,
                                     VisualOrientation orient)
         {
-            bool ret = rect.Equals(r) &&
-                       c1.Equals(color1) &&
-                       c2.Equals(color2) &&
-                       c3.Equals(color1) &&
-                       c4.Equals(color2) &&
-                       (orient == orientation);
+            var ret = rect.Equals(r) &&
+                      c1.Equals(color1) &&
+                      c2.Equals(color2) &&
+                      c3.Equals(color1) &&
+                      c4.Equals(color2) &&
+                      (orient == orientation);
 
             rect = r;
             c1 = color1;
@@ -1440,8 +1440,8 @@ namespace Krypton.Toolkit
                                     Color color5,
                                     VisualOrientation orient)
         {
-            bool ret = (base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
-                        (orient == orientation));
+            var ret = (base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
+                       (orient == orientation));
 
             orientation = orient;
 
@@ -1512,8 +1512,8 @@ namespace Krypton.Toolkit
                                     Color color5,
                                     VisualOrientation orient)
         {
-            bool ret = (base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
-                        (orient == orientation));
+            var ret = (base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
+                       (orient == orientation));
 
             orientation = orient;
 
@@ -1584,8 +1584,8 @@ namespace Krypton.Toolkit
                                     Color color1, Color color2,
                                     VisualOrientation orient)
         {
-            bool ret = (base.UseCachedValues(r, color1, color2) &&
-                        (orient == orientation));
+            var ret = (base.UseCachedValues(r, color1, color2) &&
+                       (orient == orientation));
 
             orientation = orient;
 
@@ -1664,8 +1664,8 @@ namespace Krypton.Toolkit
                                     Color color5,
                                     VisualOrientation orient)
         {
-            bool ret = (base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
-                        (orient == orientation));
+            var ret = (base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
+                       (orient == orientation));
 
             orientation = orient;
 
@@ -1746,8 +1746,8 @@ namespace Krypton.Toolkit
                                     Color color3,
                                     VisualOrientation orient)
         {
-            bool ret = (base.UseCachedValues(r, color1, color2, color3) &&
-                        (orient == orientation));
+            var ret = (base.UseCachedValues(r, color1, color2, color3) &&
+                       (orient == orientation));
 
             orientation = orient;
 
@@ -2168,7 +2168,7 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(RectangleF dR, Color c1)
         {
-            bool ret = (drawRect.Equals(dR) && color1.Equals(c1));
+            var ret = (drawRect.Equals(dR) && color1.Equals(c1));
 
             drawRect = dR;
             color1 = c1;
@@ -2230,11 +2230,11 @@ namespace Krypton.Toolkit
                                     Color c2,
                                     VisualOrientation orient)
         {
-            bool ret = (drawRect.Equals(dR) &&
-                        (sigma == sig) &&
-                        color1.Equals(c1) &&
-                        color2.Equals(c2) &&
-                        (orientation == orient));
+            var ret = (drawRect.Equals(dR) &&
+                       (sigma == sig) &&
+                       color1.Equals(c1) &&
+                       color2.Equals(c2) &&
+                       (orientation == orient));
 
             drawRect = dR;
             sigma = sig;
@@ -2298,10 +2298,10 @@ namespace Krypton.Toolkit
                                     Color c3,
                                     VisualOrientation orient)
         {
-            bool ret = (drawRect.Equals(dR) &&
-                        color2.Equals(c2) &&
-                        color3.Equals(c3) &&
-                        (orientation == orient));
+            var ret = (drawRect.Equals(dR) &&
+                       color2.Equals(c2) &&
+                       color3.Equals(c3) &&
+                       (orientation == orient));
 
             drawRect = dR;
             color2 = c2;
@@ -2386,12 +2386,12 @@ namespace Krypton.Toolkit
                                     VisualOrientation orient,
                                     float gP)
         {
-            bool ret = (drawRect.Equals(dR) &&
-                        color1.Equals(c1) && color2.Equals(c2) &&
-                        glassColor1.Equals(gC1) && glassColor2.Equals(gC2) &&
-                        (factorX == fX) && (factorY == fY) &&
-                        (orientation == orient) &&
-                        (glassPercent == gP));
+            var ret = (drawRect.Equals(dR) &&
+                       color1.Equals(c1) && color2.Equals(c2) &&
+                       glassColor1.Equals(gC1) && glassColor2.Equals(gC2) &&
+                       (factorX == fX) && (factorY == fY) &&
+                       (orientation == orient) &&
+                       (glassPercent == gP));
 
             drawRect = dR;
             color1 = c1;
@@ -2480,14 +2480,14 @@ namespace Krypton.Toolkit
                                     VisualOrientation orient,
                                     float gP)
         {
-            bool ret = (drawRect.Equals(dR) &&
-                        outerRect.Equals(oR) &&
-                        color1.Equals(c1) &&
-                        color2.Equals(c2) &&
-                        glassColor1.Equals(gC1) &&
-                        glassColor2.Equals(gC2) &&
-                        (orientation == orient) &&
-                        (glassPercent == gP));
+            var ret = (drawRect.Equals(dR) &&
+                       outerRect.Equals(oR) &&
+                       color1.Equals(c1) &&
+                       color2.Equals(c2) &&
+                       glassColor1.Equals(gC1) &&
+                       glassColor2.Equals(gC2) &&
+                       (orientation == orient) &&
+                       (glassPercent == gP));
 
             drawRect = dR;
             outerRect = oR;
@@ -2549,7 +2549,7 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(RectangleF dR, Color c2)
         {
-            bool ret = (drawRect.Equals(dR) && color2.Equals(c2));
+            var ret = (drawRect.Equals(dR) && color2.Equals(c2));
 
             drawRect = dR;
             color2 = c2;
@@ -2619,12 +2619,12 @@ namespace Krypton.Toolkit
                                     float fX, float fY,
                                     VisualOrientation orient)
         {
-            bool ret = (drawRect.Equals(dR) &&
-                        color1.Equals(c1) &&
-                        color2.Equals(c2) &&
-                        (factorX == fX) &&
-                        (factorY == fY) &&
-                        (orientation == orient));
+            var ret = (drawRect.Equals(dR) &&
+                       color1.Equals(c1) &&
+                       color2.Equals(c2) &&
+                       (factorX == fX) &&
+                       (factorY == fY) &&
+                       (orientation == orient));
 
             drawRect = dR;
             color1 = c1;
@@ -2704,10 +2704,10 @@ namespace Krypton.Toolkit
                                     Color gC1, Color gC2,
                                     VisualOrientation orient)
         {
-            bool ret = (drawRect.Equals(dR) && outerRect.Equals(oR) &&
-                        color1.Equals(c1) && color2.Equals(c2) &&
-                        glassColor1.Equals(gC1) && glassColor2.Equals(gC2) &&
-                        (orientation == orient));
+            var ret = (drawRect.Equals(dR) && outerRect.Equals(oR) &&
+                       color1.Equals(c1) && color2.Equals(c2) &&
+                       glassColor1.Equals(gC1) && glassColor2.Equals(gC2) &&
+                       (orientation == orient));
 
             drawRect = dR;
             outerRect = oR;
@@ -2780,10 +2780,10 @@ namespace Krypton.Toolkit
                                     Color c2,
                                     VisualOrientation orient)
         {
-            bool ret = (rect.Equals(r) &&
-                        color1.Equals(c1) &&
-                        color2.Equals(c2) &&
-                        (orientation == orient));
+            var ret = (rect.Equals(r) &&
+                       color1.Equals(c1) &&
+                       color2.Equals(c2) &&
+                       (orientation == orient));
 
             rect = r;
             color1 = c1;
@@ -2832,10 +2832,10 @@ namespace Krypton.Toolkit
                                     int thick,
                                     VisualOrientation orient)
         {
-            bool ret = (drawRect.Equals(dR) &&
-                        color1.Equals(c1) &&
-                        (thickness == thick) &&
-                        (orientation == orient));
+            var ret = (drawRect.Equals(dR) &&
+                       color1.Equals(c1) &&
+                       (thickness == thick) &&
+                       (orientation == orient));
 
             drawRect = dR;
             color1 = c1;
@@ -2898,10 +2898,10 @@ namespace Krypton.Toolkit
                                     Color c1, Color c2,
                                     VisualOrientation orient)
         {
-            bool ret = (drawRect.Equals(dR) &&
-                        color1.Equals(c1) &&
-                        color2.Equals(c2) &&
-                        (orientation == orient));
+            var ret = (drawRect.Equals(dR) &&
+                       color1.Equals(c1) &&
+                       color2.Equals(c2) &&
+                       (orientation == orient));
 
             drawRect = dR;
             color1 = c1;
@@ -2968,9 +2968,9 @@ namespace Krypton.Toolkit
         /// <summary>For internal use only.</summary>
         public bool UseCachedValues(RectangleF dR, Color c1, Color c2)
         {
-            bool ret = (drawRect.Equals(dR) &&
-                        color1.Equals(c1) &&
-                        color2.Equals(c2));
+            var ret = (drawRect.Equals(dR) &&
+                       color1.Equals(c1) &&
+                       color2.Equals(c2));
 
             drawRect = dR;
             color1 = c1;
@@ -3045,10 +3045,10 @@ namespace Krypton.Toolkit
                                     Color c1, Color c2,
                                     VisualOrientation orient)
         {
-            bool ret = (drawRect.Equals(dR) &&
-                        color1.Equals(c1) &&
-                        color2.Equals(c2) &&
-                        (orientation == orient));
+            var ret = (drawRect.Equals(dR) &&
+                       color1.Equals(c1) &&
+                       color2.Equals(c2) &&
+                       (orientation == orient));
 
             drawRect = dR;
             color1 = c1;

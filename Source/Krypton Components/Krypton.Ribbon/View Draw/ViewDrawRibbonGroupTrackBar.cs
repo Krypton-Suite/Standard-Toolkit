@@ -394,7 +394,7 @@ namespace Krypton.Ribbon
 
         private void OnTextBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            bool updateLayout = false;
+            var updateLayout = false;
             const bool UPDATE_PAINT = false;
 
             switch (e.PropertyName)
@@ -499,7 +499,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                bool enabled = GroupTrackBar.Enabled;
+                var enabled = GroupTrackBar.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupTrackBar.TrackBarDesigner != null))
@@ -517,7 +517,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                bool visible = GroupTrackBar.Visible;
+                var visible = GroupTrackBar.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupTrackBar.TrackBarDesigner != null))
@@ -537,7 +537,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                bool visible = GroupTrackBar.Visible;
+                var visible = GroupTrackBar.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupTrackBar.TrackBarDesigner != null))

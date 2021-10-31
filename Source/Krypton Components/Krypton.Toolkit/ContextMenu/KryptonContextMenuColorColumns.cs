@@ -284,8 +284,8 @@ namespace Krypton.Toolkit
                 colors = _noneScheme;
             }
 
-            int rows = -1;
-            for (int i = 0; i < colors.Length; i++)
+            var rows = -1;
+            for (var i = 0; i < colors.Length; i++)
             {
                 // Each element must contain a valid reference
                 if (colors[i] == null)
@@ -322,7 +322,7 @@ namespace Krypton.Toolkit
         {
             if ((Colors != null) && (color != null))
             {
-                foreach (Color[] column in Colors)
+                foreach (var column in Colors)
                 {
                     foreach (Color row in column)
                     {

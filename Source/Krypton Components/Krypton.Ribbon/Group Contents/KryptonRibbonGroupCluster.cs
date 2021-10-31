@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of child components.</returns>
         public override Component[] GetChildComponents()
         {
-            Component[] array = new Component[Items.Count];
+            var array = new Component[Items.Count];
             Items.CopyTo(array, 0);
             return array;
         }

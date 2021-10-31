@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             PaletteRedirectBreadCrumb redirect = _kryptonBreadCrumb.GetRedirector() as PaletteRedirectBreadCrumb;
 
             Size preferredSize = Size.Empty;
-            for(int i=1; i<Count; i++)
+            for(var i=1; i<Count; i++)
             {
                 // Do not show the left border on the first crumb
                 redirect.Left = (i == 0);
@@ -143,8 +143,8 @@ namespace Krypton.Toolkit
                                                  ClientHeight - _kryptonBreadCrumb.Padding.Vertical);
 
             // Position from left to right all items except the overflow button
-            int offset = layoutRect.X;
-            for(int i=1; i<Count; i++)
+            var offset = layoutRect.X;
+            for(var i=1; i<Count; i++)
             {
                 // Do not show the left border on the first crumb
                 redirect.Left = (i == 1);
@@ -168,11 +168,11 @@ namespace Krypton.Toolkit
                 this[0].Visible = true;
 
                 // How much space do we need to save?
-                int overflowed = offset - ClientWidth;
+                var overflowed = offset - ClientWidth;
 
                 // Position overflow button and only the last items to fit space
                 offset = layoutRect.X;
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                 {
                     // Decide if the crumb (not the overflow button) can be visible
                     if (i > 0)
@@ -259,8 +259,8 @@ namespace Krypton.Toolkit
             // We need to update the redirector for drawing each crumb
             PaletteRedirectBreadCrumb redirect = _kryptonBreadCrumb.GetRedirector() as PaletteRedirectBreadCrumb;
 
-            bool first = true;
-            for(int i=0; i<Count; i++)
+            var first = true;
+            for(var i=0; i<Count; i++)
             {
                 if (this[i].Visible)
                 {
@@ -543,7 +543,7 @@ namespace Krypton.Toolkit
 
                 // Create a new menu item to represent each of the invisible crumbs not children of the root
                 // (item 0=overflow button, 1=root; 2=child of root, so we start at index 3)
-                for(int i=3; i<Count; i++)
+                for(var i=3; i<Count; i++)
                 {
                     if (!this[i].Visible)
                     {
@@ -565,7 +565,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Create a new menu item to represent each of the roots children
-                bool firstRoot = true;
+                var firstRoot = true;
                 foreach (KryptonBreadCrumbItem childCrumb in _kryptonBreadCrumb.RootItem.Items)
                 {
                     // The first time we add an entry

@@ -1833,7 +1833,7 @@ namespace Krypton.Toolkit
 
         private int NodeIndent(TreeNode node)
         {
-            int depth = 0;
+            var depth = 0;
 
             // Count depth of our node in tree
             TreeNode current = node;
@@ -1949,7 +1949,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Do we need to show item as having the focus
-                bool hasFocus = (e.State & TreeNodeStates.Focused) == TreeNodeStates.Focused;
+                var hasFocus = (e.State & TreeNodeStates.Focused) == TreeNodeStates.Focused;
 
                 _overrideNormal.Apply = hasFocus;
                 _overrideTracking.Apply = hasFocus;
@@ -1968,10 +1968,10 @@ namespace Krypton.Toolkit
             try
             {
                 Rectangle bounds = e.Bounds;
-                int indent = _treeView.Indent;
+                var indent = _treeView.Indent;
 
                 // Create indent rectangle and adjust bounds for remainder
-                int nodeIndent = NodeIndent(e.Node) + 2;
+                var nodeIndent = NodeIndent(e.Node) + 2;
                 Rectangle indentBounds = new((bounds.X + nodeIndent) - indent, bounds.Y, indent, bounds.Height);
                 bounds.X += nodeIndent;
                 bounds.Width -= nodeIndent;
@@ -2029,14 +2029,14 @@ namespace Krypton.Toolkit
                             if (ShowLines && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
                             {
                                 // Find center points
-                                int hCenter = (indentBounds.X + (indentBounds.Width / 2)) - 1;
-                                int vCenter = indentBounds.Y + (indentBounds.Height / 2);
+                                var hCenter = (indentBounds.X + (indentBounds.Width / 2)) - 1;
+                                var vCenter = indentBounds.Y + (indentBounds.Height / 2);
                                 vCenter -= (vCenter + 1) % 2;
 
                                 // Default to showing full line height
-                                int top = indentBounds.Y;
+                                var top = indentBounds.Y;
                                 top -= (top + 1) % 2;
-                                int bottom = indentBounds.Bottom;
+                                var bottom = indentBounds.Bottom;
 
                                 // If the first root node then do not show top half of line
                                 if ((e.Node.Parent == null) && (e.Node.PrevNode == null))
@@ -2062,7 +2062,7 @@ namespace Krypton.Toolkit
                                 // Draw the vertical lines for previous node levels
                                 while (hCenter >= 0)
                                 {
-                                    int begin = indentBounds.Y;
+                                    var begin = indentBounds.Y;
                                     begin -= (begin + 1) % 2;
                                     g.DrawLine(linePen, hCenter, begin, hCenter, indentBounds.Bottom);
                                     hCenter -= indent;
@@ -2091,7 +2091,7 @@ namespace Krypton.Toolkit
                         if (ImageList != null)
                         {
                             Image drawImage = null;
-                            int imageCount = ImageList.Images.Count;
+                            var imageCount = ImageList.Images.Count;
 
                             try
                             {

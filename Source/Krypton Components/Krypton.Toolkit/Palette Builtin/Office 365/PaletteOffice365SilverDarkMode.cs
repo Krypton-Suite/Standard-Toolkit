@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public class PaletteOffice365SilverDarkMode : PaletteOffice365Base
+    public class PaletteOffice365SilverDarkMode : PaletteOffice365SilverThemeDarkModeBase
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -43,8 +43,8 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(80, 81, 82)          // Border (normal) position
                                                                       };
-        private static readonly Color[] _schemeColors = { Color.FromArgb( 59,  59,  59),    // TextLabelControl
-                                                                      Color.FromArgb( 59,  59,  59),    // TextButtonNormal
+        private static readonly Color[] _schemeColors = { Color.FromArgb(255, 255, 255),    // TextLabelControl
+                                                                      Color.FromArgb(54, 79, 110),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(187, 191, 196),    // ButtonNormalBorder1
                                                                       Color.FromArgb(158, 166, 172),    // ButtonNormalDefaultBorder
@@ -52,25 +52,25 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(231, 234, 238),    // ButtonNormalBack2
                                                                       Color.FromArgb(235, 235, 235),    // ButtonNormalDefaultBack1
                                                                       Color.FromArgb(195, 195, 195),    // ButtonNormalDefaultBack2
-                                                                      Color.FromArgb(207, 212, 218),    // ButtonNormalNavigatorBack1
-                                                                      Color.FromArgb(207, 212, 218),    // ButtonNormalNavigatorBack2
-                                                                      Color.FromArgb(227, 230, 232),    // PanelClient
-                                                                      Color.FromArgb(207, 212, 218),    // PanelAlternative
+                                                                      Color.FromArgb(118, 135, 156),    // ButtonNormalNavigatorBack1
+                                                                      Color.FromArgb(118, 135, 156),    // ButtonNormalNavigatorBack2
+                                                                      Color.FromArgb(162, 174, 188),    // PanelClient
+                                                                      Color.FromArgb(118, 135, 156),    // PanelAlternative
                                                                       Color.FromArgb(161, 169, 179),    // ControlBorder
                                                                       Color.FromArgb(250, 253, 255),    // SeparatorHighBorder1
                                                                       Color.FromArgb(227, 232, 237),    // SeparatorHighBorder2
                                                                       Color.FromArgb(233, 237, 241),    // HeaderPrimaryBack1
-                                                                      Color.FromArgb(207, 212, 218),    // HeaderPrimaryBack2
+                                                                      Color.FromArgb(118, 135, 156),    // HeaderPrimaryBack2
                                                                       Color.FromArgb(255, 255, 255),    // HeaderSecondaryBack1
                                                                       Color.FromArgb(234, 237, 241),    // HeaderSecondaryBack2
-                                                                      Color.FromArgb( 59,  59,  59),    // HeaderText
-                                                                      Color.FromArgb( 59,  59,  59),    // StatusStripText
+                                                                      Color.FromArgb(255, 255, 255),    // HeaderText
+                                                                      Color.FromArgb(255, 255, 255),    // StatusStripText
                                                                       Color.FromArgb(236, 199,  87),    // ButtonBorder
                                                                       Color.FromArgb(247, 250, 252),    // SeparatorLight
                                                                       Color.FromArgb(119, 123, 127),    // SeparatorDark
                                                                       Color.FromArgb(255, 255, 255),    // GripLight
                                                                       Color.FromArgb(181, 190, 199),    // GripDark
-                                                                      Color.FromArgb(227, 230, 232),    // ToolStripBack
+                                                                      Color.FromArgb(162, 174, 188),    // ToolStripBack
                                                                       Color.FromArgb(230, 234, 238),    // StatusStripLight
                                                                       Color.FromArgb(183, 188, 193),    // StatusStripDark
                                                                       Color.White,                      // ImageMargin
@@ -112,8 +112,8 @@ namespace Krypton.Toolkit
                                                                       Color.Blue,                       // LinkNotVisitedOverridePanel
                                                                       Color.Purple,                     // LinkVisitedOverridePanel
                                                                       Color.Red,                        // LinkPressedOverridePanel
-                                                                      Color.FromArgb( 59,  59,  59),    // TextLabelPanel
-                                                                      Color.FromArgb( 59,  59,  59),    // RibbonTabTextNormal
+                                                                      Color.FromArgb(255, 255, 255),    // TextLabelPanel
+                                                                      Color.FromArgb(255, 255, 255),    // RibbonTabTextNormal
                                                                       Color.FromArgb( 76,  83,  92),    // RibbonTabTextChecked
                                                                       Color.FromArgb(182, 186, 191),    // RibbonTabSelected1
                                                                       Color.White,                      // RibbonTabSelected2
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(248, 252, 255),    // GridListNormal1                                                    
                                                                       Color.FromArgb(223, 227, 232),    // GridListNormal2                                                    
                                                                       Color.FromArgb(203, 207, 212),    // GridListPressed1                                                    
-                                                                      Color.White,                      // GridListPressed2                                                    
+                                                                      Color.White,                                   // GridListPressed2                                                    
                                                                       Color.FromArgb(186, 189, 194),    // GridListSelected                                                    
                                                                       Color.FromArgb(238, 241, 247),    // GridSheetColNormal1                                                    
                                                                       Color.FromArgb(218, 222, 227),    // GridSheetColNormal2                                                    
@@ -226,13 +226,13 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(118, 135, 156),    // InputControlBackNormal
                                                                       Color.FromArgb(240, 240, 240),    // InputControlBackDisabled
                                                                       Color.FromArgb(247, 247, 247),    // InputControlBackInactive
-                                                                      Color.Black,                      // InputDropDownNormal1
-                                                                      Color.Transparent,                // InputDropDownNormal2
+                                                                      Color.Black,    // InputDropDownNormal1
+                                                                      Color.Transparent,    // InputDropDownNormal2
                                                                       Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
                                                                       Color.Transparent,                // InputDropDownDisabled2
                                                                       Color.FromArgb(240, 242, 245),    // ContextMenuHeadingBack
                                                                       Color.FromArgb( 59,  59,  59),    // ContextMenuHeadingText
-                                                                      Color.White,                      // ContextMenuImageColumn
+                                                                      Color.FromArgb(118, 135, 156),    // ContextMenuImageColumn
                                                                       Color.FromArgb(224, 227, 231),    // AppButtonBack1
                                                                       Color.FromArgb(224, 227, 231),    // AppButtonBack2
                                                                       Color.FromArgb(135, 140, 146),    // AppButtonBorder

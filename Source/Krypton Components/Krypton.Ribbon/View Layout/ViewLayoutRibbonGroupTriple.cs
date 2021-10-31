@@ -279,7 +279,7 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonGroupItems();
 
             // Create a list of results
-            List<ItemSizeWidth> results = new List<ItemSizeWidth>();
+            var results = new List<ItemSizeWidth>();
 
             // Are we allowed to be in the large size?
             if (_ribbonTriple.ItemSizeMaximum == GroupItemSize.Large)
@@ -396,10 +396,10 @@ namespace Krypton.Ribbon
             Size preferredSize = Size.Empty;
 
             // Are we sizing horizontal or vertical?
-            bool horizontal = (_currentSize == GroupItemSize.Large);
+            var horizontal = (_currentSize == GroupItemSize.Large);
 
             // Find total width and maximum height across all child elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 ViewBase child = this[i];
 
@@ -472,14 +472,14 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Are we sizing horizontal or vertical?
-            bool horizontal = (_currentSize == GroupItemSize.Large);
-            int widest = (_currentSize == GroupItemSize.Small ? _smallWidest : _mediumWidest);
+            var horizontal = (_currentSize == GroupItemSize.Large);
+            var widest = (_currentSize == GroupItemSize.Small ? _smallWidest : _mediumWidest);
 
             // Are there any children to layout?
             if (Count > 0)
             {
-                int x = ClientLocation.X;
-                int y = ClientLocation.Y;
+                var x = ClientLocation.X;
+                var y = ClientLocation.Y;
 
                 // At design time we reserve space at the left side for the selection flap
                 if (_ribbon.InDesignHelperMode)
@@ -488,7 +488,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Position each item from left/top to right/bottom 
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                 {
                     ViewBase child = this[i];
 
@@ -689,7 +689,7 @@ namespace Krypton.Ribbon
 
         private void OnTriplePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            bool updateLayout = false;
+            var updateLayout = false;
 
             switch (e.PropertyName)
             {

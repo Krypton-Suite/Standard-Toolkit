@@ -89,13 +89,13 @@ namespace Krypton.Workspace
             else
             {
                 // If the root is not the same direction as that needed for the drop then...
-                bool dropHorizontal = (Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Right);
+                var dropHorizontal = (Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Right);
                 if ((dropHorizontal && (Workspace.Root.Orientation == Orientation.Vertical)) ||
                     (!dropHorizontal && (Workspace.Root.Orientation == Orientation.Horizontal)))
                 {
                     // Create a new sequence and place all existing root items into it
                     KryptonWorkspaceSequence sequence = new(Workspace.Root.Orientation);
-                    for (int i = Workspace.Root.Children.Count - 1; i >= 0; i--)
+                    for (var i = Workspace.Root.Children.Count - 1; i >= 0; i--)
                     {
                         Component child = Workspace.Root.Children[i];
                         Workspace.Root.Children.RemoveAt(i);

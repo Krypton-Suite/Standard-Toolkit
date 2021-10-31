@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
             DataGridViewCellStyle cellStyle)
         {
             // Adjust the vertical location of the editing control:
-            int preferredHeight = DataGridView.EditingControl.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
+            var preferredHeight = DataGridView.EditingControl.GetPreferredSize(new Size(editingControlBounds.Width, 10000)).Height;
             if (preferredHeight < editingControlBounds.Height)
             {
                 switch (cellStyle.Alignment)

@@ -148,7 +148,7 @@ namespace Krypton.Ribbon
             if (Count > 0)
             {
                 // Move previously by the number of display items
-                int trackingIndex = _gallery.TrackingIndex;
+                var trackingIndex = _gallery.TrackingIndex;
                 trackingIndex -= (_displayLines * _lineItems);
 
                 // Limit check and use new index
@@ -165,7 +165,7 @@ namespace Krypton.Ribbon
             if (Count > 0)
             {
                 // Move next by the number of display items
-                int trackingIndex = _gallery.TrackingIndex;
+                var trackingIndex = _gallery.TrackingIndex;
                 trackingIndex += (_displayLines * _lineItems);
 
                 // Limit check and use new index
@@ -182,7 +182,7 @@ namespace Krypton.Ribbon
             if (Count > 0)
             {
                 // Can only move up if not on the top line of items
-                int trackingIndex = _gallery.TrackingIndex;
+                var trackingIndex = _gallery.TrackingIndex;
                 if (trackingIndex >= _lineItems)
                 {
                     // Move up a whole line of items
@@ -205,7 +205,7 @@ namespace Krypton.Ribbon
                 if ((_gallery.TrackingIndex + _lineItems) < Count)
                 {
                     // Move down a whole line of items
-                    int trackingIndex = _gallery.TrackingIndex;
+                    var trackingIndex = _gallery.TrackingIndex;
                     trackingIndex += _lineItems;
 
                     // Limit check and use new index
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
             if (Count > 0)
             {
                 // Are there more items on the left of the current line
-                int trackingIndex = _gallery.TrackingIndex;
+                var trackingIndex = _gallery.TrackingIndex;
                 if ((trackingIndex % _lineItems) > 0)
                 {
                     trackingIndex--;
@@ -243,7 +243,7 @@ namespace Krypton.Ribbon
             if (Count > 0)
             {
                 // Are there more items on the right of the current line
-                int trackingIndex = _gallery.TrackingIndex;
+                var trackingIndex = _gallery.TrackingIndex;
                 if ((trackingIndex % _lineItems) < (_lineItems - 1))
                 {
                     trackingIndex++;
@@ -271,7 +271,7 @@ namespace Krypton.Ribbon
         public void NextLine()
         {
             // New top line is one further down
-            int prevTopLine = _topLine;
+            var prevTopLine = _topLine;
             _topLine = Math.Min(_topLine + 1, _endLine);
 
             if (ScrollIntoView)
@@ -300,7 +300,7 @@ namespace Krypton.Ribbon
         public void PrevLine()
         {
             // New top line is one further up
-            int prevTopLine = _topLine;
+            var prevTopLine = _topLine;
             _topLine = Math.Max(_topLine - 1, 0);
 
             if (ScrollIntoView)
@@ -442,17 +442,17 @@ namespace Krypton.Ribbon
                 nextPoint.Y += (displayRect.Height - (_displayLines * _itemSize.Height)) / 2;
 
                 // Stating item is from the top line and last item is number of display items onwards
-                int start = (_topLine * _lineItems);
-                int end = start + (_displayLines * _lineItems);
+                var start = (_topLine * _lineItems);
+                var end = start + (_displayLines * _lineItems);
 
                 // Do we need to handle scroll offsetting?
-                int offset = _offset;
+                var offset = _offset;
                 if (offset != 0)
                 {
                     if (offset < 0)
                     {
                         // How many extra full lines needed by the scrolling
-                        int extraLines = _topLine - _beginLine;
+                        var extraLines = _topLine - _beginLine;
 
                         // Limit check the number of previous lines to show
                         if ((_topLine - extraLines) < 0)
@@ -469,7 +469,7 @@ namespace Krypton.Ribbon
                     else
                     {
                         // How many extra full lines needed by the scrolling
-                        int extraLines = _beginLine - _topLine;
+                        var extraLines = _beginLine - _topLine;
 
                         // Move start to ensure that the previous lines are visible
                         end += (extraLines * _lineItems);
@@ -486,7 +486,7 @@ namespace Krypton.Ribbon
                 nextPoint.Y -= offset;
 
                 // Position all children on single line from left to right
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                 {
                     ViewBase childItem = this[i];
 
@@ -534,8 +534,8 @@ namespace Krypton.Ribbon
         #region Private
         public void SyncChildren()
         {
-            int required = 0;
-            int selectedIndex = _gallery.SelectedIndex;
+            var required = 0;
+            var selectedIndex = _gallery.SelectedIndex;
             ImageList imageList = _gallery.ImageList;
 
             // Find out how many children we need
@@ -548,8 +548,8 @@ namespace Krypton.Ribbon
             if (Count < required)
             {
                 // Create and add the number extra needed
-                int create = required - Count;
-                for (int i = 0; i < create; i++)
+                var create = required - Count;
+                for (var i = 0; i < create; i++)
                 {
                     Add(new ViewDrawRibbonGalleryItem(_gallery, _triple, this, _needPaint));
                 }
@@ -557,15 +557,15 @@ namespace Krypton.Ribbon
             else if (Count > required)
             {
                 // Destroy the extra ones no longer needed
-                int remove = Count - required;
-                for (int i = 0; i < remove; i++)
+                var remove = Count - required;
+                for (var i = 0; i < remove; i++)
                 {
                     RemoveAt(0);
                 }
             }
 
             // Tell each item the image it should be displaying
-            for (int i = 0; i < required; i++)
+            for (var i = 0; i < required; i++)
             {
                 ViewDrawRibbonGalleryItem item = (ViewDrawRibbonGalleryItem)this[i];
                 item.ImageList = imageList;
@@ -620,8 +620,8 @@ namespace Krypton.Ribbon
                 if (_lineItems > 0)
                 {
                     // Find target line for bringing into view
-                    int line = _bringIntoView / _lineItems;
-                    int itemLine = line;
+                    var line = _bringIntoView / _lineItems;
+                    var itemLine = line;
 
                     // Limit check to the last line for display purposes
                     if (line > _endLine)
@@ -630,13 +630,13 @@ namespace Krypton.Ribbon
                     }
 
                     // Cache top line before any changes made to it
-                    int prevTopLine = _topLine;
+                    var prevTopLine = _topLine;
 
                     // Is that line before the current top line?
                     if (line < _topLine)
                     {
                         // How many lines do we need to scroll upwards
-                        int diffLines = _topLine - line;
+                        var diffLines = _topLine - line;
 
                         // Shift topline to target immediately
                         _topLine = line;
@@ -657,7 +657,7 @@ namespace Krypton.Ribbon
                     else if (itemLine >= (_topLine + _displayLines))
                     {
                         // How many lines do we need to scroll upwards
-                        int diffLines = itemLine - (_topLine + (_displayLines - 1));
+                        var diffLines = itemLine - (_topLine + (_displayLines - 1));
 
                         // Shift topline to target immediately
                         _topLine = itemLine - (_displayLines - 1);

@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
             // Does this element expose the column interface?
             if (element is IContextMenuItemColumn column)
             {
-                int columnIndex = column.ColumnIndex;
+                var columnIndex = column.ColumnIndex;
                 Size columnPreferredSize = column.LastPreferredSize;
 
                 // If the first entry for this column...
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Grab the current preferred size
-                    int preferredWidth = _columnToWidth[columnIndex];
+                    var preferredWidth = _columnToWidth[columnIndex];
 
                     // Find the largest sizing
                     preferredWidth = Math.Max(preferredWidth, columnPreferredSize.Width);
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
                                                                                               VisualOrientation.Top);
 
                 // Add double the left edge to the right edge of the image background coumn
-                int imageColumnWidth = _columnToWidth[0];
+                var imageColumnWidth = _columnToWidth[0];
                 imageColumnWidth += borderPadding.Left * 3;
 
                 // Add double the metric padding that occurs outside the item highlight

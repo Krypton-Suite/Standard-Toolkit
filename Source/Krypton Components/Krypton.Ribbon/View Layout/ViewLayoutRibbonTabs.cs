@@ -11,6 +11,8 @@
 #endregion
 
 
+using System.Linq;
+
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -174,7 +176,7 @@ namespace Krypton.Ribbon
         /// <returns>View element for a tab; otherwise null.</returns>
         public ViewDrawRibbonTab GetViewForNextRibbonTab(KryptonRibbonTab ribbonTab)
         {
-            bool found = false;
+            var found = false;
             foreach (ViewBase child in this)
             {
                 // Cast to correct type
@@ -204,7 +206,7 @@ namespace Krypton.Ribbon
         /// <returns>View element for a tab; otherwise null.</returns>
         public ViewDrawRibbonTab GetViewForPreviousRibbonTab(KryptonRibbonTab ribbonTab)
         {
-            bool found = false;
+            var found = false;
             foreach (ViewBase child in Reverse())
             {
                 // Cast to correct type
@@ -296,7 +298,7 @@ namespace Krypton.Ribbon
             KryptonRibbonTab selectTab = _ribbon.SelectedTab;
 
             // Scan to find the prev and next tabs
-            bool prevSelected = false;
+            var prevSelected = false;
             KryptonRibbonTab prev = null;
             foreach (ViewBase child in this)
             {
@@ -363,7 +365,7 @@ namespace Krypton.Ribbon
             _cachedNonContextTabCount = 0;
 
             // Find total width and maximum height across all child elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 ViewBase child = this[i];
 
@@ -379,7 +381,7 @@ namespace Krypton.Ribbon
                         // Always add on to the width
                         preferredSize.Width += _cachedSizes[i].Width;
 
-                        int childHeight = _cachedSizes[i].Height;
+                        var childHeight = _cachedSizes[i].Height;
 
                         if (child is ViewDrawRibbonTab)
                         {
@@ -450,20 +452,20 @@ namespace Krypton.Ribbon
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
-            int x = ClientLocation.X;
+            var x = ClientLocation.X;
 
             // Are there any children to layout?
             if (Count > 0)
             {
                 // Modify the cached sizes so they are ideally sized for actual space
-                Size[] layoutSizes = AdjustSizesToFit();
+                var layoutSizes = AdjustSizesToFit();
 
-                int y = ClientRectangle.Y;
-                int bottom = ClientRectangle.Bottom;
-                int height = ClientHeight;
+                var y = ClientRectangle.Y;
+                var bottom = ClientRectangle.Bottom;
+                var height = ClientHeight;
 
                 // Position each item from left to right taking up entire height
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                 {
                     // Only interested in visible items
                     if (layoutSizes[i].Width > 0)
@@ -545,7 +547,7 @@ namespace Krypton.Ribbon
             // Make sure we have enough cached elements
             if (_tabCache.Count < _ribbon.RibbonTabs.Count)
             {
-                for (int i = _tabCache.Count; i < _ribbon.RibbonTabs.Count; i++)
+                for (var i = _tabCache.Count; i < _ribbon.RibbonTabs.Count; i++)
                 {
                     _tabCache.Add(new ViewDrawRibbonTab(_ribbon, this, _needPaint));
                 }
@@ -553,7 +555,7 @@ namespace Krypton.Ribbon
 
             if (_tabSepCache.Count < _ribbon.RibbonTabs.Count)
             {
-                for (int i = _tabSepCache.Count; i < _ribbon.RibbonTabs.Count; i++)
+                for (var i = _tabSepCache.Count; i < _ribbon.RibbonTabs.Count; i++)
                 {
                     _tabSepCache.Add(new ViewDrawRibbonTabSep(_ribbon.StateCommon.RibbonGeneral));
                 }
@@ -569,23 +571,18 @@ namespace Krypton.Ribbon
             AddTabsWithContextName(string.Empty);
 
             // Add each set of tabs that match each listed selected context name
-            foreach (string contextName in _cachedSelectedContext)
+            foreach (var contextName in _cachedSelectedContext
+                .Where(contextName => _ribbon.RibbonContexts[contextName] != null)
+                )
             {
-                // Check that the context name actually is defined
-                if (_ribbon.RibbonContexts[contextName] != null)
-                {
-                    AddTabsWithContextName(contextName);
-                }
+                AddTabsWithContextName(contextName);
             }
             
             // When in design time help mode
             if (_ribbon.InDesignHelperMode)
             {
                 // Create the design time 'Add Tab' first time it is needed
-                if (_viewAddTab == null)
-                {
-                    _viewAddTab = new ViewDrawRibbonDesignTab(_ribbon, _needPaint);
-                }
+                _viewAddTab ??= new ViewDrawRibbonDesignTab(_ribbon, _needPaint);
 
                 // Always add at end of the list of tabs
                 Add(_viewAddTab);
@@ -593,10 +590,7 @@ namespace Krypton.Ribbon
             else
             {
                 // At run time we add the filler that acts like title bar header
-                if (GetViewForSpare == null)
-                {
-                    GetViewForSpare = new ViewLayoutRibbonTabsSpare();
-                }
+                GetViewForSpare ??= new ViewLayoutRibbonTabsSpare();
 
                 // Always add at end of the list of tabs
                 Add(GetViewForSpare);
@@ -608,8 +602,8 @@ namespace Krypton.Ribbon
             ContextTabSet cts = null;
 
             // Remove the ribbon tab reference from the draw tab
-            // (Must do this for all tabs before setting them to the corret value)
-            for (int i = 0; i < _ribbon.RibbonTabs.Count; i++)
+            // (Must do this for all tabs before setting them to the correct value)
+            for (var i = 0; i < _ribbon.RibbonTabs.Count; i++)
             {
                 KryptonRibbonTab ribbonTab = _ribbon.RibbonTabs[i];
                 if (IsRibbonVisible(ribbonTab, contextName))
@@ -619,7 +613,7 @@ namespace Krypton.Ribbon
             }
 
             // Add child elements appropriate for each ribbon tab
-            for (int i = 0; i < _ribbon.RibbonTabs.Count; i++)
+            for (var i = 0; i < _ribbon.RibbonTabs.Count; i++)
             {
                 KryptonRibbonTab ribbonTab = _ribbon.RibbonTabs[i];
                 if (IsRibbonVisible(ribbonTab, contextName))
@@ -662,10 +656,10 @@ namespace Krypton.Ribbon
             // By default we do not need to have tab separators draw
             _showSeparators = false;
 
-            Size[] retSizes = new Size[_cachedSizes.Length];
+            var retSizes = new Size[_cachedSizes.Length];
 
             // Make a copy of the cached sizes
-            for(int i=0; i<_cachedSizes.Length; i++)
+            for(var i=0; i<_cachedSizes.Length; i++)
             {
                 retSizes[i] = _cachedSizes[i];
             }
@@ -677,7 +671,7 @@ namespace Krypton.Ribbon
                 if (_cachedMinimumWidth > ClientWidth)
                 {
                     // Reduce all the tabs to the minimum allowed
-                    for (int i = 0; i < retSizes.Length; i++)
+                    for (var i = 0; i < retSizes.Length; i++)
                     {
                         retSizes[i].Width = Math.Min(retSizes[i].Width, TAB_MINWIDTH);
                     }
@@ -688,7 +682,7 @@ namespace Krypton.Ribbon
                 }
                 else
                 {
-                    int totalWidth = _cachedPreferredWidth;
+                    var totalWidth = _cachedPreferredWidth;
 
                     /////////////////////////////////////////////////////////
                     // Phase 1, remove excess padding from each tab instance
@@ -696,14 +690,14 @@ namespace Krypton.Ribbon
                     /////////////////////////////////////////////////////////
 
                     // Find out total space to remove (with a limit of TAB_EXCESS per tab instance)
-                    int remove = Math.Min(totalWidth - ClientWidth, _cachedNonContextTabCount * TAB_EXCESS);
+                    var remove = Math.Min(totalWidth - ClientWidth, _cachedNonContextTabCount * TAB_EXCESS);
 
                     for (int i = 0, tabCount = _cachedNonContextTabCount; (i < retSizes.Length) && (tabCount > 0); i++)
                     {
                         if (retSizes[i].Width > TAB_MINWIDTH)
                         {
                             // Remove an equal amount per tab (limited to TAB_EXCESS)
-                            int shrink = Math.Min(remove / tabCount, TAB_EXCESS);
+                            var shrink = Math.Min(remove / tabCount, TAB_EXCESS);
                             retSizes[i].Width -= shrink;
                             remove -= shrink;
                             totalWidth -= shrink;
@@ -727,17 +721,16 @@ namespace Krypton.Ribbon
                         do
                         {
                             // Find the widest and second widest tabs
-                            int widestTab = 0;
-                            int secondTab = 0;
-                            for (int i = 0; i < retSizes.Length; i++)
+                            var widestTab = 0;
+                            var secondTab = 0;
+                            for (var i = 0; i < retSizes.Length; i++)
                             {
-                                if (retSizes[i].Width > TAB_MINWIDTH)
+                                if (retSizes[i].Width > TAB_MINWIDTH 
+                                    && retSizes[i].Width > widestTab
+                                    )
                                 {
-                                    if (retSizes[i].Width > widestTab)
-                                    {
-                                        secondTab = widestTab;
-                                        widestTab = retSizes[i].Width;
-                                    }
+                                    secondTab = widestTab;
+                                    widestTab = retSizes[i].Width;
                                 }
                             }
 
@@ -748,8 +741,8 @@ namespace Krypton.Ribbon
                             }
 
                             // Create a list of all tab indexes matching widest
-                            List<int> widestIndexes = new List<int>();
-                            for (int i = 0; i < retSizes.Length; i++)
+                            var widestIndexes = new List<int>();
+                            for (var i = 0; i < retSizes.Length; i++)
                             {
                                 if (retSizes[i].Width == widestTab)
                                 {
@@ -759,7 +752,7 @@ namespace Krypton.Ribbon
 
                             // Maximum we can remove is the difference between widest and then second
                             // widest times by the number of tabs we are going to be shrinking
-                            int maxRemove = (widestTab - secondTab) * widestIndexes.Count;
+                            var maxRemove = (widestTab - secondTab) * widestIndexes.Count;
 
                             // Find total we need to remove to fit into display but limited to max
                             remove = Math.Min(maxRemove, totalWidth - ClientWidth);
@@ -769,7 +762,7 @@ namespace Krypton.Ribbon
                                 if (retSizes[widestIndexes[i]].Width > TAB_MINWIDTH)
                                 {
                                     // Remove an equal amount per tab (limited to TAB_EXCESS)
-                                    int shrink = Math.Min(remove / tabCount, TAB_EXCESS);
+                                    var shrink = Math.Min(remove / tabCount, TAB_EXCESS);
                                     retSizes[widestIndexes[i]].Width -= shrink;
                                     remove -= shrink;
                                     totalWidth -= shrink;
@@ -810,10 +803,10 @@ namespace Krypton.Ribbon
                 if (!string.IsNullOrEmpty(_ribbon.SelectedContext))
                 {
                     // Find the list of context names
-                    string[] contexts = _ribbon.SelectedContext.Split(',');
+                    var contexts = _ribbon.SelectedContext.Split(',');
 
                     // Only add each unique context name once
-                    foreach (string context in contexts)
+                    foreach (var context in contexts)
                     {
                         if (!_cachedSelectedContext.Contains(context))
                         {

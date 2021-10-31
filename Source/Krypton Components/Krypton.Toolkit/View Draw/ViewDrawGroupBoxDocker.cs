@@ -102,28 +102,28 @@ namespace Krypton.Toolkit
                     case ViewDockStyle.Top:
                         if (captionRect.Height > 0)
                         {
-                            int reduce = (int)(captionRect.Height * CaptionOverlap);
+                            var reduce = (int)(captionRect.Height * CaptionOverlap);
                             ClientRectangle = new Rectangle(_cacheClientRect.X, _cacheClientRect.Y + reduce, _cacheClientRect.Width, _cacheClientRect.Height - reduce);
                         }
                         break;
                     case ViewDockStyle.Left:
                         if (captionRect.Width > 0)
                         {
-                            int reduce = (int)(captionRect.Width * CaptionOverlap);
+                            var reduce = (int)(captionRect.Width * CaptionOverlap);
                             ClientRectangle = new Rectangle(_cacheClientRect.X + reduce, _cacheClientRect.Y, _cacheClientRect.Width - reduce, _cacheClientRect.Height);
                         }
                         break;
                     case ViewDockStyle.Bottom:
                         if (captionRect.Height > 0)
                         {
-                            int reduce = (int)(captionRect.Height * CaptionOverlap);
+                            var reduce = (int)(captionRect.Height * CaptionOverlap);
                             ClientRectangle = new Rectangle(_cacheClientRect.X, _cacheClientRect.Y, _cacheClientRect.Width, _cacheClientRect.Height - reduce);
                         }
                         break;
                     case ViewDockStyle.Right:
                         if (captionRect.Width > 0)
                         {
-                            int reduce = (int)(captionRect.Width * CaptionOverlap);
+                            var reduce = (int)(captionRect.Width * CaptionOverlap);
                             ClientRectangle = new Rectangle(_cacheClientRect.X, _cacheClientRect.Y, _cacheClientRect.Width - reduce, _cacheClientRect.Height);
                         }
                         break;

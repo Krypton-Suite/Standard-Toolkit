@@ -159,7 +159,7 @@ namespace Krypton.Toolkit
                 if (descriptor.Name.Equals("Name") && descriptor.DesignTimeOnly)
                 {
                     // Hide the 'Name' property so the user cannot modify it
-                    Attribute[] attributeArray = new Attribute[2] { BrowsableAttribute.No, DesignerSerializationVisibilityAttribute.Hidden };
+                    var attributeArray = new Attribute[2] { BrowsableAttribute.No, DesignerSerializationVisibilityAttribute.Hidden };
                     properties[entry.Key] = TypeDescriptor.CreateProperty(descriptor.ComponentType, descriptor, attributeArray);
 
                     // Finished
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
             Rectangle clientRect = Control.ClientRectangle;
 
             // Get the name of the control to draw
-            string drawText = Control.Name;
+            var drawText = Control.Name;
 
             // Use a fixed font for the drawing
             using Font f = new("Arial", 8f);
@@ -226,8 +226,8 @@ namespace Krypton.Toolkit
                 SizeF sizeF = g.MeasureString(drawText, f);
 
                 // Find the drawing position to centre the text
-                int middleX = (clientRect.Width / 2) - (((int)sizeF.Width) / 2);
-                int middleY = (clientRect.Height / 2) - (((int)sizeF.Height) / 2);
+                var middleX = (clientRect.Width / 2) - (((int)sizeF.Width) / 2);
+                var middleY = (clientRect.Height / 2) - (((int)sizeF.Height) / 2);
 
                 // Draw the name of the panel in the centre
                 TextRenderer.DrawText(g, drawText, f,

@@ -166,8 +166,8 @@ namespace Krypton.Toolkit
                     _tickStyle = value;
 
                     // Decide which of the tick tracks are needed
-                    bool topLeft = false;
-                    bool bottomRight = false;
+                    var topLeft = false;
+                    var bottomRight = false;
                     switch (_tickStyle)
                     {
                         case TickStyle.TopLeft:
@@ -361,7 +361,7 @@ namespace Krypton.Toolkit
                 _minimum = minValue;
                 _maximum = maxValue;
 
-                int beforeValue = _value;
+                var beforeValue = _value;
                 if (_value < _minimum)
                 {
                     _value = _minimum;
@@ -419,9 +419,9 @@ namespace Krypton.Toolkit
         /// <param name="e">Event arguments for the event.</param>
         public void OnMouseWheel(MouseEventArgs e)
         {
-            int change = (e.Delta > 0) ? -SmallChange : SmallChange;
-            int detents = Math.Abs(e.Delta) / SystemInformation.MouseWheelScrollDelta;
-            for (int i = 0; i < detents; i++)
+            var change = (e.Delta > 0) ? -SmallChange : SmallChange;
+            var detents = Math.Abs(e.Delta) / SystemInformation.MouseWheelScrollDelta;
+            for (var i = 0; i < detents; i++)
             {
                 ScrollValue = Math.Max(Minimum, Math.Min(Value - change, Maximum));
             }

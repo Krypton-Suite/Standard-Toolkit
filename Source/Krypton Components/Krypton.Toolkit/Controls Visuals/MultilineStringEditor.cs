@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
         /// </param>
         protected override void WndProc(ref Message m)
         {
-            bool handled = false;
+            var handled = false;
             if (m.Msg == PI.WM_.NCHITTEST)
             {
                 handled = OnNcHitTest(ref m);

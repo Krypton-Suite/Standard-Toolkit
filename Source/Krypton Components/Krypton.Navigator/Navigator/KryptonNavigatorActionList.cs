@@ -741,9 +741,9 @@ namespace Krypton.Navigator
                                        bool includeHeaderBar)
         {
             // Get the current visible state of the headers
-            bool headerBarVisible = _navigator.Header.HeaderVisibleBar;
-            bool headerPrimaryVisible = _navigator.Header.HeaderVisiblePrimary;
-            bool headerSecondaryVisible = _navigator.Header.HeaderVisibleSecondary;
+            var headerBarVisible = _navigator.Header.HeaderVisibleBar;
+            var headerPrimaryVisible = _navigator.Header.HeaderVisiblePrimary;
+            var headerSecondaryVisible = _navigator.Header.HeaderVisibleSecondary;
 
             // Decide on the initial text values
             _headerBarText = (headerBarVisible ? "Hide bar header" : "Show bar header");
@@ -818,9 +818,9 @@ namespace Krypton.Navigator
             DesignerVerb verb = sender as DesignerVerb;
 
             // Find out which verb has been used
-            bool headerBar = (verb == _headerBarVisible);
-            bool headerPrimary = (verb == _headerPrimaryVisible);
-            bool headerSecondary = (verb == _headerSecondaryVisible);
+            var headerBar = (verb == _headerBarVisible);
+            var headerPrimary = (verb == _headerPrimaryVisible);
+            var headerSecondary = (verb == _headerSecondaryVisible);
 
             bool newVisible;
 

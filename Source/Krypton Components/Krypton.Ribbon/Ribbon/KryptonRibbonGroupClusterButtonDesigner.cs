@@ -133,10 +133,10 @@ namespace Krypton.Ribbon
                                                          _moveNextVerb, _moveLastVerb, _deleteButtonVerb });
             }
 
-            bool moveFirst = false;
-            bool movePrev = false;
-            bool moveNext = false;
-            bool moveLast = false;
+            var moveFirst = false;
+            var movePrev = false;
+            var moveNext = false;
+            var moveLast = false;
 
             if (_ribbonButton?.Ribbon != null)
             {
@@ -214,7 +214,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    int index = cluster.Items.IndexOf(_ribbonButton) - 1;
+                    var index = cluster.Items.IndexOf(_ribbonButton) - 1;
                     index = Math.Max(index, 0);
                     cluster.Items.Remove(_ribbonButton);
                     cluster.Items.Insert(index, _ribbonButton);
@@ -248,7 +248,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    int index = cluster.Items.IndexOf(_ribbonButton) + 1;
+                    var index = cluster.Items.IndexOf(_ribbonButton) + 1;
                     index = Math.Min(index, cluster.Items.Count - 1);
                     cluster.Items.Remove(_ribbonButton);
                     cluster.Items.Insert(index, _ribbonButton);

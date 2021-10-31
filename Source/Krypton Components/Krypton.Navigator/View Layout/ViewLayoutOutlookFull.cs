@@ -108,7 +108,7 @@ namespace Krypton.Navigator
             BorderEdgeH.Visible = ScrollbarH.Visible = false;
 
             // Get the the visible state before processing
-            string beforeOverflowState = ViewBuilder.GetOverflowButtonStates();
+            var beforeOverflowState = ViewBuilder.GetOverflowButtonStates();
 
             // Make all stacking items visible so all that can be shown will be
             ViewBuilder.UnshrinkAppropriatePages();
@@ -164,7 +164,7 @@ namespace Krypton.Navigator
                 }
 
                 // We short size the horizontal scrollbar if both bars are showing
-                bool needShortSize = (ScrollbarV.Visible && ScrollbarH.Visible);
+                var needShortSize = (ScrollbarV.Visible && ScrollbarH.Visible);
 
                 if (ScrollbarH.ShortSize != needShortSize)
                 {

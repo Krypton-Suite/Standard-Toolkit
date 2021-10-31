@@ -753,11 +753,11 @@ namespace Krypton.Toolkit
                 // Update the thumb position, if the new location is within the bounds.
                 if (_thumbClicked)
                 {
-                    int oldScrollValue = _value;
+                    var oldScrollValue = _value;
 
                     _topButtonState = ScrollBarArrowButtonState.UpActive;
                     _bottomButtonState = ScrollBarArrowButtonState.DownActive;
-                    int pos = _orientation == ScrollBarOrientation.Vertical ?
+                    var pos = _orientation == ScrollBarOrientation.Vertical ?
                        e.Location.Y : e.Location.X;
 
                     // The thumb is all the way to the top
@@ -796,7 +796,7 @@ namespace Krypton.Toolkit
                             arrowSize = _arrowWidth;
                         }
 
-                        float perc = 0f;
+                        var perc = 0f;
 
                         if (pixelRange != 0)
                         {
@@ -1212,8 +1212,8 @@ namespace Krypton.Toolkit
                 arrowSize = _arrowWidth;
             }
 
-            int realRange = _maximum - _minimum;
-            float perc = 0f;
+            var realRange = _maximum - _minimum;
+            var perc = 0f;
 
             if (realRange != 0)
             {
@@ -1231,7 +1231,7 @@ namespace Krypton.Toolkit
         /// <returns>The height of the thumb.</returns>
         private int GetThumbSize()
         {
-            int trackSize =
+            var trackSize =
                _orientation == ScrollBarOrientation.Vertical ?
                Height - (2 * _arrowHeight) : Width - (2 * _arrowWidth);
 
@@ -1240,7 +1240,7 @@ namespace Krypton.Toolkit
                 return trackSize;
             }
 
-            float newThumbSize = ((float)_largeChange * (float)trackSize) / (float)_maximum;
+            var newThumbSize = ((float)_largeChange * (float)trackSize) / (float)_maximum;
 
             return Convert.ToInt32(Math.Min((float)trackSize, Math.Max(newThumbSize, 10f)));
         }
@@ -1290,7 +1290,7 @@ namespace Krypton.Toolkit
         /// <param name="enableTimer">true for enabling the timer, false otherwise.</param>
         private void ProgressThumb(bool enableTimer)
         {
-            int scrollOldValue = _value;
+            var scrollOldValue = _value;
             ScrollEventType type = ScrollEventType.First;
             int thumbSize, thumbPos;
 
@@ -1545,15 +1545,15 @@ namespace Krypton.Toolkit
                 thumbPos = _thumbRectangle.X;
             }
 
-            int pixelRange = size - (2 * arrowSize) - thumbSize;
-            float perc = 0f;
+            var pixelRange = size - (2 * arrowSize) - thumbSize;
+            var perc = 0f;
 
             if (pixelRange != 0)
             {
                 perc = (float)(thumbPos - arrowSize) / (float)pixelRange;
             }
 
-            int oldValue = _value;
+            var oldValue = _value;
 
             _value = Convert.ToInt32((perc * (_maximum - _minimum)) + _minimum);
 

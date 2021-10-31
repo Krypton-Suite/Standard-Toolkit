@@ -142,7 +142,7 @@ namespace Krypton.Workspace
                 else
                 {
                     // If the parent sequence is not the same direction as that needed for the drop then...
-                    bool dropHorizontal = (Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Right);
+                    var dropHorizontal = (Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Right);
                     if ((dropHorizontal && (parent.Orientation == Orientation.Vertical)) ||
                         (!dropHorizontal && (parent.Orientation == Orientation.Horizontal)))
                     {
@@ -153,7 +153,7 @@ namespace Krypton.Workspace
 
                         // Create a new sequence and transfer the target cell into it
                         KryptonWorkspaceSequence sequence = new(sequenceOrientation);
-                        int index = parent.Children.IndexOf(Cell);
+                        var index = parent.Children.IndexOf(Cell);
                         parent.Children.RemoveAt(index);
                         sequence.Children.Add(Cell);
 
@@ -173,7 +173,7 @@ namespace Krypton.Workspace
                     else
                     {
                         // Find position of the target cell
-                        int index = parent.Children.IndexOf(Cell);
+                        var index = parent.Children.IndexOf(Cell);
 
                         // Add new cell before or after the target cell?
                         if ((Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Top))

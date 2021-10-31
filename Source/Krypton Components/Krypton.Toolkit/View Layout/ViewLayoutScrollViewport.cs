@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
                 }
 
                 // We short size the horizontal scrollbar if both bars are showing
-                bool needShortSize = (ScrollbarV.Visible && ScrollbarH.Visible);
+                var needShortSize = (ScrollbarV.Visible && ScrollbarH.Visible);
 
                 if (ScrollbarH.ShortSize != needShortSize)
                 {

@@ -86,7 +86,7 @@ namespace Krypton.Workspace
             {
                 if (Children != null)
                 {
-                    for (int i = Children.Count - 1; i >= 0; i--)
+                    for (var i = Children.Count - 1; i >= 0; i--)
                     {
                         Children[i].Dispose();
                     }
@@ -262,8 +262,8 @@ namespace Krypton.Workspace
                     if ((component is IWorkspaceItem item) && item.WorkspaceVisible)
                     {
                         StarSize itemStar = item.WorkspaceStarSize;
-                        bool preferredWidth = (!itemStar.StarWidth.UsingStar && (itemStar.StarWidth.FixedSize < 0));
-                        bool preferredHeight = (!itemStar.StarHeight.UsingStar && (itemStar.StarHeight.FixedSize < 0));
+                        var preferredWidth = (!itemStar.StarWidth.UsingStar && (itemStar.StarWidth.FixedSize < 0));
+                        var preferredHeight = (!itemStar.StarHeight.UsingStar && (itemStar.StarHeight.FixedSize < 0));
 
                         // Does the item specify a preferred size in either direction?
                         if (preferredWidth || preferredHeight)
@@ -616,7 +616,7 @@ namespace Krypton.Workspace
             if ((flags & CompactFlags.RemoveEmptyCells) == CompactFlags.RemoveEmptyCells)
             {
                 // Search for child cell items
-                for (int i = Children.Count - 1; i >= 0; i--)
+                for (var i = Children.Count - 1; i >= 0; i--)
                 {
                     // If a cell and that cell does not have any pages
                     if ((Children[i] is KryptonWorkspaceCell cell) && (cell.Pages.Count == 0))
@@ -640,7 +640,7 @@ namespace Krypton.Workspace
             if ((flags & CompactFlags.RemoveEmptySequences) == CompactFlags.RemoveEmptySequences)
             {
                 // Search for child sequence items
-                for (int i = Children.Count - 1; i >= 0; i--)
+                for (var i = Children.Count - 1; i >= 0; i--)
                 {
                     // If a sequence and that sequence does not have any children
                     if ((Children[i] is KryptonWorkspaceSequence sequence) && (sequence.Children.Count == 0))
@@ -656,7 +656,7 @@ namespace Krypton.Workspace
             if ((flags & CompactFlags.PromoteLeafs) == CompactFlags.PromoteLeafs)
             {
                 // Search for child sequence items
-                for (int i = Children.Count - 1; i >= 0; i--)
+                for (var i = Children.Count - 1; i >= 0; i--)
                 {
                     // If a sequence and that sequence has just a single child
                     if ((Children[i] is KryptonWorkspaceSequence sequence) && (sequence.Children.Count == 1))
