@@ -935,7 +935,7 @@ namespace Krypton.Navigator
         /// <returns>Matching string.</returns>
         public virtual string GetTextMapping(MapKryptonPageText mapping)
         {
-            string ret = string.Empty;
+            var ret = string.Empty;
 
             // Recover the first preference value
             switch (mapping)
@@ -1102,7 +1102,7 @@ namespace Krypton.Navigator
             {
                 if (_flags.Flags != value)
                 {
-                    int changed = _flags.Flags ^ value;
+                    var changed = _flags.Flags ^ value;
                     _flags.Flags = value;
                     OnFlagsChanged((KryptonPageFlags)changed);
                 }
@@ -1115,7 +1115,7 @@ namespace Krypton.Navigator
         /// <param name="flags">Flags to set.</param>
         public virtual void SetFlags(KryptonPageFlags flags)
         {
-            int changed = _flags.SetFlags((int)flags);
+            var changed = _flags.SetFlags((int)flags);
 
             if (changed != 0)
             {
@@ -1129,7 +1129,7 @@ namespace Krypton.Navigator
         /// <param name="flags">Flags to set.</param>
         public virtual void ClearFlags(KryptonPageFlags flags)
         {
-            int changed = _flags.ClearFlags((int)flags);
+            var changed = _flags.ClearFlags((int)flags);
 
             if (changed != 0)
             {

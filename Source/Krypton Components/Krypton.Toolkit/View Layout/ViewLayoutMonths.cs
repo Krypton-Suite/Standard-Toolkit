@@ -310,13 +310,13 @@ namespace Krypton.Toolkit
                 }
             }
 
-            int cols = Calendar.CalendarDimensions.Width;
-            int rows = Calendar.CalendarDimensions.Height;
-            int ptCol = cols - 1;
-            int ptRow = rows - 1;
+            var cols = Calendar.CalendarDimensions.Width;
+            var rows = Calendar.CalendarDimensions.Height;
+            var ptCol = cols - 1;
+            var ptRow = rows - 1;
 
             // Find the column to be used in lookup
-            for (int col = 0; col < cols; col++)
+            for (var col = 0; col < cols; col++)
             {
                 if (pt.X < this[col + 1].ClientRectangle.Right)
                 {
@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
             }
 
             // Find the row to be used in lookup
-            for (int row = 0; row < rows; row++)
+            for (var row = 0; row < rows; row++)
             {
                 if (pt.Y < this[(row * cols) + 1].ClientRectangle.Bottom)
                 {
@@ -370,7 +370,7 @@ namespace Krypton.Toolkit
         public void NextMonth()
         {
             // Get the number of months to move
-            int move = Calendar.ScrollChange;
+            var move = Calendar.ScrollChange;
             if (move == 0)
             {
                 move = 1;
@@ -422,7 +422,7 @@ namespace Krypton.Toolkit
         public void PrevMonth()
         {
             // Get the number of months to move
-            int move = Calendar.ScrollChange;
+            var move = Calendar.ScrollChange;
             if (move == 0)
             {
                 move = 1;
@@ -577,7 +577,7 @@ namespace Krypton.Toolkit
                 Size dimensions = Calendar.CalendarDimensions;
                 for (int y = 0, index = 1; y < dimensions.Height; y++)
                 {
-                    for (int x = 0; x < dimensions.Width; x++)
+                    for (var x = 0; x < dimensions.Width; x++)
                     {
                         context.DisplayRectangle = new Rectangle(ClientLocation.X + (x * monthSize.Width) + (GAP * (x + 1)),
                                                                  ClientLocation.Y + (y * monthSize.Height) + (GAP * (y + 1)),
@@ -703,12 +703,12 @@ namespace Krypton.Toolkit
             _drawToday.Visible = _showToday;
 
             // How many month children instances do we need?
-            int months = Months;
+            var months = Months;
 
             // Do we need to create more month view?
             if (Count < (months + 1))
             {
-                for (int i = Count - 1; i < months; i++)
+                for (var i = Count - 1; i < months; i++)
                 {
                     Add(new ViewDrawMonth(Calendar, this, _redirector, _needPaintDelegate));
                 }
@@ -716,7 +716,7 @@ namespace Krypton.Toolkit
             else if (Count > (months + 1))
             {
                 // Remove excess month view instances
-                for (int i = Count - 1; i > months; i--)
+                for (var i = Count - 1; i > months; i--)
                 {
                     this[i].Dispose();
                     RemoveAt(i);
@@ -773,7 +773,7 @@ namespace Krypton.Toolkit
             DateTime currentMonth = _displayMonth;
 
             // Inform each view which month it should be drawing
-            for (int i = 1; i < Count; i++)
+            for (var i = 1; i < Count; i++)
             {
                 ViewDrawMonth viewMonth = (ViewDrawMonth)this[i];
                 viewMonth.Enabled = Enabled;

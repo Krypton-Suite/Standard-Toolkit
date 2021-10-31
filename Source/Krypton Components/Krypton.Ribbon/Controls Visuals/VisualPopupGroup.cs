@@ -92,7 +92,7 @@ namespace Krypton.Ribbon
                 _ribbonGroup.ShowingAsPopup = false;
 
                 // Remove all child controls so they do not become disposed
-                for (int i = Controls.Count - 1; i >= 0; i--)
+                for (var i = Controls.Count - 1; i >= 0; i--)
                 {
                     Controls.RemoveAt(0);
                 }
@@ -158,7 +158,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            bool matched = false;
+            var matched = false;
             ViewBase view = ViewGroup.GetNextFocusItem(ViewPopupManager.FocusView, ref matched);
 
             // Rotate around to the first item
@@ -181,7 +181,7 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            bool matched = false;
+            var matched = false;
             ViewBase view = ViewGroup.GetPreviousFocusItem(ViewPopupManager.FocusView, ref matched);
 
             // Rotate around to the last item
@@ -280,8 +280,8 @@ namespace Krypton.Ribbon
                 else
                 {
                     // Cannot show entire popup above or below, find which has most space
-                    int spareAbove = parentScreenRect.Top - workingArea.Top;
-                    int spareBelow = workingArea.Bottom - parentScreenRect.Bottom;
+                    var spareAbove = parentScreenRect.Top - workingArea.Top;
+                    var spareBelow = workingArea.Bottom - parentScreenRect.Bottom;
 
                     // Place it in the area with the most space
                     popupLocation.Y = spareAbove > spareBelow ? workingArea.Top : parentScreenRect.Bottom;

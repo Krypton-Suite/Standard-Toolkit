@@ -343,7 +343,7 @@ namespace Krypton.Navigator
         public bool CheckActionShortcuts(Keys keyData)
         {
             // By default no shortcut is applied
-            bool handled = false;
+            var handled = false;
 
             // Check for shortcut key combinations
             if (keyData == Navigator.Button.CloseButtonShortcut)

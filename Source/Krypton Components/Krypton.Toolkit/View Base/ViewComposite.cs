@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
             // Perform rendering before any children
             RenderBefore(context);
 
-            IEnumerable<ViewBase> ordering = ReverseRenderOrder ? Reverse() : this;
+            var ordering = ReverseRenderOrder ? Reverse() : this;
 
             // Ask each child to render in turn
             foreach (ViewBase child in ordering
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         public override bool Remove(ViewBase item)
         {
             // Let type safe collection perform operation
-            bool ret = _views?.Remove(item) ?? false;
+            var ret = _views?.Remove(item) ?? false;
 
             // Remove back reference only when remove completed with success
             if (ret && item != null)
@@ -420,7 +420,7 @@ namespace Krypton.Toolkit
             if (_views != null)
             {
                 // Return the child views in reverse order
-                for (int i = _views.Count - 1; i >= 0; i--)
+                for (var i = _views.Count - 1; i >= 0; i--)
                 {
                     yield return _views[i];
                 }
@@ -436,7 +436,7 @@ namespace Krypton.Toolkit
             if (_views != null)
             {
                 // Enumerate the child views in reverse order
-                for (int i = _views.Count - 1; i >= 0; i--)
+                for (var i = _views.Count - 1; i >= 0; i--)
                 {
                     // Traverse the view first
                     yield return _views[i];

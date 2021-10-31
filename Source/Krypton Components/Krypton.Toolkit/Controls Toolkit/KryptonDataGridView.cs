@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
             using (Graphics g = CreateGraphics())
             {
                 //float factorX = g.DpiX > 96 ? (1f * g.DpiX / 96) : 1f;  
-                float factorY = g.DpiY > 96 ? (1f * g.DpiY / 96) : 1f;
+                var factorY = g.DpiY > 96 ? (1f * g.DpiY / 96) : 1f;
                 ColumnHeadersHeight = (int)(ColumnHeadersHeight * factorY);
             }
 
@@ -1017,7 +1017,7 @@ namespace Krypton.Toolkit
             // Cache mouse location before calling base class
             DataGridViewCell cell = GetCellInternal(e.ColumnIndex, e.RowIndex);
 
-            byte oldLocation = CurrentMouseLocation(cell);
+            var oldLocation = CurrentMouseLocation(cell);
             if ((cell is DataGridViewRowHeaderCell) && (_oldCell == cell))
             {
                 oldLocation = _oldLocation;
@@ -1025,7 +1025,7 @@ namespace Krypton.Toolkit
 
             base.OnCellMouseMove(e);
 
-            byte newLocation = UpdateLocationForRowErrors(e, cell, CurrentMouseLocation(cell));
+            var newLocation = UpdateLocationForRowErrors(e, cell, CurrentMouseLocation(cell));
             if (cell is DataGridViewRowHeaderCell)
             {
                 _oldLocation = newLocation;
@@ -1148,7 +1148,7 @@ namespace Krypton.Toolkit
             try
             {
                 // If the font we get from the base palette is a system font that is invalid this will throw exception
-                int hContent = _contentInherit.GetContentShortTextFont(state).Height;
+                var hContent = _contentInherit.GetContentShortTextFont(state).Height;
             }
             catch
             {
@@ -1156,7 +1156,7 @@ namespace Krypton.Toolkit
                 SyncCellStylesWithPalette();
             }
 
-            bool rtl = RightToLeftInternal;
+            var rtl = RightToLeftInternal;
 
             // Use an offscreen bitmap to draw onto before blitting it to the screen
             Rectangle tempCellBounds = new(0, 0, e.CellBounds.Width, e.CellBounds.Height);
@@ -1212,8 +1212,8 @@ namespace Krypton.Toolkit
                                         continue;
                                     }
                                     // Draw icon and update the remainder cell bounds left over
-                                    int iconWidth = spec.Icon.Width + 5;
-                                    int width = tempCellBounds.Width - iconWidth;
+                                    var iconWidth = spec.Icon.Width + 5;
+                                    var width = tempCellBounds.Width - iconWidth;
                                     Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
                                         tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
                                     renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
@@ -1320,8 +1320,8 @@ namespace Krypton.Toolkit
                                             }
 
                                             // Draw icon and update the remainder cell bounds left over
-                                            int iconWidth = spec.Icon.Width + 5;
-                                            int width = tempCellBounds.Width - iconWidth;
+                                            var iconWidth = spec.Icon.Width + 5;
+                                            var width = tempCellBounds.Width - iconWidth;
                                             Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
                                                 tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
                                             renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
@@ -1353,9 +1353,9 @@ namespace Krypton.Toolkit
                                 //Empty _restrictColumnsSearch means highlight everywhere
                                 if (!string.IsNullOrEmpty(_searchString) && (_restrictColumnsSearch.Count == 0 || (_restrictColumnsSearch.Count != 0 && _restrictColumnsSearch.Contains(e.ColumnIndex))) && e.FormattedValue.GetType().Name != "Bitmap")
                                 {
-                                    string val = (string)e.FormattedValue;
-                                    int sindx = val.ToLower().IndexOf(_searchString.ToLower());
-                                    int sCount = 1;
+                                    var val = (string)e.FormattedValue;
+                                    var sindx = val.ToLower().IndexOf(_searchString.ToLower());
+                                    var sCount = 1;
                                     while (sindx >= 0)
                                     {
                                         Rectangle hl_rect = new()
@@ -1364,8 +1364,8 @@ namespace Krypton.Toolkit
                                             Height = e.CellBounds.Height - 5
                                         };
 
-                                        string sBefore = val.Substring(0, sindx);
-                                        string sWord = val.Substring(sindx, _searchString.Length);
+                                        var sBefore = val.Substring(0, sindx);
+                                        var sWord = val.Substring(sindx, _searchString.Length);
                                         Size s1 = TextRenderer.MeasureText(e.Graphics, sBefore, e.CellStyle.Font, e.CellBounds.Size);
                                         Size s2 = TextRenderer.MeasureText(e.Graphics, sWord, e.CellStyle.Font, e.CellBounds.Size);
 
@@ -1426,8 +1426,8 @@ namespace Krypton.Toolkit
                                         Size prefSize = Renderer.RenderStandardContent.GetContentPreferredSize(layoutContext, _contentInherit, _shortTextValue,
                                             VisualOrientation.Top, state, false, false);
 
-                                        bool contentsFit = (prefSize.Width <= tempCellBounds.Width) &&
-                                                           (prefSize.Height <= tempCellBounds.Height);
+                                        var contentsFit = (prefSize.Width <= tempCellBounds.Width) &&
+                                                          (prefSize.Height <= tempCellBounds.Height);
 
                                         // Cache if the column cell can display all the content
                                         if (_columnCache.ContainsKey(e.ColumnIndex))
@@ -2195,7 +2195,7 @@ namespace Krypton.Toolkit
                 if (ViewManager != null)
                 {
                     // Prevent infinite loop by looping a maximum number of times
-                    int max = 5;
+                    var max = 5;
 
                     do
                     {
@@ -2239,7 +2239,7 @@ namespace Krypton.Toolkit
                                 if ((cell.OwningColumn.Width < GetCellPreferredWidth(cell)) ||
                                     (cell.OwningRow.Height < GetCellPreferredHeight(cell)))
                                 {
-                                    string editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
+                                    var editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
                                     if (!string.IsNullOrEmpty(editedValue))
                                     {
                                         _toolTipText = TruncateToolTipText(editedValue);
@@ -2253,7 +2253,7 @@ namespace Krypton.Toolkit
                                 {
                                     try
                                     {
-                                        string editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
+                                        var editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
                                         if (!string.IsNullOrEmpty(editedValue))
                                         {
                                             _toolTipText = TruncateToolTipText(editedValue);

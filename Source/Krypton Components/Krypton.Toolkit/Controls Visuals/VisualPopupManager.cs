@@ -109,8 +109,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Check the stack items in reverse order for a match
-                VisualPopup[] popups = _stack.ToArray();
-                for (int i = popups.Length - 1; i >= 0; i--)
+                var popups = _stack.ToArray();
+                for (var i = popups.Length - 1; i >= 0; i--)
                 {
                     if (!popups[i].IsDisposed)
                     {
@@ -368,14 +368,14 @@ namespace Krypton.Toolkit
                         }
                         else
                         {
-                            bool focus = CurrentPopup.ContainsFocus;
+                            var focus = CurrentPopup.ContainsFocus;
 
                             if (!focus)
                             {
-                                VisualPopup[] popups = _stack.ToArray();
+                                var popups = _stack.ToArray();
 
                                 // For from last to first for any popup that has the focus
-                                for (int i = popups.Length - 1; i >= 0; i--)
+                                for (var i = popups.Length - 1; i >= 0; i--)
                                 {
                                     if (!popups[i].IsDisposed)
                                     {
@@ -482,7 +482,7 @@ namespace Krypton.Toolkit
 
         private bool ProcessClientMouseDown(ref Message m)
         {
-            bool processed = false;
+            var processed = false;
             
             // Convert the client position to screen point
             Point screenPt = CommonHelper.ClientMouseMessageToScreenPt(m);
@@ -512,10 +512,10 @@ namespace Krypton.Toolkit
                     // Mouse is not inside the client area of the current popup, so we are going to end all tracking
                     // unless we can find a popup that wants to become the current popup because the mouse happens to
                     // be other it, and it wants it.
-                    VisualPopup[] popups = _stack.ToArray();
+                    var popups = _stack.ToArray();
 
                     // Search from end towards the front, the last entry is the most recent 'Push'
-                    for (int i = 0; i < popups.Length; i++)
+                    for (var i = 0; i < popups.Length; i++)
                     {
                         // Ignore disposed popups
                         VisualPopup popup = popups[i];
@@ -550,7 +550,7 @@ namespace Krypton.Toolkit
                         if (!processed)
                         {
                             // Search from end towards the front, the last entry is the most recent 'Push'
-                            for (int i = 0; i < popups.Length; i++)
+                            for (var i = 0; i < popups.Length; i++)
                             {
                                 // Ignore disposed popups
                                 VisualPopup popup = popups[i];
@@ -586,15 +586,15 @@ namespace Krypton.Toolkit
             }
 
             // Do any of the current popups want the mouse down to be eaten?
-            bool processed = false;
+            var processed = false;
             if (CurrentPopup != null)
             {
                 processed = CurrentPopup.DoesMouseDownGetEaten(m, screenPt);
                 if (!processed)
                 {
                     // Search from end towards the front, the last entry is the most recent 'Push'
-                    VisualPopup[] popups = _stack.ToArray();
-                    for (int i = 0; i < popups.Length; i++)
+                    var popups = _stack.ToArray();
+                    for (var i = 0; i < popups.Length; i++)
                     {
                         // Ignore disposed popups
                         VisualPopup popup = popups[i];
@@ -628,10 +628,10 @@ namespace Krypton.Toolkit
                 }
 
                 // Ask each stacked entry if they allow the mouse move
-                VisualPopup[] popups = _stack.ToArray();
+                var popups = _stack.ToArray();
 
                 // Search from end towards the front, the last entry is the most recent 'Push'
-                for (int i = popups.Length - 1; i >= 0; i--)
+                for (var i = popups.Length - 1; i >= 0; i--)
                 {
                     if (!popups[i].IsDisposed)
                     {
@@ -678,8 +678,8 @@ namespace Krypton.Toolkit
             }
 
             // Search all the stacked popups for any that match the window handle
-            VisualPopup[] popups = _stack.ToArray();
-            for (int i = 0; i<popups.Length; i++)
+            var popups = _stack.ToArray();
+            for (var i = 0; i<popups.Length; i++)
             {
                 if (!popups[i].IsDisposed)
                 {

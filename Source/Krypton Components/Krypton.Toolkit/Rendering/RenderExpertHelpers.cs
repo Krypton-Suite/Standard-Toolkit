@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
             // Cannot draw a zero length rectangle
             if ((rect.Width > 0) && (rect.Height > 0))
             {
-                bool generate = true;
+                var generate = true;
                 MementoBackExpertShadow cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -243,7 +243,7 @@ namespace Krypton.Toolkit
             // Cannot draw a zero length rectangle
             if ((rect.Width > 0) && (rect.Height > 0))
             {
-                bool generate = true;
+                var generate = true;
                 MementoBackExpertSquareHighlight cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -271,8 +271,8 @@ namespace Krypton.Toolkit
 
                     RectangleF ellipseRect;
                     PointF ellipseCenter;
-                    int ellipseWidth = Math.Max(1, rect.Width / 8);
-                    int ellipseHeight = Math.Max(1, rect.Height / 8);
+                    var ellipseWidth = Math.Max(1, rect.Width / 8);
+                    var ellipseHeight = Math.Max(1, rect.Height / 8);
 
                     switch (orientation)
                     {
@@ -329,7 +329,7 @@ namespace Krypton.Toolkit
             // Cannot draw a zero length rectangle
             if ((drawRect.Width > 0) && (drawRect.Height > 0))
             {
-                bool generate = true;
+                var generate = true;
                 MementoBackSolid cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
             // Cannot draw a zero length rectangle
             if ((drawRect.Width > 0) && (drawRect.Height > 0))
             {
-                bool generate = true;
+                var generate = true;
                 MementoBackExpertChecked cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -436,8 +436,8 @@ namespace Krypton.Toolkit
 
                     RectangleF ellipseRect;
                     PointF ellipseCenter;
-                    int ellipseHeight = Math.Max(1, drawRect.Height / 4);
-                    int ellipseWidth = Math.Max(1, (tracking ? drawRect.Width : drawRect.Width / 4));
+                    var ellipseHeight = Math.Max(1, drawRect.Height / 4);
+                    var ellipseWidth = Math.Max(1, (tracking ? drawRect.Width : drawRect.Width / 4));
 
                     // Ellipse is based on the orientation
                     switch (orientation)

@@ -220,8 +220,8 @@ namespace Krypton.Toolkit
         private Rectangle CalcRectangle(Rectangle windowBounds)
         {
             int extraWidth = _shadowValues.ExtraWidth;
-            int w = windowBounds.Width + extraWidth * 2;
-            int h = windowBounds.Height + extraWidth * 2;
+            var w = windowBounds.Width + extraWidth * 2;
+            var h = windowBounds.Height + extraWidth * 2;
 
             int top;
             int left;

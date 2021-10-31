@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <returns>True if allowed; otherwise false.</returns>
         protected bool IsTypeAllowed(object value)
         {
-            bool valid = false;
+            var valid = false;
 
             // Check if incoming instance derives from an allowed type
             foreach (Type t in RestrictTypes)

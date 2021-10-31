@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
                 Color c1 = paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
                 Color c2 = paletteBack.GetRibbonBackColor5(PaletteState.ContextCheckedNormal);
 
-                bool generate = true;
+                var generate = true;
                 MementoRibbonTabContextOffice cache;
 
                 // Access a cache instance and decide if cache resources need generating

@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    string formattedValue = value as string;
+                    var formattedValue = value as string;
                     if (string.IsNullOrEmpty(formattedValue))
                     {
                         ValueNullable = (formattedValue == string.Empty) ? null : value;

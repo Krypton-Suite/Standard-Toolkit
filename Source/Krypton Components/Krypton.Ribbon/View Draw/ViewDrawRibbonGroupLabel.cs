@@ -356,14 +356,14 @@ namespace Krypton.Ribbon
         private void UpdateEnabledState()
         {
             // Get the correct enabled state from the button definition
-            bool buttonEnabled = GroupLabel.Enabled;
+            var buttonEnabled = GroupLabel.Enabled;
             if (GroupLabel.KryptonCommand != null)
             {
                 buttonEnabled = GroupLabel.KryptonCommand.Enabled;
             }
 
             // Take into account the ribbon state and mode
-            bool enabled = _ribbon.InDesignHelperMode || (buttonEnabled && _ribbon.Enabled);
+            var enabled = _ribbon.InDesignHelperMode || (buttonEnabled && _ribbon.Enabled);
 
             // Update enabled for the large button view
             _viewLarge.Enabled = enabled;
@@ -398,7 +398,7 @@ namespace Krypton.Ribbon
             {
                 case GroupItemSize.Small:
                 case GroupItemSize.Medium:
-                    bool show = (size == GroupItemSize.Medium);
+                    var show = (size == GroupItemSize.Medium);
                     _viewMediumSmallCenter.CurrentSize = size;
                     _viewMediumSmallText2.Visible = show;
 
@@ -417,8 +417,8 @@ namespace Krypton.Ribbon
 
         private void OnLabelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            bool updateLayout = false;
-            bool updatePaint = false;
+            var updateLayout = false;
+            var updatePaint = false;
 
             switch (e.PropertyName)
             {

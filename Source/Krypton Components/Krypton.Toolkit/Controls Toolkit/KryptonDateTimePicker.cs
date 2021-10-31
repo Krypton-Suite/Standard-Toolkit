@@ -1724,8 +1724,8 @@ namespace Krypton.Toolkit
                 KeyEventArgs kpea = new((e.Delta < 0) ? Keys.Down : Keys.Up);
 
                 // Simulate the up/down key the correct number of times
-                int detents = Math.Abs(e.Delta) / SystemInformation.MouseWheelScrollDelta;
-                for (int i = 0; i < detents; i++)
+                var detents = Math.Abs(e.Delta) / SystemInformation.MouseWheelScrollDelta;
+                for (var i = 0; i < detents; i++)
                 {
                     _drawText.PerformKeyDown(kpea);
                 }
@@ -1769,7 +1769,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            bool rtl = (_drawText.RightToLeftLayout && (RightToLeft == RightToLeft.Yes));
+            var rtl = (_drawText.RightToLeftLayout && (RightToLeft == RightToLeft.Yes));
 
             // If the point is before the drop buttons...
             if ((!ShowUpDown && !rtl && (e.X < _buttonDropDown.ClientLocation.X)) ||

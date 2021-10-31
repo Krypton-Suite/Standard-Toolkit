@@ -80,14 +80,14 @@ namespace Krypton.Ribbon
                         PI.SendMessage(CompOwnerForm.Handle, PI.WM_.GETTITLEBARINFOEX, IntPtr.Zero, ref tbi);
 
                         // Find width of the button rectangle
-                        int closeWidth = tbi.rcCloseButton.right - tbi.rcCloseButton.left;
-                        int helpWidth = tbi.rcHelpButton.right - tbi.rcHelpButton.left;
-                        int minWidth = tbi.rcMinimizeButton.right - tbi.rcMinimizeButton.left;
-                        int maxWidth = tbi.rcMaximizeButton.right - tbi.rcMaximizeButton.left;
+                        var closeWidth = tbi.rcCloseButton.right - tbi.rcCloseButton.left;
+                        var helpWidth = tbi.rcHelpButton.right - tbi.rcHelpButton.left;
+                        var minWidth = tbi.rcMinimizeButton.right - tbi.rcMinimizeButton.left;
+                        var maxWidth = tbi.rcMaximizeButton.right - tbi.rcMaximizeButton.left;
 
-                        int clientWidth = CompOwnerForm.ClientSize.Width;
-                        int clientScreenRight = CompOwnerForm.RectangleToScreen(CompOwnerForm.ClientRectangle).Right;
-                        int leftMost = clientScreenRight;
+                        var clientWidth = CompOwnerForm.ClientSize.Width;
+                        var clientScreenRight = CompOwnerForm.RectangleToScreen(CompOwnerForm.ClientRectangle).Right;
+                        var leftMost = clientScreenRight;
 
                         // Find the left most button edge (start with right side of client area)
                         if ((closeWidth > 0) && (closeWidth < clientWidth))

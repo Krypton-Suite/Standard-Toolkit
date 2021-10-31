@@ -467,8 +467,8 @@ namespace Krypton.Toolkit
             private void buttonOK_Click(object sender, EventArgs e)
             {
                 // Create an array with all the root items
-                object[] rootItems = new object[treeView1.Nodes.Count];
-                for (int i = 0; i < rootItems.Length; i++)
+                var rootItems = new object[treeView1.Nodes.Count];
+                for (var i = 0; i < rootItems.Length; i++)
                 {
                     rootItems[i] = ((MenuTreeNode)treeView1.Nodes[i]).Item;
                 }
@@ -516,7 +516,7 @@ namespace Krypton.Toolkit
                     return null;
                 }
 
-                bool found = false;
+                var found = false;
                 return RecursiveFind(treeView1.Nodes, currentNode, ref found, true);
             }
 
@@ -527,7 +527,7 @@ namespace Krypton.Toolkit
                     return null;
                 }
 
-                bool found = false;
+                var found = false;
                 return RecursiveFind(treeView1.Nodes, currentNode, ref found, false);
             }
 
@@ -536,7 +536,7 @@ namespace Krypton.Toolkit
                                            ref bool found,
                                            bool forward)
             {
-                for (int i = 0; i < nodes.Count; i++)
+                for (var i = 0; i < nodes.Count; i++)
                 {
                     TreeNode node = nodes[forward ? i : nodes.Count - 1 - i];
 
@@ -598,7 +598,7 @@ namespace Krypton.Toolkit
                     if (previousNode != null)
                     {
                         // Is the current node contained inside the next node
-                        bool contained = ContainsNode(previousNode, node);
+                        var contained = ContainsNode(previousNode, node);
 
                         // Remove cell from parent collection
                         MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
@@ -611,7 +611,7 @@ namespace Krypton.Toolkit
                             // Add cell to the parent of target node
                             MenuTreeNode previousParent = (MenuTreeNode)previousNode.Parent;
                             parentCollection = (previousNode.Parent == null ? treeView1.Nodes : previousNode.Parent.Nodes);
-                            int pageIndex = parentCollection.IndexOf(previousNode);
+                            var pageIndex = parentCollection.IndexOf(previousNode);
 
                             // If the current and previous nodes are inside the same common node
                             if (!contained && ((previousParent != null) && (previousParent != parentNode)))
@@ -653,7 +653,7 @@ namespace Krypton.Toolkit
                     if (nextNode != null)
                     {
                         // Is the current node contained inside the next node
-                        bool contained = ContainsNode(nextNode, node);
+                        var contained = ContainsNode(nextNode, node);
 
                         // Remove cell from parent collection
                         MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
@@ -666,7 +666,7 @@ namespace Krypton.Toolkit
                             // Add cell to the parent sequence of target cell
                             MenuTreeNode previousParent = (MenuTreeNode)nextNode.Parent;
                             parentCollection = (nextNode.Parent == null ? treeView1.Nodes : nextNode.Parent.Nodes);
-                            int pageIndex = parentCollection.IndexOf(nextNode);
+                            var pageIndex = parentCollection.IndexOf(nextNode);
                             previousParent?.Item.Items.Insert(pageIndex + 1, node.Item);
                             parentCollection.Insert(pageIndex + 1, node);
                         }

@@ -792,7 +792,7 @@ namespace Krypton.Toolkit
             }
 
             // If state has changed or change in (inside split area)
-            bool inSplitRectangle = SplitRectangle.Contains(pt);
+            var inSplitRectangle = SplitRectangle.Contains(pt);
             if ((Target.ElementState != newState) || (inSplitRectangle != _inSplitRectangle))
             {
                 // Update if the point is inside the split rectangle

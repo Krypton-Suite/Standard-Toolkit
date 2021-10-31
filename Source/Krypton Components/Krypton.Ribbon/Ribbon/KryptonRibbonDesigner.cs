@@ -187,7 +187,7 @@ namespace Krypton.Ribbon
         protected override bool GetHitTest(Point point)
         {
             // Ask the control if it wants to process the point
-            bool ret = _ribbon.DesignerGetHitTest(_ribbon.PointToClient(point));
+            var ret = _ribbon.DesignerGetHitTest(_ribbon.PointToClient(point));
 
             // If the ribbon does not want the mouse point then make sure the 
             // tracking element is informed that the mouse has left the control
@@ -305,7 +305,7 @@ namespace Krypton.Ribbon
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the tabs from the ribbon
-                for (int i = _ribbon.RibbonTabs.Count - 1; i >= 0; i--)
+                for (var i = _ribbon.RibbonTabs.Count - 1; i >= 0; i--)
                 {
                     KryptonRibbonTab tab = _ribbon.RibbonTabs[i];
                     _ribbon.RibbonTabs.Remove(tab);
@@ -372,7 +372,7 @@ namespace Krypton.Ribbon
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
-                for (int i = _ribbon.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = _ribbon.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     ButtonSpec spec = _ribbon.ButtonSpecs[i];
                     _ribbon.ButtonSpecs.Remove(spec);
@@ -380,7 +380,7 @@ namespace Krypton.Ribbon
                 }
 
                 // We need to remove all the QAT button specifications
-                for (int i = _ribbon.QATButtons.Count - 1; i >= 0; i--)
+                for (var i = _ribbon.QATButtons.Count - 1; i >= 0; i--)
                 {
                     Component button = _ribbon.QATButtons[i];
                     _ribbon.QATButtons.Remove(button);
@@ -388,7 +388,7 @@ namespace Krypton.Ribbon
                 }
 
                 // We need to remove all the ribbon context instances
-                for (int i = _ribbon.RibbonContexts.Count - 1; i >= 0; i--)
+                for (var i = _ribbon.RibbonContexts.Count - 1; i >= 0; i--)
                 {
                     KryptonRibbonContext context = _ribbon.RibbonContexts[i];
                     _ribbon.RibbonContexts.Remove(context);
@@ -396,7 +396,7 @@ namespace Krypton.Ribbon
                 }
 
                 // We need to remove all the ribbon tab instances
-                for (int i = _ribbon.RibbonTabs.Count - 1; i >= 0; i--)
+                for (var i = _ribbon.RibbonTabs.Count - 1; i >= 0; i--)
                 {
                     KryptonRibbonTab tab = _ribbon.RibbonTabs[i];
                     _ribbon.RibbonTabs.Remove(tab);

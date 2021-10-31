@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
             if (_dateTimePicker != null)
             {
                 // Ask the control if it wants to process the point
-                bool ret = _dateTimePicker.DesignerGetHitTest(_dateTimePicker.PointToClient(point));
+                var ret = _dateTimePicker.DesignerGetHitTest(_dateTimePicker.PointToClient(point));
 
                 // If the navigator does not want the mouse point then make sure the 
                 // tracking element is informed that the mouse has left the control
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
-                for (int i = _dateTimePicker.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = _dateTimePicker.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     // Get access to the indexed button spec
                     ButtonSpec spec = _dateTimePicker.ButtonSpecs[i];

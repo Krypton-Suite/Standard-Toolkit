@@ -74,7 +74,9 @@ namespace Krypton.Toolkit
 
             // add Palette Handler
             if (_palette != null)
+            {
                 _palette.PalettePaint += OnPalettePaint;
+            }
 
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
@@ -596,7 +598,7 @@ namespace Krypton.Toolkit
         /// <param name="state">The <see cref="ScrollBarState"/> of the thumb.</param>
         private static void DrawThumbVertical(Graphics g, Rectangle rect, ScrollBarState state)
         {
-            int index = state switch
+            var index = state switch
             {
                 ScrollBarState.Hot => 1,
                 ScrollBarState.Pressed => 2,
@@ -692,7 +694,7 @@ namespace Krypton.Toolkit
            Rectangle rect,
            ScrollBarState state)
         {
-            int index = state switch
+            var index = state switch
             {
                 ScrollBarState.Hot => 1,
                 ScrollBarState.Pressed => 2,
@@ -831,7 +833,7 @@ namespace Krypton.Toolkit
             g.SmoothingMode = SmoothingMode.None;
             g.InterpolationMode = InterpolationMode.Low;
 
-            int index = -1;
+            var index = -1;
 
             switch (state)
             {
@@ -1016,7 +1018,9 @@ namespace Krypton.Toolkit
         private static void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
+            {
                 _palette.PalettePaint -= OnPalettePaint;
+            }
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect.Target = _palette;

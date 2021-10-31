@@ -65,8 +65,8 @@ namespace Krypton.Toolkit
             /// <param name="index">The index in array at which copying begins.</param>
             public void CopyTo(Array array, int index)
             {
-                int count = _owner.CheckedItems.Count;
-                for (int i = 0; i < count; i++)
+                var count = _owner.CheckedItems.Count;
+                for (var i = 0; i < count; i++)
                 {
                     array.SetValue(this[i], i + index);
                 }
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             /// <returns>Enumerator instance.</returns>
             public IEnumerator GetEnumerator()
             {
-                int[] dest = new int[Count];
+                var dest = new int[Count];
                 CopyTo(dest, 0);
                 return dest.GetEnumerator();
             }
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
             {
                 if ((index >= 0) && (index < _owner.Items.Count))
                 {
-                    object entryObject = InnerArrayGetEntryObject(index, 0);
+                    var entryObject = InnerArrayGetEntryObject(index, 0);
                     return _owner.CheckedItems.IndexOfIdentifier(entryObject);
                 }
                 return -1;
@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
             {
                 get
                 {
-                    object entryObject = InnerArrayGetEntryObject(index, CheckedItemCollection._anyItemMask);
+                    var entryObject = InnerArrayGetEntryObject(index, CheckedItemCollection._anyItemMask);
                     return InnerArrayIndexOfIdentifier(entryObject, 0);
                 }
 
@@ -203,8 +203,8 @@ namespace Krypton.Toolkit
             /// <param name="index">The index in array at which copying begins.</param>
             public void CopyTo(Array array, int index)
             {
-                int count = InnerArrayGetCount(_anyItemMask);
-                for (int i = 0; i < count; i++)
+                var count = InnerArrayGetCount(_anyItemMask);
+                for (var i = 0; i < count; i++)
                 {
                     array.SetValue(InnerArrayGetItem(i, _anyItemMask), i + index);
                 }
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
             #region Internal
             internal CheckState GetCheckedState(int index)
             {
-                bool state = InnerArrayGetState(index, _checkedItemMask);
+                var state = InnerArrayGetState(index, _checkedItemMask);
                 return InnerArrayGetState(index, _indeterminateItemMask)
                     ? CheckState.Indeterminate
                     : state ? CheckState.Checked : CheckState.Unchecked;
@@ -358,7 +358,7 @@ namespace Krypton.Toolkit
             /// <returns>The index of the newly added item.</returns>
             public int Add(object item, CheckState check)
             {
-                int index = base.Add(item);
+                var index = base.Add(item);
                 _owner.SetItemCheckState(index, check);
                 return index;
             }
@@ -580,7 +580,7 @@ namespace Krypton.Toolkit
             {
                 if (m.Msg == LBC_GETCHECKSTATE)
                 {
-                    int wParam = (int)m.WParam.ToInt64();
+                    var wParam = (int)m.WParam.ToInt64();
                     if ((wParam < 0) || (wParam >= Items.Count))
                     {
                         m.Result = (IntPtr)(-1);
@@ -592,8 +592,8 @@ namespace Krypton.Toolkit
                 }
                 else if (m.Msg == LBC_SETCHECKSTATE)
                 {
-                    int index = (int)m.WParam.ToInt64();
-                    int lParam = (int)m.LParam;
+                    var index = (int)m.WParam.ToInt64();
+                    var lParam = (int)m.LParam;
                     if (((index < 0) || (index >= Items.Count)) || ((lParam != 1) && (lParam != 0)))
                     {
                         m.Result = IntPtr.Zero;
@@ -644,7 +644,7 @@ namespace Krypton.Toolkit
                         {
                             // Find the item under the mouse
                             Point mousePoint = new((int)m.LParam.ToInt64());
-                            int mouseIndex = IndexFromPoint(mousePoint);
+                            var mouseIndex = IndexFromPoint(mousePoint);
 
                             // If we have an actual item from the point
                             if ((mouseIndex >= 0) && (mouseIndex < Items.Count))
@@ -913,7 +913,7 @@ namespace Krypton.Toolkit
 
             private void LbnSelChange()
             {
-                int selectedIndex = SelectedIndex;
+                var selectedIndex = SelectedIndex;
                 if ((selectedIndex >= 0) && (selectedIndex < Items.Count))
                 {
                     if (!_killNextSelect && ((selectedIndex == _lastSelected) || _kryptonCheckedListBox.CheckOnClick))
@@ -2200,7 +2200,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Is the mouse over the item about to be drawn
-                bool mouseOver = (e.Index >= 0) && (e.Index == _listBox.MouseIndex);
+                var mouseOver = (e.Index >= 0) && (e.Index == _listBox.MouseIndex);
 
                 // If selected then show as a checked item
                 if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
@@ -2225,8 +2225,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Do we need to show item as having the focus
-                bool hasFocus = ((e.State & DrawItemState.Focus) == DrawItemState.Focus) &&
-                                ((e.State & DrawItemState.NoFocusRect) != DrawItemState.NoFocusRect);
+                var hasFocus = ((e.State & DrawItemState.Focus) == DrawItemState.Focus) &&
+                               ((e.State & DrawItemState.NoFocusRect) != DrawItemState.NoFocusRect);
 
                 _overrideNormal.Apply = hasFocus;
                 _overrideTracking.Apply = hasFocus;

@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             _colors = new Color[(int)PaletteColorIndex.Count];
 
             // Initialise all the colors to empty
-            for (int i = 0; i < _colors.Length; i++)
+            for (var i = 0; i < _colors.Length; i++)
             {
                 _colors[i] = Color.Empty;
             }
