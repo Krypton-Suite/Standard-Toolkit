@@ -1275,8 +1275,8 @@ namespace Krypton.Toolkit
 
                     // Always subtract one from top and bottom edges to account for border placed there later by Krypton
                     Padding inputControlPadding = new(0);
-                    var xDiff = Math.Max(0, ss.Width - sn.Width);
-                    var yDiff = Math.Max(0, ss.Height - sn.Height - 2);
+                    int xDiff = Math.Max(0, ss.Width - sn.Width);
+                    int yDiff = Math.Max(0, ss.Height - sn.Height - 2);
 
                     // If on Vista or upwards
                     if (Environment.OSVersion.Version.Major == 6)

@@ -141,7 +141,7 @@ namespace Krypton.Navigator
             // Update each individual tab with the new style for remapping page level button specs
             if (PageLookup != null)
             {
-                foreach (var pair in PageLookup)
+                foreach (KeyValuePair<KryptonPage, INavCheckItem> pair in PageLookup)
                 {
                     ViewDrawNavCheckButtonTab tabHeader = (ViewDrawNavCheckButtonTab)pair.Value;
                     tabHeader.ButtonSpecManager?.SetRemapTarget(Navigator.Bar.TabStyle);

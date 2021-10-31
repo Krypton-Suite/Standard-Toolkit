@@ -458,7 +458,7 @@ namespace Krypton.Ribbon
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
         protected virtual void OnClick(EventHandler finishDelegate)
         {
-            var fireDelegate = true;
+            bool fireDelegate = true;
 
             if (!Ribbon.InDesignMode)
             {

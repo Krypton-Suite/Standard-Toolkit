@@ -4554,8 +4554,8 @@ namespace Krypton.Toolkit
 
             _italicFont?.Dispose();
 
-            var baseFontSize = BaseFontSize;
-            var baseFontName = BaseFontName;
+            float baseFontSize = BaseFontSize;
+            string baseFontName = BaseFontName;
             _header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
             _header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
             _headerFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);

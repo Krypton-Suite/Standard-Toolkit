@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
                 else if (Environment.OSVersion.Version.Major < 10)
                 {
                     // Ask the desktop window manager is composition is currently enabled
-                    var compositionEnabled = false;
+                    bool compositionEnabled = false;
                     PI.DwmIsCompositionEnabled(ref compositionEnabled);
                     return compositionEnabled;
                 }

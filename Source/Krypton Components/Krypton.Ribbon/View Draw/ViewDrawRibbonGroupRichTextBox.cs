@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
 
         private void OnRichTextBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var updateLayout = false;
+            bool updateLayout = false;
             const bool UPDATE_PAINT = false;
 
             switch (e.PropertyName)
@@ -498,7 +498,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                var enabled = GroupRichTextBox.Enabled;
+                bool enabled = GroupRichTextBox.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupRichTextBox.RichTextBoxDesigner != null))
@@ -516,7 +516,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupRichTextBox.Visible;
+                bool visible = GroupRichTextBox.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupRichTextBox.RichTextBoxDesigner != null))
@@ -536,7 +536,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupRichTextBox.Visible;
+                bool visible = GroupRichTextBox.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupRichTextBox.RichTextBoxDesigner != null))

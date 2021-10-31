@@ -394,7 +394,7 @@ namespace Krypton.Ribbon
 
         private void OnDateTimePickerPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var updateLayout = false;
+            bool updateLayout = false;
             const bool UPDATE_PAINT = false;
 
             switch (e.PropertyName)
@@ -499,7 +499,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                var enabled = GroupDateTimePicker.Enabled;
+                bool enabled = GroupDateTimePicker.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupDateTimePicker.DateTimePickerDesigner != null))
@@ -517,7 +517,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupDateTimePicker.Visible;
+                bool visible = GroupDateTimePicker.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupDateTimePicker.DateTimePickerDesigner != null))
@@ -537,7 +537,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupDateTimePicker.Visible;
+                bool visible = GroupDateTimePicker.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupDateTimePicker.DateTimePickerDesigner != null))

@@ -587,7 +587,7 @@ namespace Krypton.Toolkit
                 // Find the actual width of the border as we need to compare this to the calculating border
                 // padding to work out how far from corners we can ignore the calculated border padding and 
                 // instead use the actual width only.
-                var borderWidth = _paletteBorder.GetBorderWidth(State);
+                int borderWidth = _paletteBorder.GetBorderWidth(State);
 
                 // Update padding to reflect the orientation we are using
                 padding = context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder, State, Orientation);
@@ -720,16 +720,16 @@ namespace Krypton.Toolkit
                                                 int borderWidth)
         {
             // Find the distance the filler rect is displayed inside the client area
-            var topDiff = fillerRect.Y;
-            var leftDiff = fillerRect.X;
-            var bottomDiff = ClientRectangle.Bottom - fillerRect.Bottom;
-            var rightDiff = ClientRectangle.Right - fillerRect.Right;
+            int topDiff = fillerRect.Y;
+            int leftDiff = fillerRect.X;
+            int bottomDiff = ClientRectangle.Bottom - fillerRect.Bottom;
+            int rightDiff = ClientRectangle.Right - fillerRect.Right;
 
             // Calculate how far the rounding effects work
-            var pullBackTop = padding.Top * 2;
-            var pullBackBottom = padding.Bottom * 2;
-            var pullBackLeft = padding.Left * 2;
-            var pullBackRight = padding.Right * 2;
+            int pullBackTop = padding.Top * 2;
+            int pullBackBottom = padding.Bottom * 2;
+            int pullBackLeft = padding.Left * 2;
+            int pullBackRight = padding.Right * 2;
 
             if ((padding.Left > borderWidth) &&
                 ((topDiff >= pullBackTop) && (topDiff >= padding.Top)) &&

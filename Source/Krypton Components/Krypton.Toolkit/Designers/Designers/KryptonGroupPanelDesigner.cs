@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
                 if (descriptor.Name.Equals("Name") && descriptor.DesignTimeOnly)
                 {
                     // Hide the 'Name' property so the user cannot modify it
-                    var attributeArray = new Attribute[2] { BrowsableAttribute.No, DesignerSerializationVisibilityAttribute.Hidden };
+                    Attribute[] attributeArray = new Attribute[2] { BrowsableAttribute.No, DesignerSerializationVisibilityAttribute.Hidden };
                     properties[entry.Key] = TypeDescriptor.CreateProperty(descriptor.ComponentType, descriptor, attributeArray);
 
                     // Finished

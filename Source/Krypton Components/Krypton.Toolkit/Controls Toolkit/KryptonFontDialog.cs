@@ -18,7 +18,13 @@ namespace Krypton.Toolkit
         private bool _displayExtendedColorsButton;
 
         /// <summary>
-        /// Changes the title of the common Print Dialog
+        /// Represents a common dialog box that displays a list of fonts
+        /// that are currently installed on the system.
+        /// </summary>
+        public KryptonFontDialog() => _commonDialogHandler = new CommonDialogHandler(true);
+
+        /// <summary>
+        /// Changes the title of the common Font Dialog
         /// </summary>
         public string Title
         {
@@ -26,35 +32,6 @@ namespace Krypton.Toolkit
             set => _commonDialogHandler.Title = value;
         }
 
-        /// <summary>
-        /// Changes the default Icon to Developer set
-        /// </summary>
-        public Icon Icon
-        {
-            get => _commonDialogHandler.Icon;
-            set => _commonDialogHandler.Icon = value;
-        } 
-
-        /// <summary>
-        /// Changes the default Icon to Developer set
-        /// </summary>
-        [DefaultValue(false)]
-        public bool ShowIcon
-        {
-            get => _commonDialogHandler.ShowIcon;
-            set => _commonDialogHandler.ShowIcon = value;
-        }
-
-        /// <summary>
-        /// Represents a common dialog box that displays a list of fonts
-        /// that are currently installed on the system.
-        /// </summary>
-        public KryptonFontDialog() =>
-            _commonDialogHandler = new CommonDialogHandler(true)
-            {
-                Icon = Resources.CommonDialogIcons.font,
-                ShowIcon = false
-            };
         /// <summary>
         /// Display the Legacy Extended colours choice
         /// </summary>
@@ -65,9 +42,7 @@ namespace Krypton.Toolkit
             {
                 _displayExtendedColorsButton = value;
                 if (value) // just make life easier to enforce placement.
-                {
                     ShowColor = true;
-                }
             }
         }
 
@@ -117,22 +92,17 @@ namespace Krypton.Toolkit
                     PI.ScreenToClient(hWnd, ref lpPoint);
                     clrComboBox.ClientLocation = new Point(lpPoint.X, lpPoint.Y+2);
                     clrComboBox.Size = new Size(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top + 4);
-                    var panel = new KryptonPanel
-                    {
-                        Size = clrComboBox.Size
-                    };
-                    panel.Location = clrComboBox.ClientLocation;
-                    PI.SetParent(panel.Handle, PI.GetParent(clrComboBox.hWnd));
                     var kryptonColorButton1 = new KryptonColorButton
                     {
-                        Dock = DockStyle.Fill,
+                        Location = clrComboBox.ClientLocation,
                         Name = "kryptonColorButton1",
                         SelectedColor = Color,
+                        Size = clrComboBox.Size,
                         Splitter = false,
                         SchemeStandard = ColorScheme.OfficeThemes,
                         SchemeThemes = ColorScheme.Basic16
+                        //TabIndex = 7
                     };
-                    panel.Controls.Add(kryptonColorButton1);
                     kryptonColorButton1.Values.Text = Color.Name;
                     kryptonColorButton1.StateCommon.Content.AdjacentGap = 3;
                     kryptonColorButton1.StateCommon.Content.Image.ImageH = PaletteRelativeAlign.Near;
@@ -147,16 +117,14 @@ namespace Krypton.Toolkit
                         IntPtr stringColor = Marshal.StringToHGlobalUni(e.Color.Name);
                         var curIndex = PI.SendDlgItemMessage(hWnd, CLR_COMBOBOX_ID, PI.WM_.CB_FINDSTRING, IntPtr.Zero, stringColor);
                         if ( curIndex.ToInt32() == -1 )
-                        {
                             curIndex = PI.SendDlgItemMessage(hWnd, CLR_COMBOBOX_ID, PI.WM_.CB_ADDSTRING, IntPtr.Zero, stringColor);
-                        }
-
                         PI.SendDlgItemMessage(hWnd, CLR_COMBOBOX_ID, PI.WM_.CB_SETITEMDATA, curIndex, (IntPtr) ColorTranslator.ToWin32(e.Color));
                         PI.SendDlgItemMessage(hWnd, CLR_COMBOBOX_ID, PI.WM_.CB_SETCURSEL, curIndex, IntPtr.Zero);
                         PI.PostMessage(hWnd, PI.WM_.COMMAND, PI.MakeWParam(CLR_COMBOBOX_ID,(int)PI.CBN_.SELENDOK),clrComboBoxHwnd);
                         PI.PostMessage(hWnd, PI.WM_.COMMAND, PI.MakeWParam(CLR_COMBOBOX_ID,(int)PI.CBN_.SELCHANGE),clrComboBoxHwnd);
                     };
                     clrComboBox.Button = kryptonColorButton1;
+                    PI.SetParent(kryptonColorButton1.Handle, PI.GetParent(clrComboBox.hWnd));
                     PI.ShowWindow(clrComboBox.hWnd, PI.ShowWindowCommands.SW_HIDE);
 
                 }

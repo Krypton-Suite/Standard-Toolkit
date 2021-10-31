@@ -153,11 +153,11 @@ namespace Krypton.Ribbon
                                                      _addButtonVerb, _addColorButtonVerb, _clearItemsVerb, _deleteClusterVerb });
             }
 
-            var moveFirst = false;
-            var movePrev = false;
-            var moveNext = false;
-            var moveLast = false;
-            var clearItems = false;
+            bool moveFirst = false;
+            bool movePrev = false;
+            bool moveNext = false;
+            bool moveLast = false;
+            bool clearItems = false;
 
             if (_ribbonCluster?.Ribbon != null)
             {
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the cluster
-                    var index = lines.Items.IndexOf(_ribbonCluster) - 1;
+                    int index = lines.Items.IndexOf(_ribbonCluster) - 1;
                     index = Math.Max(index, 0);
                     lines.Items.Remove(_ribbonCluster);
                     lines.Items.Insert(index, _ribbonCluster);
@@ -271,7 +271,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the cluster
-                    var index = lines.Items.IndexOf(_ribbonCluster) + 1;
+                    int index = lines.Items.IndexOf(_ribbonCluster) + 1;
                     index = Math.Min(index, lines.Items.Count - 1);
                     lines.Items.Remove(_ribbonCluster);
                     lines.Items.Insert(index, _ribbonCluster);
@@ -393,7 +393,7 @@ namespace Krypton.Ribbon
                     IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the buttons from the cluster group
-                    for (var i = _ribbonCluster.Items.Count - 1; i >= 0; i--)
+                    for (int i = _ribbonCluster.Items.Count - 1; i >= 0; i--)
                     {
                         KryptonRibbonGroupItem item = _ribbonCluster.Items[i];
                         _ribbonCluster.Items.Remove(item);
@@ -469,7 +469,7 @@ namespace Krypton.Ribbon
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all items from the cluster
-                for (var j = _ribbonCluster.Items.Count - 1; j >= 0; j--)
+                for (int j = _ribbonCluster.Items.Count - 1; j >= 0; j--)
                 {
 
                     if (_ribbonCluster.Items[j] is IRibbonGroupItem item)

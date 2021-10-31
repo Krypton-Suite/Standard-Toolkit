@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
                 if (menuItem != null)
                 {
                     // Get the menu item to process the shortcut
-                    var ret = _cachedShortcutMI.Invoke(menuItem, new object[] { msg, keyData });
+                    object ret = _cachedShortcutMI.Invoke(menuItem, new object[] { msg, keyData });
 
                     // Return the 'ProcessCmdKey' result
                     if (ret != null)
@@ -364,7 +364,7 @@ namespace Krypton.Toolkit
         [DebuggerStepThrough]
         public static void SwapRectangleSizes(ref Rectangle rect)
         {
-            var temp = rect.Width;
+            int temp = rect.Width;
             rect.Width = rect.Height;
             rect.Height = temp;
         }
@@ -377,7 +377,7 @@ namespace Krypton.Toolkit
         public static bool GetRightToLeftLayout(Control control)
         {
             // Default to left-to-right layout
-            var rtl = false;
+            bool rtl = false;
 
             // We need a valid control to find a top level form
             // Search for a top level form associated with the control
@@ -850,7 +850,7 @@ namespace Krypton.Toolkit
                 RectangleF rectF = new(rect.X, rect.Y, rect.Width, rect.Height);
 
                 // The border is made of up a quarter of a circle arc, in each corner
-                var arcLength = rounding * 2;
+                int arcLength = rounding * 2;
                 roundedPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
                 roundedPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, 270f, 90f);
                 roundedPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
@@ -871,7 +871,7 @@ namespace Krypton.Toolkit
         public static Color ColorToBlackAndWhite(Color color)
         {
             // Use the standard percentages of RGB for the human eye bias
-            var gray = (int)((color.R * 0.3f) +
+            int gray = (int)((color.R * 0.3f) +
                              (color.G * 0.59f) +
                              (color.B * 0.11f));
 
@@ -892,9 +892,9 @@ namespace Krypton.Toolkit
                                         float percentB)
         {
             // Find how much to use of each primary color
-            var red = (int)(color1.R / percentR);
-            var green = (int)(color1.G / percentG);
-            var blue = (int)(color1.B / percentB);
+            int red = (int)(color1.R / percentR);
+            int green = (int)(color1.G / percentG);
+            int blue = (int)(color1.B / percentB);
 
             // Limit check against individual component
             if (red < 0)
@@ -945,9 +945,9 @@ namespace Krypton.Toolkit
                                          float percentB)
         {
             // Find how much to use of each primary color
-            var red = (int)(color1.R * percentR);
-            var green = (int)(color1.G * percentG);
-            var blue = (int)(color1.B * percentB);
+            int red = (int)(color1.R * percentR);
+            int green = (int)(color1.G * percentG);
+            int blue = (int)(color1.B * percentB);
 
             // Limit check against individual component
             if (red < 0)
@@ -1012,9 +1012,9 @@ namespace Krypton.Toolkit
                                         Color color3, float percent3)
         {
             // Find how much to use of each primary color
-            var red = (int)((color1.R * percent1) + (color2.R * percent2) + (color3.R * percent3));
-            var green = (int)((color1.G * percent1) + (color2.G * percent2) + (color3.G * percent3));
-            var blue = (int)((color1.B * percent1) + (color2.B * percent2) + (color3.B * percent3));
+            int red = (int)((color1.R * percent1) + (color2.R * percent2) + (color3.R * percent3));
+            int green = (int)((color1.G * percent1) + (color2.G * percent2) + (color3.G * percent3));
+            int blue = (int)((color1.B * percent1) + (color2.B * percent2) + (color3.B * percent3));
 
             // Limit check against individual component
             if (red < 0)
@@ -1061,8 +1061,8 @@ namespace Krypton.Toolkit
             IntPtr desktopDC = PI.GetDC(IntPtr.Zero);
 
             // Find raw values that define the color depth
-            var planes = PI.GetDeviceCaps(desktopDC, PI.PLANES);
-            var bitsPerPixel = PI.GetDeviceCaps(desktopDC, PI.BITSPIXEL);
+            int planes = PI.GetDeviceCaps(desktopDC, PI.PLANES);
+            int bitsPerPixel = PI.GetDeviceCaps(desktopDC, PI.BITSPIXEL);
 
             // Must remember to release it!
             PI.ReleaseDC(IntPtr.Zero, desktopDC);
@@ -1210,7 +1210,7 @@ namespace Krypton.Toolkit
         {
             // Get the current window style (cannot use the 
             // WindowState property as it can be slightly out of date)
-            var style = PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
+            uint style = PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
 
             return ((style & PI.WS_.MINIMIZE) != 0);
         }
@@ -1224,7 +1224,7 @@ namespace Krypton.Toolkit
         {
             // Get the current window style (cannot use the 
             // WindowState property as it can be slightly out of date)
-            var style = PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
+            uint style = PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
 
             return ((style & PI.WS_.MAXIMIZE) != 0);
         }

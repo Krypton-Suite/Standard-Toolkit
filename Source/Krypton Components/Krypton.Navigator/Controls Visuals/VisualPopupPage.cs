@@ -66,7 +66,7 @@ namespace Krypton.Navigator
             if (_navigator.PopupPages.Border > 0)
             {
                 // Grab the actual border values
-                var border = _navigator.PopupPages.Border;
+                int border = _navigator.PopupPages.Border;
 
                 // Put the page group inside a layout that has separators 
                 // to pad out the sizing to the border size we need
@@ -303,7 +303,7 @@ namespace Krypton.Navigator
             }
 
             // Have we wrapped around the end yet?
-            var wrapped = false;
+            bool wrapped = false;
 
             do
             {

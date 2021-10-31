@@ -117,7 +117,7 @@ namespace Krypton.Ribbon
             }
 
             // Should the group be active
-            var tracking = _viewGroup.ClientRectangle.Contains(new Point(e.X, e.Y));
+            bool tracking = _viewGroup.ClientRectangle.Contains(new Point(e.X, e.Y));
 
             // Is there a change in active group?
             if (tracking != _viewGroup.Tracking)

@@ -454,7 +454,7 @@ namespace Krypton.Workspace
                                 UniqueNameToPage existingPages)
         {
             // Load the cell details and return the unique name of the selected page for the cell
-            var selectedPageUniqueName = workspace.ReadCellElement(xmlReader, this);
+            string selectedPageUniqueName = workspace.ReadCellElement(xmlReader, this);
             KryptonPage selectedPage = null;
 
             // If the cell contains nothing then exit immediately
@@ -477,7 +477,7 @@ namespace Krypton.Workspace
                     if (xmlReader.Name == "KP")
                     {
                         // Load the page details and optionally recreate the page
-                        var uniqueName = XmlHelper.XmlAttributeToText(xmlReader, "UN");
+                        string uniqueName = XmlHelper.XmlAttributeToText(xmlReader, "UN");
                         KryptonPage page = workspace.ReadPageElement(xmlReader, uniqueName, existingPages);
 
                         if (xmlReader.Name != "CPD")
@@ -485,7 +485,7 @@ namespace Krypton.Workspace
                             throw new ArgumentException("Expected 'CPD' element was not found");
                         }
 
-                        var finished = xmlReader.IsEmptyElement;
+                        bool finished = xmlReader.IsEmptyElement;
 
                         // Generate event so custom data can be loaded and/or the page to be added can be modified
                         PageLoadingEventArgs plea = new(workspace, page, xmlReader);
@@ -575,7 +575,7 @@ namespace Krypton.Workspace
         {
             Console.WriteLine("{0}Cell Count:{1} Visible:{2}", new string(' ', indent++ * 2), Pages.Count, LastVisibleSet);
 
-            var prefix = new string(' ', indent * 2);
+            string prefix = new string(' ', indent * 2);
             foreach (KryptonPage page in Pages)
             {
                 Console.WriteLine("{0}Page Text:{1} Visible:{2} Type:{3}", prefix, page.Text, page.LastVisibleSet, page.GetType().Name);

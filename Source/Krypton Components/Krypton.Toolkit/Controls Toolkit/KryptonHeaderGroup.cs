@@ -1276,8 +1276,8 @@ namespace Krypton.Toolkit
         private void ReapplyVisible()
         {
             // Default to the appropriate header property
-            var primaryVisible = _visiblePrimary;
-            var secondaryVisible = _visibleSecondary;
+            bool primaryVisible = _visiblePrimary;
+            bool secondaryVisible = _visibleSecondary;
 
             // If currently in the collapsed state
             if (Collapsed)

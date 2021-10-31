@@ -601,7 +601,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                var stringValue = (string)formattedValue;
+                string stringValue = (string)formattedValue;
                 return string.IsNullOrEmpty(stringValue) ? DBNull.Value : _dtc.ConvertFromInvariantString(stringValue);
             }
         }
@@ -704,7 +704,7 @@ namespace Krypton.Toolkit
             _paintingDateTime.MaxDate = MaxDate;
             _paintingDateTime.MinDate = MinDate;
 
-            var drawText = CustomNullText;
+            string drawText = CustomNullText;
             if ((value == null) || (value == DBNull.Value))
             {
                 _paintingDateTime.ValueNullable = value;
@@ -738,7 +738,7 @@ namespace Krypton.Toolkit
             DataGridViewCellStyle cellStyle)
         {
             // Adjust the vertical location of the editing control:
-            var preferredHeight = _paintingDateTime.GetPreferredSize(_sizeLarge).Height + 2;
+            int preferredHeight = _paintingDateTime.GetPreferredSize(_sizeLarge).Height + 2;
             if (preferredHeight < editingControlBounds.Height)
             {
                 switch (cellStyle.Alignment)

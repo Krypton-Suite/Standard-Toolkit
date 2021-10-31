@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
-                for (var i = _numericUpDown.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (int i = _numericUpDown.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     // Get access to the indexed button spec
                     ButtonSpec spec = _numericUpDown.ButtonSpecs[i];

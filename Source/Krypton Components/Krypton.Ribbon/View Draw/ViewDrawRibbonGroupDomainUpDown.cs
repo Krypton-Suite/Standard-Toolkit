@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
 
         private void OnDomainUpDownPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var updateLayout = false;
+            bool updateLayout = false;
             const bool UPDATE_PAINT = false;
 
             switch (e.PropertyName)
@@ -497,7 +497,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                var enabled = GroupDomainUpDown.Enabled;
+                bool enabled = GroupDomainUpDown.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown.DomainUpDownDesigner != null))
@@ -515,7 +515,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupDomainUpDown.Visible;
+                bool visible = GroupDomainUpDown.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown.DomainUpDownDesigner != null))
@@ -535,7 +535,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupDomainUpDown.Visible;
+                bool visible = GroupDomainUpDown.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupDomainUpDown.DomainUpDownDesigner != null))

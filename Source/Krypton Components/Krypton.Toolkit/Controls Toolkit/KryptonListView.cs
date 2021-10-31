@@ -253,10 +253,7 @@ namespace Krypton.Toolkit
             set
             {
                 if (this._localPalette == value)
-                {
                     return;
-                }
-
                 CacheNewPalette(value);
                 if (value == null)
                 {
@@ -569,7 +566,7 @@ namespace Krypton.Toolkit
                         if (imgList != null)
                         {
                             Image drawImage = null;
-                            var imageCount = imgList.Images.Count;
+                            int imageCount = imgList.Images.Count;
 
                             try
                             {
@@ -1047,9 +1044,7 @@ namespace Krypton.Toolkit
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (this.PaletteMode != PaletteMode.Global)
-            {
                 return;
-            }
             // Unhook events from old palette
             if (_palette != null)
             {
@@ -1146,7 +1141,7 @@ namespace Krypton.Toolkit
                 if (ViewManager != null)
                 {
                     // Prevent infinite loop by looping a maximum number of times
-                    var max = 5;
+                    int max = 5;
 
                     do
                     {

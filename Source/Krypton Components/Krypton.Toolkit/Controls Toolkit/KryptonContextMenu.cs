@@ -346,7 +346,7 @@ namespace Krypton.Toolkit
                          bool keyboardActivated,
                          bool constrain)
         {
-            var displayed = false;
+            bool displayed = false;
 
             // Only need to show if not already displaying it
             if (VisualContextMenu == null)

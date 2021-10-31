@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                var ret = _primary.GetBorderColorAngle(Override ? OverrideState : state);
+                float ret = _primary.GetBorderColorAngle(Override ? OverrideState : state);
 
                 if (ret == -1f)
                 {
@@ -288,7 +288,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                var ret = _primary.GetBorderWidth(Override ? OverrideState : state);
+                int ret = _primary.GetBorderWidth(Override ? OverrideState : state);
 
                 if (ret == -1)
                 {
@@ -312,7 +312,7 @@ namespace Krypton.Toolkit
         {
             if (Apply)
             {
-                var ret = _primary.GetBorderRounding(Override ? OverrideState : state);
+                float ret = _primary.GetBorderRounding(Override ? OverrideState : state);
 
                 if (ret == -1)
                 {

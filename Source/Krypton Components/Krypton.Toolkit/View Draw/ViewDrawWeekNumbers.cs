@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         protected override void Dispose(bool disposing)
         {
             // Dispose of the mementos to prevent memory leak
-            for(var i=0; i<_dayMementos.Length; i++)
+            for(int i=0; i<_dayMementos.Length; i++)
             {
                 if (_dayMementos[i] != null)
                 {
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
             Rectangle layoutRectWeek = new(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
             DateTime weekDate = _weekDay;
             DateTime displayDate = _firstDay;
-            for (var j = 0; j < WEEKS; j++)
+            for (int j = 0; j < WEEKS; j++)
             {
                 // Should we draw a week number for a week starting on this date
                 DateTime weekNumberDate = weekDate;
@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
             Rectangle drawRectWeek = new(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
             DateTime weekDate = _weekDay;
             DateTime displayDate = _firstDay;
-            for (var j = 0; j < WEEKS; j++)
+            for (int j = 0; j < WEEKS; j++)
             {
                 // Should we draw a week number for a week starting on this date
                 DateTime weekNumberDate = weekDate;

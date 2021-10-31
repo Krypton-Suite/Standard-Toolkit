@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
         {
-            var userEdit = UserEdit;
+            bool userEdit = UserEdit;
             try
             {
                 // Prevent the Value from being set to Maximum or Minimum when the cell is being painted.
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
         {
             base.OnKeyPress(e);
 
-            var notifyValueChange = false;
+            bool notifyValueChange = false;
             if (char.IsDigit(e.KeyChar))
             {
                 notifyValueChange = true;
@@ -225,9 +225,9 @@ namespace Krypton.Toolkit
             else
             {
                 NumberFormatInfo numberFormatInfo = CultureInfo.CurrentCulture.NumberFormat;
-                var decimalSeparatorStr = numberFormatInfo.NumberDecimalSeparator;
-                var groupSeparatorStr = numberFormatInfo.NumberGroupSeparator;
-                var negativeSignStr = numberFormatInfo.NegativeSign;
+                string decimalSeparatorStr = numberFormatInfo.NumberDecimalSeparator;
+                string groupSeparatorStr = numberFormatInfo.NumberGroupSeparator;
+                string negativeSignStr = numberFormatInfo.NegativeSign;
 
                 if (!string.IsNullOrEmpty(decimalSeparatorStr) && (decimalSeparatorStr.Length == 1))
                 {

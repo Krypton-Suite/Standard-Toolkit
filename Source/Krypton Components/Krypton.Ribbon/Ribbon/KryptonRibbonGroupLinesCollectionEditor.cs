@@ -33,16 +33,14 @@ namespace Krypton.Ribbon
                                 typeof(KryptonRibbonGroupColorButton),
                                 typeof(KryptonRibbonGroupCheckBox),
                                 typeof(KryptonRibbonGroupComboBox),
+                                typeof(KryptonRibbonGroupCluster),
                                 typeof(KryptonRibbonGroupCustomControl),
                                 typeof(KryptonRibbonGroupDateTimePicker),
-                                typeof(KryptonRibbonGroupDomainUpDown),
                                 typeof(KryptonRibbonGroupLabel),
-                                typeof(KryptonRibbonGroupMaskedTextBox),
-                                typeof(KryptonRibbonGroupNumericUpDown),
                                 typeof(KryptonRibbonGroupRadioButton),
                                 typeof(KryptonRibbonGroupRichTextBox),
                                 typeof(KryptonRibbonGroupTextBox),
-                                typeof(KryptonRibbonGroupTrackBar)};
+                                typeof(KryptonRibbonGroupMaskedTextBox)};
         }
     }
 }

@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
         public override bool MouseDown(Control c, Point pt, MouseButtons button)
         {
             // Let base class process the mouse down
-            var ret = base.MouseDown(c, pt, button);
+            bool ret = base.MouseDown(c, pt, button);
 
             // If a change in capturing state has occured
             if (ret != _moving)
@@ -528,8 +528,8 @@ namespace Krypton.Toolkit
         private Point RecalcClient(Point pt)
         {
             // Find the delta between the incoming point and the original mouse down
-            var xDelta = pt.X - _downPosition.X;
-            var yDelta = pt.Y - _downPosition.Y;
+            int xDelta = pt.X - _downPosition.X;
+            int yDelta = pt.Y - _downPosition.Y;
 
             // Enforce the movement box limits
             if (_separatorOrientation == Orientation.Vertical)

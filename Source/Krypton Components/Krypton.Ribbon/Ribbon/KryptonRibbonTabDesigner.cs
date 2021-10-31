@@ -155,11 +155,11 @@ namespace Krypton.Ribbon
                 _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb, _addGroupVerb, _clearGroupsVerb, _deleteTabVerb });
             }
 
-            var moveFirst = false;
-            var movePrev = false;
-            var moveNext = false;
-            var moveLast = false;
-            var clearGroups = false;
+            bool moveFirst = false;
+            bool movePrev = false;
+            bool moveNext = false;
+            bool moveLast = false;
+            bool clearGroups = false;
 
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
@@ -233,7 +233,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the tab
                     KryptonRibbon ribbon = _ribbonTab.Ribbon;
-                    var index = ribbon.RibbonTabs.IndexOf(_ribbonTab) - 1;
+                    int index = ribbon.RibbonTabs.IndexOf(_ribbonTab) - 1;
                     index = Math.Max(index, 0);
                     ribbon.RibbonTabs.Remove(_ribbonTab);
                     ribbon.RibbonTabs.Insert(index, _ribbonTab);
@@ -266,7 +266,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the tab
                     KryptonRibbon ribbon = _ribbonTab.Ribbon;
-                    var index = ribbon.RibbonTabs.IndexOf(_ribbonTab) + 1;
+                    int index = ribbon.RibbonTabs.IndexOf(_ribbonTab) + 1;
                     index = Math.Min(index, ribbon.RibbonTabs.Count - 1);
                     ribbon.RibbonTabs.Remove(_ribbonTab);
                     ribbon.RibbonTabs.Insert(index, _ribbonTab);
@@ -360,7 +360,7 @@ namespace Krypton.Ribbon
                     IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the groups from the tab
-                    for (var i = _ribbonTab.Groups.Count - 1; i >= 0; i--)
+                    for (int i = _ribbonTab.Groups.Count - 1; i >= 0; i--)
                     {
                         KryptonRibbonGroup group = _ribbonTab.Groups[i];
                         _ribbonTab.Groups.Remove(group);
@@ -433,7 +433,7 @@ namespace Krypton.Ribbon
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the groups from the tab
-                for (var i = _ribbonTab.Groups.Count - 1; i >= 0; i--)
+                for (int i = _ribbonTab.Groups.Count - 1; i >= 0; i--)
                 {
                     KryptonRibbonGroup group = _ribbonTab.Groups[i];
                     _ribbonTab.Groups.Remove(group);

@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
             if (container != null)
             {
                 // Find all the check buttons inside the container
-                foreach (var obj in container.Components)
+                foreach (object obj in container.Components)
                 {
                     // Cast to the correct type
                     // We are only interested in check buttons
@@ -105,14 +105,14 @@ namespace Krypton.Toolkit
         private void buttonOK_Click(object sender, EventArgs e)
         {
             // Create a copy of the current check set buttons
-            var copy = new List<KryptonCheckButton>();
+            List<KryptonCheckButton> copy = new List<KryptonCheckButton>();
             foreach (KryptonCheckButton checkButton in _checkSet.CheckButtons)
             {
                 copy.Add(checkButton);
             }
 
             // Process each of the list entries in turn
-            for(var i=0; i<checkedListBox.Items.Count; i++)
+            for(int i=0; i<checkedListBox.Items.Count; i++)
             {
                 // Get access to the encapsulated list box entry
                 ListEntry entry = (ListEntry)checkedListBox.Items[i];

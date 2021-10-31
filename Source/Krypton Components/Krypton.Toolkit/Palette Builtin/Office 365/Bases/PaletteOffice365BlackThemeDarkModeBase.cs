@@ -151,8 +151,8 @@ namespace Krypton.Toolkit
                                                               Color.FromArgb(61, 61, 61), // Button, Tracking, Back 2
                                                               Color.FromArgb(121, 121, 121), // Button, Pressed, Back 1
                                                               Color.FromArgb(91, 91, 91),  // Button, Pressed, Back 2
-                                                              Color.FromArgb(91, 91, 91), // Button, Checked, Back 1
-                                                              Color.FromArgb(61, 61, 61), // Button, Checked, Back 2
+                                                              Color.FromArgb(255, 216, 108), // Button, Checked, Back 1
+                                                              Color.FromArgb(255, 244, 128), // Button, Checked, Back 2
                                                               Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
                                                               Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
                                                             };
@@ -4579,8 +4579,8 @@ namespace Krypton.Toolkit
 
             _italicFont?.Dispose();
 
-            var baseFontSize = BaseFontSize;
-            var baseFontName = BaseFontName;
+            float baseFontSize = BaseFontSize;
+            string baseFontName = BaseFontName;
             _header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
             _header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
             _headerFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);

@@ -159,11 +159,11 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            var attributes = new Attribute[0];
+            Attribute[] attributes = new Attribute[0];
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
-            for (var i = 0; i < strArray.Length; i++)
+            for (int i = 0; i < strArray.Length; i++)
             {
                 PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
                 if (descrip != null)
@@ -212,10 +212,10 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteGalleryVerb });
             }
 
-            var moveFirst = false;
-            var movePrev = false;
-            var moveNext = false;
-            var moveLast = false;
+            bool moveFirst = false;
+            bool movePrev = false;
+            bool moveNext = false;
+            bool moveLast = false;
 
             if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
@@ -286,7 +286,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the gallery
                     KryptonRibbonGroup ribbonGroup = _ribbonGallery.RibbonGroup;
-                    var index = ribbonGroup.Items.IndexOf(_ribbonGallery) - 1;
+                    int index = ribbonGroup.Items.IndexOf(_ribbonGallery) - 1;
                     index = Math.Max(index, 0);
                     ribbonGroup.Items.Remove(_ribbonGallery);
                     ribbonGroup.Items.Insert(index, _ribbonGallery);
@@ -318,7 +318,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the gallery
                     KryptonRibbonGroup ribbonGroup = _ribbonGallery.RibbonGroup;
-                    var index = ribbonGroup.Items.IndexOf(_ribbonGallery) + 1;
+                    int index = ribbonGroup.Items.IndexOf(_ribbonGallery) + 1;
                     index = Math.Min(index, ribbonGroup.Items.Count - 1);
                     ribbonGroup.Items.Remove(_ribbonGallery);
                     ribbonGroup.Items.Insert(index, _ribbonGallery);
@@ -402,8 +402,8 @@ namespace Krypton.Ribbon
             if (_ribbonGallery?.Ribbon != null)
             {
                 PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonGallery)["Enabled"];
-                var oldValue = (bool)propertyEnabled.GetValue(_ribbonGallery);
-                var newValue = !oldValue;
+                bool oldValue = (bool)propertyEnabled.GetValue(_ribbonGallery);
+                bool newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonGallery, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonGallery, newValue);
             }
@@ -414,8 +414,8 @@ namespace Krypton.Ribbon
             if (_ribbonGallery?.Ribbon != null)
             {
                 PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonGallery)["Visible"];
-                var oldValue = (bool)propertyVisible.GetValue(_ribbonGallery);
-                var newValue = !oldValue;
+                bool oldValue = (bool)propertyVisible.GetValue(_ribbonGallery);
+                bool newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonGallery, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonGallery, newValue);
             }

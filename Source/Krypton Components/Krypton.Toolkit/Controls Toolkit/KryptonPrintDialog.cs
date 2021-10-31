@@ -42,34 +42,6 @@ namespace Krypton.Toolkit
 
         //private bool _useExDialog;
 
-        /// <summary>
-        /// Changes the title of the common Print Dialog
-        /// </summary>
-        public string Title
-        {
-            get => _commonDialogHandler.Title;
-            set => _commonDialogHandler.Title = value;
-        }
-
-        /// <summary>
-        /// Changes the default Icon to Developer set
-        /// </summary>
-        public Icon Icon
-        {
-            get => _commonDialogHandler.Icon;
-            set => _commonDialogHandler.Icon = value;
-        } 
-
-        /// <summary>
-        /// Changes the default Icon to Developer set
-        /// </summary>
-        [DefaultValue(false)]
-        public bool ShowIcon
-        {
-            get => _commonDialogHandler.ShowIcon;
-            set => _commonDialogHandler.ShowIcon = value;
-        }
-
         // Implementing "current page" would require switching to PrintDlgEx, which is windows 2000 and later only
 
         /// <summary>
@@ -78,19 +50,24 @@ namespace Krypton.Toolkit
         public KryptonPrintDialog() =>
             _commonDialogHandler = new CommonDialogHandler(true)
             {
-                ClickCallback = ClickCallback,
-                Icon = Resources.CommonDialogIcons.printer,
-                ShowIcon = false
+                ClickCallback = ClickCallback
             };
+
+        /// <summary>
+        /// Changes the title of the common Print Dialog
+        /// </summary>
+        public string Title 
+        { 
+            get => _commonDialogHandler.Title; 
+            set => _commonDialogHandler.Title = value;
+        }
 
         private void ClickCallback(CommonDialogHandler.Attributes originalControl)
         {
             // When the radio button is clicked
             // Check what buttons need to be unchecked
             if (originalControl.Button is not KryptonRadioButton krbo)
-            {
                 return;
-            }
 
             foreach (var control in _commonDialogHandler.Controls)
             {

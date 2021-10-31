@@ -78,12 +78,12 @@ namespace Krypton.Navigator
         public void ShowRelative(Rectangle screenRect)
         {
             // Find screen middle points
-            var yMid = screenRect.Y + (screenRect.Height / 2);
-            var xMid = screenRect.X + (screenRect.Width / 2);
+            int yMid = screenRect.Y + (screenRect.Height / 2);
+            int xMid = screenRect.X + (screenRect.Width / 2);
 
             // Find docking size middle points
-            var yHalf = _dragData.DockWindowSize.Height / 2;
-            var xHalf = _dragData.DockWindowSize.Width / 2;
+            int yHalf = _dragData.DockWindowSize.Height / 2;
+            int xHalf = _dragData.DockWindowSize.Width / 2;
 
             if (_dragData.ShowLeft && !_dragData.ShowRight && !_dragData.ShowMiddle && !_dragData.ShowTop && !_dragData.ShowBottom)
             {
@@ -121,7 +121,7 @@ namespace Krypton.Navigator
             Point pt = PointToClient(screenPoint);
 
             // Remember the current active value
-            var activeBefore = _dragData.ActiveFlags;
+            int activeBefore = _dragData.ActiveFlags;
 
             // Reset active back to nothing
             _dragData.ClearActive();

@@ -388,8 +388,8 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            var tracking = false;
-            var pressed = false;
+            bool tracking = false;
+            bool pressed = false;
 
             // Can only be pressed or tracking if enabled
             if (_targetImage.Enabled)

@@ -43,10 +43,10 @@ namespace Krypton.Toolkit
             // Redraw when the selected color changes
             colorColumns.SelectedColorChanged += OnSelectedColorChanged;
 
-            var colors = colorColumns.Colors;
-            var columns = colors.Length;
-            var rows = ((columns > 0) && (colors[0] != null) ? colors[0].Length : 0);
-            var enabled = provider.ProviderEnabled;
+            Color[][] colors = colorColumns.Colors;
+            int columns = colors.Length;
+            int rows = ((columns > 0) && (colors[0] != null) ? colors[0].Length : 0);
+            bool enabled = provider.ProviderEnabled;
 
             // Always assume there is a first row of colors
             ViewLayoutStack fillStack = new(false)
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Otherwise show each row as separate
-                    for (var i = 1; i < rows; i++)
+                    for (int i = 1; i < rows; i++)
                     {
                         fillStack.Add(new ViewLayoutSeparator(5));
                         fillStack.Add(CreateColumns(provider, colorColumns, colors, i, i+1, enabled));
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
             };
 
             // Add each color column
-            for (var i = 0; i < colors.Length; i++)
+            for (int i = 0; i < colors.Length; i++)
             {
                 // Use a separator between each column
                 if (i > 0)

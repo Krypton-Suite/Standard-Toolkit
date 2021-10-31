@@ -79,17 +79,17 @@ namespace Krypton.Toolkit
                 KryptonDataGridView kDGV = (KryptonDataGridView)DataGridView;
 
                 // Is this cell the currently active cell
-                var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
-                                  (ColumnIndex == DataGridView.CurrentCellAddress.X);
+                bool currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
+                                   (ColumnIndex == DataGridView.CurrentCellAddress.X);
 
                 // Is this cell the same as the one with the mouse inside it
                 Point mouseEnteredCellAddress = MouseEnteredCellAddressInternal;
-                var mouseCell = (rowIndex == mouseEnteredCellAddress.Y) &&
-                                (ColumnIndex == mouseEnteredCellAddress.X);
+                bool mouseCell = (rowIndex == mouseEnteredCellAddress.Y) &&
+                                 (ColumnIndex == mouseEnteredCellAddress.X);
 
                 // Snoop tracking and pressed status from the base class implementation
-                var tracking = mouseCell && MouseInContentBoundsInternal;
-                var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
+                bool tracking = mouseCell && MouseInContentBoundsInternal;
+                bool pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                 // Find out the requested size of the check box drawing
                 using ViewLayoutContext viewContent = new(kDGV, kDGV.Renderer);
@@ -163,17 +163,17 @@ namespace Krypton.Toolkit
                     }
 
                     // Is this cell the currently active cell
-                    var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
-                                      (ColumnIndex == DataGridView.CurrentCellAddress.X);
+                    bool currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
+                                       (ColumnIndex == DataGridView.CurrentCellAddress.X);
 
                     // Is this cell the same as the one with the mouse inside it
                     Point mouseEnteredCellAddress = MouseEnteredCellAddressInternal;
-                    var mouseCell = (rowIndex == mouseEnteredCellAddress.Y) &&
-                                    (ColumnIndex == mouseEnteredCellAddress.X);
+                    bool mouseCell = (rowIndex == mouseEnteredCellAddress.Y) &&
+                                     (ColumnIndex == mouseEnteredCellAddress.X);
 
                     // Snoop tracking and pressed status from the base class implementation
-                    var tracking = mouseCell && MouseInContentBoundsInternal;
-                    var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
+                    bool tracking = mouseCell && MouseInContentBoundsInternal;
+                    bool pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                     using RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer);
                     Size checkBoxSize;

@@ -433,7 +433,7 @@ namespace Krypton.Toolkit
                                         states.Content.GetContentPadding(state));
 
                                     // Draw using a solid brush
-                                    var text = _internalNumericUpDown.Text;
+                                    string text = _internalNumericUpDown.Text;
                                     if (!NumericUpDown.TrailingZeroes && NumericUpDown.AllowDecimals)
                                     {
                                         text = text.TrimEnd('0');
@@ -2155,9 +2155,9 @@ namespace Krypton.Toolkit
         private void OnNumericUpDownMouseChange(object sender, EventArgs e)
         {
             // Find new tracking mouse change state
-            var tracking = _numericUpDown.MouseOver ||
-                           ((_subclassEdit != null) && _subclassEdit.MouseOver) ||
-                           ((_subclassButtons != null) && _subclassButtons.MouseOver);
+            bool tracking = _numericUpDown.MouseOver ||
+                            ((_subclassEdit != null) && _subclassEdit.MouseOver) ||
+                            ((_subclassButtons != null) && _subclassButtons.MouseOver);
 
             // Change in tracking state?
             if (tracking != _trackingMouseEnter)

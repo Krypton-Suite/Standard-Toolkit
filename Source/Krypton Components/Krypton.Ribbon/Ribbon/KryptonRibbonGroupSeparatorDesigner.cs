@@ -128,10 +128,10 @@ namespace Krypton.Ribbon
 
             if (_verbs != null)
             {
-                var moveFirst = false;
-                var movePrev = false;
-                var moveNext = false;
-                var moveLast = false;
+                bool moveFirst = false;
+                bool movePrev = false;
+                bool moveNext = false;
+                bool moveLast = false;
 
                 if ((_ribbonSeparator?.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
                 {
@@ -203,7 +203,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the triple
                     KryptonRibbonGroup ribbonGroup = _ribbonSeparator.RibbonGroup;
-                    var index = ribbonGroup.Items.IndexOf(_ribbonSeparator) - 1;
+                    int index = ribbonGroup.Items.IndexOf(_ribbonSeparator) - 1;
                     index = Math.Max(index, 0);
                     ribbonGroup.Items.Remove(_ribbonSeparator);
                     ribbonGroup.Items.Insert(index, _ribbonSeparator);
@@ -235,7 +235,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the triple
                     KryptonRibbonGroup ribbonGroup = _ribbonSeparator.RibbonGroup;
-                    var index = ribbonGroup.Items.IndexOf(_ribbonSeparator) + 1;
+                    int index = ribbonGroup.Items.IndexOf(_ribbonSeparator) + 1;
                     index = Math.Min(index, ribbonGroup.Items.Count - 1);
                     ribbonGroup.Items.Remove(_ribbonSeparator);
                     ribbonGroup.Items.Insert(index, _ribbonSeparator);

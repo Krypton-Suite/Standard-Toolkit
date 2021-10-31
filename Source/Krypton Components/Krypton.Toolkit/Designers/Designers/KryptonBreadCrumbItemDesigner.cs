@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
                 IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all items from the child item collection
-                for (var j = _crumbItem.Items.Count - 1; j >= 0; j--)
+                for (int j = _crumbItem.Items.Count - 1; j >= 0; j--)
                 {
                     Component item = _crumbItem.Items[j] as Component;
                     _crumbItem.Items.Remove(item);

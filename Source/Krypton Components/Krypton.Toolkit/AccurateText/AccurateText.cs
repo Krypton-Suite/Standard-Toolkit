@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(memento));
             }
 
-            var ret = true;
+            bool ret = true;
 
             // Is there a valid place to be drawn into
             if ((rect.Width > 0) && (rect.Height > 0))
@@ -224,9 +224,9 @@ namespace Krypton.Toolkit
                 // Does the memento contain something to draw?
                 if (!memento.IsEmpty)
                 {
-                    var translateX = 0;
-                    var translateY = 0;
-                    var rotation = 0f;
+                    int translateX = 0;
+                    int translateY = 0;
+                    float rotation = 0f;
 
                     // Perform any transformations needed for orientation
                     switch (orientation)
@@ -334,11 +334,11 @@ namespace Krypton.Toolkit
         private static Color ContrastColor(Color color)
         {
             //  Counting the perceptive luminance - human eye favours green colour... 
-            var a = (1
-                     - (((0.299 * color.R)
-                         + ((0.587 * color.G) + (0.114 * color.B)))
+            double a = (1
+                        - (((0.299 * color.R)
+                        + ((0.587 * color.G) + (0.114 * color.B)))
                         / 255));
-            var d = a < 0.5 ? 0 : 255;
+            int d = a < 0.5 ? 0 : 255;
 
             //  dark colours - white font
             return Color.FromArgb(d, d, d);

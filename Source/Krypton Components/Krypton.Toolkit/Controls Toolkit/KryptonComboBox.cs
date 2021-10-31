@@ -277,7 +277,7 @@ namespace Krypton.Toolkit
                             PI.GetClientRect(Handle, out PI.RECT rect);
 
                             // Get the constant used to crack open the display
-                            var dropDownWidth = SystemInformation.VerticalScrollBarWidth;
+                            int dropDownWidth = SystemInformation.VerticalScrollBarWidth;
                             Size borderSize = SystemInformation.BorderSize;
 
                             // Create rect for the text area
@@ -291,7 +291,7 @@ namespace Krypton.Toolkit
 
                             // Extract the point in client coordinates
                             Point clientPoint = new((int)m.LParam);
-                            var mouseTracking = dropRect.Contains(clientPoint);
+                            bool mouseTracking = dropRect.Contains(clientPoint);
                             if (mouseTracking != _mouseTracking)
                             {
                                 _mouseTracking = mouseTracking;
@@ -347,7 +347,7 @@ namespace Krypton.Toolkit
                                 g.FillRectangle(backBrush, new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
 
                                 // Get the constant used to crack open the display
-                                var dropDownWidth = SystemInformation.VerticalScrollBarWidth;
+                                int dropDownWidth = SystemInformation.VerticalScrollBarWidth;
                                 Size borderSize = SystemInformation.BorderSize;
 
                                 // Create rect for the text area
@@ -2874,7 +2874,7 @@ namespace Krypton.Toolkit
         private void OnComboBoxMouseChange(object sender, EventArgs e)
         {
             // Find new tracking mouse change state
-            var tracking = _comboBox.MouseOver || _subclassEdit is { MouseOver: true };
+            bool tracking = _comboBox.MouseOver || _subclassEdit is { MouseOver: true };
 
             // Change in tracking state?
             if (tracking != _trackingMouseEnter)

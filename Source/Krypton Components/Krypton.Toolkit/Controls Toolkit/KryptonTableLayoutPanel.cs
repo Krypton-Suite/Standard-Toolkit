@@ -60,10 +60,8 @@ namespace Krypton.Toolkit
             set
             {
                 if (value == Color.Transparent)
-                {
                     throw new NotSupportedException(
                         @"If you want a transparent background then use the normal TableLayoutPanel");
-                }
 
                 _backGroundPanel.BackColor = value;
                 _backGroundPanel_Refreshed();
@@ -262,10 +260,7 @@ namespace Krypton.Toolkit
         private void SetToBehindTable()
         {
             if (Parent == null)
-            {
                 return;
-            }
-
             if (_backGroundPanel.Parent == null)
             {
                 Parent.Controls.Add(_backGroundPanel);

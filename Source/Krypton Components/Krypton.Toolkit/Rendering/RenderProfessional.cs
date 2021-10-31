@@ -86,19 +86,19 @@ namespace Krypton.Toolkit
                 displayRect.Inflate(-GRAB_SQUARE_GAP, -GRAB_SQUARE_GAP);
 
                 // Find how much space is available for drawing grab handles in the orientation
-                var orientationSpace = (orientation == Orientation.Horizontal ? displayRect.Width : displayRect.Height);
+                int orientationSpace = (orientation == Orientation.Horizontal ? displayRect.Width : displayRect.Height);
 
                 // Try to display the maximum allowed number of handles, but show less if not possible
-                for (var i = GRAB_SQUARE_COUNT; i > 0; i--)
+                for (int i = GRAB_SQUARE_COUNT; i > 0; i--)
                 {
                     // Calculate how much space this number of grab handles takes up
-                    var requiredSpace = (i * GRAB_SQUARE_TOTAL) + (i > 1 ? (i - 1) * GRAB_SQUARE_GAP : 0);
+                    int requiredSpace = (i * GRAB_SQUARE_TOTAL) + (i > 1 ? (i - 1) * GRAB_SQUARE_GAP : 0);
 
                     // Is there enough space all the grab handles?
                     if (requiredSpace <= orientationSpace)
                     {
                         // Find offset before showing the first handle
-                        var offset = (orientationSpace - requiredSpace) / 2;
+                        int offset = (orientationSpace - requiredSpace) / 2;
 
                         // Find location of first handle
                         Point draw = orientation == Orientation.Horizontal
@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
                         using Brush lightBrush = new SolidBrush(_grabHandleLight),
                             darkBrush = new SolidBrush(_grabHandleDark);
                         // Draw each grab handle in turn
-                        for (var j = 0; j < i; j++)
+                        for (int j = 0; j < i; j++)
                         {
                             // Draw the light colored square 
                             context.Graphics.FillRectangle(lightBrush,
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
                 Color c1 = paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
                 Color c2 = paletteBack.GetRibbonBackColor5(PaletteState.ContextCheckedNormal);
 
-                var generate = true;
+                bool generate = true;
                 MementoRibbonTabContextOffice2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating

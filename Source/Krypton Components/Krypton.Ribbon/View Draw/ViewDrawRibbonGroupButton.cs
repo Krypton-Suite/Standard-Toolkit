@@ -252,7 +252,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            var drawNonTrackingAreas = (_ribbon.RibbonShape != PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365);
+            bool drawNonTrackingAreas = (_ribbon.RibbonShape != PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365);
 
             // Update the views with the type of button being used
             _viewLarge.ButtonType = GroupButton.ButtonType;
@@ -293,8 +293,8 @@ namespace Krypton.Ribbon
             if (GroupButton.ButtonType == GroupButtonType.Split)
             {
                 // Find the start positions of the split areas for both views
-                var largeSplitTop = _viewLargeImage.ClientRectangle.Bottom + 1;
-                var mediumSmallSplitRight = _viewMediumSmallText2Sep2.ClientLocation.X;
+                int largeSplitTop = _viewLargeImage.ClientRectangle.Bottom + 1;
+                int mediumSmallSplitRight = _viewMediumSmallText2Sep2.ClientLocation.X;
 
                 // Update the background/border view so it can draw appropriately
                 _viewLarge.SplitRectangle = new Rectangle(ClientLocation.X, largeSplitTop, ClientWidth, ClientRectangle.Bottom - largeSplitTop);
@@ -464,14 +464,14 @@ namespace Krypton.Ribbon
         private void UpdateEnabledState()
         {
             // Get the correct enabled state from the button definition
-            var buttonEnabled = GroupButton.Enabled;
+            bool buttonEnabled = GroupButton.Enabled;
             if (GroupButton.KryptonCommand != null)
             {
                 buttonEnabled = GroupButton.KryptonCommand.Enabled;
             }
 
             // Take into account the ribbon state and mode
-            var enabled = _ribbon.InDesignHelperMode || (buttonEnabled && _ribbon.Enabled);
+            bool enabled = _ribbon.InDesignHelperMode || (buttonEnabled && _ribbon.Enabled);
 
             // Update enabled for the large button view
             _viewLarge.Enabled = enabled;
@@ -490,7 +490,7 @@ namespace Krypton.Ribbon
 
         private void UpdateCheckedState()
         {
-            var checkedState = false;
+            bool checkedState = false;
 
             // Only show as checked if also a check type button
             if (GroupButton.ButtonType == GroupButtonType.Check)
@@ -504,11 +504,11 @@ namespace Krypton.Ribbon
 
         private void UpdateDropDownState()
         {
-            var dropDown = (GroupButton.ButtonType == GroupButtonType.DropDown);
-            var splitButton = (GroupButton.ButtonType == GroupButtonType.Split);
+            bool dropDown = (GroupButton.ButtonType == GroupButtonType.DropDown);
+            bool splitButton = (GroupButton.ButtonType == GroupButtonType.Split);
 
             // Only show text line 2 separators is a drop down is showing with no text
-            var separators = (dropDown || splitButton) && (!string.IsNullOrEmpty(GroupButton.TextLine2));
+            bool separators = (dropDown || splitButton) && (!string.IsNullOrEmpty(GroupButton.TextLine2));
 
             // Update large view
             _viewLargeDropArrow.Visible = (dropDown || splitButton);
@@ -534,7 +534,7 @@ namespace Krypton.Ribbon
             {
                 case GroupItemSize.Small:
                 case GroupItemSize.Medium:
-                    var show = (size == GroupItemSize.Medium);
+                    bool show = (size == GroupItemSize.Medium);
                     _viewMediumSmallCenter.CurrentSize = size;
                     _viewMediumSmallText1.Visible = show;
                     _viewMediumSmallText2.Visible = show;
@@ -574,8 +574,8 @@ namespace Krypton.Ribbon
 
         private void OnButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var updateLayout = false;
-            var updatePaint = false;
+            bool updateLayout = false;
+            bool updatePaint = false;
 
             switch (e.PropertyName)
             {

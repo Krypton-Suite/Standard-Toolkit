@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
                     PropertyInfo piMCS = typeof(Form).GetProperty("MdiControlStrip", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
                     if (piMCS != null)
                     {
-                        var mcs = piMCS.GetValue(f, null);
+                        object mcs = piMCS.GetValue(f, null);
                         if (mcs != null)
                         {
                             // Get the min/restore/close internal menu items

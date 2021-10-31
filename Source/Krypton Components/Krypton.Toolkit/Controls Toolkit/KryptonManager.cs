@@ -829,7 +829,7 @@ namespace Krypton.Toolkit
         internal static bool HasCircularReference()
         {
             // Use a dictionary as a set to check for existence
-            var paletteSet = new Dictionary<IPalette, bool>();
+            Dictionary<IPalette, bool> paletteSet = new Dictionary<IPalette, bool>();
 
             IPalette palette = null;
 

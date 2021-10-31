@@ -458,7 +458,7 @@ namespace Krypton.Toolkit
                                                          IDisposable memento)
         {
             using Clipping clip = new(context.Graphics, path);
-            var generate = true;
+            bool generate = true;
             MementoBackGlassThreeEdge cache;
 
             // Access a cache instance and decide if cache resources need generating
@@ -982,7 +982,7 @@ namespace Krypton.Toolkit
             // Draw entire background in linear gradient effect
             cache.first = DrawBackLinear(drawRect, sigma, color1, color2, orientation, g, cache.first);
 
-            var generate = true;
+            bool generate = true;
             MementoBackLinearRadial cacheThis;
 
             // Access a cache instance and decide if cache resources need generating
@@ -1100,7 +1100,7 @@ namespace Krypton.Toolkit
                                                       glassPercent,
                                                       ref cache.first);
 
-            var generate = true;
+            bool generate = true;
             MementoBackGlassRadial cacheThis;
 
             // Access a cache instance and decide if cache resources need generating
@@ -1139,9 +1139,9 @@ namespace Krypton.Toolkit
                 // Find the box that encloses the ellipse (ellipses is sized using the factorX, factorY)
                 if (VerticalOrientation(orientation))
                 {
-                    var mainRectWidth = (mainRect.Width * factorX);
-                    var mainRectWidthOffset = (mainRectWidth - mainRect.Width) / 2;
-                    var mainRectHeight = (mainRect.Height * factorY);
+                    float mainRectWidth = (mainRect.Width * factorX);
+                    float mainRectWidthOffset = (mainRectWidth - mainRect.Width) / 2;
+                    float mainRectHeight = (mainRect.Height * factorY);
                     float mainRectHeightOffset;
 
                     // Find orientation specific ellsipe rectangle
@@ -1160,9 +1160,9 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    var mainRectHeight = (mainRect.Height * factorX);
-                    var mainRectHeightOffset = (mainRectHeight - mainRect.Height) / 2;
-                    var mainRectWidth = (mainRect.Width * factorY);
+                    float mainRectHeight = (mainRect.Height * factorX);
+                    float mainRectHeightOffset = (mainRectHeight - mainRect.Height) / 2;
+                    float mainRectWidth = (mainRect.Width * factorY);
                     float mainRectWidthOffset;
 
                     // Find orientation specific ellsipe rectangle
@@ -1243,7 +1243,7 @@ namespace Krypton.Toolkit
                                    glassPercent,
                                    ref cache.first);
 
-                var generate = true;
+                bool generate = true;
                 MementoBackGlassCenter cacheThis;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -1296,7 +1296,7 @@ namespace Krypton.Toolkit
             if ((drawRect.Width > 0) && (drawRect.Height > 0) &&
                 (outerRect.Width > 0) && (outerRect.Height > 0))
             {
-                var generate = true;
+                bool generate = true;
                 MementoBackGlassFade cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -1412,7 +1412,7 @@ namespace Krypton.Toolkit
             if ((drawRect.Width > 0) && (drawRect.Height > 0) &&
                 (outerRect.Width > 0) && (outerRect.Height > 0))
             {
-                var generate = true;
+                bool generate = true;
                 MementoBackGlassLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -1520,7 +1520,7 @@ namespace Krypton.Toolkit
             // Cannot draw a zero length rectangle
             if ((drawRect.Width > 0) && (drawRect.Height > 0))
             {
-                var generate = true;
+                bool generate = true;
                 MementoBackGlassBasic cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -1605,7 +1605,7 @@ namespace Krypton.Toolkit
             // Cannot draw a zero length rectangle
             if ((drawRect.Width > 0) && (drawRect.Height > 0))
             {
-                var generate = true;
+                bool generate = true;
                 MementoBackLinear cache;
 
                 // Access a cache instance and decide if cache resources need generating
@@ -1663,7 +1663,7 @@ namespace Krypton.Toolkit
             // Cannot draw a zero length rectangle
             if ((drawRect.Width > 0) && (drawRect.Height > 0))
             {
-                var generate = true;
+                bool generate = true;
                 MementoBackDarkEdge cache;
 
                 // Access a cache instance and decide if cache resources need generating

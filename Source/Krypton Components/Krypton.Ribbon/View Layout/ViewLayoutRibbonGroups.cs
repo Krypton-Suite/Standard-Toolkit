@@ -208,11 +208,11 @@ namespace Krypton.Ribbon
         {
             ViewBase view = null;
 
-            var groups = new ViewDrawRibbonGroup[_groupToView.Count];
+            ViewDrawRibbonGroup[] groups = new ViewDrawRibbonGroup[_groupToView.Count];
             _groupToView.Values.CopyTo(groups, 0);
 
             // Search each group until one of them returns a focus item
-            for (var i = groups.Length - 1; i >= 0; i--)
+            for (int i = groups.Length - 1; i >= 0; i--)
             {
                 view = groups[i].GetLastFocusItem();
                 if (view != null)
@@ -234,7 +234,7 @@ namespace Krypton.Ribbon
         public ViewBase GetNextFocusItem(ViewBase current)
         {
             ViewBase view = null;
-            var matched = false;
+            bool matched = false;
 
             // Search each group until one of them returns a focus item
             foreach (ViewDrawRibbonGroup ribGroup in _groupToView.Values)
@@ -262,13 +262,13 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousFocusItem(ViewBase current)
         {
             ViewBase view = null;
-            var matched = false;
+            bool matched = false;
 
-            var groups = new ViewDrawRibbonGroup[_groupToView.Count];
+            ViewDrawRibbonGroup[] groups = new ViewDrawRibbonGroup[_groupToView.Count];
             _groupToView.Values.CopyTo(groups, 0);
 
             // Search each group until one of them returns a focus item
-            for (var i = groups.Length - 1; i >= 0; i--)
+            for (int i = groups.Length - 1; i >= 0; i--)
             {
                 // Already matched means we need the next item we come across,
                 // otherwise we continue with the attempt to find previous
@@ -309,13 +309,13 @@ namespace Krypton.Ribbon
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
-            var x = ClientLocation.X;
+            int x = ClientLocation.X;
 
             // Are there any children to layout?
             if (Count > 0)
             {
-                var y = ClientLocation.Y;
-                var height = ClientHeight;
+                int y = ClientLocation.Y;
+                int height = ClientHeight;
 
                 // Position each item from left to right taking up entire height
                 for (int i = 0, j = 0; i < Count; i++)
@@ -407,7 +407,7 @@ namespace Krypton.Ribbon
 
             if (_groupSepCache.Count < _ribbonTab.Groups.Count)
             {
-                for (var i = _groupSepCache.Count; i < _ribbonTab.Groups.Count; i++)
+                for (int i = _groupSepCache.Count; i < _ribbonTab.Groups.Count; i++)
                 {
                     _groupSepCache.Add(new ViewLayoutRibbonSeparator(0, true));
                 }
@@ -421,15 +421,15 @@ namespace Krypton.Ribbon
             }
 
             // We ignore the first separator
-            var ignoreSep = true;
+            bool ignoreSep = true;
 
             // Add child elements appropriate for each ribbon group
-            for (var i = 0; i < _ribbonTab.Groups.Count; i++)
+            for (int i = 0; i < _ribbonTab.Groups.Count; i++)
             {
                 KryptonRibbonGroup ribbonGroup = _ribbonTab.Groups[i];
 
                 // Only make the separator visible if the group is and not the first sep
-                var groupVisible = (_ribbon.InDesignHelperMode || ribbonGroup.Visible);
+                bool groupVisible = (_ribbon.InDesignHelperMode || ribbonGroup.Visible);
                 _groupSepCache[i].Visible = groupVisible && !ignoreSep;
                 regenerate[ribbonGroup].Visible = groupVisible;
 
@@ -474,12 +474,12 @@ namespace Krypton.Ribbon
 
         private int AdjustGroupStateToMatchSpace(ViewLayoutContext context)
         {
-            var listWidths = new List<GroupSizeWidth[]>();
-            var listGroups = new List<IRibbonViewGroupSize>();
+            List<GroupSizeWidth[]> listWidths = new List<GroupSizeWidth[]>();
+            List<IRibbonViewGroupSize> listGroups = new List<IRibbonViewGroupSize>();
 
             // Scan all groups
-            var pixelGaps = 0;
-            var maxEntries = 0;
+            int pixelGaps = 0;
+            int maxEntries = 0;
             foreach (ViewBase child in this)
             {
                 if (child.Visible)
@@ -490,7 +490,7 @@ namespace Krypton.Ribbon
                     {
 
                         // Find list of possible sizes for this group
-                        var widths = childSize.GetPossibleSizes(context);
+                        GroupSizeWidth[] widths = childSize.GetPossibleSizes(context);
 
                         // Track how many extra pixels are needed for inter group gaps
                         pixelGaps += SEP_LENGTH_2007;
@@ -505,36 +505,36 @@ namespace Krypton.Ribbon
                 }
             }
 
-            var bestWidth = 0;
-            var availableWidth = context.DisplayRectangle.Width;
+            int bestWidth = 0;
+            int availableWidth = context.DisplayRectangle.Width;
             int[] bestIndexes = null;
-            var permIndexes = new List<int>();
+            List<int> permIndexes = new List<int>();
 
             // Scan each horizontal slice of the 2D array of values
-            for (var i = 0; i < maxEntries; i++)
+            for (int i = 0; i < maxEntries; i++)
             {
                 // Move from right to left creating a permutation each time
-                for (var j = listWidths.Count - 1; j >= 0; j--)
+                for (int j = listWidths.Count - 1; j >= 0; j--)
                 {
                     // Does this cell actually exist?
                     if (listWidths[j].Length > i)
                     {
                         // Starting width is the pixel gaps
-                        var permTotalWidth = pixelGaps;
+                        int permTotalWidth = pixelGaps;
                         permIndexes.Clear();
 
                         // Generate permutation by taking cell values
-                        for (var k = listWidths.Count - 1; k >= 0; k--)
+                        for (int k = listWidths.Count - 1; k >= 0; k--)
                         {
                             // If we are on the left of the 'j' cell then move up a level
-                            var index = i + (k > j ? 1 : 0);
+                            int index = i + (k > j ? 1 : 0);
 
                             // Limit check the index to available height
                             index = Math.Min(index, listWidths[k].Length - 1);
                             permIndexes.Insert(0, index);
 
                             // Find width and size of the entry
-                            var width = listWidths[k][index].Width;
+                            int width = listWidths[k][index].Width;
 
                             // Track the total width of this permutation
                             permTotalWidth += width;
@@ -556,7 +556,7 @@ namespace Krypton.Ribbon
             {
                 // Use the best discovered solution and push it back to the groups
                 _groupWidths = new int[listGroups.Count];
-                for (var i = 0; i < listGroups.Count; i++)
+                for (int i = 0; i < listGroups.Count; i++)
                 {
                     _groupWidths[i] = (listWidths[i][bestIndexes[i]].Width);
                     listGroups[i].SetSolutionSize(listWidths[i][bestIndexes[i]].Sizing);
@@ -566,7 +566,7 @@ namespace Krypton.Ribbon
             {
                 // Use the smallest solution and push it back to the groups
                 _groupWidths = new int[listGroups.Count];
-                for (var i = 0; i < listGroups.Count; i++)
+                for (int i = 0; i < listGroups.Count; i++)
                 {
                     _groupWidths[i] = (listWidths[i][listWidths[i].Length - 1].Width);
                     listGroups[i].SetSolutionSize(listWidths[i][listWidths[i].Length - 1].Sizing);

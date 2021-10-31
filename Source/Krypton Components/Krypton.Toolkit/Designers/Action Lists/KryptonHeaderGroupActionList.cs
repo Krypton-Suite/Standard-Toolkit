@@ -175,8 +175,8 @@ namespace Krypton.Toolkit
             if (_headerGroup != null)
             {
                 // Get the current visible state of the headers
-                var header1Visible = _headerGroup.HeaderVisiblePrimary;
-                var header2Visible = _headerGroup.HeaderVisibleSecondary;
+                bool header1Visible = _headerGroup.HeaderVisiblePrimary;
+                bool header2Visible = _headerGroup.HeaderVisibleSecondary;
 
                 // Decide on the initial text values
                 _text1 = (header1Visible ? "Hide primary header" : "Show primary header");
@@ -213,10 +213,10 @@ namespace Krypton.Toolkit
             DesignerVerb verb = sender as DesignerVerb;
 
             // Find out if this is the first or second header verb
-            var header1 = (verb == _visible1);
+            bool header1 = (verb == _visible1);
 
             // The new visible value should be the opposite of the current value
-            var newVisible = !(header1 ? _headerGroup.HeaderVisiblePrimary : _headerGroup.HeaderVisibleSecondary);
+            bool newVisible = !(header1 ? _headerGroup.HeaderVisiblePrimary : _headerGroup.HeaderVisibleSecondary);
 
             // Assign the new text to the correct header text
             if (header1)

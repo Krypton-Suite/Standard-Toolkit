@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
 
         private void OnNumericUpDownPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var updateLayout = false;
+            bool updateLayout = false;
             const bool UPDATE_PAINT = false;
 
             switch (e.PropertyName)
@@ -497,7 +497,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                var enabled = GroupNumericUpDown.Enabled;
+                bool enabled = GroupNumericUpDown.Enabled;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupNumericUpDown.NumericUpDownDesigner != null))
@@ -515,7 +515,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupNumericUpDown.Visible;
+                bool visible = GroupNumericUpDown.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupNumericUpDown.NumericUpDownDesigner != null))
@@ -535,7 +535,7 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupNumericUpDown.Visible;
+                bool visible = GroupNumericUpDown.Visible;
 
                 // If we have an associated designer setup...
                 if (!_ribbon.InDesignHelperMode && (GroupNumericUpDown.NumericUpDownDesigner != null))

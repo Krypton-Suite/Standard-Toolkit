@@ -345,7 +345,7 @@ namespace Krypton.Toolkit
                 {
                     long outputEnd = 0;
                     PI.QueryPerformanceCounter(ref outputEnd);
-                    var outputDiff = outputEnd - _outputStart;
+                    long outputDiff = outputEnd - _outputStart;
 
                     Console.WriteLine("Id:{0} Layout Type:{1} Elapsed:{2} Rect:{3}",
                         Id,
@@ -430,7 +430,7 @@ namespace Krypton.Toolkit
                 {
                     long outputEnd = 0;
                     PI.QueryPerformanceCounter(ref outputEnd);
-                    var outputDiff = outputEnd - _outputStart;
+                    long outputDiff = outputEnd - _outputStart;
 
                     Console.WriteLine("Id:{0} Paint Type:{1} Elapsed: {2}",
                         Id,

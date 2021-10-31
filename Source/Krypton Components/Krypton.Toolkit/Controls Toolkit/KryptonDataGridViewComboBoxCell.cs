@@ -325,17 +325,17 @@ namespace Krypton.Toolkit
                 {
                     if (comboColumn.DataSource == null)
                     {
-                        var strings = new object[comboColumn.Items.Count];
+                        object[] strings = new object[comboColumn.Items.Count];
 
-                        for (var i = 0; i < strings.Length; i++)
+                        for (int i = 0; i < strings.Length; i++)
                         {
                             strings[i] = comboColumn.Items[i];
                         }
 
                         comboBox.Items.AddRange(strings);
 
-                        var autoAppend = new string[comboColumn.AutoCompleteCustomSource.Count];
-                        for (var j = 0; j < autoAppend.Length; j++)
+                        string[] autoAppend = new string[comboColumn.AutoCompleteCustomSource.Count];
+                        for (int j = 0; j < autoAppend.Length; j++)
                         {
                             autoAppend[j] = comboColumn.AutoCompleteCustomSource[j];
                         }
@@ -458,7 +458,7 @@ namespace Krypton.Toolkit
             DataGridViewCellStyle cellStyle)
         {
             // Adjust the vertical location of the editing control:
-            var preferredHeight = _paintingComboBox.GetPreferredSize(_sizeLarge).Height + 2;
+            int preferredHeight = _paintingComboBox.GetPreferredSize(_sizeLarge).Height + 2;
             if (preferredHeight < editingControlBounds.Height)
             {
                 switch (cellStyle.Alignment)

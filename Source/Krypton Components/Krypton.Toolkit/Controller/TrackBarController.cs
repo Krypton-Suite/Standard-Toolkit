@@ -313,7 +313,7 @@ namespace Krypton.Toolkit
         #region Implementation
         private void OnRepeatTimer(object sender, EventArgs e)
         {
-            var current = _drawTB.ViewDrawTrackBar.Value;
+            int current = _drawTB.ViewDrawTrackBar.Value;
             if (current != _targetValue)
             {
                 _drawTB.ViewDrawTrackBar.ScrollValue = current < _targetValue

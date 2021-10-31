@@ -178,13 +178,9 @@ namespace Krypton.Toolkit
             if (Controls[0] is TextBox textBox)
             {
                 if (selectAll)
-                {
                     textBox.SelectAll();
-                }
                 else
-                {
                     textBox.SelectionStart = textBox.Text.Length;
-                }
             }
         }
         #endregion

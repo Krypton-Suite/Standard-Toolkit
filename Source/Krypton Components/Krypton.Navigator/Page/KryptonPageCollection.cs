@@ -90,7 +90,7 @@ namespace Krypton.Navigator
         {
             get
             {
-                var visibleCount = 0;
+                int visibleCount = 0;
 
                 // Count the number of pages that are visible
                 foreach (KryptonPage page in this)

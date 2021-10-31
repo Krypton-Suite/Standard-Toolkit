@@ -362,13 +362,13 @@ namespace Krypton.Toolkit
             Debug.Assert(item != null);
 
             // Cache the index of the item
-            var index = IndexOf(item);
+            int index = IndexOf(item);
 
             // Generate before event
             OnRemoving(new TypedCollectionEventArgs<T>(item, index));
 
             // Remove from the internal list
-            var ret = _list.Remove(item);
+            bool ret = _list.Remove(item);
 
             // Generate after event
             OnRemoved(new TypedCollectionEventArgs<T>(item, index));

@@ -126,9 +126,9 @@ namespace Krypton.Toolkit
             get
             {
                 // Create the actual array for holding the references
-                var array = new ButtonSpecView[_specLookup.Count];
+                ButtonSpecView[] array = new ButtonSpecView[_specLookup.Count];
 
-                var i=0;
+                int i=0;
                 foreach (ButtonSpecView view in _specLookup.Values)
                 {
                     array[i++] = view;
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
             if (_viewMetrics != null)
             {
                 // Add button spacers into each of the view dockers
-                for (var i = 0; i < _viewMetrics.Length; i++)
+                for (int i = 0; i < _viewMetrics.Length; i++)
                 {
                     // Get access to the matching docker/metrics/metric triple
                     IPaletteMetric viewMetric = _viewMetrics[i];
@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
         /// <returns>True if a state change was made.</returns>
         public bool RefreshButtons(bool composition)
         {
-            var changed = false;
+            bool changed = false;
 
             // Find all the button views
             foreach (ButtonSpecView buttonView in _specLookup.Values)
@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
             if (_viewMetrics != null)
             {
                 // Get the index of the specified docker
-                var i = DockerIndex(viewDocker);
+                int i = DockerIndex(viewDocker);
 
                 // If we found a matching entry
                 if (i >= 0)
@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
             if (_viewMetrics != null)
             {
                 // Get the index of the specified docker
-                var i = DockerIndex(viewDocker);
+                int i = DockerIndex(viewDocker);
 
                 // If we found a matching entry
                 if (i >= 0)
@@ -486,7 +486,7 @@ namespace Krypton.Toolkit
         public virtual ViewDrawButton GetNextVisibleViewButton(PaletteRelativeEdgeAlign align,
                                                                ViewDrawButton current)
         {
-            var found = false;
+            bool found = false;
             foreach (ButtonSpecView specView in _specLookup.Values)
             {
                 if (!found)
@@ -519,11 +519,11 @@ namespace Krypton.Toolkit
         public virtual ViewDrawButton GetPreviousVisibleViewButton(PaletteRelativeEdgeAlign align,
                                                                    ViewDrawButton current)
         {
-            var specLookups = new ButtonSpecView[_specLookup.Count];
+            ButtonSpecView[] specLookups = new ButtonSpecView[_specLookup.Count];
             _specLookup.Values.CopyTo(specLookups, 0);
 
-            var found = false;
-            for (var i = _specLookup.Count - 1; i >= 0; i--)
+            bool found = false;
+            for (int i = _specLookup.Count - 1; i >= 0; i--)
             {
                 ButtonSpecView specView = specLookups[i];
 
@@ -555,10 +555,10 @@ namespace Krypton.Toolkit
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
         public virtual ViewDrawButton GetLastVisibleViewButton(PaletteRelativeEdgeAlign align)
         {
-            var specLookups = new ButtonSpecView[_specLookup.Count];
+            ButtonSpecView[] specLookups = new ButtonSpecView[_specLookup.Count];
             _specLookup.Values.CopyTo(specLookups, 0);
 
-            for(var i =_specLookup.Count - 1; i>=0; i--)
+            for(int i =_specLookup.Count - 1; i>=0; i--)
             {
                 ButtonSpecView specView = specLookups[i];
 
@@ -712,8 +712,8 @@ namespace Krypton.Toolkit
         private void CreateAll()
         {
             // Count how many visible buttons are on each edge of each docker
-            var nearCounts = new int[DockerCount];
-            var farCounts = new int[DockerCount];
+            int[] nearCounts = new int[DockerCount];
+            int[] farCounts = new int[DockerCount];
 
             // Create from the variable and the fixed collections
             CreateFromCollection(_variableSpecs, ref nearCounts, ref farCounts);
@@ -723,11 +723,11 @@ namespace Krypton.Toolkit
             if (_viewMetrics != null)
             {
                 // Update the visible state of the edge spacers
-                for (var i = 0; i < _viewMetrics.Length; i++)
+                for (int i = 0; i < _viewMetrics.Length; i++)
                 {
                     // Only enable the spacer if there is at least one visible button on that edge
-                    var farVisible = (farCounts[i] > 0);
-                    var nearVisible = (nearCounts[i] > 0);
+                    bool farVisible = (farCounts[i] > 0);
+                    bool nearVisible = (nearCounts[i] > 0);
 
                     ListSpacers spacer = _viewSpacers[i];
 
@@ -763,7 +763,7 @@ namespace Krypton.Toolkit
                         if (buttonSpec.GetVisible(_redirector))
                         {
                             // Get the index of the target view docker
-                            var dockerIndex = GetTargetDockerIndex(buttonSpec.GetLocation(_redirector));
+                            int dockerIndex = GetTargetDockerIndex(buttonSpec.GetLocation(_redirector));
 
                             // The edge determines which count to use
                             if (buttonSpec.GetEdge(_redirector) == RelativeEdgeAlign.Far)
@@ -783,7 +783,7 @@ namespace Krypton.Toolkit
         private ButtonSpecView AddButtonSpec(ButtonSpec buttonSpec)
         {
             // Find the docker index that is the target for the button spec
-            var viewDockerIndex = GetTargetDockerIndex(buttonSpec.GetLocation(_redirector));
+            int viewDockerIndex = GetTargetDockerIndex(buttonSpec.GetLocation(_redirector));
 
             // Are we applying metrics
             if ((_viewMetrics != null) &&

@@ -150,11 +150,11 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            var attributes = Array.Empty<Attribute>();
+            Attribute[] attributes = Array.Empty<Attribute>();
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
-            for (var i = 0; i < strArray.Length; i++)
+            for (int i = 0; i < strArray.Length; i++)
             {
                 PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
                 if (descrip != null)
@@ -203,14 +203,14 @@ namespace Krypton.Ribbon
                                                      _moveNextVerb, _moveLastVerb, _deleteTextBoxVerb });
             }
 
-            var moveFirst = false;
-            var movePrev = false;
-            var moveNext = false;
-            var moveLast = false;
+            bool moveFirst = false;
+            bool movePrev = false;
+            bool moveNext = false;
+            bool moveLast = false;
 
             if (_ribbonMaskedTextBox?.Ribbon != null)
             {
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
                 moveFirst = (items.IndexOf(_ribbonMaskedTextBox) > 0);
                 movePrev = (items.IndexOf(_ribbonMaskedTextBox) > 0);
                 moveNext = (items.IndexOf(_ribbonMaskedTextBox) < (items.Count - 1));
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
             if (_ribbonMaskedTextBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupMaskedTextBox MoveFirst");
@@ -269,7 +269,7 @@ namespace Krypton.Ribbon
             if (_ribbonMaskedTextBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupMaskedTextBox MovePrevious");
@@ -282,7 +282,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the textbox
-                    var index = items.IndexOf(_ribbonMaskedTextBox) - 1;
+                    int index = items.IndexOf(_ribbonMaskedTextBox) - 1;
                     index = Math.Max(index, 0);
                     items.Remove(_ribbonMaskedTextBox);
                     items.Insert(index, _ribbonMaskedTextBox);
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
             if (_ribbonMaskedTextBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupMaskedTextBox MoveNext");
@@ -316,7 +316,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the textbox
-                    var index = items.IndexOf(_ribbonMaskedTextBox) + 1;
+                    int index = items.IndexOf(_ribbonMaskedTextBox) + 1;
                     index = Math.Min(index, items.Count - 1);
                     items.Remove(_ribbonMaskedTextBox);
                     items.Insert(index, _ribbonMaskedTextBox);
@@ -337,7 +337,7 @@ namespace Krypton.Ribbon
             if (_ribbonMaskedTextBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupMaskedTextBox MoveLast");
@@ -369,7 +369,7 @@ namespace Krypton.Ribbon
             if (_ribbonMaskedTextBox?.Ribbon != null)
             {
                 // Get access to the parent collection of items
-                var items = ParentItems;
+                TypedRestrictCollection<KryptonRibbonGroupItem> items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupMaskedTextBox DeleteTextBox");
@@ -404,8 +404,8 @@ namespace Krypton.Ribbon
             if (_ribbonMaskedTextBox?.Ribbon != null)
             {
                 PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonMaskedTextBox)["Enabled"];
-                var oldValue = (bool)propertyEnabled.GetValue(_ribbonMaskedTextBox);
-                var newValue = !oldValue;
+                bool oldValue = (bool)propertyEnabled.GetValue(_ribbonMaskedTextBox);
+                bool newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonMaskedTextBox, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonMaskedTextBox, newValue);
             }
@@ -416,8 +416,8 @@ namespace Krypton.Ribbon
             if (_ribbonMaskedTextBox?.Ribbon != null)
             {
                 PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonMaskedTextBox)["Visible"];
-                var oldValue = (bool)propertyVisible.GetValue(_ribbonMaskedTextBox);
-                var newValue = !oldValue;
+                bool oldValue = (bool)propertyVisible.GetValue(_ribbonMaskedTextBox);
+                bool newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonMaskedTextBox, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonMaskedTextBox, newValue);
             }

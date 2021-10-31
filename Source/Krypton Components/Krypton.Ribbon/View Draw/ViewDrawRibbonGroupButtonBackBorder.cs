@@ -291,14 +291,14 @@ namespace Krypton.Ribbon
         private void DrawVerticalSplit(RenderContext context, PaletteState drawState)
         {
             // We need the rectangle that represents just the split area
-            var partialHeight = ((ClientHeight / 3) * 2);
+            int partialHeight = ((ClientHeight / 3) * 2);
             Rectangle partialRect = new(ClientLocation, new Size(ClientWidth, partialHeight));
             Rectangle splitRectangle = Controller.SplitRectangle;
             Rectangle aboveSplitRect = new(ClientLocation, new Size(ClientWidth, splitRectangle.Y - ClientLocation.Y));
             Rectangle splitterRect = new(splitRectangle.Location, new Size(ClientWidth, 1));
             Rectangle belowSplitRect = new(ClientLocation.X, splitRectangle.Y, ClientWidth, splitRectangle.Height);
 
-            var splitWithFading = SplitWithFading(drawState);
+            bool splitWithFading = SplitWithFading(drawState);
             switch (drawState)
             {
                 case PaletteState.Normal:
@@ -480,7 +480,7 @@ namespace Krypton.Ribbon
             Rectangle splitterRect = new(splitRectangle.Location, new Size(1, ClientHeight));
             Rectangle afterSplitRect = new(splitRectangle.X, ClientLocation.Y , splitRectangle.Width, ClientHeight);
 
-            var splitWithFading = SplitWithFading(drawState);
+            bool splitWithFading = SplitWithFading(drawState);
             switch (drawState)
             {
                 case PaletteState.Normal:
@@ -717,7 +717,7 @@ namespace Krypton.Ribbon
 
         private void ActionFinished(object sender, EventArgs e)
         {
-            var fireAction = true;
+            bool fireAction = true;
 
             if (e is ToolStripDropDownClosedEventArgs closedArgs)
             {

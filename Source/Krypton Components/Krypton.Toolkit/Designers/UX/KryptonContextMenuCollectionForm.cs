@@ -666,8 +666,8 @@ namespace Krypton.Toolkit
             private void buttonOK_Click(object sender, EventArgs e)
             {
                 // Create an array with all the root items
-                var rootItems = new object[_treeView.Nodes.Count];
-                for (var i = 0; i < rootItems.Length; i++)
+                object[] rootItems = new object[_treeView.Nodes.Count];
+                for (int i = 0; i < rootItems.Length; i++)
                 {
                     rootItems[i] = ((MenuTreeNode)_treeView.Nodes[i]).Item;
                 }
@@ -700,13 +700,13 @@ namespace Krypton.Toolkit
                     // If at the root level then move up in the root items collection
                     if (node.Parent == null)
                     {
-                        var index = _treeView.Nodes.IndexOf(node);
+                        int index = _treeView.Nodes.IndexOf(node);
                         _treeView.Nodes.Remove(node);
                         _treeView.Nodes.Insert(index - 1, node);
                     }
                     else
                     {
-                        var index = node.Parent.Nodes.IndexOf(node);
+                        int index = node.Parent.Nodes.IndexOf(node);
                         TreeNode parentNode = node.Parent;
                         MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
 
@@ -746,13 +746,13 @@ namespace Krypton.Toolkit
                     // If at the root level then move down in the root items collection
                     if (node.Parent == null)
                     {
-                        var index = _treeView.Nodes.IndexOf(node);
+                        int index = _treeView.Nodes.IndexOf(node);
                         _treeView.Nodes.Remove(node);
                         _treeView.Nodes.Insert(index + 1, node);
                     }
                     else
                     {
-                        var index = node.Parent.Nodes.IndexOf(node);
+                        int index = node.Parent.Nodes.IndexOf(node);
                         TreeNode parentNode = node.Parent;
                         MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
 
@@ -911,13 +911,13 @@ namespace Krypton.Toolkit
                         }
                         else
                         {
-                            var index = _treeView.Nodes.IndexOf(selectedNode);
+                            int index = _treeView.Nodes.IndexOf(selectedNode);
                             _treeView.Nodes.Insert(index + 1, newNode);
                         }
                     }
                     else
                     {
-                        var index = selectedNode.Parent.Nodes.IndexOf(selectedNode);
+                        int index = selectedNode.Parent.Nodes.IndexOf(selectedNode);
                         TreeNode parentNode = selectedNode.Parent;
                         MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
 
@@ -971,8 +971,8 @@ namespace Krypton.Toolkit
             {
                 KryptonContextMenuItemBase item = null;
                 KryptonContextMenuItemBase parent = null;
-                var parentNodeCount = _treeView.Nodes.Count;
-                var nodeIndex = -1;
+                int parentNodeCount = _treeView.Nodes.Count;
+                int nodeIndex = -1;
 
                 if (_treeView.SelectedNode is MenuTreeNode node)
                 {

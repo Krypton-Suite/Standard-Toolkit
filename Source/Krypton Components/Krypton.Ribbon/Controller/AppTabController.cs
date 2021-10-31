@@ -428,7 +428,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            var needPaint = false;
+            bool needPaint = false;
 
             // Update all the targets
             if ((Target1 != null) && (Target1.ElementState != newState))

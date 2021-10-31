@@ -123,7 +123,7 @@ namespace Krypton.Navigator
         /// <returns>True if movement should be cancelled; otherwise false.</returns>
         public bool SeparatorMoving(Point mouse, Point splitter)
         {
-            var layout = false;
+            bool layout = false;
 
             int mouseDelta;
 
@@ -141,7 +141,7 @@ namespace Krypton.Navigator
             if (mouseDelta > 0)
             {
                 // We want to shrink the last page in the stack first, so search list in reverse order
-                for(var i=Navigator.Pages.Count-1; i>=0; i--)
+                for(int i=Navigator.Pages.Count-1; i>=0; i--)
                 {
                     // Get access to the indexed page
                     KryptonPage page = Navigator.Pages[i];
@@ -157,7 +157,7 @@ namespace Krypton.Navigator
                         if (checkButton.Visible)
                         {
                             // Get the length of the check button
-                            var checkLength = Navigator.Outlook.Orientation == Orientation.Vertical ? checkButton.ClientHeight : checkButton.ClientWidth;
+                            int checkLength = Navigator.Outlook.Orientation == Orientation.Vertical ? checkButton.ClientHeight : checkButton.ClientWidth;
 
                             // If the check button border is showing
                             if (borderEdge.Visible)
@@ -307,7 +307,7 @@ namespace Krypton.Navigator
         {
             if (_pageOverflowLookup != null)
             {
-                foreach (var pair in _pageOverflowLookup)
+                foreach (KeyValuePair<KryptonPage, ViewDrawNavCheckButtonBase> pair in _pageOverflowLookup)
                 {
                     if (pair.Value == element)
                     {
@@ -318,7 +318,7 @@ namespace Krypton.Navigator
 
             if (_pageStackLookup != null)
             {
-                foreach (var pair in _pageStackLookup)
+                foreach (KeyValuePair<KryptonPage, ViewDrawNavCheckButtonBase> pair in _pageStackLookup)
                 {
                     if (pair.Value == element)
                     {
@@ -343,7 +343,7 @@ namespace Krypton.Navigator
             // Check each page level button spec
             if ((bs == null) && (_pageStackLookup != null))
             {
-                foreach (var pair in _pageStackLookup)
+                foreach (KeyValuePair<KryptonPage, ViewDrawNavCheckButtonBase> pair in _pageStackLookup)
                 {
                     bs = pair.Value.ButtonSpecFromView(element);
                     if (bs != null)
@@ -415,8 +415,8 @@ namespace Krypton.Navigator
             if ((_pageStackLookup != null) && _pageStackLookup.ContainsKey(page) &&
                 (_pageOverflowLookup != null) && _pageOverflowLookup.ContainsKey(page))
             {
-                var showPageStack = page.LastVisibleSet && !page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
-                var showPageOverflow = page.LastVisibleSet && !showPageStack;
+                bool showPageStack = page.LastVisibleSet && !page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
+                bool showPageOverflow = page.LastVisibleSet && !showPageStack;
                 
                 // Reflect new state in the check button
                 _pageStackLookup[page].Visible = showPageStack;
@@ -519,8 +519,8 @@ namespace Krypton.Navigator
                 PaletteBorderEdge buttonEdge;
 
                 // If whole navigator is disabled then all of view is disabled
-                var enabled = Navigator.Enabled;
-                var checkEnabled = enabled;
+                bool enabled = Navigator.Enabled;
+                bool checkEnabled = enabled;
 
                 // If there is no selected page
                 if (Navigator.SelectedPage == null)
@@ -695,8 +695,8 @@ namespace Krypton.Navigator
         public override bool ProcessDialogKey(Keys keyData)
         {
             // Find out which modifier keys are being pressed
-            var shift = ((keyData & Keys.Shift) == Keys.Shift);
-            var control = ((keyData & Keys.Control) == Keys.Control);
+            bool shift = ((keyData & Keys.Shift) == Keys.Shift);
+            bool control = ((keyData & Keys.Control) == Keys.Control);
 
             // Extract just the key and not modifier keys
             Keys keyCode = (keyData & Keys.KeyCode);
@@ -716,7 +716,7 @@ namespace Krypton.Navigator
 
                             if (!ce.Cancel)
                             {
-                                var changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                bool changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
                             }
                         }
                         return true;
@@ -1025,7 +1025,7 @@ namespace Krypton.Navigator
         /// <returns>State string.</returns>
         public string GetOverflowButtonStates()
         {
-            var ret = string.Empty;
+            string ret = string.Empty;
 
             // Sometimes the routine is called before the views have been fully setup
             if (_pageOverflowLookup != null)
@@ -1060,13 +1060,13 @@ namespace Krypton.Navigator
                 {
                     if (_pageStackLookup.ContainsKey(page))
                     {
-                        var showPageStack = page.LastVisibleSet && !page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
+                        bool showPageStack = page.LastVisibleSet && !page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
                         _pageStackLookup[page].Visible = showPageStack;
                         _buttonEdgeLookup[page].Visible = showPageStack;
 
                         if (_pageOverflowLookup.ContainsKey(page))
                         {
-                            var showPageOverflow = page.LastVisibleSet && !showPageStack;
+                            bool showPageOverflow = page.LastVisibleSet && !showPageStack;
                             _pageOverflowLookup[page].Visible = showPageOverflow;
                         }
                     }
@@ -1081,7 +1081,7 @@ namespace Krypton.Navigator
         /// <returns>True if a change was made; otherwise false.</returns>
         public bool ShrinkVertical(int shrinkage)
         {
-            var ret = false;
+            bool ret = false;
 
             // Sometimes the routine is called before the views have been fully setup
             if ((_pageStackLookup != null) && (_pageOverflowLookup != null))
@@ -1090,7 +1090,7 @@ namespace Krypton.Navigator
                 if (shrinkage > 0)
                 {
                     // Remove from display the stack item for each page
-                    for (var i = Navigator.Pages.Count - 1; i >= 0; i--)
+                    for (int i = Navigator.Pages.Count - 1; i >= 0; i--)
                     {
                         // Get the indexed page entry
                         KryptonPage page = Navigator.Pages[i];
@@ -1218,7 +1218,7 @@ namespace Krypton.Navigator
             };
 
             // Can we show the page as an overflow item?
-            var showPage = page.LastVisibleSet && !_pageStackLookup[page].Visible;
+            bool showPage = page.LastVisibleSet && !_pageStackLookup[page].Visible;
 
             // Set the initial state
             checkButton.Visible = showPage;
@@ -1509,7 +1509,7 @@ namespace Krypton.Navigator
         /// <returns>New page that should be selected.</returns>
         protected KryptonPage NextOutlookActionPage(KryptonPage page)
         {
-            var found = false;
+            bool found = false;
 
             // Scan the pages in the stack
             foreach (ViewBase item in _viewLayout)
@@ -1574,7 +1574,7 @@ namespace Krypton.Navigator
         /// <returns>New page that should be selected.</returns>
         protected KryptonPage PreviousOutlookActionPage(KryptonPage page)
         {
-            var found = false;
+            bool found = false;
 
             // Scan the pages in the overflow
             foreach (ViewBase item in _viewOverflowLayout.Reverse())
@@ -1680,7 +1680,7 @@ namespace Krypton.Navigator
                 checkButton.NeedPaint = NeedPaintDelegate;
 
                 // Can we show the page as a stacking item?
-                var showPage = page.LastVisibleSet && !page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
+                bool showPage = page.LastVisibleSet && !page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
 
                 // Set the initial state
                 checkButton.Visible = showPage;
@@ -1825,7 +1825,7 @@ namespace Krypton.Navigator
             // Update each individual button with the new style for remapping page level button specs
             if (_pageStackLookup != null)
             {
-                foreach (var pair in _pageStackLookup)
+                foreach (KeyValuePair<KryptonPage, ViewDrawNavCheckButtonBase> pair in _pageStackLookup)
                 {
                     pair.Value.ButtonSpecManager?.SetRemapTarget(Navigator.Outlook.CheckButtonStyle);
                 }
@@ -1861,8 +1861,8 @@ namespace Krypton.Navigator
                 checkButtonOverflow.NeedPaint = NeedPaintDelegate;
 
                 // Can we show the page as a stacking item?
-                var showPageStack = e.Item.LastVisibleSet && !e.Item.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
-                var showPageOverflow = e.Item.LastVisibleSet && !showPageStack;
+                bool showPageStack = e.Item.LastVisibleSet && !e.Item.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
+                bool showPageOverflow = e.Item.LastVisibleSet && !showPageStack;
 
                 // Set the initial state
                 checkButtonStack.Visible = showPageStack;
@@ -1962,7 +1962,7 @@ namespace Krypton.Navigator
             _viewLayout.Clear();
 
             // Clear out the overflow items not part of the button manager
-            for (var i = _viewOverflowLayout.Count - 1; i >= 0; i--)
+            for (int i = _viewOverflowLayout.Count - 1; i >= 0; i--)
             {
                 if (_viewOverflowLayout[i] is ViewDrawNavOutlookOverflow)
                 {
@@ -1971,7 +1971,7 @@ namespace Krypton.Navigator
             }
 
             // Start inserting at start of the list
-            var overflowInsertIndex = 0;
+            int overflowInsertIndex = 0;
 
             // Always add the filler as the first item
             SetLayoutFiller(_viewLayout);
@@ -2142,7 +2142,7 @@ namespace Krypton.Navigator
                 _kcm.Items.Add(new KryptonContextMenuItems(new KryptonContextMenuItemBase[] { moreButtons, fewerButtons, addRemoveButtons }));
 
                 // Add each page into the 'Add/Remove' item
-                var visibleAddRemove = 0;
+                int visibleAddRemove = 0;
                 foreach (KryptonPage page in Navigator.Pages)
                 {
                     // Create a menu item for the page
@@ -2271,12 +2271,12 @@ namespace Krypton.Navigator
             // Constrain by the position of the separator (depends on the orientation)
             if (SeparatorOrientation == Orientation.Horizontal)
             {
-                var reduce = _viewSeparator.ClientRectangle.Bottom - e.DragRect.Y;
+                int reduce = _viewSeparator.ClientRectangle.Bottom - e.DragRect.Y;
                 e.DragRect = new Rectangle(e.DragRect.X, e.DragRect.Y + reduce, e.DragRect.Width, e.DragRect.Height - reduce);
             }
             else
             {
-                var reduce = _viewSeparator.ClientRectangle.Right - e.DragRect.X;
+                int reduce = _viewSeparator.ClientRectangle.Right - e.DragRect.X;
                 e.DragRect = new Rectangle(e.DragRect.X + reduce, e.DragRect.Y, e.DragRect.Width - reduce, e.DragRect.Height);
             }
         }
@@ -2287,7 +2287,7 @@ namespace Krypton.Navigator
             ViewDrawNavOutlookStack reorderView = (ViewDrawNavOutlookStack)sender;
 
             // Scan the collection of children
-            var foundReorderView = false;
+            bool foundReorderView = false;
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // If the mouse is over this button
@@ -2303,13 +2303,13 @@ namespace Krypton.Navigator
                         {
                             if (SeparatorOrientation == Orientation.Horizontal)
                             {
-                                var shrink = childRect.Height - Math.Min(childRect.Height, reorderView.ClientHeight);
+                                int shrink = childRect.Height - Math.Min(childRect.Height, reorderView.ClientHeight);
                                 childRect.Y += shrink;
                                 childRect.Height -= shrink;
                             }
                             else
                             {
-                                var shrink = childRect.Width - Math.Min(childRect.Width, reorderView.ClientWidth);
+                                int shrink = childRect.Width - Math.Min(childRect.Width, reorderView.ClientWidth);
                                 childRect.X += shrink;
                                 childRect.Width -= shrink;
                             }

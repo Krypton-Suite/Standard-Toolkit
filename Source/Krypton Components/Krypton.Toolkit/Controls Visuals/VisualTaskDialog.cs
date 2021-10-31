@@ -591,8 +591,8 @@ namespace Krypton.Toolkit
                 // Get the display size and make sure that the content size is not greater than 0.6 of display size
                 Rectangle dispSize = Screen.GetWorkingArea(Location);
 
-                var h = (int)Math.Min(messageContentSize.Height, dispSize.Height * 0.6);
-                var w = (int)Math.Min(messageContentSize.Width, dispSize.Width * 0.6);
+                int h = (int)Math.Min(messageContentSize.Height, dispSize.Height * 0.6);
+                int w = (int)Math.Min(messageContentSize.Width, dispSize.Width * 0.6);
                 Size sz = new(w, h);
                 if (messageContentSize != sz)
                 {
@@ -600,8 +600,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Work out DPI adjustment factor
-                var factorX = g.DpiX > 96 ? ((1.0f * g.DpiX) / 96) : 1.0f;
-                var factorY = g.DpiY > 96 ? ((1.0f * g.DpiY) / 96) : 1.0f;
+                float factorX = g.DpiX > 96 ? ((1.0f * g.DpiX) / 96) : 1.0f;
+                float factorY = g.DpiY > 96 ? ((1.0f * g.DpiY) / 96) : 1.0f;
                 messageMainSize.Width = (int)(messageMainSize.Width * factorX);
                 messageMainSize.Height = (int)(messageMainSize.Height * factorY);
                 messageContentSize.Width = (int)(messageContentSize.Width * factorX);
@@ -663,7 +663,7 @@ namespace Krypton.Toolkit
 
         private Size UpdateButtonsSizing()
         {
-            var numButtons = 0;
+            int numButtons = 0;
             Size maxButtonSize = Size.Empty;
 
             // Find the size of the largest button we need
@@ -717,7 +717,7 @@ namespace Krypton.Toolkit
 
 
             // Start positioning buttons from right edge
-            var right = _panelButtons.Right - BUTTON_GAP;
+            int right = _panelButtons.Right - BUTTON_GAP;
 
             if ((_commonButtons & TaskDialogButtons.Close) == TaskDialogButtons.Close)
             {
@@ -848,7 +848,7 @@ namespace Krypton.Toolkit
             if (requiredSize.Width > 0)
             {
                 _panelFooter.Size = requiredSize;
-                var offset = BUTTON_GAP;
+                int offset = BUTTON_GAP;
 
                 if ((_footerIcon != MessageBoxIcon.None) || (_customFooterIcon != null))
                 {

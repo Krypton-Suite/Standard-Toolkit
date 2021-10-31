@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Use gradient angle to match the arrow direction
-                var angle = e.Direction switch
+                float angle = e.Direction switch
                 {
                     ArrowDirection.Right => 0,
                     ArrowDirection.Left => 180f,
@@ -244,7 +244,7 @@ namespace Krypton.Toolkit
             // Can we extend upwards?
             if (checkBox.Top > CHECK_INSET)
             {
-                var diff = checkBox.Top - CHECK_INSET;
+                int diff = checkBox.Top - CHECK_INSET;
                 checkBox.Y -= diff;
                 checkBox.Height += diff;
             }
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
             // Can we extend downwards?
             if (checkBox.Height <= (e.Item.Bounds.Height - (CHECK_INSET * 2)))
             {
-                var diff = e.Item.Bounds.Height - (CHECK_INSET * 2) - checkBox.Height;
+                int diff = e.Item.Bounds.Height - (CHECK_INSET * 2) - checkBox.Height;
                 checkBox.Height += diff;
             }
 
@@ -302,8 +302,8 @@ namespace Krypton.Toolkit
                 if (drawImage != null)
                 {
                     // Draw the image centered in the available space
-                    var xOffset = e.ImageRectangle.Width - drawImage.Width;
-                    var yOffset = e.ImageRectangle.Height - drawImage.Height;
+                    int xOffset = e.ImageRectangle.Width - drawImage.Width;
+                    int yOffset = e.ImageRectangle.Height - drawImage.Height;
                     Rectangle drawRect = new(e.ImageRectangle.X + xOffset,
                         e.ImageRectangle.Y + yOffset,
                         drawImage.Width,
@@ -532,20 +532,20 @@ namespace Krypton.Toolkit
             using SolidBrush darkBrush = new(KCT.GripDark),
                 lightBrush = new(KCT.GripLight);
             // Do we need to invert the drawing edge?
-            var rtl = (e.ToolStrip.RightToLeft == RightToLeft.Yes);
+            bool rtl = (e.ToolStrip.RightToLeft == RightToLeft.Yes);
 
             // Find vertical position of the lowest grip line
-            var y = (e.AffectedBounds.Bottom - (GRIP_SIZE * 2)) + 1;
+            int y = (e.AffectedBounds.Bottom - (GRIP_SIZE * 2)) + 1;
 
             // Draw three lines of grips
-            for (var i = GRIP_LINES; i >= 1; i--)
+            for (int i = GRIP_LINES; i >= 1; i--)
             {
                 // Find the rightmost grip position on the line
-                var x = (rtl ? e.AffectedBounds.Left + 1 :
+                int x = (rtl ? e.AffectedBounds.Left + 1 :
                     (e.AffectedBounds.Right - (GRIP_SIZE * 2)) + 1);
 
                 // Draw grips from right to left on line
-                for (var j = 0; j < i; j++)
+                for (int j = 0; j < i; j++)
                 {
                     // Just the single grip glyph
                     DrawGripGlyph(e.Graphics, x, y, darkBrush, lightBrush);
@@ -740,7 +740,7 @@ namespace Krypton.Toolkit
                 Rectangle marginRect = e.AffectedBounds;
 
                 // Do we need to draw with separator on the opposite edge?
-                var rtl = (e.ToolStrip.RightToLeft == RightToLeft.Yes);
+                bool rtl = (e.ToolStrip.RightToLeft == RightToLeft.Yes);
 
                 marginRect.Y += MARGIN_INSET;
                 marginRect.Height -= MARGIN_INSET * 2;
@@ -1194,9 +1194,9 @@ namespace Krypton.Toolkit
         {
             if (vertical)
             {
-                var l = rect.Width / 2;
-                var t = rect.Y;
-                var b = rect.Bottom;
+                int l = rect.Width / 2;
+                int t = rect.Y;
+                int b = rect.Bottom;
 
                 // Draw vertical lines centered
                 g.DrawLine(darkPen, l, t, l, b);
@@ -1204,9 +1204,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                var y = rect.Height / 2;
-                var l = rect.X + (rtl ? 0 : horizontalInset);
-                var r = rect.Right - (rtl ? horizontalInset : 0);
+                int y = rect.Height / 2;
+                int l = rect.X + (rtl ? 0 : horizontalInset);
+                int r = rect.Right - (rtl ? horizontalInset : 0);
 
                 // Draw horizontal lines centered
                 g.DrawLine(darkPen, l, y, r, y);
@@ -1229,23 +1229,23 @@ namespace Krypton.Toolkit
             rect.Height--;
 
             // Create an array of points to draw lines between
-            var pts = new List<PointF>();
+            List<PointF> pts = new List<PointF>();
 
             float l = rect.X;
             float t = rect.Y;
             float r = rect.Right;
             float b = rect.Bottom;
-            var x0 = rect.X + cut;
-            var x3 = rect.Right - cut;
-            var y0 = rect.Y + cut;
-            var y3 = rect.Bottom - cut;
-            var cutBack = (cut == 0f ? 1 : cut);
+            float x0 = rect.X + cut;
+            float x3 = rect.Right - cut;
+            float y0 = rect.Y + cut;
+            float y3 = rect.Bottom - cut;
+            float cutBack = (cut == 0f ? 1 : cut);
 
             // Does the exclude intercept the top line
             if ((rect.Y >= exclude.Top) && (rect.Y <= exclude.Bottom))
             {
-                var x1 = exclude.X - 1 - cut;
-                var x2 = exclude.Right + cut;
+                float x1 = exclude.X - 1 - cut;
+                float x2 = exclude.Right + cut;
 
                 if (x0 <= x1)
                 {
@@ -1290,7 +1290,7 @@ namespace Krypton.Toolkit
             GraphicsPath path = new();
 
             // Add a line between each set of points
-            for (var i = 1; i < pts.Count; i++)
+            for (int i = 1; i < pts.Count; i++)
             {
                 path.AddLine(pts[i - 1], pts[i]);
             }
@@ -1421,8 +1421,8 @@ namespace Krypton.Toolkit
         private static GraphicsPath CreateTickPath(Rectangle rect)
         {
             // Get the center point of the rect
-            var x = rect.X + (rect.Width / 2);
-            var y = rect.Y + (rect.Height / 2);
+            int x = rect.X + (rect.Width / 2);
+            int y = rect.Y + (rect.Height / 2);
 
             GraphicsPath path = new();
             path.AddLine(x - 5, y - 1, x - 2, y + 4);
@@ -1433,8 +1433,8 @@ namespace Krypton.Toolkit
         private static GraphicsPath CreateIndeterminatePath(Rectangle rect)
         {
             // Get the center point of the rect
-            var x = rect.X + (((float)rect.Width - 6) / 2);
-            var y = rect.Y + (((float)rect.Height - 6) / 2);
+            float x = rect.X + (((float)rect.Width - 6) / 2);
+            float y = rect.Y + (((float)rect.Height - 6) / 2);
 
             GraphicsPath path = new();
             path.AddEllipse(x, y, 6f, 6f);

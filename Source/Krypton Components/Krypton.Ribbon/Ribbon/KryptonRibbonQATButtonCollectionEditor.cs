@@ -47,7 +47,7 @@ namespace Krypton.Ribbon
             ribbon?.SuspendLayout();
 
             // Let base class update the collection
-            var ret = base.SetItems(editValue, value);
+            object ret = base.SetItems(editValue, value);
 
             ribbon?.ResumeLayout(true);
 

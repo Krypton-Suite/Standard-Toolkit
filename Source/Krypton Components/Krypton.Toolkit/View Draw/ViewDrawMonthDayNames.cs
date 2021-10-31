@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         protected override void Dispose(bool disposing)
         {
             // Dispose of the mementos to prevent memory leak
-            for(var i=0; i<_dayMementos.Length; i++)
+            for(int i=0; i<_dayMementos.Length; i++)
             {
                 if (_dayMementos[i] != null)
                 {

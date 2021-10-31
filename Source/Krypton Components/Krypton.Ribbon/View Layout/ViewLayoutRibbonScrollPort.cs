@@ -175,15 +175,12 @@ namespace Krypton.Ribbon
             _viewControlContent.PaintBackground += OnViewControlPaintBackground;
             ViewLayoutControl = new ViewLayoutControl(_viewControlContent, ribbon, _viewFiller);
 
-            // Removed because of this
-            // https://github.com/Krypton-Suite/Standard-Toolkit/issues/372
-            // And the statement below does not make sense, and it didn;t do what it states !
-            //// For ribbon tabs we want to monitor and intercept the WM_NCHITTEST so that the remainder of the 
-            //// tabs area acts like the application title bar and can be used to manipulate the application
-            //if (_ribbonTabs != null)
-            //{
-            //    ViewLayoutControl.ChildControl.WndProcHitTest += OnChildWndProcHitTest;
-            //}
+            // For ribbon tabs we want to monitor and intercept the WM_NCHITTEST so that the remainder of the 
+            // tabs area acts like the application title bar and can be used to manipulate the application
+            if (_ribbonTabs != null)
+            {
+                ViewLayoutControl.ChildControl.WndProcHitTest += OnChildWndProcHitTest;
+            }
 
             // Create the two scrollers used when not enough space for filler
             _nearScroller = new ViewLayoutRibbonScroller(ribbon, NearOrientation, insetForTabs, needPaintDelegate);
@@ -536,7 +533,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Work out the maximum scroll offset needed to show all of the filler
-                var maxOffset = Orientation == Orientation.Horizontal
+                int maxOffset = Orientation == Orientation.Horizontal
                     ? fillerSize.Width - layoutRect.Width
                     : fillerSize.Height - layoutRect.Height;
 
@@ -666,19 +663,17 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        // Removed because of this
-        // https://github.com/Krypton-Suite/Standard-Toolkit/issues/372
-        //private void OnChildWndProcHitTest(object sender, ViewControlHitTestArgs e)
-        //{
-        //    if (_ribbonTabs?.GetViewForSpare != null)
-        //    {
-        //        if (_ribbonTabs.GetViewForSpare.ClientRectangle.Contains(e.Point))
-        //        {
-        //            e.Cancel = false;
-        //            e.Result = (IntPtr)PI.HT.TRANSPARENT;
-        //        }
-        //    }
-        //}
+        private void OnChildWndProcHitTest(object sender, ViewControlHitTestArgs e)
+        {
+            if (_ribbonTabs?.GetViewForSpare != null)
+            {
+                if (_ribbonTabs.GetViewForSpare.ClientRectangle.Contains(e.Point))
+                {
+                    e.Cancel = false;
+                    e.Result = (IntPtr)PI.HT.TRANSPARENT;
+                }
+            }
+        }
 
         private bool ScrollIntoView(Rectangle rect, bool paint)
         {

@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         {
             try
             {
-                foreach (var theme in ThemeManager.SupportedThemeArray)
+                foreach (string theme in ThemeManager.SupportedThemeArray)
                 {
                     target.Items.Add(theme);
                 }
@@ -47,7 +47,7 @@ namespace Krypton.Ribbon
         {
             try
             {
-                foreach (var theme in ThemeManager.SupportedThemeArray)
+                foreach (string theme in ThemeManager.SupportedThemeArray)
                 {
                     target.Items.Add(theme);
                 }

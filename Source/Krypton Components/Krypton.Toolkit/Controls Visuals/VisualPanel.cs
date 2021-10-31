@@ -835,7 +835,7 @@ namespace Krypton.Toolkit
                 if (ViewManager != null)
                 {
                     // Prevent infinite loop by looping a maximum number of times
-                    var max = 5;
+                    int max = 5;
 
                     do
                     {
