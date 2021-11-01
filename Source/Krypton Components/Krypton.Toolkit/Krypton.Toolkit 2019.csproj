@@ -157,7 +157,7 @@
         <Compile Update="Palette Builtin\Office 2007\PaletteOffice2007Blue.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2007\PaletteOffice2007Base.cs">
+        <Compile Update="Palette Builtin\Office 2007\Bases\PaletteOffice2007Base.cs">
             <SubType>Component</SubType>
         </Compile>
         <Compile Update="Rendering\RenderOffice2013.cs">
