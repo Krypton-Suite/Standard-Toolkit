@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Silver color scheme variant of the Office 2010 palette.
     /// </summary>
-    public class PaletteOffice2010SilverLightMode : PaletteOffice2010Base
+    public class PaletteOffice2010SilverLightMode : PaletteOffice2010SilverLightModeBase
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;

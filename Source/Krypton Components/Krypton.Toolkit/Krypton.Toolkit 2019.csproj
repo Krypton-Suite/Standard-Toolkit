@@ -133,7 +133,7 @@
         <Compile Update="Palette Builtin\Office 2010\PaletteOffice2010Silver.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2010\PaletteOffice2010Base.cs">
+        <Compile Update="Palette Builtin\Office 2010\Bases\PaletteOffice2010Base.cs">
             <SubType>Component</SubType>
         </Compile>
         <Compile Update="Palette Builtin\Sparkle\PaletteSparklePurple.cs">
