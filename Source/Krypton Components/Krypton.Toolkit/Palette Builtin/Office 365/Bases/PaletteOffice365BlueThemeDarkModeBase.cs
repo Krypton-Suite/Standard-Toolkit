@@ -115,6 +115,7 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseChecked2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
+        private static readonly Color _controlCustom3Color = Color.FromArgb(126, 154, 188);
         private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
                                                              Color.FromArgb(214, 220, 231),
                                                              Color.FromArgb(188, 198, 211),
@@ -492,7 +493,7 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ControlCustom1:
                 case PaletteBackStyle.ControlCustom2:
                 case PaletteBackStyle.ControlCustom3:
-                    return SystemColors.Window;
+                    return _controlCustom3Color;
                 case PaletteBackStyle.InputControlStandalone:
                 case PaletteBackStyle.InputControlRibbon:
                 case PaletteBackStyle.InputControlCustom1:

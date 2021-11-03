@@ -57,6 +57,8 @@ namespace Krypton.Toolkit
             AutoCompleteSource = AutoCompleteSource.CustomSource;
 
             AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            DropDownStyle = ComboBoxStyle.DropDownList;
             
             if (KryptonManager == null)
             {
@@ -79,7 +81,6 @@ namespace Krypton.Toolkit
 
             base.OnSelectedIndexChanged(e);
         }
-
         #endregion
     }
 }
