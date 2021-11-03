@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// Provides a base for Office 365 palettes.
     /// </summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteOffice365SilverThemeDarkModeBase : PaletteBase
+    public abstract class PaletteOffice365SilverThemeLightModeBase : PaletteBase
     {
         #region Static Fields
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseChecked2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
-        private static readonly Color _controlCustom3Color = Color.FromArgb(118, 135, 156);
+        private static readonly Color _controlCustom3Color = Color.FromArgb(186, 196, 202);
         private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
                                                              Color.FromArgb(214, 220, 231),
                                                              Color.FromArgb(188, 198, 211),
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
                                                               Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
                                                               Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
                                                             };
-                                                            
+
         /*private static readonly Color[] _appButtonNormal = new Color[] { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
         private static readonly Color[] _appButtonTrack = new Color[] { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
         private static readonly Color[] _appButtonPressed = new Color[] { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
@@ -214,14 +214,14 @@ namespace Krypton.Toolkit
 
         #region Constructor        
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaletteOffice365SilverThemeDarkModeBase"/> class.
+        /// Initializes a new instance of the <see cref="PaletteOffice365SilverThemeLightModeBase"/> class.
         /// </summary>
         /// <param name="schemeColours">The scheme colours.</param>
         /// <param name="checkBoxList">The check box list.</param>
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        public PaletteOffice365SilverThemeDarkModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
+        public PaletteOffice365SilverThemeLightModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);
