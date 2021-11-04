@@ -49,7 +49,8 @@ if /I "%INPUT%"=="y" goto createpackages
 if /I "%INPUT%"=="n" goto break
 
 :createpackages
-build.cmd Pack
+pack.cmd
+
 
 pause
 
