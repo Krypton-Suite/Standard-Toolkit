@@ -55,9 +55,9 @@
 			<!--Uncomment if you want Signed packages-->
 			<!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Signed</PackageId>-->  
 			<!--Uncomment if you want Canary packages-->
-			<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>
+			<!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>-->
 			<!--Uncomment if you want Nightly packages-->
-			<!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Nightly</PackageId>-->
+			<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Nightly</PackageId>
 				<Description Condition="'$(TFMs)' == 'all'">
 					An update to Component factory's krypton toolkit to support .NET Framework 4.6.2 - 4.8, .NET Core 3.1 and .NET 5/6. $(Description)
 					

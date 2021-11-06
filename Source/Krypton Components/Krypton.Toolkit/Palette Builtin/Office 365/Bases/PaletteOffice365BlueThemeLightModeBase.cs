@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// Provides a base for Office 365 palettes.
     /// </summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteOffice365SilverThemeDarkModeBase : PaletteBase
+    public abstract class PaletteOffice365BlueThemeLightModeBase : PaletteBase
     {
         #region Static Fields
         private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
-        private static readonly Color _contextMenuBack = Color.FromArgb(162, 174, 188);
+        private static readonly Color _contextMenuBack = Color.FromArgb(187, 206, 230);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(252, 241, 194);
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseChecked2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
-        private static readonly Color _controlCustom3Color = Color.FromArgb(118, 135, 156);
+        private static readonly Color _controlCustom3Color = Color.FromArgb(126, 154, 188);
         private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
                                                              Color.FromArgb(214, 220, 231),
                                                              Color.FromArgb(188, 198, 211),
@@ -140,24 +140,22 @@ namespace Krypton.Toolkit
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
                                                                 Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
                                                                 Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
-                                                                Color.FromArgb(118, 135, 156),  // Button, Pressed, Border 1
+                                                                Color.FromArgb(194, 118, 43),  // Button, Pressed, Border 1
                                                                 Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
                                                                 Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
-                                                                Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
-                                                              };
-
+                                                                           Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
+                                                                         };
         private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
-                                                              Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-                                                              Color.FromArgb(162, 174, 188), // Button, Tracking, Back 1
-                                                              Color.FromArgb(118, 135, 156), // Button, Tracking, Back 2
-                                                              Color.FromArgb(162, 174, 188), // Button, Pressed, Back 1
-                                                              Color.FromArgb(118, 135, 156),  // Button, Pressed, Back 2
-                                                              Color.FromArgb(162, 174, 188), // Button, Checked, Back 1
-                                                              Color.FromArgb(118, 135, 156), // Button, Checked, Back 2
-                                                              Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
-                                                              Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
-                                                            };
-                                                            
+                                                                         Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
+                                                                         Color.FromArgb(187, 206, 230), // Button, Tracking, Back 1
+                                                                         Color.FromArgb(174, 194, 219), // Button, Tracking, Back 2
+                                                                         Color.FromArgb(187, 206, 230), // Button, Pressed, Back 1
+                                                                         Color.FromArgb(174, 194, 219),  // Button, Pressed, Back 2
+                                                                         Color.FromArgb(187, 206, 230), // Button, Checked, Back 1
+                                                                         Color.FromArgb(174, 194, 219), // Button, Checked, Back 2
+                                                                         Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
+                                                                         Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
+                                                                       };
         /*private static readonly Color[] _appButtonNormal = new Color[] { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
         private static readonly Color[] _appButtonTrack = new Color[] { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
         private static readonly Color[] _appButtonPressed = new Color[] { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
@@ -214,14 +212,14 @@ namespace Krypton.Toolkit
 
         #region Constructor        
         /// <summary>
-        /// Initializes a new instance of the <see cref="PaletteOffice365SilverThemeDarkModeBase"/> class.
+        /// Initializes a new instance of the <see cref="PaletteOffice365BlueThemeLightModeBase"/> class.
         /// </summary>
         /// <param name="schemeColours">The scheme colours.</param>
         /// <param name="checkBoxList">The check box list.</param>
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        public PaletteOffice365SilverThemeDarkModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
+        public PaletteOffice365BlueThemeLightModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);

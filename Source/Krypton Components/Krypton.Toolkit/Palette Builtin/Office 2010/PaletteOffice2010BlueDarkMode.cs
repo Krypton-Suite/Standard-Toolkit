@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Blue color scheme variant of the Office 2010 palette.
     /// </summary>
-    public class PaletteOffice2010BlueDarkMode : PaletteOffice2010Base
+    public class PaletteOffice2010BlueDarkMode : PaletteOffice2010BlueDarkModeBase
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;

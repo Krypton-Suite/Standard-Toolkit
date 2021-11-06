@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public class PaletteOffice365SilverLightMode : PaletteOffice365Base
+    public class PaletteOffice365SilverLightMode : PaletteOffice365SilverThemeLightModeBase
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
