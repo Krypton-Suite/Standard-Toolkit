@@ -158,16 +158,14 @@ namespace Krypton.Toolkit
                 PaintBackground?.Invoke(this, e);
 
                 // Create a render context for drawing the view
-                using (RenderContext context = new(GetViewManager(),
-                                                                 this,
-                                                                 RootInstance,
-                                                                 e.Graphics,
-                                                                 e.ClipRectangle,
-                                                                 Renderer))
-                {
-                    // Ask the view to paint itself
-                    ViewLayoutControl.ChildView.Render(context);
-                }
+                using RenderContext context = new(GetViewManager(),
+                    this,
+                    RootInstance,
+                    e.Graphics,
+                    e.ClipRectangle,
+                    Renderer);
+                // Ask the view to paint itself
+                ViewLayoutControl.ChildView.Render(context);
             }
         }
 
@@ -430,10 +428,8 @@ namespace Krypton.Toolkit
         /// Raises the WndProcHitTest event.
         /// </summary>
         /// <param name="e">A ViewControlHitTestArgs containing the event data.</param>
-        protected virtual void OnWndProcHitTest(ViewControlHitTestArgs e)
-        {
-            WndProcHitTest?.Invoke(this, e);
-        }
+        protected virtual void OnWndProcHitTest(ViewControlHitTestArgs e) => WndProcHitTest?.Invoke(this, e);
+
         #endregion
 
         #region Implementation

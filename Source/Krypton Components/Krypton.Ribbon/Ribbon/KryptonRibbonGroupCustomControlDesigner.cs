@@ -147,7 +147,7 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            Attribute[] attributes = MissingFrameWorkAPIs.Array_Empty<Attribute>();
+            Attribute[] attributes = Array.Empty<Attribute>();
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
@@ -175,20 +175,14 @@ namespace Krypton.Ribbon
             Visible = true;
         }
 
-        private bool ShouldSerializeVisible()
-        {
-            return !Visible;
-        }
+        private bool ShouldSerializeVisible() => !Visible;
 
         private void ResetEnabled()
         {
             Enabled = true;
         }
 
-        private bool ShouldSerializeEnabled()
-        {
-            return !Enabled;
-        }
+        private bool ShouldSerializeEnabled() => !Enabled;
 
         private void UpdateVerbStatus()
         {

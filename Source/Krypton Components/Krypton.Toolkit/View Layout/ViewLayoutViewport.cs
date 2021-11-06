@@ -107,11 +107,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutViewport:" + Id;
-        }
+            "ViewLayoutViewport:" + Id;
+
         #endregion
 
         #region SetMetrics
@@ -385,20 +384,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Move the viewport to show the next part of area.
         /// </summary>
-        public void MoveNext()
-        {
-            MoveDirection(true);
-        }
+        public void MoveNext() => MoveDirection(true);
+
         #endregion
 
         #region MovePrevious
         /// <summary>
         /// Move the viewport to show the previous part of area.
         /// </summary>
-        public void MovePrevious()
-        {
-            MoveDirection(false);
-        }
+        public void MovePrevious() => MoveDirection(false);
+
         #endregion
 
         #region NeedScrolling
@@ -613,36 +608,34 @@ namespace Krypton.Toolkit
             }
 
             // New clipping region is at most our own client size
-            using (Region combineRegion = new(clipRectangle))
+            using Region combineRegion = new(clipRectangle);
+            // Remember the current clipping region
+            Region clipRegion = context.Graphics.Clip.Clone();
+
+            // Reduce clipping region down by the existing clipping region
+            combineRegion.Intersect(clipRegion);
+
+            // Use new region that restricts drawing to our client size only
+            context.Graphics.Clip = combineRegion;
+
+            // Perform rendering before any children
+            RenderBefore(context);
+
+            // Ask each child to render in turn
+            foreach (ViewBase child in this)
             {
-                // Remember the current clipping region
-                Region clipRegion = context.Graphics.Clip.Clone();
-
-                // Reduce clipping region down by the existing clipping region
-                combineRegion.Intersect(clipRegion);
-
-                // Use new region that restricts drawing to our client size only
-                context.Graphics.Clip = combineRegion;
-
-                // Perform rendering before any children
-                RenderBefore(context);
-
-                // Ask each child to render in turn
-                foreach (ViewBase child in this)
+                // Only render visible children that are inside the clipping rectangle
+                if (child.Visible)
                 {
-                    // Only render visible children that are inside the clipping rectangle
-                    if (child.Visible)
-                    {
-                        child.Render(context);
-                    }
+                    child.Render(context);
                 }
-
-                // Perform rendering after that of children
-                RenderAfter(context);
-
-                // Put clipping region back to original setting
-                context.Graphics.Clip = clipRegion;
             }
+
+            // Perform rendering after that of children
+            RenderAfter(context);
+
+            // Put clipping region back to original setting
+            context.Graphics.Clip = clipRegion;
         }
         #endregion
 
@@ -728,15 +721,12 @@ namespace Krypton.Toolkit
                 if (_rightToLeftLayout && (_rightToLeft == RightToLeft.Yes))
                 {
                     // Reverse the left and right only
-                    switch (orientation)
+                    orientation = orientation switch
                     {
-                        case VisualOrientation.Left:
-                            orientation = VisualOrientation.Right;
-                            break;
-                        case VisualOrientation.Right:
-                            orientation = VisualOrientation.Left;
-                            break;
-                    }
+                        VisualOrientation.Left => VisualOrientation.Right,
+                        VisualOrientation.Right => VisualOrientation.Left,
+                        _ => orientation
+                    };
                 }
 
                 // The orientation determines how the border padding is 

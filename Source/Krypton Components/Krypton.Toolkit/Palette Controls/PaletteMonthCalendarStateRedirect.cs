@@ -33,18 +33,17 @@ namespace Krypton.Toolkit
             /// <summary>
         /// Initialize a new instance of the PaletteMonthCalendarStateRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteMonthCalendarStateRedirect(PaletteRedirect redirect,
-                                                 NeedPaintHandler needPaint) 
-        {
-            Day = new PaletteTripleRedirect(redirect, 
-                                                    PaletteBackStyle.ButtonCalendarDay, 
-                                                    PaletteBorderStyle.ButtonCalendarDay, 
-                                                    PaletteContentStyle.ButtonCalendarDay, 
-                                                    needPaint);
-        }
-        #endregion
+                                                 NeedPaintHandler needPaint) =>
+                Day = new PaletteTripleRedirect(redirect, 
+                    PaletteBackStyle.ButtonCalendarDay, 
+                    PaletteBorderStyle.ButtonCalendarDay, 
+                    PaletteContentStyle.ButtonCalendarDay, 
+                    needPaint);
+
+            #endregion
 
         #region IsDefault
         /// <summary>
@@ -60,10 +59,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            Day.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => Day.SetRedirector(redirect);
+
         #endregion
 
         #region Styles
@@ -82,10 +79,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Day { get; }
 
-        private bool ShouldSerializeContent()
-        {
-            return !Day.IsDefault;
-        }
+        private bool ShouldSerializeContent() => !Day.IsDefault;
+
         #endregion
     }
 }

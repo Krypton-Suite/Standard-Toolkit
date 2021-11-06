@@ -170,10 +170,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return "(Month Calendar)";
-        }
+        public override string ToString() => "(Month Calendar)";
+
         #endregion
 
         #region Public
@@ -196,10 +194,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shorcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public override bool ProcessShortcut(Keys keyData)
-        {
-            return false;
-        }
+        public override bool ProcessShortcut(Keys keyData) => false;
 
         /// <summary>
         /// Returns a view appropriate for this item based on the object it is inside.
@@ -214,10 +209,8 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn)
-        {
-            return new ViewDrawMenuMonthCalendar(provider, this);
-        }
+                                              bool imageColumn) =>
+            new ViewDrawMenuMonthCalendar(provider, this);
 
         /// <summary>
         /// Gets and sets if selecting a day automatically closes the context menu.
@@ -235,7 +228,7 @@ namespace Krypton.Toolkit
                 if (_autoClose != value)
                 {
                     _autoClose = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("AutoClose"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AutoClose)));
                 }
             }
         }
@@ -256,7 +249,7 @@ namespace Krypton.Toolkit
                 if (_closeOnTodayClick != value)
                 {
                     _closeOnTodayClick = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("CloseOnTodayClick"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CloseOnTodayClick)));
                 }
             }
         }
@@ -278,7 +271,7 @@ namespace Krypton.Toolkit
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Enabled"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Enabled)));
                 }
             }
         }
@@ -302,7 +295,7 @@ namespace Krypton.Toolkit
                 }
 
                 _scrollChange = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("ScrollChange"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ScrollChange)));
             }
         }
 
@@ -324,7 +317,7 @@ namespace Krypton.Toolkit
                 }
 
                 _todayDate = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TodayDate"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(TodayDate)));
             }
         }
 
@@ -333,10 +326,7 @@ namespace Krypton.Toolkit
             TodayDate = DateTime.Now.Date;
         }
 
-        private bool ShouldSerializeTodayDate()
-        {
-            return (TodayDate != DateTime.Now.Date);
-        }
+        private bool ShouldSerializeTodayDate() => (TodayDate != DateTime.Now.Date);
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
@@ -350,7 +340,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                value ??= Array.Empty<DateTime>();
 
                 _annualDates.Clear();
                 _annualDates.AddRange(value);
@@ -366,7 +356,7 @@ namespace Krypton.Toolkit
                     AnnuallyBoldedDatesMask[dt.Month - 1] |= 1 << (dt.Day - 1);
                 }
 
-                OnPropertyChanged(new PropertyChangedEventArgs("AnnuallyBoldedDates"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnnuallyBoldedDates)));
             }
         }
 
@@ -375,10 +365,7 @@ namespace Krypton.Toolkit
             AnnuallyBoldedDates = null;
         }
 
-        private bool ShouldSerializeAnnuallyBoldedDates()
-        {
-            return (_annualDates.Count > 0);
-        }
+        private bool ShouldSerializeAnnuallyBoldedDates() => (_annualDates.Count > 0);
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determine which monthly days to bold. 
@@ -394,7 +381,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -407,7 +394,7 @@ namespace Krypton.Toolkit
                     MonthlyBoldedDatesMask |= 1 << (dt.Day - 1);
                 }
 
-                OnPropertyChanged(new PropertyChangedEventArgs("MonthlyBoldedDates"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(MonthlyBoldedDates)));
             }
         }
 
@@ -416,10 +403,7 @@ namespace Krypton.Toolkit
             MonthlyBoldedDates = null;
         }
 
-        private bool ShouldSerializeMonthlyBoldedDates()
-        {
-            return (_monthlyDates.Count > 0);
-        }
+        private bool ShouldSerializeMonthlyBoldedDates() => (_monthlyDates.Count > 0);
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are displayed in bold.
@@ -435,12 +419,12 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 BoldedDatesList.Clear();
                 BoldedDatesList.AddRange(value);
-                OnPropertyChanged(new PropertyChangedEventArgs("BoldedDates"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(BoldedDates)));
             }
         }
 
@@ -449,10 +433,7 @@ namespace Krypton.Toolkit
             BoldedDates = null;
         }
 
-        private bool ShouldSerializeBoldedDates()
-        {
-            return (BoldedDatesList.Count > 0);
-        }
+        private bool ShouldSerializeBoldedDates() => (BoldedDatesList.Count > 0);
 
         /// <summary>
         /// Gets or sets the minimum allowable date.
@@ -482,7 +463,7 @@ namespace Krypton.Toolkit
 
                 _minDate = value;
                 SetRange();
-                OnPropertyChanged(new PropertyChangedEventArgs("MinDate"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(MinDate)));
             }
         }
 
@@ -491,10 +472,7 @@ namespace Krypton.Toolkit
             MinDate = DateTimePicker.MinimumDateTime;
         }
 
-        private bool ShouldSerializeMinDate()
-        {
-            return (_minDate != DateTimePicker.MinimumDateTime);
-        }
+        private bool ShouldSerializeMinDate() => (_minDate != DateTimePicker.MinimumDateTime);
 
         /// <summary>
         /// Gets or sets the maximum allowable date.
@@ -524,7 +502,7 @@ namespace Krypton.Toolkit
 
                 _maxDate = value;
                 SetRange();
-                OnPropertyChanged(new PropertyChangedEventArgs("MaxDate"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(MaxDate)));
             }
         }
 
@@ -533,10 +511,7 @@ namespace Krypton.Toolkit
             MaxDate = DateTimePicker.MaximumDateTime;
         }
 
-        private bool ShouldSerializeMaxDate()
-        {
-            return (_maxDate != DateTimePicker.MaximumDateTime);
-        }
+        private bool ShouldSerializeMaxDate() => (_maxDate != DateTimePicker.MaximumDateTime);
 
         /// <summary>
         /// Gets or sets the maximum number of days that can be selected in a month calendar control.
@@ -561,7 +536,7 @@ namespace Krypton.Toolkit
                 {
                     _maxSelectionCount = value;
                     SetSelectionRange(_selectionStart, _selectionEnd);
-                    OnPropertyChanged(new PropertyChangedEventArgs("MaxSelectionCount"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(MaxSelectionCount)));
                 }
             }
         }
@@ -607,7 +582,7 @@ namespace Krypton.Toolkit
 
                     // Update selection dates and generate event if required
                     SetSelRange(value, _selectionEnd);
-                    OnPropertyChanged(new PropertyChangedEventArgs("SelectionStart"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(SelectionStart)));
                 }
             }
         }
@@ -617,10 +592,7 @@ namespace Krypton.Toolkit
             SelectionStart = DateTime.Now.Date;
         }
 
-        private bool ShouldSerializeSelectionStart()
-        {
-            return (SelectionStart != DateTime.Now.Date);
-        }
+        private bool ShouldSerializeSelectionStart() => (SelectionStart != DateTime.Now.Date);
 
         /// <summary>
         /// Gets or sets the end date of the selected range of dates.
@@ -663,7 +635,7 @@ namespace Krypton.Toolkit
 
                     // Update selection dates and generate event if required
                     SetSelRange(_selectionStart, value);
-                    OnPropertyChanged(new PropertyChangedEventArgs("SelectionEnd"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(SelectionEnd)));
                 }
             }
         }
@@ -673,10 +645,7 @@ namespace Krypton.Toolkit
             SelectionEnd = DateTime.Now.Date;
         }
 
-        private bool ShouldSerializeSelectionEnd()
-        {
-            return (SelectionStart != DateTime.Now.Date);
-        }
+        private bool ShouldSerializeSelectionEnd() => (SelectionStart != DateTime.Now.Date);
 
         /// <summary>
         /// Gets or sets the selected range of dates for a month calendar control.
@@ -699,10 +668,7 @@ namespace Krypton.Toolkit
             ResetSelectionEnd();
         }
 
-        private bool ShouldSerializeSelectionRange()
-        {
-            return false;
-        }
+        private bool ShouldSerializeSelectionRange() => false;
 
         /// <summary>
         /// Gets or sets the today date format string.
@@ -721,7 +687,7 @@ namespace Krypton.Toolkit
                 if ((_todayFormat != value) && (value != null))
                 {
                     _todayFormat = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("TodayFormat"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(TodayFormat)));
                 }
             }
         }
@@ -746,7 +712,7 @@ namespace Krypton.Toolkit
                 }
 
                 _today = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("TodayText"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(TodayText)));
             }
         }
 
@@ -782,7 +748,7 @@ namespace Krypton.Toolkit
                     }
 
                     _dimensions = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("CalendarDimensions"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CalendarDimensions)));
                 }
             }
         }
@@ -803,7 +769,7 @@ namespace Krypton.Toolkit
                 if (_firstDayOfWeek != value)
                 {
                     _firstDayOfWeek = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("FirstDayOfWeek"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(FirstDayOfWeek)));
                 }
             }
         }
@@ -813,10 +779,7 @@ namespace Krypton.Toolkit
             FirstDayOfWeek = Day.Default;
         }
 
-        private bool ShouldSerializeFirstDayOfWeek()
-        {
-            return (FirstDayOfWeek != Day.Default);
-        }
+        private bool ShouldSerializeFirstDayOfWeek() => (FirstDayOfWeek != Day.Default);
 
         /// <summary>
         /// Gets and sets if the control will display todays date.
@@ -834,7 +797,7 @@ namespace Krypton.Toolkit
                 if (_showToday != value)
                 {
                     _showToday = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ShowToday"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ShowToday)));
                 }
             }
         }
@@ -855,7 +818,7 @@ namespace Krypton.Toolkit
                 if (_showTodayCircle != value)
                 {
                     _showTodayCircle = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ShowTodayCircle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ShowTodayCircle)));
                 }
             }
         }
@@ -876,7 +839,7 @@ namespace Krypton.Toolkit
                 if (_showWeekNumbers != value)
                 {
                     _showWeekNumbers = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ShowWeekNumbers"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ShowWeekNumbers)));
                 }
             }
         }
@@ -898,15 +861,12 @@ namespace Krypton.Toolkit
                 {
                     _headerStyle = value;
                     StateCommon.Header.SetStyles(_headerStyle);
-                    OnPropertyChanged(new PropertyChangedEventArgs("HeaderStyle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(HeaderStyle)));
                 }
             }
         }
 
-        private bool ShouldSerializeHeaderStyle()
-        {
-            return (_headerStyle != HeaderStyle.Calendar);
-        }
+        private bool ShouldSerializeHeaderStyle() => (_headerStyle != HeaderStyle.Calendar);
 
         /// <summary>
         /// Gets and sets the content style for the day entries.
@@ -928,15 +888,12 @@ namespace Krypton.Toolkit
                     OverrideFocus.DayStyle = value;
                     OverrideBolded.DayStyle = value;
                     OverrideToday.DayStyle = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("DayStyle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(DayStyle)));
                 }
             }
         }
 
-        private bool ShouldSerializeDayStyle()
-        {
-            return (_dayStyle != ButtonStyle.CalendarDay);
-        }
+        private bool ShouldSerializeDayStyle() => (_dayStyle != ButtonStyle.CalendarDay);
 
         private void ResetDayStyle()
         {
@@ -960,15 +917,12 @@ namespace Krypton.Toolkit
                 {
                     _dayOfWeekStyle = value;
                     StateCommon.DayOfWeekStyle = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("DayOfWeekStyle"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(DayOfWeekStyle)));
                 }
             }
         }
 
-        private bool ShouldSerializeDayOfWeekStyle()
-        {
-            return (_dayOfWeekStyle != ButtonStyle.CalendarDay);
-        }
+        private bool ShouldSerializeDayOfWeekStyle() => (_dayOfWeekStyle != ButtonStyle.CalendarDay);
 
         private void ResetDayOfWeekStyle()
         {
@@ -984,10 +938,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets access to the day appearance when it is bolded.
@@ -998,10 +949,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideBolded { get; }
 
-        private bool ShouldSerializeOverrideBolded()
-        {
-            return !OverrideBolded.IsDefault;
-        }
+        private bool ShouldSerializeOverrideBolded() => !OverrideBolded.IsDefault;
 
         /// <summary>
         /// Gets access to the day appearance when it is todays.
@@ -1012,10 +960,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideToday { get; }
 
-        private bool ShouldSerializeOverrideToday()
-        {
-            return !OverrideToday.IsDefault;
-        }
+        private bool ShouldSerializeOverrideToday() => !OverrideToday.IsDefault;
 
         /// <summary>
         /// Gets access to the common month calendar appearance that other states can override.
@@ -1026,10 +971,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the month calendar disabled appearance entries.
@@ -1040,10 +982,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarDoubleState StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the month calendar normal appearance entries.
@@ -1054,10 +993,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarDoubleState StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking month calendar appearance entries.
@@ -1068,10 +1004,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed month calendar appearance entries.
@@ -1082,10 +1015,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the checked normal month calendar appearance entries.
@@ -1096,10 +1026,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedNormal { get; }
 
-        private bool ShouldSerializeStateCheckedNormal()
-        {
-            return !StateCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the checked tracking month calendar appearance entries.
@@ -1110,10 +1037,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedTracking { get; }
 
-        private bool ShouldSerializeStateCheckedTracking()
-        {
-            return !StateCheckedTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedTracking() => !StateCheckedTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the checked pressed month calendar appearance entries.
@@ -1124,10 +1048,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedPressed { get; }
 
-        private bool ShouldSerializeStateCheckedPressed()
-        {
-            return !StateCheckedPressed.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedPressed() => !StateCheckedPressed.IsDefault;
 
         /// <summary>
         /// Adds a day that is displayed in bold on an annual basis in the month calendar.
@@ -1139,7 +1060,7 @@ namespace Krypton.Toolkit
             {
                 _annualDates.Add(date);
                 AnnuallyBoldedDatesMask[date.Month - 1] |= 1 << (date.Day - 1);
-                OnPropertyChanged(new PropertyChangedEventArgs("AnnuallyBoldedDates"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnnuallyBoldedDates)));
             }
         }
 
@@ -1152,7 +1073,7 @@ namespace Krypton.Toolkit
             if (!BoldedDatesList.Contains(date))
             {
                 BoldedDatesList.Add(date);
-                OnPropertyChanged(new PropertyChangedEventArgs("BoldedDates"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(BoldedDates)));
             }
         }
 
@@ -1166,7 +1087,7 @@ namespace Krypton.Toolkit
             {
                 _monthlyDates.Add(date);
                 MonthlyBoldedDatesMask |= 1 << (date.Day - 1);
-                OnPropertyChanged(new PropertyChangedEventArgs("MonthlyBoldedDates"));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(MonthlyBoldedDates)));
             }
         }
 
@@ -1181,7 +1102,7 @@ namespace Krypton.Toolkit
                 AnnuallyBoldedDatesMask[i] = 0;
             }
 
-            OnPropertyChanged(new PropertyChangedEventArgs("AnnuallyBoldedDates"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnnuallyBoldedDates)));
         }
 
         /// <summary>
@@ -1190,7 +1111,7 @@ namespace Krypton.Toolkit
         public void RemoveAllBoldedDates()
         {
             BoldedDatesList.Clear();
-            OnPropertyChanged(new PropertyChangedEventArgs("BoldedDates"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(BoldedDates)));
         }
 
         /// <summary>
@@ -1200,7 +1121,7 @@ namespace Krypton.Toolkit
         {
             _monthlyDates.Clear();
             MonthlyBoldedDatesMask = 0;
-            OnPropertyChanged(new PropertyChangedEventArgs("MonthlyBoldedDates"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(MonthlyBoldedDates)));
         }
 
         /// <summary>
@@ -1396,28 +1317,20 @@ namespace Krypton.Toolkit
         /// Raises when the DateChanged event.
         /// </summary>
         /// <param name="e">An DateRangeEventArgs that contains the event data.</param>
-        protected virtual void OnDateChanged(DateRangeEventArgs e)
-        {
-            DateChanged?.Invoke(this, e);
-        }
+        protected virtual void OnDateChanged(DateRangeEventArgs e) => DateChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises when the SelectionStartChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnSelectionStartChanged(EventArgs e)
-        {
-            SelectionStartChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectionStartChanged(EventArgs e) => SelectionStartChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises when the SelectionEndChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnSelectionEndChanged(EventArgs e)
-        {
-            SelectionEndChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectionEndChanged(EventArgs e) => SelectionEndChanged?.Invoke(this, e);
+
         #endregion
 
         #region Internal

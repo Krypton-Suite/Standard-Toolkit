@@ -107,11 +107,9 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMenuCheckButton:" + Id;
-        }
+            "ViewDrawMenuCheckButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -228,10 +226,8 @@ namespace Krypton.Toolkit
         /// Raises the Closing event on the provider.
         /// </summary>
         /// <param name="cea">A CancelEventArgs containing the event data.</param>
-        public void Closing(CancelEventArgs cea)
-        {
-            _provider.OnClosing(cea);
-        }
+        public void Closing(CancelEventArgs cea) => _provider.OnClosing(cea);
+
         #endregion
 
         #region Close
@@ -239,10 +235,8 @@ namespace Krypton.Toolkit
         /// Raises the Close event on the provider.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        public void Close(CloseReasonEventArgs e)
-        {
-            _provider.OnClose(e);
-        }
+        public void Close(CloseReasonEventArgs e) => _provider.OnClose(e);
+
         #endregion
 
         #region Layout
@@ -345,10 +339,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnClick(object sender, EventArgs e)
-        {
-            KryptonContextMenuCheckButton.PerformClick();
-        }
+        private void OnClick(object sender, EventArgs e) => KryptonContextMenuCheckButton.PerformClick();
+
         #endregion
     }
 }

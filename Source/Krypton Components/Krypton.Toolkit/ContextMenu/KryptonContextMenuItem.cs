@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuItem), "ToolboxBitmaps.KryptonContextMenuItem.bmp")]
-    [Designer(typeof(KryptonContextMenuItemDesigner))]
+    [Designer("Krypton.Toolkit.KryptonContextMenuItemDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Text")]
@@ -169,10 +169,8 @@ namespace Krypton.Toolkit
         /// Returns a description of the instance.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString()
-        {
-            return Text;
-        }
+        public override string ToString() => Text;
+
         #endregion
 
         #region Public
@@ -221,10 +219,8 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn)
-        {
-            return new ViewDrawMenuItem(provider, this, columns, standardStyle, imageColumn);
-        }
+                                              bool imageColumn) =>
+            new ViewDrawMenuItem(provider, this, columns, standardStyle, imageColumn);
 
         /// <summary>
         /// Gets and sets the standard menu item text.
@@ -232,7 +228,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Appearance")]
         [Description("Standard menu item text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("MenuItem")]
         [Localizable(true)]
         [Bindable(true)]
@@ -256,7 +252,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category("Appearance")]
         [Description("Standard menu item extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         [Bindable(true)]
@@ -319,10 +315,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
-        }
+        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
 
         /// <summary>
         /// Gets and sets the shortcut key combination associated with the menu item.
@@ -383,7 +376,7 @@ namespace Krypton.Toolkit
                 if (_splitSubMenu != value)
                 {
                     _splitSubMenu = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("SplitSubMenu"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(SplitSubMenu)));
                 }
             }
         }
@@ -404,7 +397,7 @@ namespace Krypton.Toolkit
                 if (_checkOnClick != value)
                 {
                     _checkOnClick = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("CheckOnClick"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CheckOnClick)));
                 }
             }
         }
@@ -426,7 +419,7 @@ namespace Krypton.Toolkit
                 if (_showShortcutKeys != value)
                 {
                     _showShortcutKeys = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ShowShortcutKeys"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ShowShortcutKeys)));
                 }
             }
         }
@@ -447,7 +440,7 @@ namespace Krypton.Toolkit
                 if (_largeKryptonCommandImage != value)
                 {
                     _largeKryptonCommandImage = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("LargeKryptonCommandImage"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LargeKryptonCommandImage)));
                 }
             }
         }
@@ -469,7 +462,7 @@ namespace Krypton.Toolkit
                 if (_shortcutKeyDisplayString != value)
                 {
                     _shortcutKeyDisplayString = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ShortcutKeyDisplayString"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ShortcutKeyDisplayString)));
                 }
             }
         }
@@ -509,7 +502,7 @@ namespace Krypton.Toolkit
                         OnCheckStateChanged(EventArgs.Empty);
                     }
 
-                    OnPropertyChanged(new PropertyChangedEventArgs("Checked"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Checked)));
                 }
             }
         }
@@ -542,7 +535,7 @@ namespace Krypton.Toolkit
 
                     // CheckState value has always changed
                     OnCheckStateChanged(EventArgs.Empty);
-                    OnPropertyChanged(new PropertyChangedEventArgs("CheckState"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(CheckState)));
                 }
             }
         }
@@ -553,7 +546,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("Collection of sub-menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonContextMenuCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.KryptonContextMenuCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         public KryptonContextMenuCollection Items { get; }
 
         /// <summary>
@@ -573,7 +566,7 @@ namespace Krypton.Toolkit
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Enabled"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Enabled)));
                 }
             }
         }
@@ -587,10 +580,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the menu item normal appearance values.
@@ -601,10 +591,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the menu item normal appearance values.
@@ -615,10 +602,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateChecked StateChecked { get; }
 
-        private bool ShouldSerializeStateChecked()
-        {
-            return !StateChecked.IsDefault;
-        }
+        private bool ShouldSerializeStateChecked() => !StateChecked.IsDefault;
 
         /// <summary>
         /// Gets access to the menu item highlight appearance values.
@@ -629,10 +613,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateHighlight StateHighlight { get; }
 
-        private bool ShouldSerializeStateHighlight()
-        {
-            return !StateHighlight.IsDefault;
-        }
+        private bool ShouldSerializeStateHighlight() => !StateHighlight.IsDefault;
 
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
@@ -650,7 +631,7 @@ namespace Krypton.Toolkit
                 if (_command != value)
                 {
                     _command = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("KryptonCommand"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(KryptonCommand)));
                 }
             }
         }
@@ -701,35 +682,25 @@ namespace Krypton.Toolkit
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnClick(EventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected virtual void OnClick(EventArgs e) => Click?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckStateChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnCheckStateChanged(EventArgs e)
-        {
-            CheckStateChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckStateChanged(EventArgs e) => CheckStateChanged?.Invoke(this, e);
+
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(IContextMenuProvider provider)
-        {
-            _stateRedirect.SetRedirector(provider);
-        }
+        internal void SetPaletteRedirect(IContextMenuProvider provider) => _stateRedirect.SetRedirector(provider);
+
         #endregion
     }
 }

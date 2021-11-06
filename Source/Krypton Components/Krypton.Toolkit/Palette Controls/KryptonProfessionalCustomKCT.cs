@@ -30,10 +30,9 @@ namespace Krypton.Toolkit
                                             Color[] colorTableColors,
                                             bool useSystemColors,
                                             IPalette palette)
-            : base(headerColors, useSystemColors, palette)
-        {
+            : base(headerColors, useSystemColors, palette) =>
             _colors = colorTableColors;
-        }
+
         #endregion
 
         #region Button

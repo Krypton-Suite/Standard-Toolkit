@@ -53,10 +53,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="item">IDockingElement reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public virtual bool Remove(IDockingElement item)
-        {
-            return InternalRemove(item);
-        }
+        public virtual bool Remove(IDockingElement item) => InternalRemove(item);
 
         /// <summary>
         /// Remove all docking elements from the collection.

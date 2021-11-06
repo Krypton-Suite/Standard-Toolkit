@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonBreadCrumb), "ToolboxBitmaps.KryptonBreadCrumb.bmp")]
     [DefaultEvent("SelectedItemChanged")]
     [DefaultProperty("RootItem")]
-    [Designer(typeof(KryptonBreadCrumbDesigner))]
+    [Designer("Krypton.Toolkit.KryptonBreadCrumbDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Flat navigation of hierarchical data.")]
     public class KryptonBreadCrumb : VisualSimpleBase,
@@ -325,10 +325,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeControlBackStyle()
-        {
-            return (ControlBackStyle != PaletteBackStyle.PanelAlternate);
-        }
+        private bool ShouldSerializeControlBackStyle() => (ControlBackStyle != PaletteBackStyle.PanelAlternate);
 
         private void ResetControlBackStyle()
         {
@@ -355,10 +352,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeCrumbButtonStyle()
-        {
-            return (CrumbButtonStyle != ButtonStyle.BreadCrumb);
-        }
+        private bool ShouldSerializeCrumbButtonStyle() => (CrumbButtonStyle != ButtonStyle.BreadCrumb);
 
         private void ResetCrumbButtonStyle()
         {
@@ -385,10 +379,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeControlBorderStyle()
-        {
-            return (ControlBorderStyle != PaletteBorderStyle.ControlClient);
-        }
+        private bool ShouldSerializeControlBorderStyle() => (ControlBorderStyle != PaletteBorderStyle.ControlClient);
 
         private void ResetControlBorderStyle()
         {
@@ -445,10 +436,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled appearance entries.
@@ -458,10 +446,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbDoubleState StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal appearance entries.
@@ -471,10 +456,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbDoubleState StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking bread crumb appearance entries.
@@ -484,10 +466,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbState StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed bread crumb appearance entries.
@@ -497,10 +476,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbState StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -543,25 +519,21 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected Overrides
@@ -569,10 +541,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected override PaletteRedirect CreateRedirector()
-        {
-            return new PaletteRedirectBreadCrumb(base.CreateRedirector());
-        }
+        protected override PaletteRedirect CreateRedirector() => new PaletteRedirectBreadCrumb(base.CreateRedirector());
 
         /// <summary>
         /// Processes a mnemonic character.
@@ -649,49 +618,33 @@ namespace Krypton.Toolkit
         /// Raises the CrumbDropDown event.
         /// </summary>
         /// <param name="e">An ContextPositionMenuArgs containing the event data.</param>
-        protected internal virtual void OnCrumbDropDown(BreadCrumbMenuArgs e)
-        {
-            CrumbDropDown?.Invoke(this, e);
-        }
+        protected internal virtual void OnCrumbDropDown(BreadCrumbMenuArgs e) => CrumbDropDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the OverflowDropDown event.
         /// </summary>
         /// <param name="e">An ContextPositionMenuArgs containing the event data.</param>
-        protected internal virtual void OnOverflowDropDown(ContextPositionMenuArgs e)
-        {
-            OverflowDropDown?.Invoke(this, e);
-        }
+        protected internal virtual void OnOverflowDropDown(ContextPositionMenuArgs e) => OverflowDropDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedItemChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSelectedItemChanged(EventArgs e)
-        {
-            SelectedItemChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedItemChanged(EventArgs e) => SelectedItemChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Initialized event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnInitialized(EventArgs e)
-        {
-            Initialized?.Invoke(this, EventArgs.Empty);
-        }
+        protected virtual void OnInitialized(EventArgs e) => Initialized?.Invoke(this, EventArgs.Empty);
+
         #endregion
 
         #region Internal
-        internal PaletteBreadCrumbRedirect GetStateCommon()
-        {
-            return StateCommon;
-        }
+        internal PaletteBreadCrumbRedirect GetStateCommon() => StateCommon;
 
-        internal PaletteRedirect GetRedirector()
-        {
-            return Redirector;
-        }
+        internal PaletteRedirect GetRedirector() => Redirector;
+
         #endregion
 
         #region Implementation
@@ -785,11 +738,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {

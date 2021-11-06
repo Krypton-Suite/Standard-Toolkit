@@ -164,10 +164,8 @@ namespace Krypton.Docking
                     }
                 }
 
-                using (DockingMultiUpdate update = new(this))
-                {
-                    base.PropogateAction(DockingPropogateAction.ShowPages, uniqueNames);
-                }
+                using DockingMultiUpdate update = new(this);
+                base.PropogateAction(DockingPropogateAction.ShowPages, uniqueNames);
             }
         }
 
@@ -176,10 +174,8 @@ namespace Krypton.Docking
         /// </summary>
         public void ShowAllPages()
         {
-            using (DockingMultiUpdate update = new(this))
-            {
-                base.PropogateAction(DockingPropogateAction.ShowAllPages, (string[])null);
-            }
+            using DockingMultiUpdate update = new(this);
+            base.PropogateAction(DockingPropogateAction.ShowAllPages, (string[])null);
         }
 
         /// <summary>
@@ -274,10 +270,8 @@ namespace Krypton.Docking
                     }
                 }
 
-                using (DockingMultiUpdate update = new(this))
-                {
-                    base.PropogateAction(DockingPropogateAction.HidePages, uniqueNames);
-                }
+                using DockingMultiUpdate update = new(this);
+                base.PropogateAction(DockingPropogateAction.HidePages, uniqueNames);
             }
         }
 
@@ -286,10 +280,8 @@ namespace Krypton.Docking
         /// </summary>
         public void HideAllPages()
         {
-            using (DockingMultiUpdate update = new(this))
-            {
-                base.PropogateAction(DockingPropogateAction.HideAllPages, (string[])null);
-            }
+            using DockingMultiUpdate update = new(this);
+            base.PropogateAction(DockingPropogateAction.HideAllPages, (string[])null);
         }
 
         /// <summary>
@@ -376,10 +368,8 @@ namespace Krypton.Docking
                 }
 
                 // Remove page details from all parts of the hierarchy
-                using (DockingMultiUpdate update = new(this))
-                {
-                    base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposePages : DockingPropogateAction.RemovePages, uniqueNames);
-                }
+                using DockingMultiUpdate update = new(this);
+                base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposePages : DockingPropogateAction.RemovePages, uniqueNames);
             }
         }
 
@@ -390,10 +380,8 @@ namespace Krypton.Docking
         public void RemoveAllPages(bool disposePage)
         {
             // Remove all details about all pages from all parts of the hierarchy
-            using (DockingMultiUpdate update = new(this))
-            {
-                base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposeAllPages : DockingPropogateAction.RemoveAllPages, (string[])null);
-            }
+            using DockingMultiUpdate update = new(this);
+            base.PropogateAction(disposePage ? DockingPropogateAction.RemoveAndDisposeAllPages : DockingPropogateAction.RemoveAllPages, (string[])null);
         }
 
         /// <summary>
@@ -506,10 +494,8 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
         /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
-        public override KryptonDockingWorkspace FindDockingWorkspace(string uniqueName)
-        {
-            return this;
-        }
+        public override KryptonDockingWorkspace FindDockingWorkspace(string uniqueName) => this;
+
         #endregion
 
         #region Protected

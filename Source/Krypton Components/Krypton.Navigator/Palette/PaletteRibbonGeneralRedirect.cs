@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteRibbonGeneralNavRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonGeneralNavRedirect(PaletteRedirect redirect,
                                                NeedPaintHandler needPaint)
@@ -74,10 +74,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public PaletteRelativeAlign GetRibbonContextTextAlign(PaletteState state)
-        {
-            return _inherit.GetRibbonContextTextAlign(state);
-        }
+        public PaletteRelativeAlign GetRibbonContextTextAlign(PaletteState state) => _inherit.GetRibbonContextTextAlign(state);
+
         #endregion
 
         #region ContextTextFont
@@ -86,10 +84,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetRibbonContextTextFont(PaletteState state)
-        {
-            return _inherit.GetRibbonContextTextFont(state);
-        }
+        public Font GetRibbonContextTextFont(PaletteState state) => _inherit.GetRibbonContextTextFont(state);
+
         #endregion
 
         #region ContextTextColor
@@ -98,10 +94,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Color GetRibbonContextTextColor(PaletteState state)
-        {
-            return _inherit.GetRibbonContextTextColor(state);
-        }
+        public Color GetRibbonContextTextColor(PaletteState state) => _inherit.GetRibbonContextTextColor(state);
+
         #endregion
 
         #region DisabledDark
@@ -110,10 +104,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonDisabledDark(PaletteState state)
-        {
-            return _inherit.GetRibbonDisabledDark(state);
-        }
+        public Color GetRibbonDisabledDark(PaletteState state) => _inherit.GetRibbonDisabledDark(state);
+
         #endregion
 
         #region DisabledLight
@@ -122,10 +114,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonDisabledLight(PaletteState state)
-        {
-            return _inherit.GetRibbonDisabledLight(state);
-        }
+        public Color GetRibbonDisabledLight(PaletteState state) => _inherit.GetRibbonDisabledLight(state);
+
         #endregion
 
         #region DropArrowLight
@@ -134,10 +124,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonDropArrowLight(PaletteState state)
-        {
-            return _inherit.GetRibbonDropArrowLight(state);
-        }
+        public Color GetRibbonDropArrowLight(PaletteState state) => _inherit.GetRibbonDropArrowLight(state);
+
         #endregion
 
         #region DropArrowDark
@@ -146,10 +134,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonDropArrowDark(PaletteState state)
-        {
-            return _inherit.GetRibbonDropArrowDark(state);
-        }
+        public Color GetRibbonDropArrowDark(PaletteState state) => _inherit.GetRibbonDropArrowDark(state);
+
         #endregion
 
         #region GroupDialogDark
@@ -158,10 +144,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonGroupDialogDark(PaletteState state)
-        {
-            return _inherit.GetRibbonGroupDialogDark(state);
-        }
+        public Color GetRibbonGroupDialogDark(PaletteState state) => _inherit.GetRibbonGroupDialogDark(state);
+
         #endregion
 
         #region GroupDialogLight
@@ -170,10 +154,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonGroupDialogLight(PaletteState state)
-        {
-            return _inherit.GetRibbonGroupDialogLight(state);
-        }
+        public Color GetRibbonGroupDialogLight(PaletteState state) => _inherit.GetRibbonGroupDialogLight(state);
+
         #endregion
 
         #region GroupSeparatorDark
@@ -182,10 +164,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonGroupSeparatorDark(PaletteState state)
-        {
-            return _inherit.GetRibbonGroupSeparatorDark(state);
-        }
+        public Color GetRibbonGroupSeparatorDark(PaletteState state) => _inherit.GetRibbonGroupSeparatorDark(state);
+
         #endregion
 
         #region GroupSeparatorLight
@@ -194,10 +174,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonGroupSeparatorLight(PaletteState state)
-        {
-            return _inherit.GetRibbonGroupSeparatorLight(state);
-        }
+        public Color GetRibbonGroupSeparatorLight(PaletteState state) => _inherit.GetRibbonGroupSeparatorLight(state);
+
         #endregion
 
         #region MinimizeBarDarkColor
@@ -206,10 +184,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonMinimizeBarDark(PaletteState state)
-        {
-            return _inherit.GetRibbonMinimizeBarDark(state);
-        }
+        public Color GetRibbonMinimizeBarDark(PaletteState state) => _inherit.GetRibbonMinimizeBarDark(state);
+
         #endregion
 
         #region MinimizeBarLightColor
@@ -218,10 +194,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonMinimizeBarLight(PaletteState state)
-        {
-            return _inherit.GetRibbonMinimizeBarLight(state);
-        }
+        public Color GetRibbonMinimizeBarLight(PaletteState state) => _inherit.GetRibbonMinimizeBarLight(state);
+
         #endregion
 
         #region GetRibbonShape
@@ -229,10 +203,8 @@ namespace Krypton.Navigator
         /// Gets the ribbon shape.
         /// </summary>
         /// <returns>Ribbon shape value.</returns>
-        public PaletteRibbonShape GetRibbonShape()
-        {
-            return _inherit.GetRibbonShape();
-        }
+        public PaletteRibbonShape GetRibbonShape() => _inherit.GetRibbonShape();
+
         #endregion
 
         #region TabSeparatorColor
@@ -241,10 +213,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonTabSeparatorColor(PaletteState state)
-        {
-            return _inherit.GetRibbonTabSeparatorColor(state);
-        }
+        public Color GetRibbonTabSeparatorColor(PaletteState state) => _inherit.GetRibbonTabSeparatorColor(state);
+
         #endregion
 
         #region TabSeparatorContextColor
@@ -253,10 +223,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonTabSeparatorContextColor(PaletteState state)
-        {
-            return _inherit.GetRibbonTabSeparatorContextColor(state);
-        }
+        public Color GetRibbonTabSeparatorContextColor(PaletteState state) => _inherit.GetRibbonTabSeparatorContextColor(state);
+
         #endregion
 
         #region TextFont
@@ -344,10 +312,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonQATButtonDark(PaletteState state)
-        {
-            return _inherit.GetRibbonQATButtonDark(state);
-        }
+        public Color GetRibbonQATButtonDark(PaletteState state) => _inherit.GetRibbonQATButtonDark(state);
+
         #endregion
 
         #region QATButtonLightColor
@@ -356,10 +322,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetRibbonQATButtonLight(PaletteState state)
-        {
-            return _inherit.GetRibbonQATButtonLight(state);
-        }
+        public Color GetRibbonQATButtonLight(PaletteState state) => _inherit.GetRibbonQATButtonLight(state);
+
         #endregion
     }
 }

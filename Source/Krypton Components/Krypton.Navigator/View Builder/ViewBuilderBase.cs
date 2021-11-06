@@ -32,10 +32,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the ViewBuilderBase class.
         /// </summary>
-        public ViewBuilderBase()
-        {
-            _constructed = false;
-        }
+        public ViewBuilderBase() => _constructed = false;
+
         #endregion
 
         #region Properties
@@ -206,20 +204,14 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
-        public virtual bool DesignerGetHitTest(Point pt)
-        {
-            return false;
-        }
+        public virtual bool DesignerGetHitTest(Point pt) => false;
 
         /// <summary>
         /// Gets the appropriate display location for the button.
         /// </summary>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>HeaderLocation value.</returns>
-        public virtual HeaderLocation GetFixedButtonLocation(ButtonSpecNavFixed buttonSpec)
-        {
-            return buttonSpec.HeaderLocation;
-        }
+        public virtual HeaderLocation GetFixedButtonLocation(ButtonSpecNavFixed buttonSpec) => buttonSpec.HeaderLocation;
 
         /// <summary>
         /// Calculate the enabled state of the next button based on the required action.
@@ -229,16 +221,11 @@ namespace Krypton.Navigator
         public virtual ButtonEnabled NextActionEnabled(DirectionButtonAction action)
         {
             // Process the requested action
-            switch (action)
+            return action switch
             {
-                case DirectionButtonAction.None:
-                case DirectionButtonAction.SelectPage:
-                    // Only enabled if the count of visible pages to the left of current page is positive
-                    return (Navigator.NextActionValid ? ButtonEnabled.True : ButtonEnabled.False);
-                default:
-                    // Action not supported so disable button
-                    return ButtonEnabled.False;
-            }
+                DirectionButtonAction.None or DirectionButtonAction.SelectPage => (Navigator.NextActionValid ? ButtonEnabled.True : ButtonEnabled.False),// Only enabled if the count of visible pages to the left of current page is positive
+                _ => ButtonEnabled.False // Action not supported so disable button
+            };
         }
 
         /// <summary>
@@ -269,16 +256,11 @@ namespace Krypton.Navigator
         public virtual ButtonEnabled PreviousActionEnabled(DirectionButtonAction action)
         {
             // Process the requested action
-            switch (action)
+            return action switch
             {
-                case DirectionButtonAction.None:
-                case DirectionButtonAction.SelectPage:
-                    // Only enabled if the count of visible pages to the left of current page is positive
-                    return (Navigator.PreviousActionValid ? ButtonEnabled.True : ButtonEnabled.False);
-                default:
-                    // Action not supported so disable button
-                    return ButtonEnabled.False;
-            }
+                DirectionButtonAction.None or DirectionButtonAction.SelectPage => (Navigator.PreviousActionValid ? ButtonEnabled.True : ButtonEnabled.False),// Only enabled if the count of visible pages to the left of current page is positive
+                _ => ButtonEnabled.False // Action not supported so disable button
+            };
         }
 
         /// <summary>
@@ -331,10 +313,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element that is being activated.</param>
         /// <returns>True to give navigator the focus; otherwise false.</returns>
-        public virtual bool GiveNavigatorFocus(ViewBase element)
-        {
-            return false;
-        }
+        public virtual bool GiveNavigatorFocus(ViewBase element) => false;
 
         /// <summary>
         /// User has used the keyboard to select the currently selected page.
@@ -347,20 +326,14 @@ namespace Krypton.Navigator
         /// Gets the appropriate popup page position for the current mode.
         /// </summary>
         /// <returns>Calculated PopupPagePosition</returns>
-        public virtual PopupPagePosition GetPopupPagePosition()
-        {
-            return PopupPagePosition.BelowNear;
-        }
+        public virtual PopupPagePosition GetPopupPagePosition() => PopupPagePosition.BelowNear;
 
         /// <summary>
         /// Process a dialog key in a manner appropriate for the view.
         /// </summary>
         /// <param name="keyData">Key data.</param>
         /// <returns>True if the key eaten; otherwise false.</returns>
-        public virtual bool ProcessDialogKey(Keys keyData)
-        {
-            return false;
-        }
+        public virtual bool ProcessDialogKey(Keys keyData) => false;
 
         /// <summary>
         /// Check the key data for a matching action button shortcut.
@@ -488,11 +461,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public virtual bool SelectNextPage(bool wrap)
-        {
+        public virtual bool SelectNextPage(bool wrap) =>
             // A page must be selected in order to find the previous one
-            return Navigator.SelectedPage != null && SelectNextPage(Navigator.SelectedPage, wrap, false);
-        }
+            Navigator.SelectedPage != null && SelectNextPage(Navigator.SelectedPage, wrap, false);
 
         /// <summary>
         /// Select the next page to the one provided.
@@ -589,11 +560,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public virtual bool SelectPreviousPage(bool wrap)
-        {
+        public virtual bool SelectPreviousPage(bool wrap) =>
             // A page must be selected in order to find the previous one
-            return Navigator.SelectedPage != null && SelectPreviousPage(Navigator.SelectedPage, wrap, false);
-        }
+            Navigator.SelectedPage != null && SelectPreviousPage(Navigator.SelectedPage, wrap, false);
 
         /// <summary>
         /// Select the previous page to the one provided.

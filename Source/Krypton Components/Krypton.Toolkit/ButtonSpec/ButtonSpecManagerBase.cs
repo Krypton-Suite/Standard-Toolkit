@@ -221,10 +221,7 @@ namespace Krypton.Toolkit
         /// Requests that all the buttons have state refreshed.
         /// </summary>
         /// <returns>True if a state change was made.</returns>
-        public bool RefreshButtons()
-        {
-            return RefreshButtons(false);
-        }
+        public bool RefreshButtons() => RefreshButtons(false);
 
         /// <summary>
         /// Requests that all the buttons have state refreshed.
@@ -422,30 +419,22 @@ namespace Krypton.Toolkit
         /// Get a tool strip renderer appropriate for the hosting control.
         /// </summary>
         /// <returns></returns>
-        public ToolStripRenderer RenderToolStrip()
-        {
-            return _getRenderer();
-        }
+        public ToolStripRenderer RenderToolStrip() => _getRenderer();
 
         /// <summary>
         /// Requests a repaint and optional layout be performed.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            PerformNeedPaint(this, needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => PerformNeedPaint(this, needLayout);
 
         /// <summary>
         /// Requests a repaint and optional layout be performed.
         /// </summary>
         /// <param name="sender">Source of the paint event.</param>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(object sender, bool needLayout)
-        {
+        public void PerformNeedPaint(object sender, bool needLayout) =>
             // Fire the actual event
             OnNeedPaint(sender, needLayout);
-        }
 
         /// <summary>
         /// Find the ButtonSpec definition associated with the provided button view.
@@ -594,10 +583,9 @@ namespace Krypton.Toolkit
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
         public virtual PaletteRedirect CreateButtonSpecRemap(PaletteRedirect redirector,
-                                                             ButtonSpec buttonSpec)
-        {
-            return new ButtonSpecRemapByContentView(redirector, buttonSpec);
-        }
+                                                             ButtonSpec buttonSpec) =>
+            new ButtonSpecRemapByContentView(redirector, buttonSpec);
+
         #endregion
 
         #region Protected Virtual
@@ -686,24 +674,19 @@ namespace Krypton.Toolkit
         protected virtual ButtonSpecView CreateButtonSpecView(PaletteRedirect redirector,
                                                               IPaletteMetric viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
-                                                              ButtonSpec buttonSpec)
-        {
-            return new ButtonSpecView(redirector,
-                                      viewPaletteMetric,
-                                      viewMetricPadding,
-                                      this,
-                                      buttonSpec);
-        }
+                                                              ButtonSpec buttonSpec) =>
+            new ButtonSpecView(redirector,
+                viewPaletteMetric,
+                viewMetricPadding,
+                this,
+                buttonSpec);
 
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="sender">Source of the paint event.</param>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(object sender, bool needLayout)
-        {
-            NeedPaint?.Invoke(sender, new NeedLayoutEventArgs(needLayout));
-        }
+        protected virtual void OnNeedPaint(object sender, bool needLayout) => NeedPaint?.Invoke(sender, new NeedLayoutEventArgs(needLayout));
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 
@@ -902,28 +885,19 @@ namespace Krypton.Toolkit
             return -1;
         }
 
-        private ViewDockStyle GetDockStyle(ButtonSpec spec)
-        {
-            return (spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right);
-        }
+        private ViewDockStyle GetDockStyle(ButtonSpec spec) => (spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right);
 
         private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,
                                                        ButtonOrientation buttonOrientation)
         {
-            switch (buttonOrientation)
+            return buttonOrientation switch
             {
-                case ButtonOrientation.FixedBottom:
-                    return VisualOrientation.Bottom;
-                case ButtonOrientation.FixedLeft:
-                    return VisualOrientation.Left;
-                case ButtonOrientation.FixedRight:
-                    return VisualOrientation.Right;
-                case ButtonOrientation.FixedTop:
-                    return VisualOrientation.Top;
-                case ButtonOrientation.Auto:
-                default:
-                    return viewOrientation;
-            }
+                ButtonOrientation.FixedBottom => VisualOrientation.Bottom,
+                ButtonOrientation.FixedLeft => VisualOrientation.Left,
+                ButtonOrientation.FixedRight => VisualOrientation.Right,
+                ButtonOrientation.FixedTop => VisualOrientation.Top,
+                _ => viewOrientation
+            };
         }
         #endregion
     }

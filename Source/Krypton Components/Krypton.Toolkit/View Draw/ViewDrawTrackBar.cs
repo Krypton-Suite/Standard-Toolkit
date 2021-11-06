@@ -120,11 +120,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawTrackBar:" + Id;
-        }
+            "ViewDrawTrackBar:" + Id;
+
         #endregion
 
         #region Public
@@ -435,16 +434,12 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (TrackBarSize)
+                return TrackBarSize switch
                 {
-                    case PaletteTrackBarSize.Small:
-                        return (_orientation == Orientation.Horizontal ? _positionSizeSmallH : _positionSizeSmallV);
-                    default:
-                    case PaletteTrackBarSize.Medium:
-                        return (_orientation == Orientation.Horizontal ? _positionSizeMediumH : _positionSizeMediumV);
-                    case PaletteTrackBarSize.Large:
-                        return (_orientation == Orientation.Horizontal ? _positionSizeLargeH : _positionSizeLargeV);
-                }
+                    PaletteTrackBarSize.Small => (_orientation == Orientation.Horizontal ? _positionSizeSmallH : _positionSizeSmallV),
+                    PaletteTrackBarSize.Large => (_orientation == Orientation.Horizontal ? _positionSizeLargeH : _positionSizeLargeV),
+                    _ => (_orientation == Orientation.Horizontal ? _positionSizeMediumH : _positionSizeMediumV)
+                };
             }
         }
 
@@ -455,16 +450,12 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (TrackBarSize)
+                return TrackBarSize switch
                 {
-                    case PaletteTrackBarSize.Small:
-                        return VolumeControl ? _trackSizeSmallV : _trackSizeSmall;
-                    default:
-                    case PaletteTrackBarSize.Medium:
-                        return VolumeControl ? _trackSizeMediumV : _trackSizeMedium;
-                    case PaletteTrackBarSize.Large:
-                        return VolumeControl ? _trackSizeLargeV : _trackSizeLarge;
-                }
+                    PaletteTrackBarSize.Small => VolumeControl ? _trackSizeSmallV : _trackSizeSmall,
+                    PaletteTrackBarSize.Large => VolumeControl ? _trackSizeLargeV : _trackSizeLarge,
+                    _ => VolumeControl ? _trackSizeMediumV : _trackSizeMedium
+                };
             }
         }
 
@@ -509,10 +500,8 @@ namespace Krypton.Toolkit
         /// Raises a need paint event.
         /// </summary>
         /// <param name="needLayout">Does the layout need recalculating.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
+
         #endregion
 
         #region Protected
@@ -520,19 +509,14 @@ namespace Krypton.Toolkit
         /// Raises the ValueChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueChanged(EventArgs e)
-        {
-            ValueChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueChanged(EventArgs e) => ValueChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Scroll event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnScroll(EventArgs e)
-        {
-            Scroll?.Invoke(this, e);
-        }
+        protected virtual void OnScroll(EventArgs e) => Scroll?.Invoke(this, e);
+
         #endregion
     }
 }

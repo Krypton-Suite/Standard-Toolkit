@@ -290,10 +290,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public HeaderGroupMappingPrimary HeaderValuesPrimary { get; }
 
-        private bool ShouldSerializeHeaderValuesPrimary()
-        {
-            return !HeaderValuesPrimary.IsDefault;
-        }
+        private bool ShouldSerializeHeaderValuesPrimary() => !HeaderValuesPrimary.IsDefault;
+
         #endregion
 
         #region HeaderValuesSecondary
@@ -305,10 +303,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public HeaderGroupMappingSecondary HeaderValuesSecondary { get; }
 
-        private bool ShouldSerializeHeaderValuesSecondary()
-        {
-            return !HeaderValuesSecondary.IsDefault;
-        }
+        private bool ShouldSerializeHeaderValuesSecondary() => !HeaderValuesSecondary.IsDefault;
+
         #endregion
     }
 }

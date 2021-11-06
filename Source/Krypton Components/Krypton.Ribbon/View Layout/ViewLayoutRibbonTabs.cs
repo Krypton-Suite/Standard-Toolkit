@@ -47,10 +47,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Identity
-        static ViewLayoutRibbonTabs()
-        {
-            ContextTabSets = new ContextTabSetCollection();
-        }
+        static ViewLayoutRibbonTabs() => ContextTabSets = new ContextTabSetCollection();
 
         /// <summary>
         /// Initialize a new instance of the ViewLayoutRibbonTabs class.
@@ -76,11 +73,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonTabs:" + Id;
-        }
+            "ViewLayoutRibbonTabs:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

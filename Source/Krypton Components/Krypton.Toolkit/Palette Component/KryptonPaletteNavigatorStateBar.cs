@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(redirect != null);
 
-            // Remember redirection for inheritence
+            // Remember redirection for inheritance
             _redirect = redirect;
 
             // Store the provided paint notification delegate
@@ -435,11 +435,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>InheritBool value.</returns>
-        public virtual InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
-        {
+        public virtual InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Pass onto the inheritance
-            return _redirect.GetMetricBool(state, metric);
-        }
+            _redirect.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.

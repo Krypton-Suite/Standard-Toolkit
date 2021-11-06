@@ -69,10 +69,8 @@ namespace Krypton.Toolkit
                                                         Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using (SolidBrush drawBrush = new(lightColor))
-            {
-                context.Graphics.FillRectangle(drawBrush, displayRect);
-            }
+            using SolidBrush drawBrush = new(lightColor);
+            context.Graphics.FillRectangle(drawBrush, displayRect);
         }
 
         #endregion
@@ -98,7 +96,7 @@ namespace Krypton.Toolkit
             KryptonOffice2013Renderer renderer = new(colorPalette.ColorTable)
             {
 
-                // Seup the need to use rounded corners
+                // Setup the need to use rounded corners
                 RoundedEdges = (colorPalette.ColorTable.UseRoundedEdges != InheritBool.False)
             };
 
@@ -126,17 +124,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || memento is not MementoRibbonTabContextOffice2010)
+                if (memento is MementoRibbonTabContextOffice2010 office)
+                {
+                    cache = office;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabContextOffice2010(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabContextOffice2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -192,17 +190,17 @@ namespace Krypton.Toolkit
                 MementoRibbonAppTab2013 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || memento is not MementoRibbonAppTab2013)
+                if (memento is MementoRibbonAppTab2013 tab2013)
+                {
+                    cache = tab2013;
+                    generate = !cache.UseCachedValues(rect, baseColor1);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonAppTab2013(rect, baseColor1);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonAppTab2013)memento;
-                    generate = !cache.UseCachedValues(rect, baseColor1);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -216,50 +214,17 @@ namespace Krypton.Toolkit
                     //cache.borderPen = new Pen(baseColor1);
 
                     // Create state specific colors/brushes/pens
-                    switch (state)
+                    cache.insideFillBrush = state switch
                     {
-                        case PaletteState.Normal:
+                        PaletteState.Normal =>
                             //cache.borderBrush = new SolidBrush(baseColor1);
-                            cache.insideFillBrush = new SolidBrush(baseColor1);
-
-                            //cache.insideFillBrush.SetSigmaBellShape(0.33f);
-                            //cache.highlightBrush.CenterColor = Color.FromArgb(64, Color.White);
-                            break;
-                        case PaletteState.Tracking:
-                            cache.insideFillBrush = new SolidBrush(baseColor2);
-                            //cache.borderBrush = new SolidBrush(baseColor2);
-                            //cache.insideFillBrush = new LinearGradientBrush(new RectangleF(rect.X, rect.Y + 1, rect.Width, rect.Height),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.3f, baseColor2, 0.7f),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.6f, baseColor2, 0.4f),
-                            //                                                90f);
-
-                            //cache.insideFillBrush.SetSigmaBellShape(0.33f);
-                            //cache.highlightBrush.CenterColor = Color.FromArgb(100, Color.White);
-                            break;
-                        case PaletteState.Tracking | PaletteState.FocusOverride:
-                            cache.insideFillBrush = new SolidBrush(ControlPaint.LightLight(baseColor2));
-                            //cache.borderBrush = new SolidBrush(ControlPaint.LightLight(baseColor2));
-                            //cache.insideFillBrush = new LinearGradientBrush(new RectangleF(rect.X, rect.Y + 1, rect.Width, rect.Height),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.3f, baseColor2, 0.7f),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.6f, baseColor2, 0.4f),
-                            //                                                90f);
-
-                            //cache.insideFillBrush.SetSigmaBellShape(0.33f);
-                            //cache.highlightBrush.CenterColor = ControlPaint.LightLight(baseColor2);
-                            break;
-                        case PaletteState.Pressed:
-                            cache.insideFillBrush = new SolidBrush(baseColor2);
-
-                            //cache.borderBrush = new SolidBrush(CommonHelper.MergeColors(baseColor1, 0.5f, baseColor2, 0.5f));
-                            //cache.insideFillBrush = new LinearGradientBrush(new RectangleF(rect.X, rect.Y + 1, rect.Width, rect.Height),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.3f, baseColor2, 0.7f),
-                            //                                                CommonHelper.MergeColors(baseColor1, 0.75f, baseColor2, 0.25f),
-                            //                                                90f);
-
-                            //cache.insideFillBrush.SetSigmaBellShape(0f);
-                            //cache.highlightBrush.CenterColor = Color.FromArgb(90, Color.White);
-                            break;
-                    }
+                            new SolidBrush(baseColor1),
+                        PaletteState.Tracking => new SolidBrush(baseColor2),
+                        PaletteState.Tracking | PaletteState.FocusOverride => new SolidBrush(
+                            ControlPaint.LightLight(baseColor2)),
+                        PaletteState.Pressed => new SolidBrush(baseColor2),
+                        _ => cache.insideFillBrush
+                    };
                 }
 
                 // Fill the entire tab area and then add a border around the edge
@@ -304,17 +269,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabSelected2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || memento is not MementoRibbonTabSelected2010)
+                if (memento is MementoRibbonTabSelected2010 selected2010)
+                {
+                    cache = selected2010;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabSelected2010(rect, c1, c2, c3, c4, c5, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabSelected2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?
@@ -408,17 +373,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabTracking2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if ((memento == null) || memento is not MementoRibbonTabTracking2010)
+                if (memento is MementoRibbonTabTracking2010 tracking2010)
+                {
+                    cache = tracking2010;
+                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, orientation);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabTracking2010(rect, c1, c2, c3, c4, orientation);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabTracking2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, orientation);
                 }
 
                 // Do we need to generate the contents of the cache?

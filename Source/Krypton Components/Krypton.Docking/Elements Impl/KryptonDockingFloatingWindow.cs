@@ -153,10 +153,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name for search.</param>
         /// <returns>Reference to KryptonWorkspaceCell if match found; otherwise null.</returns>
-        public KryptonWorkspaceCell CellForPage(string uniqueName)
-        {
-            return FloatspaceElement.CellForPage(uniqueName);
-        }
+        public KryptonWorkspaceCell CellForPage(string uniqueName) => FloatspaceElement.CellForPage(uniqueName);
 
         /// <summary>
         /// Ensure the provided page is selected within the cell that contains it.

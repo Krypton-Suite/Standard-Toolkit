@@ -55,38 +55,27 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return _buttonSpec.ToolTipImage;
-        }
+        public Image GetImage(PaletteState state) => _buttonSpec.ToolTipImage;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return _buttonSpec.ToolTipImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => _buttonSpec.ToolTipImageTransparentColor;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return _buttonSpec.GetToolTipTitle(_palette);
-        }
+        public string GetShortText() => _buttonSpec.GetToolTipTitle(_palette);
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return _buttonSpec.ToolTipBody;
-        }
+        public string GetLongText() => _buttonSpec.ToolTipBody;
+
         #endregion
     }
 }

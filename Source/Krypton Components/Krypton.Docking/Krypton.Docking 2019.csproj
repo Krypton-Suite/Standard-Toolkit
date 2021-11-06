@@ -1,17 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Choose>
-        <When Condition="'$(TFMs)' == 'all'">
-            <PropertyGroup>
-                <TargetFrameworks>net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows</TargetFrameworks>
-            </PropertyGroup>
-        </When>
-        <Otherwise>
-            <PropertyGroup>
-                <TargetFrameworks>net48;net5.0-windows</TargetFrameworks>
-            </PropertyGroup>
-        </Otherwise>
-    </Choose>
     <PropertyGroup>
+        <TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows;</TargetFrameworks>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Docking</RootNamespace>
         <AssemblyName>Krypton.Docking</AssemblyName>
@@ -25,31 +14,12 @@
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <AnalysisLevel>latest</AnalysisLevel>
         <NeutralLanguage>en</NeutralLanguage>
+        <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
     </PropertyGroup>
-
-    <ItemGroup>
-        <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
-            <SpecificVersion>True</SpecificVersion>
-            <Version>4.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
-        </Reference>
-        <Reference Include="System.Design, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net5'))">
-            <SpecificVersion>True</SpecificVersion>
-            <Version>5.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
-        </Reference>
-        <Reference Include="System.Design, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net6'))">
-            <SpecificVersion>True</SpecificVersion>
-            <Version>6.0.0.0</Version>
-            <TreatAsUsed>True</TreatAsUsed>
-        </Reference>
-        <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net35'" />
-        <!--TODO: Need to specify version here-->
-    </ItemGroup>
 
     <PropertyGroup>
         <PackageId>Krypton.Docking</PackageId>
-        <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the docking module.</Description>
+        <Description>This is the docking module.</Description>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -72,6 +42,11 @@
         <Compile Update="General\ObscureControl.cs">
             <SubType>Component</SubType>
         </Compile>
+        <Compile Update="Resources\GenericImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>GenericImageResources.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <Content Include="Krypton.ico" Pack="false" />
@@ -84,6 +59,12 @@
         <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
         <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2019.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\GenericImageResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>GenericImageResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Docking.xml</DocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
@@ -91,14 +72,5 @@
     <PropertyGroup>
         <NoWarn>1701;1702</NoWarn>
     </PropertyGroup>
-  
-  <!--Handle AssemblyInfo-->
-  <PropertyGroup>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
-    <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
-    <AssemblyVersion>5.550.2108</AssemblyVersion>
-    <FileVersion>5.550.2108</FileVersion>
-  </PropertyGroup>
+   
 </Project>

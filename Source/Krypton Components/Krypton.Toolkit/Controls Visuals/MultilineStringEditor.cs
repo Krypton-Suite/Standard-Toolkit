@@ -234,10 +234,7 @@ namespace Krypton.Toolkit
             private const int GripSize = 6;
             private const int CornerGripSize = GripSize << 1;
 
-            public GripBounds(Rectangle clientRectangle)
-            {
-                ClientRectangle = clientRectangle;
-            }
+            public GripBounds(Rectangle clientRectangle) => ClientRectangle = clientRectangle;
 
             private Rectangle ClientRectangle
             {

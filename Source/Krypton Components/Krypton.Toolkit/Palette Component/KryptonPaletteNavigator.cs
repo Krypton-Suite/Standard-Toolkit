@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonPaletteNavigator class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public KryptonPaletteNavigator(PaletteRedirect redirect,
                                        NeedPaintHandler needPaint)
@@ -51,10 +51,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Populate values from the base palette.
         /// </summary>
-        public void PopulateFromBase()
-        {
-            StateCommon.PopulateFromBase();
-        }
+        public void PopulateFromBase() => StateCommon.PopulateFromBase();
+
         #endregion
 
         #region StateCommon
@@ -67,10 +65,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteNavigatorState StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
     }
 }

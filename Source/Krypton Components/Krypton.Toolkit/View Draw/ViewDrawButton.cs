@@ -152,11 +152,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawButton:" + Id;
-        }
+            "ViewDrawButton:" + Id;
+
         #endregion
 
         #region LayoutDocker
@@ -613,18 +612,13 @@ namespace Krypton.Toolkit
                 if (AllowUncheck)
                 {
                     // Show feedback on tracking and presssed
-                    switch (buttonState)
+                    buttonState = buttonState switch
                     {
-                        case PaletteState.Normal:
-                            buttonState = PaletteState.CheckedNormal;
-                            break;
-                        case PaletteState.Tracking:
-                            buttonState = PaletteState.CheckedTracking;
-                            break;
-                        case PaletteState.Pressed:
-                            buttonState = PaletteState.CheckedPressed;
-                            break;
-                    }
+                        PaletteState.Normal => PaletteState.CheckedNormal,
+                        PaletteState.Tracking => PaletteState.CheckedTracking,
+                        PaletteState.Pressed => PaletteState.CheckedPressed,
+                        _ => buttonState
+                    };
                 }
                 else
                 {

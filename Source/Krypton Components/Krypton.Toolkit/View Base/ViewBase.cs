@@ -55,11 +55,9 @@ namespace Krypton.Toolkit
             _elementState = PaletteState.Normal;
 
             //seb Dpi aware
-            using (Graphics graphics = Graphics.FromHwnd(IntPtr.Zero))
-            {
-                FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
-                FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
-            }
+            using Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
+            FactorDpiX = graphics.DpiX > 96 ? (1f * graphics.DpiX / 96) : 1f;
+            FactorDpiY = graphics.DpiY > 96 ? (1f * graphics.DpiY / 96) : 1f;
         }
 
         /// <summary>
@@ -115,11 +113,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewBase:" + Id;
-        }
+            "ViewBase:" + Id;
+
         #endregion
 
         #region ViewControl
@@ -407,11 +404,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Enumerator instance.</returns>
         [DebuggerStepThrough]
-        IEnumerator IEnumerable.GetEnumerator()
-        {
+        IEnumerator IEnumerable.GetEnumerator() =>
             // Boilerplate code to satisfy IEnumerable<T> base class.
-            return GetEnumerator();
-        }
+            GetEnumerator();
+
         #endregion
 
         #region Controllers
@@ -451,11 +447,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Mouse has entered the view.
         /// </summary>
-        public virtual IMouseController FindMouseController()
-        {
+        public virtual IMouseController FindMouseController() =>
             // Use mouse controller as first preference
-            return MouseController ?? Parent?.FindMouseController();
-        }
+            MouseController ?? Parent?.FindMouseController();
 
         /// <summary>
         /// Mouse has entered the view.

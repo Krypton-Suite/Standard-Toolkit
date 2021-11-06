@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
     [LookupBindingProperties("DataSource", "DisplayMember", "ValueMember", "SelectedValue")]
-    [Designer(typeof(KryptonComboBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonComboBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Displays an editable textbox with a drop-down list of permitted values.")]
     public class KryptonComboBox : VisualControlBase,
@@ -41,10 +41,8 @@ namespace Krypton.Toolkit
             /// Initialise a new instance of the InternalPanel class.
             /// </summary>
             /// <param name="kryptonComboBox">Reference to owning control.</param>
-            public InternalPanel(KryptonComboBox kryptonComboBox)
-            {
-                _kryptonComboBox = kryptonComboBox;
-            }
+            public InternalPanel(KryptonComboBox kryptonComboBox) => _kryptonComboBox = kryptonComboBox;
+
             #endregion
 
             #region Public
@@ -182,39 +180,28 @@ namespace Krypton.Toolkit
             /// Gets the content short text.
             /// </summary>
             /// <returns>String value.</returns>
-            public virtual string GetShortText()
-            {
-                return string.Empty;
-            }
+            public virtual string GetShortText() => string.Empty;
 
             /// <summary>
             /// Gets the content image.
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Image value.</returns>
-            public virtual Image GetImage(PaletteState state)
-            {
-                return null;
-            }
+            public virtual Image GetImage(PaletteState state) => null;
 
             /// <summary>
             /// Gets the image color that should be transparent.
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Color value.</returns>
-            public virtual Color GetImageTransparentColor(PaletteState state)
-            {
-                return Color.Empty;
-            }
+            public virtual Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
             /// <summary>
             /// Gets the content long text.
             /// </summary>
             /// <returns>String value.</returns>
-            public virtual string GetLongText()
-            {
-                return string.Empty;
-            }
+            public virtual string GetLongText() => string.Empty;
+
             #endregion
 
             #region Protected
@@ -316,7 +303,7 @@ namespace Krypton.Toolkit
                     case PI.WM_.PRINTCLIENT:
                     case PI.WM_.PAINT:
                         {
-                            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText))
+                            if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText))
                             {
                                 PI.SendMessage(Handle, PI.CB_SETCUEBANNER, IntPtr.Zero, _kryptonComboBox.CueHint.CueHintText);
                             }
@@ -387,7 +374,7 @@ namespace Krypton.Toolkit
                                 // Exclude border from being drawn, we need to take off another 2 pixels from all edges
                                 PI.IntersectClipRect(hdc, rect.left + 2, rect.top + 2, rect.right - 2, rect.bottom - 2);
 
-                                if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
+                                if (!string.IsNullOrWhiteSpace(_kryptonComboBox.CueHint.CueHintText)
                                     && string.IsNullOrEmpty(_kryptonComboBox.Text)
                                 )
                                 {
@@ -417,25 +404,17 @@ namespace Krypton.Toolkit
                                         HotkeyPrefix = HotkeyPrefix.None
                                     };
 
-
-                                    switch (states.Content.GetContentShortTextH(state))
+                                    stringFormat.Alignment = states.Content.GetContentShortTextH(state) switch
                                     {
-                                        case PaletteRelativeAlign.Near:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Far
-                                                : StringAlignment.Near;
-
-                                            break;
-                                        case PaletteRelativeAlign.Far:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Near
-                                                : StringAlignment.Far;
-
-                                            break;
-                                        case PaletteRelativeAlign.Center:
-                                            stringFormat.Alignment = StringAlignment.Center;
-                                            break;
-                                    }
+                                        PaletteRelativeAlign.Near => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Far
+                                            : StringAlignment.Near,
+                                        PaletteRelativeAlign.Far => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Near
+                                            : StringAlignment.Far,
+                                        PaletteRelativeAlign.Center => StringAlignment.Center,
+                                        _ => stringFormat.Alignment
+                                    };
 
                                     // Draw using a solid brush
                                     Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
@@ -502,19 +481,14 @@ namespace Krypton.Toolkit
             [Description("Raises the TrackMouseEnter event in the wrapped control.")]
             [Category("Mouse")]
             [EditorBrowsable(EditorBrowsableState.Advanced)]
-            protected virtual void OnTrackMouseEnter(EventArgs e)
-            {
-                TrackMouseEnter?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e)
-            {
-                TrackMouseLeave?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+
             #endregion
 
             #region Implementation
@@ -787,19 +761,14 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e)
-            {
-                TrackMouseEnter?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e)
-            {
-                TrackMouseLeave?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+
             #endregion
         }
         #endregion
@@ -1045,11 +1014,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static KryptonComboBox()
-        {
+        static KryptonComboBox() =>
             // Cache the major os version number
             _osMajorVersion = Environment.OSVersion.Version.Major;
-        }
 
         /// <summary>
         /// Initialize a new instance of the KryptonComboBox class.
@@ -1079,7 +1046,7 @@ namespace Krypton.Toolkit
             _hoverIndex = -1;
             _toolTipSpec = new ButtonSpecAny
             {
-                ToolTipStyle = LabelStyle.SuperTip,
+                ToolTipStyle = LabelStyle.SuperTip
             };
             // Create storage properties
             ButtonSpecs = new ComboBoxButtonSpecCollection(this);
@@ -1219,10 +1186,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteCueHintText CueHint { get; }
 
-        private bool ShouldSerializeCueHint()
-        {
-            return !CueHint.IsDefault;
-        }
+        private bool ShouldSerializeCueHint() => !CueHint.IsDefault;
 
         /// <summary>
         /// Signals the object that initialization is starting.
@@ -1460,7 +1424,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to use as the actual value of the items in the control.")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ValueMember
         {
@@ -1487,8 +1451,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public string DisplayMember
         {
@@ -1575,7 +1539,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("Controls the appearance and functionality of the KryptonComboBox.")]
-        [Editor(typeof(OverrideComboBoxStyleDropDownStyle), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Toolkit.OverrideComboBoxStyleDropDownStyle", typeof(UITypeEditor))]
         [DefaultValue(typeof(ComboBoxStyle), "DropDown")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
@@ -1696,7 +1660,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("The items in the KryptonComboBox.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1727,10 +1691,7 @@ namespace Krypton.Toolkit
             InputControlStyle = InputControlStyle.Standalone;
         }
 
-        private bool ShouldSerializeInputControlStyle()
-        {
-            return (InputControlStyle != InputControlStyle.Standalone);
-        }
+        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
 
         /// <summary>
         /// Gets and sets the item style.
@@ -1757,10 +1718,7 @@ namespace Krypton.Toolkit
             ItemStyle = ButtonStyle.ListItem;
         }
 
-        private bool ShouldSerializeItemStyle()
-        {
-            return (ItemStyle != ButtonStyle.ListItem);
-        }
+        private bool ShouldSerializeItemStyle() => (ItemStyle != ButtonStyle.ListItem);
 
         /// <summary>
         /// Gets and sets the drop button style.
@@ -1786,10 +1744,7 @@ namespace Krypton.Toolkit
             DropButtonStyle = ButtonStyle.InputControl;
         }
 
-        private bool ShouldSerializeDropButtonStyle()
-        {
-            return (DropButtonStyle != ButtonStyle.InputControl);
-        }
+        private bool ShouldSerializeDropButtonStyle() => (DropButtonStyle != ButtonStyle.InputControl);
 
         /// <summary>
         /// Gets and sets the drop button style.
@@ -1816,10 +1771,7 @@ namespace Krypton.Toolkit
             DropBackStyle = PaletteBackStyle.ControlClient;
         }
 
-        private bool ShouldSerializeDropBackStyle()
-        {
-            return (DropBackStyle != PaletteBackStyle.ControlClient);
-        }
+        private bool ShouldSerializeDropBackStyle() => (DropBackStyle != PaletteBackStyle.ControlClient);
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
@@ -1849,7 +1801,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
         [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -1892,7 +1844,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
         /// </summary>
         [Description("The format specifier characters that indicate how a value is to be displayed.")]
-        [Editor("System.Windows.Forms.Design.FormatStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
         public string FormatString
@@ -1920,10 +1872,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled combobox appearance entries.
@@ -1933,10 +1882,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxStates StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal combobox appearance entries.
@@ -1946,10 +1892,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxStates StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the active combobox appearance entries.
@@ -1959,10 +1902,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxJustComboStates StateActive { get; }
 
-        private bool ShouldSerializeStateActive()
-        {
-            return !StateActive.IsDefault;
-        }
+        private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking combobox appearance entries.
@@ -1972,20 +1912,14 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxJustItemStates StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Finds the first item in the combo box that starts with the specified string.
         /// </summary>
         /// <param name="str">The String to search for.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found.</returns>
-        public int FindString(string str)
-        {
-            return _comboBox.FindString(str);
-        }
+        public int FindString(string str) => _comboBox.FindString(str);
 
         /// <summary>
         /// Finds the first item after the given index which starts with the given string. The search is not case sensitive.
@@ -1993,20 +1927,14 @@ namespace Krypton.Toolkit
         /// <param name="str">The String to search for.</param>
         /// <param name="startIndex">The zero-based index of the item before the first item to be searched. Set to -1 to search from the beginning of the control.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found, or 0 if the s parameter specifies Empty.</returns>
-        public int FindString(string str, int startIndex)
-        {
-            return _comboBox.FindString(str, startIndex);
-        }
+        public int FindString(string str, int startIndex) => _comboBox.FindString(str, startIndex);
 
         /// <summary>
         /// Finds the first item in the combo box that matches the specified string.
         /// </summary>
         /// <param name="str">The String to search for.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found.</returns>
-        public int FindStringExact(string str)
-        {
-            return _comboBox.FindStringExact(str);
-        }
+        public int FindStringExact(string str) => _comboBox.FindStringExact(str);
 
         /// <summary>
         /// Finds the first item after the specified index that matches the specified string.
@@ -2014,64 +1942,43 @@ namespace Krypton.Toolkit
         /// <param name="str">The String to search for.</param>
         /// <param name="startIndex">The zero-based index of the item before the first item to be searched. Set to -1 to search from the beginning of the control.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found, or 0 if the s parameter specifies Empty.</returns>
-        public int FindStringExact(string str, int startIndex)
-        {
-            return _comboBox.FindStringExact(str, startIndex);
-        }
+        public int FindStringExact(string str, int startIndex) => _comboBox.FindStringExact(str, startIndex);
 
         /// <summary>
         /// Returns the height of an item in the ComboBox.
         /// </summary>
         /// <param name="index">The index of the item to return the height of.</param>
         /// <returns>The height, in pixels, of the item at the specified index.</returns>
-        public int GetItemHeight(int index)
-        {
-            return _comboBox.GetItemHeight(index);
-        }
+        public int GetItemHeight(int index) => _comboBox.GetItemHeight(index);
 
         /// <summary>
         /// Returns the text representation of the specified item.
         /// </summary>
         /// <param name="item">The object from which to get the contents to display.</param>
         /// <returns>If the DisplayMember property is not specified, the value returned by GetItemText is the value of the item's ToString method. Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string GetItemText(object item)
-        {
-            return _comboBox.GetItemText(item);
-        }
+        public string GetItemText(object item) => _comboBox.GetItemText(item);
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length)
-        {
-            _comboBox.Select(start, length);
-        }
+        public void Select(int start, int length) => _comboBox.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll()
-        {
-            _comboBox.SelectAll();
-        }
+        public void SelectAll() => _comboBox.SelectAll();
 
         /// <summary>
         /// Maintains performance when items are added to the ComboBox one at a time.
         /// </summary>
-        public void BeginUpdate()
-        {
-            _comboBox.BeginUpdate();
-        }
+        public void BeginUpdate() => _comboBox.BeginUpdate();
 
         /// <summary>
         /// Resumes painting the ComboBox control after painting is suspended by the BeginUpdate method. 
         /// </summary>
-        public void EndUpdate()
-        {
-            _comboBox.EndUpdate();
-        }
+        public void EndUpdate() => _comboBox.EndUpdate();
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -2108,18 +2015,12 @@ namespace Krypton.Toolkit
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus()
-        {
-            return ComboBox != null && ComboBox.Focus();
-        }
+        public new bool Focus() => ComboBox != null && ComboBox.Focus();
 
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select()
-        {
-            ComboBox?.Select();
-        }
+        public new void Select() => ComboBox?.Select();
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -2207,23 +2108,19 @@ namespace Krypton.Toolkit
         /// Internal designing mode method.
         /// </summary>
         /// <param name="pt">Mouse location.</param>
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal designing mode method.
         /// </summary>
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected
@@ -2781,10 +2678,7 @@ namespace Krypton.Toolkit
             _drawDockerOuter.ElementState = state;
         }
 
-        internal PaletteInputControlTripleStates GetComboBoxTripleState()
-        {
-            return Enabled ? IsActive ? StateActive.ComboBox : StateNormal.ComboBox : StateDisabled.ComboBox;
-        }
+        internal PaletteInputControlTripleStates GetComboBoxTripleState() => Enabled ? IsActive ? StateActive.ComboBox : StateNormal.ComboBox : StateDisabled.ComboBox;
 
         private int PreferredHeight
         {

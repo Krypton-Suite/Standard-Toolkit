@@ -777,11 +777,10 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonCaptionArea:" + Id;
-        }
+            "ViewDrawRibbonCaptionArea:" + Id;
+
         #endregion
 
         #region AppButtonController
@@ -1172,7 +1171,7 @@ namespace Krypton.Ribbon
             bool integrated = false;
 
             // Are we inside a KryptonForm instance that is using custom chrome?
-            if ((_kryptonForm != null) && _kryptonForm.ApplyCustomChrome)
+            if (_kryptonForm is { ApplyCustomChrome: true })
             {
                 // Ribbon must be placed at the top left of the forms client area
                 if (_ribbon.Location == Point.Empty)

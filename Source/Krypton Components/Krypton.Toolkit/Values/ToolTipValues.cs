@@ -49,10 +49,7 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool EnableToolTips { get; set; }
 
-        private bool ShouldSerializeEnableToolTips()
-        {
-            return EnableToolTips;
-        }
+        private bool ShouldSerializeEnableToolTips() => EnableToolTips;
 
         /// <summary>
         /// 
@@ -69,18 +66,12 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PopupPositionValues ToolTipPosition { get; set; }
 
-        private bool ShouldSerializeToolTipPosition()
-        {
-            return !ToolTipPosition.IsDefault;
-        }
+        private bool ShouldSerializeToolTipPosition() => !ToolTipPosition.IsDefault;
 
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.
         /// </summary>
-        public void ResetToolTipPosition()
-        {
-            ToolTipPosition.Reset();
-        }
+        public void ResetToolTipPosition() => ToolTipPosition.Reset();
 
         #region ToolTipStyle
 
@@ -95,10 +86,7 @@ namespace Krypton.Toolkit
             set => _toolTipStyle = value;
         }
 
-        private bool ShouldSerializeToolTipStyle()
-        {
-            return ToolTipStyle != LabelStyle.SuperTip;
-        }
+        private bool ShouldSerializeToolTipStyle() => ToolTipStyle != LabelStyle.SuperTip;
 
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.

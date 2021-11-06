@@ -138,11 +138,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutScrollViewport:" + Id;
-        }
+            "ViewLayoutScrollViewport:" + Id;
+
         #endregion
 
         #region MakeParent
@@ -150,11 +149,10 @@ namespace Krypton.Toolkit
         /// Make the provided control parented to ourself.
         /// </summary>
         /// <param name="c">Control to reparent.</param>
-        public void MakeParent(Control c)
-        {
+        public void MakeParent(Control c) =>
             // Ask the view control to perform reparenting
             ViewControl.MakeParent(c);
-        }
+
         #endregion
 
         #region RevertParent
@@ -408,28 +406,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Ask the base docker element to perform a layout.
         /// </summary>
-        protected void DockerLayout(ViewLayoutContext context)
-        {
+        protected void DockerLayout(ViewLayoutContext context) =>
             // Get base class to perform actual layout
             base.Layout(context);
-        }
 
         /// <summary>
         /// Requests a paint and optional layout of the control.
         /// </summary>
         /// <param name="needLayout">Is a layout required.</param>
-        protected void NeedPaint(bool needLayout)
-        {
+        protected void NeedPaint(bool needLayout) =>
             // Request a layout be performed immediately
             _needPaintDelegate?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+
         #endregion
 
         #region Implementation
-        private VisualOrientation ViewportOrientation(bool vertical)
-        {
-            return vertical ? VisualOrientation.Left : VisualOrientation.Top;
-        }
+        private VisualOrientation ViewportOrientation(bool vertical) => vertical ? VisualOrientation.Left : VisualOrientation.Top;
 
         private void OnScrollVChanged(object sender, EventArgs e)
         {
@@ -463,10 +455,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnAnimateStep(object sender, EventArgs e)
-        {
-            AnimateStep?.Invoke(sender, e);
-        }
+        private void OnAnimateStep(object sender, EventArgs e) => AnimateStep?.Invoke(sender, e);
+
         #endregion
     }
 }

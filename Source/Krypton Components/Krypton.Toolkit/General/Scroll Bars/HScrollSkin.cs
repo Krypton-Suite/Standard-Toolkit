@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
             VScrollBar1.TabIndex = 0;
             VScrollBar1.Scroll += VScrollBar1_miScroll;
             VScrollBar1.Visible = false;
-            VScrollBar1.Orientation = ScrollBarOrientation.VERTICAL;
+            VScrollBar1.Orientation = ScrollBarOrientation.Vertical;
 
 
             //this.HScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
             HScrollBar1.TabIndex = 1;
             HScrollBar1.Scroll += HScrollBar1_miScroll;
             HScrollBar1.Visible = false;
-            HScrollBar1.Orientation = ScrollBarOrientation.HORIZONTAL;
+            HScrollBar1.Orientation = ScrollBarOrientation.Horizontal;
 
             BackColor = Color.Transparent;
 
@@ -214,10 +214,7 @@ namespace Krypton.Toolkit
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <remarks></remarks>
-        private void VScrollBar1_miScroll(object sender, ScrollEventArgs e)
-        {
-            PI.PostMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)(PI.SB_.THUMBPOSITION + (0x10000 * VScrollBar1.Value)), IntPtr.Zero);
-        }
+        private void VScrollBar1_miScroll(object sender, ScrollEventArgs e) => PI.PostMessage(_win.Handle, PI.WM_.HSCROLL, (IntPtr)(PI.SB_.THUMBPOSITION + (0x10000 * VScrollBar1.Value)), IntPtr.Zero);
 
         #endregion
 
@@ -553,10 +550,7 @@ namespace Krypton.Toolkit
         }
 
         //Kripton Palette Events
-        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
-        {
-            Invalidate();
-        }
+        private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
 
         #endregion
     }

@@ -114,11 +114,9 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Show the window without taking activation.
             /// </summary>
-            public void ShowWithoutActivate()
-            {
+            public void ShowWithoutActivate() =>
                 // Show the window without activating it (i.e. do not take focus)
                 PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
-            }
 
             /// <summary>
             /// Gets and sets the new solid rectangle area.
@@ -400,7 +398,7 @@ namespace Krypton.Toolkit
             // Validate reference parameter
             if (e == null)
             {
-                throw new ArgumentNullException("e");
+                throw new ArgumentNullException(nameof(e));
             }
 
             // If the user pressed the escape key
@@ -477,32 +475,26 @@ namespace Krypton.Toolkit
         /// Draw the initial separator position.
         /// </summary>
         /// <param name="splitter">Initial splitter position.</param>
-        protected void DrawSeparatorStarting(Point splitter)
-        {
+        protected void DrawSeparatorStarting(Point splitter) =>
             // Reset the starting point
-
             // Draw the initial indication
             DrawSplitIndicator(splitter);
-        }
 
         /// <summary>
         /// Redraw the splitter in the new position.
         /// </summary>
         /// <param name="splitter">New position of the splitter.</param>
-        protected void DrawSeparatorReposition(Point splitter)
-        {
+        protected void DrawSeparatorReposition(Point splitter) =>
             // Draw splitter in the new position
             DrawSplitIndicator(splitter);
-        }
 
         /// <summary>
         /// Remove drawing of any splitter.
         /// </summary>
-        protected void DrawSeparatorRemoved()
-        {
+        protected void DrawSeparatorRemoved() =>
             // Remove any showing separator
             DrawSplitIndicator(_nullPoint);
-        }
+
         #endregion
 
         #region Protected Overrides
@@ -608,12 +600,10 @@ namespace Krypton.Toolkit
 
         }
 
-        private Rectangle SplitRectangleFromPoint(Point pt)
-        {
-            return _separatorOrientation == Orientation.Vertical
+        private Rectangle SplitRectangleFromPoint(Point pt) =>
+            _separatorOrientation == Orientation.Vertical
                 ? SplitRectangleFromPoint(pt, Target.ClientWidth)
                 : SplitRectangleFromPoint(pt, Target.ClientHeight);
-        }
 
         private Rectangle SplitRectangleFromPoint(Point pt, int length)
         {
@@ -631,9 +621,10 @@ namespace Krypton.Toolkit
 
             var rect = _source.SeparatorControl.RectangleToScreen(splitRectangle);
 
-            var area = Screen.GetWorkingArea(rect);
-
-            rect = new Rectangle(rect.Location - (Size)area.Location, rect.Size);
+            //https://github.com/Krypton-Suite/Standard-Toolkit/issues/364
+            // remove the following 2 lines as this causes problems in Win 10  - No idea what the intention was here ?
+            //var area = Screen.GetWorkingArea(rect);
+            //rect = new Rectangle(rect.Location - (Size)area.Location, rect.Size);
 
             return rect;
         }
@@ -666,11 +657,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation Static
-        private static void DrawSplitIndicator(Rectangle drawRect)
-        {
+        private static void DrawSplitIndicator(Rectangle drawRect) =>
             // We just perform a simple reversible rectangle draw
             ControlPaint.FillReversibleRectangle(drawRect, Color.Black);
-        }
+
         #endregion
     }
 

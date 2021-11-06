@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteTrackBarRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteTrackBarRedirect(PaletteRedirect redirect,
                                        NeedPaintHandler needPaint)
@@ -95,10 +95,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColorRedirect Tick { get; }
 
-        private bool ShouldSerializeTick()
-        {
-            return !Tick.IsDefault;
-        }
+        private bool ShouldSerializeTick() => !Tick.IsDefault;
+
         #endregion
 
         #region Track
@@ -111,10 +109,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColorRedirect Track { get; }
 
-        private bool ShouldSerializeTrack()
-        {
-            return !Track.IsDefault;
-        }
+        private bool ShouldSerializeTrack() => !Track.IsDefault;
+
         #endregion
 
         #region Position
@@ -127,10 +123,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColorRedirect Position { get; }
 
-        private bool ShouldSerializePosition()
-        {
-            return !Position.IsDefault;
-        }
+        private bool ShouldSerializePosition() => !Position.IsDefault;
+
         #endregion
 
         #region Internal
@@ -152,11 +146,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout)
-        {
+        protected void OnNeedPaint(object sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
-        }
+
         #endregion
     }
 }

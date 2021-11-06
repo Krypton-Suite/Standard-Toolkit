@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(IPaletteBack inherit)
         {
@@ -618,10 +618,8 @@ namespace Krypton.Toolkit
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="property">Name of the property changed.</param>
-        protected virtual void OnPropertyChanged(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-        }
+        protected virtual void OnPropertyChanged(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+
         #endregion
     }
 }

@@ -20,11 +20,10 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructor
-        public KryptonStatusStrip()
-        {
+        public KryptonStatusStrip() =>
             // Use Krypton
             RenderMode = ToolStripRenderMode.ManagerRenderMode;
-        }
+
         #endregion
 
         #region Overrides

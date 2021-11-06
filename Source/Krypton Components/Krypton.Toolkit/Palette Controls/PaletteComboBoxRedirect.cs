@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteComboBoxRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteComboBoxRedirect(PaletteRedirect redirect,
                                        NeedPaintHandler needPaint)
@@ -93,28 +93,20 @@ namespace Krypton.Toolkit
         /// Update the combo box input control style.
         /// </summary>
         /// <param name="style">New input control style.</param>
-        public void SetStyles(InputControlStyle style)
-        {
-            ComboBox.SetStyles(style);
-        }
+        public void SetStyles(InputControlStyle style) => ComboBox.SetStyles(style);
 
         /// <summary>
         /// Update the combo box item style.
         /// </summary>
         /// <param name="style">New item style.</param>
-        public void SetStyles(ButtonStyle style)
-        {
-            Item.SetStyles(style);
-        }
+        public void SetStyles(ButtonStyle style) => Item.SetStyles(style);
 
         /// <summary>
         /// Update the combo box drop background style.
         /// </summary>
         /// <param name="style">New drop background style.</param>
-        public void SetStyles(PaletteBackStyle style)
-        {
-            _dropBackRedirect.SetStyles(style, PaletteBorderStyle.ButtonStandalone);
-        }
+        public void SetStyles(PaletteBackStyle style) => _dropBackRedirect.SetStyles(style, PaletteBorderStyle.ButtonStandalone);
+
         #endregion
 
         #region PopulateFromBase
@@ -140,10 +132,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect ComboBox { get; }
 
-        private bool ShouldSerializeComboBox()
-        {
-            return !ComboBox.IsDefault;
-        }
+        private bool ShouldSerializeComboBox() => !ComboBox.IsDefault;
+
         #endregion
 
         #region Item
@@ -156,10 +146,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Item { get; }
 
-        private bool ShouldSerializeItem()
-        {
-            return !Item.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !Item.IsDefault;
+
         #endregion
 
         #region DropBack
@@ -172,10 +160,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack DropBack => _dropBackRedirect.Back;
 
-        private bool ShouldSerializeDropBack()
-        {
-            return !_dropBackRedirect.IsDefault;
-        }
+        private bool ShouldSerializeDropBack() => !_dropBackRedirect.IsDefault;
+
         #endregion
 
         #region Protected
@@ -184,11 +170,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout)
-        {
+        protected void OnNeedPaint(object sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
-        }
+
         #endregion
     }
 }

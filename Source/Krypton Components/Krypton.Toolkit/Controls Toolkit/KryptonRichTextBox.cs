@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("TextChanged")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
-    [Designer(typeof(KryptonRichTextBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonRichTextBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Enables the user to enter text, and provides multi-line editing and password character masking.")]
     public class KryptonRichTextBox : VisualControlBase,
@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
                         base.WndProc(ref m);
                         break;
                     case PI.WM_.PAINT:
-                        if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonRichTextBox.CueHint.CueHintText)
+                        if (!string.IsNullOrWhiteSpace(_kryptonRichTextBox.CueHint.CueHintText)
                             && (_kryptonRichTextBox.TextLength == 0)
                         )
                         {
@@ -254,19 +254,13 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e)
-            {
-                TrackMouseEnter?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e)
-            {
-                TrackMouseLeave?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
 
             /// <summary>
             /// Raises the OnMouseMove event.
@@ -562,10 +556,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteCueHintText CueHint { get; }
 
-        private bool ShouldSerializeCueHint()
-        {
-            return !CueHint.IsDefault;
-        }
+        private bool ShouldSerializeCueHint() => !CueHint.IsDefault;
 
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
@@ -679,19 +670,17 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the text associated associated with the control.
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => _richTextBox.Text;
             set => _richTextBox.Text = value;
         }
 
-        private bool ShouldSerializeText()
-        {
+        private bool ShouldSerializeText() =>
             // Must always persist the text value if even when it is the default. Otherwise when
             // you first move over the control which has been given RTF it resets the fonts.
-            return true;
-        }
+            true;
 
         /// <summary>
         /// Gets the length of text in the control.
@@ -1083,7 +1072,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("The lines of text in a multiline edit, as an array of String values.")]
-        [Editor("System.Windows.Forms.Design.StringArrayEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1302,10 +1291,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeInputControlStyle()
-        {
-            return (InputControlStyle != InputControlStyle.Standalone);
-        }
+        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
 
         private void ResetInputControlStyle()
         {
@@ -1344,10 +1330,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled textbox appearance entries.
@@ -1357,10 +1340,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal textbox appearance entries.
@@ -1370,10 +1350,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the active textbox appearance entries.
@@ -1383,89 +1360,59 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateActive { get; }
 
-        private bool ShouldSerializeStateActive()
-        {
-            return !StateActive.IsDefault;
-        }
+        private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
 
         /// <summary>
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text)
-        {
-            _richTextBox.AppendText(text);
-        }
+        public void AppendText(string text) => _richTextBox.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear()
-        {
-            _richTextBox.Clear();
-        }
+        public void Clear() => _richTextBox.Clear();
 
         /// <summary>
         /// Clears information about the most recent operation from the undo buffer of the rich text box. 
         /// </summary>
-        public void ClearUndo()
-        {
-            _richTextBox.ClearUndo();
-        }
+        public void ClearUndo() => _richTextBox.ClearUndo();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy()
-        {
-            _richTextBox.Copy();
-        }
+        public void Copy() => _richTextBox.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut()
-        {
-            _richTextBox.Cut();
-        }
+        public void Cut() => _richTextBox.Cut();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll()
-        {
-            _richTextBox.DeselectAll();
-        }
+        public void DeselectAll() => _richTextBox.DeselectAll();
 
         /// <summary>
         /// Determines whether you can paste information from the Clipboard in the specified data format.
         /// </summary>
         /// <param name="clipFormat">One of the System.Windows.Forms.DataFormats.Format values.</param>
         /// <returns>true if you can paste data from the Clipboard in the specified data format; otherwise, false.</returns>
-        public bool CanPaste(DataFormats.Format clipFormat)
-        {
-            return _richTextBox.CanPaste(clipFormat);
-        }
+        public bool CanPaste(DataFormats.Format clipFormat) => _richTextBox.CanPaste(clipFormat);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string.
         /// </summary>
         /// <param name="str">The text to locate in the control.</param>
         /// <returns>The location within the control where the search text was found or -1 if the search string is not found or an empty search string is specified in the str parameter.</returns>
-        public int Find(string str)
-        {
-            return _richTextBox.Find(str);
-        }
+        public int Find(string str) => _richTextBox.Find(str);
 
         /// <summary>
         /// Searches the text of a RichTextBox control for the first instance of a character from a list of characters.
         /// </summary>
         /// <param name="characterSet">The array of characters to search for.</param>
         /// <returns>The location within the control where the search characters were found or -1 if the search characters are not found or an empty search character set is specified in the char parameter.</returns>
-        public int Find(char[] characterSet)
-        {
-            return _richTextBox.Find(characterSet);
-        }
+        public int Find(char[] characterSet) => _richTextBox.Find(characterSet);
 
         /// <summary>
         /// Searches the text of a RichTextBox control, at a specific starting point, for the first instance of a character from a list of characters.
@@ -1473,10 +1420,7 @@ namespace Krypton.Toolkit
         /// <param name="characterSet">The array of characters to search for.</param>
         /// <param name="start">The location within the control's text at which to begin searching.</param>
         /// <returns>The location within the control where the search characters are found.</returns>
-        public int Find(char[] characterSet, int start)
-        {
-            return _richTextBox.Find(characterSet, start);
-        }
+        public int Find(char[] characterSet, int start) => _richTextBox.Find(characterSet, start);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string with specific options applied to the search.
@@ -1484,10 +1428,7 @@ namespace Krypton.Toolkit
         /// <param name="str">The text to locate in the control.</param>
         /// <param name="options">A bitwise combination of the RichTextBoxFinds values.</param>
         /// <returns>The location within the control where the search text was found.</returns>
-        public int Find(string str, RichTextBoxFinds options)
-        {
-            return _richTextBox.Find(str, options);
-        }
+        public int Find(string str, RichTextBoxFinds options) => _richTextBox.Find(str, options);
 
         /// <summary>
         /// Searches a range of text in a RichTextBox control for the first instance of a character from a list of characters.
@@ -1496,10 +1437,7 @@ namespace Krypton.Toolkit
         /// <param name="start">The location within the control's text at which to begin searching.</param>
         /// <param name="end">The location within the control's text at which to end searching.</param>
         /// <returns>The location within the control where the search characters are found.</returns>
-        public int Find(char[] characterSet, int start, int end)
-        {
-            return _richTextBox.Find(characterSet, start, end);
-        }
+        public int Find(char[] characterSet, int start, int end) => _richTextBox.Find(characterSet, start, end);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string at a specific location within the control and with specific options applied to the search.
@@ -1508,10 +1446,7 @@ namespace Krypton.Toolkit
         /// <param name="start">The location within the control's text at which to begin searching.</param>
         /// <param name="options">A bitwise combination of the RichTextBoxFinds values.</param>
         /// <returns>The location within the control where the search text was found.</returns>
-        public int Find(string str, int start, RichTextBoxFinds options)
-        {
-            return _richTextBox.Find(str, start, options);
-        }
+        public int Find(string str, int start, RichTextBoxFinds options) => _richTextBox.Find(str, start, options);
 
         /// <summary>
         /// Searches the text in a RichTextBox control for a string within a range of text within the control and with specific options applied to the search.
@@ -1521,186 +1456,126 @@ namespace Krypton.Toolkit
         /// <param name="end">The location within the control's text at which to end searching. This value must be equal to negative one (-1) or greater than or equal to the start parameter.</param>
         /// <param name="options">A bitwise combination of the RichTextBoxFinds values.</param>
         /// <returns></returns>
-        public int Find(string str, int start, int end, RichTextBoxFinds options)
-        {
-            return _richTextBox.Find(str, start, end, options);
-        }
+        public int Find(string str, int start, int end, RichTextBoxFinds options) => _richTextBox.Find(str, start, end, options);
 
         /// <summary>
         /// Retrieves the character that is closest to the specified location within the control.
         /// </summary>
         /// <param name="pt">The location from which to seek the nearest character.</param>
         /// <returns>The character at the specified location.</returns>
-        public int GetCharFromPosition(Point pt)
-        {
-            return _richTextBox.GetCharFromPosition(pt);
-        }
+        public int GetCharFromPosition(Point pt) => _richTextBox.GetCharFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the character nearest to the specified location.
         /// </summary>
         /// <param name="pt">The location to search.</param>
         /// <returns>The zero-based character index at the specified location.</returns>
-        public int GetCharIndexFromPosition(Point pt)
-        {
-            return _richTextBox.GetCharIndexFromPosition(pt);
-        }
+        public int GetCharIndexFromPosition(Point pt) => _richTextBox.GetCharIndexFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the first character of a given line.
         /// </summary>
         /// <param name="lineNumber">The line for which to get the index of its first character.</param>
         /// <returns>The zero-based character index in the specified line.</returns>
-        public int GetFirstCharIndexFromLine(int lineNumber)
-        {
-            return _richTextBox.GetFirstCharIndexFromLine(lineNumber);
-        }
+        public int GetFirstCharIndexFromLine(int lineNumber) => _richTextBox.GetFirstCharIndexFromLine(lineNumber);
 
         /// <summary>
         /// Retrieves the index of the first character of the current line.
         /// </summary>
         /// <returns>The zero-based character index in the current line.</returns>
-        public int GetFirstCharIndexOfCurrentLine()
-        {
-            return _richTextBox.GetFirstCharIndexOfCurrentLine();
-        }
+        public int GetFirstCharIndexOfCurrentLine() => _richTextBox.GetFirstCharIndexOfCurrentLine();
 
         /// <summary>
         /// Retrieves the line number from the specified character position within the text of the RichTextBox control.
         /// </summary>
         /// <param name="index">The character index position to search.</param>
         /// <returns>The zero-based line number in which the character index is located.</returns>
-        public int GetLineFromCharIndex(int index)
-        {
-            return _richTextBox.GetLineFromCharIndex(index);
-        }
+        public int GetLineFromCharIndex(int index) => _richTextBox.GetLineFromCharIndex(index);
 
         /// <summary>
         /// Retrieves the location within the control at the specified character index.
         /// </summary>
         /// <param name="index">The index of the character for which to retrieve the location.</param>
         /// <returns>The location of the specified character.</returns>
-        public Point GetPositionFromCharIndex(int index)
-        {
-            return _richTextBox.GetPositionFromCharIndex(index);
-        }
+        public Point GetPositionFromCharIndex(int index) => _richTextBox.GetPositionFromCharIndex(index);
 
         /// <summary>
         /// Loads a rich text format (RTF) or standard ASCII text file into the RichTextBox control.
         /// </summary>
         /// <param name="path">The name and location of the file to load into the control.</param>
-        public void LoadFile(string path)
-        {
-            _richTextBox.LoadFile(path);
-        }
+        public void LoadFile(string path) => _richTextBox.LoadFile(path);
 
         /// <summary>
         /// Loads the contents of an existing data stream into the RichTextBox control.
         /// </summary>
         /// <param name="data">A stream of data to load into the RichTextBox control.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void LoadFile(Stream data, RichTextBoxStreamType fileType)
-        {
-            _richTextBox.LoadFile(data, fileType);
-        }
+        public void LoadFile(Stream data, RichTextBoxStreamType fileType) => _richTextBox.LoadFile(data, fileType);
 
         /// <summary>
         /// Loads a specific type of file into the RichTextBox control.
         /// </summary>
         /// <param name="path">The name and location of the file to load into the control.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void LoadFile(string path, RichTextBoxStreamType fileType)
-        {
-            _richTextBox.LoadFile(path, fileType);
-        }
+        public void LoadFile(string path, RichTextBoxStreamType fileType) => _richTextBox.LoadFile(path, fileType);
 
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste()
-        {
-            _richTextBox.Paste();
-        }
+        public void Paste() => _richTextBox.Paste();
 
         /// <summary>
         /// Undoes the last edit operation in the text box.
         /// </summary>
-        public void Undo()
-        {
-            _richTextBox.Undo();
-        }
+        public void Undo() => _richTextBox.Undo();
 
         /// <summary>
         /// Pastes the contents of the Clipboard in the specified Clipboard format.
         /// </summary>
         /// <param name="clipFormat">The Clipboard format in which the data should be obtained from the Clipboard.</param>
-        public void Paste(DataFormats.Format clipFormat)
-        {
-            _richTextBox.Paste(clipFormat);
-        }
+        public void Paste(DataFormats.Format clipFormat) => _richTextBox.Paste(clipFormat);
 
         /// <summary>
         /// Reapplies the last operation that was undone in the control.
         /// </summary>
-        public void Redo()
-        {
-            _richTextBox.Redo();
-        }
+        public void Redo() => _richTextBox.Redo();
 
         /// <summary>
         /// Saves the contents of the RichTextBox to a rich text format (RTF) file.
         /// </summary>
         /// <param name="path">The name and location of the file to save.</param>
-        public void SaveFile(string path)
-        {
-            _richTextBox.SaveFile(path);
-        }
+        public void SaveFile(string path) => _richTextBox.SaveFile(path);
 
         /// <summary>
         /// Saves the contents of a RichTextBox control to an open data stream.
         /// </summary>
         /// <param name="data">The data stream that contains the file to save to.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void SaveFile(Stream data, RichTextBoxStreamType fileType)
-        {
-            _richTextBox.SaveFile(data, fileType);
-        }
+        public void SaveFile(Stream data, RichTextBoxStreamType fileType) => _richTextBox.SaveFile(data, fileType);
 
         /// <summary>
         /// Saves the contents of the KryptonRichTextBox to a specific type of file.
         /// </summary>
         /// <param name="path">The name and location of the file to save.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void SaveFile(string path, RichTextBoxStreamType fileType)
-        {
-            _richTextBox.SaveFile(path, fileType);
-        }
+        public void SaveFile(string path, RichTextBoxStreamType fileType) => _richTextBox.SaveFile(path, fileType);
 
         /// <summary>
         /// Scrolls the contents of the control to the current caret position.
         /// </summary>
-        public void ScrollToCaret()
-        {
-            _richTextBox.ScrollToCaret();
-        }
+        public void ScrollToCaret() => _richTextBox.ScrollToCaret();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length)
-        {
-            _richTextBox.Select(start, length);
-        }
+        public void Select(int start, int length) => _richTextBox.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll()
-        {
-            _richTextBox.SelectAll();
-        }
+        public void SelectAll() => _richTextBox.SelectAll();
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -1806,10 +1681,7 @@ namespace Krypton.Toolkit
         /// <param name="gr">Graphics instance to use.</param>
         /// <param name="bounds">Drawing bounds.</param>
         /// <returns>Pointer to returned result.</returns>
-        public int Print(int charFrom, int charTo, Graphics gr, Rectangle bounds)
-        {
-            return _richTextBox.Print(charFrom, charTo, gr, bounds);
-        }
+        public int Print(int charFrom, int charTo, Graphics gr, Rectangle bounds) => _richTextBox.Print(charFrom, charTo, gr, bounds);
 
         /// <summary>
         /// Override the display padding for the layout fill.
@@ -1844,25 +1716,21 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected
@@ -1882,109 +1750,74 @@ namespace Krypton.Toolkit
         /// Raises the AcceptsTabChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnAcceptsTabChanged(EventArgs e)
-        {
-            AcceptsTabChanged?.Invoke(this, e);
-        }
+        protected virtual void OnAcceptsTabChanged(EventArgs e) => AcceptsTabChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the HideSelectionChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnHideSelectionChanged(EventArgs e)
-        {
-            HideSelectionChanged?.Invoke(this, e);
-        }
+        protected virtual void OnHideSelectionChanged(EventArgs e) => HideSelectionChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ModifiedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnModifiedChanged(EventArgs e)
-        {
-            ModifiedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnModifiedChanged(EventArgs e) => ModifiedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MultilineChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnMultilineChanged(EventArgs e)
-        {
-            MultilineChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMultilineChanged(EventArgs e) => MultilineChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ReadOnlyChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnReadOnlyChanged(EventArgs e)
-        {
-            ReadOnlyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnReadOnlyChanged(EventArgs e) => ReadOnlyChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the VScroll event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnVScroll(EventArgs e)
-        {
-            VScroll?.Invoke(this, e);
-        }
+        protected virtual void OnVScroll(EventArgs e) => VScroll?.Invoke(this, e);
 
         /// <summary>
         /// Raises the HScroll event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnHScroll(EventArgs e)
-        {
-            HScroll?.Invoke(this, e);
-        }
+        protected virtual void OnHScroll(EventArgs e) => HScroll?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectionChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnSelectionChanged(EventArgs e)
-        {
-            SelectionChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectionChanged(EventArgs e) => SelectionChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Protected event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnProtected(EventArgs e)
-        {
-            Protected?.Invoke(this, e);
-        }
+        protected virtual void OnProtected(EventArgs e) => Protected?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LinkClicked event.
         /// </summary>
         /// <param name="e">A LinkClickedEventArgs that contains the event data.</param>
-        protected virtual void OnLinkClicked(LinkClickedEventArgs e)
-        {
-            LinkClicked?.Invoke(this, e);
-        }
+        protected virtual void OnLinkClicked(LinkClickedEventArgs e) => LinkClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackMouseEnter event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTrackMouseEnter(EventArgs e)
-        {
-            TrackMouseEnter?.Invoke(this, e);
-        }
+        protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TrackMouseLeave event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTrackMouseLeave(EventArgs e)
-        {
-            TrackMouseLeave?.Invoke(this, e);
-        }
+        protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+
         #endregion
 
         #region Protected Overrides
@@ -1993,10 +1826,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>A new instance of Control.ControlCollection assigned to the control.</returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        protected override ControlCollection CreateControlsInstance()
-        {
-            return new KryptonReadOnlyControls(this);
-        }
+        protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
         /// <summary>
         /// Raises the HandleCreated event.
@@ -2040,37 +1870,25 @@ namespace Krypton.Toolkit
         /// Raises the BackColorChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackColorChanged(EventArgs e)
-        {
-            BackColorChanged?.Invoke(this, e);
-        }
+        protected override void OnBackColorChanged(EventArgs e) => BackColorChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackgroundImageChanged(EventArgs e)
-        {
-            BackgroundImageChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageChanged(EventArgs e) => BackgroundImageChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnBackgroundImageLayoutChanged(EventArgs e)
-        {
-            BackgroundImageLayoutChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageLayoutChanged(EventArgs e) => BackgroundImageLayoutChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ForeColorChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnForeColorChanged(EventArgs e)
-        {
-            ForeColorChanged?.Invoke(this, e);
-        }
+        protected override void OnForeColorChanged(EventArgs e) => ForeColorChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Resize event.
@@ -2314,14 +2132,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnRichTextBoxAcceptsTabChanged(object sender, EventArgs e)
-        {
-            OnAcceptsTabChanged(e);
-        }
+        private void OnRichTextBoxAcceptsTabChanged(object sender, EventArgs e) => OnAcceptsTabChanged(e);
 
         private void OnRichTextBoxTextChanged(object sender, EventArgs e)
         {
-            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(CueHint.CueHintText)
+            if (!string.IsNullOrWhiteSpace(CueHint.CueHintText)
                 && TextLength <= 1)
             {
                 // Needed to prevent character turds being left behind
@@ -2332,25 +2147,13 @@ namespace Krypton.Toolkit
             OnTextChanged(e);
         }
 
-        private void OnRichTextBoxHideSelectionChanged(object sender, EventArgs e)
-        {
-            OnHideSelectionChanged(e);
-        }
+        private void OnRichTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnRichTextBoxModifiedChanged(object sender, EventArgs e)
-        {
-            OnModifiedChanged(e);
-        }
+        private void OnRichTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnRichTextBoxMultilineChanged(object sender, EventArgs e)
-        {
-            OnMultilineChanged(e);
-        }
+        private void OnRichTextBoxMultilineChanged(object sender, EventArgs e) => OnMultilineChanged(e);
 
-        private void OnRichTextBoxReadOnlyChanged(object sender, EventArgs e)
-        {
-            OnReadOnlyChanged(e);
-        }
+        private void OnRichTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
 
         private void OnRichTextBoxGotFocus(object sender, EventArgs e)
         {
@@ -2366,60 +2169,27 @@ namespace Krypton.Toolkit
             OnLostFocus(e);
         }
 
-        private void OnRichTextBoxKeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnKeyPress(e);
-        }
+        private void OnRichTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnRichTextBoxKeyUp(object sender, KeyEventArgs e)
-        {
-            OnKeyUp(e);
-        }
+        private void OnRichTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnRichTextBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            OnKeyDown(e);
-        }
+        private void OnRichTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnRichTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            OnPreviewKeyDown(e);
-        }
+        private void OnRichTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRichTextBoxVScroll(object sender, EventArgs e)
-        {
-            OnVScroll(e);
-        }
+        private void OnRichTextBoxVScroll(object sender, EventArgs e) => OnVScroll(e);
 
-        private void OnRichTextBoxHScroll(object sender, EventArgs e)
-        {
-            OnHScroll(e);
-        }
+        private void OnRichTextBoxHScroll(object sender, EventArgs e) => OnHScroll(e);
 
-        private void OnRichTextBoxSelectionChanged(object sender, EventArgs e)
-        {
-            OnSelectionChanged(e);
-        }
+        private void OnRichTextBoxSelectionChanged(object sender, EventArgs e) => OnSelectionChanged(e);
 
-        private void OnRichTextBoxProtected(object sender, EventArgs e)
-        {
-            OnProtected(e);
-        }
+        private void OnRichTextBoxProtected(object sender, EventArgs e) => OnProtected(e);
 
-        private void OnRichTextBoxLinkClicked(object sender, LinkClickedEventArgs e)
-        {
-            OnLinkClicked(e);
-        }
+        private void OnRichTextBoxLinkClicked(object sender, LinkClickedEventArgs e) => OnLinkClicked(e);
 
-        private void OnRichTextBoxValidated(object sender, EventArgs e)
-        {
-            OnValidated(e);
-        }
+        private void OnRichTextBoxValidated(object sender, EventArgs e) => OnValidated(e);
 
-        private void OnRichTextBoxValidating(object sender, CancelEventArgs e)
-        {
-            OnValidating(e);
-        }
+        private void OnRichTextBoxValidating(object sender, CancelEventArgs e) => OnValidating(e);
 
         private void OnShowToolTip(object sender, ToolTipEventArgs e)
         {
@@ -2484,11 +2254,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {

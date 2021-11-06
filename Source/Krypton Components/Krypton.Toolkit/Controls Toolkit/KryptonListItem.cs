@@ -101,10 +101,8 @@ namespace Krypton.Toolkit
         /// Gets the string representation of the object.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return ShortText;
-        }
+        public override string ToString() => ShortText;
+
         #endregion
 
         #region ShortText
@@ -123,15 +121,13 @@ namespace Krypton.Toolkit
                 if (_shortText != value)
                 {
                     _shortText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ShortText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ShortText)));
                 }
             }
         }
 
-        private bool ShouldSerializeShortText()
-        {
-            return !string.IsNullOrEmpty(_shortText);
-        }
+        private bool ShouldSerializeShortText() => !string.IsNullOrEmpty(_shortText);
+
         #endregion
 
         #region LongText
@@ -150,15 +146,13 @@ namespace Krypton.Toolkit
                 if (_longText != value)
                 {
                     _longText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("LongText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(LongText)));
                 }
             }
         }
 
-        private bool ShouldSerializeLongText()
-        {
-            return !string.IsNullOrEmpty(_longText);
-        }
+        private bool ShouldSerializeLongText() => !string.IsNullOrEmpty(_longText);
+
         #endregion
 
         #region Image
@@ -177,15 +171,13 @@ namespace Krypton.Toolkit
                 if (_image != value)
                 {
                     _image = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Image"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Image)));
                 }
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return (_image != null);
-        }
+        private bool ShouldSerializeImage() => (_image != null);
+
         #endregion
 
         #region ImageTransparentColor
@@ -204,15 +196,13 @@ namespace Krypton.Toolkit
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageTransparentColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageTransparentColor)));
                 }
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return (_imageTransparentColor != Color.Empty);
-        }
+        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor != Color.Empty);
+
         #endregion
 
         #region Tag
@@ -232,39 +222,28 @@ namespace Krypton.Toolkit
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return _shortText;
-        }
+        public string GetShortText() => _shortText;
 
         /// <summary>
         /// Gets the content image.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return _image;
-        }
+        public Image GetImage(PaletteState state) => _image;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return _imageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => _imageTransparentColor;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return _longText;
-        }
+        public string GetLongText() => _longText;
+
         #endregion
 
         #region Protected
@@ -272,10 +251,8 @@ namespace Krypton.Toolkit
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+
         #endregion    
     }
 }

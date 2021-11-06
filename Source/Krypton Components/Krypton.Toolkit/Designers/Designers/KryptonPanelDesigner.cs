@@ -19,13 +19,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonPanelDesigner class.
         /// </summary>
-        public KryptonPanelDesigner()
-        {
+        public KryptonPanelDesigner() =>
             // The resizing handles around the control need to change depending on the
             // value of the AutoSize and AutoSizeMode properties. When in AutoSize you
             // do not get the resizing handles, otherwise you do.
             AutoResizeHandles = true;
-        }
+
         #endregion
 
         #region Public Overrides
@@ -68,21 +67,19 @@ namespace Krypton.Toolkit
         private void DrawBorder(Graphics graphics)
         {
             // Create a pen for drawing
-            using (Pen borderPen = new(SystemColors.ControlDarkDark))
-            {
-                // Always draw the border dashed
-                borderPen.DashStyle = DashStyle.Dash;
+            using Pen borderPen = new(SystemColors.ControlDarkDark);
+            // Always draw the border dashed
+            borderPen.DashStyle = DashStyle.Dash;
 
-                // Get the client rectangle
-                Rectangle clientRect = Control.ClientRectangle;
+            // Get the client rectangle
+            Rectangle clientRect = Control.ClientRectangle;
 
-                // Reduce by 1 in width and height
-                clientRect.Width--;
-                clientRect.Height--;
+            // Reduce by 1 in width and height
+            clientRect.Width--;
+            clientRect.Height--;
 
-                // Perform actual draw
-                graphics.DrawRectangle(borderPen, clientRect);
-            }
+            // Perform actual draw
+            graphics.DrawRectangle(borderPen, clientRect);
         }
         #endregion
     }

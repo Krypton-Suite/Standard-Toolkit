@@ -24,7 +24,7 @@ namespace Krypton.Navigator
                                              
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the MapKryptonPageTextConverter clas.
+        /// Initialize a new instance of the MapKryptonPageTextConverter class.
         /// </summary>
         public MapKryptonPageTextConverter()
             : base(typeof(MapKryptonPageText))
@@ -50,7 +50,7 @@ namespace Krypton.Navigator
             new(MapKryptonPageText.DescriptionTitle,              "Description - Title"),
             new(MapKryptonPageText.DescriptionTitleText,          "Description - Title - Text"),
             new(MapKryptonPageText.ToolTipTitle,                  "ToolTipTitle"),
-            new(MapKryptonPageText.ToolTipBody,                   "ToolTipBody"),
+            new(MapKryptonPageText.ToolTipBody,                   "ToolTipBody")
         };
 
         #endregion

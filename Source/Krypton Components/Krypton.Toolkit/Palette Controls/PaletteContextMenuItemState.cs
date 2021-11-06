@@ -122,10 +122,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleMetric ItemHighlight { get; }
 
-        private bool ShouldSerializeItemHighlight()
-        {
-            return !ItemHighlight.IsDefault;
-        }
+        private bool ShouldSerializeItemHighlight() => !ItemHighlight.IsDefault;
+
         #endregion
 
         #region ItemImage
@@ -138,10 +136,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleJustImage ItemImage { get; }
 
-        private bool ShouldSerializeItemImage()
-        {
-            return !ItemImage.IsDefault;
-        }
+        private bool ShouldSerializeItemImage() => !ItemImage.IsDefault;
+
         #endregion
 
         #region ItemShortcutText
@@ -154,10 +150,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustShortText ItemShortcutText { get; }
 
-        private bool ShouldSerializeItemShortcutText()
-        {
-            return !ItemShortcutText.IsDefault;
-        }
+        private bool ShouldSerializeItemShortcutText() => !ItemShortcutText.IsDefault;
+
         #endregion
 
         #region ItemSplit
@@ -170,10 +164,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble ItemSplit { get; }
 
-        private bool ShouldSerializeItemSplit()
-        {
-            return !ItemSplit.IsDefault;
-        }
+        private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
+
         #endregion
 
         #region ItemTextAlternate
@@ -186,10 +178,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustText ItemTextAlternate { get; }
 
-        private bool ShouldSerializeItemTextAlternate()
-        {
-            return !ItemTextAlternate.IsDefault;
-        }
+        private bool ShouldSerializeItemTextAlternate() => !ItemTextAlternate.IsDefault;
+
         #endregion
 
         #region ItemTextStandard
@@ -202,10 +192,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentJustText ItemTextStandard { get; }
 
-        private bool ShouldSerializeItemTextStandard()
-        {
-            return !ItemTextStandard.IsDefault;
-        }
+        private bool ShouldSerializeItemTextStandard() => !ItemTextStandard.IsDefault;
+
         #endregion
     }
 }

@@ -58,11 +58,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupsBorder:" + Id;
-        }
+            "ViewDrawRibbonGroupsBorder:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -97,18 +95,13 @@ namespace Krypton.Ribbon
                     return Padding.Empty;
                 }
 
-                switch (Ribbon.RibbonShape)
+                return Ribbon.RibbonShape switch
                 {
-                    default:
-                    case PaletteRibbonShape.Office2007:
-                        return _borderPadding2007;
-                    case PaletteRibbonShape.Office2010:
-                        return _borderPadding2010;
-                    case PaletteRibbonShape.Office2013:
-                        return _borderPadding2013;
-                    case PaletteRibbonShape.Office365:
-                        return _borderPadding365;
-                }
+                    PaletteRibbonShape.Office2010 => _borderPadding2010,
+                    PaletteRibbonShape.Office2013 => _borderPadding2013,
+                    PaletteRibbonShape.Office365 => _borderPadding365,
+                    _ => _borderPadding2007
+                };
             }
         }
         #endregion
@@ -212,10 +205,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
-        {
-            return _inherit.GetRibbonBackColorStyle(state);
-        }
+        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inherit.GetRibbonBackColorStyle(state);
 
         /// <summary>
         /// Gets the first background color for the ribbon item.

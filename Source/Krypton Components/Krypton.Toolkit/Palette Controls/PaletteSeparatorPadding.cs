@@ -122,11 +122,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public int GetMetricInt(PaletteState state, PaletteMetricInt metric)
-        {
+        public int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            return _inherit.GetMetricInt(state, metric);
-        }
+            _inherit.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -134,11 +132,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
-        {
+        public InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Pass onto the inheritance
-            return _inherit.GetMetricBool(state, metric);
-        }
+            _inherit.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.

@@ -776,6 +776,8 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PendantRestore:
                 case PaletteButtonSpecStyle.FormRestore:
                     return "Restore";
+                case PaletteButtonSpecStyle.FormHelp:
+                    return "Help";
                 case PaletteButtonSpecStyle.RibbonMinimize:
                     return "Minimize";
                 case PaletteButtonSpecStyle.RibbonExpand:
@@ -1114,64 +1116,44 @@ namespace Krypton.Toolkit
         /// Gets the background color for a solid drag drop area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropSolidBack()
-        {
-            return SystemColors.ActiveCaption;
-        }
+        public virtual Color GetDragDropSolidBack() => SystemColors.ActiveCaption;
 
         /// <summary>
         /// Gets the border color for a solid drag drop area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropSolidBorder()
-        {
-            return SystemColors.Control;
-        }
+        public virtual Color GetDragDropSolidBorder() => SystemColors.Control;
 
         /// <summary>
         /// Gets the opacity of the solid area.
         /// </summary>
         /// <returns>Opacity ranging from 0 to 1.</returns>
-        public virtual float GetDragDropSolidOpacity()
-        {
-            return 0.37f;
-        }
+        public virtual float GetDragDropSolidOpacity() => 0.37f;
 
         /// <summary>
         /// Gets the background color for the docking indicators area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropDockBack()
-        {
-            return Color.FromArgb(228, 228, 228);
-        }
+        public virtual Color GetDragDropDockBack() => Color.FromArgb(228, 228, 228);
 
         /// <summary>
         /// Gets the border color for the docking indicators area.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropDockBorder()
-        {
-            return Color.FromArgb(181, 181, 181);
-        }
+        public virtual Color GetDragDropDockBorder() => Color.FromArgb(181, 181, 181);
 
         /// <summary>
         /// Gets the active color for docking indicators.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropDockActive()
-        {
-            return SystemColors.ActiveCaption;
-        }
+        public virtual Color GetDragDropDockActive() => SystemColors.ActiveCaption;
 
         /// <summary>
         /// Gets the inactive color for docking indicators.
         /// </summary>
         /// <returns>Color value.</returns>
-        public virtual Color GetDragDropDockInactive()
-        {
-            return SystemColors.InactiveCaption;
-        }
+        public virtual Color GetDragDropDockInactive() => SystemColors.InactiveCaption;
+
         #endregion
 
         #region Public
@@ -1232,10 +1214,8 @@ namespace Krypton.Toolkit
         /// <param name="percent2">Percentage of second color to use.</param>
         /// <returns>Merged color.</returns>
         public static Color MergeColors(Color color1, float percent1,
-                                        Color color2, float percent2)
-        {
-            return CommonHelper.MergeColors(color1, percent1, color2, percent2);
-        }
+                                        Color color2, float percent2) =>
+            CommonHelper.MergeColors(color1, percent1, color2, percent2);
 
         /// <summary>
         /// Merge three colors together using relative percentages.
@@ -1249,12 +1229,10 @@ namespace Krypton.Toolkit
         /// <returns>Merged color.</returns>
         public static Color MergeColors(Color color1, float percent1,
                                         Color color2, float percent2,
-                                        Color color3, float percent3)
-        {
-            return CommonHelper.MergeColors(color1, percent1,
-                                            color2, percent2,
-                                            color3, percent3);
-        }
+                                        Color color3, float percent3) =>
+            CommonHelper.MergeColors(color1, percent1,
+                color2, percent2,
+                color3, percent3);
 
         /// <summary>
         /// Create a faded version of provided color.
@@ -1336,10 +1314,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region OnUserPreferenceChanged
-        internal void UserPreferenceChanged()
-        {
-            OnUserPreferenceChanged(this, new UserPreferenceChangedEventArgs(UserPreferenceCategory.General));
-        }
+        internal void UserPreferenceChanged() => OnUserPreferenceChanged(this, new UserPreferenceChangedEventArgs(UserPreferenceCategory.General));
 
         /// <summary>
         /// Handle a change in the user preferences.
@@ -1359,10 +1334,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An PaletteLayoutEventArgs containing event data.</param>
-        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
-        {
-            PalettePaint?.Invoke(this, e);
-        }
+        protected virtual void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => PalettePaint?.Invoke(this, e);
+
         #endregion
 
         #region OnAllowFormChromeChanged
@@ -1371,10 +1344,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e)
-        {
-            AllowFormChromeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e) => AllowFormChromeChanged?.Invoke(this, e);
+
         #endregion
 
         #region OnBasePaletteChanged
@@ -1383,10 +1354,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBasePaletteChanged(object sender, EventArgs e)
-        {
-            BasePaletteChanged?.Invoke(this, e);
-        }
+        protected virtual void OnBasePaletteChanged(object sender, EventArgs e) => BasePaletteChanged?.Invoke(this, e);
+
         #endregion
 
         #region OnBaseRendererChanged
@@ -1395,10 +1364,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnBaseRendererChanged(object sender, EventArgs e)
-        {
-            BaseRendererChanged?.Invoke(this, e);
-        }
+        protected virtual void OnBaseRendererChanged(object sender, EventArgs e) => BaseRendererChanged?.Invoke(this, e);
+
         #endregion
 
         #region OnButtonSpecChanged
@@ -1407,10 +1374,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e)
-        {
-            ButtonSpecChanged?.Invoke(this, e);
-        }
+        protected virtual void OnButtonSpecChanged(object sender, EventArgs e) => ButtonSpecChanged?.Invoke(this, e);
+
         #endregion
     }
 }

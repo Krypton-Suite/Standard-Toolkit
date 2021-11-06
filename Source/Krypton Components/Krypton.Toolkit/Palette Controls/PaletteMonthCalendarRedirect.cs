@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteMonthCalendarRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection for bread crumb level.</param>
+        /// <param name="redirect">inheritance redirection for bread crumb level.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteMonthCalendarRedirect(PaletteRedirect redirect,
                                             NeedPaintHandler needPaint)
@@ -94,10 +94,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Header { get; }
 
-        private bool ShouldSerializeHeader()
-        {
-            return !Header.IsDefault;
-        }
+        private bool ShouldSerializeHeader() => !Header.IsDefault;
+
         #endregion
 
         #region Day
@@ -109,10 +107,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Day { get; }
 
-        private bool ShouldSerializeDay()
-        {
-            return !Day.IsDefault;
-        }
+        private bool ShouldSerializeDay() => !Day.IsDefault;
+
         #endregion
 
         #region DayOfWeek
@@ -124,10 +120,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect DayOfWeek { get; }
 
-        private bool ShouldSerializeDayOfWeek()
-        {
-            return !DayOfWeek.IsDefault;
-        }
+        private bool ShouldSerializeDayOfWeek() => !DayOfWeek.IsDefault;
+
         #endregion
     }
 }

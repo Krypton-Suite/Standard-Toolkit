@@ -156,27 +156,25 @@ namespace Krypton.Toolkit
             text = text.Replace("\t", "    ");
 
             // Perform actual measure of the text
-            using (GraphicsTextHint graphicsHint = new(g, hint))
+            using GraphicsTextHint graphicsHint = new(g, hint);
+            SizeF textSize = Size.Empty;
+
+            try
             {
-                SizeF textSize = Size.Empty;
+                textSize = g.MeasureString(text, font, int.MaxValue, format);
 
-                try
+                if (composition && glowing) //Seb
                 {
-                    textSize = g.MeasureString(text, font, int.MaxValue, format);
-
-                    if (composition && glowing) //Seb
-                    {
-                        textSize.Width += GLOW_EXTRA_WIDTH;
-                    }
+                    textSize.Width += GLOW_EXTRA_WIDTH;
                 }
-                catch
-                {
-                    // ignored
-                }
-
-                // Return a memento with drawing details
-                return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
             }
+            catch
+            {
+                // ignored
+            }
+
+            // Return a memento with drawing details
+            return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
         }
 
         /// <summary>
@@ -663,83 +661,69 @@ namespace Krypton.Toolkit
 
             // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
 
-            switch (sf.Alignment)
+            flags = sf.Alignment switch
             {
                 // Horizontal Alignment
-                case StringAlignment.Center:
-                    flags = flags & TextFormatFlags.HorizontalCenter;
-                    break;
-                case StringAlignment.Far:
-                    flags = flags & TextFormatFlags.Right;
-                    break;
-                default:
-                    flags = flags & TextFormatFlags.Left;
-                    break;
-            }
-
-            switch (sf.LineAlignment)
+                StringAlignment.Center => flags & TextFormatFlags.HorizontalCenter,
+                StringAlignment.Far => flags & TextFormatFlags.Right,
+                _ => flags & TextFormatFlags.Left
+            };
+            flags = sf.LineAlignment switch
             {
                 // Vertical Alignment
-                case StringAlignment.Far:
-                    flags = flags & TextFormatFlags.Bottom;
-                    break;
-                case StringAlignment.Center:
-                    flags = flags & TextFormatFlags.VerticalCenter;
-                    break;
-                default:
-                    flags = flags & TextFormatFlags.Top;
-                    break;
-            }
-
+                StringAlignment.Far => flags & TextFormatFlags.Bottom,
+                StringAlignment.Center => flags & TextFormatFlags.VerticalCenter,
+                _ => flags & TextFormatFlags.Top
+            };
             switch (sf.Trimming)
             {
                 // Ellipsis
                 case StringTrimming.EllipsisCharacter:
-                    flags = flags & TextFormatFlags.EndEllipsis;
+                    flags &= TextFormatFlags.EndEllipsis;
                     break;
                 case StringTrimming.EllipsisPath:
-                    flags = flags & TextFormatFlags.PathEllipsis;
+                    flags &= TextFormatFlags.PathEllipsis;
                     break;
                 case StringTrimming.EllipsisWord:
-                    flags = flags & TextFormatFlags.WordEllipsis;
+                    flags &= TextFormatFlags.WordEllipsis;
                     break;
             }
 
             // Hotkey Prefix
             if (sf.HotkeyPrefix == HotkeyPrefix.None)
             {
-                flags = flags & TextFormatFlags.NoPrefix;
+                flags &= TextFormatFlags.NoPrefix;
             }
             else if (sf.HotkeyPrefix == HotkeyPrefix.Hide)
             {
-                flags = flags & TextFormatFlags.HidePrefix;
+                flags &= TextFormatFlags.HidePrefix;
             }
 
             // Text Padding
             if (sf.FormatFlags == StringFormatFlags.FitBlackBox)
             {
-                flags = flags & TextFormatFlags.NoPadding;
+                flags &= TextFormatFlags.NoPadding;
             }
 
             // Text Wrapping
             if (sf.FormatFlags == StringFormatFlags.NoWrap)
             {
-                flags = flags & TextFormatFlags.SingleLine;
+                flags &= TextFormatFlags.SingleLine;
             }
             else if (sf.FormatFlags == StringFormatFlags.LineLimit)
             {
-                flags = flags & TextFormatFlags.TextBoxControl;
+                flags &= TextFormatFlags.TextBoxControl;
             }
 
             // Other Flags
             if (sf.FormatFlags == StringFormatFlags.DirectionRightToLeft)
             {
-                flags = flags & TextFormatFlags.RightToLeft;
+                flags &= TextFormatFlags.RightToLeft;
             }
 
             if (sf.FormatFlags == StringFormatFlags.NoClip)
             {
-                flags = flags & TextFormatFlags.NoClipping;
+                flags &= TextFormatFlags.NoClipping;
             }
 
             return flags;

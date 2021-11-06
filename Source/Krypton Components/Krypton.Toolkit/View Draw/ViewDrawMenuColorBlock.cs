@@ -62,11 +62,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMenuColorBlock:" + Id;
-        }
+            "ViewDrawMenuColorBlock:" + Id;
+
         #endregion
         
         #region ItemEnabled
@@ -98,10 +97,8 @@ namespace Krypton.Toolkit
         /// Raises the Closing event on the provider.
         /// </summary>
         /// <param name="cea">A CancelEventArgs containing the event data.</param>
-        public void Closing(CancelEventArgs cea)
-        {
-            _provider.OnClosing(cea);
-        }
+        public void Closing(CancelEventArgs cea) => _provider.OnClosing(cea);
+
         #endregion
 
         #region Close
@@ -109,10 +106,8 @@ namespace Krypton.Toolkit
         /// Raises the Close event on the provider.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        public void Close(CloseReasonEventArgs e)
-        {
-            _provider.OnClose(e);
-        }
+        public void Close(CloseReasonEventArgs e) => _provider.OnClose(e);
+
         #endregion
 
         #region Color
@@ -196,10 +191,8 @@ namespace Krypton.Toolkit
             }
 
             // Draw ourself in the designated color
-            using (SolidBrush brush = new(Color))
-            {
-                context.Graphics.FillRectangle(brush, drawRect);
-            }
+            using SolidBrush brush = new(Color);
+            context.Graphics.FillRectangle(brush, drawRect);
         }
 
         /// <summary>
@@ -251,12 +244,10 @@ namespace Krypton.Toolkit
             if (!outside.IsEmpty && !inside.IsEmpty)
             {
                 // Draw the outside and inside areas of the block
-                using (Pen outsidePen = new(outside),
-                           insidePen = new(inside))
-                {
-                    context.Graphics.DrawRectangle(outsidePen, ClientLocation.X, ClientLocation.Y, ClientWidth - 1, ClientHeight - 1);
-                    context.Graphics.DrawRectangle(insidePen, ClientLocation.X + 1, ClientLocation.Y + 1, ClientWidth - 3, ClientHeight - 3);
-                }
+                using Pen outsidePen = new(outside),
+                    insidePen = new(inside);
+                context.Graphics.DrawRectangle(outsidePen, ClientLocation.X, ClientLocation.Y, ClientWidth - 1, ClientHeight - 1);
+                context.Graphics.DrawRectangle(insidePen, ClientLocation.X + 1, ClientLocation.Y + 1, ClientWidth - 3, ClientHeight - 3);
             }
         }
         #endregion

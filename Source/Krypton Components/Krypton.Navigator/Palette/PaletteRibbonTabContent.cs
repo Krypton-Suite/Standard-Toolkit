@@ -72,7 +72,7 @@ namespace Krypton.Navigator
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public void SetInherit(IPaletteRibbonBack paletteBack,
                                IPaletteRibbonText paletteText,
@@ -92,10 +92,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonDouble TabDraw => _paletteTabDraw;
 
-        private bool ShouldSerializeTabDraw()
-        {
-            return !_paletteTabDraw.IsDefault;
-        }
+        private bool ShouldSerializeTabDraw() => !_paletteTabDraw.IsDefault;
+
         #endregion
 
         #region Content
@@ -107,10 +105,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavContent Content => _paletteContent;
 
-        private bool ShouldSerializeContent()
-        {
-            return !_paletteContent.IsDefault;
-        }
+        private bool ShouldSerializeContent() => !_paletteContent.IsDefault;
+
         #endregion
     }
 }

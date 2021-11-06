@@ -104,11 +104,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button location.</returns>
-        public override HeaderLocation GetLocation(IPalette palette)
-        {
+        public override HeaderLocation GetLocation(IPalette palette) =>
             // Ask the view builder to recover the correct location
-            return Navigator.ViewBuilder.GetFixedButtonLocation(this);
-        }
+            Navigator.ViewBuilder.GetFixedButtonLocation(this);
+
         #endregion
 
         #region Navigator

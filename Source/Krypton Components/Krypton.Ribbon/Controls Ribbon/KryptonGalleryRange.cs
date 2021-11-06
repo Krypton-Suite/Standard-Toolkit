@@ -69,7 +69,7 @@ namespace Krypton.Ribbon
                 if (value != _heading)
                 {
                     _heading = value;
-                    OnPropertyChanged("Heading");
+                    OnPropertyChanged(nameof(Heading));
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace Krypton.Ribbon
                 if (_imageIndexStart != value)
                 {
                     _imageIndexStart = value;
-                    OnPropertyChanged("ImageIndexStart");
+                    OnPropertyChanged(nameof(ImageIndexStart));
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
                 if (_imageIndexEnd != value)
                 {
                     _imageIndexEnd = value;
-                    OnPropertyChanged("ImageIndexEnd");
+                    OnPropertyChanged(nameof(ImageIndexEnd));
                 }
             }
         }

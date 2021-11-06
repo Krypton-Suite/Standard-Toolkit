@@ -31,10 +31,9 @@ namespace Krypton.Navigator
         public DirectionActionEventArgs(KryptonPage page, 
                                         int index,
                                         DirectionButtonAction action)
-            : base(page, index)
-        {
+            : base(page, index) =>
             Action = action;
-        }
+
         #endregion
 
         #region Action

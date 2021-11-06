@@ -78,10 +78,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeEnableBlur()
-        {
-            return EnableBlur;
-        }
+        private bool ShouldSerializeEnableBlur() => EnableBlur;
 
         /// <summary>
         /// </summary>
@@ -108,10 +105,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeRadius()
-        {
-            return _radius != _radiusDefault;
-        }
+        private bool ShouldSerializeRadius() => _radius != _radiusDefault;
 
         /// <summary>
         /// </summary>
@@ -140,10 +134,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeOpacity()
-        {
-            return Math.Abs(_opacity - _opacityDefault) > 0.001;
-        }
+        private bool ShouldSerializeOpacity() => Math.Abs(_opacity - _opacityDefault) > 0.001;
 
         /// <summary>
         /// </summary>
@@ -168,10 +159,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBlurWhenFocusLost()
-        {
-            return BlurWhenFocusLost;
-        }
+        private bool ShouldSerializeBlurWhenFocusLost() => BlurWhenFocusLost;
 
         /// <summary>
         /// </summary>

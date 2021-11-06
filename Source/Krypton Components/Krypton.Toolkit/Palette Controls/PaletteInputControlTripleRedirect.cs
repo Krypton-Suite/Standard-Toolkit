@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteInputControlTripleRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
@@ -161,10 +161,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlBackStates Back { get; }
 
-        private bool ShouldSerializeBack()
-        {
-            return !Back.IsDefault;
-        }
+        private bool ShouldSerializeBack() => !Back.IsDefault;
 
         /// <summary>
         /// Gets the background palette.
@@ -197,10 +194,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorder Border { get; }
 
-        private bool ShouldSerializeBorder()
-        {
-            return !Border.IsDefault;
-        }
+        private bool ShouldSerializeBorder() => !Border.IsDefault;
 
         /// <summary>
         /// Gets the border palette.
@@ -233,10 +227,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlContentStates Content { get; }
 
-        private bool ShouldSerializeContent()
-        {
-            return !Content.IsDefault;
-        }
+        private bool ShouldSerializeContent() => !Content.IsDefault;
 
         /// <summary>
         /// Gets the content palette.
@@ -266,10 +257,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public int GetMetricInt(PaletteState state, PaletteMetricInt metric)
-        {
-            return _metricRedirect.GetMetricInt(state, metric);
-        }
+        public int GetMetricInt(PaletteState state, PaletteMetricInt metric) => _metricRedirect.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -277,10 +265,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
-        {
-            return _metricRedirect.GetMetricBool(state, metric);
-        }
+        public InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) => _metricRedirect.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -288,10 +273,8 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
-        {
-            return _metricRedirect.GetMetricPadding(state, metric);
-        }
+        public Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric) => _metricRedirect.GetMetricPadding(state, metric);
+
         #endregion
 
         #region Protected
@@ -300,11 +283,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout)
-        {
+        protected void OnNeedPaint(object sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
-        }
+
         #endregion
     }
 }

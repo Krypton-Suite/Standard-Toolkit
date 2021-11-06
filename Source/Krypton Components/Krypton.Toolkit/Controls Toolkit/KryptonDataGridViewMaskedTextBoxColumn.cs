@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewMaskedTextBoxCell cells.
     /// </summary>
-    [Designer(typeof(KryptonMaskedTextBoxColumnDesigner))]
+    [Designer("Krypton.Toolkit.KryptonMaskedTextBoxColumnDesigner, Krypton.Toolkit")]
     [ToolboxBitmap(typeof(KryptonDataGridViewMaskedTextBoxColumn), "ToolboxBitmaps.KryptonMaskedTextBox.bmp")]
     public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconColumn
     {
@@ -36,10 +36,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonDataGridViewMaskedTextBoxColumn class.
         /// </summary>
         public KryptonDataGridViewMaskedTextBoxColumn()
-            : base(new KryptonDataGridViewMaskedTextBoxCell())
-        {
+            : base(new KryptonDataGridViewMaskedTextBoxCell()) =>
             ButtonSpecs = new DataGridViewColumnSpecCollection(this);
-        }
 
         /// <summary>
         /// Returns a standard compact string representation of the column.

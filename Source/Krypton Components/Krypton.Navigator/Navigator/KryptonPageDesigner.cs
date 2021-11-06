@@ -70,11 +70,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="parentDesigner">The IDesigner that manages the control to check.</param>
         /// <returns>true if the control managed by the specified designer can parent the control managed by this designer; otherwise, false.</returns>
-        public override bool CanBeParentedTo(IDesigner parentDesigner)
-        {
+        public override bool CanBeParentedTo(IDesigner parentDesigner) =>
             // Can only place a KrytonPage in the KryptonNavigator
-            return parentDesigner?.Component is KryptonNavigator;
-        }
+            parentDesigner?.Component is KryptonNavigator;
 
         /// <summary>
         /// Gets the collection of components associated with the component managed by the designer.
@@ -250,24 +248,22 @@ namespace Krypton.Navigator
         private void DrawBorder(Graphics graphics)
         {
             // Create a pen for drawing
-            using (Pen borderPen = new(SystemColors.ControlDarkDark))
-            {
-                // Always draw the border dashed
-                borderPen.DashStyle = DashStyle.Dash;
+            using Pen borderPen = new(SystemColors.ControlDarkDark);
+            // Always draw the border dashed
+            borderPen.DashStyle = DashStyle.Dash;
 
-                // Get the client rectangle
-                Rectangle clientRect = Control.ClientRectangle;
+            // Get the client rectangle
+            Rectangle clientRect = Control.ClientRectangle;
 
-                // Reduce by 1 in width and height
-                clientRect.Width--;
-                clientRect.Height--;
+            // Reduce by 1 in width and height
+            clientRect.Width--;
+            clientRect.Height--;
 
-                // Reduce so border is clearly inside the edge of the page
-                clientRect.Inflate(-1, -1);
+            // Reduce so border is clearly inside the edge of the page
+            clientRect.Inflate(-1, -1);
 
-                // Perform actual draw
-                graphics.DrawRectangle(borderPen, clientRect);
-            }
+            // Perform actual draw
+            graphics.DrawRectangle(borderPen, clientRect);
         }
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)

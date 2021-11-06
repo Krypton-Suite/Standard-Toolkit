@@ -35,7 +35,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteBarRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteBarRedirect(PaletteRedirect redirect,
                                   NeedPaintHandler needPaint)
@@ -407,11 +407,9 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
-        {
+        public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Always pass onto the inheritance
-            return _redirect.GetMetricBool(state, metric);
-        }
+            _redirect.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.

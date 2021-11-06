@@ -65,10 +65,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button pressed down.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
-        {
-            return false;
-        }
+        public virtual bool MouseDown(Control c, Point pt, MouseButtons button) => false;
 
         /// <summary>
         /// Mouse button has been released in the view.

@@ -46,130 +46,91 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetContentDraw(PaletteState state)
-        {
-            return _inherit.GetContentDraw(state);
-        }
+        public override InheritBool GetContentDraw(PaletteState state) => _inherit.GetContentDraw(state);
 
         /// <summary>
         /// Gets a value indicating if content should be drawn with focus indication.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetContentDrawFocus(PaletteState state)
-        {
-            return _inherit.GetContentDrawFocus(state);
-        }
+        public override InheritBool GetContentDrawFocus(PaletteState state) => _inherit.GetContentDrawFocus(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of the image.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentImageH(PaletteState state)
-        {
-            return _inherit.GetContentImageH(state);
-        }
+        public override PaletteRelativeAlign GetContentImageH(PaletteState state) => _inherit.GetContentImageH(state);
 
         /// <summary>
         /// Gets the vertical relative alignment of the image.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentImageV(PaletteState state)
-        {
-            return _inherit.GetContentImageV(state);
-        }
+        public override PaletteRelativeAlign GetContentImageV(PaletteState state) => _inherit.GetContentImageV(state);
 
         /// <summary>
         /// Gets the effect applied to drawing of the image.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteImageEffect value.</returns>
-        public override PaletteImageEffect GetContentImageEffect(PaletteState state)
-        {
-            return _inherit.GetContentImageEffect(state);
-        }
+        public override PaletteImageEffect GetContentImageEffect(PaletteState state) => _inherit.GetContentImageEffect(state);
 
         /// <summary>
         /// Gets the image color to remap into another color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentImageColorMap(PaletteState state)
-        {
-            return _inherit.GetContentImageColorMap(state);
-        }
+        public override Color GetContentImageColorMap(PaletteState state) => _inherit.GetContentImageColorMap(state);
 
         /// <summary>
         /// Gets the color to use in place of the image map color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentImageColorTo(PaletteState state)
-        {
-            return _inherit.GetContentImageColorTo(state);
-        }
+        public override Color GetContentImageColorTo(PaletteState state) => _inherit.GetContentImageColorTo(state);
 
         /// <summary>
         /// Gets the font for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state)
-        {
-            return _cellStyle != null ? _cellStyle.Font : SystemFonts.DefaultFont;
-        }
+        public override Font GetContentShortTextFont(PaletteState state) => _cellStyle != null ? _cellStyle.Font : SystemFonts.DefaultFont;
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteState state)
-        {
-            return _cellStyle != null ? _cellStyle.Font : SystemFonts.DefaultFont;
-        }
+        public override Font GetContentShortTextNewFont(PaletteState state) => _cellStyle != null ? _cellStyle.Font : SystemFonts.DefaultFont;
 
         /// <summary>
         /// Gets the rendering hint for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
-        public override PaletteTextHint GetContentShortTextHint(PaletteState state)
-        {
-            return _inherit.GetContentShortTextHint(state);
-        }
+        public override PaletteTextHint GetContentShortTextHint(PaletteState state) => _inherit.GetContentShortTextHint(state);
 
         /// <summary>
         /// Gets the prefix drawing setting for short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
-        public override PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteState state)
-        {
-            return _inherit.GetContentShortTextPrefix(state);
-        }
-        
+        public override PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteState state) => _inherit.GetContentShortTextPrefix(state);
+
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetContentShortTextMultiLine(PaletteState state)
-        {
-            return _inherit.GetContentShortTextMultiLine(state);
-        }
+        public override InheritBool GetContentShortTextMultiLine(PaletteState state) => _inherit.GetContentShortTextMultiLine(state);
 
         /// <summary>
         /// Gets the text trimming to use for short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public override PaletteTextTrim GetContentShortTextTrim(PaletteState state)
-        {
-            return _inherit.GetContentShortTextTrim(state);
-        }
+        public override PaletteTextTrim GetContentShortTextTrim(PaletteState state) => _inherit.GetContentShortTextTrim(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of the short text.
@@ -178,24 +139,13 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextH(PaletteState state)
         {
-            switch (_cellStyle.Alignment)
+            return _cellStyle.Alignment switch
             {
-                case DataGridViewContentAlignment.TopLeft:
-                case DataGridViewContentAlignment.MiddleLeft:
-                case DataGridViewContentAlignment.BottomLeft:
-                    return PaletteRelativeAlign.Near;
-                case DataGridViewContentAlignment.TopCenter:
-                case DataGridViewContentAlignment.MiddleCenter:
-                case DataGridViewContentAlignment.BottomCenter:
-                    return PaletteRelativeAlign.Center;
-                case DataGridViewContentAlignment.TopRight:
-                case DataGridViewContentAlignment.MiddleRight:
-                case DataGridViewContentAlignment.BottomRight:
-                    return PaletteRelativeAlign.Far;
-                case DataGridViewContentAlignment.NotSet:
-                default:
-                    return _inherit.GetContentShortTextH(state);
-            }
+                DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
+                DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
+                DataGridViewContentAlignment.TopRight or DataGridViewContentAlignment.MiddleRight or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
+                _ => _inherit.GetContentShortTextH(state)
+            };
         }
 
         /// <summary>
@@ -205,24 +155,13 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextV(PaletteState state)
         {
-            switch(_cellStyle.Alignment)
+            return _cellStyle.Alignment switch
             {
-                case DataGridViewContentAlignment.TopCenter:
-                case DataGridViewContentAlignment.TopLeft:
-                case DataGridViewContentAlignment.TopRight:
-                    return PaletteRelativeAlign.Near;
-                case DataGridViewContentAlignment.MiddleCenter:
-                case DataGridViewContentAlignment.MiddleLeft:
-                case DataGridViewContentAlignment.MiddleRight:
-                    return PaletteRelativeAlign.Center;
-                case DataGridViewContentAlignment.BottomCenter:
-                case DataGridViewContentAlignment.BottomLeft:
-                case DataGridViewContentAlignment.BottomRight:
-                    return PaletteRelativeAlign.Far;
-                case DataGridViewContentAlignment.NotSet:
-                default:
-                    return _inherit.GetContentShortTextV(state);
-            }
+                DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.TopRight => PaletteRelativeAlign.Near,
+                DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.MiddleRight => PaletteRelativeAlign.Center,
+                DataGridViewContentAlignment.BottomCenter or DataGridViewContentAlignment.BottomLeft or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
+                _ => _inherit.GetContentShortTextV(state)
+            };
         }
 
         /// <summary>
@@ -230,10 +169,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteState state)
-        {
-            return _inherit.GetContentShortTextMultiLineH(state);
-        }
+        public override PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteState state) => _inherit.GetContentShortTextMultiLineH(state);
 
         /// <summary>
         /// Gets the first back color for the short text.
@@ -242,15 +178,12 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetContentShortTextColor1(PaletteState state)
         {
-            switch(state)
+            return state switch
             {
-                case PaletteState.Normal:
-                    return _cellStyle.ForeColor;
-                case PaletteState.CheckedNormal:
-                    return _cellStyle.SelectionForeColor;
-            }
-
-            return _inherit.GetContentShortTextColor1(state);
+                PaletteState.Normal => _cellStyle.ForeColor,
+                PaletteState.CheckedNormal => _cellStyle.SelectionForeColor,
+                _ => _inherit.GetContentShortTextColor1(state)
+            };
         }
 
         /// <summary>
@@ -258,130 +191,91 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor2(PaletteState state)
-        {
-            return _inherit.GetContentShortTextColor2(state);
-        }
+        public override Color GetContentShortTextColor2(PaletteState state) => _inherit.GetContentShortTextColor2(state);
 
         /// <summary>
         /// Gets the color drawing style for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public override PaletteColorStyle GetContentShortTextColorStyle(PaletteState state)
-        {
-            return _inherit.GetContentShortTextColorStyle(state);
-        }
+        public override PaletteColorStyle GetContentShortTextColorStyle(PaletteState state) => _inherit.GetContentShortTextColorStyle(state);
 
         /// <summary>
         /// Gets the color alignment for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public override PaletteRectangleAlign GetContentShortTextColorAlign(PaletteState state)
-        {
-            return _inherit.GetContentShortTextColorAlign(state);
-        }
+        public override PaletteRectangleAlign GetContentShortTextColorAlign(PaletteState state) => _inherit.GetContentShortTextColorAlign(state);
 
         /// <summary>
         /// Gets the color background angle for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public override float GetContentShortTextColorAngle(PaletteState state)
-        {
-            return _inherit.GetContentShortTextColorAngle(state);
-        }
+        public override float GetContentShortTextColorAngle(PaletteState state) => _inherit.GetContentShortTextColorAngle(state);
 
         /// <summary>
         /// Gets a background image for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteState state)
-        {
-            return _inherit.GetContentShortTextImage(state);
-        }
+        public override Image GetContentShortTextImage(PaletteState state) => _inherit.GetContentShortTextImage(state);
 
         /// <summary>
         /// Gets the background image style.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public override PaletteImageStyle GetContentShortTextImageStyle(PaletteState state)
-        {
-            return _inherit.GetContentShortTextImageStyle(state);
-        }
+        public override PaletteImageStyle GetContentShortTextImageStyle(PaletteState state) => _inherit.GetContentShortTextImageStyle(state);
 
         /// <summary>
         /// Gets the image alignment for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public override PaletteRectangleAlign GetContentShortTextImageAlign(PaletteState state)
-        {
-            return _inherit.GetContentShortTextImageAlign(state);
-        }
+        public override PaletteRectangleAlign GetContentShortTextImageAlign(PaletteState state) => _inherit.GetContentShortTextImageAlign(state);
 
         /// <summary>
         /// Gets the font for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state)
-        {
-            return _cellStyle.Font;
-        }
+        public override Font GetContentLongTextFont(PaletteState state) => _cellStyle.Font;
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteState state)
-        {
-            return _cellStyle.Font;
-        }
+        public override Font GetContentLongTextNewFont(PaletteState state) => _cellStyle.Font;
 
         /// <summary>
         /// Gets the rendering hint for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextHint value.</returns>
-        public override PaletteTextHint GetContentLongTextHint(PaletteState state)
-        {
-            return _inherit.GetContentLongTextHint(state);
-        }
+        public override PaletteTextHint GetContentLongTextHint(PaletteState state) => _inherit.GetContentLongTextHint(state);
 
         /// <summary>
         /// Gets the prefix drawing setting for long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextPrefix value.</returns>
-        public override PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteState state)
-        {
-            return _inherit.GetContentLongTextPrefix(state);
-        }
-        
+        public override PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteState state) => _inherit.GetContentLongTextPrefix(state);
+
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetContentLongTextMultiLine(PaletteState state)
-        {
-            return _inherit.GetContentLongTextMultiLine(state);
-        }
+        public override InheritBool GetContentLongTextMultiLine(PaletteState state) => _inherit.GetContentLongTextMultiLine(state);
 
         /// <summary>
         /// Gets the text trimming to use for long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public override PaletteTextTrim GetContentLongTextTrim(PaletteState state)
-        {
-            return _inherit.GetContentLongTextTrim(state);
-        }
+        public override PaletteTextTrim GetContentLongTextTrim(PaletteState state) => _inherit.GetContentLongTextTrim(state);
 
         /// <summary>
         /// Gets the horizontal relative alignment of the long text.
@@ -390,24 +284,13 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentLongTextH(PaletteState state)
         {
-            switch (_cellStyle.Alignment)
+            return _cellStyle.Alignment switch
             {
-                case DataGridViewContentAlignment.TopLeft:
-                case DataGridViewContentAlignment.MiddleLeft:
-                case DataGridViewContentAlignment.BottomLeft:
-                    return PaletteRelativeAlign.Near;
-                case DataGridViewContentAlignment.TopCenter:
-                case DataGridViewContentAlignment.MiddleCenter:
-                case DataGridViewContentAlignment.BottomCenter:
-                    return PaletteRelativeAlign.Center;
-                case DataGridViewContentAlignment.TopRight:
-                case DataGridViewContentAlignment.MiddleRight:
-                case DataGridViewContentAlignment.BottomRight:
-                    return PaletteRelativeAlign.Far;
-                case DataGridViewContentAlignment.NotSet:
-                default:
-                    return _inherit.GetContentLongTextH(state);
-            }
+                DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
+                DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
+                DataGridViewContentAlignment.TopRight or DataGridViewContentAlignment.MiddleRight or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
+                _ => _inherit.GetContentLongTextH(state)
+            };
         }
 
         /// <summary>
@@ -417,24 +300,13 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentLongTextV(PaletteState state)
         {
-            switch (_cellStyle.Alignment)
+            return _cellStyle.Alignment switch
             {
-                case DataGridViewContentAlignment.TopLeft:
-                case DataGridViewContentAlignment.MiddleLeft:
-                case DataGridViewContentAlignment.BottomLeft:
-                    return PaletteRelativeAlign.Near;
-                case DataGridViewContentAlignment.TopCenter:
-                case DataGridViewContentAlignment.MiddleCenter:
-                case DataGridViewContentAlignment.BottomCenter:
-                    return PaletteRelativeAlign.Center;
-                case DataGridViewContentAlignment.TopRight:
-                case DataGridViewContentAlignment.MiddleRight:
-                case DataGridViewContentAlignment.BottomRight:
-                    return PaletteRelativeAlign.Far;
-                case DataGridViewContentAlignment.NotSet:
-                default:
-                    return _inherit.GetContentLongTextV(state);
-            }
+                DataGridViewContentAlignment.TopLeft or DataGridViewContentAlignment.MiddleLeft or DataGridViewContentAlignment.BottomLeft => PaletteRelativeAlign.Near,
+                DataGridViewContentAlignment.TopCenter or DataGridViewContentAlignment.MiddleCenter or DataGridViewContentAlignment.BottomCenter => PaletteRelativeAlign.Center,
+                DataGridViewContentAlignment.TopRight or DataGridViewContentAlignment.MiddleRight or DataGridViewContentAlignment.BottomRight => PaletteRelativeAlign.Far,
+                _ => _inherit.GetContentLongTextV(state)
+            };
         }
 
         /// <summary>
@@ -442,119 +314,84 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentLongTextMultiLineH(PaletteState state)
-        {
-            return _inherit.GetContentLongTextMultiLineH(state);
-        }
+        public override PaletteRelativeAlign GetContentLongTextMultiLineH(PaletteState state) => _inherit.GetContentLongTextMultiLineH(state);
 
         /// <summary>
         /// Gets the first back color for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor1(PaletteState state)
-        {
-            return _inherit.GetContentLongTextColor1(state);
-        }
+        public override Color GetContentLongTextColor1(PaletteState state) => _inherit.GetContentLongTextColor1(state);
 
         /// <summary>
         /// Gets the second back color for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor2(PaletteState state)
-        {
-            return _inherit.GetContentLongTextColor2(state);
-        }
+        public override Color GetContentLongTextColor2(PaletteState state) => _inherit.GetContentLongTextColor2(state);
 
         /// <summary>
         /// Gets the color drawing style for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public override PaletteColorStyle GetContentLongTextColorStyle(PaletteState state)
-        {
-            return _inherit.GetContentLongTextColorStyle(state);
-        }
+        public override PaletteColorStyle GetContentLongTextColorStyle(PaletteState state) => _inherit.GetContentLongTextColorStyle(state);
 
         /// <summary>
         /// Gets the color alignment for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public override PaletteRectangleAlign GetContentLongTextColorAlign(PaletteState state)
-        {
-            return _inherit.GetContentLongTextColorAlign(state);
-        }
+        public override PaletteRectangleAlign GetContentLongTextColorAlign(PaletteState state) => _inherit.GetContentLongTextColorAlign(state);
 
         /// <summary>
         /// Gets the color background angle for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public override float GetContentLongTextColorAngle(PaletteState state)
-        {
-            return _inherit.GetContentLongTextColorAngle(state);
-        }
+        public override float GetContentLongTextColorAngle(PaletteState state) => _inherit.GetContentLongTextColorAngle(state);
 
         /// <summary>
         /// Gets a background image for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteState state)
-        {
-            return _inherit.GetContentLongTextImage(state);
-        }
+        public override Image GetContentLongTextImage(PaletteState state) => _inherit.GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the background image style for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public override PaletteImageStyle GetContentLongTextImageStyle(PaletteState state)
-        {
-            return _inherit.GetContentLongTextImageStyle(state);
-        }
+        public override PaletteImageStyle GetContentLongTextImageStyle(PaletteState state) => _inherit.GetContentLongTextImageStyle(state);
 
         /// <summary>
         /// Gets the image alignment for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public override PaletteRectangleAlign GetContentLongTextImageAlign(PaletteState state)
-        {
-            return _inherit.GetContentLongTextImageAlign(state);
-        }
+        public override PaletteRectangleAlign GetContentLongTextImageAlign(PaletteState state) => _inherit.GetContentLongTextImageAlign(state);
 
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetContentPadding(PaletteState state)
-        {
-            return _cellStyle.Padding;
-        }
+        public override Padding GetContentPadding(PaletteState state) => _cellStyle.Padding;
 
         /// <summary>
         /// Gets the padding between adjacent content items.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Integer value.</returns>
-        public override int GetContentAdjacentGap(PaletteState state)
-        {
-            return _inherit.GetContentAdjacentGap(state);
-        }
+        public override int GetContentAdjacentGap(PaletteState state) => _inherit.GetContentAdjacentGap(state);
 
         /// <summary>
         /// Gets the style appropriate for this content.
         /// </summary>
         /// <returns>Content style.</returns>
-        public override PaletteContentStyle GetContentStyle()
-        {
-            return _inherit.GetContentStyle();
-        }
+        public override PaletteContentStyle GetContentStyle() => _inherit.GetContentStyle();
+
         #endregion
     }
 }

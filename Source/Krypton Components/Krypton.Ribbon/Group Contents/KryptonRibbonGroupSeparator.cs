@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupSeparator), "ToolboxBitmaps.KryptonRibbonGroupSeparator.bmp")]
-    [Designer(typeof(KryptonRibbonGroupSeparatorDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupSeparatorDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -51,11 +51,10 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Initialise a new instance of the KryptonRibbonGroupSeparator class.
         /// </summary>
-        public KryptonRibbonGroupSeparator()
-        {
+        public KryptonRibbonGroupSeparator() =>
             // Default fields
             _visible = true;
-        }
+
         #endregion
 
         #region Public
@@ -78,7 +77,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -143,10 +142,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupSeparator(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupSeparator(ribbon, this, needPaint);
 
         /// <summary>
         /// Internal design time properties.
@@ -164,10 +161,8 @@ namespace Krypton.Ribbon
             DesignTimeContextMenu?.Invoke(this, e);
         }
 
-        internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            return false;
-        }
+        internal override bool ProcessCmdKey(ref Message msg, Keys keyData) => false;
+
         #endregion
 
         #region Protected

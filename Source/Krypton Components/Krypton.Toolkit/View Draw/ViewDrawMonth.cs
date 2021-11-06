@@ -159,11 +159,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMonth:" + Id;
-        }
+            "ViewDrawMonth:" + Id;
+
         #endregion
 
         #region Public
@@ -268,38 +267,27 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return null;
-        }
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return _header;
-        }
+        public string GetShortText() => _header;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
+
         #endregion
 
         #region Implementation
@@ -311,15 +299,10 @@ namespace Krypton.Toolkit
             _numberStack.Visible = showWeekNumbers;
         }
 
-        private void OnNextMonth(object sender, EventArgs e)
-        {
-            _months.NextMonth();
-        }
+        private void OnNextMonth(object sender, EventArgs e) => _months.NextMonth();
 
-        private void OnPrevMonth(object sender, EventArgs e)
-        {
-            _months.PrevMonth();
-        }
+        private void OnPrevMonth(object sender, EventArgs e) => _months.PrevMonth();
+
         #endregion
     }
 }

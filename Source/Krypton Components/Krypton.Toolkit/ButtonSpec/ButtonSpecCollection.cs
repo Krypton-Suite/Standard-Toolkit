@@ -86,10 +86,7 @@ namespace Krypton.Toolkit
         /// Raises the Inserted event.
         /// </summary>
         /// <param name="e">A NavButtonSpecEventArgs instance containing event data.</param>
-        protected void OnInserted(ButtonSpecEventArgs e)
-        {
-            Inserted?.Invoke(this, e);
-        }
+        protected void OnInserted(ButtonSpecEventArgs e) => Inserted?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Removing event.
@@ -105,10 +102,8 @@ namespace Krypton.Toolkit
         /// Raises the Removed event.
         /// </summary>
         /// <param name="e">A NavButtonSpecEventArgs instance containing event data.</param>
-        protected void OnRemoved(ButtonSpecEventArgs e)
-        {
-            Removed?.Invoke(this, e);
-        }
+        protected void OnRemoved(ButtonSpecEventArgs e) => Removed?.Invoke(this, e);
+
         #endregion
     }
 
@@ -133,20 +128,16 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="owner">Reference to owning object instance.</param>
         public ButtonSpecCollection(object owner)
-            : base(owner)
-        {
+            : base(owner) =>
             // Create internal storage
             _specs = new List<T>(6);
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
-            return Count + " Instances";
-        }
+        public override string ToString() => Count + " Instances";
+
         #endregion
 
         #region IList
@@ -181,33 +172,27 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>True if button spec found; otherwise false.</returns>
-        public bool Contains(object value)
-        {
+        public bool Contains(object value) =>
             // Use strongly typed implementation
-            return Contains(value as T);
-        }
+            Contains(value as T);
 
         /// <summary>
         /// Determines the index of the specified spec in the collection.
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf(object value)
-        {
+        public int IndexOf(object value) =>
             // Use strongly typed implementation
-            return IndexOf(value as T);
-        }
+            IndexOf(value as T);
 
         /// <summary>
         /// Inserts a button spec to the collection at the specified index.
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="value">Object reference.</param>
-        public void Insert(int index, object value)
-        {
+        public void Insert(int index, object value) =>
             // Use strongly typed implementation
             Insert(index, value as T);
-        }
 
         /// <summary>
         /// Gets a value indicating whether the collection has a fixed size. 
@@ -218,11 +203,9 @@ namespace Krypton.Toolkit
         /// Removes first occurance of specified object.
         /// </summary>
         /// <param name="value">Object reference.</param>
-        public void Remove(object value)
-        {
+        public void Remove(object value) =>
             // Use strongly typed implementation
             Remove(value as T);
-        }
 
         /// <summary>
         /// Gets or sets the button spec at the specified index.
@@ -489,28 +472,20 @@ namespace Krypton.Toolkit
         /// Provide non generic access to the enumerator.
         /// </summary>
         /// <returns>IEnumerable instance.</returns>
-        public override IEnumerable Enumerate()
-        {
-            return this;
-        }
-        
+        public override IEnumerable Enumerate() => this;
+
         /// <summary>
         /// Shallow enumerate over button specs in the collection.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _specs.GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => _specs.GetEnumerator();
 
         /// <summary>
         /// Enumerate using non-generic interface.
         /// </summary>
         /// <returns>Enumerator instance.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _specs.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _specs.GetEnumerator();
+
         #endregion
     }
 }

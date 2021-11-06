@@ -370,10 +370,8 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool KeyUp(Control c, KeyEventArgs e)
-        {
-            return false;
-        }
+        public bool KeyUp(Control c, KeyEventArgs e) => false;
+
         #endregion
 
         #region KeyTipSelect
@@ -455,17 +453,17 @@ namespace Krypton.Ribbon
 
             if (needPaint)
             {
-                if ((Target1 != null) && !Target1.ClientRectangle.IsEmpty)
+                if (Target1 is { ClientRectangle: { IsEmpty: false } })
                 {
                     OnNeedPaint(false, Target1.ClientRectangle);
                 }
 
-                if ((Target2 != null) && !Target2.ClientRectangle.IsEmpty)
+                if (Target2 is { ClientRectangle: { IsEmpty: false } })
                 {
                     OnNeedPaint(false, Target2.ClientRectangle);
                 }
 
-                if ((Target3 != null) && !Target3.ClientRectangle.IsEmpty)
+                if (Target3 is { ClientRectangle: { IsEmpty: false } })
                 {
                     OnNeedPaint(false, Target3.ClientRectangle);
                 }

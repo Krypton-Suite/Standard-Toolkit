@@ -96,10 +96,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="charCode">Key code to test against.</param>
         /// <returns>True if a match is found; otherwise false.</returns>
-        public bool MatchMnemonic(char charCode)
-        {
-            return false;
-        }
+        public bool MatchMnemonic(char charCode) => false;
 
         /// <summary>
         /// Activate the item because of a mnemonic key press.
@@ -112,10 +109,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase GetActiveView()
-        {
-            return _months;
-        }
+        public ViewBase GetActiveView() => _months;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.
@@ -127,10 +121,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt)
-        {
-            return true;
-        }
+        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
+
         #endregion
 
         #region Mouse Notifications
@@ -494,10 +486,8 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
-        {
-            return false;
-        }
+        public virtual bool KeyUp(Control c, KeyEventArgs e) => false;
+
         #endregion
 
         #region Source Notifications

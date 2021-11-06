@@ -23,6 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Workspace 2019", "K
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{8EC65998-9433-4A2D-8376-FB35DAC73B16}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\Documents\Help\Changelog.md = ..\..\Documents\Help\Changelog.md
 		..\..\Documents\Development\Development-Workflow.md = ..\..\Documents\Development\Development-Workflow.md
 		..\..\Documents\Development\How to Manage Using Statements.md = ..\..\Documents\Development\How to Manage Using Statements.md
 		..\..\Documents\Development\How-to-Build.md = ..\..\Documents\Development\How-to-Build.md

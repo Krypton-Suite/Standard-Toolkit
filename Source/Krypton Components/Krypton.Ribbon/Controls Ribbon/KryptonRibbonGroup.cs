@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroup), "ToolboxBitmaps.KryptonRibbonGroup.bmp")]
-    [Designer(typeof(KryptonRibbonGroupDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupDesigner, Krypton.Ribbon")]
     [DefaultEvent("DialogBoxLauncherClick")]
     [DefaultProperty("TextLine1")]
     [DesignerCategory("code")]
@@ -214,7 +214,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine1)
                 {
                     _textLine1 = value;
-                    OnPropertyChanged("TextLine1");
+                    OnPropertyChanged(nameof(TextLine1));
                 }
             }
         }
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
                 if (value != _textLine2)
                 {
                     _textLine2 = value;
-                    OnPropertyChanged("TextLine2");
+                    OnPropertyChanged(nameof(TextLine2));
                 }
             }
         }
@@ -305,15 +305,12 @@ namespace Krypton.Ribbon
                 if (_image != value)
                 {
                     _image = value;
-                    OnPropertyChanged("Image");
+                    OnPropertyChanged(nameof(Image));
                 }
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return Image != _defaultGroupImage;
-        }
+        private bool ShouldSerializeImage() => Image != _defaultGroupImage;
 
         /// <summary>
         /// Gets and sets the visible state of the ribbon group.
@@ -331,7 +328,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -368,7 +365,7 @@ namespace Krypton.Ribbon
                 if (value != _dialogBoxLauncher)
                 {
                     _dialogBoxLauncher = value;
-                    OnPropertyChanged("DialogBoxLauncher");
+                    OnPropertyChanged(nameof(DialogBoxLauncher));
                 }
             }
         }
@@ -389,7 +386,7 @@ namespace Krypton.Ribbon
                 if (value != _allowCollapsed)
                 {
                     _allowCollapsed = value;
-                    OnPropertyChanged("AllowCollapsed");
+                    OnPropertyChanged(nameof(AllowCollapsed));
                 }
             }
         }
@@ -410,7 +407,7 @@ namespace Krypton.Ribbon
                 if (value != _minimumWidth)
                 {
                     _minimumWidth = value;
-                    OnPropertyChanged("MinimumWidth");
+                    OnPropertyChanged(nameof(MinimumWidth));
                 }
             }
         }
@@ -431,7 +428,7 @@ namespace Krypton.Ribbon
                 if (value != _maximumWidth)
                 {
                     _maximumWidth = value;
-                    OnPropertyChanged("MaximumWidth");
+                    OnPropertyChanged(nameof(MaximumWidth));
                 }
             }
         }
@@ -442,7 +439,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group items.")]
         [MergableProperty(false)]
-        [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonRibbonGroupContainerCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupContainerCollection Items { get; }
 
@@ -462,15 +459,12 @@ namespace Krypton.Ribbon
                 if (value != _tag)
                 {
                     _tag = value;
-                    OnPropertyChanged("Tag");
+                    OnPropertyChanged(nameof(Tag));
                 }
             }
         }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         private void ResetTag()
         {

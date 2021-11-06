@@ -27,20 +27,16 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewLayoutRibbonPadding class.
         /// </summary>
         /// <param name="preferredPadding">Padding to use when calculating space.</param>
-        public ViewLayoutRibbonPadding(Padding preferredPadding)
-        {
-            _preferredPadding = preferredPadding;
-        }
+        public ViewLayoutRibbonPadding(Padding preferredPadding) => _preferredPadding = preferredPadding;
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonPadding:" + Id;
-        }
+            "ViewLayoutRibbonPadding:" + Id;
+
         #endregion
 
         #region Layout

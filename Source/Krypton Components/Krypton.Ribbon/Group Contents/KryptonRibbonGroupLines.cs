@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupLines), "ToolboxBitmaps.KryptonRibbonGroupLines.bmp")]
-    [Designer(typeof(KryptonRibbonGroupLinesDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupLinesDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
@@ -260,7 +260,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -353,7 +353,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeMaximum = itemSize;
                     }
 
-                    OnPropertyChanged("ItemSizeMaximum");
+                    OnPropertyChanged(nameof(ItemSizeMaximum));
                 }
             }
         }
@@ -398,7 +398,7 @@ namespace Krypton.Ribbon
                         item.ItemSizeMinimum = value;
                     }
 
-                    OnPropertyChanged("ItemSizeMinimum");
+                    OnPropertyChanged(nameof(ItemSizeMinimum));
                 }
             }
         }
@@ -418,7 +418,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -431,10 +431,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewLayoutRibbonGroupLines(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewLayoutRibbonGroupLines(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets the collection of ribbon group line items.
@@ -442,7 +440,7 @@ namespace Krypton.Ribbon
         [Category("Visuals")]
         [Description("Collection of ribbon group line items.")]
         [MergableProperty(false)]
-        [Editor(typeof(KryptonRibbonGroupLinesCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonRibbonGroupLinesCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupLinesCollection Items { get; }
 

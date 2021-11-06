@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonPanel), "ToolboxBitmaps.KryptonPanel.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("PanelStyle")]
-    [Designer(typeof(KryptonPanelDesigner))]
+    [Designer("Krypton.Toolkit.KryptonPanelDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Ask)]
@@ -94,10 +94,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePanelBackStyle()
-        {
-            return (PanelBackStyle != PaletteBackStyle.PanelClient);
-        }
+        private bool ShouldSerializePanelBackStyle() => (PanelBackStyle != PaletteBackStyle.PanelClient);
 
         private void ResetPanelBackStyle()
         {
@@ -112,10 +109,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateCommon => _stateCommon.Back;
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !_stateCommon.Back.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !_stateCommon.Back.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled panel appearance.
@@ -125,10 +119,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateDisabled => _stateDisabled.Back;
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !_stateDisabled.Back.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !_stateDisabled.Back.IsDefault;
 
         /// <summary>
         /// Gets access to the normal panel appearance.
@@ -138,10 +129,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateNormal => _stateNormal.Back;
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !_stateNormal.Back.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !_stateNormal.Back.IsDefault;
 
         /// <summary>
         /// Fix the control to a particular palette state.

@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    public class KryptonFormDesigner : ParentControlDesigner
+    internal class KryptonFormDesigner : ParentControlDesigner
     {
         /*
         #region Variables

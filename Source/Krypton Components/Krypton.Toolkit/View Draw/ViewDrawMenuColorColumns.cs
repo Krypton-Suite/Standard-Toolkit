@@ -107,11 +107,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMenuColorColumns:" + Id;
-        }
+            "ViewDrawMenuColorColumns:" + Id;
+
         #endregion
 
         #region Layout
@@ -161,10 +160,8 @@ namespace Krypton.Toolkit
             return columns;
         }
 
-        private void OnSelectedColorChanged(object sender, ColorEventArgs e)
-        {
-            _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(false));
-        }
+        private void OnSelectedColorChanged(object sender, ColorEventArgs e) => _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(false));
+
         #endregion
     }
 }

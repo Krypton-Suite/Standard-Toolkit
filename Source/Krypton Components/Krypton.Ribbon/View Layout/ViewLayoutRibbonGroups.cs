@@ -71,11 +71,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonGroups:" + Id;
-        }
+            "ViewLayoutRibbonGroups:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -367,16 +365,11 @@ namespace Krypton.Ribbon
 
                 if (_ribbon != null)
                 {
-                    switch (_ribbon.RibbonShape)
+                    retSize = _ribbon.RibbonShape switch
                     {
-                        default:
-                        case PaletteRibbonShape.Office2007:
-                            retSize = new Size(SEP_LENGTH_2007, SEP_LENGTH_2007);
-                            break;
-                        case PaletteRibbonShape.Office2010:
-                            retSize = new Size(SEP_LENGTH_2010, SEP_LENGTH_2010);
-                            break;
-                    }
+                        PaletteRibbonShape.Office2010 => new Size(SEP_LENGTH_2010, SEP_LENGTH_2010),
+                        _ => new Size(SEP_LENGTH_2007, SEP_LENGTH_2007)
+                    };
                 }
 
                 return retSize;

@@ -57,40 +57,29 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor1(PaletteState state)
-        {
-            return GetTextColor(state);
-        }
+        public override Color GetContentShortTextColor1(PaletteState state) => GetTextColor(state);
 
         /// <summary>
         /// Gets the second back color for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor2(PaletteState state)
-        {
-            return GetTextColor(state);
-        }
+        public override Color GetContentShortTextColor2(PaletteState state) => GetTextColor(state);
 
         /// <summary>
         /// Gets the first back color for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor1(PaletteState state)
-        {
-            return GetTextColor(state);
-        }
+        public override Color GetContentLongTextColor1(PaletteState state) => GetTextColor(state);
 
         /// <summary>
         /// Gets the second back color for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor2(PaletteState state)
-        {
-            return GetTextColor(state);
-        }
+        public override Color GetContentLongTextColor2(PaletteState state) => GetTextColor(state);
+
         #endregion
 
         #region Implementation

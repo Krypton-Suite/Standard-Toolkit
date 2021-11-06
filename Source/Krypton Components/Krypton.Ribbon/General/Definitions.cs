@@ -331,7 +331,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Specifies a group item display in its largest display state.
         /// </summary>
-        Large = 2,
+        Large = 2
     }
     #endregion
 
@@ -377,7 +377,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Specifies a button that is split between push area and drop down area.
         /// </summary>
-        Split,
+        Split
     }
     #endregion
 
@@ -400,7 +400,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Specifies the quick access toolbar is hidden from view.
         /// </summary>
-        Hidden,
+        Hidden
 
     }
     #endregion
@@ -454,7 +454,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Specifies all items are aligned to the far edge.
         /// </summary>
-        Far,
+        Far
     }
     #endregion
 

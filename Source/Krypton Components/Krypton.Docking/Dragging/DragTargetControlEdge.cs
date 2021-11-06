@@ -99,10 +99,7 @@ namespace Krypton.Docking
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if a match; otherwise false.</returns>
-        public override bool IsMatch(Point screenPt, PageDragEndData dragEndData)
-        {
-            return true;
-        }
+        public override bool IsMatch(Point screenPt, PageDragEndData dragEndData) => true;
 
         /// <summary>
         /// Perform the drop action associated with the target.

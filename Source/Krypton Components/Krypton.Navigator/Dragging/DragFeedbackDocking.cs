@@ -117,48 +117,36 @@ namespace Krypton.Navigator
                     // Create the docking indicators the first time needed
                     if (_indicators == null)
                     {
-                        switch (dragFeedback)
+                        _indicators = dragFeedback switch
                         {
-                            case PaletteDragFeedback.Rounded:
-                                _indicators = new DropDockingIndicatorsRounded(_paletteDragDrop, _renderer,
-                                                                               _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
-                                                                               _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
-                                                                               _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
-                                                                               _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
-                                                                               _hintToTarget.ContainsKey(DragTargetHint.Transfer));
-                                break;
-                            case PaletteDragFeedback.Square:
-                            default:
-                                _indicators = new DropDockingIndicatorsSquare(_paletteDragDrop, _renderer,
-                                                                              _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
-                                                                              _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
-                                                                              _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
-                                                                              _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
-                                                                              _hintToTarget.ContainsKey(DragTargetHint.Transfer));
-                                break;
-                        }
+                            PaletteDragFeedback.Rounded => new DropDockingIndicatorsRounded(_paletteDragDrop, _renderer,
+                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
+                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
+                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
+                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
+                                                                                                          _hintToTarget.ContainsKey(DragTargetHint.Transfer)),
+                            _ => new DropDockingIndicatorsSquare(_paletteDragDrop, _renderer,
+_hintToTarget.ContainsKey(DragTargetHint.EdgeLeft),
+_hintToTarget.ContainsKey(DragTargetHint.EdgeRight),
+_hintToTarget.ContainsKey(DragTargetHint.EdgeTop),
+_hintToTarget.ContainsKey(DragTargetHint.EdgeBottom),
+_hintToTarget.ContainsKey(DragTargetHint.Transfer))
+                        };
                     }
 
                     // Ensure window is displayed in correct location
                     _indicators.ShowRelative(ScreenRect);
 
                     // Hit test against indicators and update display
-                    switch (_indicators.ScreenMouseMove(screenPt))
+                    return _indicators.ScreenMouseMove(screenPt) switch
                     {
-                        case 0x0040:
-                            return _hintToTarget[DragTargetHint.EdgeLeft];
-                        case 0x0080:
-                            return _hintToTarget[DragTargetHint.EdgeRight];
-                        case 0x0100:
-                            return _hintToTarget[DragTargetHint.EdgeTop];
-                        case 0x0200:
-                            return _hintToTarget[DragTargetHint.EdgeBottom];
-                        case 0x0400:
-                            return _hintToTarget[DragTargetHint.Transfer];
-                        default:
-                            // Mouse is not over any of the targets
-                            return null;
-                    }
+                        0x0040 => _hintToTarget[DragTargetHint.EdgeLeft],
+                        0x0080 => _hintToTarget[DragTargetHint.EdgeRight],
+                        0x0100 => _hintToTarget[DragTargetHint.EdgeTop],
+                        0x0200 => _hintToTarget[DragTargetHint.EdgeBottom],
+                        0x0400 => _hintToTarget[DragTargetHint.Transfer],
+                        _ => null // Mouse is not over any of the targets
+                    };
                 }
                 else
                 {
@@ -339,11 +327,10 @@ namespace Krypton.Navigator
             return null;
         }
 
-        private DragTarget FindTarget(Point screenPt, PageDragEndData dragEndData)
-        {
+        private DragTarget FindTarget(Point screenPt, PageDragEndData dragEndData) =>
             // Nothing matches
-            return null;
-        }
+            null;
+
         #endregion
     }
 }

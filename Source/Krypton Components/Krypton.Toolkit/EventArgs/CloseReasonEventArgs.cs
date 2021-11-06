@@ -27,10 +27,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the CloseReasonEventArgs class.
         /// </summary>
         /// <param name="closeReason">Reason for the close action occuring.</param>
-        public CloseReasonEventArgs(ToolStripDropDownCloseReason closeReason)
-        {
-            CloseReason = closeReason;
-        }
+        public CloseReasonEventArgs(ToolStripDropDownCloseReason closeReason) => CloseReason = closeReason;
+
         #endregion
 
         #region Public

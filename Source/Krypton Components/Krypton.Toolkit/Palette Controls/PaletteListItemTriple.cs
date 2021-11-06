@@ -54,20 +54,16 @@ namespace Krypton.Toolkit
         /// Populate values from the base palette.
         /// </summary>
         /// <param name="state">The palette state to populate with.</param>
-        public virtual void PopulateFromBase(PaletteState state)
-        {
-            _paletteItem.PopulateFromBase(state);
-        }
+        public virtual void PopulateFromBase(PaletteState state) => _paletteItem.PopulateFromBase(state);
+
         #endregion
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
-        public virtual void SetInherit(PaletteTripleRedirect inherit)
-        {
-            _paletteItem.SetInherit(inherit);
-        }
+        public virtual void SetInherit(PaletteTripleRedirect inherit) => _paletteItem.SetInherit(inherit);
+
         #endregion
 
         #region Item
@@ -80,10 +76,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteTriple Item => _paletteItem;
 
-        private bool ShouldSerializeItem()
-        {
-            return !_paletteItem.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !_paletteItem.IsDefault;
+
         #endregion
     }
 }

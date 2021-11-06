@@ -50,38 +50,27 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
-        {
-            return _groupItem.InternalToolTipImage;
-        }
+        public Image GetImage(PaletteState state) => _groupItem.InternalToolTipImage;
 
         /// <summary>
         /// Gets the image color that should be transparent.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return _groupItem.InternalToolTipImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => _groupItem.InternalToolTipImageTransparentColor;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText()
-        {
-            return _groupItem.InternalToolTipTitle;
-        }
+        public string GetShortText() => _groupItem.InternalToolTipTitle;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText()
-        {
-            return _groupItem.InternalToolTipBody;
-        }
+        public string GetLongText() => _groupItem.InternalToolTipBody;
+
         #endregion
     }
 }

@@ -37,10 +37,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewCheckBoxCell.
         /// </summary>
-        public KryptonDataGridViewButtonCell()
-        {
-            _buttonStyle = ButtonStyle.Standalone;
-        }
+        public KryptonDataGridViewButtonCell() => _buttonStyle = ButtonStyle.Standalone;
+
         #endregion
 
         #region Public
@@ -88,11 +86,9 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         protected override Rectangle GetContentBounds(Graphics graphics,
             DataGridViewCellStyle cellStyle,
-            int rowIndex)
-        {
+            int rowIndex) =>
             // Return the cached bounds from last drawing cycle
-            return _contentBounds;
-        }
+            _contentBounds;
 
         /// <summary>
         /// This member overrides DataGridViewCell.GetPreferredSize. 
@@ -160,21 +156,19 @@ namespace Krypton.Toolkit
                 }
 
                 // Position the button element inside the available cell area
-                using (ViewLayoutContext layoutContext = new(kDGV, kDGV.Renderer))
-                {
-                    // Define the available area for layout
-                    layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
+                using ViewLayoutContext layoutContext = new(kDGV, kDGV.Renderer);
+                // Define the available area for layout
+                layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
 
-                    // Get the ideal size of the button
-                    Size buttonSize = _viewButton.GetPreferredSize(layoutContext);
+                // Get the ideal size of the button
+                Size buttonSize = _viewButton.GetPreferredSize(layoutContext);
 
-                    // Add on the requested cell padding (plus add 1 to counter the -1 that occurs
-                    // in the painting routine to prevent drawing over the bottom right border)
-                    buttonSize.Width += cellStyle.Padding.Horizontal + 1;
-                    buttonSize.Height += cellStyle.Padding.Vertical + 1;
+                // Add on the requested cell padding (plus add 1 to counter the -1 that occurs
+                // in the painting routine to prevent drawing over the bottom right border)
+                buttonSize.Width += cellStyle.Padding.Horizontal + 1;
+                buttonSize.Height += cellStyle.Padding.Vertical + 1;
 
-                    return buttonSize;
-                }
+                return buttonSize;
             }
             catch
             {
@@ -213,94 +207,92 @@ namespace Krypton.Toolkit
                 // Should we draw the content foreground?
                 if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
                 {
-                    using (RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer))
+                    using RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    // Create the view elements and palette structure
+                    CreateViewAndPalettes(kDgv);
+
+                    // Cache the starting cell bounds
+                    Rectangle startBounds = cellBounds;
+
+                    // Is this cell the currently active cell
+                    bool currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
+                                       (ColumnIndex == DataGridView.CurrentCellAddress.X);
+
+                    // Is this cell the same as the one with the mouse inside it
+                    Point mouseEnteredCellAddress = MouseEnteredCellAddressInternal;
+                    bool mouseCell = (rowIndex == mouseEnteredCellAddress.Y) &&
+                                     (ColumnIndex == mouseEnteredCellAddress.X);
+
+                    // Snoop tracking and pressed status from the base class implementation
+                    bool tracking = mouseCell && MouseInContentBoundsInternal;
+                    bool pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
+
+                    // Update the button state to reflect the tracking/pressed values
+                    if (base.ReadOnly)
                     {
-                        // Create the view elements and palette structure
-                        CreateViewAndPalettes(kDgv);
-
-                        // Cache the starting cell bounds
-                        Rectangle startBounds = cellBounds;
-
-                        // Is this cell the currently active cell
-                        bool currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
-                                           (ColumnIndex == DataGridView.CurrentCellAddress.X);
-
-                        // Is this cell the same as the one with the mouse inside it
-                        Point mouseEnteredCellAddress = MouseEnteredCellAddressInternal;
-                        bool mouseCell = (rowIndex == mouseEnteredCellAddress.Y) &&
-                                         (ColumnIndex == mouseEnteredCellAddress.X);
-
-                        // Snoop tracking and pressed status from the base class implementation
-                        bool tracking = mouseCell && MouseInContentBoundsInternal;
-                        bool pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
-
-                        // Update the button state to reflect the tracking/pressed values
-                        if (base.ReadOnly)
-                        {
-                            _viewButton.ElementState = PaletteState.Disabled;
-                        }
-                        else if (pressed)
-                        {
-                            _viewButton.ElementState = PaletteState.Pressed;
-                        }
-                        else if (tracking)
-                        {
-                            _viewButton.ElementState = PaletteState.Tracking;
-                        }
-                        else
-                        {
-                            _viewButton.ElementState = PaletteState.Normal;
-                        }
-
-                        // Update the display text
-                        if ((kDgv.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn col) && col.UseColumnTextForButtonValue && !kDgv.Rows[rowIndex].IsNewRow)
-                        {
-                            _shortTextValue.ShortText = col.Text;
-                        }
-                        else if (!string.IsNullOrEmpty(FormattedValue?.ToString()))
-                        {
-                            _shortTextValue.ShortText = FormattedValue.ToString();
-                        }
-                        else
-                        {
-                            _shortTextValue.ShortText = string.Empty;
-                        }
-
-                        // Prevent button overlapping the bottom/right border
-                        cellBounds.Width--;
-                        cellBounds.Height--;
-
-                        // Apply the padding
-                        if (kDgv.RightToLeftInternal)
-                        {
-                            cellBounds.Offset(cellStyle.Padding.Right, cellStyle.Padding.Bottom);
-                        }
-                        else
-                        {
-                            cellBounds.Offset(cellStyle.Padding.Left, cellStyle.Padding.Top);
-                        }
-
-                        cellBounds.Width -= cellStyle.Padding.Horizontal;
-                        cellBounds.Height -= cellStyle.Padding.Vertical;
-
-                        // Position the button element inside the available cell area
-                        using (ViewLayoutContext layoutContext = new(kDgv, kDgv.Renderer))
-                        {
-                            // Define the available area for layout
-                            layoutContext.DisplayRectangle = cellBounds;
-
-                            // Perform actual layout inside that area
-                            _viewButton.Layout(layoutContext);
-                        }
-                            
-                        // Ask the element to draw now
-                        _viewButton.Render(renderContext);
-
-                        // Remember the current drawing bounds
-                        _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
-                            cellBounds.Y - startBounds.Y,
-                            cellBounds.Width, cellBounds.Height);
+                        _viewButton.ElementState = PaletteState.Disabled;
                     }
+                    else if (pressed)
+                    {
+                        _viewButton.ElementState = PaletteState.Pressed;
+                    }
+                    else if (tracking)
+                    {
+                        _viewButton.ElementState = PaletteState.Tracking;
+                    }
+                    else
+                    {
+                        _viewButton.ElementState = PaletteState.Normal;
+                    }
+
+                    // Update the display text
+                    if ((kDgv.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn col) && col.UseColumnTextForButtonValue && !kDgv.Rows[rowIndex].IsNewRow)
+                    {
+                        _shortTextValue.ShortText = col.Text;
+                    }
+                    else if (!string.IsNullOrEmpty(FormattedValue?.ToString()))
+                    {
+                        _shortTextValue.ShortText = FormattedValue.ToString();
+                    }
+                    else
+                    {
+                        _shortTextValue.ShortText = string.Empty;
+                    }
+
+                    // Prevent button overlapping the bottom/right border
+                    cellBounds.Width--;
+                    cellBounds.Height--;
+
+                    // Apply the padding
+                    if (kDgv.RightToLeftInternal)
+                    {
+                        cellBounds.Offset(cellStyle.Padding.Right, cellStyle.Padding.Bottom);
+                    }
+                    else
+                    {
+                        cellBounds.Offset(cellStyle.Padding.Left, cellStyle.Padding.Top);
+                    }
+
+                    cellBounds.Width -= cellStyle.Padding.Horizontal;
+                    cellBounds.Height -= cellStyle.Padding.Vertical;
+
+                    // Position the button element inside the available cell area
+                    using (ViewLayoutContext layoutContext = new(kDgv, kDgv.Renderer))
+                    {
+                        // Define the available area for layout
+                        layoutContext.DisplayRectangle = cellBounds;
+
+                        // Perform actual layout inside that area
+                        _viewButton.Layout(layoutContext);
+                    }
+                            
+                    // Ask the element to draw now
+                    _viewButton.Render(renderContext);
+
+                    // Remember the current drawing bounds
+                    _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
+                        cellBounds.Y - startBounds.Y,
+                        cellBounds.Width, cellBounds.Height);
                 }
             }
             else

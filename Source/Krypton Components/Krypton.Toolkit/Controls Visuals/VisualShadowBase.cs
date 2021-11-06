@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
 
                 Parent = IntPtr.Zero,//_ownerHandle,
                 Style = unchecked((int)(PI.WS_.DISABLED | PI.WS_.POPUP)),
-                ExStyle = PI.WS_EX_.LAYERED | PI.WS_EX_.NOACTIVATE | PI.WS_EX_.TRANSPARENT | PI.WS_EX_.NOPARENTNOTIFY
+                ExStyle = unchecked((int)(PI.WS_EX_.LAYERED | PI.WS_EX_.NOACTIVATE | PI.WS_EX_.TRANSPARENT | PI.WS_EX_.NOPARENTNOTIFY))
             };
 
             _shadowClip = new Bitmap(1, 1);

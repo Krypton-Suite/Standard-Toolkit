@@ -68,41 +68,30 @@ namespace Krypton.Toolkit
         /// Gets the button visible value.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button visibiliy.</returns>
-        public override bool GetVisible(IPalette palette)
-        {
-            return Visible;
-        }
+        /// <returns>Button visibility.</returns>
+        public override bool GetVisible(IPalette palette) => Visible;
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette)
-        {
-            return (Enabled ? ButtonEnabled.Container : ButtonEnabled.False);
-        }
+        public override ButtonEnabled GetEnabled(IPalette palette) => (Enabled ? ButtonEnabled.Container : ButtonEnabled.False);
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette)
-        {
-            return ButtonCheckState.Unchecked;
-        }
+        public override ButtonCheckState GetChecked(IPalette palette) => ButtonCheckState.Unchecked;
 
         /// <summary>
         /// Gets the button edge to position against.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Edge position.</returns>
-        public override RelativeEdgeAlign GetEdge(IPalette palette)
-        {
-            return _edge;
-        }
+        public override RelativeEdgeAlign GetEdge(IPalette palette) => _edge;
+
         #endregion
     }
 }

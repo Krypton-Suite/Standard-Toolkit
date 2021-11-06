@@ -229,10 +229,7 @@ namespace Krypton.Toolkit
         /// <param name="needLayout">Does the palette change require a layout.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public virtual void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public virtual void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Check if the layout is dirty and if so perform the layout now.
@@ -306,10 +303,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode()
-        {
-            return (PaletteMode != PaletteMode.Global);
-        }
+        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -397,10 +391,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer()
-        {
-            return Renderer.RenderToolStrip(GetResolvedPalette());
-        }
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Gets or sets the background image displayed in the control.
@@ -429,20 +420,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ViewManager GetViewManager()
-        {
-            return ViewManager;
-        }
+        public ViewManager GetViewManager() => ViewManager;
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette()
-        {
-            return _palette;
-        }
+        public IPalette GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Gets and sets the dirty palette counter.
@@ -459,10 +444,7 @@ namespace Krypton.Toolkit
         /// Reset the internal counters.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void KryptonResetCounters()
-        {
-            ViewManager.ResetCounters();
-        }
+        public void KryptonResetCounters() => ViewManager.ResetCounters();
 
         /// <summary>
         /// Gets the number of layout cycles performed since last reset.
@@ -583,10 +565,7 @@ namespace Krypton.Toolkit
         /// <param name="g">Graphics reference for drawing.</param>
         /// <param name="backBrush">Brush to use when painting.</param>
         /// <param name="backRect">Client area to paint.</param>
-        protected virtual void PaintBackground(Graphics g, Brush backBrush, Rectangle backRect)
-        {
-            g.FillRectangle(backBrush, backRect);
-        }
+        protected virtual void PaintBackground(Graphics g, Brush backBrush, Rectangle backRect) => g.FillRectangle(backBrush, backRect);
 
         /// <summary>
         /// Gets a value indicating is processing of mnemonics should be allowed.
@@ -620,11 +599,9 @@ namespace Krypton.Toolkit
         /// Work out if this control needs to paint transparent areas.
         /// </summary>
         /// <returns>True if paint required; otherwise false.</returns>
-        protected virtual bool EvalTransparentPaint()
-        {
+        protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            return ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
-        }
+            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -740,10 +717,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector()
-        {
-            return new PaletteRedirect(_palette);
-        }
+        protected virtual PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
         // ReSharper restore VirtualMemberNeverOverridden.Global
         #endregion
 
@@ -1224,10 +1198,8 @@ namespace Krypton.Toolkit
             KryptonContextMenu = null;
         }
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            ContextMenuClosed();
-        }
+        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
+
         #endregion
     }
 }

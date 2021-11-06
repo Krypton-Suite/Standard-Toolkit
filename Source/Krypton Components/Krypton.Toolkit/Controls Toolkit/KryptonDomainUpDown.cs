@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("SelectedItemChanged")]
     [DefaultProperty("Items")]
     [DefaultBindingProperty("SelectedItem")]
-    [Designer(typeof(KryptonDomainUpDownDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDomainUpDownDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Represents a Windows spin box (also known as an up-down control) that displays string values.")]
     public class KryptonDomainUpDown : VisualControlBase,
@@ -161,19 +161,14 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e)
-            {
-                TrackMouseEnter?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e)
-            {
-                TrackMouseLeave?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+
             #endregion
 
             #region Internal
@@ -403,24 +398,17 @@ namespace Krypton.Toolkit
                                         HotkeyPrefix = HotkeyPrefix.None
                                     };
 
-                                    switch (states.Content.GetContentShortTextH(state))
+                                    stringFormat.Alignment = states.Content.GetContentShortTextH(state) switch
                                     {
-                                        case PaletteRelativeAlign.Near:
-                                            stringFormat.Alignment = DomainUpDown.RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Far
-                                                : StringAlignment.Near;
-
-                                            break;
-                                        case PaletteRelativeAlign.Far:
-                                            stringFormat.Alignment = DomainUpDown.RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Near
-                                                : StringAlignment.Far;
-
-                                            break;
-                                        case PaletteRelativeAlign.Center:
-                                            stringFormat.Alignment = StringAlignment.Center;
-                                            break;
-                                    }
+                                        PaletteRelativeAlign.Near => DomainUpDown.RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Far
+                                            : StringAlignment.Near,
+                                        PaletteRelativeAlign.Far => DomainUpDown.RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Near
+                                            : StringAlignment.Far,
+                                        PaletteRelativeAlign.Center => StringAlignment.Center,
+                                        _ => stringFormat.Alignment
+                                    };
 
                                     Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
                                     rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle,
@@ -429,19 +417,15 @@ namespace Krypton.Toolkit
                                     // Draw using a solid brush
                                     try
                                     {
-                                        using (SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state)))
-                                        {
-                                            g.DrawString(DomainUpDown.Text, states.Content.GetContentShortTextFont(state), foreBrush,
-                                                rectangle,
-                                                         stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state));
+                                        g.DrawString(DomainUpDown.Text, states.Content.GetContentShortTextFont(state), foreBrush,
+                                            rectangle,
+                                            stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
-                                        using (SolidBrush foreBrush = new(DomainUpDown.ForeColor))
-                                        {
-                                            g.DrawString(DomainUpDown.Text, DomainUpDown.Font, foreBrush, rectangle, stringFormat);
-                                        }
+                                        using SolidBrush foreBrush = new(DomainUpDown.ForeColor);
+                                        g.DrawString(DomainUpDown.Text, DomainUpDown.Font, foreBrush, rectangle, stringFormat);
                                     }
                                 }
 
@@ -489,19 +473,14 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e)
-            {
-                TrackMouseEnter?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e)
-            {
-                TrackMouseLeave?.Invoke(this, e);
-            }
+            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+
             #endregion
         }
 
@@ -551,39 +530,28 @@ namespace Krypton.Toolkit
             /// Gets the content short text.
             /// </summary>
             /// <returns>String value.</returns>
-            public virtual string GetShortText()
-            {
-                return string.Empty;
-            }
+            public virtual string GetShortText() => string.Empty;
 
             /// <summary>
             /// Gets the content image.
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Image value.</returns>
-            public virtual Image GetImage(PaletteState state)
-            {
-                return null;
-            }
+            public virtual Image GetImage(PaletteState state) => null;
 
             /// <summary>
             /// Gets the image color that should be transparent.
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Color value.</returns>
-            public virtual Color GetImageTransparentColor(PaletteState state)
-            {
-                return Color.Empty;
-            }
+            public virtual Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
             /// <summary>
             /// Gets the content long text.
             /// </summary>
             /// <returns>String value.</returns>
-            public virtual string GetLongText()
-            {
-                return string.Empty;
-            }
+            public virtual string GetLongText() => string.Empty;
+
             #endregion
 
             #region Protected
@@ -638,24 +606,22 @@ namespace Krypton.Toolkit
                                         PI.SelectObject(_screenDC, hBitmap);
 
                                         // Easier to draw using a graphics instance than a DC!
-                                        using (Graphics g = Graphics.FromHdc(_screenDC))
+                                        using Graphics g = Graphics.FromHdc(_screenDC);
+                                        // Drawn entire client area in the background color
+                                        using (SolidBrush backBrush =
+                                            new(DomainUpDown.DomainUpDown.BackColor))
                                         {
-                                            // Drawn entire client area in the background color
-                                            using (SolidBrush backBrush =
-                                                new(DomainUpDown.DomainUpDown.BackColor))
-                                            {
-                                                g.FillRectangle(backBrush, clientRect);
-                                            }
-
-                                            // Draw the actual up and down buttons split inside the client rectangle
-                                            DrawUpDownButtons(g,
-                                                new Rectangle(clientRect.X, clientRect.Y, clientRect.Width,
-                                                    clientRect.Height - 1));
-
-                                            // Now blit from the bitmap from the screen to the real dc
-                                            PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
-                                                _screenDC, clientRect.X, clientRect.Y, PI.SRCCOPY);
+                                            g.FillRectangle(backBrush, clientRect);
                                         }
+
+                                        // Draw the actual up and down buttons split inside the client rectangle
+                                        DrawUpDownButtons(g,
+                                            new Rectangle(clientRect.X, clientRect.Y, clientRect.Width,
+                                                clientRect.Height - 1));
+
+                                        // Now blit from the bitmap from the screen to the real dc
+                                        PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
+                                            _screenDC, clientRect.X, clientRect.Y, PI.SRCCOPY);
                                     }
                                     finally
                                     {
@@ -708,23 +674,21 @@ namespace Krypton.Toolkit
                 Rectangle downRect = new(clientRect.X, upRect.Bottom, clientRect.Width, clientRect.Bottom - upRect.Bottom);
 
                 // Position and draw the up/down buttons
-                using (ViewLayoutContext layoutContext = new(DomainUpDown, DomainUpDown.Renderer))
-                using (RenderContext renderContext = new(DomainUpDown, g, clientRect, DomainUpDown.Renderer))
-                {
-                    // Up button
-                    layoutContext.DisplayRectangle = upRect;
-                    _viewButton.ElementState = ButtonElementState(upRect);
-                    _viewButton.Layout(layoutContext);
-                    _viewButton.Render(renderContext);
-                    renderContext.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
+                using ViewLayoutContext layoutContext = new(DomainUpDown, DomainUpDown.Renderer);
+                using RenderContext renderContext = new(DomainUpDown, g, clientRect, DomainUpDown.Renderer);
+                // Up button
+                layoutContext.DisplayRectangle = upRect;
+                _viewButton.ElementState = ButtonElementState(upRect);
+                _viewButton.Layout(layoutContext);
+                _viewButton.Render(renderContext);
+                renderContext.Renderer.RenderGlyph.DrawInputControlNumericUpGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
 
-                    // Down button
-                    layoutContext.DisplayRectangle = downRect;
-                    _viewButton.ElementState = ButtonElementState(downRect);
-                    _viewButton.Layout(layoutContext);
-                    _viewButton.Render(renderContext);
-                    renderContext.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
-                }
+                // Down button
+                layoutContext.DisplayRectangle = downRect;
+                _viewButton.ElementState = ButtonElementState(downRect);
+                _viewButton.Layout(layoutContext);
+                _viewButton.Render(renderContext);
+                renderContext.Renderer.RenderGlyph.DrawInputControlNumericDownGlyph(renderContext, _viewButton.ClientRectangle, _palette.PaletteContent, _viewButton.ElementState);
             }
 
             private PaletteState ButtonElementState(Rectangle buttonRect)
@@ -910,7 +874,7 @@ namespace Krypton.Toolkit
             _domainUpDown.Validating += OnDomainUpDownValidating;
             _domainUpDown.Validated += OnDomainUpDownValidated;
 
-            // Create the element that fills the remainder space and remembers fill rectange
+            // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(_domainUpDown)
             {
                 DisplayPadding = new Padding(1, 1, 1, 0)
@@ -1087,7 +1051,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [Localizable(true)]
         public DomainUpDown.DomainUpDownItemCollection Items => DomainUpDown.Items;
 
@@ -1139,34 +1103,22 @@ namespace Krypton.Toolkit
         {
             get
             {
-                switch (StateCommon.Content.GetContentShortTextH(PaletteState.Normal))
+                return StateCommon.Content.GetContentShortTextH(PaletteState.Normal) switch
                 {
-                    default:
-                    case PaletteRelativeAlign.Inherit:
-                    case PaletteRelativeAlign.Near:
-                        return HorizontalAlignment.Left;
-                    case PaletteRelativeAlign.Center:
-                        return HorizontalAlignment.Center;
-                    case PaletteRelativeAlign.Far:
-                        return HorizontalAlignment.Right;
-                }
+                    PaletteRelativeAlign.Center => HorizontalAlignment.Center,
+                    PaletteRelativeAlign.Far => HorizontalAlignment.Right,
+                    _ => HorizontalAlignment.Left
+                };
                 //return DomainUpDown.TextAlign;
             }
             set
             {
-                switch (value)
+                StateCommon.Content.TextH = value switch
                 {
-                    default:
-                    case HorizontalAlignment.Left:
-                        StateCommon.Content.TextH = PaletteRelativeAlign.Near;
-                        break;
-                    case HorizontalAlignment.Right:
-                        StateCommon.Content.TextH = PaletteRelativeAlign.Far;
-                        break;
-                    case HorizontalAlignment.Center:
-                        StateCommon.Content.TextH = PaletteRelativeAlign.Center;
-                        break;
-                }
+                    HorizontalAlignment.Right => PaletteRelativeAlign.Far,
+                    HorizontalAlignment.Center => PaletteRelativeAlign.Center,
+                    _ => PaletteRelativeAlign.Near
+                };
                 DomainUpDown.TextAlign = value;
             }
         }
@@ -1483,25 +1435,21 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected
@@ -2061,11 +2009,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {

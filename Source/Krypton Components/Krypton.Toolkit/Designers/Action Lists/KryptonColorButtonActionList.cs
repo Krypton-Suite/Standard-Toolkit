@@ -258,6 +258,36 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        public bool AllowFullOpen
+        {
+            get => _colorButton.AllowFullOpen;
+
+            set
+            {
+                if (_colorButton.AllowFullOpen != value)
+                {
+                    _service.OnComponentChanged(_colorButton, null, _colorButton.AllowFullOpen, value);
+
+                    _colorButton.AllowFullOpen = value;
+                }
+            }
+        }
+
+        public Rectangle SelectedRect
+        {
+            get => _colorButton.SelectedRect;
+
+            set
+            {
+                if (_colorButton.SelectedRect != value)
+                {
+                    _service.OnComponentChanged(_colorButton, null, _colorButton.SelectedRect, value);
+
+                    _colorButton.SelectedRect = value;
+                }
+            }
+        }
         #endregion
 
         #region Public Override
@@ -288,6 +318,8 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Button extra text"));
                 actions.Add(new DesignerActionPropertyItem("Image", "Image", "Values", "Button image"));
                 actions.Add(new DesignerActionPropertyItem("SelectedColour", "Selected Colour", "Values", "The selected colour."));
+                actions.Add(new DesignerActionPropertyItem("AllowFullOpen", "Allow Full Open", "Values", "Allows the color dialog to fully open."));
+                actions.Add(new DesignerActionPropertyItem("SelectedRect", "SelectedRect", "Visuals", "Selected color drawing rectangle."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
             }

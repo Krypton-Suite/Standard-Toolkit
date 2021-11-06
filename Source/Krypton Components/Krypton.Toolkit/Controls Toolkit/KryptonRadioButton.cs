@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("CheckedChanged")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Checked")]
-    [Designer(typeof(KryptonRadioButtonDesigner))]
+    [Designer("Krypton.Toolkit.KryptonRadioButtonDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Allow user to set or clear the associated option.")]
     public class KryptonRadioButton : VisualSimpleBase
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
                      ControlStyles.StandardDoubleClick, false);
 
             // Set default properties
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             _orientation = VisualOrientation.Top;
             _checkPosition = VisualOrientation.Left;
             _checked = false;
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             Images = new RadioButtonImages(NeedPaintDelegate);
 
             // Create palette redirector
-            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalControl);
+            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
             _paletteRadioButtonImages = new PaletteRedirectRadioButton(Redirector, Images);
 
             // Create the palette provider
@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Text;
@@ -211,20 +211,16 @@ namespace Krypton.Toolkit
             set => Values.Text = value;
         }
 
-        private bool ShouldSerializeText()
-        {
+        private bool ShouldSerializeText() =>
             // Never serialize, let the label values serialize instead
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
+        public override void ResetText() =>
             // Map onto the text property from the label values
             Values.ResetText();
-        }
 
         /// <summary>
         /// Gets and sets the visual orientation of the control.
@@ -300,13 +296,10 @@ namespace Krypton.Toolkit
 
         private void ResetLabelStyle()
         {
-            LabelStyle = LabelStyle.NormalControl;
+            LabelStyle = LabelStyle.NormalPanel;
         }
 
-        private bool ShouldSerializeLabelStyle()
-        {
-            return (LabelStyle != LabelStyle.NormalControl);
-        }
+        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalPanel);
 
         /// <summary>
         /// Gets access to the label content.
@@ -316,10 +309,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public LabelValues Values { get; }
 
-        private bool ShouldSerializeValues()
-        {
-            return !Values.IsDefault;
-        }
+        private bool ShouldSerializeValues() => !Values.IsDefault;
 
         /// <summary>
         /// Gets access to the image value overrides.
@@ -329,10 +319,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public RadioButtonImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets access to the common label appearance that other states can override.
@@ -342,10 +329,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled label appearance entries.
@@ -355,10 +339,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal label appearance entries.
@@ -368,10 +349,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the label appearance when it has focus.
@@ -381,10 +359,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
@@ -473,10 +448,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select()
-        {
-            Focus();
-        }
+        public new void Select() => Focus();
 
         /// <summary>
         /// Fix the control to a particular palette state.
@@ -507,37 +479,25 @@ namespace Krypton.Toolkit
         /// Raises the DoubleClick event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnDoubleClick(EventArgs e)
-        {
-            DoubleClick?.Invoke(this, e);
-        }
+        protected override void OnDoubleClick(EventArgs e) => DoubleClick?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MouseDoubleClick event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnMouseDoubleClick(EventArgs e)
-        {
-            MouseDoubleClick?.Invoke(this, e);
-        }
+        protected virtual void OnMouseDoubleClick(EventArgs e) => MouseDoubleClick?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ImeModeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnMouseImeModeChanged(EventArgs e)
-        {
-            ImeModeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMouseImeModeChanged(EventArgs e) => ImeModeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GotFocus event.
@@ -675,18 +635,14 @@ namespace Krypton.Toolkit
         /// Work out if this control needs to paint transparent areas.
         /// </summary>
         /// <returns>True if paint required; otherwise false.</returns>
-        protected override bool EvalTransparentPaint()
-        {
+        protected override bool EvalTransparentPaint() =>
             // Always need to draw the background because always transparent
-            return true;
-        }
+            true;
+
         #endregion
 
         #region Implementation
-        private void OnRadioButtonTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(EventArgs.Empty);
-        }
+        private void OnRadioButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void AutoUpdateOthers()
         {
@@ -700,10 +656,9 @@ namespace Krypton.Toolkit
                     foreach (Control c in parent.Controls)
                     {
                         // If another radio button found, that is not us
-                        if ((c != this) && (c is KryptonRadioButton))
+                        if ((c != this) && (c is KryptonRadioButton rb))
                         {
                             // Cast to correct type
-                            KryptonRadioButton rb = (KryptonRadioButton)c;
 
                             // If target allows auto check changed and is currently checked
                             if (rb.AutoCheck && rb.Checked)
@@ -717,95 +672,41 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnControllerClick(object sender, EventArgs e)
-        {
-            OnClick(e);
-        }
+        private void OnControllerClick(object sender, EventArgs e) => OnClick(e);
 
         private void UpdateForOrientation()
         {
-            // Should we display as right to left?
-            ViewDockStyle dockStyle;
-            switch (CheckPosition)
+            var dockStyle = CheckPosition switch
             {
-                default:
-                case VisualOrientation.Left:
-                    switch (Orientation)
-                    {
-                        default:
-                        case VisualOrientation.Top:
-                            dockStyle = RightToLeft == RightToLeft.Yes ? ViewDockStyle.Right : ViewDockStyle.Left;
-
-                            break;
-                        case VisualOrientation.Bottom:
-                            dockStyle = RightToLeft == RightToLeft.Yes ? ViewDockStyle.Left : ViewDockStyle.Right;
-
-                            break;
-                        case VisualOrientation.Left:
-                            dockStyle = ViewDockStyle.Bottom;
-                            break;
-                        case VisualOrientation.Right:
-                            dockStyle = ViewDockStyle.Top;
-                            break;
-                    }
-                    break;
-                case VisualOrientation.Right:
-                    switch (Orientation)
-                    {
-                        default:
-                        case VisualOrientation.Top:
-                            dockStyle = RightToLeft == RightToLeft.Yes ? ViewDockStyle.Left : ViewDockStyle.Right;
-
-                            break;
-                        case VisualOrientation.Bottom:
-                            dockStyle = RightToLeft == RightToLeft.Yes ? ViewDockStyle.Right : ViewDockStyle.Left;
-
-                            break;
-                        case VisualOrientation.Left:
-                            dockStyle = ViewDockStyle.Top;
-                            break;
-                        case VisualOrientation.Right:
-                            dockStyle = ViewDockStyle.Bottom;
-                            break;
-                    }
-                    break;
-                case VisualOrientation.Top:
-                    switch (Orientation)
-                    {
-                        default:
-                        case VisualOrientation.Top:
-                            dockStyle = ViewDockStyle.Top;
-                            break;
-                        case VisualOrientation.Bottom:
-                            dockStyle = ViewDockStyle.Bottom;
-                            break;
-                        case VisualOrientation.Left:
-                            dockStyle = ViewDockStyle.Left;
-                            break;
-                        case VisualOrientation.Right:
-                            dockStyle = ViewDockStyle.Right;
-                            break;
-                    }
-                    break;
-                case VisualOrientation.Bottom:
-                    switch (Orientation)
-                    {
-                        default:
-                        case VisualOrientation.Top:
-                            dockStyle = ViewDockStyle.Bottom;
-                            break;
-                        case VisualOrientation.Bottom:
-                            dockStyle = ViewDockStyle.Top;
-                            break;
-                        case VisualOrientation.Left:
-                            dockStyle = ViewDockStyle.Right;
-                            break;
-                        case VisualOrientation.Right:
-                            dockStyle = ViewDockStyle.Left;
-                            break;
-                    }
-                    break;
-            }
+                VisualOrientation.Right => Orientation switch
+                {
+                    VisualOrientation.Bottom => RightToLeft == RightToLeft.Yes ? ViewDockStyle.Right : ViewDockStyle.Left,
+                    VisualOrientation.Left => ViewDockStyle.Top,
+                    VisualOrientation.Right => ViewDockStyle.Bottom,
+                    _ => RightToLeft == RightToLeft.Yes ? ViewDockStyle.Left : ViewDockStyle.Right
+                },
+                VisualOrientation.Top => Orientation switch
+                {
+                    VisualOrientation.Bottom => ViewDockStyle.Bottom,
+                    VisualOrientation.Left => ViewDockStyle.Left,
+                    VisualOrientation.Right => ViewDockStyle.Right,
+                    _ => ViewDockStyle.Top
+                },
+                VisualOrientation.Bottom => Orientation switch
+                {
+                    VisualOrientation.Bottom => ViewDockStyle.Top,
+                    VisualOrientation.Left => ViewDockStyle.Right,
+                    VisualOrientation.Right => ViewDockStyle.Left,
+                    _ => ViewDockStyle.Bottom
+                },
+                _ => Orientation switch
+                {
+                    VisualOrientation.Bottom => RightToLeft == RightToLeft.Yes ? ViewDockStyle.Left : ViewDockStyle.Right,
+                    VisualOrientation.Left => ViewDockStyle.Bottom,
+                    VisualOrientation.Right => ViewDockStyle.Top,
+                    _ => RightToLeft == RightToLeft.Yes ? ViewDockStyle.Right : ViewDockStyle.Left
+                }
+            };
 
 
             // Update docking position of check box to match orientation

@@ -76,10 +76,8 @@ namespace Krypton.Toolkit
                                                         Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using (SolidBrush drawBrush = new(lightColor))
-            {
-                context.Graphics.FillRectangle(drawBrush, displayRect);
-            }
+            using SolidBrush drawBrush = new(lightColor);
+            context.Graphics.FillRectangle(drawBrush, displayRect);
         }
 
         #endregion
@@ -105,7 +103,7 @@ namespace Krypton.Toolkit
             KryptonOffice2010Renderer renderer = new(colorPalette.ColorTable)
             {
 
-                // Seup the need to use rounded corners
+                // Setup the need to use rounded corners
                 RoundedEdges = (colorPalette.ColorTable.UseRoundedEdges != InheritBool.False)
             };
 
@@ -133,17 +131,17 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is not MementoRibbonTabContextOffice2010)
+                if (memento is MementoRibbonTabContextOffice2010 contextOffice2010)
+                {
+                    cache = contextOffice2010;
+                    generate = !cache.UseCachedValues(rect, c1, c2);
+                }
+                else
                 {
                     memento?.Dispose();
 
                     cache = new MementoRibbonTabContextOffice2010(rect, c1, c2);
                     memento = cache;
-                }
-                else
-                {
-                    cache = (MementoRibbonTabContextOffice2010)memento;
-                    generate = !cache.UseCachedValues(rect, c1, c2);
                 }
 
                 // Do we need to generate the contents of the cache?

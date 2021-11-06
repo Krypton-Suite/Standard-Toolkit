@@ -45,10 +45,9 @@ namespace Krypton.Toolkit
                                     bool keyboardActivated,
                                     Rectangle dropScreenRect)
             : base(contextMenu, palette, paletteMode, redirector, redirectorImages, 
-                   items, enabled, keyboardActivated)
-        {
+                   items, enabled, keyboardActivated) =>
             _dropScreenRect = dropScreenRect;
-        }
+
         #endregion
 
         #region Public
@@ -58,13 +57,12 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Screen coordinates point.</param>
         /// <returns>True to eat message; otherwise false.</returns>
-        public override bool DoesMouseDownGetEaten(Message m, Point pt)
-        {
+        public override bool DoesMouseDownGetEaten(Message m, Point pt) =>
             // If the user dismissed the context menu by clicking down on the drop down button of
             // the KryptonDateTimePicker then eat the down message to prevent the down press from
             // opening the menu again.
-            return _dropScreenRect.Contains(new Point(pt.X, pt.Y));
-        }
+            _dropScreenRect.Contains(new Point(pt.X, pt.Y));
+
         #endregion
     }
 }

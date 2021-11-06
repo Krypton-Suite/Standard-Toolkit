@@ -24,7 +24,7 @@ namespace Krypton.Navigator
                                              
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the ContextButtonActionConverter clas.
+        /// Initialize a new instance of the ContextButtonActionConverter class.
         /// </summary>
         public ContextButtonActionConverter()
             : base(typeof(ContextButtonAction))

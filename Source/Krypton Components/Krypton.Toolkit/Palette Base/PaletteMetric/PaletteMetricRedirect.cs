@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteMetricRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         public PaletteMetricRedirect(PaletteRedirect redirect)
         {
             Debug.Assert(redirect != null);
@@ -64,11 +64,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public virtual int GetMetricInt(PaletteState state, PaletteMetricInt metric)
-        {
+        public virtual int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            return _redirect.GetMetricInt(state, metric);
-        }
+            _redirect.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -76,11 +74,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>InheritBool value.</returns>
-        public virtual InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
-        {
+        public virtual InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Pass onto the inheritance
-            return _redirect.GetMetricBool(state, metric);
-        }
+            _redirect.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -88,11 +84,10 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Padding value.</returns>
-        public virtual Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
-        {
+        public virtual Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric) =>
             // Pass onto the inheritance
-            return _redirect.GetMetricPadding(state, metric);
-        }
+            _redirect.GetMetricPadding(state, metric);
+
         #endregion
     }
 }

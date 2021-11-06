@@ -47,10 +47,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _stateInherit.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _stateInherit.SetRedirector(redirect);
+
         #endregion
 
         #region IsDefault
@@ -86,10 +84,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
     
         #region StateDisabled
@@ -102,10 +98,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+
         #endregion
 
         #region StateNormal
@@ -118,10 +112,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
         #endregion
     }
 }

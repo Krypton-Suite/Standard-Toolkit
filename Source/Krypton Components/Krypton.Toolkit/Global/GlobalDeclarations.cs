@@ -10,7 +10,7 @@
  */
 #endregion
 
-// This file holds the global definitions > C# 10
+// This file holds the global definitions >= C# 10
 
 global using System;
 global using System.Collections;
@@ -45,8 +45,7 @@ global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
 
-global using Krypton.Toolkit.Global;
-global using Krypton.Toolkit.Properties;
+global using Krypton.Toolkit.Resources;
 
 global using Microsoft.Win32;
 

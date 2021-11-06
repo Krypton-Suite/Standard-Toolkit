@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonColorButton), "ToolboxBitmaps.KryptonColorButton.bmp")]
     [DefaultEvent("SelectedColorChanged")]
     [DefaultProperty("SelectedColor")]
-    [Designer(typeof(KryptonColorButtonDesigner))]
+    [Designer("Krypton.Toolkit.KryptonColorButtonDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Raises an event when the user clicks it.")]
     public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValues
@@ -43,6 +43,7 @@ namespace Krypton.Toolkit
         private bool _wasEnabled;
         private bool _isDefault;
         private bool _useMnemonic;
+        private bool _allowFullOpen;
 
         // Context menu items
         private readonly KryptonContextMenu _kryptonContextMenu;
@@ -128,6 +129,7 @@ namespace Krypton.Toolkit
             _useMnemonic = true;
             MaxRecentColors = 10;
             _recentColors = new List<Color>();
+            _allowFullOpen = true;
 
             // Create the context menu items
             _kryptonContextMenu = new KryptonContextMenu();
@@ -141,7 +143,7 @@ namespace Krypton.Toolkit
             _headingRecent = new KryptonContextMenuHeading("Recent Colors");
             _colorsRecent = new KryptonContextMenuColorColumns(ColorScheme.None);
             _separatorNoColor = new KryptonContextMenuSeparator();
-            _itemNoColor = new KryptonContextMenuItem("&No Color", Resources.ButtonNoColor, OnClickNoColor);
+            _itemNoColor = new KryptonContextMenuItem("&No Color", Resources.GenericImageResources.ButtonNoColor, OnClickNoColor);
             _itemsNoColor = new KryptonContextMenuItems();
             _itemsNoColor.Items.Add(_itemNoColor);
             _separatorMoreColors = new KryptonContextMenuSeparator();
@@ -247,7 +249,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Text;
@@ -255,20 +257,16 @@ namespace Krypton.Toolkit
             set => Values.Text = value;
         }
 
-        private bool ShouldSerializeText()
-        {
+        private bool ShouldSerializeText() =>
             // Never serialize, let the color button values serialize instead
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
+        public override void ResetText() =>
             // Map onto the color button property from the values
             Values.ResetText();
-        }
 
         /// <summary>
         /// Gets or sets the ContextMenuStrip associated with this control.
@@ -431,6 +429,7 @@ namespace Krypton.Toolkit
             }
         }
 
+
         /// <summary>
         /// Gets and sets the visual orientation of the control.
         /// </summary>
@@ -550,10 +549,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeButtonStyle()
-        {
-            return (ButtonStyle != ButtonStyle.Standalone);
-        }
+        private bool ShouldSerializeButtonStyle() => (ButtonStyle != ButtonStyle.Standalone);
 
         private void ResetButtonStyle()
         {
@@ -568,10 +564,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ColorButtonValues Values { get; }
 
-        private bool ShouldSerializeValues()
-        {
-            return !Values.IsDefault;
-        }
+        private bool ShouldSerializeValues() => !Values.IsDefault;
 
         /// <summary>
         /// Gets access to the image value overrides.
@@ -581,10 +574,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DropDownButtonImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets access to the context menu display strings.
@@ -602,10 +592,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled color button appearance entries.
@@ -615,10 +602,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal color button appearance entries.
@@ -628,10 +612,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the hot tracking color button appearance entries.
@@ -641,10 +622,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed color button appearance entries.
@@ -654,10 +632,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the normal color button appearance when default.
@@ -667,10 +642,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideDefault { get; }
 
-        private bool ShouldSerializeOverrideDefault()
-        {
-            return !OverrideDefault.IsDefault;
-        }
+        private bool ShouldSerializeOverrideDefault() => !OverrideDefault.IsDefault;
 
         /// <summary>
         /// Gets access to the color button appearance when it has focus.
@@ -680,10 +652,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets or sets the value returned to the parent form when the color button is clicked.
@@ -816,7 +785,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Determins the IME status of the object when selected.
+        /// Determines the IME status of the object when selected.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -824,6 +793,14 @@ namespace Krypton.Toolkit
         {
             get => base.ImeMode;
             set => base.ImeMode = value;
+        }
+
+        [DefaultValue(true), Description("Full color dialog.")]
+        public bool AllowFullOpen
+        {
+            get => _allowFullOpen;
+
+            set => _allowFullOpen = value;
         }
         #endregion
 
@@ -947,7 +924,7 @@ namespace Krypton.Toolkit
 
             // If we have an attached command then execute it
             KryptonCommand?.PerformExecute();
-        }
+        } 
 
         /// <summary>
         /// Processes a mnemonic character.
@@ -1410,18 +1387,18 @@ namespace Krypton.Toolkit
 
         private void OnClickMoreColors(object sender, EventArgs e)
         {
-            // Give user a chance to cancel showing the standard more colors dialog
+            // Give user a chance to cancel showing the Krypton more colors dialog
             CancelEventArgs cea = new();
             OnMoreColors(cea);
 
             // If not instructed to cancel then...
             if (!cea.Cancel)
             {
-                // Use a standard color dialog for the selection of custom colors
-                ColorDialog cd = new()
+                // Use a Krypton color dialog for the selection of custom colors
+                KryptonColorDialog cd = new()
                 {
                     Color = SelectedColor,
-                    FullOpen = true
+                    FullOpen = _allowFullOpen
                 };
 
                 // Only if user selected a value do we want to use it

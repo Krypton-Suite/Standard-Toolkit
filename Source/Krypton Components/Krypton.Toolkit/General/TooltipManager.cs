@@ -232,18 +232,13 @@ namespace Krypton.Toolkit
         /// Raises the ShowTooltip event.
         /// </summary>
         /// <param name="e">A TooltipEventArgs that contains the event data.</param>
-        protected virtual void OnShowToolTip(ToolTipEventArgs e)
-        {
-            ShowToolTip?.Invoke(this, e);
-        }
+        protected virtual void OnShowToolTip(ToolTipEventArgs e) => ShowToolTip?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CancelTooltip event.
         /// </summary>
-        protected virtual void OnCancelToolTip()
-        {
-            CancelToolTip?.Invoke(this, EventArgs.Empty);
-        }
+        protected virtual void OnCancelToolTip() => CancelToolTip?.Invoke(this, EventArgs.Empty);
+
         #endregion
 
         #region Implementation

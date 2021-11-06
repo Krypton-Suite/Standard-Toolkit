@@ -22,10 +22,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the ButtonSpecNavigator class.
         /// </summary>
-        public ButtonSpecNavigator()
-        {
-            ProtectedType = NavigatorToPaletteType(PaletteNavButtonSpecStyle.Generic);
-        }
+        public ButtonSpecNavigator() => ProtectedType = NavigatorToPaletteType(PaletteNavButtonSpecStyle.Generic);
+
         #endregion
 
         #region Type
@@ -99,6 +97,8 @@ namespace Krypton.Navigator
                     return PaletteButtonSpecStyle.FormMin;
                 case PaletteNavButtonSpecStyle.FormRestore:
                     return PaletteButtonSpecStyle.FormRestore;
+                case PaletteNavButtonSpecStyle.FormHelp:
+                    return PaletteButtonSpecStyle.FormHelp;
                 case PaletteNavButtonSpecStyle.PendantClose:
                     return PaletteButtonSpecStyle.PendantClose;
                 case PaletteNavButtonSpecStyle.PendantMin:
@@ -148,6 +148,8 @@ namespace Krypton.Navigator
                     return PaletteNavButtonSpecStyle.FormMin;
                 case PaletteButtonSpecStyle.FormRestore:
                     return PaletteNavButtonSpecStyle.FormRestore;
+                case PaletteButtonSpecStyle.FormHelp:
+                    return PaletteNavButtonSpecStyle.FormHelp;
                 case PaletteButtonSpecStyle.PendantClose:
                     return PaletteNavButtonSpecStyle.PendantClose;
                 case PaletteButtonSpecStyle.PendantMin:

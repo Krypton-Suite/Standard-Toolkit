@@ -100,10 +100,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonDataGridViewTextBoxColumn class.
         /// </summary>
         protected KryptonDataGridViewIconColumn(DataGridViewCell cellTemplate)
-            : base(cellTemplate)
-        {
+            : base(cellTemplate) =>
             IconSpecs = new List<IconSpec>();
-        }
 
         #endregion
 

@@ -127,27 +127,18 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
         {
-            switch (keyData & Keys.KeyCode)
+            return (keyData & Keys.KeyCode) switch
             {
-                case Keys.Right:
-                case Keys.Left:
-                case Keys.Down:
-                case Keys.Up:
-                case Keys.Home:
-                case Keys.Delete:
-                    return true;
-            }
-
-            return !dataGridViewWantsInputKey;
+                Keys.Right or Keys.Left or Keys.Down or Keys.Up or Keys.Home or Keys.Delete => true,
+                _ => !dataGridViewWantsInputKey
+            };
         }
 
         /// <summary>
         /// Returns the current value of the editing control.
         /// </summary>
-        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
-        {
-            return (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _dtc.ConvertToInvariantString(Value);
-        }
+        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _dtc.ConvertToInvariantString(Value);
+
         #endregion
 
         #region Protected

@@ -6,11 +6,12 @@
     <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <!--Version information-->
+  <!--Handle AssemblyInfo-->
   <PropertyGroup>
-    <AssemblyVersion>5.550.2108.1</AssemblyVersion>
-    <FileVersion>5.550.2108.1</FileVersion>
-    <Version>5.50.2108.1</Version>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp) and Simon Coghlan (A.K.A Smurf-IV)</Authors>
+    <Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp) and Simon Coghlan (aka Smurf-IV) 2017 - 2021. All rights reserved.</Copyright>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -31,6 +32,12 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <!--Uncomment if your creating Nightly packages-->
+    <!--><None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Nightly.png" Link="Icon.png" Pack="true" PackagePath="" />-->
+
+    <!--Uncomment if your creating Stable/Signed packages-->
+    <!--<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />-->
+
 	  <None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

@@ -11,6 +11,8 @@
 #endregion
 
 
+using ContentAlignment = System.Drawing.ContentAlignment;
+
 namespace Krypton.Toolkit
 {
     public partial class KryptonContextMenuCollectionEditor
@@ -25,7 +27,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Simple class to reduce the length of declarations!
             /// </summary>
-            protected class DictItemBase : Dictionary<KryptonContextMenuItemBase, KryptonContextMenuItemBase> { };
+            protected class DictItemBase : Dictionary<KryptonContextMenuItemBase, KryptonContextMenuItemBase> { }
 
             /// <summary>
             /// Tree node that is attached to a context menu item.
@@ -93,9 +95,9 @@ namespace Krypton.Toolkit
                             return 7;
                         case KryptonContextMenuLinkLabel _:
                             return 8;
-                    //imageList.Images.SetKeyName(9, "delete2.png");
-                    //imageList.Images.SetKeyName(10, "arrow_up_blue.png");
-                    //imageList.Images.SetKeyName(11, "arrow_down_blue.png");
+                        //imageList.Images.SetKeyName(9, "delete2.png");
+                        //imageList.Images.SetKeyName(10, "arrow_up_blue.png");
+                        //imageList.Images.SetKeyName(11, "arrow_down_blue.png");
                         case KryptonContextMenuImageSelect _:
                             return 12;
                         case KryptonContextMenuMonthCalendar _:
@@ -193,413 +195,427 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private DictItemBase _beforeItems;
             private KryptonContextMenuCollectionEditor _editor;
-            private readonly Button buttonOK;
-            private readonly TreeView treeView;
-            private readonly Label label1;
-            private readonly Label label2;
-            private readonly ImageList imageList;
-            private readonly Button buttonDelete;
-            private readonly Button buttonMoveUp;
-            private readonly Button buttonMoveDown;
-            private readonly Button buttonAddCheckBox;
-            private readonly Button buttonAddCheckButton;
-            private readonly Button buttonAddRadioButton;
-            private readonly Button buttonAddLinkLabel;
-            private readonly Button buttonAddSeparator;
-            private readonly Button buttonAddItem;
-            private readonly Button buttonAddItems;
-            private readonly Button buttonAddHeading;
-            private readonly Button buttonAddMonthCalendar;
-            private readonly Button buttonAddColorColumns;
-            private readonly Button buttonAddImageSelect;
-            private readonly Button buttonAddComboBox;
-            private readonly PropertyGrid propertyGrid1;
-            private readonly IContainer components = null;
+            private Button _buttonOk;
+            private TreeView _treeView;
+            private Label _label1;
+            private Label _label2;
+            private ImageList _imageList;
+            private Button _buttonDelete;
+            private Button _buttonMoveUp;
+            private Button _buttonMoveDown;
+            private Button _buttonAddCheckBox;
+            private Button _buttonAddCheckButton;
+            private Button _buttonAddRadioButton;
+            private Button _buttonAddLinkLabel;
+            private Button _buttonAddSeparator;
+            private Button _buttonAddItem;
+            private Button _buttonAddItems;
+            private Button _buttonAddHeading;
+            private Button _buttonAddMonthCalendar;
+            private Button _buttonAddColorColumns;
+            private Button _buttonAddImageSelect;
+            private Button _buttonAddComboBox;
+            private PropertyGrid _propertyGrid1;
+            private IContainer components;
             #endregion
 
             #region Identity
+
+            //public KryptonContextMenuCollectionForm()
+            //{
+            //    InitializeComponent();
+            //}
             /// <summary>
             /// Initialize a new instance of the KryptonContextMenuCollectionForm class.
             /// </summary>
             public KryptonContextMenuCollectionForm(KryptonContextMenuCollectionEditor editor)
-                : base(editor)
+            : base(editor)
             {
                 _editor = editor;
+                InitializeComponent();
+            }
 
+
+            private void InitializeComponent()
+            {
                 components = new Container();
-                buttonOK = new Button();
-                treeView = new TreeView();
-                imageList = new ImageList(components);
-                label1 = new Label();
-                buttonDelete = new Button();
-                buttonMoveUp = new Button();
-                buttonMoveDown = new Button();
-                buttonAddCheckBox = new Button();
-                buttonAddCheckButton = new Button();
-                buttonAddRadioButton = new Button();
-                buttonAddLinkLabel = new Button();
-                buttonAddSeparator = new Button();
-                buttonAddItem = new Button();
-                buttonAddItems = new Button();
-                buttonAddHeading = new Button();
-                buttonAddMonthCalendar = new Button();
-                propertyGrid1 = new PropertyGrid();
-                label2 = new Label();
-                buttonAddColorColumns = new Button();
-                buttonAddImageSelect = new Button();
-                buttonAddComboBox = new Button();
+                _buttonOk = new Button();
+                _treeView = new TreeView();
+                _imageList = new ImageList(components);
+                _label1 = new Label();
+                _buttonDelete = new Button();
+                _buttonMoveUp = new Button();
+                _buttonMoveDown = new Button();
+                _buttonAddCheckBox = new Button();
+                _buttonAddCheckButton = new Button();
+                _buttonAddRadioButton = new Button();
+                _buttonAddLinkLabel = new Button();
+                _buttonAddSeparator = new Button();
+                _buttonAddItem = new Button();
+                _buttonAddItems = new Button();
+                _buttonAddHeading = new Button();
+                _buttonAddMonthCalendar = new Button();
+                _propertyGrid1 = new PropertyGrid();
+                _label2 = new Label();
+                _buttonAddColorColumns = new Button();
+                _buttonAddImageSelect = new Button();
+                _buttonAddComboBox = new Button();
                 SuspendLayout();
                 // 
                 // buttonOK
                 // 
-                buttonOK.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-                buttonOK.DialogResult = DialogResult.OK;
-                buttonOK.Location = new Point(630, 504);
-                buttonOK.Name = "buttonOK";
-                buttonOK.Size = new Size(75, 23);
-                buttonOK.TabIndex = 16;
-                buttonOK.Text = "OK";
-                buttonOK.UseVisualStyleBackColor = true;
-                buttonOK.Click += buttonOK_Click;
+                _buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+                _buttonOk.DialogResult = DialogResult.OK;
+                _buttonOk.Location = new Point(729, 675);
+                _buttonOk.Name = "_buttonOk";
+                _buttonOk.Size = new Size(75, 33);
+                _buttonOk.TabIndex = 16;
+                _buttonOk.Text = @"OK";
+                _buttonOk.UseVisualStyleBackColor = true;
+                _buttonOk.Click += buttonOK_Click;
                 // 
                 // treeView
                 // 
-                treeView.Anchor = ((AnchorStyles.Top | AnchorStyles.Bottom)
+                _treeView.Anchor = ((AnchorStyles.Top | AnchorStyles.Bottom)
                                    | AnchorStyles.Left)
                                   | AnchorStyles.Right;
-                treeView.HideSelection = false;
-                treeView.ImageIndex = 0;
-                treeView.ImageList = imageList;
-                treeView.Location = new Point(16, 29);
-                treeView.Name = "treeView";
-                treeView.SelectedImageIndex = 0;
-                treeView.Size = new Size(251, 466);
-                treeView.TabIndex = 0;
-                treeView.AfterSelect += SelectionChanged;
+                _treeView.HideSelection = false;
+                _treeView.ImageIndex = 0;
+                _treeView.ImageList = _imageList;
+                _treeView.Location = new Point(16, 33);
+                _treeView.Name = "_treeView";
+                _treeView.SelectedImageIndex = 0;
+                _treeView.Size = new Size(320, 615);
+                _treeView.TabIndex = 0;
+                _treeView.AfterSelect += SelectionChanged;
                 // 
                 // imageList
                 // 
-                imageList.TransparentColor = Color.Magenta;
-                imageList.Images.AddRange(new Image[]{
-                    Resources.KryptonContextMenuColorColumns,
-                    Resources.KryptonContextMenuHeading,
-                    Resources.KryptonContextMenuItem,
-                    Resources.KryptonContextMenuItems,
-                    Resources.KryptonContextMenuSeparator,
-                    Resources.KryptonRadioButton,
-                    Resources.KryptonCheckBox,
-                    Resources.KryptonCheckButton,
-                    Resources.KryptonLinkLabel,
-                    Resources.delete2,
-                    Resources.arrow_up_blue,
-                    Resources.arrow_down_blue,
-                    Resources.KryptonContextMenuImageSelect,
-                    Resources.KryptonMonthCalendar,
-                    Resources.KryptonComboBox
+                _imageList.TransparentColor = Color.Magenta;
+                _imageList.Images.AddRange(new Image[]{
+                    KryptonGenericResources.KryptonContextMenuColorColumns,
+                    KryptonGenericResources.KryptonContextMenuHeading,
+                    KryptonGenericResources.KryptonContextMenuItem,
+                    KryptonGenericResources.KryptonContextMenuItems,
+                    KryptonGenericResources.KryptonContextMenuSeparator,
+                    KryptonGenericResources.KryptonRadioButton,
+                    KryptonGenericResources.KryptonCheckBox,
+                    KryptonGenericResources.KryptonCheckButton,
+                    KryptonGenericResources.KryptonLinkLabel,
+                    GenericImageResources.delete2,
+                    BlueArrowResources.arrow_up_blue,
+                    BlueArrowResources.arrow_down_blue,
+                    KryptonGenericResources.KryptonContextMenuImageSelect,
+                    KryptonGenericResources.KryptonMonthCalendar,
+                    KryptonGenericResources.KryptonComboBox
                 });
-                imageList.Images.SetKeyName(0, "KryptonContextMenuColorColumns.bmp");
-                imageList.Images.SetKeyName(1, "KryptonContextMenuHeading.bmp");
-                imageList.Images.SetKeyName(2, "KryptonContextMenuItem.bmp");
-                imageList.Images.SetKeyName(3, "KryptonContextMenuItems.bmp");
-                imageList.Images.SetKeyName(4, "KryptonContextMenuSeparator.bmp");
-                imageList.Images.SetKeyName(5, "KryptonRadioButton.bmp");
-                imageList.Images.SetKeyName(6, "KryptonCheckBox.bmp");
-                imageList.Images.SetKeyName(7, "KryptonCheckButton.bmp");
-                imageList.Images.SetKeyName(8, "KryptonLinkLabel.bmp");
-                imageList.Images.SetKeyName(9, "delete2.png");
-                imageList.Images.SetKeyName(10, "arrow_up_blue.png");
-                imageList.Images.SetKeyName(11, "arrow_down_blue.png");
-                imageList.Images.SetKeyName(12, "KryptonContextMenuImageSelect.bmp");
-                imageList.Images.SetKeyName(13, "KryptonContextMenuMonthCalendar.bmp");
-                imageList.Images.SetKeyName(14, "KryptonComboBox.bmp");
+
+                // TODO: Do these need updating?
+                _imageList.Images.SetKeyName(0, "KryptonContextMenuColorColumns.bmp");
+                _imageList.Images.SetKeyName(1, "KryptonContextMenuHeading.bmp");
+                _imageList.Images.SetKeyName(2, "KryptonContextMenuItem.bmp");
+                _imageList.Images.SetKeyName(3, "KryptonContextMenuItems.bmp");
+                _imageList.Images.SetKeyName(4, "KryptonContextMenuSeparator.bmp");
+                _imageList.Images.SetKeyName(5, "KryptonRadioButton.bmp");
+                _imageList.Images.SetKeyName(6, "KryptonCheckBox.bmp");
+                _imageList.Images.SetKeyName(7, "KryptonCheckButton.bmp");
+                _imageList.Images.SetKeyName(8, "KryptonLinkLabel.bmp");
+                _imageList.Images.SetKeyName(9, "delete2.png");
+                _imageList.Images.SetKeyName(10, "arrow_up_blue.png");
+                _imageList.Images.SetKeyName(11, "arrow_down_blue.png");
+                _imageList.Images.SetKeyName(12, "KryptonContextMenuImageSelect.bmp");
+                _imageList.Images.SetKeyName(13, "KryptonContextMenuMonthCalendar.bmp");
+                _imageList.Images.SetKeyName(14, "KryptonComboBox.bmp");
                 // 
                 // label1
                 // 
-                label1.AutoSize = true;
-                label1.Location = new Point(13, 11);
-                label1.Name = "label1";
-                label1.Size = new Size(75, 13);
-                label1.TabIndex = 7;
-                label1.Text = "Item Hierarchy";
+                _label1.AutoSize = true;
+                _label1.Location = new Point(13, 11);
+                _label1.Name = "_label1";
+                _label1.Size = new Size(120, 21);
+                _label1.TabIndex = 7;
+                _label1.Text = @"Item Hierarchy";
                 // 
                 // buttonDelete
                 // 
-                buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonDelete.ImageIndex = 9;
-                buttonDelete.ImageList = imageList;
-                buttonDelete.Location = new Point(282, 467);
-                buttonDelete.Name = "buttonDelete";
-                buttonDelete.Size = new Size(144, 28);
-                buttonDelete.TabIndex = 14;
-                buttonDelete.Text = "Delete";
-                buttonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonDelete.UseVisualStyleBackColor = true;
-                buttonDelete.Click += buttonDelete_Click;
+                _buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonDelete.ImageIndex = 9;
+                _buttonDelete.ImageList = _imageList;
+                _buttonDelete.Location = new Point(341, 603);
+                _buttonDelete.Name = "_buttonDelete";
+                _buttonDelete.Size = new Size(184, 32);
+                _buttonDelete.TabIndex = 14;
+                _buttonDelete.Text = @"Delete";
+                _buttonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonDelete.UseVisualStyleBackColor = true;
+                _buttonDelete.Click += buttonDelete_Click;
                 // 
                 // buttonMoveUp
                 // 
-                buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonMoveUp.ImageIndex = 10;
-                buttonMoveUp.ImageList = imageList;
-                buttonMoveUp.Location = new Point(282, 29);
-                buttonMoveUp.Name = "buttonMoveUp";
-                buttonMoveUp.Size = new Size(144, 28);
-                buttonMoveUp.TabIndex = 1;
-                buttonMoveUp.Text = "Move Up";
-                buttonMoveUp.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonMoveUp.UseVisualStyleBackColor = true;
-                buttonMoveUp.Click += buttonMoveUp_Click;
+                _buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonMoveUp.ImageIndex = 10;
+                _buttonMoveUp.ImageList = _imageList;
+                _buttonMoveUp.Location = new Point(341, 29);
+                _buttonMoveUp.Name = "_buttonMoveUp";
+                _buttonMoveUp.Size = new Size(184, 32);
+                _buttonMoveUp.TabIndex = 1;
+                _buttonMoveUp.Text = @"Move Up";
+                _buttonMoveUp.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonMoveUp.UseVisualStyleBackColor = true;
+                _buttonMoveUp.Click += buttonMoveUp_Click;
                 // 
                 // buttonMoveDown
                 // 
-                buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonMoveDown.ImageIndex = 11;
-                buttonMoveDown.ImageList = imageList;
-                buttonMoveDown.Location = new Point(282, 60);
-                buttonMoveDown.Name = "buttonMoveDown";
-                buttonMoveDown.Size = new Size(144, 28);
-                buttonMoveDown.TabIndex = 2;
-                buttonMoveDown.Text = "Move Down";
-                buttonMoveDown.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonMoveDown.UseVisualStyleBackColor = true;
-                buttonMoveDown.Click += buttonMoveDown_Click;
+                _buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonMoveDown.ImageIndex = 11;
+                _buttonMoveDown.ImageList = _imageList;
+                _buttonMoveDown.Location = new Point(341, 70);
+                _buttonMoveDown.Name = "_buttonMoveDown";
+                _buttonMoveDown.Size = new Size(184, 32);
+                _buttonMoveDown.TabIndex = 2;
+                _buttonMoveDown.Text = @"Move Down";
+                _buttonMoveDown.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonMoveDown.UseVisualStyleBackColor = true;
+                _buttonMoveDown.Click += buttonMoveDown_Click;
                 // 
                 // buttonAddCheckBox
                 // 
-                buttonAddCheckBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddCheckBox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddCheckBox.ImageIndex = 6;
-                buttonAddCheckBox.ImageList = imageList;
-                buttonAddCheckBox.Location = new Point(282, 222);
-                buttonAddCheckBox.Name = "buttonAddCheckBox";
-                buttonAddCheckBox.Size = new Size(144, 28);
-                buttonAddCheckBox.TabIndex = 7;
-                buttonAddCheckBox.Text = "Add CheckBox";
-                buttonAddCheckBox.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddCheckBox.UseVisualStyleBackColor = true;
-                buttonAddCheckBox.Click += buttonAddCheckBox_Click;
+                _buttonAddCheckBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddCheckBox.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddCheckBox.ImageIndex = 6;
+                _buttonAddCheckBox.ImageList = _imageList;
+                _buttonAddCheckBox.Location = new Point(341, 275);
+                _buttonAddCheckBox.Name = "_buttonAddCheckBox";
+                _buttonAddCheckBox.Size = new Size(184, 32);
+                _buttonAddCheckBox.TabIndex = 7;
+                _buttonAddCheckBox.Text = @"Add CheckBox";
+                _buttonAddCheckBox.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddCheckBox.UseVisualStyleBackColor = true;
+                _buttonAddCheckBox.Click += buttonAddCheckBox_Click;
                 // 
                 // buttonAddCheckButton
                 // 
-                buttonAddCheckButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddCheckButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddCheckButton.ImageIndex = 7;
-                buttonAddCheckButton.ImageList = imageList;
-                buttonAddCheckButton.Location = new Point(282, 256);
-                buttonAddCheckButton.Name = "buttonAddCheckButton";
-                buttonAddCheckButton.Size = new Size(144, 28);
-                buttonAddCheckButton.TabIndex = 8;
-                buttonAddCheckButton.Text = "Add CheckButton";
-                buttonAddCheckButton.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddCheckButton.UseVisualStyleBackColor = true;
-                buttonAddCheckButton.Click += buttonAddCheckButton_Click;
+                _buttonAddCheckButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddCheckButton.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddCheckButton.ImageIndex = 7;
+                _buttonAddCheckButton.ImageList = _imageList;
+                _buttonAddCheckButton.Location = new Point(341, 316);
+                _buttonAddCheckButton.Name = "_buttonAddCheckButton";
+                _buttonAddCheckButton.Size = new Size(184, 32);
+                _buttonAddCheckButton.TabIndex = 8;
+                _buttonAddCheckButton.Text = @"Add CheckButton";
+                _buttonAddCheckButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddCheckButton.UseVisualStyleBackColor = true;
+                _buttonAddCheckButton.Click += buttonAddCheckButton_Click;
                 // 
                 // buttonAddRadioButton
                 // 
-                buttonAddRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddRadioButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddRadioButton.ImageIndex = 5;
-                buttonAddRadioButton.ImageList = imageList;
-                buttonAddRadioButton.Location = new Point(282, 286);
-                buttonAddRadioButton.Name = "buttonAddRadioButton";
-                buttonAddRadioButton.Size = new Size(144, 28);
-                buttonAddRadioButton.TabIndex = 9;
-                buttonAddRadioButton.Text = "Add RadioButton";
-                buttonAddRadioButton.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddRadioButton.UseVisualStyleBackColor = true;
-                buttonAddRadioButton.Click += buttonAddRadioButton_Click;
+                _buttonAddRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddRadioButton.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddRadioButton.ImageIndex = 5;
+                _buttonAddRadioButton.ImageList = _imageList;
+                _buttonAddRadioButton.Location = new Point(341, 357);
+                _buttonAddRadioButton.Name = "_buttonAddRadioButton";
+                _buttonAddRadioButton.Size = new Size(184, 32);
+                _buttonAddRadioButton.TabIndex = 9;
+                _buttonAddRadioButton.Text = @"Add RadioButton";
+                _buttonAddRadioButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddRadioButton.UseVisualStyleBackColor = true;
+                _buttonAddRadioButton.Click += buttonAddRadioButton_Click;
                 // 
                 // buttonAddLinkLabel
                 // 
-                buttonAddLinkLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddLinkLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddLinkLabel.ImageIndex = 8;
-                buttonAddLinkLabel.ImageList = imageList;
-                buttonAddLinkLabel.Location = new Point(282, 318);
-                buttonAddLinkLabel.Name = "buttonAddLinkLabel";
-                buttonAddLinkLabel.Size = new Size(144, 28);
-                buttonAddLinkLabel.TabIndex = 10;
-                buttonAddLinkLabel.Text = "Add LinkLabel";
-                buttonAddLinkLabel.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddLinkLabel.UseVisualStyleBackColor = true;
-                buttonAddLinkLabel.Click += buttonAddLinkLabel_Click;
+                _buttonAddLinkLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddLinkLabel.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddLinkLabel.ImageIndex = 8;
+                _buttonAddLinkLabel.ImageList = _imageList;
+                _buttonAddLinkLabel.Location = new Point(341, 398);
+                _buttonAddLinkLabel.Name = "_buttonAddLinkLabel";
+                _buttonAddLinkLabel.Size = new Size(184, 32);
+                _buttonAddLinkLabel.TabIndex = 10;
+                _buttonAddLinkLabel.Text = @"Add LinkLabel";
+                _buttonAddLinkLabel.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddLinkLabel.UseVisualStyleBackColor = true;
+                _buttonAddLinkLabel.Click += buttonAddLinkLabel_Click;
                 // 
                 // buttonAddSeparator
                 // 
-                buttonAddSeparator.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddSeparator.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddSeparator.ImageIndex = 4;
-                buttonAddSeparator.ImageList = imageList;
-                buttonAddSeparator.Location = new Point(282, 190);
-                buttonAddSeparator.Name = "buttonAddSeparator";
-                buttonAddSeparator.Size = new Size(144, 28);
-                buttonAddSeparator.TabIndex = 6;
-                buttonAddSeparator.Text = "Add Separator";
-                buttonAddSeparator.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddSeparator.UseVisualStyleBackColor = true;
-                buttonAddSeparator.Click += buttonAddSeparator_Click;
+                _buttonAddSeparator.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddSeparator.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddSeparator.ImageIndex = 4;
+                _buttonAddSeparator.ImageList = _imageList;
+                _buttonAddSeparator.Location = new Point(341, 234);
+                _buttonAddSeparator.Name = "_buttonAddSeparator";
+                _buttonAddSeparator.Size = new Size(184, 32);
+                _buttonAddSeparator.TabIndex = 6;
+                _buttonAddSeparator.Text = @"Add Separator";
+                _buttonAddSeparator.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddSeparator.UseVisualStyleBackColor = true;
+                _buttonAddSeparator.Click += buttonAddSeparator_Click;
                 // 
                 // buttonAddItem
                 // 
-                buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddItem.ImageIndex = 2;
-                buttonAddItem.ImageList = imageList;
-                buttonAddItem.Location = new Point(282, 94);
-                buttonAddItem.Name = "buttonAddItem";
-                buttonAddItem.Size = new Size(144, 28);
-                buttonAddItem.TabIndex = 3;
-                buttonAddItem.Text = "Add Item";
-                buttonAddItem.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddItem.UseVisualStyleBackColor = true;
-                buttonAddItem.Click += buttonAddItem_Click;
+                _buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddItem.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddItem.ImageIndex = 2;
+                _buttonAddItem.ImageList = _imageList;
+                _buttonAddItem.Location = new Point(341, 111);
+                _buttonAddItem.Name = "_buttonAddItem";
+                _buttonAddItem.Size = new Size(184, 32);
+                _buttonAddItem.TabIndex = 3;
+                _buttonAddItem.Text = @"Add Item";
+                _buttonAddItem.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddItem.UseVisualStyleBackColor = true;
+                _buttonAddItem.Click += buttonAddItem_Click;
                 // 
                 // buttonAddItems
                 // 
-                buttonAddItems.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddItems.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddItems.ImageIndex = 3;
-                buttonAddItems.ImageList = imageList;
-                buttonAddItems.Location = new Point(282, 126);
-                buttonAddItems.Name = "buttonAddItems";
-                buttonAddItems.Size = new Size(144, 28);
-                buttonAddItems.TabIndex = 4;
-                buttonAddItems.Text = "Add Items";
-                buttonAddItems.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddItems.UseVisualStyleBackColor = true;
-                buttonAddItems.Click += buttonAddItems_Click;
+                _buttonAddItems.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddItems.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddItems.ImageIndex = 3;
+                _buttonAddItems.ImageList = _imageList;
+                _buttonAddItems.Location = new Point(341, 152);
+                _buttonAddItems.Name = "_buttonAddItems";
+                _buttonAddItems.Size = new Size(184, 32);
+                _buttonAddItems.TabIndex = 4;
+                _buttonAddItems.Text = @"Add Items";
+                _buttonAddItems.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddItems.UseVisualStyleBackColor = true;
+                _buttonAddItems.Click += buttonAddItems_Click;
                 // 
                 // buttonAddHeading
                 // 
-                buttonAddHeading.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddHeading.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddHeading.ImageIndex = 1;
-                buttonAddHeading.ImageList = imageList;
-                buttonAddHeading.Location = new Point(282, 158);
-                buttonAddHeading.Name = "buttonAddHeading";
-                buttonAddHeading.Size = new Size(144, 28);
-                buttonAddHeading.TabIndex = 5;
-                buttonAddHeading.Text = "Add Heading";
-                buttonAddHeading.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddHeading.UseVisualStyleBackColor = true;
-                buttonAddHeading.Click += buttonAddHeading_Click;
+                _buttonAddHeading.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddHeading.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddHeading.ImageIndex = 1;
+                _buttonAddHeading.ImageList = _imageList;
+                _buttonAddHeading.Location = new Point(341, 193);
+                _buttonAddHeading.Name = "_buttonAddHeading";
+                _buttonAddHeading.Size = new Size(184, 32);
+                _buttonAddHeading.TabIndex = 5;
+                _buttonAddHeading.Text = @"Add Heading";
+                _buttonAddHeading.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddHeading.UseVisualStyleBackColor = true;
+                _buttonAddHeading.Click += buttonAddHeading_Click;
                 // 
                 // buttonAddMonthCalendar
                 // 
-                buttonAddMonthCalendar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddMonthCalendar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddMonthCalendar.ImageIndex = 13;
-                buttonAddMonthCalendar.ImageList = imageList;
-                buttonAddMonthCalendar.Location = new Point(282, 412);
-                buttonAddMonthCalendar.Name = "buttonAddMonthCalendar";
-                buttonAddMonthCalendar.Size = new Size(144, 28);
-                buttonAddMonthCalendar.TabIndex = 13;
-                buttonAddMonthCalendar.Text = "Add Month Calendar";
-                buttonAddMonthCalendar.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddMonthCalendar.UseVisualStyleBackColor = true;
-                buttonAddMonthCalendar.Click += buttonAddMonthCalendar_Click;
-                // 
-                // buttonAddComboBox
-                // 
-                buttonAddComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddComboBox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddComboBox.ImageIndex = 14;
-                buttonAddComboBox.ImageList = imageList;
-                buttonAddComboBox.Location = new Point(282, 440);
-                buttonAddComboBox.Name = "buttonAddComboBox";
-                buttonAddComboBox.Size = new Size(144, 28);
-                buttonAddComboBox.TabIndex = 14;
-                buttonAddComboBox.Text = "Add ComboBox";
-                buttonAddComboBox.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddComboBox.UseVisualStyleBackColor = true;
+                _buttonAddMonthCalendar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddMonthCalendar.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddMonthCalendar.ImageIndex = 13;
+                _buttonAddMonthCalendar.ImageList = _imageList;
+                _buttonAddMonthCalendar.Location = new Point(341, 521);
+                _buttonAddMonthCalendar.Name = "_buttonAddMonthCalendar";
+                _buttonAddMonthCalendar.Size = new Size(184, 32);
+                _buttonAddMonthCalendar.TabIndex = 13;
+                _buttonAddMonthCalendar.Text = @"Add Month Calendar";
+                _buttonAddMonthCalendar.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddMonthCalendar.UseVisualStyleBackColor = true;
+                _buttonAddMonthCalendar.Click += buttonAddMonthCalendar_Click;
                 // 
                 // propertyGrid1
                 // 
-                propertyGrid1.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom)
-                                       | AnchorStyles.Right;
-                propertyGrid1.HelpVisible = false;
-                propertyGrid1.Location = new Point(439, 29);
-                propertyGrid1.Name = "propertyGrid1";
-                propertyGrid1.Size = new Size(266, 466);
-                propertyGrid1.TabIndex = 15;
-                propertyGrid1.ToolbarVisible = false;
+                _propertyGrid1.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom)
+                                   | AnchorStyles.Right;
+                _propertyGrid1.HelpVisible = false;
+                _propertyGrid1.Location = new Point(538, 33);
+                _propertyGrid1.Name = "_propertyGrid1";
+                _propertyGrid1.Size = new Size(266, 615);
+                _propertyGrid1.TabIndex = 15;
+                _propertyGrid1.ToolbarVisible = false;
                 // 
                 // label2
                 // 
-                label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                label2.AutoSize = true;
-                label2.Location = new Point(436, 11);
-                label2.Name = "label2";
-                label2.Size = new Size(77, 13);
-                label2.TabIndex = 16;
-                label2.Text = "Item Properties";
+                _label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _label2.AutoSize = true;
+                _label2.Location = new Point(535, 11);
+                _label2.Name = "_label2";
+                _label2.Size = new Size(125, 21);
+                _label2.TabIndex = 16;
+                _label2.Text = @"Item Properties";
                 // 
                 // buttonAddColorColumns
                 // 
-                buttonAddColorColumns.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddColorColumns.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddColorColumns.ImageIndex = 0;
-                buttonAddColorColumns.ImageList = imageList;
-                buttonAddColorColumns.Location = new Point(282, 350);
-                buttonAddColorColumns.Name = "buttonAddColorColumns";
-                buttonAddColorColumns.Size = new Size(144, 28);
-                buttonAddColorColumns.TabIndex = 11;
-                buttonAddColorColumns.Text = "Add ColorColumns";
-                buttonAddColorColumns.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddColorColumns.UseVisualStyleBackColor = true;
-                buttonAddColorColumns.Click += buttonAddColorColumns_Click;
+                _buttonAddColorColumns.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddColorColumns.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddColorColumns.ImageIndex = 0;
+                _buttonAddColorColumns.ImageList = _imageList;
+                _buttonAddColorColumns.Location = new Point(341, 439);
+                _buttonAddColorColumns.Name = "_buttonAddColorColumns";
+                _buttonAddColorColumns.Size = new Size(184, 32);
+                _buttonAddColorColumns.TabIndex = 11;
+                _buttonAddColorColumns.Text = @"Add ColorColumns";
+                _buttonAddColorColumns.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddColorColumns.UseVisualStyleBackColor = true;
+                _buttonAddColorColumns.Click += buttonAddColorColumns_Click;
                 // 
                 // buttonAddImageSelect
                 // 
-                buttonAddImageSelect.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddImageSelect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                buttonAddImageSelect.ImageIndex = 12;
-                buttonAddImageSelect.ImageList = imageList;
-                buttonAddImageSelect.Location = new Point(282, 380);
-                buttonAddImageSelect.Name = "buttonAddImageSelect";
-                buttonAddImageSelect.Size = new Size(144, 28);
-                buttonAddImageSelect.TabIndex = 12;
-                buttonAddImageSelect.Text = "Add ImageSelect";
-                buttonAddImageSelect.TextImageRelation = TextImageRelation.ImageBeforeText;
-                buttonAddImageSelect.UseVisualStyleBackColor = true;
-                buttonAddImageSelect.Click += buttonAddImageSelect_Click;
+                _buttonAddImageSelect.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddImageSelect.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddImageSelect.ImageIndex = 12;
+                _buttonAddImageSelect.ImageList = _imageList;
+                _buttonAddImageSelect.Location = new Point(341, 480);
+                _buttonAddImageSelect.Name = "_buttonAddImageSelect";
+                _buttonAddImageSelect.Size = new Size(184, 32);
+                _buttonAddImageSelect.TabIndex = 12;
+                _buttonAddImageSelect.Text = @"Add ImageSelect";
+                _buttonAddImageSelect.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddImageSelect.UseVisualStyleBackColor = true;
+                _buttonAddImageSelect.Click += buttonAddImageSelect_Click;
                 // 
-                // KryptonContextMenuEditorForm
+                // buttonAddComboBox
                 // 
-                AcceptButton = buttonOK;
+                _buttonAddComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonAddComboBox.ImageAlign = ContentAlignment.MiddleLeft;
+                _buttonAddComboBox.ImageIndex = 14;
+                _buttonAddComboBox.ImageList = _imageList;
+                _buttonAddComboBox.Location = new Point(341, 562);
+                _buttonAddComboBox.Name = "_buttonAddComboBox";
+                _buttonAddComboBox.Size = new Size(184, 32);
+                _buttonAddComboBox.TabIndex = 14;
+                _buttonAddComboBox.Text = @"Add ComboBox";
+                _buttonAddComboBox.TextImageRelation = TextImageRelation.ImageBeforeText;
+                _buttonAddComboBox.UseVisualStyleBackColor = true;
+                // 
+                // KryptonContextMenuCollectionForm
+                // 
+                AcceptButton = _buttonOk;
                 AutoScaleMode = AutoScaleMode.None;
-                ClientSize = new Size(717, 557);
+                ClientSize = new Size(816, 724);
                 ControlBox = false;
-                Controls.Add(buttonAddColorColumns);
-                Controls.Add(buttonAddImageSelect);
-                Controls.Add(label2);
-                Controls.Add(propertyGrid1);
-                Controls.Add(buttonAddMonthCalendar);
-                Controls.Add(buttonAddHeading);
-                Controls.Add(buttonAddItems);
-                Controls.Add(buttonAddItem);
-                Controls.Add(buttonAddSeparator);
-                Controls.Add(buttonAddLinkLabel);
-                Controls.Add(buttonAddRadioButton);
-                Controls.Add(buttonAddCheckButton);
-                Controls.Add(buttonAddCheckBox);
-                Controls.Add(buttonMoveDown);
-                Controls.Add(buttonMoveUp);
-                Controls.Add(buttonAddComboBox);
-                Controls.Add(buttonDelete);
-                Controls.Add(label1);
-                Controls.Add(treeView);
-                Controls.Add(buttonOK);
+                Controls.Add(_buttonAddColorColumns);
+                Controls.Add(_buttonAddImageSelect);
+                Controls.Add(_label2);
+                Controls.Add(_propertyGrid1);
+                Controls.Add(_buttonAddMonthCalendar);
+                Controls.Add(_buttonAddHeading);
+                Controls.Add(_buttonAddItems);
+                Controls.Add(_buttonAddItem);
+                Controls.Add(_buttonAddSeparator);
+                Controls.Add(_buttonAddLinkLabel);
+                Controls.Add(_buttonAddRadioButton);
+                Controls.Add(_buttonAddCheckButton);
+                Controls.Add(_buttonAddCheckBox);
+                Controls.Add(_buttonMoveDown);
+                Controls.Add(_buttonMoveUp);
+                Controls.Add(_buttonAddComboBox);
+                Controls.Add(_buttonDelete);
+                Controls.Add(_label1);
+                Controls.Add(_treeView);
+                Controls.Add(_buttonOk);
+                Font = new Font(@"Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 MinimumSize = new Size(733, 593);
-                Name = "KryptonContextMenuEditorForm";
+                Name = "KryptonContextMenuCollectionForm";
                 StartPosition = FormStartPosition.CenterScreen;
-                Text = "KryptonContextMenu Items Editor";
+                Text = @"KryptonContextMenu Items Editor";
                 Load += KryptonContextMenuEditorForm_Load;
                 ResumeLayout(false);
                 PerformLayout();
+
             }
             #endregion
 
@@ -616,22 +632,22 @@ namespace Krypton.Toolkit
 
                     // Need to link the property browser to a site otherwise Image properties cannot be
                     // edited because it cannot navigate to the owning project for its resources
-                    propertyGrid1.Site = new PropertyGridSite(Context, propertyGrid1);
+                    _propertyGrid1.Site = new PropertyGridSite(Context, _propertyGrid1);
 
                     // Add all the top level clones
-                    treeView.Nodes.Clear();
+                    _treeView.Nodes.Clear();
                     foreach (KryptonContextMenuItemBase item in Items)
                     {
                         AddMenuTreeNode(item, null);
                     }
 
                     // Expand to show all entries
-                    treeView.ExpandAll();
+                    _treeView.ExpandAll();
 
                     // Select the first node
-                    if (treeView.Nodes.Count > 0)
+                    if (_treeView.Nodes.Count > 0)
                     {
-                        treeView.SelectedNode = treeView.Nodes[0];
+                        _treeView.SelectedNode = _treeView.Nodes[0];
                     }
 
                     UpdateButtons();
@@ -644,16 +660,16 @@ namespace Krypton.Toolkit
             private void KryptonContextMenuEditorForm_Load(object sender, EventArgs e)
             {
                 // Set allowed categories into the property grid filter
-                propertyGrid1.BrowsableAttributes = new AttributeCollection(new KryptonPersistAttribute());
+                _propertyGrid1.BrowsableAttributes = new AttributeCollection(new KryptonPersistAttribute());
             }
 
             private void buttonOK_Click(object sender, EventArgs e)
             {
                 // Create an array with all the root items
-                object[] rootItems = new object[treeView.Nodes.Count];
+                object[] rootItems = new object[_treeView.Nodes.Count];
                 for (int i = 0; i < rootItems.Length; i++)
                 {
-                    rootItems[i] = ((MenuTreeNode)treeView.Nodes[i]).Item;
+                    rootItems[i] = ((MenuTreeNode)_treeView.Nodes[i]).Item;
                 }
 
                 // Cache a lookup of all items after changes are made
@@ -663,7 +679,7 @@ namespace Krypton.Toolkit
                 Items = rootItems;
 
                 // Clear down contents of tree as this form can be reused
-                treeView.Nodes.Clear();
+                _treeView.Nodes.Clear();
 
                 // Inform designer of changes in component items
                 SynchronizeCollections(_beforeItems, afterItems, Context);
@@ -674,7 +690,7 @@ namespace Krypton.Toolkit
 
             private void buttonMoveUp_Click(object sender, EventArgs e)
             {
-                TreeNode node = treeView.SelectedNode;
+                TreeNode node = _treeView.SelectedNode;
 
                 // We should have a selected node!
                 if (node != null)
@@ -684,9 +700,9 @@ namespace Krypton.Toolkit
                     // If at the root level then move up in the root items collection
                     if (node.Parent == null)
                     {
-                        int index = treeView.Nodes.IndexOf(node);
-                        treeView.Nodes.Remove(node);
-                        treeView.Nodes.Insert(index - 1, node);
+                        int index = _treeView.Nodes.IndexOf(node);
+                        _treeView.Nodes.Remove(node);
+                        _treeView.Nodes.Insert(index - 1, node);
                     }
                     else
                     {
@@ -694,7 +710,7 @@ namespace Krypton.Toolkit
                         TreeNode parentNode = node.Parent;
                         MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
 
-                        switch (treeParentNode.Item)
+                        switch (treeParentNode?.Item)
                         {
                             case KryptonContextMenuItems items1:
                                 items1.Items.Remove(treeNode.Item);
@@ -710,8 +726,8 @@ namespace Krypton.Toolkit
                         parentNode.Nodes.Insert(index - 1, node);
                     }
 
-                    treeView.SelectedNode = node;
-                    treeView.Focus();
+                    _treeView.SelectedNode = node;
+                    _treeView.Focus();
                 }
 
                 UpdateButtons();
@@ -720,7 +736,7 @@ namespace Krypton.Toolkit
 
             private void buttonMoveDown_Click(object sender, EventArgs e)
             {
-                TreeNode node = treeView.SelectedNode;
+                TreeNode node = _treeView.SelectedNode;
 
                 // We should have a selected node!
                 if (node != null)
@@ -730,9 +746,9 @@ namespace Krypton.Toolkit
                     // If at the root level then move down in the root items collection
                     if (node.Parent == null)
                     {
-                        int index = treeView.Nodes.IndexOf(node);
-                        treeView.Nodes.Remove(node);
-                        treeView.Nodes.Insert(index + 1, node);
+                        int index = _treeView.Nodes.IndexOf(node);
+                        _treeView.Nodes.Remove(node);
+                        _treeView.Nodes.Insert(index + 1, node);
                     }
                     else
                     {
@@ -740,7 +756,7 @@ namespace Krypton.Toolkit
                         TreeNode parentNode = node.Parent;
                         MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
 
-                        switch (treeParentNode.Item)
+                        switch (treeParentNode?.Item)
                         {
                             case KryptonContextMenuItems items1:
                                 items1.Items.Remove(treeNode.Item);
@@ -756,72 +772,39 @@ namespace Krypton.Toolkit
                         parentNode.Nodes.Insert(index + 1, node);
                     }
 
-                    treeView.SelectedNode = node;
-                    treeView.Focus();
+                    _treeView.SelectedNode = node;
+                    _treeView.Focus();
                 }
 
                 UpdateButtons();
                 UpdatePropertyGrid();
             }
 
-            private void buttonAddItem_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItem)));
-            }
+            private void buttonAddItem_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItem)));
 
-            private void buttonAddItems_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItems)));
-            }
+            private void buttonAddItems_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuItems)));
 
-            private void buttonAddHeading_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuHeading)));
-            }
+            private void buttonAddHeading_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuHeading)));
 
-            private void buttonAddMonthCalendar_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuMonthCalendar)));
-            }
+            private void buttonAddMonthCalendar_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuMonthCalendar)));
 
-            private void buttonAddSeparator_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuSeparator)));
-            }
+            private void buttonAddSeparator_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuSeparator)));
 
-            private void buttonAddCheckBox_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckBox)));
-            }
+            private void buttonAddCheckBox_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckBox)));
 
-            private void buttonAddCheckButton_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckButton)));
-            }
+            private void buttonAddCheckButton_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuCheckButton)));
 
-            private void buttonAddRadioButton_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuRadioButton)));
-            }
+            private void buttonAddRadioButton_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuRadioButton)));
 
-            private void buttonAddLinkLabel_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuLinkLabel)));
-            }
+            private void buttonAddLinkLabel_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuLinkLabel)));
 
-            private void buttonAddColorColumns_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
-            }
+            private void buttonAddColorColumns_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
 
-            private void buttonAddImageSelect_Click(object sender, EventArgs e)
-            {
-                AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
-            }
+            private void buttonAddImageSelect_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
 
             private void buttonDelete_Click(object sender, EventArgs e)
             {
-                TreeNode node = treeView.SelectedNode;
+                TreeNode node = _treeView.SelectedNode;
 
                 // We should have a selected node!
                 if (node != null)
@@ -831,14 +814,14 @@ namespace Krypton.Toolkit
                     // If at root level then remove from root, otherwise from the parent collection
                     if (node.Parent == null)
                     {
-                        treeView.Nodes.Remove(node);
+                        _treeView.Nodes.Remove(node);
                     }
                     else
                     {
                         TreeNode parentNode = node.Parent;
                         MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
 
-                        switch (treeParentNode.Item)
+                        switch (treeParentNode?.Item)
                         {
                             case KryptonContextMenuItems items1:
                                 items1.Items.Remove(treeNode.Item);
@@ -851,7 +834,7 @@ namespace Krypton.Toolkit
                         node.Parent.Nodes.Remove(node);
                     }
 
-                    treeView.Focus();
+                    _treeView.Focus();
                 }
 
                 UpdateButtons();
@@ -866,8 +849,8 @@ namespace Krypton.Toolkit
 
             private void UpdatePropertyGrid()
             {
-                TreeNode node = treeView.SelectedNode;
-                propertyGrid1.SelectedObject = ((MenuTreeNode) node)?.PropertyObject;
+                TreeNode node = _treeView.SelectedNode;
+                _propertyGrid1.SelectedObject = ((MenuTreeNode)node)?.PropertyObject;
             }
 
             private void AddMenuTreeNode(KryptonContextMenuItemBase item, MenuTreeNode parent)
@@ -882,7 +865,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    treeView.Nodes.Add(node);
+                    _treeView.Nodes.Add(node);
                 }
 
                 // Check for items that can contain collections of children
@@ -905,13 +888,13 @@ namespace Krypton.Toolkit
 
             private void AddNewItem(KryptonContextMenuItemBase item)
             {
-                TreeNode selectedNode = treeView.SelectedNode;
+                TreeNode selectedNode = _treeView.SelectedNode;
                 TreeNode newNode = new MenuTreeNode(item);
 
                 // If there is no selection then append to root
                 if (selectedNode == null)
                 {
-                    treeView.Nodes.Add(newNode);
+                    _treeView.Nodes.Add(newNode);
                 }
                 else
                 {
@@ -922,14 +905,14 @@ namespace Krypton.Toolkit
                         if (item is KryptonContextMenuItem)
                         {
                             MenuTreeNode treeSelectedNode = selectedNode as MenuTreeNode;
-                            KryptonContextMenuItems items = treeSelectedNode.Item as KryptonContextMenuItems;
+                            KryptonContextMenuItems items = treeSelectedNode?.Item as KryptonContextMenuItems;
                             items.Items.Add(item);
                             selectedNode.Nodes.Add(newNode);
                         }
                         else
                         {
-                            int index = treeView.Nodes.IndexOf(selectedNode);
-                            treeView.Nodes.Insert(index + 1, newNode);
+                            int index = _treeView.Nodes.IndexOf(selectedNode);
+                            _treeView.Nodes.Insert(index + 1, newNode);
                         }
                     }
                     else
@@ -938,7 +921,7 @@ namespace Krypton.Toolkit
                         TreeNode parentNode = selectedNode.Parent;
                         MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
 
-                        switch (treeParentNode.Item)
+                        switch (treeParentNode?.Item)
                         {
                             case KryptonContextMenuItems items1:
                                 if (ValidInItemCollection(item))
@@ -949,8 +932,8 @@ namespace Krypton.Toolkit
                                 else
                                 {
                                     MenuTreeNode treeSelectedNode = selectedNode as MenuTreeNode;
-                                    Debug.Assert(treeSelectedNode.Item is KryptonContextMenuItem);
-                                    KryptonContextMenuItem items = treeSelectedNode.Item as KryptonContextMenuItem;
+                                    Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItem);
+                                    KryptonContextMenuItem items = treeSelectedNode?.Item as KryptonContextMenuItem;
                                     items.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
                                 }
@@ -964,8 +947,8 @@ namespace Krypton.Toolkit
                                 else
                                 {
                                     MenuTreeNode treeSelectedNode = selectedNode as MenuTreeNode;
-                                    Debug.Assert(treeSelectedNode.Item is KryptonContextMenuItems);
-                                    KryptonContextMenuItems items = treeSelectedNode.Item as KryptonContextMenuItems;
+                                    Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItems);
+                                    KryptonContextMenuItems items = treeSelectedNode?.Item as KryptonContextMenuItems;
                                     items.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
                                 }
@@ -977,8 +960,8 @@ namespace Krypton.Toolkit
                 // Select the newly added node
                 if (newNode != null)
                 {
-                    treeView.SelectedNode = newNode;
-                    treeView.Focus();
+                    _treeView.SelectedNode = newNode;
+                    _treeView.Focus();
                 }
 
                 UpdateButtons();
@@ -988,13 +971,13 @@ namespace Krypton.Toolkit
             {
                 KryptonContextMenuItemBase item = null;
                 KryptonContextMenuItemBase parent = null;
-                int parentNodeCount = treeView.Nodes.Count;
+                int parentNodeCount = _treeView.Nodes.Count;
                 int nodeIndex = -1;
 
-                if (treeView.SelectedNode is MenuTreeNode node)
+                if (_treeView.SelectedNode is MenuTreeNode node)
                 {
                     item = node.Item;
-                    nodeIndex = treeView.Nodes.IndexOf(node);
+                    nodeIndex = _treeView.Nodes.IndexOf(node);
                     if (node.Parent != null)
                     {
                         parentNodeCount = node.Parent.Nodes.Count;
@@ -1007,20 +990,20 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                buttonMoveUp.Enabled = ((item != null) && (nodeIndex > 0));
-                buttonMoveDown.Enabled = ((item != null) && (nodeIndex < (parentNodeCount - 1)));
-                buttonAddItem.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuItem));
-                buttonAddItems.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuItems));
-                buttonAddSeparator.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuSeparator));
-                buttonAddHeading.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuHeading));
-                buttonAddMonthCalendar.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuMonthCalendar));
-                buttonAddCheckBox.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuCheckBox));
-                buttonAddCheckButton.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuCheckButton));
-                buttonAddRadioButton.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuRadioButton));
-                buttonAddLinkLabel.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuLinkLabel));
-                buttonAddColorColumns.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuColorColumns));
-                buttonAddImageSelect.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuImageSelect));
-                buttonDelete.Enabled = (item != null);
+                _buttonMoveUp.Enabled = ((item != null) && (nodeIndex > 0));
+                _buttonMoveDown.Enabled = ((item != null) && (nodeIndex < (parentNodeCount - 1)));
+                _buttonAddItem.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuItem));
+                _buttonAddItems.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuItems));
+                _buttonAddSeparator.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuSeparator));
+                _buttonAddHeading.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuHeading));
+                _buttonAddMonthCalendar.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuMonthCalendar));
+                _buttonAddCheckBox.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuCheckBox));
+                _buttonAddCheckButton.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuCheckButton));
+                _buttonAddRadioButton.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuRadioButton));
+                _buttonAddLinkLabel.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuLinkLabel));
+                _buttonAddColorColumns.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuColorColumns));
+                _buttonAddImageSelect.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuImageSelect));
+                _buttonDelete.Enabled = (item != null);
             }
 
             private bool AllowAddItem(KryptonContextMenuItemBase item,
@@ -1036,36 +1019,19 @@ namespace Krypton.Toolkit
                 if (ItemInsideCollection(item, parent))
                 {
                     KryptonContextMenuCollection temp = new();
-                    foreach (Type t in temp.RestrictTypes)
-                    {
-                        if (t.Equals(addType))
-                        {
-                            return true;
-                        }
-                    }
+                    return temp.RestrictTypes.Any(t => t.Equals(addType));
                 }
-                else
-                {
-                    KryptonContextMenuItemCollection temp1 = new();
-                    foreach (Type t in temp1.RestrictTypes)
-                    {
-                        if (t.Equals(addType))
-                        {
-                            return true;
-                        }
-                    }
 
-                    if (item is KryptonContextMenuItem)
-                    {
-                        KryptonContextMenuCollection temp2 = new();
-                        foreach (Type t in temp2.RestrictTypes)
-                        {
-                            if (t.Equals(addType))
-                            {
-                                return true;
-                            }
-                        }
-                    }
+                KryptonContextMenuItemCollection temp1 = new();
+                if (temp1.RestrictTypes.Any(t => t.Equals(addType)))
+                {
+                    return true;
+                }
+
+                if (item is KryptonContextMenuItem)
+                {
+                    KryptonContextMenuCollection temp2 = new();
+                    return temp2.RestrictTypes.Any(t => t.Equals(addType));
                 }
 
                 return false;
@@ -1075,39 +1041,21 @@ namespace Krypton.Toolkit
             {
                 Type addType = item.GetType();
                 KryptonContextMenuCollection temp = new();
-                foreach (Type t in temp.RestrictTypes)
-                {
-                    if (t.Equals(addType))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                return temp.RestrictTypes.Any(t => t.Equals(addType));
             }
 
             private bool ValidInItemCollection(KryptonContextMenuItemBase item)
             {
                 Type addType = item.GetType();
                 KryptonContextMenuItemCollection temp = new();
-                foreach (Type t in temp.RestrictTypes)
-                {
-                    if (t.Equals(addType))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                return temp.RestrictTypes.Any(t => t.Equals(addType));
             }
 
             private bool ItemInsideCollection(KryptonContextMenuItemBase item,
-                                              KryptonContextMenuItemBase parent)
-            {
+                                              KryptonContextMenuItemBase parent) =>
                 // If it has no parent the it must be inside a collection
                 // If inside an items then not inside a collection
-                return parent is not KryptonContextMenuItems;
-            }
+                parent is not KryptonContextMenuItems;
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
@@ -1150,40 +1098,32 @@ namespace Krypton.Toolkit
                                                 ITypeDescriptorContext context)
             {
                 // Add all new components (in the 'after' but not the 'before'
-                foreach (KryptonContextMenuItemBase item in after.Values)
+                foreach (KryptonContextMenuItemBase item in after.Values.Where(item => !before.ContainsKey(item)))
                 {
-                    if (!before.ContainsKey(item))
-                    {
-                        context.Container?.Add(item as IComponent);
-                    }
+                    context.Container?.Add(item);
                 }
 
                 // Delete all old components (in the 'before' but not the 'after'
-                foreach (KryptonContextMenuItemBase item in before.Values)
+                foreach (KryptonContextMenuItemBase item in before.Values.Where(item => !after.ContainsKey(item)))
                 {
-                    if (!after.ContainsKey(item))
-                    {
-                        DestroyInstance(item);
+                    DestroyInstance(item);
 
-                        context.Container?.Remove(item as IComponent);
-                    }
+                    context.Container?.Remove(item);
                 }
 
                 IComponentChangeService changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
                 if (changeService != null)
                 {
                     // Mark components as changed when not added or removed
-                    foreach (KryptonContextMenuItemBase item in after.Values)
+                    foreach (KryptonContextMenuItemBase item in after.Values.Where(item => before.ContainsKey(item)))
                     {
-                        if (before.ContainsKey(item))
-                        {
-                            changeService.OnComponentChanging(item, null);
-                            changeService.OnComponentChanged(item, null, null, null);
-                        }
+                        changeService.OnComponentChanging(item, null);
+                        changeService.OnComponentChanged(item, null, null, null);
                     }
                 }
             }
             #endregion
+
         }
         #endregion
     }

@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonForm), "ToolboxBitmaps.KryptonForm.bmp")]
     [Description("Draws the window chrome using a Krypton palette.")]
-    [Designer(typeof(KryptonFormDesigner))]
+    [Designer("Krypton.Toolkit.KryptonFormDesigner, Krypton.Toolkit")]
     public class KryptonForm : VisualForm,
                                IContentValues
     {
@@ -97,8 +97,6 @@ namespace Krypton.Toolkit
         private Icon _cacheIcon;
         private float _cornerRoundingRadius;
         private Control _activeControl;
-        private KryptonManager _internalKryptonManager;
-        private KryptonPalette _internalKryptonPalette;
         #endregion
 
         #region Identity
@@ -203,9 +201,6 @@ namespace Krypton.Toolkit
             // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            _internalKryptonManager = new KryptonManager();
-
-            _internalKryptonPalette = new KryptonPalette();
         }
 
         /// <summary>
@@ -499,10 +494,8 @@ namespace Krypton.Toolkit
                 if (style == ViewDockStyle.Fill)
                 {
                     // Incoming element must be a ViewLayoutDocker
-                    if (element is ViewLayoutDocker)
+                    if (element is ViewLayoutDocker docker)
                     {
-                        ViewLayoutDocker docker = element as ViewLayoutDocker;
-
                         // Remove the existing content
                         _drawHeading.Remove(_drawContent);
 
@@ -535,10 +528,8 @@ namespace Krypton.Toolkit
                 if (style == ViewDockStyle.Fill)
                 {
                     // Incoming element must be a ViewLayoutDocker
-                    if (element is ViewLayoutDocker)
+                    if (element is ViewLayoutDocker docker)
                     {
-                        ViewLayoutDocker docker = element as ViewLayoutDocker;
-
                         // Remove the existing content
                         docker.Remove(_drawContent);
                         _drawHeading.Remove(docker);
@@ -603,7 +594,15 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the corner rounding radius.</summary>
         /// <value>The corner rounding radius.</value>
         [DefaultValue(-1), Description("Defines the corner roundness on the current window (-1 is the default look).")]
-        public float CornerRoundingRadius { get => _cornerRoundingRadius; set { _cornerRoundingRadius = value; Invalidate(); } }
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+            set
+            {
+                _cornerRoundingRadius = value;
+                Invalidate();
+            }
+        }
 
         /// <summary>Gets or sets the active control on the container control.</summary>
         [DefaultValue(null), Description("Defines an active control for this window.")]
@@ -626,15 +625,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets the internal krypton manager.</summary>
-        /// <value>The internal krypton manager.</value>
-        [Description("Manages the current theme.")]
-        public KryptonManager KryptonManager { get => _internalKryptonManager; private set => _internalKryptonManager = value; }
-
-        /// <summary>Gets the internal krypton palette.</summary>
-        /// <value>The internal krypton palette.</value>
-        [Description("Create a custom theme palette.")]
-        public KryptonPalette KryptonPalette { get => _internalKryptonPalette; private set => _internalKryptonPalette = value; }
         #endregion
 
         #region Public Chrome
@@ -691,30 +681,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Window relative point to test.</param>
         /// <returns>True if inside the button; otherwise false.</returns>
-        public bool HitTestMinButton(Point pt)
-        {
-            return (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt));
-        }
+        public bool HitTestMinButton(Point pt) => (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt));
 
         /// <summary>
         /// Gets a value indicating if the provided point is inside the maximize button.
         /// </summary>
         /// <param name="pt">Window relative point to test.</param>
         /// <returns>True if inside the button; otherwise false.</returns>
-        public bool HitTestMaxButton(Point pt)
-        {
-            return (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt));
-        }
+        public bool HitTestMaxButton(Point pt) => (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt));
 
         /// <summary>
         /// Gets a value indicating if the provided point is inside the close button.
         /// </summary>
         /// <param name="pt">Window relative point to test.</param>
         /// <returns>True if inside the button; otherwise false.</returns>
-        public bool HitTestCloseButton(Point pt)
-        {
-            return (_buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt));
-        }
+        public bool HitTestCloseButton(Point pt) => (_buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt));
 
         /// <summary>
         /// Gets and sets a rectangle to treat as a custom caption area.
@@ -758,10 +739,8 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Convert to a bitmap for use in drawing (get the 16x16 version if available)
-                    using (Icon temp = new(_cacheIcon, new Size(16, 16)))
-                    {
-                        _cacheBitmap = temp.ToBitmap();
-                    }
+                    using Icon temp = new(_cacheIcon, new Size(16, 16));
+                    _cacheBitmap = temp.ToBitmap();
                 }
                 catch
                 {
@@ -802,30 +781,24 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Form state.</param>
         /// <returns>Transparent Color.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
+        public Color GetImageTransparentColor(PaletteState state) =>
             // We never mark any color as transparent
-            return Color.Empty;
-        }
+            Color.Empty;
 
         /// <summary>
         /// Gets the short text used as the main caption title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetShortText()
-        {
+        public string GetShortText() =>
             // Return the existing form text property.
-            return Text;
-        }
+            Text;
 
         /// <summary>
         /// Gets the long text used as the secondary caption title.
         /// </summary>
         /// <returns>Title string.</returns>
-        public string GetLongText()
-        {
-            return _textExtra;
-        }
+        public string GetLongText() => _textExtra;
+
         #endregion
 
         #region Protected Override
@@ -836,10 +809,10 @@ namespace Krypton.Toolkit
         protected override void OnControlAdded(ControlEventArgs e)
         {
             // Is this the type of control we need to watch?
-            if (e.Control is StatusStrip)
+            if (e.Control is StatusStrip strip)
             {
                 // Start monitoring the status strip change in state
-                MonitorStatusStrip(e.Control as StatusStrip);
+                MonitorStatusStrip(strip);
 
                 // Recalc to test if status strip should be integrated
                 RecalcNonClient();
@@ -959,11 +932,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnAllowFormChromeChanged(object sender, EventArgs e)
-        {
+        protected override void OnAllowFormChromeChanged(object sender, EventArgs e) =>
             // Test if we need to change the custom chrome usage
             UpdateCustomChromeDecision();
-        }
+
         #endregion
 
         #region Protected Chrome
@@ -1049,24 +1021,11 @@ namespace Krypton.Toolkit
                 }
             }
 
-            Padding borders;
-
-            // Cache the size of the window borders to use for hit testing
-            switch (FormBorderStyle)
+            var borders = FormBorderStyle switch
             {
-                case FormBorderStyle.None:
-                case FormBorderStyle.Fixed3D:
-                case FormBorderStyle.FixedDialog:
-                case FormBorderStyle.FixedSingle:
-                case FormBorderStyle.FixedToolWindow:
-                    borders = Padding.Empty;
-                    break;
-                default:
-                    // When maximized we do not have any borders around the client
-                    borders = WindowState == FormWindowState.Maximized ? Padding.Empty : RealWindowBorders;
-
-                    break;
-            }
+                FormBorderStyle.None or FormBorderStyle.Fixed3D or FormBorderStyle.FixedDialog or FormBorderStyle.FixedSingle or FormBorderStyle.FixedToolWindow => Padding.Empty,
+                _ => WindowState == FormWindowState.Maximized ? Padding.Empty : RealWindowBorders // When maximized we do not have any borders around the client
+            };
 
             // Restrict the top border to the same size as the left as we are using
             // the values for the size of the border hit testing for resizing the window
@@ -1378,22 +1337,18 @@ namespace Krypton.Toolkit
                             _regionWindowState = WindowState;
 
                             // Get the path for the border so we can shape the form using it
-                            using (RenderContext context = new(this, null, Bounds, Renderer))
+                            using RenderContext context = new(this, null, Bounds, Renderer);
+                            using GraphicsPath path = _drawDocker.GetOuterBorderPath(context);
+                            if (!_firstCheckView)
                             {
-                                using (GraphicsPath path = _drawDocker.GetOuterBorderPath(context))
-                                {
-                                    if (!_firstCheckView)
-                                    {
-                                        SuspendPaint();
-                                    }
+                                SuspendPaint();
+                            }
 
-                                    UpdateBorderRegion(path != null ? new Region(path) : null);
+                            UpdateBorderRegion(path != null ? new Region(path) : null);
 
-                                    if (!_firstCheckView)
-                                    {
-                                        ResumePaint();
-                                    }
-                                }
+                            if (!_firstCheckView)
+                            {
+                                ResumePaint();
                             }
                         }
 
@@ -1492,8 +1447,7 @@ namespace Krypton.Toolkit
                                              (_statusStrip.Dock == DockStyle.Bottom) &&
                                              (_statusStrip.Bottom == ClientRectangle.Bottom) &&
                                              (_statusStrip.RenderMode == ToolStripRenderMode.ManagerRenderMode) &&
-                                             ((ToolStripManager.Renderer is KryptonOffice2007Renderer) ||
-                                              (ToolStripManager.Renderer is KryptonSparkleRenderer)));
+                                             (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonSparkleRenderer));
 
         private void MonitorStatusStrip(StatusStrip statusStrip)
         {
@@ -1577,11 +1531,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
@@ -1637,10 +1589,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnGlobalAllowFormChromeChanged(object sender, EventArgs e)
-        {
-            UpdateCustomChromeDecision();
-        }
+        private void OnGlobalAllowFormChromeChanged(object sender, EventArgs e) => UpdateCustomChromeDecision();
 
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {

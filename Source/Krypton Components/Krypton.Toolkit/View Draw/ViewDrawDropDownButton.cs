@@ -26,20 +26,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the ViewDrawDropDownButton class.
         /// </summary>
-        public ViewDrawDropDownButton()
-        {
-            Orientation = VisualOrientation.Top;
-        }
+        public ViewDrawDropDownButton() => Orientation = VisualOrientation.Top;
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawDropDownButton:" + Id;
-        }
+            "ViewDrawDropDownButton:" + Id;
+
         #endregion
 
         #region Palette
@@ -96,14 +92,13 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
-        {
+        public override void RenderBefore(RenderContext context) =>
             context.Renderer.RenderGlyph.DrawDropDownButton(context, 
-                                                            ClientRectangle, 
-                                                            Palette, 
-                                                            State,
-                                                            Orientation);
-        }
+                ClientRectangle, 
+                Palette, 
+                State,
+                Orientation);
+
         #endregion
     }
 }

@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("CheckedChanged")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("CheckState")]
-    [Designer(typeof(KryptonCheckBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonCheckBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Allow user to set or clear the associated option.")]
     public class KryptonCheckBox : VisualSimpleBase, IContentValues
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
                      ControlStyles.StandardDoubleClick, false);
 
             // Set default properties
-            _style = LabelStyle.NormalControl;
+            _style = LabelStyle.NormalPanel;
             _orientation = VisualOrientation.Top;
             _checkPosition = VisualOrientation.Left;
             _checked = false;
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
             Images = new CheckBoxImages(NeedPaintDelegate);
 
             // Create palette redirector
-            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalControl);
+            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
             _paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
 
             // Create the palette provider
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Text;
@@ -231,20 +231,16 @@ namespace Krypton.Toolkit
             set => Values.Text = value;
         }
 
-        private bool ShouldSerializeText()
-        {
+        private bool ShouldSerializeText() =>
             // Never serialize, let the label values serialize instead
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
+        public override void ResetText() =>
             // Map onto the text property from the label values
             Values.ResetText();
-        }
 
         /// <summary>
         /// Gets and sets the visual orientation of the control.
@@ -318,15 +314,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetLabelStyle()
-        {
-            LabelStyle = LabelStyle.NormalControl;
-        }
+        private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalPanel;
 
-        private bool ShouldSerializeLabelStyle()
-        {
-            return (LabelStyle != LabelStyle.NormalControl);
-        }
+        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalPanel);
 
         /// <summary>
         /// Gets access to the label content.
@@ -336,10 +326,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public LabelValues Values { get; }
 
-        private bool ShouldSerializeValues()
-        {
-            return !Values.IsDefault;
-        }
+        private bool ShouldSerializeValues() => !Values.IsDefault;
 
         /// <summary>
         /// Gets access to the image value overrides.
@@ -349,10 +336,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets access to the common label appearance that other states can override.
@@ -362,10 +346,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled label appearance entries.
@@ -375,10 +356,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal label appearance entries.
@@ -388,10 +366,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the label appearance when it has focus.
@@ -401,10 +376,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
@@ -744,18 +716,13 @@ namespace Krypton.Toolkit
             if (AutoCheck)
             {
                 // Change state based on the current state
-                switch (CheckState)
+                CheckState = CheckState switch
                 {
-                    case CheckState.Unchecked:
-                        CheckState = CheckState.Checked;
-                        break;
-                    case CheckState.Checked:
-                        CheckState = (ThreeState ? CheckState.Indeterminate : CheckState.Unchecked);
-                        break;
-                    case CheckState.Indeterminate:
-                        CheckState = CheckState.Unchecked;
-                        break;
-                }
+                    CheckState.Unchecked => CheckState.Checked,
+                    CheckState.Checked => (ThreeState ? CheckState.Indeterminate : CheckState.Unchecked),
+                    CheckState.Indeterminate => CheckState.Unchecked,
+                    _ => CheckState
+                };
             }
 
             base.OnClick(e);
@@ -777,10 +744,10 @@ namespace Krypton.Toolkit
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         protected override bool ProcessMnemonic(char charCode)
         {
-            // Are we allowed to process mneonics?
+            // Are we allowed to process mnemonics?
             if (UseMnemonic && AutoCheck && CanProcessMnemonic())
             {
                 // Does the button primary text contain the mnemonic?
@@ -848,11 +815,10 @@ namespace Krypton.Toolkit
         /// Work out if this control needs to paint transparent areas.
         /// </summary>
         /// <returns>True if paint required; otherwise false.</returns>
-        protected override bool EvalTransparentPaint()
-        {
+        protected override bool EvalTransparentPaint() =>
             // Always need to draw the background because always transparent
-            return true;
-        }
+            true;
+
         #endregion
 
         #region Implementation

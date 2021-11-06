@@ -32,11 +32,10 @@ namespace Krypton.Navigator
         public ViewletHeaderGroupOutlook(KryptonNavigator navigator,
                                          PaletteRedirect redirector,
                                          NeedPaintHandler needPaintDelegate)
-            : base(navigator, redirector, needPaintDelegate)
-        {
+            : base(navigator, redirector, needPaintDelegate) =>
             // Are we using the full or mini outlook mode.
             _full = (navigator.NavigatorMode == NavigatorMode.OutlookFull);
-        }
+
         #endregion
 
         #region Public
@@ -67,16 +66,12 @@ namespace Krypton.Navigator
         protected override bool GetHeaderSecondaryVisible()
         {
             // Work out the correct visiblity value to use
-            switch (Navigator.Outlook.HeaderSecondaryVisible)
+            return Navigator.Outlook.HeaderSecondaryVisible switch
             {
-                case InheritBool.Inherit:
-                    return Navigator.Header.HeaderVisibleSecondary;
-                case InheritBool.True:
-                    return true;
-                case InheritBool.False:
-                default:
-                    return false;
-            }
+                InheritBool.Inherit => Navigator.Header.HeaderVisibleSecondary,
+                InheritBool.True => true,
+                _ => false
+            };
         }
 
         /// <summary>

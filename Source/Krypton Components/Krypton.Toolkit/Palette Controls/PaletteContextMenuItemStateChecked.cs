@@ -45,10 +45,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteContextMenuItemStateChecked class.
         /// </summary>
-        public PaletteContextMenuItemStateChecked(PaletteTripleJustImageRedirect redirectItemImage)
-        {
-            ItemImage = new PaletteTripleJustImage(redirectItemImage);
-        }
+        public PaletteContextMenuItemStateChecked(PaletteTripleJustImageRedirect redirectItemImage) => ItemImage = new PaletteTripleJustImage(redirectItemImage);
+
         #endregion
 
         #region PopulateFromBase
@@ -86,10 +84,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleJustImage ItemImage { get; }
 
-        private bool ShouldSerializeItemImage()
-        {
-            return !ItemImage.IsDefault;
-        }
+        private bool ShouldSerializeItemImage() => !ItemImage.IsDefault;
+
         #endregion
     }
 }

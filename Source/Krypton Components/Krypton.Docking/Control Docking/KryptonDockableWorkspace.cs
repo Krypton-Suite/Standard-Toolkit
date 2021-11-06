@@ -23,20 +23,16 @@ namespace Krypton.Docking
         /// Initialize a new instance of the KryptonDockableWorkspace class.
         /// </summary>
         public KryptonDockableWorkspace()
-            : base("Workspace")
-        {
+            : base("Workspace") =>
             // Override the base class and allow the workspace context menu for the tab to be shown
             ContextMenus.ShowContextMenu = true;
-        }
 
         /// <summary>
         /// Gets a string representation of the instance.
         /// </summary>
         /// <returns>String.</returns>
-        public override string ToString()
-        {
-            return "KryptonDockableWorkspace " + Dock.ToString();
-        }
+        public override string ToString() => "KryptonDockableWorkspace " + Dock.ToString();
+
         #endregion
 
         #region Protected

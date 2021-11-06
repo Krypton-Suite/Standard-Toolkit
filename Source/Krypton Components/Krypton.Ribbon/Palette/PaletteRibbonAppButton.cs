@@ -83,7 +83,7 @@ namespace Krypton.Ribbon
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         public virtual void SetInherit(PaletteRibbonRedirect inherit)
         {
@@ -105,10 +105,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppButton => _ribbonAppButton;
 
-        private bool ShouldSerializeRibbonAppButton()
-        {
-            return !_ribbonAppButton.IsDefault;
-        }
+        private bool ShouldSerializeRibbonAppButton() => !_ribbonAppButton.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedBorder
@@ -120,10 +118,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedBorder => _ribbonGroupCollapsedBorder;
 
-        private bool ShouldSerializeRibbonGroupCollapsedBorder()
-        {
-            return !_ribbonGroupCollapsedBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedBorder() => !_ribbonGroupCollapsedBorder.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedBack
@@ -135,10 +131,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedBack => _ribbonGroupCollapsedBack;
 
-        private bool ShouldSerializeRibbonGroupCollapsedBack()
-        {
-            return !_ribbonGroupCollapsedBack.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedBack() => !_ribbonGroupCollapsedBack.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedFrameBorder
@@ -150,10 +144,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBorder => _ribbonGroupCollapsedFrameBorder;
 
-        private bool ShouldSerializeRibbonGroupCollapsedFrameBorder()
-        {
-            return !_ribbonGroupCollapsedFrameBorder.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedFrameBorder() => !_ribbonGroupCollapsedFrameBorder.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedFrameBack
@@ -165,10 +157,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBack => _ribbonGroupCollapsedFrameBack;
 
-        private bool ShouldSerializeRibbonGroupCollapsedFrameBack()
-        {
-            return !_ribbonGroupCollapsedFrameBack.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedFrameBack() => !_ribbonGroupCollapsedFrameBack.IsDefault;
+
         #endregion
 
         #region RibbonGroupCollapsedText
@@ -180,10 +170,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCollapsedText => _ribbonGroupCollapsedText;
 
-        private bool ShouldSerializeRibbonGroupCollapsedText()
-        {
-            return !_ribbonGroupCollapsedText.IsDefault;
-        }
+        private bool ShouldSerializeRibbonGroupCollapsedText() => !_ribbonGroupCollapsedText.IsDefault;
+
         #endregion
     }
 }

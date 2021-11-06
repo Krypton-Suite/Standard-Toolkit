@@ -127,7 +127,7 @@ namespace Krypton.Navigator
                 if (_barAnimation != value)
                 {
                     _barAnimation = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarAnimation");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarAnimation));
                 }
             }
         }
@@ -158,7 +158,7 @@ namespace Krypton.Navigator
                 if (_barOrientation != value)
                 {
                     _barOrientation = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarOrientation");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarOrientation));
                 }
             }
         }
@@ -189,7 +189,7 @@ namespace Krypton.Navigator
                 if (_barFirstItemInset != value)
                 {
                     _barFirstItemInset = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarFirstItemInset");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarFirstItemInset));
                 }
             }
         }
@@ -220,7 +220,7 @@ namespace Krypton.Navigator
                 if (_barLastItemInset != value)
                 {
                     _barLastItemInset = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarLastItemInset");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarLastItemInset));
                 }
             }
         }
@@ -251,7 +251,7 @@ namespace Krypton.Navigator
                 if (_barMinimumHeight != value)
                 {
                     _barMinimumHeight = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarMinimumHeight");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarMinimumHeight));
                 }
             }
         }
@@ -282,7 +282,7 @@ namespace Krypton.Navigator
                 if (_barMultiline != value)
                 {
                     _barMultiline = value;
-                    _navigator.OnViewBuilderPropertyChanged("BarMultiline");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(BarMultiline));
                 }
             }
         }
@@ -379,7 +379,7 @@ namespace Krypton.Navigator
                 if (_itemAlignment != value)
                 {
                     _itemAlignment = value;
-                    _navigator.OnViewBuilderPropertyChanged("ItemAlignment");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ItemAlignment));
                 }
             }
         }
@@ -430,7 +430,7 @@ namespace Krypton.Navigator
                     }
 
                     _itemMinimumSize = value;
-                    _navigator.OnViewBuilderPropertyChanged("ItemMinimumSize");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ItemMinimumSize));
                 }
             }
         }
@@ -481,7 +481,7 @@ namespace Krypton.Navigator
                     }
 
                     _itemMaximumSize = value;
-                    _navigator.OnViewBuilderPropertyChanged("ItemMaximumSize");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ItemMaximumSize));
                 }
             }
         }
@@ -543,7 +543,7 @@ namespace Krypton.Navigator
                 if (_itemSizing != value)
                 {
                     _itemSizing = value;
-                    _navigator.OnViewBuilderPropertyChanged("ItemSizing");
+                    _navigator.OnViewBuilderPropertyChanged(nameof(ItemSizing));
                 }
             }
         }

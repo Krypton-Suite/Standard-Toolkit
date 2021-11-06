@@ -27,10 +27,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ColorEventArgs class.
         /// </summary>
         /// <param name="color">Color associated with the event.</param>
-        public ColorEventArgs(Color color)
-        {
-            Color = color;
-        }
+        public ColorEventArgs(Color color) => Color = color;
+
         #endregion
 
         #region Public

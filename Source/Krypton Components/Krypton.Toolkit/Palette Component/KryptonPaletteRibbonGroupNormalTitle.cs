@@ -47,10 +47,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _stateInherit.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _stateInherit.SetRedirector(redirect);
+
         #endregion
 
         #region IsDefault
@@ -90,10 +88,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
 
         #region StateNormal
@@ -106,10 +102,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
         #endregion
 
         #region StateTracking
@@ -122,10 +116,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
+
         #endregion
 
         #region StateContextNormal
@@ -138,10 +130,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateContextNormal { get; }
 
-        private bool ShouldSerializeStateContextNormal()
-        {
-            return !StateContextNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateContextNormal() => !StateContextNormal.IsDefault;
+
         #endregion
 
         #region StateContextTracking
@@ -154,10 +144,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateContextTracking { get; }
 
-        private bool ShouldSerializeStateContextTracking()
-        {
-            return !StateContextTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateContextTracking() => !StateContextTracking.IsDefault;
+
         #endregion
     }
 }

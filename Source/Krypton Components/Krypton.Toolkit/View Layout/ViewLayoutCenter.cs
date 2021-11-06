@@ -83,20 +83,17 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="size">Manual padding amount.</param>
         public ViewLayoutCenter(int size)
-            : this(null, PaletteMetricPadding.None, VisualOrientation.Top, null)
-        {
+            : this(null, PaletteMetricPadding.None, VisualOrientation.Top, null) =>
             _rectPadding = new Padding(size);
-        }
-        
+
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutCenter:" + Id;
-        }
+            "ViewLayoutCenter:" + Id;
+
         #endregion
 
         #region MetricPadding
@@ -202,66 +199,44 @@ namespace Krypton.Toolkit
                 Padding borderPadding = _paletteMetric.GetMetricPadding(ElementState, MetricPadding);
 
                 // Applying the padding will depend on the orientation
-                switch (Orientation)
+                ClientRectangle = Orientation switch
                 {
-                    case VisualOrientation.Top:
-                        ClientRectangle = new Rectangle(ClientLocation.X + borderPadding.Left,
-                                                        ClientLocation.Y + borderPadding.Top,
-                                                        ClientWidth - borderPadding.Horizontal,
-                                                        ClientHeight - borderPadding.Vertical);
-                        break;
-                    case VisualOrientation.Bottom:
-                        ClientRectangle = new Rectangle(ClientLocation.X + borderPadding.Right,
-                                                        ClientLocation.Y + borderPadding.Bottom,
-                                                        ClientWidth - borderPadding.Horizontal,
-                                                        ClientHeight - borderPadding.Vertical);
-                        break;
-                    case VisualOrientation.Left:
-                        ClientRectangle = new Rectangle(ClientLocation.X + borderPadding.Top,
-                                                        ClientLocation.Y + borderPadding.Right,
-                                                        ClientWidth - borderPadding.Vertical,
-                                                        ClientHeight - borderPadding.Horizontal);
-                        break;
-                    case VisualOrientation.Right:
-                        ClientRectangle = new Rectangle(ClientLocation.X + borderPadding.Bottom,
-                                                        ClientLocation.Y + borderPadding.Left,
-                                                        ClientWidth - borderPadding.Vertical,
-                                                        ClientHeight - borderPadding.Horizontal);
-                        break;
-                }
+                    VisualOrientation.Top => new Rectangle(ClientLocation.X + borderPadding.Left,
+                        ClientLocation.Y + borderPadding.Top, ClientWidth - borderPadding.Horizontal,
+                        ClientHeight - borderPadding.Vertical),
+                    VisualOrientation.Bottom => new Rectangle(ClientLocation.X + borderPadding.Right,
+                        ClientLocation.Y + borderPadding.Bottom, ClientWidth - borderPadding.Horizontal,
+                        ClientHeight - borderPadding.Vertical),
+                    VisualOrientation.Left => new Rectangle(ClientLocation.X + borderPadding.Top,
+                        ClientLocation.Y + borderPadding.Right, ClientWidth - borderPadding.Vertical,
+                        ClientHeight - borderPadding.Horizontal),
+                    VisualOrientation.Right => new Rectangle(ClientLocation.X + borderPadding.Bottom,
+                        ClientLocation.Y + borderPadding.Left, ClientWidth - borderPadding.Vertical,
+                        ClientHeight - borderPadding.Horizontal),
+                    _ => ClientRectangle
+                };
             }
 
             // Do we have a manual padding to apply?
             if (_rectPadding != null)
             {
                 // Applying the padding will depend on the orientation
-                switch (Orientation)
+                ClientRectangle = Orientation switch
                 {
-                    case VisualOrientation.Top:
-                        ClientRectangle = new Rectangle(ClientLocation.X + _rectPadding.Left,
-                                                        ClientLocation.Y + _rectPadding.Top,
-                                                        ClientWidth - _rectPadding.Horizontal,
-                                                        ClientHeight - _rectPadding.Vertical);
-                        break;
-                    case VisualOrientation.Bottom:
-                        ClientRectangle = new Rectangle(ClientLocation.X + _rectPadding.Right,
-                                                        ClientLocation.Y + _rectPadding.Bottom,
-                                                        ClientWidth - _rectPadding.Horizontal,
-                                                        ClientHeight - _rectPadding.Vertical);
-                        break;
-                    case VisualOrientation.Left:
-                        ClientRectangle = new Rectangle(ClientLocation.X + _rectPadding.Top,
-                                                        ClientLocation.Y + _rectPadding.Right,
-                                                        ClientWidth - _rectPadding.Vertical,
-                                                        ClientHeight - _rectPadding.Horizontal);
-                        break;
-                    case VisualOrientation.Right:
-                        ClientRectangle = new Rectangle(ClientLocation.X + _rectPadding.Bottom,
-                                                        ClientLocation.Y + _rectPadding.Left,
-                                                        ClientWidth - _rectPadding.Vertical,
-                                                        ClientHeight - _rectPadding.Horizontal);
-                        break;
-                }
+                    VisualOrientation.Top => new Rectangle(ClientLocation.X + _rectPadding.Left,
+                        ClientLocation.Y + _rectPadding.Top, ClientWidth - _rectPadding.Horizontal,
+                        ClientHeight - _rectPadding.Vertical),
+                    VisualOrientation.Bottom => new Rectangle(ClientLocation.X + _rectPadding.Right,
+                        ClientLocation.Y + _rectPadding.Bottom, ClientWidth - _rectPadding.Horizontal,
+                        ClientHeight - _rectPadding.Vertical),
+                    VisualOrientation.Left => new Rectangle(ClientLocation.X + _rectPadding.Top,
+                        ClientLocation.Y + _rectPadding.Right, ClientWidth - _rectPadding.Vertical,
+                        ClientHeight - _rectPadding.Horizontal),
+                    VisualOrientation.Right => new Rectangle(ClientLocation.X + _rectPadding.Bottom,
+                        ClientLocation.Y + _rectPadding.Left, ClientWidth - _rectPadding.Vertical,
+                        ClientHeight - _rectPadding.Horizontal),
+                    _ => ClientRectangle
+                };
             }
 
             // Layout each child centered within this space

@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonHeaderGroup), "ToolboxBitmaps.KryptonHeaderGroup.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("ValuesPrimary")]
-    [Designer(typeof(KryptonHeaderGroupDesigner))]
+    [Designer("Krypton.Toolkit.KryptonHeaderGroupDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Group a collection of controls with a descriptive caption.")]
     [Docking(DockingBehavior.Ask)]
@@ -308,7 +308,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => ValuesPrimary.Heading;
@@ -777,25 +777,21 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected

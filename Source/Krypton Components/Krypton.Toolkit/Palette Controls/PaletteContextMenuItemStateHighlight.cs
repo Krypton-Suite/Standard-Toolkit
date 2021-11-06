@@ -92,10 +92,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleMetric ItemHighlight { get; }
 
-        private bool ShouldSerializeItemHighlight()
-        {
-            return !ItemHighlight.IsDefault;
-        }
+        private bool ShouldSerializeItemHighlight() => !ItemHighlight.IsDefault;
+
         #endregion
 
         #region ItemSplit
@@ -108,10 +106,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble ItemSplit { get; }
 
-        private bool ShouldSerializeItemSplit()
-        {
-            return !ItemSplit.IsDefault;
-        }
+        private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
+
         #endregion
     }
 }

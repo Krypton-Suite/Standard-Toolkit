@@ -67,11 +67,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonGroupContent:" + Id;
-        }
+            "ViewLayoutRibbonGroupContent:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -505,7 +503,7 @@ namespace Krypton.Ribbon
             // entry which is the minimum width of a group
             if (retSizes.Count == 0)
             {
-                retSizes.Add(new GroupSizeWidth(EMPTY_WIDTH, MissingFrameWorkAPIs.Array_Empty<ItemSizeWidth>()));
+                retSizes.Add(new GroupSizeWidth(EMPTY_WIDTH, Array.Empty<ItemSizeWidth>()));
             }
 
             // If adding the extra design time entry

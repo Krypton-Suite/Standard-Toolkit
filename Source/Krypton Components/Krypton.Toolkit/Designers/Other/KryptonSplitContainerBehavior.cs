@@ -23,10 +23,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonSplitContainerBehavior class.
         /// </summary>
         /// <param name="relatedDesigner">Reference to the containing designer.</param>
-        public KryptonSplitContainerBehavior(IDesigner relatedDesigner)
-        {
-            _splitContainer = relatedDesigner.Component as KryptonSplitContainer;
-        }
+        public KryptonSplitContainerBehavior(IDesigner relatedDesigner) => _splitContainer = relatedDesigner.Component as KryptonSplitContainer;
+
         #endregion
 
         #region Public Overrides

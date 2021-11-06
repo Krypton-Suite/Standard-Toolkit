@@ -91,11 +91,9 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to allow; otherwise false.</returns>
-        public override bool AllowMouseMove(Message m, Point pt)
-        {
+        public override bool AllowMouseMove(Message m, Point pt) =>
             // We allow all mouse moves when we are showing
-            return true;
-        }
+            true;
 
         /// <summary>
         /// Use the setting from the Positioning to display the tooltip
@@ -226,23 +224,20 @@ namespace Krypton.Toolkit
             base.OnLayout(lEvent);
 
             // Need a render context for accessing the renderer
-            using (RenderContext context = new(this, null, ClientRectangle, Renderer))
-            {
+            using RenderContext context = new(this, null, ClientRectangle, Renderer);
+            // Grab a path that is the outside edge of the border
+            Rectangle borderRect = ClientRectangle;
+            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
+            borderRect.Inflate(-1, -1);
+            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
+            borderRect.Inflate(-1, -1);
+            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
 
-                // Grab a path that is the outside edge of the border
-                Rectangle borderRect = ClientRectangle;
-                GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
-                borderRect.Inflate(-1, -1);
-                GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
-                borderRect.Inflate(-1, -1);
-                GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
+            // Update the region of the popup to be the border path
+            Region = new Region(borderPath1);
 
-                // Update the region of the popup to be the border path
-                Region = new Region(borderPath1);
-
-                // Inform the shadow to use the same paths for drawing the shadow
-                DefineShadowPaths(borderPath1, borderPath2, borderPath3);
-            }
+            // Inform the shadow to use the same paths for drawing the shadow
+            DefineShadowPaths(borderPath1, borderPath2, borderPath3);
         }
         #endregion
     }

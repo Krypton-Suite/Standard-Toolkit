@@ -28,20 +28,15 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonAppMenuDocs class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public ViewDrawRibbonAppMenuDocs(KryptonRibbon ribbon)
-        {
-            _ribbon = ribbon;
-        }
+        public ViewDrawRibbonAppMenuDocs(KryptonRibbon ribbon) => _ribbon = ribbon;
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonAppMenuRecentDocs:" + Id;
-        }
+            "ViewDrawRibbonAppMenuRecentDocs:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.

@@ -71,21 +71,18 @@ namespace Krypton.Toolkit
         /// Release unmanaged and optionally managed resources.
         /// </summary>
         /// <param name="disposing">Called from Dispose method.</param>
-        protected override void Dispose(bool disposing)
-        {
+        protected override void Dispose(bool disposing) =>
             // Prevent memory leak
             base.Dispose(disposing);
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMenuMonthCalendar:" + Id;
-        }
+            "ViewDrawMenuMonthCalendar:" + Id;
+
         #endregion
 
         #region Layout
@@ -296,37 +293,26 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="start">New starting date.</param>
         /// <param name="end">New ending date.</param>
-        public void SetSelectionRange(DateTime start, DateTime end)
-        {
-            _monthCalendar.SetSelectionRange(start, end);
-        }
+        public void SetSelectionRange(DateTime start, DateTime end) => _monthCalendar.SetSelectionRange(start, end);
 
         /// <summary>
         /// Update usage of bolded overrides.
         /// </summary>
         /// <param name="bolded">New bolded state.</param>
-        public void SetBoldedOverride(bool bolded)
-        {
-            _monthCalendar.SetBoldedOverride(bolded);
-        }
+        public void SetBoldedOverride(bool bolded) => _monthCalendar.SetBoldedOverride(bolded);
 
         /// <summary>
         /// Update usage of today overrides.
         /// </summary>
         /// <param name="today">New today state.</param>
-        public void SetTodayOverride(bool today)
-        {
-            _monthCalendar.SetTodayOverride(today);
-        }
+        public void SetTodayOverride(bool today) => _monthCalendar.SetTodayOverride(today);
 
         /// <summary>
         /// Update usage of focus overrides.
         /// </summary>
         /// <param name="focus">Should show focus.</param>
-        public void SetFocusOverride(bool focus)
-        {
-            _monthCalendar.SetFocusOverride(focus);
-        }
+        public void SetFocusOverride(bool focus) => _monthCalendar.SetFocusOverride(focus);
+
         #endregion
     }
 }

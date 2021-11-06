@@ -53,60 +53,42 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state)
-        {
-            return PaletteRelativeAlign.Near;
-        }
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state) => PaletteRelativeAlign.Near;
 
         /// <summary>
         /// Gets the first back color for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor1(PaletteState state)
-        {
-            return _ribbonRecentTitleText.GetRibbonTextColor(state);
-        }
+        public override Color GetContentShortTextColor1(PaletteState state) => _ribbonRecentTitleText.GetRibbonTextColor(state);
 
         /// <summary>
         /// Gets the second back color for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentShortTextColor2(PaletteState state)
-        {
-            return _ribbonRecentTitleText.GetRibbonTextColor(state);
-        }
+        public override Color GetContentShortTextColor2(PaletteState state) => _ribbonRecentTitleText.GetRibbonTextColor(state);
 
         /// <summary>
         /// Gets the first back color for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor1(PaletteState state)
-        {
-            return _ribbonRecentTitleText.GetRibbonTextColor(state);
-        }
+        public override Color GetContentLongTextColor1(PaletteState state) => _ribbonRecentTitleText.GetRibbonTextColor(state);
 
         /// <summary>
         /// Gets the second back color for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetContentLongTextColor2(PaletteState state)
-        {
-            return _ribbonRecentTitleText.GetRibbonTextColor(state);
-        }
+        public override Color GetContentLongTextColor2(PaletteState state) => _ribbonRecentTitleText.GetRibbonTextColor(state);
 
         /// <summary>
         /// Gets the padding between the border and content drawing.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Padding value.</returns>
-        public override Padding GetContentPadding(PaletteState state)
-        {
-            return _titlePadding;
-        }
+        public override Padding GetContentPadding(PaletteState state) => _titlePadding;
 
         /// <summary>
         /// Gets the font for the short text.

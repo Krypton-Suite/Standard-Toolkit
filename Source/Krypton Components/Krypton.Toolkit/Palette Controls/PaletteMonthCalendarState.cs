@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteMonthCalendarState class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         public PaletteMonthCalendarState(PaletteMonthCalendarRedirect redirect)
             : this(redirect, null)
         {
@@ -34,13 +34,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteMonthCalendarState class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteMonthCalendarState(PaletteMonthCalendarRedirect redirect,
-                                         NeedPaintHandler needPaint) 
-        {
+                                         NeedPaintHandler needPaint) =>
             Day = new PaletteTriple(redirect.Day, needPaint);
-        }
+
         #endregion
 
         #region IsDefault
@@ -61,10 +60,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Day { get; }
 
-        private bool ShouldSerializeContent()
-        {
-            return !Day.IsDefault;
-        }
+        private bool ShouldSerializeContent() => !Day.IsDefault;
+
         #endregion
     }
 }

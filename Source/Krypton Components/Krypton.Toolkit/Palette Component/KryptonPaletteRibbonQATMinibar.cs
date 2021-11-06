@@ -45,10 +45,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _stateInherit.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _stateInherit.SetRedirector(redirect);
+
         #endregion
 
         #region IsDefault
@@ -84,10 +82,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
 
         #region StateActive
@@ -100,10 +96,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateActive { get; }
 
-        private bool ShouldSerializeStateActive()
-        {
-            return !StateActive.IsDefault;
-        }
+        private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
+
         #endregion
 
         #region StateInactive
@@ -116,10 +110,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateInactive { get; }
 
-        private bool ShouldSerializeStateInactive()
-        {
-            return !StateInactive.IsDefault;
-        }
+        private bool ShouldSerializeStateInactive() => !StateInactive.IsDefault;
+
         #endregion
     }
 }

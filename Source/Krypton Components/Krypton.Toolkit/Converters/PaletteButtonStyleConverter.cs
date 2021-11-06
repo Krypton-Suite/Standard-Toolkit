@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteButtonStyleConverter clas.
+        /// Initialize a new instance of the PaletteButtonStyleConverter class.
         /// </summary>
         public PaletteButtonStyleConverter()
             : base(typeof(PaletteButtonStyle))

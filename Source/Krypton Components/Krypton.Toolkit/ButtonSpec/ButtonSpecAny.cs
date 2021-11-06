@@ -122,13 +122,13 @@ namespace Krypton.Toolkit
             }
         }
 
+        private bool ShouldSerializeEnabled() => Enabled != ButtonEnabled.Container;
+
         /// <summary>
         /// Resets the Enabled property to its default value.
         /// </summary>
-        public void ResetEnabled()
-        {
-            Enabled = ButtonEnabled.Container;
-        }
+        private void ResetEnabled() => Enabled = ButtonEnabled.Container;
+
         #endregion
 
         #region Checked
@@ -154,18 +154,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeChecked()
-        {
-            return (Checked != ButtonCheckState.NotCheckButton);
-        }
+        private bool ShouldSerializeChecked() => (Checked != ButtonCheckState.NotCheckButton);
 
         /// <summary>
         /// Resets the Checked property to its default value.
         /// </summary>
-        public void ResetChecked()
-        {
-            Checked = ButtonCheckState.NotCheckButton;
-        }
+        public void ResetChecked() => Checked = ButtonCheckState.NotCheckButton;
+
         #endregion
 
         #region KryptonCommand
@@ -225,13 +220,13 @@ namespace Krypton.Toolkit
             }
         }
 
+        private bool ShouldSerializeType() => Type != PaletteButtonSpecStyle.Generic;
+
         /// <summary>
         /// Resets the Type property to its default value.
         /// </summary>
-        public void ResetType()
-        {
-            Type = PaletteButtonSpecStyle.Generic;
-        }
+        private void ResetType() => Type = PaletteButtonSpecStyle.Generic;
+
         #endregion
 
         #region CopyFrom
@@ -257,30 +252,22 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(IPalette palette)
-        {
-            return Visible;
-        }
+        public override bool GetVisible(IPalette palette) => Visible;
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette)
-        {
-            return Enabled;
-        }
+        public override ButtonEnabled GetEnabled(IPalette palette) => Enabled;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette)
-        {
-            return Checked;
-        }
+        public override ButtonCheckState GetChecked(IPalette palette) => Checked;
+
         #endregion
 
         #region Protected

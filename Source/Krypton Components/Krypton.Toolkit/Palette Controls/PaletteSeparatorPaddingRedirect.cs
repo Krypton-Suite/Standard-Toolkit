@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteSeparatorPaddingRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
@@ -97,11 +97,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>Integer value.</returns>
-        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric)
-        {
+        public override int GetMetricInt(PaletteState state, PaletteMetricInt metric) =>
             // Pass onto the inheritance
-            return _redirect.GetMetricInt(state, metric);
-        }
+            _redirect.GetMetricInt(state, metric);
 
         /// <summary>
         /// Gets a boolean metric value.
@@ -109,11 +107,9 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric)
-        {
+        public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Pass onto the inheritance
-            return _redirect.GetMetricBool(state, metric);
-        }
+            _redirect.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.

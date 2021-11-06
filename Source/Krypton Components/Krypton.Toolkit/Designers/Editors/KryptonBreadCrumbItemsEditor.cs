@@ -41,10 +41,8 @@ namespace Krypton.Toolkit
                 /// Initialize a new instance of the KryptonBreadCrumbItem class.
                 /// </summary>
                 /// <param name="item">Item to act as proxy for.</param>
-                public CrumbProxy(KryptonBreadCrumbItem item)
-                {
-                    _item = item;
-                }
+                public CrumbProxy(KryptonBreadCrumbItem item) => _item = item;
+
                 #endregion
 
                 #region ShortText
@@ -245,7 +243,7 @@ namespace Krypton.Toolkit
             private readonly Button buttonMoveDown;
             private readonly Button buttonAddItem;
             private readonly Button buttonDelete;
-            private readonly PropertyGrid propertyGrid1;
+            private readonly /*PropertyGrid*/ KryptonPropertyGrid propertyGrid1;
             private readonly Label label1;
             private readonly Label label2;
             private readonly Button buttonAddChild;
@@ -266,7 +264,7 @@ namespace Krypton.Toolkit
                 buttonMoveDown = new Button();
                 buttonAddItem = new Button();
                 buttonDelete = new Button();
-                propertyGrid1 = new PropertyGrid();
+                propertyGrid1 = new /*PropertyGrid()*/ KryptonPropertyGrid();
                 label1 = new Label();
                 label2 = new Label();
                 buttonAddChild = new Button();
@@ -299,7 +297,7 @@ namespace Krypton.Toolkit
                 // buttonMoveUp
                 // 
                 buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveUp.Image = Resources.arrow_up_blue;
+                buttonMoveUp.Image = Resources.BlueArrowResources.arrow_up_blue;
                 buttonMoveUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveUp.Location = new Point(272, 32);
                 buttonMoveUp.Name = "buttonMoveUp";
@@ -314,7 +312,7 @@ namespace Krypton.Toolkit
                 // buttonMoveDown
                 // 
                 buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonMoveDown.Image = Resources.arrow_down_blue;
+                buttonMoveDown.Image = Resources.BlueArrowResources.arrow_down_blue;
                 buttonMoveDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonMoveDown.Location = new Point(272, 66);
                 buttonMoveDown.Name = "buttonMoveDown";
@@ -329,7 +327,7 @@ namespace Krypton.Toolkit
                 // buttonAddItem
                 // 
                 buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddItem.Image = Resources.add;
+                buttonAddItem.Image = GenericImageResources.add;
                 buttonAddItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddItem.Location = new Point(272, 112);
                 buttonAddItem.Name = "buttonAddItem";
@@ -344,7 +342,7 @@ namespace Krypton.Toolkit
                 // buttonDelete
                 // 
                 buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonDelete.Image = Resources.delete2;
+                buttonDelete.Image = GenericImageResources.delete2;
                 buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonDelete.Location = new Point(272, 190);
                 buttonDelete.Name = "buttonDelete";
@@ -389,7 +387,7 @@ namespace Krypton.Toolkit
                 // buttonAddChild
                 // 
                 buttonAddChild.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                buttonAddChild.Image = Resources.add;
+                buttonAddChild.Image = GenericImageResources.add;
                 buttonAddChild.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 buttonAddChild.Location = new Point(272, 146);
                 buttonAddChild.Name = "buttonAddChild";
@@ -907,10 +905,8 @@ namespace Krypton.Toolkit
         /// Creates a new form to display and edit the current collection.
         /// </summary>
         /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-        protected override CollectionForm CreateCollectionForm()
-        {
-            return new KryptonBreadCrumbItemsForm(this);
-        }
+        protected override CollectionForm CreateCollectionForm() => new KryptonBreadCrumbItemsForm(this);
+
         #endregion
     }
 }

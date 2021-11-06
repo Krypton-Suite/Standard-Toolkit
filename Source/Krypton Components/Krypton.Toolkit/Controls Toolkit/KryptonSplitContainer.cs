@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("SplitterMoved")]
     [DefaultProperty("Orientation")]
     [DesignerCategory("code")]
-    [Designer(typeof(KryptonSplitContainerDesigner))]
+    [Designer("Krypton.Toolkit.KryptonSplitContainerDesigner, Krypton.Toolkit")]
     [Description("Divide the container inside two resizable panels.")]
     [Docking(DockingBehavior.AutoDock)]
     public class KryptonSplitContainer : VisualControlContainment,
@@ -213,10 +213,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeContainerBackStyle()
-        {
-            return (ContainerBackStyle != PaletteBackStyle.PanelClient);
-        }
+        private bool ShouldSerializeContainerBackStyle() => (ContainerBackStyle != PaletteBackStyle.PanelClient);
 
         private void ResetContainerBackStyle()
         {
@@ -244,10 +241,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeSeparatorStyle()
-        {
-            return (SeparatorStyle != SeparatorStyle.LowProfile);
-        }
+        private bool ShouldSerializeSeparatorStyle() => (SeparatorStyle != SeparatorStyle.LowProfile);
 
         private void ResetSeparatorStyle()
         {
@@ -262,10 +256,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainerRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled split container appearance.
@@ -275,10 +266,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainer StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal split container appearance.
@@ -288,10 +276,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainer StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the hot tracking separator appearance entries.
@@ -301,10 +286,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed separator appearance entries.
@@ -314,10 +296,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the first krypton splitter panel.
@@ -998,11 +977,9 @@ namespace Krypton.Toolkit
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void DesignMouseEnter()
-        {
+        public void DesignMouseEnter() =>
             // Pass message directly onto the separator controller
             _separatorController.MouseEnter(this);
-        }
 
         /// <summary>
         /// Internal design time method.
@@ -1039,31 +1016,26 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="button">Mouse button.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void DesignMouseUp(MouseButtons button)
-        {
+        public void DesignMouseUp(MouseButtons button) =>
             // Pass message directly onto the separator controller
             _separatorController.MouseUp(this, _designLastPt, button);
-        }
 
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void DesignMouseLeave()
-        {
+        public void DesignMouseLeave() =>
             // Pass message directly onto the separator controller
             _separatorController.MouseLeave(this, null);
-        }
 
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void DesignAbortMoving()
-        {
+        public void DesignAbortMoving() =>
             // Pass message directly onto the separator controller
             _separatorController.AbortMoving();
-        }
+
         #endregion
 
         #region Protected
@@ -1071,19 +1043,13 @@ namespace Krypton.Toolkit
         /// Raises the SplitterMoved event.
         /// </summary>
         /// <param name="e">A SplitterEventArgs containing the event data.</param>
-        protected virtual void OnSplitterMoved(SplitterEventArgs e)
-        {
-            SplitterMoved?.Invoke(this, e);
-        }
+        protected virtual void OnSplitterMoved(SplitterEventArgs e) => SplitterMoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SplitterMoving event.
         /// </summary>
         /// <param name="e">A SplitterEventArgs containing the event data.</param>
-        protected virtual void OnSplitterMoving(SplitterCancelEventArgs e)
-        {
-            SplitterMoving?.Invoke(this, e);
-        }
+        protected virtual void OnSplitterMoving(SplitterCancelEventArgs e) => SplitterMoving?.Invoke(this, e);
 
         /// <summary>
         /// Force the layout logic to size and position the panels.
@@ -1402,10 +1368,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>A new instance of Control.ControlCollection assigned to the control.</returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        protected override ControlCollection CreateControlsInstance()
-        {
-            return new KryptonReadOnlyControls(this);
-        }
+        protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
+
         #endregion
 
         #region Protected Overrides (Events)
@@ -1413,55 +1377,39 @@ namespace Krypton.Toolkit
         /// Raises the AutoSizeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnAutoSizeChanged(EventArgs e)
-        {
-            AutoSizeChanged?.Invoke(this, e);
-        }
+        protected override void OnAutoSizeChanged(EventArgs e) => AutoSizeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnBackgroundImageChanged(EventArgs e)
-        {
-            BackgroundImageChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageChanged(EventArgs e) => BackgroundImageChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the BackgroundImageLayoutChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnBackgroundImageLayoutChanged(EventArgs e)
-        {
-            BackgroundImageLayoutChanged?.Invoke(this, e);
-        }
+        protected override void OnBackgroundImageLayoutChanged(EventArgs e) => BackgroundImageLayoutChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ControlAdded event.
         /// </summary>
         /// <param name="e">An ControlEventArgs containing the event data.</param>
-        protected override void OnControlAdded(ControlEventArgs e)
-        {
-            ControlAdded?.Invoke(this, e);
-        }
+        protected override void OnControlAdded(ControlEventArgs e) => ControlAdded?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ControlRemoved event.
         /// </summary>
         /// <param name="e">An ControlEventArgs containing the event data.</param>
-        protected override void OnControlRemoved(ControlEventArgs e)
-        {
-            ControlRemoved?.Invoke(this, e);
-        }
+        protected override void OnControlRemoved(ControlEventArgs e) => ControlRemoved?.Invoke(this, e);
+
         #endregion
 
         #region Implementation
         private bool Collapsed => Panel1.Collapsed || Panel2.Collapsed;
 
-        private void SetStyles(SeparatorStyle separatorStyle)
-        {
-            StateCommon.Separator.SetStyles(separatorStyle);
-        }
+        private void SetStyles(SeparatorStyle separatorStyle) => StateCommon.Separator.SetStyles(separatorStyle);
+
         #endregion
     }
 }

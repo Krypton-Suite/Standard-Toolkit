@@ -46,10 +46,8 @@ namespace Krypton.Workspace
         /// Gets a string representing the value of the instance.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return Value;
-        }
+        public override string ToString() => Value;
+
         #endregion
 
         #region Public

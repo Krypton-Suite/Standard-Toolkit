@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewComboBoxCell cells.
     /// </summary>
-    [Designer(typeof(KryptonComboBoxColumnDesigner))]
+    [Designer("Krypton.Toolkit.KryptonComboBoxColumnDesigner, Krypton.Toolkit")]
     [ToolboxBitmap(typeof(KryptonDataGridViewComboBoxColumn), "ToolboxBitmaps.KryptonComboBox.bmp")]
     public class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIconColumn
     {
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [Localizable(true)]
         public List<object> Items { get; }
 
@@ -314,7 +314,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
         [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -416,8 +416,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public string DisplayMember
         {
@@ -461,8 +461,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
+        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ValueMember
         {
@@ -505,8 +505,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Data")]
         [Description("Indicates the Datasource for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataSourceConverter, System.Design")]
-        [Editor("System.Windows.Forms.Design.DataSourceListEditor, System.Design", typeof(UITypeEditor))]
+        [TypeConverter("System.Windows.Forms.Design.DataSourceConverter, " + AssemblyRef.SystemDesign)]
+        [Editor("System.Windows.Forms.Design.DataSourceListEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         public object DataSource
         {
 

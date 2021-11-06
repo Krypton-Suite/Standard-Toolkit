@@ -89,10 +89,8 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="control">The Control to test.</param>
         /// <returns>true if the specified control can be a child of the control managed by this designer; otherwise, false.</returns>
-        public override bool CanParent(Control control)
-        {
-            return false;
-        }
+        public override bool CanParent(Control control) => false;
+
         #endregion
 
         #region Protected

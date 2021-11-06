@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("Paint")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
-    [Designer(typeof(KryptonLabelDesigner))]
+    [Designer("Krypton.Toolkit.KryptonLabelDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Displays descriptive information.")]
     public class KryptonLabel : VisualSimpleBase, IContentValues
@@ -136,7 +136,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [Localizable(false)]
         public override string Text
         {
@@ -151,11 +151,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
+        public override void ResetText() =>
             // Map onto the text property from the label values
             Values.ResetText();
-        }
 
         /// <summary>
         /// Gets and sets the visual orientation of the control.
@@ -495,11 +493,10 @@ namespace Krypton.Toolkit
         /// Work out if this control needs to paint transparent areas.
         /// </summary>
         /// <returns>True if paint required; otherwise false.</returns>
-        protected override bool EvalTransparentPaint()
-        {
+        protected override bool EvalTransparentPaint() =>
             // Always need to draw the background because always transparent
-            return true;
-        }
+            true;
+
         #endregion
 
         #region Implementation

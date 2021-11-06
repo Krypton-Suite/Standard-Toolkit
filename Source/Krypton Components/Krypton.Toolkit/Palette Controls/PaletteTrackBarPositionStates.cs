@@ -63,13 +63,11 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritPosition">Source for inheriting position values.</param>
-        public void SetInherit(IPaletteElementColor inheritPosition)
-        {
-            Position.SetInherit(inheritPosition);
-        }
+        public void SetInherit(IPaletteElementColor inheritPosition) => Position.SetInherit(inheritPosition);
+
         #endregion
 
         #region PopulateFromBase
@@ -77,10 +75,8 @@ namespace Krypton.Toolkit
         /// Populate values from the base palette.
         /// </summary>
         /// <param name="state">Palette state to use when populating.</param>
-        public void PopulateFromBase(PaletteState state)
-        {
-            Position.PopulateFromBase(state);
-        }
+        public void PopulateFromBase(PaletteState state) => Position.PopulateFromBase(state);
+
         #endregion
 
         #region Position
@@ -93,10 +89,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColor Position { get; }
 
-        private bool ShouldSerializePosition()
-        {
-            return !Position.IsDefault;
-        }
+        private bool ShouldSerializePosition() => !Position.IsDefault;
+
         #endregion
     }
 }

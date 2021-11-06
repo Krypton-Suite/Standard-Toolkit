@@ -14,7 +14,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(WebBrowser)/*, "ToolboxBitmaps.KryptonRichTextBox.bmp"*/)]
-    [Designer(typeof(KryptonWebBrowserDesigner))]
+    [Designer("Krypton.Toolkit.KryptonWebBrowserDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Enables the user to browse web page, inside your form. Mainly to be used as a Rich Text Editor")]
     public class KryptonWebBrowser : WebBrowser
@@ -245,20 +245,15 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer()
-        {
-            return _renderer.RenderToolStrip(GetResolvedPalette());
-        }
+        public ToolStripRenderer CreateToolStripRenderer() => _renderer.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette()
-        {
-            return _palette;
-        }
+        public IPalette GetResolvedPalette() => _palette;
+
         #endregion Pallete Controls
     }
 }

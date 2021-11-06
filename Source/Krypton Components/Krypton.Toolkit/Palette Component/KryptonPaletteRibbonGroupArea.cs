@@ -37,6 +37,7 @@ namespace Krypton.Toolkit
             StateCommon = new PaletteRibbonBack(_stateInherit, needPaint);
             StateCheckedNormal = new PaletteRibbonBack(StateCommon, needPaint);
             StateContextCheckedNormal = new PaletteRibbonBack(StateCommon, needPaint);
+            StateTracking = new PaletteRibbonBack(StateCommon, needPaint);
         }
         #endregion
 
@@ -45,10 +46,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _stateInherit.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _stateInherit.SetRedirector(redirect);
+
         #endregion
 
         #region IsDefault
@@ -58,7 +57,8 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public override bool IsDefault => StateCommon.IsDefault &&
                                           StateCheckedNormal.IsDefault &&
-                                          StateContextCheckedNormal.IsDefault;
+                                          StateContextCheckedNormal.IsDefault &&
+                                          StateTracking.IsDefault;
 
         #endregion
 
@@ -71,6 +71,7 @@ namespace Krypton.Toolkit
             // Populate only the designated styles
             StateCheckedNormal.PopulateFromBase(PaletteState.CheckedNormal);
             StateContextCheckedNormal.PopulateFromBase(PaletteState.ContextCheckedNormal);
+            StateTracking.PopulateFromBase(PaletteState.Tracking);
         }
         #endregion
 
@@ -84,10 +85,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
 
         #region StateCheckedNormal
@@ -100,10 +99,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateCheckedNormal { get; }
 
-        private bool ShouldSerializeStateCheckedNormal()
-        {
-            return !StateCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
+
         #endregion
 
         #region StateContextCheckedNormal
@@ -116,10 +113,22 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateContextCheckedNormal { get; }
 
-        private bool ShouldSerializeStateContextCheckedNormal()
-        {
-            return !StateContextCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateContextCheckedNormal() => !StateContextCheckedNormal.IsDefault;
+
+        #endregion
+
+        #region StateTracking
+        /// <summary>
+        /// Gets access to the tracking ribbon group area appearance entries.
+        /// </summary>
+        [KryptonPersist]
+        [Category("Visuals")]
+        [Description("Overrides for defining tracking ribbon group area appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteRibbonBack StateTracking { get; }
+
+        public bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
+
         #endregion
     }
 }

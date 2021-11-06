@@ -44,11 +44,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutWeekCorner:" + Id;
-        }
+            "ViewLayoutWeekCorner:" + Id;
+
         #endregion
 
         #region Layout
@@ -90,10 +89,8 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
-        {
-            Debug.Assert(context != null);
-        }
+        public override void RenderBefore(RenderContext context) => Debug.Assert(context != null);
+
         #endregion
     }
 }

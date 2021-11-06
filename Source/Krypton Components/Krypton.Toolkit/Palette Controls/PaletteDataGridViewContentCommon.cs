@@ -99,10 +99,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state)
-        {
-            return _font != null ? _font : Inherit.GetContentShortTextFont(state);
-        }
+        public override Font GetContentShortTextFont(PaletteState state) => _font != null ? _font : Inherit.GetContentShortTextFont(state);
+
         #endregion
 
         #region TextH
@@ -134,10 +132,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state)
-        {
-            return _textH != PaletteRelativeAlign.Inherit ? _textH : Inherit.GetContentShortTextH(state);
-        }
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteState state) => _textH != PaletteRelativeAlign.Inherit ? _textH : Inherit.GetContentShortTextH(state);
+
         #endregion
 
         #region TextV
@@ -169,10 +165,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public override PaletteRelativeAlign GetContentShortTextV(PaletteState state)
-        {
-            return _textV != PaletteRelativeAlign.Inherit ? _textV : Inherit.GetContentShortTextV(state);
-        }
+        public override PaletteRelativeAlign GetContentShortTextV(PaletteState state) => _textV != PaletteRelativeAlign.Inherit ? _textV : Inherit.GetContentShortTextV(state);
+
         #endregion
 
         #region Padding

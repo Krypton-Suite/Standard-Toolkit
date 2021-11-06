@@ -71,18 +71,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// This target should display as the active target.
         /// </summary>
-        public virtual void ShowTarget()
-        {
-            HighlightState();
-        }
+        public virtual void ShowTarget() => HighlightState();
 
         /// <summary>
         /// This target should clear any active display.
         /// </summary>
-        public virtual void ClearTarget()
-        {
-            NormalState();
-        }
+        public virtual void ClearTarget() => NormalState();
 
         /// <summary>
         /// This target should show any appropriate sub menu.
@@ -103,11 +97,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="charCode">Key code to test against.</param>
         /// <returns>True if a match is found; otherwise false.</returns>
-        public bool MatchMnemonic(char charCode)
-        {
+        public bool MatchMnemonic(char charCode) =>
             // Only interested in enabled items
-            return _menuRadioButton.ItemEnabled && Control.IsMnemonic(charCode, _menuRadioButton.ItemText);
-        }
+            _menuRadioButton.ItemEnabled && Control.IsMnemonic(charCode, _menuRadioButton.ItemText);
 
         /// <summary>
         /// Activate the item because of a mnemonic key press.
@@ -125,10 +117,7 @@ namespace Krypton.Toolkit
         /// Gets the view element that should be used when this target is active.
         /// </summary>
         /// <returns>View element to become active.</returns>
-        public ViewBase GetActiveView()
-        {
-            return _target;
-        }
+        public ViewBase GetActiveView() => _target;
 
         /// <summary>
         /// Get the client rectangle for the display of this target.
@@ -140,10 +129,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt)
-        {
-            return true;
-        }
+        public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
+
         #endregion
         
         #region Mouse Notifications
@@ -388,10 +375,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint();
-        }
+        public void PerformNeedPaint() => OnNeedPaint();
+
         #endregion
 
         #region Private
@@ -443,10 +428,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnNeedPaint()
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(false));
-        }
+        private void OnNeedPaint() => _needPaint?.Invoke(this, new NeedLayoutEventArgs(false));
 
         private void HighlightState()
         {

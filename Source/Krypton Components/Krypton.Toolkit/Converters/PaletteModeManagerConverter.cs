@@ -49,8 +49,14 @@ namespace Krypton.Toolkit
                                              new(PaletteModeManager.Office365SilverLightMode, "Office 365 - Silver (Light Mode)"),
                                              new(PaletteModeManager.Office365White,        "Office 365 - White"),
                                              new(PaletteModeManager.SparkleBlue,           "Sparkle - Blue"),
+                                             new(PaletteModeManager.SparkleBlueDarkMode, "Sparkle - Blue (Dark Mode)"),
+                                             new(PaletteModeManager.SparkleBlueLightMode, "Sparkle - Blue (Light Mode)"),
                                              new(PaletteModeManager.SparkleOrange,         "Sparkle - Orange"),
-                                             new(PaletteModeManager.SparklePurple,         "Sparkle - Purple")
+                                             new(PaletteModeManager.SparkleOrangeDarkMode, "Sparkle - Orange (Dark Mode)"),
+                                             new(PaletteModeManager.SparkleOrangeLightMode, "Sparkle - Orange (Light Mode)"),
+                                             new(PaletteModeManager.SparklePurple,         "Sparkle - Purple"),
+                                             new(PaletteModeManager.SparklePurpleDarkMode, "Sparkle - Purple (Dark Mode)"),
+                                             new(PaletteModeManager.SparklePurpleLightMode, "Sparkle - Purple (Light Mode)")
                                              //new(PaletteModeManager.VisualStudioDark,      "Visual Studio (Dark Mode)"),
                                              //new(PaletteModeManager.VisualStudioLight,     "Visual Studio (Light Mode)")
                                              };
@@ -58,7 +64,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteModeManagerConverter clas.
+        /// Initialize a new instance of the PaletteModeManagerConverter class.
         /// </summary>
         public PaletteModeManagerConverter()
             : base(typeof(PaletteModeManager))

@@ -21,9 +21,10 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonButton), "ToolboxBitmaps.KryptonButton.bmp")]
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
-    [Designer("Krypton.Toolkit.KryptonButtonDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Raises an event when the user clicks it.")]
+    [Designer("Krypton.Toolkit.KryptonButtonDesigner, Krypton.Toolkit")]
+
     public class KryptonButton : VisualSimpleBase, IButtonControl, IContentValues
     {
         #region Instance Fields
@@ -36,7 +37,7 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand _command;
-        private bool _useAsDialogButton, _isDefault, _useMnemonic, _wasEnabled;
+        private bool _useAsDialogButton, _isDefault, _useMnemonic, _wasEnabled, _useAsUACElevationButton;
         #endregion
 
         #region Events
@@ -115,6 +116,8 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawButton);
 
             _useAsDialogButton = false;
+            
+            _useAsUACElevationButton = false;
         }
         #endregion
 
@@ -157,20 +160,16 @@ namespace Krypton.Toolkit
             set => Values.Text = value;
         }
 
-        private bool ShouldSerializeText()
-        {
+        private bool ShouldSerializeText() =>
             // Never serialize, let the button values serialize instead
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
+        public override void ResetText() =>
             // Map onto the button property from the values
             Values.ResetText();
-        }
 
         /// <summary>
         /// Gets and sets the visual orientation of the control.
@@ -216,18 +215,32 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeButtonStyle()
-        {
-            return (ButtonStyle != ButtonStyle.Standalone);
-        }
+        private bool ShouldSerializeButtonStyle() => (ButtonStyle != ButtonStyle.Standalone);
 
         private void ResetButtonStyle()
         {
             ButtonStyle = ButtonStyle.Standalone;
         }
 
-        [DefaultValue(false), Description("If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
-        public bool UseAsADialogButton { get => _useAsDialogButton; set => _useAsDialogButton = value; }
+        [DefaultValue(false), 
+         Description("If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
+        public bool UseAsADialogButton 
+        { 
+            get => _useAsDialogButton; 
+            set => _useAsDialogButton = value; 
+        }
+
+        [DefaultValue(false), 
+         Description("Transforms the button into a UAC elevated button.")]
+        public bool UseAsUACElevationButton 
+        { 
+            get => _useAsUACElevationButton; 
+            set 
+            { 
+                _useAsUACElevationButton = value; 
+                ShowUACShield(value); 
+            } 
+        }
 
         /// <summary>
         /// Gets access to the button content.
@@ -237,10 +250,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonValues Values { get; }
 
-        private bool ShouldSerializeValues()
-        {
-            return !Values.IsDefault;
-        }
+        private bool ShouldSerializeValues() => !Values.IsDefault;
 
         /// <summary>
         /// Gets access to the common button appearance that other states can override.
@@ -250,10 +260,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled button appearance entries.
@@ -263,10 +270,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal button appearance entries.
@@ -276,10 +280,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the hot tracking button appearance entries.
@@ -289,10 +290,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed button appearance entries.
@@ -302,10 +300,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the normal button appearance when default.
@@ -315,10 +310,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideDefault { get; }
 
-        private bool ShouldSerializeOverrideDefault()
-        {
-            return !OverrideDefault.IsDefault;
-        }
+        private bool ShouldSerializeOverrideDefault() => !OverrideDefault.IsDefault;
 
         /// <summary>
         /// Gets access to the button appearance when it has focus.
@@ -328,10 +320,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets or sets the value returned to the parent form when the button is clicked.
@@ -580,6 +569,23 @@ namespace Krypton.Toolkit
 
             // If we have an attached command then execute it
             KryptonCommand?.PerformExecute();
+
+            if (_useAsUACElevationButton)
+            {
+                Bitmap rawUACShield = SystemIcons.Shield.ToBitmap();
+
+                // Resize rawUACShield down to 16 x 16 to make it fit
+                Bitmap resizedUACShield = new Bitmap(rawUACShield, new Size(16, 16));
+
+                if (Values.Image == null)
+                {
+                    Values.Image = resizedUACShield;
+                }
+                else if (Values.Image != null)
+                {
+                    // TODO: If Values.Image is set, and then image becomes null, to then display the UAC icon
+                }
+            }
         }
 
         /// <summary>
@@ -608,10 +614,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Called when a context menu has just been closed.
         /// </summary>
-        protected override void ContextMenuClosed()
-        {
-            _buttonController.RemoveFixed();
-        }
+        protected override void ContextMenuClosed() => _buttonController.RemoveFixed();
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -675,10 +678,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Set of button values.</returns>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint)
-        {
-            return new ButtonValues(needPaint);
-        }
+        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ButtonValues(needPaint);
 
         /// <summary>
         /// Raises the KryptonCommandChanged event.
@@ -727,10 +727,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnButtonTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(EventArgs.Empty);
-        }
+        private void OnButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void OnButtonClick(object sender, MouseEventArgs e)
         {
@@ -747,6 +744,20 @@ namespace Krypton.Toolkit
             if (CanFocus)
             {
                 Focus();
+            }
+        }
+
+        private void ShowUACShield(bool showUACShield)
+        {
+            if (showUACShield)
+            {
+                Values.Image = IconExtractor.LoadIcon(IconExtractor.IconType.Shield, SystemInformation.SmallIconSize).ToBitmap();
+
+                Invalidate();
+            }
+            else
+            {
+                Values.Image = null;
             }
         }
         #endregion

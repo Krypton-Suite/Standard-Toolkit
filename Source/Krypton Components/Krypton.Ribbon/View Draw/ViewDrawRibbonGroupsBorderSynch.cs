@@ -40,21 +40,18 @@ namespace Krypton.Ribbon
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewDrawRibbonGroupsBorderSynch(KryptonRibbon ribbon,
                                                NeedPaintHandler needPaintDelegate)
-            : base(ribbon, false, needPaintDelegate)
-        {
+            : base(ribbon, false, needPaintDelegate) =>
             // Create initial lookup table
             _tabToView = new TabToView();
-        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupsBorderSynch:" + Id;
-        }
+            "ViewDrawRibbonGroupsBorderSynch:" + Id;
+
         #endregion
 
         #region ViewGroupFromPoint
@@ -93,7 +90,7 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo; otherwise null.</returns>
         public KeyTipInfo[] GetGroupKeyTips(KryptonRibbonTab tab) => _tabToView.ContainsKey(tab)
             ? _tabToView[tab].GetGroupKeyTips()
-            : MissingFrameWorkAPIs.Array_Empty<KeyTipInfo>();
+            : Array.Empty<KeyTipInfo>();
 
         #endregion
 

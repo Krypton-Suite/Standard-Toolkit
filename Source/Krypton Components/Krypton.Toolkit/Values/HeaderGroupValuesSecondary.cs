@@ -38,28 +38,20 @@ namespace Krypton.Toolkit
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected override Image GetImageDefault()
-        {
-            return null;
-        }
+        protected override Image GetImageDefault() => null;
 
         /// <summary>
         /// Gets the default heading value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetHeadingDefault()
-        {
-            return _defaultDescription;
-        }
+        protected override string GetHeadingDefault() => _defaultDescription;
 
         /// <summary>
         /// Gets the default description value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetDescriptionDefault()
-        {
-            return string.Empty;
-        }
+        protected override string GetDescriptionDefault() => string.Empty;
+
         #endregion
 
         #region Heading

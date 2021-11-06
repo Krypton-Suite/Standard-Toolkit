@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonGroup), "ToolboxBitmaps.KryptonGroup.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("GroupBackStyle")]
-    [Designer(typeof(KryptonGroupDesigner))]
+    [Designer("Krypton.Toolkit.KryptonGroupDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Ask)]
@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
                 PanelBackStyle = PaletteBackStyle.ControlClient
             };
 
-            // Create the element that fills the remainder space and remembers fill rectange
+            // Create the element that fills the remainder space and remembers fill rectangle
             _layoutFill = new ViewLayoutFill(Panel);
 
             // Create view for the control border and background

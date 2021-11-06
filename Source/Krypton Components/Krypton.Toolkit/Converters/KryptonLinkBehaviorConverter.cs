@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonLinkBehaviorConverter clas.
+        /// Initialize a new instance of the KryptonLinkBehaviorConverter class.
         /// </summary>
         public KryptonLinkBehaviorConverter()
             : base(typeof(KryptonLinkBehavior))

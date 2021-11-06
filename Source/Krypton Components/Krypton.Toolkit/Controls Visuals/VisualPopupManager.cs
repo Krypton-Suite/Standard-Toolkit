@@ -40,10 +40,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the VisualPopupManager class.
         /// </summary>
-        private VisualPopupManager()
-        {
-            _stack = new PopupStack();
-        }
+        private VisualPopupManager() => _stack = new PopupStack();
+
         #endregion
 
         #region Singleton
@@ -284,10 +282,8 @@ namespace Krypton.Toolkit
         /// <param name="cms">Reference to ContextMenuStrip.</param>
         /// <param name="screenPt">Screen position for showing the context menu strip.</param>
         public void ShowContextMenuStrip(ContextMenuStrip cms,
-                                         Point screenPt)
-        {
+                                         Point screenPt) =>
             ShowContextMenuStrip(cms, screenPt, null);
-        }
 
         /// <summary>
         /// Show the provided context strip in a way compatible with any popups.
@@ -698,10 +694,7 @@ namespace Krypton.Toolkit
             return false;
         }
 
-        private Point ScreenPtToClientPt(Point pt)
-        {
-            return ScreenPtToClientPt(pt, CurrentPopup.Handle);
-        }
+        private Point ScreenPtToClientPt(Point pt) => ScreenPtToClientPt(pt, CurrentPopup.Handle);
 
         private Point ScreenPtToClientPt(Point pt, IntPtr handle)
         {

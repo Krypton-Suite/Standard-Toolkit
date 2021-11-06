@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupNumericUpDown), "ToolboxBitmaps.KryptonRibbonGroupNumericUpDown.bmp")]
-    [Designer(typeof(KryptonRibbonGroupNumericUpDownDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupNumericUpDownDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("ValueChanged")]
@@ -122,6 +122,14 @@ namespace Krypton.Ribbon
                 TabStop = false
             };
 
+            ToolTipImageTransparentColor = Color.Empty;
+
+            ToolTipTitle = string.Empty;
+
+            ToolTipBody = string.Empty;
+
+            ToolTipStyle = LabelStyle.SuperTip;
+
             // Hook into events to expose via this container
             NumericUpDown.ValueChanged += OnNumericUpDownValueChanged;
             NumericUpDown.GotFocus += OnNumericUpDownGotFocus;
@@ -186,10 +194,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the numeric up-down.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -198,6 +203,56 @@ namespace Krypton.Ribbon
         {
             ShortcutKeys = Keys.None;
         }
+
+        /// <summary>
+        /// Gets and sets the tooltip label style for group numeric up down button.
+        /// </summary>
+        [Category("Appearance")]
+        [Description("Tooltip style for the group numeric up down button.")]
+        [DefaultValue(typeof(LabelStyle), "SuperTip")]
+        public LabelStyle ToolTipStyle { get; set; }
+
+        /// <summary>
+        /// Gets and sets the image for the item ToolTip.
+        /// </summary>
+        [Bindable(true)]
+        [Category("Appearance")]
+        [Description("Display image associated ToolTip.")]
+        [DefaultValue(null)]
+        [Localizable(true)]
+        public Image ToolTipImage { get; set; }
+
+        /// <summary>
+        /// Gets and sets the numeric up down to draw as transparent in the ToolTipImage.
+        /// </summary>
+        [Bindable(true)]
+        [Category("Appearance")]
+        [Description("Color to draw as transparent in the ToolTipImage.")]
+        [KryptonDefaultColor()]
+        [Localizable(true)]
+        public Color ToolTipImageTransparentColor { get; set; }
+
+        /// <summary>
+        /// Gets and sets the title text for the item ToolTip.
+        /// </summary>
+        [Bindable(true)]
+        [Category("Appearance")]
+        [Description("Title text for use in associated ToolTip.")]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [DefaultValue("")]
+        [Localizable(true)]
+        public string ToolTipTitle { get; set; }
+
+        /// <summary>
+        /// Gets and sets the body text for the item ToolTip.
+        /// </summary>
+        [Bindable(true)]
+        [Category("Appearance")]
+        [Description("Body text for use in associated ToolTip.")]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [DefaultValue("")]
+        [Localizable(true)]
+        public string ToolTipBody { get; set; }
 
         /// <summary>
         /// Access to the actual embedded KryptonNumericUpDown instance.
@@ -397,7 +452,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -434,7 +489,7 @@ namespace Krypton.Ribbon
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -560,7 +615,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -573,10 +628,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupNumericUpDown(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupNumericUpDown(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -695,7 +748,7 @@ namespace Krypton.Ribbon
                     if (ShortcutKeys == keyData)
                     {
                         // Can the numeric up-down take the focus
-                        if ((LastNumericUpDown != null) && (LastNumericUpDown.CanFocus))
+                        if (LastNumericUpDown is { CanFocus: true })
                         {
                             LastNumericUpDown.NumericUpDown.Focus();
                         }
@@ -707,6 +760,16 @@ namespace Krypton.Ribbon
 
             return false;
         }
+
+        internal override LabelStyle InternalToolTipStyle => ToolTipStyle;
+
+        internal override Image InternalToolTipImage => ToolTipImage;
+
+        internal override Color InternalToolTipImageTransparentColor => ToolTipImageTransparentColor;
+
+        internal override string InternalToolTipTitle => ToolTipTitle;
+
+        internal override string InternalToolTipBody => ToolTipBody;
         #endregion
 
         #region Implementation

@@ -190,10 +190,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return Image != null;
-        }
+        private bool ShouldSerializeImage() => Image != null;
 
         /// <summary>
         /// Resets the Image property to its default value.
@@ -221,15 +218,12 @@ namespace Krypton.Toolkit
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnButtonSpecPropertyChanged(@"ImageTransparentColor");
+                    OnButtonSpecPropertyChanged(nameof(ImageTransparentColor));
                 }
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return ImageTransparentColor != Color.Empty;
-        }
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
@@ -249,10 +243,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonImageStates ImageStates => _imageStates;
 
-        private bool ShouldSerializeImageStates()
-        {
-            return !_imageStates.IsDefault;
-        }
+        private bool ShouldSerializeImageStates() => !_imageStates.IsDefault;
+
         #endregion
 
         #region Text
@@ -262,7 +254,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => _text;
@@ -272,15 +264,12 @@ namespace Krypton.Toolkit
                 if (_text != value)
                 {
                     _text = value;
-                    OnButtonSpecPropertyChanged(@"Text");
+                    OnButtonSpecPropertyChanged(nameof(Text));
                 }
             }
         }
 
-        private bool ShouldSerializeText()
-        {
-            return Text != string.Empty;
-        }
+        private bool ShouldSerializeText() => Text != string.Empty;
 
         /// <summary>
         /// Resets the Text property to its default value.
@@ -298,7 +287,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Button extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string ExtraText
         {
             get => _extraText;
@@ -308,15 +297,12 @@ namespace Krypton.Toolkit
                 if (_extraText != value)
                 {
                     _extraText = value;
-                    OnButtonSpecPropertyChanged(@"ExtraText");
+                    OnButtonSpecPropertyChanged(nameof(ExtraText));
                 }
             }
         }
 
-        private bool ShouldSerializeExtraText()
-        {
-            return ExtraText != string.Empty;
-        }
+        private bool ShouldSerializeExtraText() => ExtraText != string.Empty;
 
         /// <summary>
         /// Resets the ExtraText property to its default value.
@@ -344,15 +330,12 @@ namespace Krypton.Toolkit
                 if (_toolTipImage != value)
                 {
                     _toolTipImage = value;
-                    OnButtonSpecPropertyChanged(@"ToolTipImage");
+                    OnButtonSpecPropertyChanged(nameof(ToolTipImage));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipImage()
-        {
-            return ToolTipImage != null;
-        }
+        private bool ShouldSerializeToolTipImage() => ToolTipImage != null;
 
         /// <summary>
         /// Resets the ToolTipImage property to its default value.
@@ -380,15 +363,12 @@ namespace Krypton.Toolkit
                 if (_toolTipImageTransparentColor != value)
                 {
                     _toolTipImageTransparentColor = value;
-                    OnButtonSpecPropertyChanged(@"ToolTipImageTransparentColor");
+                    OnButtonSpecPropertyChanged(nameof(ToolTipImageTransparentColor));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipImageTransparentColor()
-        {
-            return ToolTipImageTransparentColor != Color.Empty;
-        }
+        private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != Color.Empty;
 
         /// <summary>
         /// Resets the ToolTipImageTransparentColor property to its default value.
@@ -406,7 +386,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("ToolTip")]
         [Description("Button tooltip title text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ToolTipTitle
         {
@@ -417,15 +397,12 @@ namespace Krypton.Toolkit
                 if (_toolTipTitle != value)
                 {
                     _toolTipTitle = value;
-                    OnButtonSpecPropertyChanged(@"ToolTipTitle");
+                    OnButtonSpecPropertyChanged(nameof(ToolTipTitle));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipTitle()
-        {
-            return ToolTipTitle != string.Empty;
-        }
+        private bool ShouldSerializeToolTipTitle() => ToolTipTitle != string.Empty;
 
         /// <summary>
         /// Resets the ToolTipTitle property to its default value.
@@ -443,7 +420,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("ToolTip")]
         [Description("Button tooltip body text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ToolTipBody
         {
@@ -454,15 +431,12 @@ namespace Krypton.Toolkit
                 if (_toolTipBody != value)
                 {
                     _toolTipBody = value;
-                    OnButtonSpecPropertyChanged(@"ToolTipBody");
+                    OnButtonSpecPropertyChanged(nameof(ToolTipBody));
                 }
             }
         }
 
-        private bool ShouldSerializeToolTipBody()
-        {
-            return ToolTipBody != string.Empty;
-        }
+        private bool ShouldSerializeToolTipBody() => ToolTipBody != string.Empty;
 
         /// <summary>
         /// Resets the ToolTipBody property to its default value.
@@ -482,10 +456,7 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(LabelStyle), "Tooltip")]
         public LabelStyle ToolTipStyle { get; set; }
 
-        private bool ShouldSerializeToolTipStyle()
-        {
-            return ToolTipStyle != LabelStyle.ToolTip;
-        }
+        private bool ShouldSerializeToolTipStyle() => ToolTipStyle != LabelStyle.ToolTip;
 
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.
@@ -530,7 +501,7 @@ namespace Krypton.Toolkit
                 if (_allowInheritImage != value)
                 {
                     _allowInheritImage = value;
-                    OnButtonSpecPropertyChanged(@"Image");
+                    OnButtonSpecPropertyChanged(nameof(Image));
                 }
             }
         }
@@ -561,7 +532,7 @@ namespace Krypton.Toolkit
                 if (_allowInheritText != value)
                 {
                     _allowInheritText = value;
-                    OnButtonSpecPropertyChanged(@"Text");
+                    OnButtonSpecPropertyChanged(nameof(Text));
                 }
             }
         }
@@ -592,7 +563,7 @@ namespace Krypton.Toolkit
                 if (_allowInheritExtraText != value)
                 {
                     _allowInheritExtraText = value;
-                    OnButtonSpecPropertyChanged(@"ExtraText");
+                    OnButtonSpecPropertyChanged(nameof(ExtraText));
                 }
             }
         }
@@ -623,7 +594,7 @@ namespace Krypton.Toolkit
                 if (_allowInheritToolTipTitle != value)
                 {
                     _allowInheritToolTipTitle = value;
-                    OnButtonSpecPropertyChanged(@"ToolTipTitle");
+                    OnButtonSpecPropertyChanged(nameof(ToolTipTitle));
                 }
             }
         }
@@ -669,10 +640,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeColorMap()
-        {
-            return ColorMap != Color.Empty;
-        }
+        private bool ShouldSerializeColorMap() => ColorMap != Color.Empty;
 
         /// <summary>
         /// Resets the ColorMap property to its default value.
@@ -705,18 +673,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyle()
-        {
-            return (Style != PaletteButtonStyle.Inherit);
-        }
+        private bool ShouldSerializeStyle() => (Style != PaletteButtonStyle.Inherit);
 
         /// <summary>
         /// Resets the Style property to its default value.
         /// </summary>
-        public void ResetStyle()
-        {
-            Style = PaletteButtonStyle.Inherit;
-        }
+        private void ResetStyle() => Style = PaletteButtonStyle.Inherit;
         #endregion
 
         #region Orientation
@@ -741,10 +703,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeOrientation()
-        {
-            return (Orientation != PaletteButtonOrientation.Inherit);
-        }
+        private bool ShouldSerializeOrientation() => (Orientation != PaletteButtonOrientation.Inherit);
 
         /// <summary>
         /// Resets the Orientation property to its default value.
@@ -777,10 +736,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeEdge()
-        {
-            return (Edge != PaletteRelativeEdgeAlign.Inherit);
-        }
+        private bool ShouldSerializeEdge() => (Edge != PaletteRelativeEdgeAlign.Inherit);
 
         private void ResetEdge()
         {
@@ -897,19 +853,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Generates a Click event for the control.
         /// </summary>
-        public void PerformClick()
-        {
-            PerformClick(EventArgs.Empty);
-        }
+        public void PerformClick() => PerformClick(EventArgs.Empty);
 
         /// <summary>
         /// Generates a Click event for the control.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        public void PerformClick(EventArgs e)
-        {
-            OnClick(e);
-        }
+        public void PerformClick(EventArgs e) => OnClick(e);
+
         #endregion
 
         #region IButtonSpecValues
@@ -930,30 +881,17 @@ namespace Krypton.Toolkit
             }
 
             // Try and recover a state specific image
-            switch (state)
+            image = state switch
             {
-                case PaletteState.Disabled:
-                    image = ImageStates.ImageDisabled;
-                    break;
-                case PaletteState.Normal:
-                    image = ImageStates.ImageNormal;
-                    break;
-                case PaletteState.Pressed:
-                    image = ImageStates.ImagePressed;
-                    break;
-                case PaletteState.Tracking:
-                    image = ImageStates.ImageTracking;
-                    break;
-                case PaletteState.CheckedNormal:
-                    image = ImageStates.ImageCheckedNormal;
-                    break;
-                case PaletteState.CheckedPressed:
-                    image = ImageStates.ImageCheckedPressed;
-                    break;
-                case PaletteState.CheckedTracking:
-                    image = ImageStates.ImageCheckedTracking;
-                    break;
-            }
+                PaletteState.Disabled => ImageStates.ImageDisabled,
+                PaletteState.Normal => ImageStates.ImageNormal,
+                PaletteState.Pressed => ImageStates.ImagePressed,
+                PaletteState.Tracking => ImageStates.ImageTracking,
+                PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
+                PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
+                PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
+                _ => image
+            };
 
             // Default to the image if no state specific image is found
             if (image == null)
@@ -1017,12 +955,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Tooltip title string.</returns>
-        public virtual string GetToolTipTitle(IPalette palette)
-        {
-            return !string.IsNullOrEmpty(ToolTipTitle) || !AllowInheritToolTipTitle
+        public virtual string GetToolTipTitle(IPalette palette) =>
+            !string.IsNullOrEmpty(ToolTipTitle) || !AllowInheritToolTipTitle
                 ? ToolTipTitle
                 : palette.GetButtonSpecToolTipTitle(ProtectedType);
-        }
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.
@@ -1141,10 +1077,7 @@ namespace Krypton.Toolkit
         /// Raises the ButtonSpecPropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of the appearance property that has changed.</param>
-        protected virtual void OnButtonSpecPropertyChanged(string propertyName)
-        {
-            ButtonSpecPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnButtonSpecPropertyChanged(string propertyName) => ButtonSpecPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         /// <summary>
         /// Handles a change in the property of an attached command.
@@ -1267,10 +1200,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnImageStateChanged(object sender, NeedLayoutEventArgs e)
-        {
-            OnButtonSpecPropertyChanged(@"Image");
-        }
+        private void OnImageStateChanged(object sender, NeedLayoutEventArgs e) => OnButtonSpecPropertyChanged(nameof(Image));
+
         #endregion
     }
 }

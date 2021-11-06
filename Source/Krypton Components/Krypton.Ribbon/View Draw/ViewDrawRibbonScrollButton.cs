@@ -40,11 +40,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonScrollButton:" + Id;
-        }
+            "ViewDrawRibbonScrollButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -78,10 +76,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
-            return Size.Empty;
-        }
+        public override Size GetPreferredSize(ViewLayoutContext context) => Size.Empty;
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -113,51 +108,45 @@ namespace Krypton.Ribbon
             backRect.Inflate(-1, -1);
 
             // Create border paths
-            using (GraphicsPath borderPath = CreateBorderPath(ClientRectangle),
-                                shadowPath = CreateBorderPath(shadowRect))
+            using GraphicsPath borderPath = CreateBorderPath(ClientRectangle),
+                shadowPath = CreateBorderPath(shadowRect);
+            // Are we allowed to draw a border?
+            if (_ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderDraw(State) == InheritBool.True)
             {
-                // Are we allowed to draw a border?
-                if (_ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderDraw(State) == InheritBool.True)
-                {
-                    // Draw the border shadow
-                    using (AntiAlias aa = new(context.Graphics))
-                       using (SolidBrush shadowBrush = new(Color.FromArgb(16, Color.Black)))
-                       {
-                           context.Graphics.FillPath(shadowBrush, shadowPath);
-                       }
-                }
+                // Draw the border shadow
+                using AntiAlias aa = new(context.Graphics);
+                using SolidBrush shadowBrush = new(Color.FromArgb(16, Color.Black));
+                context.Graphics.FillPath(shadowBrush, shadowPath);
+            }
 
-                // Are we allowed to draw a background?
-                if (_ribbon.StateCommon.RibbonScroller.PaletteBack.GetBackDraw(State) == InheritBool.True)
-                {
-                    _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, backRect, borderPath,
-                                                                                _ribbon.StateCommon.RibbonScroller.PaletteBack,
-                                                                                VisualOrientation.Top,State, _mementoBack);
-                }
+            // Are we allowed to draw a background?
+            if (_ribbon.StateCommon.RibbonScroller.PaletteBack.GetBackDraw(State) == InheritBool.True)
+            {
+                _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, backRect, borderPath,
+                    _ribbon.StateCommon.RibbonScroller.PaletteBack,
+                    VisualOrientation.Top,State, _mementoBack);
+            }
 
-                // Are we allowed to draw the content?
-                if (_ribbon.StateCommon.RibbonScroller.PaletteContent.GetContentDraw(State) == InheritBool.True)
-                {
-                    // Get the text color from palette
-                    Color textColor = _ribbon.StateCommon.RibbonScroller.PaletteContent.GetContentShortTextColor1(State);
+            // Are we allowed to draw the content?
+            if (_ribbon.StateCommon.RibbonScroller.PaletteContent.GetContentDraw(State) == InheritBool.True)
+            {
+                // Get the text color from palette
+                Color textColor = _ribbon.StateCommon.RibbonScroller.PaletteContent.GetContentShortTextColor1(State);
 
-                    // Draw the arrow content in center of the background
-                    DrawArrow(context.Graphics, textColor, backRect);
-                }
+                // Draw the arrow content in center of the background
+                DrawArrow(context.Graphics, textColor, backRect);
+            }
 
-                // Are we allowed to draw border?
-                if (_ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderDraw(State) == InheritBool.True)
-                {
-                    // Get the border color from palette
-                    Color borderColor = _ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderColor1(State);
+            // Are we allowed to draw border?
+            if (_ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderDraw(State) == InheritBool.True)
+            {
+                // Get the border color from palette
+                Color borderColor = _ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderColor1(State);
 
-                    // Draw the border last to overlap the background
-                    using (AntiAlias aa = new(context.Graphics))
-                        using (Pen borderPen = new(borderColor))
-                        {
-                            context.Graphics.DrawPath(borderPen, borderPath);
-                        }
-                }
+                // Draw the border last to overlap the background
+                using AntiAlias aa = new(context.Graphics);
+                using Pen borderPen = new(borderColor);
+                context.Graphics.DrawPath(borderPen, borderPath);
             }
         }
         #endregion
@@ -209,11 +198,9 @@ namespace Krypton.Ribbon
         private void DrawArrow(Graphics g, Color textColor, Rectangle rect)
         {
             // Create path that describes the arrow in orientation needed
-            using (GraphicsPath arrowPath = CreateArrowPath(rect))
-                using (SolidBrush arrowBrush = new(textColor))
-                {
-                    g.FillPath(arrowBrush, arrowPath);
-                }
+            using GraphicsPath arrowPath = CreateArrowPath(rect);
+            using SolidBrush arrowBrush = new(textColor);
+            g.FillPath(arrowBrush, arrowPath);
         }
 
         private GraphicsPath CreateArrowPath(Rectangle rect)

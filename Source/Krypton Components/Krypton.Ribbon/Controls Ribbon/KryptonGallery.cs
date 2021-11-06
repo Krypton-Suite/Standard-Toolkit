@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     [ToolboxBitmap(typeof(KryptonGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
     [DefaultEvent("SelectedIndexChanged")]
     [DefaultProperty("SelectedIndex")]
-    [Designer(typeof(KryptonGalleryDesigner))]
+    [Designer("Krypton.Ribbon.KryptonGalleryDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [Description("Select from a group of possible images.")]
     public class KryptonGallery : VisualSimpleBase
@@ -361,10 +361,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public GalleryImages Images { get; }
 
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets access to the common gallery appearance that other states can override.
@@ -374,10 +371,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGalleryRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled gallery appearance entries.
@@ -387,10 +381,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGalleryState StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal gallery appearance entries.
@@ -400,10 +391,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGalleryState StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the active gallery appearance entries.
@@ -413,10 +401,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGalleryState StateActive { get; }
 
-        private bool ShouldSerializeStateActive()
-        {
-            return !StateActive.IsDefault;
-        }
+        private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
 
         /// <summary>
         /// Gets and sets if the control is in the ribbon design mode.
@@ -649,7 +634,7 @@ namespace Krypton.Ribbon
                         case Keys.PageDown:
                         case Keys.PageUp:
                             // If inside a ribbon then we ignore the movement keys
-                            if ((Ribbon == null) || ((Ribbon != null) && !Ribbon.InKeyboardMode))
+                            if ((Ribbon == null) || Ribbon is { InKeyboardMode: false })
                             {
                                 _drawItems[_trackingIndex].KeyDown(new KeyEventArgs(keyData));
                                 return true;
@@ -685,11 +670,9 @@ namespace Krypton.Ribbon
         /// Work out if this control needs to paint transparent areas.
         /// </summary>
         /// <returns>True if paint required; otherwise false.</returns>
-        protected override bool EvalTransparentPaint()
-        {
+        protected override bool EvalTransparentPaint() =>
             // Always need to draw the background because always transparent
-            return true;
-        }
+            true;
 
         /// <summary>
         /// Gets the default size of the control.
@@ -759,19 +742,13 @@ namespace Krypton.Ribbon
 
         internal bool InTransparentDesignMode => InRibbonDesignMode;
 
-        internal bool DesignerGetHitTest(Point pt)
-        {
-            return false;
-        }
+        internal bool DesignerGetHitTest(Point pt) => false;
 
-        internal Component DesignerComponentFromPoint(Point pt)
-        {
+        internal Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         internal void DesignerMouseLeave()
         {
             // Simulate the mouse leaving the control so that the tracking
@@ -952,10 +929,7 @@ namespace Krypton.Ribbon
             _drawDocker.ElementState = state;
         }
 
-        private PaletteGalleryState GetGalleryState()
-        {
-            return Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
-        }
+        private PaletteGalleryState GetGalleryState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 
         private void OnTrackingTick(object sender, EventArgs e)
         {

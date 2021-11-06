@@ -62,7 +62,7 @@ namespace Krypton.Navigator
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritHeaderGroup">Source for inheriting.</param>
         public void SetInherit(PaletteNavigatorHeaderGroup inheritHeaderGroup)
@@ -82,10 +82,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleMetric HeaderBar { get; }
 
-        private bool ShouldSerializeHeaderBar()
-        {
-            return !HeaderBar.IsDefault;
-        }
+        private bool ShouldSerializeHeaderBar() => !HeaderBar.IsDefault;
+
         #endregion
 
         #region HeaderOverflow
@@ -97,10 +95,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleMetric HeaderOverflow { get; }
 
-        private bool ShouldSerializeHeaderOverflow()
-        {
-            return !HeaderOverflow.IsDefault;
-        }
+        private bool ShouldSerializeHeaderOverflow() => !HeaderOverflow.IsDefault;
+
         #endregion
     }
 }

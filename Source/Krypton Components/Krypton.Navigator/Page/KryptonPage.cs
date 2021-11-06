@@ -20,7 +20,7 @@ namespace Krypton.Navigator
     [ToolboxBitmap(typeof(KryptonPage), "ToolboxBitmaps.KryptonPage.bmp")]
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
-    [Designer(typeof(KryptonPageDesigner))]
+    [Designer(@"Krypton.Navigator.KryptonPageDesigner, Krypton.Navigator")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     public class KryptonPage : VisualPanel
@@ -244,10 +244,8 @@ namespace Krypton.Navigator
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
-            return "KryptonPage " + Text;
-        }
+        public override string ToString() => "KryptonPage " + Text;
+
         #endregion
 
         #region Public
@@ -297,10 +295,7 @@ namespace Krypton.Navigator
             get => _stateCommon;
         }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled page appearance entries.
@@ -314,10 +309,7 @@ namespace Krypton.Navigator
             get => _stateDisabled;
         }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal page appearance entries.
@@ -331,10 +323,7 @@ namespace Krypton.Navigator
             get => _stateNormal;
         }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking page appearance entries.
@@ -348,10 +337,7 @@ namespace Krypton.Navigator
             get;
         }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed page appearance entries.
@@ -365,10 +351,7 @@ namespace Krypton.Navigator
             get;
         }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the selected page appearance entries.
@@ -382,10 +365,7 @@ namespace Krypton.Navigator
             get;
         }
 
-        private bool ShouldSerializeStateSelected()
-        {
-            return !StateSelected.IsDefault;
-        }
+        private bool ShouldSerializeStateSelected() => !StateSelected.IsDefault;
 
         /// <summary>
         /// Gets access to the focus page appearance entries.
@@ -399,10 +379,7 @@ namespace Krypton.Navigator
             get;
         }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets and sets the page text.
@@ -598,10 +575,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private bool ShouldSerializeToolTipImage()
-        {
-            return ToolTipImage != null;
-        }
+        private bool ShouldSerializeToolTipImage() => ToolTipImage != null;
 
         /// <summary>
         /// Resets the ToolTipImage property to its default value.
@@ -645,7 +619,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Page tooltip title text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipTitle
         {
@@ -675,7 +649,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Page tooltip body text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipBody
         {
@@ -1168,10 +1142,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="flags">Flags to test.</param>
         /// <returns>True if all provided flags are defined as true; otherwise false.</returns>
-        public virtual bool AreFlagsSet(KryptonPageFlags flags)
-        {
-            return _flags.AreFlagsSet((int)flags);
-        }
+        public virtual bool AreFlagsSet(KryptonPageFlags flags) => _flags.AreFlagsSet((int)flags);
 
         /// <summary>
         /// Gets the last value set to the Visible property.

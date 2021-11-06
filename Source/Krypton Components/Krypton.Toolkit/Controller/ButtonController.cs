@@ -678,19 +678,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint(false);
-        }
+        public void PerformNeedPaint() => OnNeedPaint(false);
 
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(needLayout);
+
         #endregion
 
         #region Protected
@@ -722,10 +717,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="next">View to investigate.</param>
         /// <returns>True is part of button; otherwise false.</returns>
-        protected virtual bool ViewIsPartOfButton(ViewBase next)
-        {
-            return Target.ContainsRecurse(next);
-        }
+        protected virtual bool ViewIsPartOfButton(ViewBase next) => Target.ContainsRecurse(next);
 
         /// <summary>
         /// Set the correct visual state of the target.
@@ -818,19 +810,13 @@ namespace Krypton.Toolkit
         /// Raises the ButtonDragRectangle event.
         /// </summary>
         /// <param name="e">An ButtonDragRectangleEventArgs containing the event args.</param>
-        protected virtual void OnButtonDragRectangle(ButtonDragRectangleEventArgs e)
-        {
-            ButtonDragRectangle?.Invoke(this, e);
-        }
+        protected virtual void OnButtonDragRectangle(ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ButtonDragOffset event.
         /// </summary>
         /// <param name="e">An ButtonDragOffsetEventArgs containing the event args.</param>
-        protected virtual void OnButtonDragOffset(ButtonDragOffsetEventArgs e)
-        {
-            ButtonDragOffset?.Invoke(this, e);
-        }
+        protected virtual void OnButtonDragOffset(ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DragStart event.
@@ -892,37 +878,26 @@ namespace Krypton.Toolkit
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(Target, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(Target, e);
 
         /// <summary>
         /// Raises the RightClick event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnRightClick(MouseEventArgs e)
-        {
-            RightClick?.Invoke(Target, e);
-        }
-        
+        protected virtual void OnRightClick(MouseEventArgs e) => RightClick?.Invoke(Target, e);
+
         /// <summary>
         /// Raises the MouseSelect event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnMouseSelect(MouseEventArgs e)
-        {
-            MouseSelect?.Invoke(Target, e);
-        }
+        protected virtual void OnMouseSelect(MouseEventArgs e) => MouseSelect?.Invoke(Target, e);
 
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, Target.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, Target.ClientRectangle));
+
         #endregion
 
         #region Implementation

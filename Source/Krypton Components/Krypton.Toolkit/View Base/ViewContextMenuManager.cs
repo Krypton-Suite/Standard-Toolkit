@@ -418,11 +418,10 @@ namespace Krypton.Toolkit
         /// <param name="m">Original message.</param>
         /// <param name="pt">Client coordinates point.</param>
         /// <returns>True to become current; otherwise false.</returns>
-        public bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt)
-        {
+        public bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt) =>
             // Do we have a current target we can ask?
-            return _target != null ? _target.DoesStackedClientMouseDownBecomeCurrent(pt) : true;
-        }
+            _target != null ? _target.DoesStackedClientMouseDownBecomeCurrent(pt) : true;
+
         #endregion
 
         #region Implementation

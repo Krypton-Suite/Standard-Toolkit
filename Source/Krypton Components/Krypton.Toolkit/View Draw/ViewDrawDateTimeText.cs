@@ -334,22 +334,18 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="forward">Forward to add; otherwise subtract.</param>
             /// <returns>Modified date/time.</returns>
-            public DateTime Increment(bool forward)
-            {
+            public DateTime Increment(bool forward) =>
                 // Pass request onto the fragment itself
-                return _activeFragment >= 0 ? _fragments[_activeFragment].Increment(DateTime, forward) : DateTime;
-            }
+                _activeFragment >= 0 ? _fragments[_activeFragment].Increment(DateTime, forward) : DateTime;
 
             /// <summary>
             /// Invert the AM/PM indicator for the date.
             /// </summary>
             /// <param name="am">Am requested.</param>
             /// <returns>Modified date/time.</returns>
-            public DateTime AMPM(bool am)
-            {
+            public DateTime AMPM(bool am) =>
                 // Pass request onto the fragment itself
-                return _activeFragment >= 0 ? _fragments[_activeFragment].AMPM(DateTime, am) : DateTime;
-            }
+                _activeFragment >= 0 ? _fragments[_activeFragment].AMPM(DateTime, am) : DateTime;
 
             /// <summary>
             /// Gets a value indicating if input digits are being processed.
@@ -737,10 +733,8 @@ namespace Krypton.Toolkit
             }
 
             private void ParseCharacter(char charater, FormatFragmentList fragList,
-                                        ref int literal, ref int current, ref string format)
-            {
+                                        ref int literal, ref int current, ref string format) =>
                 ParseCharacter(charater, int.MaxValue, fragList, ref literal, ref current, ref format);
-            }
 
             private void ParseCharacter(char charater, int max, FormatFragmentList fragList,
                                         ref int literal, ref int current, ref string format)
@@ -804,10 +798,8 @@ namespace Krypton.Toolkit
             /// Output a text representation of the fragment.
             /// </summary>
             /// <returns>String instance.</returns>
-            public override string ToString()
-            {
-                return Fragment;
-            }
+            public override string ToString() => Fragment;
+
             #endregion
 
             #region Public
@@ -859,20 +851,14 @@ namespace Krypton.Toolkit
             /// <param name="dt">Date time to modify.</param>
             /// <param name="digits">Set of digits to process.</param>
             /// <returns>Modified date time.</returns>
-            public virtual DateTime EndDigits(DateTime dt, string digits)
-            {
-                return dt;
-            }
+            public virtual DateTime EndDigits(DateTime dt, string digits) => dt;
 
             /// <summary>
             /// Gets the display string for display using the provided date time.
             /// </summary>
             /// <param name="dt">DateTime to format.</param>
             /// <returns>Display string.</returns>
-            public virtual string GetDisplay(DateTime dt)
-            {
-                return FragFormat.Length == 1 ? dt.ToString("\\" + FragFormat) : dt.ToString(FragFormat);
-            }
+            public virtual string GetDisplay(DateTime dt) => FragFormat.Length == 1 ? dt.ToString("\\" + FragFormat) : dt.ToString(FragFormat);
 
             /// <summary>
             /// Increment the current fragment value.
@@ -917,19 +903,15 @@ namespace Krypton.Toolkit
             /// <param name="character">Character that represents the format fragment.</param>
             /// <param name="count">Number characters in the fragment.</param>
             public FormatFragmentChar(int index, string format, char character, int count)
-                : base(index, format, string.Empty)
-            {
+                : base(index, format, string.Empty) =>
                 _fragFormat = new string(character, count);
-            }
 
             /// <summary>
             /// Output a text representation of the fragment.
             /// </summary>
             /// <returns>String instance.</returns>
-            public override string ToString()
-            {
-                return base.ToString() + " (" + _fragFormat + ")";
-            }
+            public override string ToString() => base.ToString() + " (" + _fragFormat + ")";
+
             #endregion
 
             #region Public
@@ -946,25 +928,18 @@ namespace Krypton.Toolkit
                 get 
                 {
                     // Only certain formats can be edited
-                    switch (FragFormat)
+                    return FragFormat switch
                     {
-                        case "d":
-                        case "dd":
-                        case "M":
-                        case "MM":
-                        case "MMM":
-                        case "MMMM":
-                            return true;
-                    }
-
-                    return FragFormat.StartsWith("h") || 
-                        FragFormat.StartsWith("H") ||
-                        FragFormat.StartsWith("m") ||
-                        FragFormat.StartsWith("s") ||
-                        FragFormat.StartsWith("t") ||
-                        FragFormat.StartsWith("f") ||
-                        FragFormat.StartsWith("F") ||
-                        FragFormat.StartsWith("y");
+                        "d" or "dd" or "M" or "MM" or "MMM" or "MMMM" => true,
+                        _ => FragFormat.StartsWith("h") ||
+     FragFormat.StartsWith("H") ||
+     FragFormat.StartsWith("m") ||
+     FragFormat.StartsWith("s") ||
+     FragFormat.StartsWith("t") ||
+     FragFormat.StartsWith("f") ||
+     FragFormat.StartsWith("F") ||
+     FragFormat.StartsWith("y")
+                    };
                 }
             }
 
@@ -1126,10 +1101,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="dt">DateTime to format.</param>
             /// <returns>Display string.</returns>
-            public override string GetDisplay(DateTime dt)
-            {
-                return dt.ToString(CommonHelper.MakeCustomDateFormat(FragFormat));
-            }
+            public override string GetDisplay(DateTime dt) => dt.ToString(CommonHelper.MakeCustomDateFormat(FragFormat));
 
             /// <summary>
             /// Increment the current fragment value.
@@ -1346,10 +1318,8 @@ namespace Krypton.Toolkit
         /// Raises the AutoShiftOverflow event.
         /// </summary>
         /// <param name="e">An CancelEventArgs the contains the event data.</param>
-        public void OnAutoShiftOverflow(CancelEventArgs e)
-        {
-            _dateTimePicker.OnAutoShiftOverflow(e);
-        }
+        public void OnAutoShiftOverflow(CancelEventArgs e) => _dateTimePicker.OnAutoShiftOverflow(e);
+
         #endregion
 
         #region HasFocus
@@ -1677,12 +1647,10 @@ namespace Krypton.Toolkit
             _formatHandler.DateTime = _dateTimePicker.Value;
 
             // Ask the format handler to perform actual rendering of the text
-            using (Clipping clipped = new(context.Graphics, ClientRectangle))
-            {
-                _formatHandler.Render(context, GetFont(), ClientRectangle,
-                                      GetTextColor(), GetBackColor(),
-                                      _dateTimePicker.Checked);
-            }
+            using Clipping clipped = new(context.Graphics, ClientRectangle);
+            _formatHandler.Render(context, GetFont(), ClientRectangle,
+                GetTextColor(), GetBackColor(),
+                _dateTimePicker.Checked);
         }
         #endregion
 
@@ -1701,10 +1669,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void PerformNeedPaint(bool needLayout)
-        {
-            _needPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        private void PerformNeedPaint(bool needLayout) => _needPaint(this, new NeedLayoutEventArgs(needLayout));
 
         private Font GetFont()
         {
@@ -1750,24 +1715,16 @@ namespace Krypton.Toolkit
 
         private string GetFormat()
         {
-            string format = string.Empty;
-
-            switch (_dateTimePicker.Format)
+            string format = _dateTimePicker.Format switch
             {
-                case DateTimePickerFormat.Long:
-                    format = CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern;
-                    break;
-                case DateTimePickerFormat.Short:
-                    format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
-                    break;
-                case DateTimePickerFormat.Time:
-                    format = CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern;
-                    break;
-                case DateTimePickerFormat.Custom:
+                DateTimePickerFormat.Long => CultureInfo.CurrentCulture.DateTimeFormat.LongDatePattern,
+                DateTimePickerFormat.Short => CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern,
+                DateTimePickerFormat.Time => CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern,
+                DateTimePickerFormat.Custom =>
                     // Use helper to ensure single character formats are handled correctly
-                    format = CommonHelper.MakeCustomDateFormat(_dateTimePicker.CustomFormat);
-                    break;
-            }
+                    CommonHelper.MakeCustomDateFormat(_dateTimePicker.CustomFormat),
+                _ => string.Empty
+            };
 
             return format;
         }

@@ -112,7 +112,7 @@ namespace Krypton.Navigator
         AllowPageDrag = 0x0400,
 
         /// <summary>Specifies that all flags are set.</summary>
-        All = 0xFFFF,
+        All = 0xFFFF
     }
     #endregion
 
@@ -178,7 +178,7 @@ namespace Krypton.Navigator
         Group,
 
         /// <summary>Specifies a KryptonPanel style of appearance.</summary>
-        Panel,
+        Panel
     }
     #endregion
 
@@ -257,7 +257,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Specifies use of the KryptonPage.ToolTipBody property.
         /// </summary>
-        ToolTipBody,
+        ToolTipBody
     }
     #endregion
 
@@ -321,7 +321,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Specifies use of the KryptonPage.ToolTipImage property.
         /// </summary>
-        ToolTip,
+        ToolTip
     }
     #endregion
 
@@ -363,7 +363,7 @@ namespace Krypton.Navigator
         Context,
 
         /// <summary>Specifies that context, next and previous buttons are presented.</summary>
-        ContextNextPrevious,
+        ContextNextPrevious
     }
     #endregion
 
@@ -420,7 +420,7 @@ namespace Krypton.Navigator
         RemovePageAndDispose,
 
         /// <summary>Specifies the current page be hidden.</summary>
-        HidePage,
+        HidePage
     }
     #endregion
 
@@ -441,7 +441,7 @@ namespace Krypton.Navigator
         SameWidth,
 
         /// <summary>Specifies all items have the same with and height.</summary>
-        SameWidthAndHeight,
+        SameWidthAndHeight
     }
     #endregion
 
@@ -464,7 +464,7 @@ namespace Krypton.Navigator
         Shrinkline,
 
         /// <summary>Specifies items are placed on single line and expanded to try and fill the entire line.</summary>
-        Expandline,
+        Expandline
     }
     #endregion
 
@@ -516,24 +516,29 @@ namespace Krypton.Navigator
         PinHorizontal,
 
         /// <summary>
-        /// Specifies a form close button specification.
+        /// Specifies a form "Close" button specification.
         /// </summary>
         FormClose,
 
         /// <summary>
-        /// Specifies a form minimize button specification.
+        /// Specifies a form "Minimize" button specification.
         /// </summary>
         FormMin,
 
         /// <summary>
-        /// Specifies a form maximize button specification.
+        /// Specifies a form "Maximize" button specification.
         /// </summary>
         FormMax,
 
         /// <summary>
-        /// Specifies a form restore button specification.
+        /// Specifies a form "Restore" button specification.
         /// </summary>
         FormRestore,
+
+        /// <summary>
+        /// Specifies a form "Help" button specification.
+        /// </summary>
+        FormHelp,
 
         /// <summary>
         /// Specifies a pendant close button specification.
@@ -568,7 +573,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Specifies a ribbon expand button specification.
         /// </summary>
-        RibbonExpand,
+        RibbonExpand
     }
     #endregion
 
@@ -600,7 +605,7 @@ namespace Krypton.Navigator
         Item,
 
         /// <summary>Specifies the popup is relative to the entire navigator.</summary>
-        Navigator,
+        Navigator
     }
     #endregion
 
@@ -648,7 +653,7 @@ namespace Krypton.Navigator
         NearBottom,
 
         /// <summary>Specifies the popup is to the near side of the relative item and same height as the relative item.</summary>
-        NearMatch,
+        NearMatch
     }
     #endregion
 
@@ -681,7 +686,7 @@ namespace Krypton.Navigator
         ExcludeFlags = 0x00FF,
 
         /// <summary>Specifies the target does not allow itself to be combined with others for cluster docking.</summary>
-        ExcludeCluster = 0x0100,
+        ExcludeCluster = 0x0100
     }
     #endregion
 

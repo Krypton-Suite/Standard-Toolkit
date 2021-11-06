@@ -137,10 +137,8 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeAppButtonImage()
-        {
-            return AppButtonImage != _defaultAppImage;
-        }
+        private bool ShouldSerializeAppButtonImage() => AppButtonImage != _defaultAppImage;
+
         #endregion
 
         #region AppButtonBaseColorDark
@@ -247,7 +245,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Context menu items for the application button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonContextMenuItemCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         public virtual KryptonContextMenuItemCollection AppButtonMenuItems => _appButtonMenuItems.Items;
 
         #endregion
@@ -259,7 +257,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Recent document entries for the application buttton.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonRibbonRecentDocCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonRibbonRecentDocCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         public virtual KryptonRibbonRecentDocCollection AppButtonRecentDocs { get; }
 
         #endregion
@@ -353,7 +351,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string AppButtonToolTipTitle { get; set; }
@@ -367,7 +365,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category("Appearance")]
         [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string AppButtonToolTipBody { get; set; }

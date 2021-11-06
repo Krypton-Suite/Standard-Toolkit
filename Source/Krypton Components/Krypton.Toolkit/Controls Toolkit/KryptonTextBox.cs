@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     [DefaultEvent("TextChanged")]
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
-    [Designer(typeof(KryptonTextBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonTextBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Enables the user to enter text, and provides multiline editing and password character masking.")]
     public class KryptonTextBox : VisualControlBase,
@@ -94,10 +94,7 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
-            public override Size GetPreferredSize(Size proposedSize)
-            {
-                return base.GetPreferredSize(proposedSize);
-            }
+            public override Size GetPreferredSize(Size proposedSize) => base.GetPreferredSize(proposedSize);
 
             /// <summary>
             /// Process Windows-based messages.
@@ -153,7 +150,7 @@ namespace Krypton.Toolkit
                             Size borderSize = SystemInformation.BorderSize;
                             rect.left -= (borderSize.Width + 1);
 
-                            if (!MissingFrameWorkAPIs.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText)
+                            if (!string.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText)
                                 && string.IsNullOrEmpty(_kryptonTextBox.Text)
                             )
                             {
@@ -207,24 +204,17 @@ namespace Krypton.Toolkit
                                         stringFormat.FormatFlags |= StringFormatFlags.NoWrap;
                                     }
 
-                                    switch (_kryptonTextBox.TextAlign)
+                                    stringFormat.Alignment = _kryptonTextBox.TextAlign switch
                                     {
-                                        case HorizontalAlignment.Left:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Far
-                                                : StringAlignment.Near;
-
-                                            break;
-                                        case HorizontalAlignment.Right:
-                                            stringFormat.Alignment = RightToLeft == RightToLeft.Yes
-                                                ? StringAlignment.Near
-                                                : StringAlignment.Far;
-
-                                            break;
-                                        case HorizontalAlignment.Center:
-                                            stringFormat.Alignment = StringAlignment.Center;
-                                            break;
-                                    }
+                                        HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Far
+                                            : StringAlignment.Near,
+                                        HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Near
+                                            : StringAlignment.Far,
+                                        HorizontalAlignment.Center => StringAlignment.Center,
+                                        _ => stringFormat.Alignment
+                                    };
 
                                     // Use the correct prefix setting
                                     stringFormat.HotkeyPrefix = HotkeyPrefix.None;
@@ -528,7 +518,7 @@ namespace Krypton.Toolkit
             // Create the button spec for the multiline editor button.
             _editorButton = new ButtonSpecAny
             {
-                Image = Resources.SelectParentControlFlipped,
+                Image = GenericImageResources.SelectParentControlFlipped,
                 Style = PaletteButtonStyle.ButtonSpec,
                 Type = PaletteButtonSpecStyle.Generic
             };
@@ -538,12 +528,10 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
         }
 
-        private void OnTextBoxClick(object sender, EventArgs e)
-        {
+        private void OnTextBoxClick(object sender, EventArgs e) =>
             // ReSharper disable RedundantBaseQualifier
             base.OnClick(e);
-            // ReSharper restore RedundantBaseQualifier
-        }
+        // ReSharper restore RedundantBaseQualifier
 
         /// <summary>
         /// Clean up any resources being used.
@@ -592,10 +580,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeCueHint()
-        {
-            return !CueHint.IsDefault;
-        }
+        private bool ShouldSerializeCueHint() => !CueHint.IsDefault;
 
 
         /// <summary>
@@ -727,7 +712,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the text associated with the control.
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => _textBox.Text;
@@ -847,7 +832,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Appearance")]
         [Description("The lines of text in a multiline edit, as an array of String values.")]
-        [Editor("System.Windows.Forms.Design.StringArrayEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1064,7 +1049,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
         [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -1378,25 +1363,21 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt)
-        {
+        public Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         /// <summary>
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public void DesignerMouseLeave()
-        {
+        public void DesignerMouseLeave() =>
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
-        }
+
         #endregion
 
         #region Protected
@@ -1741,10 +1722,7 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">A PaintEventArgs containing the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-        }
+        protected override void OnPaint(PaintEventArgs e) => base.OnPaint(e);
 
         /// <summary>
         /// Raises the TabStop event.
@@ -1978,10 +1956,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnEditorButtonClicked(object sender, EventArgs e)
-        {
-            new MultilineStringEditor(this).ShowEditor();
-        }
+        private void OnEditorButtonClicked(object sender, EventArgs e) => new MultilineStringEditor(this).ShowEditor();
+
         #endregion
     }
 }

@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonDataGridView), "ToolboxBitmaps.KryptonDataGridView.bmp")]
     [DesignerCategory("code")]
-    [Designer(typeof(KryptonDataGridViewDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDataGridViewDesigner, Krypton.Toolkit")]
     [Description("Display rows and columns of data of a grid you can customize.")]
     public class KryptonDataGridView : DataGridView
     {
@@ -40,10 +40,8 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the ToolTipContent class.
             /// </summary>
             /// <param name="toolTipText">Text to show as a tooltip.</param>
-            public ToolTipContent(string toolTipText)
-            {
-                _toolTipText = toolTipText;
-            }
+            public ToolTipContent(string toolTipText) => _toolTipText = toolTipText;
+
             #endregion
 
             #region IContentValues
@@ -52,38 +50,27 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Image value.</returns>
-            public Image GetImage(PaletteState state)
-            {
-                return null;
-            }
+            public Image GetImage(PaletteState state) => null;
 
             /// <summary>
             /// Gets the image color that should be transparent.
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Color value.</returns>
-            public Color GetImageTransparentColor(PaletteState state)
-            {
-                return Color.Empty;
-            }
+            public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
             /// <summary>
             /// Gets the content short text.
             /// </summary>
             /// <returns>String value.</returns>
-            public string GetShortText()
-            {
-                return _toolTipText;
-            }
+            public string GetShortText() => _toolTipText;
 
             /// <summary>
             /// Gets the content long text.
             /// </summary>
             /// <returns>String value.</returns>
-            public string GetLongText()
-            {
-                return string.Empty;
-            }
+            public string GetLongText() => string.Empty;
+
             #endregion
         }
         #endregion
@@ -486,10 +473,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode()
-        {
-            return (PaletteMode != PaletteMode.Global);
-        }
+        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -580,10 +564,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewRedirect StateCommon { get; private set; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled data grid view appearance entries.
@@ -593,10 +574,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewAll StateDisabled { get; private set; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal data grid view appearance entries.
@@ -606,10 +584,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewAll StateNormal { get; private set; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking data grid view appearance entries.
@@ -619,10 +594,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewHeaders StateTracking { get; private set; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed data grid view appearance entries.
@@ -632,10 +604,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewHeaders StatePressed { get; private set; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the selected data grid view appearance entries.
@@ -645,10 +614,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewCells StateSelected { get; private set; }
 
-        private bool ShouldSerializeStateSelected()
-        {
-            return !StateSelected.IsDefault;
-        }
+        private bool ShouldSerializeStateSelected() => !StateSelected.IsDefault;
 
         /// <summary>
         /// Gets access to the grid styles.
@@ -662,10 +628,7 @@ namespace Krypton.Toolkit
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Recovers the back/border/content palettes to use for drawing the provided cell.
@@ -827,20 +790,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ViewManager GetViewManager()
-        {
-            return ViewManager;
-        }
+        public ViewManager GetViewManager() => ViewManager;
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette()
-        {
-            return _palette;
-        }
+        public IPalette GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Gets or Sets the internal KryptonDataGridView CellOver
@@ -858,10 +815,7 @@ namespace Krypton.Toolkit
         /// Highlight search strings in the DataGridView 
         /// </summary>
         /// <param name="s">The string to search.</param>
-        public void HighlightSearch(string s)
-        {
-            HighlightSearch(s, new List<int>());
-        }
+        public void HighlightSearch(string s) => HighlightSearch(s, new List<int>());
 
         /// <summary>
         /// Highlight search strings in the DataGridView 
@@ -1002,11 +956,9 @@ namespace Krypton.Toolkit
         /// Work out if this control needs to paint transparent areas.
         /// </summary>
         /// <returns>True if paint required; otherwise false.</returns>
-        protected virtual bool EvalTransparentPaint()
-        {
+        protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            return ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
-        }
+            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -1466,41 +1418,37 @@ namespace Krypton.Toolkit
                                     // Use the display value of the header cell
                                     _shortTextValue.ShortText = e.FormattedValue.ToString();
 
-                                    using (ViewLayoutContext layoutContext = new(this, Renderer))
+                                    using ViewLayoutContext layoutContext = new(this, Renderer);
+                                    // If a column header cell...
+                                    if ((e.RowIndex == -1) && (e.ColumnIndex != -1))
                                     {
-                                        // If a column header cell...
-                                        if ((e.RowIndex == -1) && (e.ColumnIndex != -1))
+                                        // Find size needed to show header text fully
+                                        Size prefSize = Renderer.RenderStandardContent.GetContentPreferredSize(layoutContext, _contentInherit, _shortTextValue,
+                                            VisualOrientation.Top, state, false, false);
+
+                                        bool contentsFit = (prefSize.Width <= tempCellBounds.Width) &&
+                                                           (prefSize.Height <= tempCellBounds.Height);
+
+                                        // Cache if the column cell can display all the content
+                                        if (_columnCache.ContainsKey(e.ColumnIndex))
                                         {
-                                            // Find size needed to show header text fully
-                                            Size prefSize = Renderer.RenderStandardContent.GetContentPreferredSize(layoutContext, _contentInherit, _shortTextValue,
-                                                                                                                    VisualOrientation.Top, state, false, false);
-
-                                            bool contentsFit = (prefSize.Width <= tempCellBounds.Width) &&
-                                                               (prefSize.Height <= tempCellBounds.Height);
-
-                                            // Cache if the column cell can display all the content
-                                            if (_columnCache.ContainsKey(e.ColumnIndex))
-                                            {
-                                                _columnCache[e.ColumnIndex] = contentsFit;
-                                            }
-                                            else
-                                            {
-                                                _columnCache.Add(e.ColumnIndex, contentsFit);
-                                            }
+                                            _columnCache[e.ColumnIndex] = contentsFit;
                                         }
-
-                                        // Find the correct layout for the header content
-                                        using (IDisposable memento = Renderer.RenderStandardContent.LayoutContent(layoutContext, tempCellBounds,
-                                                                                                                   _contentInherit, _shortTextValue,
-                                                                                                                   VisualOrientation.Top, state, false, false))
+                                        else
                                         {
-                                            // Perform actual drawing of the content
-                                            Renderer.RenderStandardContent.DrawContent(renderContext, tempCellBounds,
-                                                                                        _contentInherit, memento,
-                                                                                        VisualOrientation.Top,
-                                                                                        state, false, false, true);
+                                            _columnCache.Add(e.ColumnIndex, contentsFit);
                                         }
                                     }
+
+                                    // Find the correct layout for the header content
+                                    using IDisposable memento = Renderer.RenderStandardContent.LayoutContent(layoutContext, tempCellBounds,
+                                        _contentInherit, _shortTextValue,
+                                        VisualOrientation.Top, state, false, false);
+                                    // Perform actual drawing of the content
+                                    Renderer.RenderStandardContent.DrawContent(renderContext, tempCellBounds,
+                                        _contentInherit, memento,
+                                        VisualOrientation.Top,
+                                        state, false, false, true);
                                 }
 
                                 // Blit the image onto the screen
@@ -1580,10 +1528,8 @@ namespace Krypton.Toolkit
                         PaintTransparentBackground(graphics, clipBounds);
 
                         // Use the view manager to paint the view panel that fills the entire areas as the background
-                        using (RenderContext context = new(this, graphics, clipBounds, Renderer))
-                        {
-                            ViewManager.Paint(context);
-                        }
+                        using RenderContext context = new(this, graphics, clipBounds, Renderer);
+                        ViewManager.Paint(context);
                     }
 
                     // Request for a refresh has been serviced
@@ -2620,17 +2566,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-        {
-            OnNeedResyncPaint(Palette, new NeedLayoutEventArgs(true));
-        }
+        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette, new NeedLayoutEventArgs(true));
 
-        private void OnSyncPropertyChanged(object sender, EventArgs e)
-        {
+        private void OnSyncPropertyChanged(object sender, EventArgs e) =>
             // Ensure the current cell style values are in sync with the new palette 
             // setting and any state overrides that are defined.
             SyncCellStylesWithPalette();
-        }
 
         private void OnSyncBackPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -2659,10 +2600,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer()
-        {
-            return Renderer.RenderToolStrip(GetResolvedPalette());
-        }
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
         {
@@ -2672,10 +2610,7 @@ namespace Krypton.Toolkit
             KryptonContextMenu = null;
         }
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            ContextMenuClosed();
-        }
+        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
         /// <summary>
         /// Called when a context menu has just been closed.

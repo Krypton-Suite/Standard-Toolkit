@@ -101,10 +101,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorOutlookFull Full { get; }
 
-        private bool ShouldSerializeFull()
-        {
-            return !Full.IsDefault;
-        }
+        private bool ShouldSerializeFull() => !Full.IsDefault;
+
         #endregion
 
         #region Mini
@@ -116,10 +114,8 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorOutlookMini Mini { get; }
 
-        private bool ShouldSerializeMini()
-        {
-            return !Mini.IsDefault;
-        }
+        private bool ShouldSerializeMini() => !Mini.IsDefault;
+
         #endregion
 
         #region CheckButtonStyle

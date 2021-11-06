@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     [ToolboxBitmap(typeof(KryptonRibbon), "ToolboxBitmaps.KryptonRibbon.bmp")]
     [DefaultEvent("SelectedTabChanged")]
     [DefaultProperty("RibbonTabs")]
-    [Designer(typeof(KryptonRibbonDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [Description("Ribbon control presents a tabbed set of user options.")]
     [Docking(DockingBehavior.Never)]
@@ -180,13 +180,11 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Identity
-        static KryptonRibbon()
-        {
+        static KryptonRibbon() =>
             // Cache access to the internal 'Select' method of the ContainerControl
             _containerSelect = typeof(ContainerControl).GetMethod("Select",
-                                                                  BindingFlags.Instance |
-                                                                  BindingFlags.NonPublic);
-        }
+                BindingFlags.Instance |
+                BindingFlags.NonPublic);
 
         /// <summary>
         /// Initialize a new instance of the KryptonRibbon class.
@@ -427,10 +425,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeAllowFormIntegrate()
-        {
-            return _allowFormIntegrate;
-        }
+        private bool ShouldSerializeAllowFormIntegrate() => _allowFormIntegrate;
 
         /// <summary>
         /// Resets the AllowFormIntegrate property to its default value.
@@ -473,10 +468,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonRedirect StateCommon { get; private set; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled ribbon appearance.
@@ -486,10 +478,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDisabled StateDisabled { get; private set; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal ribbon appearance.
@@ -499,10 +488,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonNormal StateNormal { get; private set; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking ribbon appearance.
@@ -512,10 +498,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonAppGroupTab StateTracking { get; private set; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed ribbon appearance.
@@ -525,10 +508,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonAppButton StatePressed { get; private set; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking checked normal appearance.
@@ -538,10 +518,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonGroupAreaTab StateCheckedNormal { get; private set; }
 
-        private bool ShouldSerializeStateCheckedNormal()
-        {
-            return !StateCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking checked tracking appearance.
@@ -551,10 +528,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonJustTab StateCheckedTracking { get; private set; }
 
-        private bool ShouldSerializeStateCheckedTracking()
-        {
-            return !StateCheckedTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedTracking() => !StateCheckedTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the context normal appearance.
@@ -564,10 +538,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonJustGroup StateContextNormal { get; private set; }
 
-        private bool ShouldSerializeStateContextNormal()
-        {
-            return !StateContextNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateContextNormal() => !StateContextNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the context tracking appearance.
@@ -577,10 +548,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonGroupTab StateContextTracking { get; private set; }
 
-        private bool ShouldSerializeStateContextTracking()
-        {
-            return !StateContextTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateContextTracking() => !StateContextTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the checked context normal appearance.
@@ -590,10 +558,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonGroupAreaTab StateContextCheckedNormal { get; private set; }
 
-        private bool ShouldSerializeStateContextCheckedNormal()
-        {
-            return !StateContextCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateContextCheckedNormal() => !StateContextCheckedNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the checked context tracking appearance.
@@ -603,23 +568,20 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonJustTab StateContextCheckedTracking { get; private set; }
 
-        private bool ShouldSerializeStateContextCheckedTracking()
-        {
-            return !StateContextCheckedTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateContextCheckedTracking() => !StateContextCheckedTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the ribbon appearance when it has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon appearance when it has focus.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //[Category("Visuals")]
+        //[Description("Overrides for defining ribbon appearance when it has focus.")]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public PaletteRibbonFocus OverrideFocus { get; private set; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets the collection of button specifications.
@@ -727,10 +689,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeSelectedContext()
-        {
-            return !string.IsNullOrEmpty(_selectedContext);
-        }
+        private bool ShouldSerializeSelectedContext() => !string.IsNullOrEmpty(_selectedContext);
 
         /// <summary>
         /// Reset the SelectedContext to the default value.
@@ -755,7 +714,7 @@ namespace Krypton.Ribbon
         [Category("Values")]
         [Description("Collection of ribbon quick access toolbar buttons.")]
         [MergableProperty(false)]
-        [Editor(typeof(KryptonRibbonQATButtonCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Ribbon.KryptonRibbonQATButtonCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonQATButtonCollection QATButtons { get; private set; }
 
@@ -797,10 +756,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonStyles RibbonStyles { get; private set; }
 
-        private bool ShouldSerializeRibbonStyles()
-        {
-            return !RibbonStyles.IsDefault;
-        }
+        private bool ShouldSerializeRibbonStyles() => !RibbonStyles.IsDefault;
 
         /// <summary>
         /// Gets and sets the vertical and horizontal minimum sizes at which the ribbon hides itself. 
@@ -879,46 +835,44 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        using (ScreenObscurer obscurer = new(_minimizedPopup, DesignMode))
+                        using ScreenObscurer obscurer = new(_minimizedPopup, DesignMode);
+                        // Remove any showing popup for the minimized area
+                        KillMinimizedPopup();
+
+                        // Remove groups from minimized panel
+                        _drawMinimizedPanel.Remove(GroupsArea);
+
+                        // Put the groups view back into the main display
+                        if (!_ribbonDocker.Contains(GroupsArea))
                         {
-                            // Remove any showing popup for the minimized area
-                            KillMinimizedPopup();
-
-                            // Remove groups from minimized panel
-                            _drawMinimizedPanel.Remove(GroupsArea);
-
-                            // Put the groups view back into the main display
-                            if (!_ribbonDocker.Contains(GroupsArea))
-                            {
-                                _ribbonDocker.Insert(0, GroupsArea);
-                                _ribbonDocker.SetDock(GroupsArea, ViewDockStyle.Fill);
-                            }
-
-                            // If there is a remembered selected tab then try and reapply it as the new selected tab
-                            if (_minSelectedTab != null)
-                            {
-                                // Check the remembered entry is actually valid
-                                if (_minSelectedTab.Visible &&
-                                    RibbonTabs.Contains(_minSelectedTab) &&
-                                    TabIsContextValid(_minSelectedTab))
-                                {
-                                    SelectedTab = _minSelectedTab;
-                                }
-
-                                _minSelectedTab = null;
-                            }
-
-                            // Ensure that selected tab is valid
-                            ValidateSelectedTab();
-
-                            // Must layout to effect changes
-                            TabsArea.RecreateButtons();
-                            PerformNeedPaint(true);
-
-                            // Allow the ribbon to be layed out and painted before we 
-                            // remove the control obscurer the reduces flicker when switching.
-                            Application.DoEvents();
+                            _ribbonDocker.Insert(0, GroupsArea);
+                            _ribbonDocker.SetDock(GroupsArea, ViewDockStyle.Fill);
                         }
+
+                        // If there is a remembered selected tab then try and reapply it as the new selected tab
+                        if (_minSelectedTab != null)
+                        {
+                            // Check the remembered entry is actually valid
+                            if (_minSelectedTab.Visible &&
+                                RibbonTabs.Contains(_minSelectedTab) &&
+                                TabIsContextValid(_minSelectedTab))
+                            {
+                                SelectedTab = _minSelectedTab;
+                            }
+
+                            _minSelectedTab = null;
+                        }
+
+                        // Ensure that selected tab is valid
+                        ValidateSelectedTab();
+
+                        // Must layout to effect changes
+                        TabsArea.RecreateButtons();
+                        PerformNeedPaint(true);
+
+                        // Allow the ribbon to be layed out and painted before we 
+                        // remove the control obscurer the reduces flicker when switching.
+                        Application.DoEvents();
                     }
 
                     // Raises change event
@@ -952,22 +906,20 @@ namespace Krypton.Ribbon
                 {
                     _qatLocation = value;
 
-                    using (ScreenObscurer obscurer = new(this, DesignMode))
-                    {
-                        // Only show the minimize bar if in minimized mode 
-                        // and not showing the QAT below the ribbon
-                        _minimizeBar.Visible = (RealMinimizedMode && (QATLocation != QATLocation.Below));
+                    using ScreenObscurer obscurer = new(this, DesignMode);
+                    // Only show the minimize bar if in minimized mode 
+                    // and not showing the QAT below the ribbon
+                    _minimizeBar.Visible = (RealMinimizedMode && (QATLocation != QATLocation.Below));
 
-                        // Update the fullbar version of the QAT
-                        _qatBelowRibbon.Visible = (_qatLocation == QATLocation.Below);
+                    // Update the fullbar version of the QAT
+                    _qatBelowRibbon.Visible = (_qatLocation == QATLocation.Below);
 
-                        // Update the minibar versions of the QAT
-                        CaptionArea.UpdateQAT();
+                    // Update the minibar versions of the QAT
+                    CaptionArea.UpdateQAT();
 
-                        // Must layout to effect changes
-                        PerformLayout();
-                        Refresh();
-                    }
+                    // Must layout to effect changes
+                    PerformLayout();
+                    Refresh();
                 }
             }
         }
@@ -1163,7 +1115,7 @@ namespace Krypton.Ribbon
                         {
                             // Only interested if the owning form is usable and has the focus
                             Form ownerForm = FindForm();
-                            if ((ownerForm != null) && ownerForm.Visible && ownerForm.Enabled && ownerForm.ContainsFocus)
+                            if (ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
                             {
                                 // Extract the keys being pressed
                                 Keys keys = ((Keys)((int)m.WParam.ToInt64()));
@@ -1189,7 +1141,7 @@ namespace Krypton.Ribbon
                         {
                             // Only interested is the owning form is usable and has the focus
                             Form ownerForm = FindForm();
-                            if ((ownerForm != null) && ownerForm.Visible && ownerForm.Enabled && ownerForm.ContainsFocus)
+                            if (ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
                             {
                                 // Extract the x and y mouse position from message
                                 Point pt = new()
@@ -1330,11 +1282,9 @@ namespace Krypton.Ribbon
         /// Creates a new instance of the control collection for the control.
         /// </summary>
         /// <returns>A new instance of KryptonNavigatorControlCollection assigned to the control.</returns>
-        protected override ControlCollection CreateControlsInstance()
-        {
+        protected override ControlCollection CreateControlsInstance() =>
             // Create a navigator specific control collection
-            return new KryptonReadOnlyControls(this);
-        }
+            new KryptonReadOnlyControls(this);
 
         /// <summary>
         /// Raises the Layout event.
@@ -2642,15 +2592,9 @@ namespace Krypton.Ribbon
             ? VisualPopupManager.Singleton.CurrentPopup.PointToScreen(pt)
             : PointToScreen(pt);
 
-        internal Rectangle ViewRectangleToScreen(ViewBase view)
-        {
-            return view.OwningControl.RectangleToScreen(view.ClientRectangle);
-        }
+        internal Rectangle ViewRectangleToScreen(ViewBase view) => view.OwningControl.RectangleToScreen(view.ClientRectangle);
 
-        internal Rectangle KeyTipToScreen(ViewBase view)
-        {
-            return view.OwningControl.RectangleToScreen(view.ClientRectangle);
-        }
+        internal Rectangle KeyTipToScreen(ViewBase view) => view.OwningControl.RectangleToScreen(view.ClientRectangle);
 
         internal ViewBase FocusView
         {
@@ -2678,10 +2622,7 @@ namespace Krypton.Ribbon
 
         internal PaletteRibbonShape RibbonShape => StateCommon.RibbonGeneral.GetRibbonShape();
 
-        internal PaletteRedirect GetRedirector()
-        {
-            return Redirector;
-        }
+        internal PaletteRedirect GetRedirector() => Redirector;
 
         internal Control GetControllerControl(Control c)
         {

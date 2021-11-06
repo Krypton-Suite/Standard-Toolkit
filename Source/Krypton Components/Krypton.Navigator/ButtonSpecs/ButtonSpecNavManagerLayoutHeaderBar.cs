@@ -94,10 +94,9 @@ namespace Krypton.Navigator
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
         public override PaletteRedirect CreateButtonSpecRemap(PaletteRedirect redirector,
-                                                              ButtonSpec buttonSpec)
-        {
-            return new ButtonSpecRemapByContentCache(redirector, buttonSpec);
-        }
+                                                              ButtonSpec buttonSpec) =>
+            new ButtonSpecRemapByContentCache(redirector, buttonSpec);
+
         #endregion
 
         #region Protected Overrides

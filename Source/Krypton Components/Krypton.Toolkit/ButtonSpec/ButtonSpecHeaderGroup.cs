@@ -26,10 +26,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the HeaderGroupButtonSpec class.
         /// </summary>
-        public ButtonSpecHeaderGroup()
-        {
-            _location = HeaderLocation.PrimaryHeader;
-        }
+        public ButtonSpecHeaderGroup() => _location = HeaderLocation.PrimaryHeader;
+
         #endregion
 
         #region IsDefault
@@ -65,13 +63,13 @@ namespace Krypton.Toolkit
             }
         }
 
+        private bool ShouldSerializeHeaderLocation() => HeaderLocation != HeaderLocation.PrimaryHeader;
+
         /// <summary>
         /// Resets the HeaderLocation property to its default value.
         /// </summary>
-        public void ResetHeaderLocation()
-        {
-            HeaderLocation = HeaderLocation.PrimaryHeader;
-        }
+        private void ResetHeaderLocation() => HeaderLocation = HeaderLocation.PrimaryHeader;
+
         #endregion
 
         #region CopyFrom
@@ -95,10 +93,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button location.</returns>
-        public override HeaderLocation GetLocation(IPalette palette)
-        {
-            return HeaderLocation;
-        }
+        public override HeaderLocation GetLocation(IPalette palette) => HeaderLocation;
+
         #endregion
     }
 }

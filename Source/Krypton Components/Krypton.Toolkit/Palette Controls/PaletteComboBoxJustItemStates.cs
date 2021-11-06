@@ -52,13 +52,11 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritItem">Source for inheriting item values.</param>
-        public void SetInherit(IPaletteTriple inheritItem)
-        {
-            Item.SetInherit(inheritItem);
-        }
+        public void SetInherit(IPaletteTriple inheritItem) => Item.SetInherit(inheritItem);
+
         #endregion
 
         #region PopulateFromBase
@@ -66,10 +64,8 @@ namespace Krypton.Toolkit
         /// Populate values from the base palette.
         /// </summary>
         /// <param name="state">Palette state to use when populating.</param>
-        public void PopulateFromBase(PaletteState state)
-        {
-            Item.PopulateFromBase(state);
-        }
+        public void PopulateFromBase(PaletteState state) => Item.PopulateFromBase(state);
+
         #endregion
 
         #region Item
@@ -82,10 +78,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Item { get; }
 
-        private bool ShouldSerializeItem()
-        {
-            return !Item.IsDefault;
-        }
+        private bool ShouldSerializeItem() => !Item.IsDefault;
+
         #endregion
 
         #region Implementation
@@ -94,11 +88,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout)
-        {
+        protected void OnNeedPaint(object sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
-        }
+
         #endregion
     }
 }

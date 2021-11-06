@@ -69,10 +69,7 @@ namespace Krypton.Toolkit
 
         #endregion Identity
 
-        private void KryptonFormOnClosing(object sender, /*Cancel*/EventArgs e)
-        {
-            RemoveBlur();
-        }
+        private void KryptonFormOnClosing(object sender, /*Cancel*/EventArgs e) => RemoveBlur();
 
         private void RemoveBlur()
         {

@@ -51,10 +51,7 @@ namespace Krypton.Toolkit
         [DefaultValue(typeof(PlacementMode), "Bottom")]
         public PlacementMode PlacementMode { get; set; }
 
-        private bool ShouldSerializePlacementMode()
-        {
-            return PlacementMode != PlacementMode.Bottom;
-        }
+        private bool ShouldSerializePlacementMode() => PlacementMode != PlacementMode.Bottom;
 
         /// <summary>
         /// Resets the PlacementMode property to its default value.
@@ -70,10 +67,7 @@ namespace Krypton.Toolkit
         [Description("The element relative to which the Popup is positioned when it opens.")]
         public ViewBase PlacementTarget { get; set; }
 
-        private bool ShouldSerializePlacementTarget()
-        {
-            return PlacementTarget != null;
-        }
+        private bool ShouldSerializePlacementTarget() => PlacementTarget != null;
 
         /// <summary>
         /// Resets the PlacementTarget property to its default value.
@@ -89,10 +83,7 @@ namespace Krypton.Toolkit
         [Description("The rectangle relative to which the Popup control is positioned when it opens.")]
         public Rectangle PlacementRectangle { get; set; }
 
-        private bool ShouldSerializePlacementRectangle()
-        {
-            return !PlacementRectangle.IsEmpty;
-        }
+        private bool ShouldSerializePlacementRectangle() => !PlacementRectangle.IsEmpty;
 
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.

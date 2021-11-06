@@ -92,11 +92,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGroupCustom:" + Id;
-        }
+            "ViewDrawRibbonGroupCustom:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -155,8 +153,7 @@ namespace Krypton.Ribbon
         public ViewBase GetFirstFocusItem()
         {
             if ((GroupCustomControl.Visible) &&
-                (GroupCustomControl.LastCustomControl != null) &&
-                (GroupCustomControl.LastCustomControl.CanSelect))
+                GroupCustomControl.LastCustomControl is { CanSelect: true })
             {
                 return this;
             }
@@ -175,8 +172,7 @@ namespace Krypton.Ribbon
         public ViewBase GetLastFocusItem()
         {
             if ((GroupCustomControl.Visible) &&
-                (GroupCustomControl.LastCustomControl != null) &&
-                (GroupCustomControl.LastCustomControl.CanSelect))
+                GroupCustomControl.LastCustomControl is { CanSelect: true })
             {
                 return this;
             }
@@ -226,7 +222,7 @@ namespace Krypton.Ribbon
         public void GetGroupKeyTips(KeyTipInfoList keyTipList, int lineHint)
         {
             // Only provide a key tip if we are visible and the target control can accept focus
-            if (Visible && (LastCustomControl != null) && LastCustomControl.CanFocus)
+            if (Visible && LastCustomControl is { CanFocus: true })
             {
                 // Get the screen location of the button
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this);

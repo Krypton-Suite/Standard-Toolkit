@@ -32,8 +32,8 @@ namespace Krypton.Ribbon
                                                              typeof(KryptonRibbonGroupRichTextBox),
                                                              typeof(KryptonRibbonGroupTextBox),
                                                              typeof(KryptonRibbonGroupTrackBar),
-                                                             typeof(KryptonRibbonGroupMaskedTextBox),
-                                                           };
+                                                             typeof(KryptonRibbonGroupMaskedTextBox)
+        };
 
         #endregion
 

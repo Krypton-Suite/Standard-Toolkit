@@ -17,12 +17,13 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(ListView))]
     [DefaultEvent("AfterSelect")]
     [DefaultProperty("Nodes")]
-    [Designer(typeof(KryptonTreeViewDesigner))]
+    [Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("A Kryptonised listview. Does not support the `List or Details View` types")]
     public class KryptonListView : ListView
     {
         #region Variables
+        private IPalette _localPalette;
         private IPalette _palette;
         private PaletteMode _paletteMode;
         private bool _layoutDirty;
@@ -242,6 +243,36 @@ namespace Krypton.Toolkit
 
         #region public
 
+        /// <summary>Gets and sets the custom palette implementation.</summary>
+        [Category("Visuals")]
+        [Description("Custom palette applied to drawing.")]
+        [DefaultValue(null)]
+        public IPalette Palette
+        {
+            [DebuggerStepThrough] get => this._localPalette;
+            set
+            {
+                if (this._localPalette == value)
+                    return;
+                CacheNewPalette(value);
+                if (value == null)
+                {
+                    _paletteMode = PaletteMode.Global;
+                    _localPalette = (IPalette) null;
+                    CacheNewPalette(KryptonManager.GetPaletteForMode(this._paletteMode));
+                }
+                else
+                {
+                    _localPalette = value;
+                    _paletteMode = PaletteMode.Custom;
+                }
+                PerformLayout();
+            }
+        }
+
+        /// <summary>Resets the Palette property to its default value.</summary>
+        public void ResetPalette() => this.PaletteMode = PaletteMode.Global;
+
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
@@ -373,10 +404,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private IPaletteDouble GetDoubleState()
-        {
-            return Enabled ? IsActive ? StateActive : StateNormal : StateDisabled;
-        }
+        private IPaletteDouble GetDoubleState() => Enabled ? IsActive ? StateActive : StateNormal : StateDisabled;
 
         /// <summary>Raises the <see cref="E:System.Windows.Forms.ListView.DrawItem">DrawItem</see> event.</summary>
         /// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewItemEventArgs">DrawListViewItemEventArgs</see> that contains the event data.</param>
@@ -451,7 +479,7 @@ namespace Krypton.Toolkit
             // By default the button is in the normal state
             PaletteState buttonState;
 
-            if (MissingFrameWorkAPIs.HasFlag(e.State, ListViewItemStates.Grayed))
+            if (e.State.HasFlag(ListViewItemStates.Grayed))
             {
                 buttonState = PaletteState.Disabled;
             }
@@ -462,7 +490,7 @@ namespace Krypton.Toolkit
                 {
                     _drawButton.Checked = true;
 
-                    buttonState = MissingFrameWorkAPIs.HasFlag(e.State, ListViewItemStates.Hot)
+                    buttonState = e.State.HasFlag(ListViewItemStates.Hot)
                         ? PaletteState.CheckedTracking
                         : PaletteState.CheckedNormal;
                 }
@@ -470,7 +498,7 @@ namespace Krypton.Toolkit
                 {
                     _drawButton.Checked = false;
 
-                    buttonState = MissingFrameWorkAPIs.HasFlag(e.State, ListViewItemStates.Hot)
+                    buttonState = e.State.HasFlag(ListViewItemStates.Hot)
                         ? PaletteState.Tracking
                         : PaletteState.Normal;
                 }
@@ -738,6 +766,7 @@ namespace Krypton.Toolkit
 
                 // Unhook from the static events, otherwise we cannot be garbage collected
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+                this._localPalette = (IPalette) null;
             }
 
             base.Dispose(disposing);
@@ -778,10 +807,7 @@ namespace Krypton.Toolkit
             BackStyle = PaletteBackStyle.InputControlStandalone;
         }
 
-        private bool ShouldSerializeBackStyle()
-        {
-            return (BackStyle != PaletteBackStyle.InputControlStandalone);
-        }
+        private bool ShouldSerializeBackStyle() => (BackStyle != PaletteBackStyle.InputControlStandalone);
 
         /// <summary>
         /// Gets and sets the border style.
@@ -807,10 +833,7 @@ namespace Krypton.Toolkit
             BorderStyle = PaletteBorderStyle.InputControlStandalone;
         }
 
-        private bool ShouldSerializeBorderStyle()
-        {
-            return (BorderStyle != PaletteBorderStyle.InputControlStandalone);
-        }
+        private bool ShouldSerializeBorderStyle() => (BorderStyle != PaletteBorderStyle.InputControlStandalone);
 
         /// <summary>
         /// Gets access to the item appearance when it has focus.
@@ -820,10 +843,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTripleRedirect OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
         /// <summary>
         /// Gets access to the check box image value overrides.
@@ -869,10 +889,7 @@ namespace Krypton.Toolkit
                 base.View = value;
             }
         }
-        private bool ShouldSerializeImages()
-        {
-            return !Images.IsDefault;
-        }
+        private bool ShouldSerializeImages() => !Images.IsDefault;
 
         /// <summary>
         /// Gets access to the common appearance entries that other states can override.
@@ -882,10 +899,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListStateRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled appearance entries.
@@ -895,10 +909,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListState StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal appearance entries.
@@ -908,10 +919,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListState StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the active appearance entries.
@@ -921,10 +929,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble StateActive { get; }
 
-        private bool ShouldSerializeStateActive()
-        {
-            return !StateActive.IsDefault;
-        }
+        private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
 
         /// <summary>
         /// Gets access to the hot tracking item appearance entries.
@@ -934,10 +939,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking()
-        {
-            return !StateTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed item appearance entries.
@@ -947,10 +949,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed()
-        {
-            return !StatePressed.IsDefault;
-        }
+        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
         /// <summary>
         /// Gets access to the normal checked item appearance entries.
@@ -960,10 +959,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateCheckedNormal { get; }
 
-        private bool ShouldSerializeStateCheckedNormal()
-        {
-            return !StateCheckedNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the hot tracking checked item appearance entries.
@@ -973,10 +969,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateCheckedTracking { get; }
 
-        private bool ShouldSerializeStateCheckedTracking()
-        {
-            return !StateCheckedTracking.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedTracking() => !StateCheckedTracking.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed checked item appearance entries.
@@ -986,10 +979,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateCheckedPressed { get; }
 
-        private bool ShouldSerializeStateCheckedPressed()
-        {
-            return !StateCheckedPressed.IsDefault;
-        }
+        private bool ShouldSerializeStateCheckedPressed() => !StateCheckedPressed.IsDefault;
 
         /// <summary>
         /// Gets access to the need paint delegate.
@@ -1002,10 +992,7 @@ namespace Krypton.Toolkit
         /// <param name="needLayout">Does the palette change require a layout.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        protected virtual void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected virtual void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -1044,10 +1031,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode()
-        {
-            return (PaletteMode != PaletteMode.Global);
-        }
+        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -1059,6 +1043,8 @@ namespace Krypton.Toolkit
 
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
+            if (this.PaletteMode != PaletteMode.Global)
+                return;
             // Unhook events from old palette
             if (_palette != null)
             {
@@ -1212,10 +1198,7 @@ namespace Krypton.Toolkit
             KryptonContextMenu = null;
         }
 
-        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            ContextMenuClosed();
-        }
+        private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
         /// <summary>
         /// Called when a context menu has just been closed.

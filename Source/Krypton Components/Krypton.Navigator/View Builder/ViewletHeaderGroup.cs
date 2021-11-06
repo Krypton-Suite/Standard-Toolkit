@@ -108,11 +108,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
+        public ButtonSpec ButtonSpecFromView(ViewBase element) =>
             // Ask the button manager for the button spec for this element
-            return _buttonManager.ButtonSpecFromView(element);
-        }
+            _buttonManager.ButtonSpecFromView(element);
 
         /// <summary>
         /// Recreate the buttons to reflect a change in selected page.
@@ -180,11 +178,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
-        public bool DesignerGetHitTest(Point pt)
-        {
+        public bool DesignerGetHitTest(Point pt) =>
             // Check if any of the buttons want the point
-            return _buttonManager.DesignerGetHitTest(pt);
-        }
+            _buttonManager.DesignerGetHitTest(pt);
 
         /// <summary>
         /// Get the appropriate action for the header group next action.
@@ -272,28 +268,20 @@ namespace Krypton.Navigator
         /// Gets the visible state of the secondary header.
         /// </summary>
         /// <returns>Boolean value.</returns>
-        protected virtual bool GetHeaderSecondaryVisible()
-        {
-            return Navigator.Header.HeaderVisibleSecondary;
-        }
+        protected virtual bool GetHeaderSecondaryVisible() => Navigator.Header.HeaderVisibleSecondary;
 
         /// <summary>
         /// Gets the source of the primary header values.
         /// </summary>
         /// <returns></returns>
-        protected virtual IContentValues GetPrimaryValues()
-        {
-            return Navigator.Header.HeaderValuesPrimary;
-        }
+        protected virtual IContentValues GetPrimaryValues() => Navigator.Header.HeaderValuesPrimary;
 
         /// <summary>
         /// Gets the source of the secondary header values.
         /// </summary>
         /// <returns></returns>
-        protected virtual IContentValues GetSecondaryValues()
-        {
-            return Navigator.Header.HeaderValuesSecondary;
-        }
+        protected virtual IContentValues GetSecondaryValues() => Navigator.Header.HeaderValuesSecondary;
+
         #endregion
 
         #region Implementation

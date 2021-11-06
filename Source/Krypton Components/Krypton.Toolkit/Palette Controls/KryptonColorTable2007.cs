@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         ButtonNavigatorPressed2 = 222,
         ButtonNavigatorChecked1 = 223,
         ButtonNavigatorChecked2 = 224,
-        ToolTipBottom = 225,
+        ToolTipBottom = 225
     }
     #endregion
 
@@ -860,11 +860,10 @@ namespace Krypton.Toolkit
             _statusFont = new Font("Segoe UI", SystemFonts.StatusFont.SizeInPoints, FontStyle.Regular);
         }
 
-        private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-        {
+        private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
             // Update fonts to reflect any change in system settings
             DefineFonts();
-        }
+
         #endregion
     }
 }

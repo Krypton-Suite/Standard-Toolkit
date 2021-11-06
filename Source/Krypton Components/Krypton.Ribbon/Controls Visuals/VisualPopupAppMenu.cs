@@ -407,10 +407,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override IPalette GetResolvedPalette()
-        {
-            return _palette;
-        }
+        public override IPalette GetResolvedPalette() => _palette;
+
         #endregion
 
         #region Protected
@@ -454,23 +452,20 @@ namespace Krypton.Ribbon
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
-            using (RenderContext context = new(this, null, ClientRectangle, Renderer))
-            {
+            using RenderContext context = new(this, null, ClientRectangle, Renderer);
+            // Grab a path that is the outside edge of the border
+            Rectangle borderRect = ClientRectangle;
+            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
+            borderRect.Inflate(-1, -1);
+            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
+            borderRect.Inflate(-1, -1);
+            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
 
-                // Grab a path that is the outside edge of the border
-                Rectangle borderRect = ClientRectangle;
-                GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
-                borderRect.Inflate(-1, -1);
-                GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
-                borderRect.Inflate(-1, -1);
-                GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
+            // Update the region of the popup to be the border path
+            Region = new Region(borderPath1);
 
-                // Update the region of the popup to be the border path
-                Region = new Region(borderPath1);
-
-                // Inform the shadow to use the same paths for drawing the shadow
-                DefineShadowPaths(borderPath1, borderPath2, borderPath3);
-            }
+            // Inform the shadow to use the same paths for drawing the shadow
+            DefineShadowPaths(borderPath1, borderPath2, borderPath3);
         }
 
         /// <summary>
@@ -494,10 +489,8 @@ namespace Krypton.Ribbon
             try
             {
                 // Find the preferred size which fits exactly the calculated contents size
-                using (ViewLayoutContext context = new(this, Renderer))
-                {
-                    return ViewManager.Root.GetPreferredSize(context);
-                }
+                using ViewLayoutContext context = new(this, Renderer);
+                return ViewManager.Root.GetPreferredSize(context);
             }
             finally
             {

@@ -27,10 +27,8 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the PageDropEventArgs class.
         /// </summary>
         /// <param name="page">Page that is being dropped.</param>
-        public PageDropEventArgs(KryptonPage page)
-        {
-            _page = page;
-        }
+        public PageDropEventArgs(KryptonPage page) => _page = page;
+
         #endregion
 
         #region Page
@@ -40,7 +38,7 @@ namespace Krypton.Navigator
         public KryptonPage Page
         {
             get => _page;
-            set => _page = Page;
+            set => _page = Page;    // TODO: What is this supposed to be doing ?
         }
         #endregion
     }

@@ -106,11 +106,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawDocker:" + Id;
-        }
+            "ViewDrawDocker:" + Id;
+
         #endregion
 
         #region IgnoreBorderSpace
@@ -777,15 +776,12 @@ namespace Krypton.Toolkit
             if (CommonHelper.GetRightToLeftLayout(control) && (control.RightToLeft == RightToLeft.Yes))
             {
                 // Only need to invert the left and right sides
-                switch (ds)
+                ds = ds switch
                 {
-                    case ViewDockStyle.Left:
-                        ds = ViewDockStyle.Right;
-                        break;
-                    case ViewDockStyle.Right:
-                        ds = ViewDockStyle.Left;
-                        break;
-                }
+                    ViewDockStyle.Left => ViewDockStyle.Right,
+                    ViewDockStyle.Right => ViewDockStyle.Left,
+                    _ => ds
+                };
             }
 
             return ds;

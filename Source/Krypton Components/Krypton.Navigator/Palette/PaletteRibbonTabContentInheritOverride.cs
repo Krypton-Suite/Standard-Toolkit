@@ -33,12 +33,12 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the PaletteRibbonTabContentInheritOverride class.
         /// </summary>
-        /// <param name="primaryBack">First choice inheritence background.</param>
-        /// <param name="primaryText">First choice inheritence text.</param>
-        /// <param name="primaryContent">First choice inheritence content.</param>
-        /// <param name="backupBack">Backup inheritence background.</param>
-        /// <param name="backupText">Backup inheritence text.</param>
-        /// <param name="backupContent">Backup inheritence content.</param>
+        /// <param name="primaryBack">First choice inheritance background.</param>
+        /// <param name="primaryText">First choice inheritance text.</param>
+        /// <param name="primaryContent">First choice inheritance content.</param>
+        /// <param name="backupBack">Backup inheritance background.</param>
+        /// <param name="backupText">Backup inheritance text.</param>
+        /// <param name="backupContent">Backup inheritance content.</param>
         /// <param name="state">Palette state to override.</param>
         public PaletteRibbonTabContentInheritOverride(IPaletteRibbonBack primaryBack,
                                                       IPaletteRibbonText primaryText,

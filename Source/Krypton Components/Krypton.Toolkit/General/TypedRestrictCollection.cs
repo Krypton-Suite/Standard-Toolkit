@@ -54,13 +54,11 @@ namespace Krypton.Toolkit
         /// <param name="value">Object reference.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>The position into which the new item was inserted.</returns>
-        public override int Add(object value)
-        {
+        public override int Add(object value) =>
             // We only allow objects that implement a restricted type
-            return (value != null) && !IsTypeAllowed(value)
+            (value != null) && !IsTypeAllowed(value)
                 ? throw new ArgumentException("Type to be added is not allowed in this collection.")
                 : base.Add(value);
-        }
 
         /// <summary>
         /// Inserts an item to the collection at the specified index.

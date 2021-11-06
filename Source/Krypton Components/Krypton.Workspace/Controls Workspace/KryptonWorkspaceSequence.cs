@@ -19,7 +19,7 @@ namespace Krypton.Workspace
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonWorkspaceSequence), "ToolboxBitmaps.KryptonWorkspaceSequence.bmp")]
     [TypeConverter(typeof(KryptonWorkspaceSequenceConverter))]
-    [Designer(typeof(KryptonWorkspaceSequenceDesigner))]
+    [Designer("Krypton.Workspace.KryptonWorkspaceSequenceDesigner, Krypton.Workspace")]
     [DesignTimeVisible(false)]
     [DesignerCategory("code")]
     [DefaultProperty("Children")]
@@ -103,10 +103,8 @@ namespace Krypton.Workspace
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
-            return Orientation + " (" + Children.Count.ToString() + " Children)";
-        }
+        public override string ToString() => Orientation + " (" + Children.Count.ToString() + " Children)";
+
         #endregion
 
         #region Public
@@ -116,7 +114,7 @@ namespace Krypton.Workspace
         [Category("Workspace")]
         [Description("Collection of child workspace items.")]
         [MergableProperty(false)]
-        [Editor(typeof(KryptonWorkspaceCollectionEditor), typeof(UITypeEditor))]
+        [Editor(@"Krypton.Workspace.KryptonWorkspaceCollectionEditor, Krypton.Workspace", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonWorkspaceCollection Children { get; }
 

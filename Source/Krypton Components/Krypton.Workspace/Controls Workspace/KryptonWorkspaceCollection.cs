@@ -44,19 +44,14 @@ namespace Krypton.Workspace
         /// Initialize a new instance of the KryptonWorkspaceCollection class.
         /// </summary>
         /// <param name="sequence">Reference to the owning sequence.</param>
-        public KryptonWorkspaceCollection(KryptonWorkspaceSequence sequence)
-        {
-            _sequence = sequence;
-        }
+        public KryptonWorkspaceCollection(KryptonWorkspaceSequence sequence) => _sequence = sequence;
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
-            return Count.ToString() + " Children";
-        }
+        public override string ToString() => Count.ToString() + " Children";
+
         #endregion
 
         #region Public

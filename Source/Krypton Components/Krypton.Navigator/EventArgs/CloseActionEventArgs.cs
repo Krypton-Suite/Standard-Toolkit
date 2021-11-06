@@ -31,10 +31,9 @@ namespace Krypton.Navigator
         public CloseActionEventArgs(KryptonPage page, 
                                     int index, 
                                     CloseButtonAction action)
-            : base(page, index)
-        {
+            : base(page, index) =>
             Action = action;
-        }
+
         #endregion
 
         #region Action

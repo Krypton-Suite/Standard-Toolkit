@@ -28,8 +28,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteContentInheritOverride class.
         /// </summary>
-        /// <param name="primary">First choice inheritence.</param>
-        /// <param name="backup">Backup inheritence.</param>
+        /// <param name="primary">First choice inheritance.</param>
+        /// <param name="backup">Backup inheritance.</param>
         public PaletteContentInheritOverride(IPaletteContent primary,
                                              IPaletteContent backup)
             : this(primary, backup, PaletteState.Normal, true)
@@ -39,8 +39,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteContentInheritOverride class.
         /// </summary>
-        /// <param name="primary">First choice inheritence.</param>
-        /// <param name="backup">Backup inheritence.</param>
+        /// <param name="primary">First choice inheritance.</param>
+        /// <param name="backup">Backup inheritance.</param>
         /// <param name="overrideState">State used by the override.</param>
         /// <param name="apply">Should the override we used.</param>
         public PaletteContentInheritOverride(IPaletteContent primary,

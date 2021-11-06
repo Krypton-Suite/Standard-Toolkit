@@ -31,10 +31,18 @@ set msbuildpath=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBu
 goto build
 
 :build
+for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
+    set "zone=%%A"
+)
+
+@echo Started: %date% %time% %zone%
+@echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
 "%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
 
+@echo Build Completed: %date% %time% %zone%
+@echo
 echo Plese alter file '{Path}\Directory.Build.props' before executing 'publish.cmd' script!
 
 pause

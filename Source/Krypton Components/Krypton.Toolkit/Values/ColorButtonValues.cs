@@ -19,9 +19,9 @@ namespace Krypton.Toolkit
                                      IContentValues
     {
         #region Static Fields
-        private const string _defaultText = "Color";
+        private const string _defaultText = "&Color";
         private static readonly string _defaultExtraText = string.Empty;
-        private static readonly Image _defaultImage = Resources.ButtonColorImageSmall;
+        private static readonly Image _defaultImage = Resources.GenericImageResources.ButtonColorImageSmall;
         #endregion
 
         #region Instance Fields
@@ -34,6 +34,7 @@ namespace Krypton.Toolkit
         private Color _selectedColor;
         private Color _emptyBorderColor;
         private Rectangle _selectedRect;
+        private byte _roundedCorners;
         #endregion
 
         #region Events
@@ -42,7 +43,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public event EventHandler TextChanged;
         #endregion
-        
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ColorButtonValues class.
@@ -63,6 +64,7 @@ namespace Krypton.Toolkit
             _emptyBorderColor = Color.Gray;
             _selectedColor = Color.Red;
             _selectedRect = new Rectangle(0, 12, 16, 4);
+            _roundedCorners = 0;
         }
         #endregion
 
@@ -75,7 +77,9 @@ namespace Krypton.Toolkit
                                            (Image == _defaultImage) &&
                                            (ImageTransparentColor == Color.Empty) &&
                                            (Text == _defaultText) &&
-                                           (ExtraText == _defaultExtraText));
+                                           (ExtraText == _defaultExtraText)
+                                           && (_roundedCorners == 0)
+                                           );
 
         #endregion
 
@@ -101,10 +105,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return Image != _defaultImage;
-        }
+        private bool ShouldSerializeImage() => Image != _defaultImage;
 
         /// <summary>
         /// Resets the Image property to its default value.
@@ -138,10 +139,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor()
-        {
-            return ImageTransparentColor != Color.Empty;
-        }
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
 
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
@@ -156,10 +154,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image color is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return ImageTransparentColor;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
+
         #endregion
 
         #region ImageStates
@@ -171,10 +167,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonImageStates ImageStates { get; }
 
-        private bool ShouldSerializeImageStates()
-        {
-            return !ImageStates.IsDefault;
-        }
+        private bool ShouldSerializeImageStates() => !ImageStates.IsDefault;
+
         #endregion
 
         #region Text
@@ -185,7 +179,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Button text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => _text;
@@ -201,10 +195,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeText()
-        {
-            return Text != _defaultText;
-        }
+        private bool ShouldSerializeText() => Text != _defaultText;
 
         /// <summary>
         /// Resets the Text property to its default value.
@@ -223,7 +214,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("Button extra text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ExtraText
         {
@@ -239,10 +230,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeExtraText()
-        {
-            return ExtraText != _defaultExtraText;
-        }
+        private bool ShouldSerializeExtraText() => ExtraText != _defaultExtraText;
 
         /// <summary>
         /// Resets the Description property to its default value.
@@ -261,8 +249,8 @@ namespace Krypton.Toolkit
         {
             get => _selectedColor;
 
-            set 
-            { 
+            set
+            {
                 _selectedColor = value;
                 _compositeImage = null;
             }
@@ -277,8 +265,8 @@ namespace Krypton.Toolkit
         {
             get => _emptyBorderColor;
 
-            set 
-            { 
+            set
+            {
                 _emptyBorderColor = value;
                 _compositeImage = null;
             }
@@ -293,12 +281,39 @@ namespace Krypton.Toolkit
         {
             get => _selectedRect;
 
-            set 
-            { 
+            set
+            {
                 _selectedRect = value;
                 _compositeImage = null;
             }
         }
+
+        /// <summary>
+        /// Gets and sets the selected color drawing rectangle.
+        /// </summary>
+        [Bindable(true)]
+        [Category("Appearance")]
+        [Description("Rounded color drawing rectangle.")]
+        public int RoundedCorners
+        {
+            get => _roundedCorners;
+
+            set
+            {
+                _roundedCorners = (byte)value;
+                _compositeImage = null;
+            }
+        }
+        private bool ShouldSerializeRoundedCorners() => _roundedCorners != 0;
+
+        /// <summary>
+        /// Resets the Description property to its default value.
+        /// </summary>
+        public void ResetRoundedCorners()
+        {
+            RoundedCorners = 0;
+        }
+
         #endregion
 
         #region CreateImageStates
@@ -306,10 +321,8 @@ namespace Krypton.Toolkit
         /// Create the storage for the image states.
         /// </summary>
         /// <returns>Storage object.</returns>
-        protected virtual ButtonImageStates CreateImageStates()
-        {
-            return new ButtonImageStates();
-        }
+        protected virtual ButtonImageStates CreateImageStates() => new ButtonImageStates();
+
         #endregion
 
         #region IContentValues
@@ -320,30 +333,18 @@ namespace Krypton.Toolkit
         /// <returns>Image value.</returns>
         public virtual Image GetImage(PaletteState state)
         {
-            Image image = null;
-
             // Try and find a state specific image
-            switch (state)
+            Image image = state switch
             {
-                case PaletteState.Disabled:
-                    image = ImageStates.ImageDisabled;
-                    break;
-                case PaletteState.Normal:
-                    image = ImageStates.ImageNormal;
-                    break;
-                case PaletteState.Pressed:
-                    image = ImageStates.ImagePressed;
-                    break;
-                case PaletteState.Tracking:
-                    image = ImageStates.ImageTracking;
-                    break;
-            }
+                PaletteState.Disabled => ImageStates.ImageDisabled,
+                PaletteState.Normal => ImageStates.ImageNormal,
+                PaletteState.Pressed => ImageStates.ImagePressed,
+                PaletteState.Tracking => ImageStates.ImageTracking,
+                _ => null
+            };
 
             // If there is no image then use the generic image
-            if (image == null)
-            {
-                image = Image;
-            }
+            image ??= Image;
 
             // Do we need to create another composite image?
             if ((_sourceImage != image) || (_compositeImage == null))
@@ -358,32 +359,28 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Create a copy of the source image
-                    Bitmap copyBitmap = new(image);
+                    Size selectedRectSize = _selectedRect.Size;
+                    Size imageSize = image.Size;
+                    Bitmap copyBitmap = new(image, Math.Max(selectedRectSize.Width, imageSize.Width), Math.Max(selectedRectSize.Height, imageSize.Height));
 
                     // Paint over the image with a color indicator
                     using (Graphics g = Graphics.FromImage(copyBitmap))
                     {
+                        g.SmoothingMode = SmoothingMode.AntiAlias;
                         // If the color is not defined, i.e. it is empty then...
                         if (_selectedColor.Equals(Color.Empty))
                         {
-                            // Indicate the absense of a color by drawing a border around 
+                            // Indicate the absence of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
-                            using (Pen borderPen = new(_emptyBorderColor))
-                            {
-                                g.DrawRectangle(borderPen, new Rectangle(_selectedRect.X,
-                                                                         _selectedRect.Y,
-                                                                         _selectedRect.Width - 1,
-                                                                         _selectedRect.Height - 1));
-                            }
+                            using Pen borderPen = new(_emptyBorderColor);
+                            DrawRoundedRectangle(g, borderPen, _selectedRect, _roundedCorners);
                         }
                         else
                         {
                             // We have a valid selected color so draw a solid block of color
-                            using (SolidBrush colorBrush = new(_selectedColor))
-                            {
-                                g.FillRectangle(colorBrush, _selectedRect);
-                            }
+                            using SolidBrush colorBrush = new(_selectedColor);
+                            FillRoundedRectangle(g, colorBrush, _selectedRect, _roundedCorners);
                         }
                     }
 
@@ -395,21 +392,28 @@ namespace Krypton.Toolkit
             return _compositeImage;
         }
 
+        private static void DrawRoundedRectangle(Graphics g, Pen pen, Rectangle rect, int radius)
+        {
+            var roundRect = new RoundedRectangleF(rect.Width - 1, rect.Height - 1, radius, rect.X, rect.Y);
+            g.DrawPath(pen, roundRect.Path);
+        }
+
+        private static void FillRoundedRectangle(Graphics g, Brush brush, Rectangle rect, int radius)
+        {
+            var roundRect = new RoundedRectangleF(rect.Width - 1, rect.Height - 1, radius, rect.X, rect.Y);
+            g.FillPath(brush, roundRect.Path);
+        }
+
         /// <summary>
         /// Gets the content short text.
         /// </summary>
-        public virtual string GetShortText()
-        {
-            return Text;
-        }
+        public virtual string GetShortText() => Text;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
-        public virtual string GetLongText()
-        {
-            return ExtraText;
-        }
+        public virtual string GetLongText() => ExtraText;
+
         #endregion
     }
 }

@@ -90,11 +90,10 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawMonthUpDown:" + Id;
-        }
+            "ViewDrawMonthUpDown:" + Id;
+
         #endregion
 
         #region Layout
@@ -102,11 +101,9 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
+        public override Size GetPreferredSize(ViewLayoutContext context) =>
             // We want to be as wide as drop down buttons on standard controls
-            return new Size(SystemInformation.VerticalScrollBarWidth - 2, 0);
-        }
+            new Size(SystemInformation.VerticalScrollBarWidth - 2, 0);
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -125,18 +122,16 @@ namespace Krypton.Toolkit
 
             // Layout the button drawing elements using a reduced size
             Rectangle beforeRect = context.DisplayRectangle;
-            switch (_glyph)
+            context.DisplayRectangle = _glyph switch
             {
-                case DrawMonthCalendarGlyph.DropDownButton:
-                    context.DisplayRectangle = new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width, beforeRect.Height - 2);
-                    break;
-                case DrawMonthCalendarGlyph.UpButton:
-                    context.DisplayRectangle = new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width, beforeRect.Height - 1);
-                    break;
-                case DrawMonthCalendarGlyph.DownButton:
-                    context.DisplayRectangle = new Rectangle(beforeRect.X, beforeRect.Y, beforeRect.Width, beforeRect.Height - 1);
-                    break;
-            }
+                DrawMonthCalendarGlyph.DropDownButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
+                    beforeRect.Height - 2),
+                DrawMonthCalendarGlyph.UpButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
+                    beforeRect.Height - 1),
+                DrawMonthCalendarGlyph.DownButton => new Rectangle(beforeRect.X, beforeRect.Y, beforeRect.Width,
+                    beforeRect.Height - 1),
+                _ => context.DisplayRectangle
+            };
 
             base.Layout(context);
 
@@ -174,20 +169,15 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments assocaited with the event.</param>
-        protected void OnButtonClick(object sender, MouseEventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected void OnButtonClick(object sender, MouseEventArgs e) => Click?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MouseSelect event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments assocaited with the event.</param>
-        protected void OnButtonMouseSelect(object sender, MouseEventArgs e)
-        {
-            MouseSelect?.Invoke(this, e);
-        }
+        protected void OnButtonMouseSelect(object sender, MouseEventArgs e) => MouseSelect?.Invoke(this, e);
+
         #endregion
     }
 }

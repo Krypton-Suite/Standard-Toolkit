@@ -23,7 +23,7 @@ namespace Krypton.Navigator
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the PaletteNavButtonSpecStyleConverter clas.
+        /// Initialize a new instance of the PaletteNavButtonSpecStyleConverter class.
         /// </summary>
         public PaletteNavButtonSpecStyleConverter()
             : base(typeof(PaletteNavButtonSpecStyle))
@@ -48,6 +48,7 @@ namespace Krypton.Navigator
             new(PaletteNavButtonSpecStyle.FormMax,            "Form Max"),
             new(PaletteNavButtonSpecStyle.FormMin,            "Form Min"),
             new(PaletteNavButtonSpecStyle.FormRestore,        "Form Restore"),
+            new(PaletteNavButtonSpecStyle.FormHelp,        "Form Help"),
             new(PaletteNavButtonSpecStyle.PendantClose,       "Pendant Close"),
             new(PaletteNavButtonSpecStyle.PendantMin,         "Pendant Min"),
             new(PaletteNavButtonSpecStyle.PendantRestore,     "Pendant Restore"),

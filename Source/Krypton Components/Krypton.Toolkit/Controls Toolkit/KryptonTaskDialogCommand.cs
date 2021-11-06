@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
                 if (_dialogResult != value)
                 {
                     _dialogResult = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("DialogResult"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(DialogResult)));
                 }
             }
         }
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Enabled"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Enabled)));
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Command text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => _text;
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
                 if (_text != value)
                 {
                     _text = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("Text"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(Text)));
                 }
             }
         }
@@ -148,10 +148,7 @@ namespace Krypton.Toolkit
             Text = string.Empty;
         }
 
-        private bool ShouldSerializeText()
-        {
-            return !string.IsNullOrEmpty(Text);
-        }
+        private bool ShouldSerializeText() => !string.IsNullOrEmpty(Text);
 
         /// <summary>
         /// Gets and sets the command extra text.
@@ -160,7 +157,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Command extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string ExtraText
         {
             get => _extraText;
@@ -170,7 +167,7 @@ namespace Krypton.Toolkit
                 if (_extraText != value)
                 {
                     _extraText = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ExtraText"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ExtraText)));
                 }
             }
         }
@@ -180,10 +177,7 @@ namespace Krypton.Toolkit
             ExtraText = string.Empty;
         }
 
-        private bool ShouldSerializeExtraText()
-        {
-            return !string.IsNullOrEmpty(ExtraText);
-        }
+        private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(ExtraText);
 
         /// <summary>
         /// Gets and sets the command small image.
@@ -211,10 +205,7 @@ namespace Krypton.Toolkit
             Image = null;
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return (Image != null);
-        }
+        private bool ShouldSerializeImage() => (Image != null);
 
         /// <summary>
         /// Gets and sets the command image transparent color.
@@ -233,7 +224,7 @@ namespace Krypton.Toolkit
                 if (_imageTransparentColor != value)
                 {
                     _imageTransparentColor = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs("ImageTransparentColor"));
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(ImageTransparentColor)));
                 }
             }
         }
@@ -250,10 +241,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Generates a Execute event for a button.
         /// </summary>
-        public void PerformExecute()
-        {
-            OnExecute(EventArgs.Empty);
-        }
+        public void PerformExecute() => OnExecute(EventArgs.Empty);
+
         #endregion
 
         #region Protected
@@ -261,19 +250,14 @@ namespace Krypton.Toolkit
         /// Raises the Execute event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnExecute(EventArgs e)
-        {
-            Execute?.Invoke(this, e);
-        }
+        protected virtual void OnExecute(EventArgs e) => Execute?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+
         #endregion
 
         #region Private

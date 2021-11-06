@@ -51,10 +51,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _stateInherit.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _stateInherit.SetRedirector(redirect);
+
         #endregion
 
         #region IsDefault
@@ -98,10 +96,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
     
         #region StateDisabled
@@ -114,10 +110,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+
         #endregion
 
         #region StateNormal
@@ -130,10 +124,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
         #endregion
 
         #region OverrideFocus
@@ -146,10 +138,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
-        private bool ShouldSerializeOverrideFocus()
-        {
-            return !OverrideFocus.IsDefault;
-        }
+        private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
+
         #endregion
 
         #region OverrideVisited
@@ -162,10 +152,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideVisited { get; }
 
-        private bool ShouldSerializeOverrideVisited()
-        {
-            return !OverrideVisited.IsDefault;
-        }
+        private bool ShouldSerializeOverrideVisited() => !OverrideVisited.IsDefault;
+
         #endregion
 
         #region OverrideNotVisited
@@ -178,10 +166,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideNotVisited { get; }
 
-        private bool ShouldSerializeOverrideNotVisited()
-        {
-            return !OverrideNotVisited.IsDefault;
-        }
+        private bool ShouldSerializeOverrideNotVisited() => !OverrideNotVisited.IsDefault;
+
         #endregion
 
         #region OverridePressed
@@ -194,10 +180,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverridePressed { get; }
 
-        private bool ShouldSerializeOverridePressed()
-        {
-            return !OverridePressed.IsDefault;
-        }
+        private bool ShouldSerializeOverridePressed() => !OverridePressed.IsDefault;
+
         #endregion
     }
 }

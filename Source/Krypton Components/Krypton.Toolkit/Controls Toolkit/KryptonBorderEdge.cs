@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonBorderEdge), "ToolboxBitmaps.KryptonBorderEdge.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("Orientation")]
-    [Designer(typeof(KryptonBorderEdgeDesigner))]
+    [Designer("Krypton.Toolkit.KryptonBorderEdgeDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Displays a vertical or horizontal border edge.")]
     public class KryptonBorderEdge : VisualControlBase
@@ -205,10 +205,7 @@ namespace Krypton.Toolkit
             BorderStyle = PaletteBorderStyle.ControlClient;
         }
 
-        private bool ShouldSerializeBorderStyle()
-        {
-            return (BorderStyle != PaletteBorderStyle.ControlClient);
-        }
+        private bool ShouldSerializeBorderStyle() => (BorderStyle != PaletteBorderStyle.ControlClient);
 
         /// <summary>
         /// Gets and sets the orientation of the border edge used to determine sizing.
@@ -238,10 +235,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorderEdgeRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled border edge appearance.
@@ -251,10 +245,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorderEdge StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal border edge appearance.
@@ -264,10 +255,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorderEdge StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal()
-        {
-            return !StateNormal.IsDefault;
-        }
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.

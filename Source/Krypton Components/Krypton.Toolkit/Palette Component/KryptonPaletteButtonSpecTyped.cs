@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string Text
         {
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ExtraText
         {
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category("Visuals")]
         [Description("Button tooltip title text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ToolTipTitle
         {
@@ -264,10 +264,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeColorMap()
-        {
-            return ColorMap != Color.Empty;
-        }
+        private bool ShouldSerializeColorMap() => ColorMap != Color.Empty;
 
         /// <summary>
         /// Resets the ColorMap property to its default value.
@@ -406,33 +403,18 @@ namespace Krypton.Toolkit
         public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state)
         {
-            Image image = null;
-
             // Try and recover a state specific image
-            switch (state)
+            Image image = state switch
             {
-                case PaletteState.Disabled:
-                    image = ImageStates.ImageDisabled;
-                    break;
-                case PaletteState.Normal:
-                    image = ImageStates.ImageNormal;
-                    break;
-                case PaletteState.Pressed:
-                    image = ImageStates.ImagePressed;
-                    break;
-                case PaletteState.Tracking:
-                    image = ImageStates.ImageTracking;
-                    break;
-                case PaletteState.CheckedNormal:
-                    image = ImageStates.ImageCheckedNormal;
-                    break;
-                case PaletteState.CheckedPressed:
-                    image = ImageStates.ImageCheckedPressed;
-                    break;
-                case PaletteState.CheckedTracking:
-                    image = ImageStates.ImageCheckedTracking;
-                    break;
-            }
+                PaletteState.Disabled => ImageStates.ImageDisabled,
+                PaletteState.Normal => ImageStates.ImageNormal,
+                PaletteState.Pressed => ImageStates.ImagePressed,
+                PaletteState.Tracking => ImageStates.ImageTracking,
+                PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
+                PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
+                PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
+                _ => null
+            };
 
             // Default to the image if no state specific image is found
             if (image == null)
@@ -464,10 +446,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
-        {
-            return (ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
-        }
+        public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => (ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

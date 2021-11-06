@@ -41,10 +41,8 @@ namespace Krypton.Workspace
                 /// Initialize a new instance of the PageProxy class.
                 /// </summary>
                 /// <param name="item">Item to act as proxy for.</param>
-                public PageProxy(KryptonPage item)
-                {
-                    _item = item;
-                }
+                public PageProxy(KryptonPage item) => _item = item;
+
                 #endregion
 
                 #region Public
@@ -182,7 +180,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the page tooltip title text.
                 /// </summary>
                 [Category("Appearance")]
-                [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+                [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
                 [DefaultValue("")]
                 public string ToolTipTitle
                 {
@@ -194,7 +192,7 @@ namespace Krypton.Workspace
                 /// Gets and sets the page tooltip body text.
                 /// </summary>
                 [Category("Appearance")]
-                [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+                [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
                 [DefaultValue("")]
                 public string ToolTipBody
                 {
@@ -317,10 +315,8 @@ namespace Krypton.Workspace
                 /// Initialize a new instance of the CellProxy class.
                 /// </summary>
                 /// <param name="item">Item to act as proxy for.</param>
-                public CellProxy(KryptonWorkspaceCell item)
-                {
-                    _item = item;
-                }
+                public CellProxy(KryptonWorkspaceCell item) => _item = item;
+
                 #endregion
 
                 #region Public
@@ -610,10 +606,8 @@ namespace Krypton.Workspace
                 /// Initialize a new instance of the SequenceProxy class.
                 /// </summary>
                 /// <param name="item">Item to act as proxy for.</param>
-                public SequenceProxy(KryptonWorkspaceSequence item)
-                {
-                    _item = item;
-                }
+                public SequenceProxy(KryptonWorkspaceSequence item) => _item = item;
+
                 #endregion
 
                 #region Public
@@ -1886,10 +1880,8 @@ namespace Krypton.Workspace
         /// Creates a new form to display and edit the current collection.
         /// </summary>
         /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-        protected override CollectionForm CreateCollectionForm()
-        {
-            return new KryptonWorkspaceCollectionForm(this);
-        }
+        protected override CollectionForm CreateCollectionForm() => new KryptonWorkspaceCollectionForm(this);
+
         #endregion
     }
 }

@@ -99,11 +99,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette)
-        {
+        public override ButtonCheckState GetChecked(IPalette palette) =>
             // Next button is never shown as checked
-            return ButtonCheckState.NotCheckButton;
-        }
+            ButtonCheckState.NotCheckButton;
+
         #endregion    
     }
 }

@@ -71,11 +71,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonGalleryButton:" + Id;
-        }
+            "ViewDrawRibbonGalleryButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -107,13 +105,11 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
+        public override Size GetPreferredSize(ViewLayoutContext context) =>
             // Grab the required size for the content images
-            return context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent, 
-                                                                                  this, VisualOrientation.Top,
-                                                                                  State, false, false);
-        }
+            context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent, 
+                this, VisualOrientation.Top,
+                State, false, false);
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -163,36 +159,32 @@ namespace Krypton.Ribbon
             }
 
             // Create border paths
-            using (GraphicsPath borderPath = CreateBorderPath(ClientRectangle))
+            using GraphicsPath borderPath = CreateBorderPath(ClientRectangle);
+            // Are we allowed to draw a background?
+            if (_paletteBack.GetBackDraw(State) == InheritBool.True)
             {
-                // Are we allowed to draw a background?
-                if (_paletteBack.GetBackDraw(State) == InheritBool.True)
-                {
-                    _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, backRect, borderPath, _paletteBack,
-                                                                                VisualOrientation.Top, State, _mementoBack);
-                }
+                _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, backRect, borderPath, _paletteBack,
+                    VisualOrientation.Top, State, _mementoBack);
+            }
 
-                // Are we allowed to draw the content?
-                if (_paletteContent.GetContentDraw(State) == InheritBool.True)
-                {
-                    context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
-                                                                       _mementoContent, VisualOrientation.Top, 
-                                                                       State, false, false,  false);
-                }
+            // Are we allowed to draw the content?
+            if (_paletteContent.GetContentDraw(State) == InheritBool.True)
+            {
+                context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
+                    _mementoContent, VisualOrientation.Top, 
+                    State, false, false,  false);
+            }
 
-                // Are we allowed to draw border?
-                if (_paletteBorder.GetBorderDraw(State) == InheritBool.True)
-                {
-                    // Get the border color from palette
-                    Color borderColor = _paletteBorder.GetBorderColor1(State);
+            // Are we allowed to draw border?
+            if (_paletteBorder.GetBorderDraw(State) == InheritBool.True)
+            {
+                // Get the border color from palette
+                Color borderColor = _paletteBorder.GetBorderColor1(State);
 
-                    // Draw the border last to overlap the background
-                    using (AntiAlias aa = new(context.Graphics))
-                        using (Pen borderPen = new(borderColor))
-                        {
-                            context.Graphics.DrawPath(borderPen, borderPath);
-                        }
-                }
+                // Draw the border last to overlap the background
+                using AntiAlias aa = new(context.Graphics);
+                using Pen borderPen = new(borderColor);
+                context.Graphics.DrawPath(borderPen, borderPath);
             }
         }
         #endregion
@@ -298,26 +290,18 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state)
-        {
-            return Color.Empty;
-        }
+        public Color GetImageTransparentColor(PaletteState state) => Color.Empty;
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
-        public string GetShortText()
-        {
-            return string.Empty;
-        }
+        public string GetShortText() => string.Empty;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
-        public string GetLongText()
-        {
-            return string.Empty;
-        }
+        public string GetLongText() => string.Empty;
+
         #endregion
 
         #region Private

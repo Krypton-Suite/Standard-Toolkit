@@ -25,13 +25,11 @@ namespace Krypton.Navigator
         #endregion
 
         #region Identity
-        static VisualPopupPage()
-        {
+        static VisualPopupPage() =>
             // Cache access to the internal 'Select' method of the ContainerControl
             _containerSelect = typeof(ContainerControl).GetMethod("Select",
-                                                                  BindingFlags.Instance |
-                                                                  BindingFlags.NonPublic);
-        }
+                BindingFlags.Instance |
+                BindingFlags.NonPublic);
 
         /// <summary>
         /// Initialize a new instance of the VisualPopupPage class.
@@ -133,22 +131,20 @@ namespace Krypton.Navigator
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
-            using (RenderContext context = new(this, null, ClientRectangle, Renderer))
-            {
-                // Grab a path that is the outside edge of the border
-                Rectangle borderRect = ClientRectangle;
-                GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
-                borderRect.Inflate(-1, -1);
-                GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
-                borderRect.Inflate(-1, -1);
-                GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+            using RenderContext context = new(this, null, ClientRectangle, Renderer);
+            // Grab a path that is the outside edge of the border
+            Rectangle borderRect = ClientRectangle;
+            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+            borderRect.Inflate(-1, -1);
+            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+            borderRect.Inflate(-1, -1);
+            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
 
-                // Update the region of the popup to be the border path
-                Region = new Region(borderPath1);
+            // Update the region of the popup to be the border path
+            Region = new Region(borderPath1);
 
-                // Inform the shadow to use the same paths for drawing the shadow
-                DefineShadowPaths(borderPath1, borderPath2, borderPath3);
-            }
+            // Inform the shadow to use the same paths for drawing the shadow
+            DefineShadowPaths(borderPath1, borderPath2, borderPath3);
         }
         #endregion
 

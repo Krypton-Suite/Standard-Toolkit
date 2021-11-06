@@ -32,8 +32,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteRibbonBackRedirect class.
         /// </summary>
-        /// <param name="redirect">Inheritence redirection instance.</param>
-        /// <param name="backStyle">Inheritence ribbon back style.</param>
+        /// <param name="redirect">inheritance redirection instance.</param>
+        /// <param name="backStyle">inheritance ribbon back style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteRibbonBackRedirect(PaletteRedirect redirect,
                                          PaletteRibbonBackStyle backStyle,
@@ -61,10 +61,8 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _inheritBack.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect redirect) => _inheritBack.SetRedirector(redirect);
+
         #endregion
 
         #region IsDefault
@@ -86,10 +84,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
-        {
-            return _inheritBack.GetRibbonBackColorStyle(state);
-        }
+        public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inheritBack.GetRibbonBackColorStyle(state);
+
         #endregion
 
         #region BackColor1
@@ -115,10 +111,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor1 to the default value.
-        /// </summary>
-        public void ResetBackColor1() => BackColor1 = Color.Empty;
+        private bool ShouldSerializeBackColor1() => BackColor1 != Color.Empty;
+        private void ResetBackColor1() => BackColor1 = Color.Empty;
 
         /// <summary>
         /// Gets the first background color for the ribbon item.
@@ -153,10 +147,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor2 to the default value.
-        /// </summary>
-        public void ResetBackColor2() => BackColor2 = Color.Empty;
+        private bool ShouldSerializeBackColor2() => BackColor2 != Color.Empty;
+        private void ResetBackColor2() => BackColor2 = Color.Empty;
 
         /// <summary>
         /// Gets the second background color for the ribbon item.
@@ -191,10 +183,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor3 to the default value.
-        /// </summary>
-        public void ResetBackColor3() => BackColor3 = Color.Empty;
+        private bool ShouldSerializeBackColor3() => BackColor3 != Color.Empty;
+        private void ResetBackColor3() => BackColor3 = Color.Empty;
 
         /// <summary>
         /// Gets the third background color for the ribbon item.
@@ -229,10 +219,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor4 to the default value.
-        /// </summary>
-        public void ResetBackColor4() => BackColor4 = Color.Empty;
+        private bool ShouldSerializeBackColor4() => BackColor4 != Color.Empty;
+        private void ResetBackColor4() => BackColor4 = Color.Empty;
 
         /// <summary>
         /// Gets the fourth background color for the ribbon item.
@@ -267,10 +255,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Reset the BackColor5 to the default value.
-        /// </summary>
-        public void ResetBackColor5() => BackColor5 = Color.Empty;
+        private bool ShouldSerializeBackColor5() => BackColor5 != Color.Empty;
+        private void ResetBackColor5() => BackColor5 = Color.Empty;
 
         /// <summary>
         /// Gets the fifth background color for the ribbon item.

@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
                 case PI.WM_.WINDOWPOSCHANGED:
                     {
                         PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
-                        bool move = !MissingFrameWorkAPIs.HasFlag(structure.flags, PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
+                        bool move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
                         PositionShadowForms(move);
                         if (!move)
                         {
@@ -126,25 +126,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ShadowValues_ColourChanged(object sender, ColorEventArgs e)
-        {
-            ReCalcBrushes();
-        }
+        private void ShadowValues_ColourChanged(object sender, ColorEventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_BlurDistanceChanged(object sender, EventArgs e)
-        {
-            ReCalcBrushes();
-        }
+        private void ShadowValues_BlurDistanceChanged(object sender, EventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_OpacityChanged(object sender, EventArgs e)
-        {
-            ReCalcBrushes();
-        }
+        private void ShadowValues_OpacityChanged(object sender, EventArgs e) => ReCalcBrushes();
 
-        private void ShadowValues_MarginsChanged(object sender, EventArgs e)
-        {
-            SetShadowFormsSizes();
-        }
+        private void ShadowValues_MarginsChanged(object sender, EventArgs e) => SetShadowFormsSizes();
 
         private void ShadowValues_EnableShadowsChanged(object sender, EventArgs e)
         {
@@ -176,12 +164,10 @@ namespace Krypton.Toolkit
 
             // calculate the "whole" shadow
             Rectangle clientRectangle = CommonHelper.RealClientRectangle(_parentForm.Handle);
-            using (Bitmap allShadow = DrawShadowBitmap(clientRectangle))
+            using Bitmap allShadow = DrawShadowBitmap(clientRectangle);
+            foreach (VisualShadowBase shadowForm in _shadowForms)
             {
-                foreach (VisualShadowBase shadowForm in _shadowForms)
-                {
-                    shadowForm.ReCalcShadow(allShadow, clientRectangle);
-                }
+                shadowForm.ReCalcShadow(allShadow, clientRectangle);
             }
         }
 
@@ -202,73 +188,71 @@ namespace Krypton.Toolkit
             float blurOffset = _shadowValues.ExtraWidth - blur;
             Bitmap bitmap = new(w, h);
             bitmap.MakeTransparent();
-            using (Graphics g = Graphics.FromImage(bitmap))
+            using Graphics g = Graphics.FromImage(bitmap);
+            // fill background
+            //g.FillRectangle(Brushes.Magenta, 0,0,w,h);
+            // +1 to fill the gap
+            g.FillRectangle(new SolidBrush(_shadowValues.Colour),
+                blurOffset, blurOffset, solidW + 1, solidH + 1);
+
+            // four dir gradient
+            if (blurOffset > 0)
             {
-                // fill background
-                //g.FillRectangle(Brushes.Magenta, 0,0,w,h);
-                // +1 to fill the gap
-                g.FillRectangle(new SolidBrush(_shadowValues.Colour),
-                    blurOffset, blurOffset, solidW + 1, solidH + 1);
-
-                // four dir gradient
-                if (blurOffset > 0)
+                using (LinearGradientBrush brush = new(new PointF(0, 0), new PointF(blurOffset, 0),
+                    Color.Transparent, _shadowValues.Colour))
                 {
-                    using (LinearGradientBrush brush = new(new PointF(0, 0), new PointF(blurOffset, 0),
-                        Color.Transparent, _shadowValues.Colour))
+                    // Left
+                    g.FillRectangle(brush, 0, blurOffset, blurOffset, solidH);
+
+                    // Top
+                    brush.RotateTransform(90);
+                    g.FillRectangle(brush, blurOffset, 0, solidW, blurOffset);
+
+                    // Right
+                    // make sure pattern is correct
+                    brush.ResetTransform();
+                    brush.TranslateTransform(w % blurOffset, h % blurOffset);
+
+                    brush.RotateTransform(180);
+                    g.FillRectangle(brush, w - blurOffset, blurOffset, blurOffset, solidH);
+                    // Bottom
+                    brush.RotateTransform(90);
+                    g.FillRectangle(brush, blurOffset, h - blurOffset, solidW, blurOffset);
+                }
+
+
+                // four corner
+                using (GraphicsPath gp = new())
+                using (Matrix matrix = new())
+                {
+                    gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
+                    using (PathGradientBrush pgb = new(gp)
                     {
-                        // Left
-                        g.FillRectangle(brush, 0, blurOffset, blurOffset, solidH);
-
-                        // Top
-                        brush.RotateTransform(90);
-                        g.FillRectangle(brush, blurOffset, 0, solidW, blurOffset);
-
-                        // Right
-                        // make sure pattern is correct
-                        brush.ResetTransform();
-                        brush.TranslateTransform(w % blurOffset, h % blurOffset);
-
-                        brush.RotateTransform(180);
-                        g.FillRectangle(brush, w - blurOffset, blurOffset, blurOffset, solidH);
-                        // Bottom
-                        brush.RotateTransform(90);
-                        g.FillRectangle(brush, blurOffset, h - blurOffset, solidW, blurOffset);
-                    }
-
-
-                    // four corner
-                    using (GraphicsPath gp = new())
-                    using (Matrix matrix = new())
+                        CenterColor = _shadowValues.Colour,
+                        SurroundColors = new[] { Color.Transparent },
+                        CenterPoint = new PointF(blurOffset, blurOffset)
+                    })
                     {
-                        gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
-                        using (PathGradientBrush pgb = new(gp)
-                        {
-                            CenterColor = _shadowValues.Colour,
-                            SurroundColors = new[] { Color.Transparent },
-                            CenterPoint = new PointF(blurOffset, blurOffset)
-                        })
-                        {
-                            // left-Top
-                            g.FillPie(pgb, 0, 0, blurOffset * 2, blurOffset * 2, 180, 90);
+                        // left-Top
+                        g.FillPie(pgb, 0, 0, blurOffset * 2, blurOffset * 2, 180, 90);
 
-                            // right-Top
-                            matrix.Translate(w - blurOffset * 2, 0);
+                        // right-Top
+                        matrix.Translate(w - blurOffset * 2, 0);
 
-                            pgb.Transform = matrix;
-                            //pgb.Transform.Translate(w-blur*2, 0);
-                            g.FillPie(pgb, w - blurOffset * 2, 0, blurOffset * 2, blurOffset * 2, 270, 90);
+                        pgb.Transform = matrix;
+                        //pgb.Transform.Translate(w-blur*2, 0);
+                        g.FillPie(pgb, w - blurOffset * 2, 0, blurOffset * 2, blurOffset * 2, 270, 90);
 
-                            // right-Bottom
-                            matrix.Translate(0, h - blurOffset * 2);
-                            pgb.Transform = matrix;
-                            g.FillPie(pgb, w - blurOffset * 2, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 0, 90);
+                        // right-Bottom
+                        matrix.Translate(0, h - blurOffset * 2);
+                        pgb.Transform = matrix;
+                        g.FillPie(pgb, w - blurOffset * 2, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 0, 90);
 
-                            // left-Bottom
-                            matrix.Reset();
-                            matrix.Translate(0, h - blurOffset * 2);
-                            pgb.Transform = matrix;
-                            g.FillPie(pgb, 0, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 90, 90);
-                        }
+                        // left-Bottom
+                        matrix.Reset();
+                        matrix.Translate(0, h - blurOffset * 2);
+                        pgb.Transform = matrix;
+                        g.FillPie(pgb, 0, h - blurOffset * 2, blurOffset * 2, blurOffset * 2, 90, 90);
                     }
                 }
             }

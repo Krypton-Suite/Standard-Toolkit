@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
 
         #region SetInherit
         /// <summary>
-        /// Sets the inheritence parent.
+        /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritTick">Source for inheriting tick values.</param>
         /// <param name="inheritTrack">Source for inheriting track values.</param>
@@ -111,10 +111,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColor Tick { get; }
 
-        private bool ShouldSerializeTick()
-        {
-            return !Tick.IsDefault;
-        }
+        private bool ShouldSerializeTick() => !Tick.IsDefault;
+
         #endregion
 
         #region Track
@@ -127,10 +125,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColor Track { get; }
 
-        private bool ShouldSerializeTrack()
-        {
-            return !Track.IsDefault;
-        }
+        private bool ShouldSerializeTrack() => !Track.IsDefault;
+
         #endregion
 
         #region Position
@@ -143,10 +139,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColor Position { get; }
 
-        private bool ShouldSerializePosition()
-        {
-            return !Position.IsDefault;
-        }
+        private bool ShouldSerializePosition() => !Position.IsDefault;
+
         #endregion
     }
 }

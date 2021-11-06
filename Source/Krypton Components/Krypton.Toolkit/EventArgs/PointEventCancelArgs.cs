@@ -27,10 +27,8 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PointEventCancelArgs class.
         /// </summary>
         /// <param name="point">Point associated with event.</param>
-        public PointEventCancelArgs(Point point)
-        {
-            Point = point;
-        }
+        public PointEventCancelArgs(Point point) => Point = point;
+
         #endregion
 
         #region Point

@@ -35,11 +35,9 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonDataGridViewLinkColumn class.
         /// </summary>
         public KryptonDataGridViewLinkColumn()
-            : base(new KryptonDataGridViewLinkCell())
-        {
+            : base(new KryptonDataGridViewLinkCell()) =>
             // Define defaults
-            _labelStyle = LabelStyle.NormalControl;
-        }
+            _labelStyle = LabelStyle.NormalPanel;
 
         /// <summary>
         /// Returns a String that represents the current Object.
@@ -135,7 +133,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the default label style of link cell.
         /// </summary>
         [Category("Appearance")]
-        [DefaultValue(typeof(LabelStyle), "NormalControl")]
+        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
             get => _labelStyle;

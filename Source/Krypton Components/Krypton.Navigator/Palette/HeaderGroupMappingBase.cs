@@ -52,11 +52,8 @@ namespace Krypton.Navigator
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected override Image GetImageDefault()
-        {
-            return null;
-        }
-        
+        protected override Image GetImageDefault() => null;
+
         /// <summary>
         /// Gets the default image mapping value.
         /// </summary>
@@ -169,10 +166,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private bool ShouldSerializeMapImage()
-        {
-            return MapImage != GetMapImageDefault();
-        }
+        private bool ShouldSerializeMapImage() => MapImage != GetMapImageDefault();
 
         /// <summary>
         /// Resets the MapImage property to its default value.
@@ -204,10 +198,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private bool ShouldSerializeMapHeading()
-        {
-            return MapHeading != GetMapHeadingDefault();
-        }
+        private bool ShouldSerializeMapHeading() => MapHeading != GetMapHeadingDefault();
 
         /// <summary>
         /// Resets the MapHeading property to its default value.
@@ -239,10 +230,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private bool ShouldSerializeMapDescription()
-        {
-            return MapDescription != GetMapDescriptionDefault();
-        }
+        private bool ShouldSerializeMapDescription() => MapDescription != GetMapDescriptionDefault();
 
         /// <summary>
         /// Resets the MapDescription property to its default value.

@@ -72,7 +72,7 @@ namespace Krypton.Ribbon
                 if (value != _contextName)
                 {
                     _contextName = value;
-                    OnPropertyChanged("ContextName");
+                    OnPropertyChanged(nameof(ContextName));
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace Krypton.Ribbon
                 if (value != _contextTitle)
                 {
                     _contextTitle = value;
-                    OnPropertyChanged("ContextTitle");
+                    OnPropertyChanged(nameof(ContextTitle));
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
                 if (value != _contextColor)
                 {
                     _contextColor = value;
-                    OnPropertyChanged("ContextColor");
+                    OnPropertyChanged(nameof(ContextColor));
                 }
             }
         }
@@ -149,15 +149,12 @@ namespace Krypton.Ribbon
                 if (value != _tag)
                 {
                     _tag = value;
-                    OnPropertyChanged("Tag");
+                    OnPropertyChanged(nameof(Tag));
                 }
             }
         }
 
-        private bool ShouldSerializeTag()
-        {
-            return (Tag != null);
-        }
+        private bool ShouldSerializeTag() => (Tag != null);
 
         private void ResetTag()
         {

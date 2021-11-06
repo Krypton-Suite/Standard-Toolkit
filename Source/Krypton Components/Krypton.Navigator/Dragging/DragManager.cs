@@ -370,10 +370,7 @@ namespace Krypton.Navigator
         /// <param name="sender">Source of the page drag; can be null.</param>
         /// <param name="e">Event arguments containing the new screen point of the mouse.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public virtual bool PageDragEnd(object sender, PointEventArgs e)
-        {
-            return DragEnd(e.Point);
-        }
+        public virtual bool PageDragEnd(object sender, PointEventArgs e) => DragEnd(e.Point);
 
         /// <summary>
         /// Occurs when dragging pages has been cancelled.
@@ -391,10 +388,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="dropData">Proposed drop data.</param>
         /// <returns>Actual drop data</returns>
-        protected virtual PageDragEndData CreateDropData(PageDragEndData dropData)
-        {
-            return dropData;
-        }
+        protected virtual PageDragEndData CreateDropData(PageDragEndData dropData) => dropData;
 
         /// <summary>
         /// Update the displayed cursor to reflect the current dragging state.
@@ -430,15 +424,11 @@ namespace Krypton.Navigator
         private void ResolvePaletteRenderer()
         {
             // Resolve the correct palette instance to use
-            switch (_paletteMode)
+            _dragPalette = _paletteMode switch
             {
-                case PaletteMode.Custom:
-                    _dragPalette = _localPalette;
-                    break;
-                default:
-                    _dragPalette = KryptonManager.GetPaletteForMode(_paletteMode);
-                    break;
-            }
+                PaletteMode.Custom => _localPalette,
+                _ => KryptonManager.GetPaletteForMode(_paletteMode)
+            };
 
             // Update redirector to point at the resolved palette
             _redirector.Target = _dragPalette;
@@ -474,16 +464,11 @@ namespace Krypton.Navigator
                 }
             }
 
-            switch (dragFeedback)
+            _dragFeedback = dragFeedback switch
             {
-                case PaletteDragFeedback.Rounded:
-                case PaletteDragFeedback.Square:
-                    _dragFeedback = new DragFeedbackDocking(dragFeedback);
-                    break;
-                default:
-                    _dragFeedback = new DragFeedbackSolid();
-                    break;
-            }
+                PaletteDragFeedback.Rounded or PaletteDragFeedback.Square => new DragFeedbackDocking(dragFeedback),
+                _ => new DragFeedbackSolid()
+            };
         }
 
         private void ClearDragFeedback()

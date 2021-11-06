@@ -27,20 +27,16 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewLayoutRibbonGroupImage class.
         /// </summary>
         /// <param name="preferredPadding">Padding to use when calculating space.</param>
-        public ViewLayoutRibbonCenterPadding(Padding preferredPadding)
-        {
-            PreferredPadding = preferredPadding;
-        }
+        public ViewLayoutRibbonCenterPadding(Padding preferredPadding) => PreferredPadding = preferredPadding;
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewLayoutRibbonCenterPadding:" + Id;
-        }
+            "ViewLayoutRibbonCenterPadding:" + Id;
+
         #endregion
 
         #region PreferredPadding

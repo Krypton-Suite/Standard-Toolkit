@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewDateTimePickerCell cells.
     /// </summary>
-    [Designer(typeof(KryptonDateTimePickerColumnDesigner))]
+    [Designer("Krypton.Toolkit.KryptonDateTimePickerColumnDesigner, Krypton.Toolkit")]
     [ToolboxBitmap(typeof(KryptonDataGridViewDateTimePickerColumn), "ToolboxBitmaps.KryptonDateTimePicker.bmp")]
     public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconColumn
     {
@@ -867,7 +867,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 _annualDates.Clear();
@@ -897,7 +897,7 @@ namespace Krypton.Toolkit
             {
                 if (value == null)
                 {
-                    value = MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                    value = Array.Empty<DateTime>();
                 }
 
                 _monthlyDates.Clear();
@@ -925,7 +925,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                value ??= MissingFrameWorkAPIs.Array_Empty<DateTime>();
+                value ??= Array.Empty<DateTime>();
 
                 _dates.Clear();
                 _dates.AddRange(value);

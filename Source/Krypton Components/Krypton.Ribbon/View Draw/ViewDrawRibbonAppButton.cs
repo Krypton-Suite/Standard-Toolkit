@@ -53,11 +53,9 @@ namespace Krypton.Ribbon
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString()
-        {
+        public override string ToString() =>
             // Return the class name and instance identifier
-            return "ViewDrawRibbonAppButton:" + Id;
-        }
+            "ViewDrawRibbonAppButton:" + Id;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -98,10 +96,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
-        {
-            return _size;
-        }
+        public override Size GetPreferredSize(ViewLayoutContext context) => _size;
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -119,7 +114,7 @@ namespace Krypton.Ribbon
             if (_bottomHalf)
             {
                 Rectangle client = ClientRectangle;
-                client.Y = client.Y - (SIZE_FULL.Height - SIZE_BOTTOM.Height);
+                client.Y -= (SIZE_FULL.Height - SIZE_BOTTOM.Height);
                 ClientRectangle = client;
             }
 
@@ -132,73 +127,69 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
             // New clipping region is at most our own client size
-            using (Region combineRegion = new(_clipRect))
+            using Region combineRegion = new(_clipRect);
+            // Remember the current clipping region
+            Region clipRegion = context.Graphics.Clip.Clone();
+
+            // Reduce clipping region down by the existing clipping region
+            combineRegion.Intersect(clipRegion);
+
+            // Use new region that restricts drawing to our client size only
+            context.Graphics.Clip = combineRegion;
+
+            IPaletteRibbonBack palette;
+            int memento;
+
+            // Find the correct palette to use that matches the button state
+            switch (State)
             {
-                // Remember the current clipping region
-                Region clipRegion = context.Graphics.Clip.Clone();
-
-                // Reduce clipping region down by the existing clipping region
-                combineRegion.Intersect(clipRegion);
-
-                // Use new region that restricts drawing to our client size only
-                context.Graphics.Clip = combineRegion;
-
-                IPaletteRibbonBack palette;
-                int memento;
-
-                // Find the correct palette to use that matches the button state
-                switch (State)
-                {
-                    default:
-                    case PaletteState.Normal:
-                        palette = _ribbon.StateNormal.RibbonAppButton;
-                        memento = 0;
-                        break;
-                    case PaletteState.Tracking:
-                        palette = _ribbon.StateTracking.RibbonAppButton;
-                        memento = 1;
-                        break;
-                    case PaletteState.Pressed:
-                        palette = _ribbon.StatePressed.RibbonAppButton;
-                        memento = 2;
-                        break;
-                }
-
-                // Draw the background
-                _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]);
-
-                // If there is an application button to be drawn
-                if (_ribbon.RibbonAppButton.AppButtonImage != null)
-                {
-                    // We always draw the image a 24x24 image
-                    Rectangle imageRect = new(ClientLocation.X + 7, ClientLocation.Y + 6, 24, 24);
-
-                    if (_ribbon.Enabled)
-                    {
-                        context.Graphics.DrawImage(_ribbon.RibbonAppButton.AppButtonImage, imageRect);
-                    }
-                    else
-                    {
-                        // Use a color matrix to convert to black and white
-                        using (ImageAttributes attribs = new())
-                        {
-                            attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
-
-                            context.Graphics.DrawImage(_ribbon.RibbonAppButton.AppButtonImage,
-                                                       imageRect, 0, 0,
-                                                       _ribbon.RibbonAppButton.AppButtonImage.Width,
-                                                       _ribbon.RibbonAppButton.AppButtonImage.Height,
-                                                       GraphicsUnit.Pixel, attribs);
-                        }
-                    }
-                }
-
-                // Put clipping region back to original setting
-                context.Graphics.Clip = clipRegion;
+                default:
+                case PaletteState.Normal:
+                    palette = _ribbon.StateNormal.RibbonAppButton;
+                    memento = 0;
+                    break;
+                case PaletteState.Tracking:
+                    palette = _ribbon.StateTracking.RibbonAppButton;
+                    memento = 1;
+                    break;
+                case PaletteState.Pressed:
+                    palette = _ribbon.StatePressed.RibbonAppButton;
+                    memento = 2;
+                    break;
             }
+
+            // Draw the background
+            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]);
+
+            // If there is an application button to be drawn
+            if (_ribbon.RibbonAppButton.AppButtonImage != null)
+            {
+                // We always draw the image a 24x24 image
+                Rectangle imageRect = new(ClientLocation.X + 7, ClientLocation.Y + 6, 24, 24);
+
+                if (_ribbon.Enabled)
+                {
+                    context.Graphics.DrawImage(_ribbon.RibbonAppButton.AppButtonImage, imageRect);
+                }
+                else
+                {
+                    // Use a color matrix to convert to black and white
+                    using ImageAttributes attribs = new();
+                    attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
+
+                    context.Graphics.DrawImage(_ribbon.RibbonAppButton.AppButtonImage,
+                        imageRect, 0, 0,
+                        _ribbon.RibbonAppButton.AppButtonImage.Width,
+                        _ribbon.RibbonAppButton.AppButtonImage.Height,
+                        GraphicsUnit.Pixel, attribs);
+                }
+            }
+
+            // Put clipping region back to original setting
+            context.Graphics.Clip = clipRegion;
         }
         #endregion
     }

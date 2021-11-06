@@ -60,10 +60,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
         #endregion
 
         #region StateDisabled
@@ -76,10 +74,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled()
-        {
-            return !StateDisabled.IsDefault;
-        }
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+
         #endregion
 
         #region StateOthers
@@ -92,10 +88,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateOthers { get; }
 
-        private bool ShouldSerializeStateOthers()
-        {
-            return !StateOthers.IsDefault;
-        }
+        private bool ShouldSerializeStateOthers() => !StateOthers.IsDefault;
+
         #endregion
     }
 }

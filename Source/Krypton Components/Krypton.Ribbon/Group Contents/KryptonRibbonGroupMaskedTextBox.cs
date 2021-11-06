@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupMaskedTextBox), "ToolboxBitmaps.KryptonRibbonGroupMaskedTextBox.bmp")]
-    [Designer(typeof(KryptonRibbonGroupMaskedTextBoxDesigner))]
+    [Designer("Krypton.Ribbon.KryptonRibbonGroupMaskedTextBoxDesigner, Krypton.Ribbon")]
     [DesignerCategory("code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("TextChanged")]
@@ -250,10 +250,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the masked text box.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys()
-        {
-            return (ShortcutKeys != Keys.None);
-        }
+        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -314,7 +311,7 @@ namespace Krypton.Ribbon
                 if (value != _visible)
                 {
                     _visible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -351,7 +348,7 @@ namespace Krypton.Ribbon
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    OnPropertyChanged("Enabled");
+                    OnPropertyChanged(nameof(Enabled));
                 }
             }
         }
@@ -419,7 +416,7 @@ namespace Krypton.Ribbon
                 if (_itemSizeCurrent != value)
                 {
                     _itemSizeCurrent = value;
-                    OnPropertyChanged("ItemSizeCurrent");
+                    OnPropertyChanged(nameof(ItemSizeCurrent));
                 }
             }
         }
@@ -428,7 +425,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the text associated with the control.
         /// </summary>
         [Category("Appearance")]
-        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         public string Text
         {
             get => MaskedTextBox.Text;
@@ -605,10 +602,7 @@ namespace Krypton.Ribbon
             set => MaskedTextBox.Culture = value;
         }
 
-        private bool ShouldSerializeCulture()
-        {
-            return !CultureInfo.CurrentCulture.Equals(Culture);
-        }
+        private bool ShouldSerializeCulture() => !CultureInfo.CurrentCulture.Equals(Culture);
 
         /// <summary>
         /// Gets or sets a value that determines whether literals and prompt characters are copied to the clipboard.
@@ -840,10 +834,8 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint)
-        {
-            return new ViewDrawRibbonGroupMaskedTextBox(ribbon, this, needPaint);
-        }
+                                            NeedPaintHandler needPaint) =>
+            new ViewDrawRibbonGroupMaskedTextBox(ribbon, this, needPaint);
 
         /// <summary>
         /// Gets and sets the associated designer.
@@ -1034,7 +1026,7 @@ namespace Krypton.Ribbon
                     if (ShortcutKeys == keyData)
                     {
                         // Can the masked text box take the focus
-                        if ((LastMaskedTextBox != null) && (LastMaskedTextBox.CanFocus))
+                        if (LastMaskedTextBox is { CanFocus: true })
                         {
                             LastMaskedTextBox.MaskedTextBox.Focus();
                         }

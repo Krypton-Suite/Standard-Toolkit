@@ -23,7 +23,7 @@ namespace Krypton.Navigator
                                              
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the ButtonDisplayLogicConverter clas.
+        /// Initialize a new instance of the ButtonDisplayLogicConverter class.
         /// </summary>
         public ButtonDisplayLogicConverter()
             : base(typeof(ButtonDisplayLogic))

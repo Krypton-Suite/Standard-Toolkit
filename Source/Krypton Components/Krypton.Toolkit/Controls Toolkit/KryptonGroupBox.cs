@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonGroupBox), "ToolboxBitmaps.KryptonGroupBox.bmp")]
     [DefaultEvent("Paint")]
     [DefaultProperty("ValuesPrimary")]
-    [Designer(typeof(KryptonGroupBoxDesigner))]
+    [Designer("Krypton.Toolkit.KryptonGroupBoxDesigner, Krypton.Toolkit")]
     [DesignerCategory("code")]
     [Description("Display frame around a group of related controls with an optional caption.")]
     [Docking(DockingBehavior.Ask)]
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Heading;
@@ -281,10 +281,7 @@ namespace Krypton.Toolkit
             GroupBorderStyle = PaletteBorderStyle.ControlGroupBox;
         }
 
-        private bool ShouldSerializeGroupBorderStyle()
-        {
-            return (GroupBorderStyle != PaletteBorderStyle.ControlGroupBox);
-        }
+        private bool ShouldSerializeGroupBorderStyle() => (GroupBorderStyle != PaletteBorderStyle.ControlGroupBox);
 
         /// <summary>
         /// Gets and sets the background style.
@@ -761,14 +758,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal Component DesignerComponentFromPoint(Point pt)
-        {
+        internal Component DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            return IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
 
-            // Ask the current view for a decision
-        }
-
+        // Ask the current view for a decision
         // Simulate the mouse leaving the control so that the tracking
         // element that thinks it has the focus is informed it does not
         internal void DesignerMouseLeave() => OnMouseLeave(EventArgs.Empty);

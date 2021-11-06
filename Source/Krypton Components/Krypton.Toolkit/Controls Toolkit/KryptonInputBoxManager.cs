@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the cue typeface.</summary>
         /// <value>The cue typeface.</value>
-        [DefaultValue(typeof(Font), "Microsoft Sans Serif, 8.25pt"), Description("The cue text typeface.")]
+        [DefaultValue(typeof(Font), "Segoe UI, 9pt"), Description("The cue text typeface.")]
         public Font CueTypeface { get => _cueTypeface; set => _cueTypeface = value; }
 
         /// <summary>Gets or sets the caption.</summary>
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
 
             _cueColour = Color.Gray;
 
-            _cueTypeface = new Font("Microsoft Sans Serif", 8.25f);
+            _cueTypeface = new Font("Segoe UI", 9f);
 
             _caption = string.Empty;
 
