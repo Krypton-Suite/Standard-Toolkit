@@ -42,7 +42,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-      <!--<PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Canary.Lite</PackageId>
+      <!--<PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Lite</PackageId>
         <Description Condition="'$(TFMs)' == 'lite'">
           An update to Component factory's krypton toolkit to support .NET Core 3.1, .NET 5, .NET 6, and .net 4.8 Framework. $(Description)
 
@@ -51,11 +51,11 @@
         </Description>-->
       
       <!--Uncomment if you want Stable packages-->
-      <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId)</PackageId>-->
+      <PackageId Condition="'$(TFMs)' == 'all'">$(PackageId)</PackageId>
       <!--Uncomment if you want Signed packages-->
       <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Signed</PackageId>-->  
       <!--Uncomment if you want Canary packages-->
-		  <PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>
+		  <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>--
       <!--Uncomment if you want Nightly packages-->
       <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Nightly</PackageId>-->
         <Description Condition="'$(TFMs)' == 'all'">

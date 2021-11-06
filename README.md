@@ -3,6 +3,8 @@
 =======
 
 - Skip to [NuGet Information](#NuGet-Information)
+
+=======
 - Skip to [Version History](#version-history)
 - Skip to [Supporters](#Supporters)
 

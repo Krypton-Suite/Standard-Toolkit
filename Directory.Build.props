@@ -19,9 +19,9 @@
 		<!--<PackageVersion>6.$(Minor).$(Build)-alpha</PackageVersion>-->
 
 		<!--Canary only-->
-		<PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>
+		<!--<PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>-->
 
 		<!--Stable/Signed-->
-		<!--<PackageVersion>6.$(Minor).$(Build)</PackageVersion>-->
+		<PackageVersion>6.$(Minor).$(Build)</PackageVersion>
 	</PropertyGroup>
 </Project>
