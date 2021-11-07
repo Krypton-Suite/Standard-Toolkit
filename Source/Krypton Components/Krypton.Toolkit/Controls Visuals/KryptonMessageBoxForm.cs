@@ -200,6 +200,11 @@ namespace Krypton.Toolkit
                     {
                         _messageIcon.Image = MessageBoxResources.Windows11;
                     }
+                    // Windows 10
+                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                    {
+                        _messageIcon.Image = MessageBoxResources.Windows_8_and_10_Logo;
+                    }
                     else
                     {
                         _messageIcon.Image = SystemIcons.WinLogo.ToBitmap();
