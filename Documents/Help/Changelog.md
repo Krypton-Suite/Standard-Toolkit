@@ -15,6 +15,7 @@
 * Implemented [#404](https://github.com/Krypton-Suite/Standard-Toolkit/issues/404), `KryptonInputBox` to have a default button
 * Fixed [#237](https://github.com/Krypton-Suite/Standard-Toolkit/issues/237), Office 365 - Black (Dark mode) Messes up combo boxes
 * Fixed [#403](https://github.com/Krypton-Suite/Standard-Toolkit/issues/403), Krypton.Toolkit.Nightly `Version="6.2109.272-alpha"` has removed code that was in 270 
+* Implements [#85](https://github.com/Krypton-Suite/Standard-Toolkit/issues/85), Update the project names from `2019` to `2022`
 
 =======
 
