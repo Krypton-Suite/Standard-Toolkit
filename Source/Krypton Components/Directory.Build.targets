@@ -23,10 +23,10 @@
     <!--<PackageVersion>6.$(Minor).$(Build)-alpha</PackageVersion>-->
 
     <!--Canary only-->
-    <PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>
+    <!--<PackageVersion>6.$(Minor).$(Build)-beta</PackageVersion>-->
 
     <!--Stable/Signed-->
-    <!--<PackageVersion>6.$(Minor).$(Build)</PackageVersion>-->
+    <PackageVersion>6.$(Minor).$(Build)</PackageVersion>
 
     <AssemblyVersion>6.$(Minor).$(Build)</AssemblyVersion>
     
@@ -55,7 +55,7 @@
       <!--Uncomment if you want Signed packages-->
       <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Signed</PackageId>-->  
       <!--Uncomment if you want Canary packages-->
-		  <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>--
+		  <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Canary</PackageId>-->
       <!--Uncomment if you want Nightly packages-->
       <!--<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).Nightly</PackageId>-->
         <Description Condition="'$(TFMs)' == 'all'">
