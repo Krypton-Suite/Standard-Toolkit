@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
         private const int GAP = 10;
         private static readonly int OS_MAJOR_VERSION;
         #endregion
+
         #region Instance Fields
         private readonly string _text;
         private readonly string _caption;
@@ -113,9 +114,9 @@ namespace Krypton.Toolkit
         {
             Text = (string.IsNullOrEmpty(_caption) ? string.Empty : _caption.Split(Environment.NewLine.ToCharArray())[0]);
             _messageText.Text = _text;
-            _messageText.RightToLeft =  _options.HasFlag(MessageBoxOptions.RightAlign) 
-                ? RightToLeft.Yes 
-                : _options.HasFlag(MessageBoxOptions.RtlReading) 
+            _messageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign)
+                ? RightToLeft.Yes
+                : _options.HasFlag(MessageBoxOptions.RtlReading)
                     ? RightToLeft.Inherit
                     : RightToLeft.No;
         }
@@ -193,7 +194,22 @@ namespace Krypton.Toolkit
                     _messageIcon.Image = SystemIcons.Shield.ToBitmap();
                     break;
                 case KryptonMessageBoxIcon.WINDOWSLOGO:
-                    _messageIcon.Image = SystemIcons.WinLogo.ToBitmap();
+                    // Because Windows 11 displays a generic application icon,
+                    // we need to rely on a image instead
+                    if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                    {
+                        _messageIcon.Image = MessageBoxResources.Windows11;
+                    }
+                    // Windows 10
+                    else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                    {
+                        _messageIcon.Image = MessageBoxResources.Windows_8_and_10_Logo;
+                    }
+                    else
+                    {
+                        _messageIcon.Image = SystemIcons.WinLogo.ToBitmap();
+                    }
+
                     break;
             }
 
@@ -212,18 +228,18 @@ namespace Krypton.Toolkit
                     SystemSounds.Question.Play();
                     break;
                 case MessageBoxIcon.Error:
-                //case MessageBoxIcon.Hand:
-                //case MessageBoxIcon.Stop:
+                    //case MessageBoxIcon.Hand:
+                    //case MessageBoxIcon.Stop:
                     _messageIcon.Image = SystemIcons.Error.ToBitmap();
                     SystemSounds.Hand.Play();
                     break;
-                case MessageBoxIcon.Warning: 
+                case MessageBoxIcon.Warning:
                     //case MessageBoxIcon.Exclamation:
                     _messageIcon.Image = SystemIcons.Warning.ToBitmap();
                     SystemSounds.Exclamation.Play();
                     break;
                 case MessageBoxIcon.Information:
-                // case MessageBoxIcon.Asterisk:
+                    // case MessageBoxIcon.Asterisk:
                     _messageIcon.Image = SystemIcons.Information.ToBitmap();
                     SystemSounds.Asterisk.Play();
                     break;
@@ -432,7 +448,7 @@ namespace Krypton.Toolkit
             // Find size of icon area plus the text area added together
             if (_messageIcon.Image != null)
             {
-                return new Size(textSize.Width +_messageIcon.Width, Math.Max(_messageIcon.Height + 10, textSize.Height));
+                return new Size(textSize.Width + _messageIcon.Width, Math.Max(_messageIcon.Height + 10, textSize.Height));
             }
 
             return textSize;

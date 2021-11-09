@@ -571,8 +571,11 @@ namespace Krypton.Toolkit
                             {
                                 e.TextColor = KCT.MenuItemText;
                             }
-                            else 
+                            else
+                            {
                                 e.TextColor = KCT.ToolStripText;
+                            }
+
                             break;
                     }
                 }

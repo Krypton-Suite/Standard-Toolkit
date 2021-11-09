@@ -20,20 +20,20 @@ namespace Krypton.Ribbon
     {
         #region Static Fields
         private static readonly Type[] _types = { typeof(KryptonRibbonGroupButton),
-                                                             typeof(KryptonRibbonGroupColorButton),
-                                                             typeof(KryptonRibbonGroupCheckBox),
-                                                             typeof(KryptonRibbonGroupComboBox),
-                                                             typeof(KryptonRibbonGroupCustomControl),
-                                                             typeof(KryptonRibbonGroupDateTimePicker),
-                                                             typeof(KryptonRibbonGroupDomainUpDown),
-                                                             typeof(KryptonRibbonGroupLabel),
-                                                             typeof(KryptonRibbonGroupNumericUpDown),
-                                                             typeof(KryptonRibbonGroupRadioButton),
-                                                             typeof(KryptonRibbonGroupRichTextBox),
-                                                             typeof(KryptonRibbonGroupTextBox),
-                                                             typeof(KryptonRibbonGroupTrackBar),
-                                                             typeof(KryptonRibbonGroupMaskedTextBox)
-                                                           };
+                                                 typeof(KryptonRibbonGroupColorButton),
+                                                 typeof(KryptonRibbonGroupCheckBox),
+                                                 typeof(KryptonRibbonGroupComboBox),
+                                                 typeof(KryptonRibbonGroupCustomControl),
+                                                 typeof(KryptonRibbonGroupDateTimePicker),
+                                                 typeof(KryptonRibbonGroupDomainUpDown),
+                                                 typeof(KryptonRibbonGroupLabel),
+                                                 typeof(KryptonRibbonGroupMaskedTextBox),
+                                                 typeof(KryptonRibbonGroupNumericUpDown),
+                                                 typeof(KryptonRibbonGroupRadioButton),
+                                                 typeof(KryptonRibbonGroupRichTextBox),
+                                                 typeof(KryptonRibbonGroupTextBox),
+                                                 typeof(KryptonRibbonGroupTrackBar)
+                                               };
         #endregion
 
         #region Restrict

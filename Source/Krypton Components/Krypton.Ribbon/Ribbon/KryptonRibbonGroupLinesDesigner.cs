@@ -225,7 +225,21 @@ namespace Krypton.Ribbon
                 _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
                 _deleteLinesVerb = new DesignerVerb("Delete Lines", OnDeleteLines);
                 _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
-                                                     _addButtonVerb, _addColorButtonVerb, _addCheckBoxVerb, _addClusterVerb, _addComboBoxVerb, _addCustomControlVerb, _addDateTimePickerVerb, _addDomainUpDownVerb, _addLabelVerb, _addNumericUpDownVerb, _addRadioButtonVerb, _addRichTextBoxVerb, _addTextBoxVerb, _addTrackBarVerb, _addMaskedTextBoxVerb,
+                                                     _addButtonVerb, 
+                                                     _addCheckBoxVerb, 
+                                                     _addClusterVerb, 
+                                                     _addColorButtonVerb, 
+                                                     _addComboBoxVerb, 
+                                                     _addCustomControlVerb, 
+                                                     _addDateTimePickerVerb, 
+                                                     _addDomainUpDownVerb, 
+                                                     _addLabelVerb, 
+                                                     _addNumericUpDownVerb, 
+                                                     _addMaskedTextBoxVerb,
+                                                     _addRadioButtonVerb, 
+                                                     _addRichTextBoxVerb, 
+                                                     _addTextBoxVerb, 
+                                                     _addTrackBarVerb, 
                                                      _clearItemsVerb, _deleteLinesVerb });
             }
 
@@ -998,17 +1012,17 @@ namespace Krypton.Ribbon
                     _addButtonMenu = new ToolStripMenuItem("Add Button", Properties.Resources.KryptonRibbonGroupButton, OnAddButton);
                     _addColorButtonMenu = new ToolStripMenuItem("Add Color Button", Properties.Resources.KryptonRibbonGroupColorButton, OnAddColorButton);
                     _addCheckBoxMenu = new ToolStripMenuItem("Add CheckBox", Properties.Resources.KryptonRibbonGroupCheckBox, OnAddCheckBox);
-                    _addRadioButtonMenu = new ToolStripMenuItem("Add RadioButton", Properties.Resources.KryptonRibbonGroupRadioButton, OnAddRadioButton);
-                    _addLabelMenu = new ToolStripMenuItem("Add Label", Properties.Resources.KryptonRibbonGroupLabel, OnAddLabel);
+                    _addComboBoxMenu = new ToolStripMenuItem("Add ComboBox", Properties.Resources.KryptonRibbonGroupComboBox, OnAddComboBox);
                     _addCustomControlMenu = new ToolStripMenuItem("Add Custom Control", Properties.Resources.KryptonRibbonGroupCustomControl, OnAddCustomControl);
                     _addClusterMenu = new ToolStripMenuItem("Add Cluster", Properties.Resources.KryptonRibbonGroupCluster, OnAddCluster);
-                    _addTextBoxMenu = new ToolStripMenuItem("Add TextBox", Properties.Resources.KryptonRibbonGroupTextBox, OnAddTextBox);
-                    _addMaskedTextBoxMenu = new ToolStripMenuItem("Add MaskedTextBox", Properties.Resources.KryptonRibbonGroupMaskedTextBox, OnAddMaskedTextBox);
-                    _addRichTextBoxMenu = new ToolStripMenuItem("Add RichTextBox", Properties.Resources.KryptonRibbonGroupRichTextBox, OnAddRichTextBox);
-                    _addComboBoxMenu = new ToolStripMenuItem("Add ComboBox", Properties.Resources.KryptonRibbonGroupComboBox, OnAddComboBox);
-                    _addNumericUpDownMenu = new ToolStripMenuItem("Add NumericUpDown", Properties.Resources.KryptonRibbonGroupNumericUpDown, OnAddNumericUpDown);
-                    _addDomainUpDownMenu = new ToolStripMenuItem("Add DomainUpDown", Properties.Resources.KryptonRibbonGroupDomainUpDown, OnAddDomainUpDown);
                     _addDateTimePickerMenu = new ToolStripMenuItem("Add DateTimePicker", Properties.Resources.KryptonRibbonGroupDateTimePicker, OnAddDateTimePicker);
+                    _addDomainUpDownMenu = new ToolStripMenuItem("Add DomainUpDown", Properties.Resources.KryptonRibbonGroupDomainUpDown, OnAddDomainUpDown);
+                    _addLabelMenu = new ToolStripMenuItem("Add Label", Properties.Resources.KryptonRibbonGroupLabel, OnAddLabel);
+                    _addMaskedTextBoxMenu = new ToolStripMenuItem("Add MaskedTextBox", Properties.Resources.KryptonRibbonGroupMaskedTextBox, OnAddMaskedTextBox);
+                    _addNumericUpDownMenu = new ToolStripMenuItem("Add NumericUpDown", Properties.Resources.KryptonRibbonGroupNumericUpDown, OnAddNumericUpDown);
+                    _addRadioButtonMenu = new ToolStripMenuItem("Add RadioButton", Properties.Resources.KryptonRibbonGroupRadioButton, OnAddRadioButton);
+                    _addRichTextBoxMenu = new ToolStripMenuItem("Add RichTextBox", Properties.Resources.KryptonRibbonGroupRichTextBox, OnAddRichTextBox);
+                    _addTextBoxMenu = new ToolStripMenuItem("Add TextBox", Properties.Resources.KryptonRibbonGroupTextBox, OnAddTextBox);
                     _addTrackBarMenu = new ToolStripMenuItem("Add TrackBar", Properties.Resources.KryptonRibbonGroupTrackBar, OnAddTrackBar);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
                     _deleteLinesMenu = new ToolStripMenuItem("Delete Lines", Properties.Resources.delete2, OnDeleteLines);
@@ -1016,7 +1030,22 @@ namespace Krypton.Ribbon
                                                               _visibleMenu, _maximumSizeMenu, _minimumSizeMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
                                                               _moveToGroupMenu, new ToolStripSeparator(),
-                                                              _addButtonMenu, _addColorButtonMenu, _addCheckBoxMenu, _addClusterMenu, _addComboBoxMenu, _addCustomControlMenu, _addDateTimePickerMenu, _addDomainUpDownMenu, _addLabelMenu, _addNumericUpDownMenu, _addRadioButtonMenu, _addRichTextBoxMenu, _addTextBoxMenu, _addTrackBarMenu, _addMaskedTextBoxMenu, new ToolStripSeparator(),
+                                                              _addButtonMenu, 
+                                                              _addCheckBoxMenu, 
+                                                              _addClusterMenu, 
+                                                              _addColorButtonMenu, 
+                                                              _addComboBoxMenu, 
+                                                              _addCustomControlMenu, 
+                                                              _addDateTimePickerMenu, 
+                                                              _addDomainUpDownMenu, 
+                                                              _addLabelMenu, 
+                                                              _addMaskedTextBoxMenu, 
+                                                              _addNumericUpDownMenu, 
+                                                              _addRadioButtonMenu, 
+                                                              _addRichTextBoxMenu, 
+                                                              _addTextBoxMenu, 
+                                                              _addTrackBarMenu, 
+                                                              new ToolStripSeparator(),
                                                               _clearItemsMenu, new ToolStripSeparator(),
                                                               _deleteLinesMenu });
 

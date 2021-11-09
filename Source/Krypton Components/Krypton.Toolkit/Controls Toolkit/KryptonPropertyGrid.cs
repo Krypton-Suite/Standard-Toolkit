@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     [Designer(@"Krypton.Toolkit.KryptonPropertyGridDesigner, Krypton.Toolkit")]
-    [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersionOne.bmp")]
+    [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersion2.bmp")]
     [ToolboxItem(true)]
     public class KryptonPropertyGrid : PropertyGrid
     {
@@ -74,7 +74,9 @@ namespace Krypton.Toolkit
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
+            {
                 _palette.PalettePaint -= new EventHandler<PaletteLayoutEventArgs>(OnPalettePaint);
+            }
 
             _palette = KryptonManager.CurrentGlobalPalette;
             _paletteRedirect.Target = _palette;

@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         private IntPtr _backBrush = IntPtr.Zero;
         private readonly Font _labelFont;
         private bool _embeddingDone;
-        private KryptonForm _toolBox;
+        internal KryptonForm _toolBox;
 
 
         public CommonDialogHandler(bool embed)
@@ -85,7 +85,10 @@ namespace Krypton.Toolkit
                                     PI.GetWindowInfo(child, out attributes.WinInfo);
                                     var nRet = PI.GetClassName(child, name, name.Capacity);
                                     if (nRet != 0)
+                                    {
                                         attributes.ClassName = name.ToString().ToLowerInvariant();
+                                    }
+
                                     _controls.Add(attributes);
                                 }
                             }
@@ -163,7 +166,10 @@ namespace Krypton.Toolkit
                                     {
 
                                         if ((control.WinInfo.dwStyle & PI.WS_.VISIBLE) != PI.WS_.VISIBLE)
+                                        {
                                             break;
+                                        }
+
                                         var text = new StringBuilder(64);
                                         PI.GetWindowText(control.hWnd, text, 64);
                                         control.Text = text.ToString();
@@ -291,9 +297,15 @@ namespace Krypton.Toolkit
                         foreach (Attributes control in _controls)
                         {
                             if ((control.WinInfo.dwStyle & PI.WS_.VISIBLE) != PI.WS_.VISIBLE)
+                            {
                                 continue;
+                            }
+
                             if (control.ClassName != @"button")
+                            {
                                 continue;
+                            }
+
                             if ((control.WinInfo.dwStyle & PI.BS_.GROUPBOX) == PI.BS_.GROUPBOX)
                             {
                                 PI.PAINTSTRUCT ps = new();
@@ -301,7 +313,10 @@ namespace Krypton.Toolkit
                                 // Do we need to BeginPaint or just take the given HDC?
                                 var hdc = PI.BeginPaint(control.hWnd, ref ps);
                                 if (hdc == IntPtr.Zero)
+                                {
                                     break;
+                                }
+
                                 using (Graphics g = Graphics.FromHdc(hdc))
                                 {
                                     g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -393,7 +408,7 @@ namespace Krypton.Toolkit
             PI.GetWindowText(hWnd, text, 64);
             _toolBox = new KryptonForm
             {
-                AutoScaleMode = AutoScaleMode.None,
+                AutoScaleMode = AutoScaleMode.Font,
                 ClientSize = new Size(winInfo.rcClient.right - winInfo.rcClient.left, winInfo.rcClient.bottom - winInfo.rcClient.top),
                 FormBorderStyle = FormBorderStyle.FixedToolWindow,
                 StartPosition = FormStartPosition.Manual,
@@ -411,19 +426,20 @@ namespace Krypton.Toolkit
                 _toolBox.Icon = Icon;
             }
 
+            Size toolBoxClientSize = _toolBox.ClientSize;
             var kryptonPanel1 = new KryptonPanel
             {
                 Dock = DockStyle.Fill,
                 Location = new Point(0, 0),
                 Name = "kryptonPanel1",
-                Size = _toolBox.ClientSize,
+                ClientSize = toolBoxClientSize,
                 TabIndex = 0,
                 Margin = new Padding(0),
                 Padding = new Padding(0)
             };
             _toolBox.Controls.Add(kryptonPanel1);
 
-            PI.MoveWindow(hWnd, 0, 0, _toolBox.ClientSize.Width, _toolBox.ClientSize.Height, false);
+            PI.MoveWindow(hWnd, 0, 0, toolBoxClientSize.Width, toolBoxClientSize.Height, false);
             var toolParent = PI.GetParent(hWnd);
             PI.SetParent(hWnd, kryptonPanel1.Handle);
             var nativeWindow = new NativeWindow();
@@ -456,7 +472,10 @@ namespace Krypton.Toolkit
         internal bool SetNewPosAndClientSize(Point loc, Size size)
         {
             if (size == Size.Empty)
+            {
                 return false; // Probably already been triggered !
+            }
+
             _toolBox.Location = loc;
             _toolBox.ClientSize = size;
             return true;

@@ -13,6 +13,7 @@
 namespace Krypton.Toolkit
 {
     [ToolboxBitmap(typeof(KryptonInputBox), "ToolboxBitmaps.KryptonInputBox.bmp")]
+    [DesignerCategory("code")]
     public class KryptonInputBoxManager : Component
     {
         #region Variables

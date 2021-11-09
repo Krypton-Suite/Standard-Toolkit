@@ -253,7 +253,10 @@ namespace Krypton.Toolkit
             set
             {
                 if (this._localPalette == value)
+                {
                     return;
+                }
+
                 CacheNewPalette(value);
                 if (value == null)
                 {
@@ -1044,7 +1047,9 @@ namespace Krypton.Toolkit
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (this.PaletteMode != PaletteMode.Global)
+            {
                 return;
+            }
             // Unhook events from old palette
             if (_palette != null)
             {

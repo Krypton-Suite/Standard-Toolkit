@@ -65,7 +65,9 @@ namespace Krypton.Toolkit
             {
                 _displayExtendedColorsButton = value;
                 if (value) // just make life easier to enforce placement.
+                {
                     ShowColor = true;
+                }
             }
         }
 
@@ -145,7 +147,10 @@ namespace Krypton.Toolkit
                         IntPtr stringColor = Marshal.StringToHGlobalUni(e.Color.Name);
                         var curIndex = PI.SendDlgItemMessage(hWnd, CLR_COMBOBOX_ID, PI.WM_.CB_FINDSTRING, IntPtr.Zero, stringColor);
                         if ( curIndex.ToInt32() == -1 )
+                        {
                             curIndex = PI.SendDlgItemMessage(hWnd, CLR_COMBOBOX_ID, PI.WM_.CB_ADDSTRING, IntPtr.Zero, stringColor);
+                        }
+
                         PI.SendDlgItemMessage(hWnd, CLR_COMBOBOX_ID, PI.WM_.CB_SETITEMDATA, curIndex, (IntPtr) ColorTranslator.ToWin32(e.Color));
                         PI.SendDlgItemMessage(hWnd, CLR_COMBOBOX_ID, PI.WM_.CB_SETCURSEL, curIndex, IntPtr.Zero);
                         PI.PostMessage(hWnd, PI.WM_.COMMAND, PI.MakeWParam(CLR_COMBOBOX_ID,(int)PI.CBN_.SELENDOK),clrComboBoxHwnd);

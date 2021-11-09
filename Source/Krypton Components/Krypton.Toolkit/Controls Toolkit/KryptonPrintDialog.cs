@@ -88,7 +88,9 @@ namespace Krypton.Toolkit
             // When the radio button is clicked
             // Check what buttons need to be unchecked
             if (originalControl.Button is not KryptonRadioButton krbo)
+            {
                 return;
+            }
 
             foreach (var control in _commonDialogHandler.Controls)
             {
