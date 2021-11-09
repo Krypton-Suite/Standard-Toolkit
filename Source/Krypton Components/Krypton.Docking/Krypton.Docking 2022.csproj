@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows;</TargetFrameworks>
+        <TargetFrameworks>net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
         <OutputType>Library</OutputType>
         <RootNamespace>Krypton.Docking</RootNamespace>
         <AssemblyName>Krypton.Docking</AssemblyName>
@@ -15,7 +15,6 @@
         <AnalysisLevel>latest</AnalysisLevel>
         <NeutralLanguage>en</NeutralLanguage>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-        <Configurations>Debug;Release;Installer</Configurations>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -56,9 +55,9 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonDockingManager.bmp" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />
-        <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
-        <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2019.csproj" />
+        <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+        <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+        <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Update="Resources\GenericImageResources.resx">
