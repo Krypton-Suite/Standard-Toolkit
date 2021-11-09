@@ -55,9 +55,9 @@
         <EmbeddedResource Include="ToolboxBitmaps\KryptonDockingManager.bmp" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />
-        <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
-        <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2019.csproj" />
+        <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+        <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+        <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Update="Resources\GenericImageResources.resx">
