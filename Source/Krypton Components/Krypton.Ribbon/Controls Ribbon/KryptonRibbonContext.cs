@@ -120,7 +120,7 @@ namespace Krypton.Ribbon
             set
             {
                 // We never allow a null or transparent color
-                if (/*(value == null) ||*/ (value == Color.Transparent)) // 'color' is never 'null' CS8073
+                if ((value == null) || (value == Color.Transparent))
                 {
                     value = Color.Red;
                 }
