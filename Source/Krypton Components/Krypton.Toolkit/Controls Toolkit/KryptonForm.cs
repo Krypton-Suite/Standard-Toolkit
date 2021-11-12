@@ -606,7 +606,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the active control on the container control.</summary>
         [DefaultValue(null), Description("Defines an active control for this window.")]
-        public Control ActiveControl
+        public new Control ActiveControl
         {
             get => _activeControl;
 

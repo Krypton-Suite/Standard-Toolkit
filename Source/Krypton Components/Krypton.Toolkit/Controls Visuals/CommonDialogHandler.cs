@@ -365,7 +365,6 @@ namespace Krypton.Toolkit
                         //PI.SetBkMode(wparam, ColorTranslator.ToWin32(Color.Transparent));
                         return (true, _backBrush);
                     }
-                    break;
                 //else if (msg == PI.WM_.CTLCOLORLISTBOX)
                 //{
                 //    var fontColour = _kryptonManager.GlobalPalette.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);

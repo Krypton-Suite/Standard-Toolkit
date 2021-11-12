@@ -25,3 +25,5 @@ dotnet_diagnostic.CS8618.severity = None
 
 # CS8073:  The result of the expression is always 'true' or 'null'
 dotnet_diagnostic.CS8073.severity = None
+
+dotnet_diagnostic.CS0649.severity = None
