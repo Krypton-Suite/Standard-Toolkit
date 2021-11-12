@@ -1299,7 +1299,7 @@ namespace Krypton.Toolkit
                 }
 
                 // If this color valid and so possible to become a recent color
-                if (/*(color != null) &&*/ !color.Equals(Color.Empty)) // 'color' is never 'null' CS8073
+                if ((color != null) && !color.Equals(Color.Empty))
                 {
                     var found = false;
                     foreach (Color recentColor in _recentColors)
