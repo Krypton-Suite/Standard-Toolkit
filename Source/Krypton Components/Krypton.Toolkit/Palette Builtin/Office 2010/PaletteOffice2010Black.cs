@@ -28,11 +28,13 @@ namespace Krypton.Toolkit
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources._2010ButtonCloseBlackNormal;
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
         private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMaximiseDisabled;
+        private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMaximiseHover;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMinNormal;
         private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMinHover;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMinDisabled;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
         private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackControlBoxButtonRestoreDisabled;
+        private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlackControlBoxButtonRestoreHover;
         private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice2010HelpIconBlack;
         private static readonly Image _formHelpHover = HelpIconResources.GenericOffice2010HelpIconHover;
         private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice2010HelpIconDisabled;
@@ -622,11 +624,13 @@ namespace Krypton.Toolkit
                 PaletteButtonSpecStyle.FormMax => state switch
                 {
                     PaletteState.Normal => _formMaximiseNormal,
-                    _ => _formMaximiseNormal
+                    PaletteState.Tracking => _formMaximiseHover,
+                    _ => _formMaximiseDisabled
                 },
                 PaletteButtonSpecStyle.FormRestore => state switch
                 {
                     PaletteState.Normal => _formRestoreNormal,
+                    PaletteState.Tracking => _formRestoreHover,
                     _ => _formRestoreDisabled
                 },
                 PaletteButtonSpecStyle.FormHelp => state switch

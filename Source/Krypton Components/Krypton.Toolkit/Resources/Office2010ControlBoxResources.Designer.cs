@@ -243,6 +243,16 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonMaximiseHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonMaximiseHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonMinDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonMinDisabled", resourceCulture);
@@ -283,6 +293,16 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonRestoreHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonRestoreHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2010BlackMinimiseDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2010BlackMinimiseDisabled", resourceCulture);
@@ -296,6 +316,16 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonMaximiseDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonMaximiseDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonMaximiseHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonMaximiseHover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -343,6 +373,16 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonRestoreHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonRestoreHover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Office2010BlueMinimiseDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2010BlueMinimiseDisabled", resourceCulture);
@@ -356,6 +396,16 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonMaximiseDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonMaximiseDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonMaximiseHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonMaximiseHover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -396,6 +446,16 @@ namespace Krypton.Toolkit.Resources {
         internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonRestoreDisabled {
             get {
                 object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonRestoreDisabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonRestoreHover {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonRestoreHover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
