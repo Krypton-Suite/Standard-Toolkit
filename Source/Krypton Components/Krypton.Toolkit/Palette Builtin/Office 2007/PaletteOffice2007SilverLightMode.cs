@@ -352,7 +352,7 @@ namespace Krypton.Toolkit
     }
 
     #region Class: PaletteOffice2007SilverLightModeBase
-    // <summary>
+    /// <summary>
     /// Provides a professional appearance using colors/fonts generated from system settings.
     /// </summary>
     public abstract class PaletteOffice2007SilverLightModeBase : PaletteBase

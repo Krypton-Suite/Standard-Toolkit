@@ -27,12 +27,12 @@ namespace Krypton.Toolkit
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources._2010ButtonCloseHover;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources._2010ButtonCloseBlackNormal;
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
-        private static readonly Image _formMaximiseDisabled = null;
+        //private static readonly Image _formMaximiseDisabled = null;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMinNormal;
         private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMinHover;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackControlBoxButtonMinDisabled;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
-        private static readonly Image _formRestoreDisabled = null;
+        //private static readonly Image _formRestoreDisabled = null;
         private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice2010HelpIconBlack;
         private static readonly Image _formHelpHover = HelpIconResources.GenericOffice2010HelpIconHover;
         private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice2010HelpIconDisabled;
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecPendantRestore = Office2010ControlBoxResources._2010ButtonMDIRestoreBlack;
         private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010Black;
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010Black;
-        private static readonly Color _disabledRibbonText = Color.White; // Color.FromArgb(205, 205, 205);
+        //private static readonly Color _disabledRibbonText = Color.White; // Color.FromArgb(205, 205, 205);
         private static readonly Color[] _trackBarColors = { Color.FromArgb( 17,  17,  17),      // Tick marks
                                                                         Color.FromArgb( 37,  37,  37),      // Top track
                                                                         Color.FromArgb(174, 174, 174),      // Bottom track
