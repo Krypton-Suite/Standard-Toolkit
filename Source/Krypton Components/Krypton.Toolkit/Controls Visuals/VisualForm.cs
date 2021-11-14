@@ -1000,7 +1000,9 @@ namespace Krypton.Toolkit
             // LayoutMdi call on the parent from working and cascading/tiling the children
             //if ((m.Msg == (int)PI.WM_NCCALCSIZE) && _themedApp &&
             //    ((MdiParent == null) || ApplyCustomChrome))
-            if (_themedApp && ((MdiParent == null) || ApplyCustomChrome))
+            if (_themedApp 
+                && ((MdiParent == null) || ApplyCustomChrome)
+                )
             {
                 switch (m.Msg)
                 {
@@ -1012,7 +1014,10 @@ namespace Krypton.Toolkit
                         /* Setting handled to false enables the application to process it's own Min/Max requirements,
                 * as mentioned by jason.bullard (comment from September 22, 2011) on http://gallery.expression.microsoft.com/ZuneWindowBehavior/ */
                         processed = false;
-                        break;
+                        // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
+                        // Still got to call - base - to allow the "application to process it's own Min/Max requirements" !!
+                        base.WndProc(ref m);
+                        return;
                 }
             }
 
@@ -1126,7 +1131,6 @@ namespace Krypton.Toolkit
         /// Only used to process a WM_GETMINMAXINFO message.
         /// </summary>
         /// <param name="m">A Windows-based message.</param>
-        /// <returns>True if the message was processed; otherwise false.</returns>
         protected virtual void OnWM_GETMINMAXINFO(ref Message m)
         {
             PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO));
@@ -1137,7 +1141,6 @@ namespace Krypton.Toolkit
 
             if (monitor != IntPtr.Zero)
             {
-
                 PI.MONITORINFO monitorInfo = PI.GetMonitorInfo(monitor);
                 PI.RECT rcWorkArea = monitorInfo.rcWork;
                 PI.RECT rcMonitorArea = monitorInfo.rcMonitor;
@@ -1148,6 +1151,18 @@ namespace Krypton.Toolkit
                 // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415 so changed to "* 3 / 2"
                 mmi.ptMinTrackSize.X = Math.Max(mmi.ptMinTrackSize.X * 3 / 2, MinimumSize.Width);
                 mmi.ptMinTrackSize.Y = Math.Max(mmi.ptMinTrackSize.Y * 2, MinimumSize.Height);
+                
+                // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
+                if (MaximumSize.Width > mmi.ptMinTrackSize.X
+                    && MaximumSize.Width < mmi.ptMaxSize.X)
+                {
+                    mmi.ptMaxSize.X = MaximumSize.Width;
+                }
+                if (MaximumSize.Height > mmi.ptMinTrackSize.Y
+                    && MaximumSize.Height < mmi.ptMaxSize.Y)
+                {
+                    mmi.ptMaxSize.Y = MaximumSize.Height;
+                }
             }
 
             Marshal.StructureToPtr(mmi, m.LParam, true);

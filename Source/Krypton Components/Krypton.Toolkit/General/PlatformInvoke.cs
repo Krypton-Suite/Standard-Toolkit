@@ -3114,7 +3114,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             {
             }
 
-            public LOGFONT(PI.LOGFONT lf)
+            public LOGFONT(LOGFONT lf)
             {
                 lfHeight = lf.lfHeight;
                 lfWidth = lf.lfWidth;
@@ -3529,7 +3529,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         [DllImport(@"comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        public static extern bool ChooseFont([In, Out] PI.CHOOSEFONT cf);
+        public static extern bool ChooseFont([In, Out] CHOOSEFONT cf);
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         internal class CHOOSEFONT
@@ -3542,7 +3542,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             public int Flags;
             public int rgbColors;
             public IntPtr lCustData = IntPtr.Zero;
-            internal PI.WndProc lpfnHook;
+            internal WndProc lpfnHook;
             public string lpTemplateName;
             public IntPtr hInstance;
             public string lpszStyle;
@@ -3596,6 +3596,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 X = x;
                 Y = y;
             }
+            public static implicit operator Point(POINT p) => new (p.X, p.Y);
+
+            public static implicit operator POINT(Point p) => new (p.X, p.Y);
         }
 
         [StructLayout(LayoutKind.Sequential)]
