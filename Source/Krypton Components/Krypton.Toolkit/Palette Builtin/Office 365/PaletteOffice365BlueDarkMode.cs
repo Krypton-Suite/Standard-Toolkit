@@ -13,7 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class PaletteOffice365BlueDarkMode : PaletteOffice365BlueThemeDarkModeBase // PaletteOffice365Base
+    public class PaletteOffice365BlueDarkMode : PaletteOffice365BlueThemeDarkModeBase
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
@@ -24,12 +24,14 @@ namespace Krypton.Toolkit
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources._2010ButtonCloseHover;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources._2010ButtonCloseNormal;
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxNormal;
-        //private static readonly Image _formMaximiseDisabled = null;
+        private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMaximiseDisabled;
+        private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMaximiseHover;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinNormal;
         private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinHover;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlueControlBoxButtonMinDisabled;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
-        //private static readonly Image _formRestoreDisabled = null;
+        private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlueControlBoxButtonRestoreDisabled;
+        private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010BlueControlBoxButtonRestoreHover;
         private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice365HelpIconBlue;
         private static readonly Image _formHelpHover = HelpIconResources.GenericOffice365HelpIconHover;
         private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice365HelpIconDisabled;
@@ -346,8 +348,18 @@ namespace Krypton.Toolkit
                     PaletteState.Tracking => _formMinimiseHover,
                     _ => _formMinimiseDisabled
                 },
-                PaletteButtonSpecStyle.FormMax => _formMaximiseNormal,
-                PaletteButtonSpecStyle.FormRestore => _formRestoreNormal,
+                PaletteButtonSpecStyle.FormMax => state switch
+                {
+                    PaletteState.Normal => _formMaximiseNormal,
+                    PaletteState.Tracking => _formMaximiseHover,
+                    _ => _formMaximiseDisabled
+                },
+                PaletteButtonSpecStyle.FormRestore => state switch
+                {
+                    PaletteState.Normal => _formRestoreNormal,
+                    PaletteState.Tracking => _formRestoreHover,
+                    _ => _formRestoreDisabled
+                },
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
                     PaletteState.Tracking => _formHelpHover,

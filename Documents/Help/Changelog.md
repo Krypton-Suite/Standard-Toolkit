@@ -3,6 +3,7 @@
 ## 2022-01-05 - Build 2201 - January 2022
 * Fixed `WINDOWSLOGO` Option for `KryptonMessageBox` does not work for Windows 10
 * Fixed combobox dropdown colours while using dark/light theme modes
+* Implemented [#469](https://github.com/Krypton-Suite/Standard-Toolkit/issues/469), Instate these for all O2k10 & O2k13/365 palettes!
 * Fixed [#449](https://github.com/Krypton-Suite/Standard-Toolkit/issues/449), `WINDOWSLOGO` Option for KMessagebox does not work for Windows 11
 * Fixed [#402](https://github.com/Krypton-Suite/Standard-Toolkit/issues/402), KryptonInputBox cutting off prompt text
 * Fixed [#433](https://github.com/Krypton-Suite/Standard-Toolkit/issues/433), `Office 2010 - Black (Light Mode)` does not do anything
