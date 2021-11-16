@@ -970,7 +970,7 @@ namespace Krypton.Toolkit
             base.OnMouseLeave(e);
         }
 
-
+        /*
         /// <summary>
         /// Raises the DoubleClick event.
         /// </summary>
@@ -989,6 +989,7 @@ namespace Krypton.Toolkit
             // Let base class fire events
             base.OnDoubleClick(e);
         }
+        */
 
         /// <summary>
         /// Raises the KeyDown event.

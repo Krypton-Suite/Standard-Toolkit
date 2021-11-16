@@ -546,6 +546,7 @@ namespace Krypton.Toolkit
             // Create the internal list box used for containing content
             _listBox = new InternalListBox(this);
             _listBox.DrawItem += OnListBoxDrawItem;
+            _listBox.DoubleClick += OnDoubleClick;
             _listBox.MeasureItem += OnListBoxMeasureItem;
             _listBox.TrackMouseEnter += OnListBoxMouseChange;
             _listBox.TrackMouseLeave += OnListBoxMouseChange;
@@ -1781,6 +1782,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
         #endregion
     }
 }
