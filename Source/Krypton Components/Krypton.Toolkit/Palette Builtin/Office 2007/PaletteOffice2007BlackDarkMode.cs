@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(189, 193, 200),    // HeaderPrimaryBack2
                                                                       Color.FromArgb(221, 224, 227),    // HeaderSecondaryBack1
                                                                       Color.FromArgb(221, 224, 227),    // HeaderSecondaryBack2
-                                                                      Color.Black,                      // HeaderText
+                                                                      Color.White,                      // HeaderText
                                                                       Color.White,                      // StatusStripText
                                                                       Color.FromArgb(155, 163, 167),    // ButtonBorder
                                                                       Color.FromArgb(221, 224, 227),    // SeparatorLight
