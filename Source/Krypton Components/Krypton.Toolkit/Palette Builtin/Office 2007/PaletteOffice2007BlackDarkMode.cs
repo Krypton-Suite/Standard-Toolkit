@@ -642,8 +642,8 @@ namespace Krypton.Toolkit
         private static readonly Color _gridTextColor = Color.Black;
         private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
         private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
-        private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
-        private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
+        private static readonly Color _disabledText2 = Color.FromArgb(78, 78, 78); //(128, 128, 128);
+        private static readonly Color _disabledText = Color.FromArgb(71, 70, 70); //(167, 167, 167);
         private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
         private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
         private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
@@ -661,7 +661,7 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack1 = Color.FromArgb(255, 255, 255);
         private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
-        private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
+        private static readonly Color _toolTipText = Color.FromArgb(9, 9, 9); //(76, 76, 76);
         private static readonly Color _contextMenuInnerBack = Color.FromArgb(250, 250, 250);
         private static readonly Color _contextMenuOuterBack = Color.FromArgb(245, 245, 245);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
