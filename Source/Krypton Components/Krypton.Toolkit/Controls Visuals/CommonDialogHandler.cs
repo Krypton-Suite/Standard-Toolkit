@@ -196,7 +196,7 @@ namespace Krypton.Toolkit
 
                                             var button = new KryptonRadioButton
                                             {
-                                                AutoCheck = ((control.WinInfo.dwStyle & PI.BS_.AUTORADIOBUTTON) == PI.BS_.AUTORADIOBUTTON),
+                                                AutoCheck = (control.WinInfo.dwStyle & PI.BS_.AUTORADIOBUTTON) == PI.BS_.AUTORADIOBUTTON,
                                                 AutoSize = false,
                                                 Text = control.Text,
                                                 Dock = DockStyle.Fill,

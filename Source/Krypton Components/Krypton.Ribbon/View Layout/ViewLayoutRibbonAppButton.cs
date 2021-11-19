@@ -47,7 +47,7 @@ namespace Krypton.Ribbon
             _separator = new ViewLayoutRibbonSeparator(APPBUTTON_GAP, true);
 
             // Dock it against the appropriate edge
-            Add(AppButton, (bottomHalf ? ViewDockStyle.Top : ViewDockStyle.Bottom));
+            Add(AppButton, bottomHalf ? ViewDockStyle.Top : ViewDockStyle.Bottom);
 
             // Place a separator between edge of control and start of the app button
             Add(_separator, ViewDockStyle.Left);
@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
                 }
                 else
                 {
-                    return (_ribbon.Visible && base.Visible);
+                    return _ribbon.Visible && base.Visible;
                 }
             }
 

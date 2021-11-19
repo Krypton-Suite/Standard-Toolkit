@@ -157,7 +157,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="menuItem">Menu item that needs to show sub menu.</param>
         /// <returns>True if the sub menu should be a fixed size.</returns>
-        public bool ProviderShowSubMenuFixed(KryptonContextMenuItem menuItem) => ((FixedViewBase != null) && _menuCollection.Contains(menuItem));
+        public bool ProviderShowSubMenuFixed(KryptonContextMenuItem menuItem) => (FixedViewBase != null) && _menuCollection.Contains(menuItem);
 
         /// <summary>
         /// The rectangle used for showing a fixed location for the sub menu.

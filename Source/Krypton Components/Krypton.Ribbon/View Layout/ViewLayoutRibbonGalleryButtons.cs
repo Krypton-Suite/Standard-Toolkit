@@ -95,7 +95,7 @@ namespace Krypton.Ribbon
                 child.Layout(context);
 
                 // Move down to next position
-                yOffset += (childHeight - 1);
+                yOffset += childHeight - 1;
             }
 
             // Put back the original display value now we have finished

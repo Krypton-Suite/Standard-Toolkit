@@ -172,7 +172,7 @@ namespace Krypton.Ribbon
 
                 // Adjust the client rect so the text has enough room to be drawn
                 drawRect.Height += _heightExtra;
-                drawRect.Y -= (_heightExtra / 2);
+                drawRect.Y -= _heightExtra / 2;
 
                 // Use the renderer to layout the text
                 _memento = context.Renderer.RenderStandardContent.LayoutContent(context, drawRect,
@@ -198,7 +198,7 @@ namespace Krypton.Ribbon
 
             // Adjust the client rect so the text has enough room to be drawn
             drawRect.Height += _heightExtra;
-            drawRect.Y -= (_heightExtra / 2);
+            drawRect.Y -= _heightExtra / 2;
 
             // Use renderer to draw the text content
             if (_memento != null)

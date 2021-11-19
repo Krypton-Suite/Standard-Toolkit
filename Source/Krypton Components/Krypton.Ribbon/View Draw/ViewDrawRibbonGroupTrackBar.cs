@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem()
         {
-            if ((GroupTrackBar.Visible) &&
+            if (GroupTrackBar.Visible &&
                 GroupTrackBar.LastTrackBar is { CanSelect: true })
             {
                 return this;
@@ -171,7 +171,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem()
         {
-            if ((GroupTrackBar.Visible) &&
+            if (GroupTrackBar.Visible &&
                 GroupTrackBar.LastTrackBar is { CanSelect: true })
             {
                 return this;
@@ -193,7 +193,7 @@ namespace Krypton.Ribbon
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -208,7 +208,7 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -567,7 +567,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if ((GroupTrackBar.RibbonContainer.RibbonGroup.IsCollapsed) &&
+                            if (GroupTrackBar.RibbonContainer.RibbonGroup.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupTrackBar.TrackBar) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupTrackBar.TrackBar) is VisualPopupMinimized))
                                 )

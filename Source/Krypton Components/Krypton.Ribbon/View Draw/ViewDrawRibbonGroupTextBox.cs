@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem()
         {
-            if ((GroupTextBox.Visible) && (GroupTextBox.LastTextBox?.TextBox != null) && (GroupTextBox.LastTextBox.TextBox.CanSelect))
+            if (GroupTextBox.Visible && (GroupTextBox.LastTextBox?.TextBox != null) && GroupTextBox.LastTextBox.TextBox.CanSelect)
             {
                 return this;
             }
@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem()
         {
-            if ((GroupTextBox.Visible) && (GroupTextBox.LastTextBox?.TextBox != null) && (GroupTextBox.LastTextBox.TextBox.CanSelect))
+            if (GroupTextBox.Visible && (GroupTextBox.LastTextBox?.TextBox != null) && GroupTextBox.LastTextBox.TextBox.CanSelect)
             {
                 return this;
             }
@@ -191,7 +191,7 @@ namespace Krypton.Ribbon
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -206,7 +206,7 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -565,7 +565,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if ((GroupTextBox.RibbonContainer.RibbonGroup.IsCollapsed) &&
+                            if (GroupTextBox.RibbonContainer.RibbonGroup.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupTextBox.TextBox) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupTextBox.TextBox) is VisualPopupMinimized))
                                 )

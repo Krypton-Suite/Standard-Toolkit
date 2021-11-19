@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
             Add(value as T);
 
             // Index is the last button spec in the collection
-            return (Count - 1);
+            return Count - 1;
         }
 
         /// <summary>

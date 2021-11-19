@@ -336,7 +336,7 @@ namespace Krypton.Ribbon
 
             // If we have a new view to focus and it is not ourself...
             if ((newView != null) && (newView != Target1) && 
-                ((newView != Target2) && (newView != Target3)))
+                (newView != Target2) && (newView != Target3))
             {
                 // If the new view is a tab then select that tab unless in minimized mode
                 if (!ribbon.RealMinimizedMode && (newView is ViewDrawRibbonTab tab))

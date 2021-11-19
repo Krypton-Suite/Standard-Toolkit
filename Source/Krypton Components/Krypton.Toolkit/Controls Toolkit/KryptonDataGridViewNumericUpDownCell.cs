@@ -343,7 +343,7 @@ namespace Krypton.Toolkit
             var negativeSignStr = numberFormatInfo.NegativeSign;
             if (!string.IsNullOrEmpty(negativeSignStr) && (negativeSignStr.Length == 1))
             {
-                negativeSignKey = (Keys)(PI.VkKeyScan(negativeSignStr[0]));
+                negativeSignKey = (Keys)PI.VkKeyScan(negativeSignStr[0]);
             }
 
             return (char.IsDigit((char)e.KeyCode) ||

@@ -56,12 +56,12 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (RibbonAppButton.IsDefault &&
+        public override bool IsDefault => RibbonAppButton.IsDefault &&
                                            RibbonGroupCollapsedBorder.IsDefault &&
                                            RibbonGroupCollapsedBack.IsDefault &&
                                            RibbonGroupCollapsedFrameBorder.IsDefault &&
                                            RibbonGroupCollapsedFrameBack.IsDefault &&
-                                           RibbonGroupCollapsedText.IsDefault);
+                                           RibbonGroupCollapsedText.IsDefault;
 
         #endregion
 

@@ -46,8 +46,8 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (CheckBox.IsDefault &&
-                                           RadioButton.IsDefault);
+        public override bool IsDefault => CheckBox.IsDefault &&
+                                           RadioButton.IsDefault;
 
         #endregion
 

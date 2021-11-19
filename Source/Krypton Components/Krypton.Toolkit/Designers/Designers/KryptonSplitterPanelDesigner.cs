@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// <returns>true if the control managed by the specified designer can parent the control managed by this designer; otherwise, false.</returns>
         public override bool CanBeParentedTo(IDesigner parentDesigner) =>
             // We should only ever exist inside a Krypton split container
-            (parentDesigner is KryptonSplitContainerDesigner);
+            parentDesigner is KryptonSplitContainerDesigner;
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.

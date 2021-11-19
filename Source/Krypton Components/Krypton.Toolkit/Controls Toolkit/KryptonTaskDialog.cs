@@ -463,7 +463,7 @@ namespace Krypton.Toolkit
             Tag = null;
         }
 
-        private bool ShouldSerializeTag() => (Tag != null);
+        private bool ShouldSerializeTag() => Tag != null;
 
         /// <summary>
         /// Shows the task dialog as a modal dialog box with the currently active window set as its owner.

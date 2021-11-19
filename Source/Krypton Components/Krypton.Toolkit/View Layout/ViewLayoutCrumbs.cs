@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             for(var i=1; i<Count; i++)
             {
                 // Do not show the left border on the first crumb
-                redirect.Left = (i == 0);
+                redirect.Left = i == 0;
 
                 // Find size of the child
                 Size childSize = this[i].GetPreferredSize(context);
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
             for(var i=1; i<Count; i++)
             {
                 // Do not show the left border on the first crumb
-                redirect.Left = (i == 1);
+                redirect.Left = i == 1;
 
                 // Find size of the child
                 Size childSize = this[i].GetPreferredSize(context);
@@ -177,13 +177,13 @@ namespace Krypton.Toolkit
                     // Decide if the crumb (not the overflow button) can be visible
                     if (i > 0)
                     {
-                        this[i].Visible = (overflowed <= 0);
+                        this[i].Visible = overflowed <= 0;
                     }
 
                     if (this[i].Visible)
                     {
                         // Do not show the left border on the first crumb
-                        redirect.Left = (i == 0);
+                        redirect.Left = i == 0;
 
                         // Recover the already calculated size
                         Size childSize = this[i].GetPreferredSize(context);

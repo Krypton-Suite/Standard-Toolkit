@@ -454,7 +454,7 @@ namespace Krypton.Toolkit
 
         private void ResetCalendarTodayDate() => CalendarTodayDate = DateTime.Now.Date;
 
-        private bool ShouldSerializeCalendarTodayDate() => (CalendarTodayDate != DateTime.Now.Date);
+        private bool ShouldSerializeCalendarTodayDate() => CalendarTodayDate != DateTime.Now.Date;
 
         /// <summary>
         /// DetachEditingControl gets called by the DataGridView control when the editing session is ending

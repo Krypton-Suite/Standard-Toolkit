@@ -291,7 +291,7 @@ namespace Krypton.Ribbon
         private void DrawVerticalSplit(RenderContext context, PaletteState drawState)
         {
             // We need the rectangle that represents just the split area
-            var partialHeight = ((ClientHeight / 3) * 2);
+            var partialHeight = ClientHeight / 3 * 2;
             Rectangle partialRect = new(ClientLocation, new Size(ClientWidth, partialHeight));
             Rectangle splitRectangle = Controller.SplitRectangle;
             Rectangle aboveSplitRect = new(ClientLocation, new Size(ClientWidth, splitRectangle.Y - ClientLocation.Y));

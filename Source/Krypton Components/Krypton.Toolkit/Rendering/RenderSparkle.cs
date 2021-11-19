@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
                                                    IDisposable memento)
         {
             // Note is the incoming state is detailed we are drawing inside a popup
-            var showingInPopup = ((state & PaletteState.FocusOverride) == PaletteState.FocusOverride);
+            var showingInPopup = (state & PaletteState.FocusOverride) == PaletteState.FocusOverride;
             if (showingInPopup)
             {
                 state &= ~PaletteState.FocusOverride;
@@ -147,11 +147,11 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(paletteGeneral));
             }
 
-            Color darkColor = (state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledDark(state) :
-                                                                paletteGeneral.GetRibbonGroupDialogDark(state));
+            Color darkColor = state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledDark(state) :
+                                                                paletteGeneral.GetRibbonGroupDialogDark(state);
 
-            Color lightColor = (state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledLight(state) :
-                                                                 paletteGeneral.GetRibbonGroupDialogLight(state));
+            Color lightColor = state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledLight(state) :
+                                                                 paletteGeneral.GetRibbonGroupDialogLight(state);
 
             using Pen darkPen = new(darkColor),
                 lightPen = new(lightColor);
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
             {
 
                 // Setup the need to use rounded corners
-                RoundedEdges = (colorPalette.ColorTable.UseRoundedEdges != InheritBool.False)
+                RoundedEdges = colorPalette.ColorTable.UseRoundedEdges != InheritBool.False
             };
 
             return renderer;

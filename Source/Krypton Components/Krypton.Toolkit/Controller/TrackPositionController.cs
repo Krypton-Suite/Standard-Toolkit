@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
             if (_captured)
             {
                 // Ignore multiple calls with the same point
-                if ((_lastMovePt != pt))
+                if (_lastMovePt != pt)
                 {
                     _lastMovePt = pt;
 

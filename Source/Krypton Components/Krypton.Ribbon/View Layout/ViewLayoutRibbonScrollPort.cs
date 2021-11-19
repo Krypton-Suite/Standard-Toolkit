@@ -689,13 +689,13 @@ namespace Krypton.Ribbon
                 // If off the right hand side of the area
                 if (rect.Right > _viewClipRect.Right)
                 {
-                    _scrollOffset += (rect.Right - _viewClipRect.Right) + (SCROLL_GAP * 2);
+                    _scrollOffset += rect.Right - _viewClipRect.Right + (SCROLL_GAP * 2);
                 }
 
                 // If off the left hand side of the area
                 if (rect.Left < _viewClipRect.Left)
                 {
-                    _scrollOffset -= (_viewClipRect.Left - rect.Left) + SCROLL_GAP;
+                    _scrollOffset -= _viewClipRect.Left - rect.Left + SCROLL_GAP;
                 }
 
                 // Request a layout with new scroll settings

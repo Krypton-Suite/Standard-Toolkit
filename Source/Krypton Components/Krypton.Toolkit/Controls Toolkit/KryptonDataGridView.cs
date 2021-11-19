@@ -473,7 +473,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
+        private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -1758,13 +1758,13 @@ namespace Krypton.Toolkit
 
         private void SyncFontCellStylesWithPalette()
         {
-            PaletteState state = (Enabled ? PaletteState.Normal : PaletteState.Disabled);
+            PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             // If the column headers default font is null or if the same as when we last
             // set the value then we do need to update with the latest value. Otherwise
             // the programmer has modified the value and so leave it alone as over-ridden.
             if ((ColumnHeadersDefaultCellStyle.Font == null) ||
-                (ColumnHeadersDefaultCellStyle.Font.Equals(_columnFont)))
+                ColumnHeadersDefaultCellStyle.Font.Equals(_columnFont))
             {
                 // Get the overriden value from the stat common
                 _columnFont = StateCommon.HeaderColumn.Content.Font ?? StateCommon.HeaderColumn.Content.GetContentShortTextFont(state);
@@ -1775,7 +1775,7 @@ namespace Krypton.Toolkit
             }
 
             if ((RowHeadersDefaultCellStyle.Font == null) ||
-                (RowHeadersDefaultCellStyle.Font.Equals(_rowFont)))
+                RowHeadersDefaultCellStyle.Font.Equals(_rowFont))
             {
                 _rowFont = StateCommon.HeaderRow.Content.Font ?? StateCommon.HeaderRow.Content.GetContentShortTextFont(state);
 
@@ -1783,7 +1783,7 @@ namespace Krypton.Toolkit
             }
 
             if ((DefaultCellStyle.Font == null) ||
-                (DefaultCellStyle.Font.Equals(_dataCellFont)))
+                DefaultCellStyle.Font.Equals(_dataCellFont))
             {
                 _dataCellFont = StateCommon.DataCell.Content.Font ?? StateCommon.DataCell.Content.GetContentShortTextFont(state);
 
@@ -1793,7 +1793,7 @@ namespace Krypton.Toolkit
 
         private void SyncPaddingCellStylesWithPalette()
         {
-            PaletteState state = (Enabled ? PaletteState.Normal : PaletteState.Disabled);
+            PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             if (ColumnHeadersDefaultCellStyle.Padding.Equals(_columnPadding))
             {
@@ -1831,7 +1831,7 @@ namespace Krypton.Toolkit
 
         private void SyncAlignmentCellStylesWithPalette()
         {
-            PaletteState state = (Enabled ? PaletteState.Normal : PaletteState.Disabled);
+            PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             if (ColumnHeadersDefaultCellStyle.Alignment == _columnAlign)
             {
@@ -1893,7 +1893,7 @@ namespace Krypton.Toolkit
 
         private void SyncBackColorCellStylesWithPalette()
         {
-            PaletteState state = (Enabled ? PaletteState.Normal : PaletteState.Disabled);
+            PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             if ((ColumnHeadersDefaultCellStyle.BackColor == Color.Empty) ||
                 (ColumnHeadersDefaultCellStyle.BackColor == _columnBackColor))
@@ -1937,7 +1937,7 @@ namespace Krypton.Toolkit
 
         private void SyncSelBackColorCellStylesWithPalette()
         {
-            PaletteState state = (Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled);
+            PaletteState state = Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled;
 
             if ((ColumnHeadersDefaultCellStyle.SelectionBackColor == Color.Empty) ||
                 (ColumnHeadersDefaultCellStyle.SelectionBackColor == _columnSelBackColor))
@@ -1981,7 +1981,7 @@ namespace Krypton.Toolkit
 
         private void SyncForeColorCellStylesWithPalette()
         {
-            PaletteState state = (Enabled ? PaletteState.Normal : PaletteState.Disabled);
+            PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             if ((ColumnHeadersDefaultCellStyle.ForeColor == Color.Empty) ||
                 (ColumnHeadersDefaultCellStyle.ForeColor == _columnForeColor))
@@ -2025,7 +2025,7 @@ namespace Krypton.Toolkit
 
         private void SyncSelForeColorCellStylesWithPalette()
         {
-            PaletteState state = (Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled);
+            PaletteState state = Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled;
 
             if ((ColumnHeadersDefaultCellStyle.SelectionForeColor == Color.Empty) ||
                 (ColumnHeadersDefaultCellStyle.SelectionForeColor == _columnSelForeColor))
@@ -2151,8 +2151,8 @@ namespace Krypton.Toolkit
             // Do we need a left/right border
             if (!HideOuterBorders && ((column == -1) || ((column == 0) && !RowHeadersVisible)))
             {
-                maxBorders |= (RightToLeftInternal ? PaletteDrawBorders.Right :
-                                                     PaletteDrawBorders.Left);
+                maxBorders |= RightToLeftInternal ? PaletteDrawBorders.Right :
+                                                     PaletteDrawBorders.Left;
             }
 
             // Check if the cell is hard against the far or bottom edges, if so do not need to draw 
@@ -2635,7 +2635,7 @@ namespace Krypton.Toolkit
                     Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
-                    if (((int)((long)m.LParam)) == -1)
+                    if (((int)(long)m.LParam) == -1)
                     {
                         mousePt = new Point(Width / 2, Height / 2);
                     }

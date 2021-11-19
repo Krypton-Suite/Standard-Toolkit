@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the visible state of the background.
         /// </summary>
-        public bool ShowBack => (_showTotal > 1);
+        public bool ShowBack => _showTotal > 1;
 
         /// <summary>
         /// Gets and sets the visible state of the left indicator.
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets if any of the docking indicators are active.
         /// </summary>
-        public bool AnyActive => (ActiveFlags != 0);
+        public bool AnyActive => ActiveFlags != 0;
 
         /// <summary>
         /// Clear all the active flags.

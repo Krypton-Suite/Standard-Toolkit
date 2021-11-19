@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
                 {
                     // Store new values
                     _checked = value;
-                    _checkState = (_checked ? CheckState.Checked : CheckState.Unchecked);
+                    _checkState = _checked ? CheckState.Checked : CheckState.Unchecked;
 
                     // Generate events
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(Checked)));
@@ -152,8 +152,8 @@ namespace Krypton.Toolkit
                 {
                     // Store new values
                     _checkState = value;
-                    var newChecked = (_checkState != CheckState.Unchecked);
-                    var checkedChanged = (_checked != newChecked);
+                    var newChecked = _checkState != CheckState.Unchecked;
+                    var checkedChanged = _checked != newChecked;
                     _checked = newChecked;
 
                     // Generate events
@@ -307,7 +307,7 @@ namespace Krypton.Toolkit
             ImageSmall = null;
         }
 
-        private bool ShouldSerializeImageSmall() => (ImageSmall != null);
+        private bool ShouldSerializeImageSmall() => ImageSmall != null;
 
         /// <summary>
         /// Gets and sets the command large image.
@@ -335,7 +335,7 @@ namespace Krypton.Toolkit
             ImageLarge = null;
         }
 
-        private bool ShouldSerializeImageLarge() => (ImageLarge != null);
+        private bool ShouldSerializeImageLarge() => ImageLarge != null;
 
         /// <summary>
         /// Gets and sets the command image transparent color.

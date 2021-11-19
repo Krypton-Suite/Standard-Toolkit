@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
 
                                 // Create rect for the text area
                                 Size borderSize = SystemInformation.BorderSize;
-                                rect.left -= (borderSize.Width + 1);
+                                rect.left -= borderSize.Width + 1;
 
                                 // If enabled then let the combo draw the text area
                                 if (_kryptonMaskedTextBox.Enabled)
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
                             Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
-                            if (((int)((long)m.LParam)) == -1)
+                            if (((int)(long)m.LParam) == -1)
                             {
                                 mousePt = PointToScreen(new Point(Width / 2, Height / 2));
                             }
@@ -1102,7 +1102,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
+        private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
         private void ResetInputControlStyle()
         {

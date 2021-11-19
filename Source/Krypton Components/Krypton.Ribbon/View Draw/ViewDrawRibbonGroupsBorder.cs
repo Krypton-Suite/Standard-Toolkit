@@ -186,7 +186,7 @@ namespace Krypton.Ribbon
                 drawRect.Width += borderPadding.Horizontal;
                 drawRect.Height += borderPadding.Vertical;
             }
-            else if ((Ribbon.CaptionArea.DrawCaptionOnComposition) &&
+            else if (Ribbon.CaptionArea.DrawCaptionOnComposition &&
                      (Ribbon.RibbonShape == PaletteRibbonShape.Office2010))
             {
                 // Prevent the left and right edges from being drawn

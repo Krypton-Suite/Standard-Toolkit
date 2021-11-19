@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
                 displayRect.Inflate(-GRAB_SQUARE_GAP, -GRAB_SQUARE_GAP);
 
                 // Find how much space is available for drawing grab handles in the orientation
-                var orientationSpace = (orientation == Orientation.Horizontal ? displayRect.Width : displayRect.Height);
+                var orientationSpace = orientation == Orientation.Horizontal ? displayRect.Width : displayRect.Height;
 
                 // Try to display the maximum allowed number of handles, but show less if not possible
                 for (var i = GRAB_SQUARE_COUNT; i > 0; i--)

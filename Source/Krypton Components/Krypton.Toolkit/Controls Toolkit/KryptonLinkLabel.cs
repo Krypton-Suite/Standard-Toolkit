@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
             LinkBehavior = KryptonLinkBehavior.AlwaysUnderline;
         }
 
-        private bool ShouldSerializeLinkBehavior() => (LinkBehavior != KryptonLinkBehavior.AlwaysUnderline);
+        private bool ShouldSerializeLinkBehavior() => LinkBehavior != KryptonLinkBehavior.AlwaysUnderline;
 
         /// <summary>
         /// Gets and sets a value indicating if the label has been visited.

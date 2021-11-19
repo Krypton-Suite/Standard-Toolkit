@@ -1095,7 +1095,7 @@ namespace Krypton.Toolkit
             if (_dragFeedback == PaletteDragFeedback.Inherit)
             {
                 // We default to using rounded feedback on Vista upwards and square on earlier versions
-                _dragFeedback = (Environment.OSVersion.Version.Major >= 6 ? PaletteDragFeedback.Rounded : PaletteDragFeedback.Square);
+                _dragFeedback = Environment.OSVersion.Version.Major >= 6 ? PaletteDragFeedback.Rounded : PaletteDragFeedback.Square;
 
                 // If trying to use rounded feedback...
                 if (_dragFeedback == PaletteDragFeedback.Rounded)

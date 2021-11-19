@@ -56,9 +56,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
-        public override bool IsDefault => ((Style == PaletteButtonStyle.Inherit) &&
+        public override bool IsDefault => (Style == PaletteButtonStyle.Inherit) &&
                                            (Orientation == PaletteButtonOrientation.Inherit) &&
-                                           (Edge == PaletteRelativeEdgeAlign.Inherit));
+                                           (Edge == PaletteRelativeEdgeAlign.Inherit);
 
         #endregion
 

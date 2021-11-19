@@ -53,21 +53,21 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tab">Tab to test.</param>
         /// <returns>True if first; otherwise false.</returns>
-        public bool IsFirstTab(ViewDrawRibbonTab tab) => (tab == FirstTab);
+        public bool IsFirstTab(ViewDrawRibbonTab tab) => tab == FirstTab;
 
         /// <summary>
         /// Gets a value indicating if the tab is the last in set.
         /// </summary>
         /// <param name="tab">Tab to test.</param>
         /// <returns>True if last; otherwise false.</returns>
-        public bool IsLastTab(ViewDrawRibbonTab tab) => (tab == _lastTab);
+        public bool IsLastTab(ViewDrawRibbonTab tab) => tab == _lastTab;
 
         /// <summary>
         /// Gets a value indicating if the tab is the first or last in set.
         /// </summary>
         /// <param name="tab">Tab to test.</param>
         /// <returns>True if first or last; otherwise false.</returns>
-        public bool IsFirstOrLastTab(ViewDrawRibbonTab tab) => ((tab == FirstTab) || (tab == _lastTab));
+        public bool IsFirstOrLastTab(ViewDrawRibbonTab tab) => (tab == FirstTab) || (tab == _lastTab);
 
         /// <summary>
         /// Update the last tab in the set with new refernece.

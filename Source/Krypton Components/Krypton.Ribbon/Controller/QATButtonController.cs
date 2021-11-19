@@ -168,7 +168,7 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Ask the ribbon to get use the next view for the qat
-                    newView = Ribbon.GetNextQATView(Target, (e.KeyData == Keys.Tab));
+                    newView = Ribbon.GetNextQATView(Target, e.KeyData == Keys.Tab);
                     break;
                 case Keys.Tab | Keys.Shift:
                 case Keys.Left:

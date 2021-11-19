@@ -134,7 +134,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeTag() => (Tag != null);
+        private bool ShouldSerializeTag() => Tag != null;
 
         private void ResetTag()
         {

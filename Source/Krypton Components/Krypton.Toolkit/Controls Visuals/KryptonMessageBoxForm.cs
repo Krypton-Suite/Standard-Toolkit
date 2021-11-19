@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            Text = (string.IsNullOrEmpty(_caption) ? string.Empty : _caption.Split(Environment.NewLine.ToCharArray())[0]);
+            Text = string.IsNullOrEmpty(_caption) ? string.Empty : _caption.Split(Environment.NewLine.ToCharArray())[0];
             _messageText.Text = _text;
             _messageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign)
                 ? RightToLeft.Yes
@@ -425,7 +425,7 @@ namespace Krypton.Toolkit
                 // Find size of the label, with a max of 2/3 screen width
                 Screen screen = showOwner != null ? Screen.FromHandle(showOwner.Handle) : Screen.PrimaryScreen;
                 SizeF scaledMonitorSize = screen.Bounds.Size;
-                scaledMonitorSize.Width *= (2 / 3.0f);
+                scaledMonitorSize.Width *= 2 / 3.0f;
                 scaledMonitorSize.Height *= 0.95f;
                 _messageText.UpdateFont();
                 SizeF messageSize = g.MeasureString(_text, _messageText.Font, scaledMonitorSize);
@@ -434,8 +434,8 @@ namespace Krypton.Toolkit
 
                 var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
                 // Work out DPI adjustment factor
-                var factorX = g.DpiX > 96 ? ((1.0f * g.DpiX) / 96) : 1.0f;
-                var factorY = g.DpiY > 96 ? ((1.0f * g.DpiY) / 96) : 1.0f;
+                var factorX = g.DpiX > 96 ? (1.0f * g.DpiX / 96) : 1.0f;
+                var factorY = g.DpiY > 96 ? (1.0f * g.DpiY / 96) : 1.0f;
                 messageSize.Width = messageXSize * factorX;
                 messageSize.Height *= factorY;
 
@@ -684,7 +684,7 @@ namespace Krypton.Toolkit
                     if (IgnoreAltF4)
                     {
                         // Extract the keys being pressed
-                        Keys keys = ((Keys)((int)m.WParam.ToInt64()));
+                        Keys keys = (Keys)(int)m.WParam.ToInt64();
 
                         // If the user standard combination ALT + F4
                         if ((keys == Keys.F4) && ((ModifierKeys & Keys.Alt) == Keys.Alt))

@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImage() => (_image != null);
+        private bool ShouldSerializeImage() => _image != null;
 
         #endregion
 
@@ -201,7 +201,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor != Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => _imageTransparentColor != Color.Empty;
 
         #endregion
 

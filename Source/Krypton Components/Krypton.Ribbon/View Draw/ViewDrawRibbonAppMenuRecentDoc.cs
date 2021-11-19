@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
             _maxWidth = maxWidth;
             Provider = provider;
             RecentDoc = recentDoc;
-            ShortcutText = (index < 10 ? @"&" + index.ToString() : "A");
+            ShortcutText = index < 10 ? @"&" + index.ToString() : "A";
 
             // Use docker to organize horizontal items
             ViewLayoutDocker docker = new()

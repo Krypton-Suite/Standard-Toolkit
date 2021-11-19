@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Tracking
         {
-            get => (ForcedTracking || _tracking);
+            get => ForcedTracking || _tracking;
             set => _tracking = value;
         }
         #endregion

@@ -1139,9 +1139,9 @@ namespace Krypton.Toolkit
                 // Find the box that encloses the ellipse (ellipses is sized using the factorX, factorY)
                 if (VerticalOrientation(orientation))
                 {
-                    var mainRectWidth = (mainRect.Width * factorX);
+                    var mainRectWidth = mainRect.Width * factorX;
                     var mainRectWidthOffset = (mainRectWidth - mainRect.Width) / 2;
-                    var mainRectHeight = (mainRect.Height * factorY);
+                    var mainRectHeight = mainRect.Height * factorY;
                     float mainRectHeightOffset;
 
                     // Find orientation specific ellsipe rectangle
@@ -1151,7 +1151,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        mainRectHeightOffset = (mainRectHeight + ((mainRectHeight - mainRect.Height) / 2));
+                        mainRectHeightOffset = mainRectHeight + ((mainRectHeight - mainRect.Height) / 2);
                     }
 
                     doubleRect = new RectangleF(mainRect.X - mainRectWidthOffset,
@@ -1160,9 +1160,9 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    var mainRectHeight = (mainRect.Height * factorX);
+                    var mainRectHeight = mainRect.Height * factorX;
                     var mainRectHeightOffset = (mainRectHeight - mainRect.Height) / 2;
-                    var mainRectWidth = (mainRect.Width * factorY);
+                    var mainRectWidth = mainRect.Width * factorY;
                     float mainRectWidthOffset;
 
                     // Find orientation specific ellsipe rectangle
@@ -1172,7 +1172,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        mainRectWidthOffset = (mainRectWidth + ((mainRectWidth - mainRect.Width) / 2));
+                        mainRectWidthOffset = mainRectWidth + ((mainRectWidth - mainRect.Width) / 2);
                     }
 
                     doubleRect = new RectangleF(mainRect.X - mainRectWidthOffset,
@@ -1340,11 +1340,11 @@ namespace Krypton.Toolkit
                     // Glass covers 33% of the orienatated length
                     if (VerticalOrientation(orientation))
                     {
-                        glassLength = ((int)(outerRect.Height * 0.33f) + outerRect.Y) - drawRect.Y;
+                        glassLength = (int)(outerRect.Height * 0.33f) + outerRect.Y - drawRect.Y;
                     }
                     else
                     {
-                        glassLength = ((int)(outerRect.Width * 0.33f) + outerRect.X) - drawRect.X;
+                        glassLength = (int)(outerRect.Width * 0.33f) + outerRect.X - drawRect.X;
                     }
 
                     RectangleF glassRect;
@@ -1444,11 +1444,11 @@ namespace Krypton.Toolkit
                     // Glass covers specified percentage of the orienatated length
                     if (VerticalOrientation(orientation))
                     {
-                        glassLength = ((int)(outerRect.Height * glassPercent) + outerRect.Y) - drawRect.Y;
+                        glassLength = (int)(outerRect.Height * glassPercent) + outerRect.Y - drawRect.Y;
                     }
                     else
                     {
-                        glassLength = ((int)(outerRect.Width * glassPercent) + outerRect.X) - drawRect.X;
+                        glassLength = (int)(outerRect.Width * glassPercent) + outerRect.X - drawRect.X;
                     }
 
                     // Create rectangles that cover the glass and main area
@@ -1775,27 +1775,27 @@ namespace Krypton.Toolkit
             {
                 case VisualOrientation.Top:
                     rect.X += left;
-                    rect.Width -= (left + right);
+                    rect.Width -= left + right;
                     rect.Y += top;
-                    rect.Height -= (top + bottom);
+                    rect.Height -= top + bottom;
                     break;
                 case VisualOrientation.Bottom:
                     rect.X += left;
-                    rect.Width -= (left + right);
+                    rect.Width -= left + right;
                     rect.Y += bottom;
-                    rect.Height -= (top + bottom);
+                    rect.Height -= top + bottom;
                     break;
                 case VisualOrientation.Left:
                     rect.X += top;
-                    rect.Width -= (top + bottom);
+                    rect.Width -= top + bottom;
                     rect.Y += right;
-                    rect.Height -= (left + right);
+                    rect.Height -= left + right;
                     break;
                 case VisualOrientation.Right:
                     rect.X += bottom;
-                    rect.Width -= (top + bottom);
+                    rect.Width -= top + bottom;
                     rect.Y += left;
-                    rect.Height -= (left + right);
+                    rect.Height -= left + right;
                     break;
             }
         }

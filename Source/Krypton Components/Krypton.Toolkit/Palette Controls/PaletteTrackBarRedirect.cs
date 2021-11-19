@@ -50,10 +50,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (Back.IsDefault &&
+        public override bool IsDefault => Back.IsDefault &&
                                            Tick.IsDefault &&
                                            Track.IsDefault &&
-                                           Position.IsDefault);
+                                           Position.IsDefault;
 
         #endregion
 

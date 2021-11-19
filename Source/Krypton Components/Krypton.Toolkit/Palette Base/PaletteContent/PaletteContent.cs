@@ -104,10 +104,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((_image.IsDefault) &&
-                                           (_shortText.IsDefault) &&
-                                           (_longText.IsDefault) &&
-                                           ((_storage == null) || _storage.IsDefault));
+        public override bool IsDefault => _image.IsDefault &&
+                                           _shortText.IsDefault &&
+                                           _longText.IsDefault &&
+                                           ((_storage == null) || _storage.IsDefault);
 
         #endregion
 

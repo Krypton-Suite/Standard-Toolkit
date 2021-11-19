@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
 
             KryptonOffice365Renderer renderer = new(colourPalette.ColorTable)
             {
-                RoundedEdges = (colourPalette.ColorTable.UseRoundedEdges != InheritBool.False)
+                RoundedEdges = colourPalette.ColorTable.UseRoundedEdges != InheritBool.False
             };
 
             return renderer;

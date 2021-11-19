@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if currently tracking a popup.
         /// </summary>
-        public bool IsTracking => (CurrentPopup != null);
+        public bool IsTracking => CurrentPopup != null;
 
         #endregion
 
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
                 do
                 {
                     // Is this the target?
-                    found = (CurrentPopup == popup);
+                    found = CurrentPopup == popup;
 
                     // If possible then kill the current popup
                     if (!CurrentPopup.IsDisposed)
@@ -708,12 +708,12 @@ namespace Krypton.Toolkit
             // so convert to actual int values for the negative positions
             if (clientPt.x >= 32767)
             {
-                clientPt.x = (clientPt.x - 65536);
+                clientPt.x = clientPt.x - 65536;
             }
 
             if (clientPt.y >= 32767)
             {
-                clientPt.y = (clientPt.y - 65536);
+                clientPt.y = clientPt.y - 65536;
             }
 
             // Convert a 0,0 point from client to screen to find offsetting

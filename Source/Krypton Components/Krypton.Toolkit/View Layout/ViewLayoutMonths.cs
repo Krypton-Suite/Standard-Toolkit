@@ -335,7 +335,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            ViewDrawMonth target = ((ViewDrawMonth)this[(ptCol + (ptRow * cols)) + 1]);
+            ViewDrawMonth target = (ViewDrawMonth)this[ptCol + (ptRow * cols) + 1];
             return target.ViewDrawMonthDays.DayNearPoint(pt);
         }
 
@@ -778,9 +778,9 @@ namespace Krypton.Toolkit
                 ViewDrawMonth viewMonth = (ViewDrawMonth)this[i];
                 viewMonth.Enabled = Enabled;
                 viewMonth.Month = currentMonth;
-                viewMonth.FirstMonth = (i == 1);
-                viewMonth.LastMonth = (i == (Count - 1));
-                viewMonth.UpdateButtons((i == 1), ((i - 1) == (Calendar.CalendarDimensions.Width - 1)));
+                viewMonth.FirstMonth = i == 1;
+                viewMonth.LastMonth = i == (Count - 1);
+                viewMonth.UpdateButtons(i == 1, (i - 1) == (Calendar.CalendarDimensions.Width - 1));
 
                 // Move forward to next month
                 currentMonth = currentMonth.AddMonths(1);

@@ -396,7 +396,7 @@ namespace Krypton.Toolkit
             // Do we need to draw the content?
             if (_paletteContent.GetContentDraw(State) == InheritBool.True)
             {
-                var allowFocusRect = (TestForFocusCues ? ShowFocusCues(context.Control) : true);
+                var allowFocusRect = TestForFocusCues ? ShowFocusCues(context.Control) : true;
 
                 // Draw using memento returned from render layout
                 context.Renderer.RenderStandardContent.DrawContent(context,

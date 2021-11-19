@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (base.IsDefault &&
+        public override bool IsDefault => base.IsDefault &&
                                            ImageStates.IsDefault&&
                                            (Image == null) &&
                                            (Text == string.Empty) &&
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
                                            AllowInheritImage &&
                                            AllowInheritText &&
                                            AllowInheritExtraText &&
-                                           AllowInheritToolTipTitle);
+                                           AllowInheritToolTipTitle;
 
         #endregion
 

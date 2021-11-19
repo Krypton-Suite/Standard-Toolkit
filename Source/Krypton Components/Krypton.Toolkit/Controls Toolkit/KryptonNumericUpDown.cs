@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
                             Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
-                            if (((int)((long)m.LParam)) == -1)
+                            if (((int)(long)m.LParam) == -1)
                             {
                                 mousePt = PointToScreen(new Point(Width / 2, Height / 2));
                             }
@@ -284,8 +284,8 @@ namespace Krypton.Toolkit
                 set => PI.SetWindowPos(Handle,
                     IntPtr.Zero,
                     0, 0, 0, 0,
-                    (PI.SWP_.NOMOVE | PI.SWP_.NOSIZE |
-                           (value ? PI.SWP_.SHOWWINDOW : PI.SWP_.HIDEWINDOW))
+                    PI.SWP_.NOMOVE | PI.SWP_.NOSIZE |
+                           (value ? PI.SWP_.SHOWWINDOW : PI.SWP_.HIDEWINDOW)
                     );
             }
             #endregion
@@ -365,10 +365,10 @@ namespace Krypton.Toolkit
                                 // Grab the client area of the control
                                 PI.GetClientRect(Handle, out PI.RECT rect);
 
-                                PaletteState state = (NumericUpDown.Enabled
+                                PaletteState state = NumericUpDown.Enabled
                                         ? (NumericUpDown.IsActive ? PaletteState.Tracking : PaletteState.Normal)
                                         : PaletteState.Disabled
-                                    );
+                                    ;
                                 PaletteInputControlTripleStates states = NumericUpDown.GetTripleState();
 
                                 // Drawn entire client area in the background color
@@ -379,7 +379,7 @@ namespace Krypton.Toolkit
 
                                 // Create rect for the text area
                                 Size borderSize = SystemInformation.BorderSize;
-                                rect.left -= (borderSize.Width + 1);
+                                rect.left -= borderSize.Width + 1;
 
                                 //////////////////////////////////////////////////////
                                 // Following removed to allow the Draw to always happen, to allow centering etc  
@@ -471,7 +471,7 @@ namespace Krypton.Toolkit
                             Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
-                            if (((int)((long)m.LParam)) == -1)
+                            if (((int)(long)m.LParam) == -1)
                             {
                                 PI.GetClientRect(Handle, out PI.RECT clientRect);
                                 mousePt = NumericUpDown.PointToScreen(new Point((clientRect.right - clientRect.left) / 2,
@@ -776,7 +776,6 @@ namespace Krypton.Toolkit
         private bool _mouseOver;
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
-        private int _cachedHeight;
         #endregion
 
         #region Events
@@ -864,7 +863,6 @@ namespace Krypton.Toolkit
             // Defaults
             _inputControlStyle = InputControlStyle.Standalone;
             _upDownButtonStyle = ButtonStyle.InputControl;
-            _cachedHeight = -1;
             _alwaysActive = true;
             AllowButtonSpecToolTips = false;
             AllowButtonSpecToolTipPriority = false;
@@ -1330,7 +1328,7 @@ namespace Krypton.Toolkit
 
         private void ResetInputControlStyle() => InputControlStyle = InputControlStyle.Standalone;
 
-        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
+        private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
         /// <summary>
         /// Gets and sets the up and down buttons style.
@@ -1353,7 +1351,7 @@ namespace Krypton.Toolkit
 
         private void ResetUpDownButtonStyle() => UpDownButtonStyle = ButtonStyle.InputControl;
 
-        private bool ShouldSerializeUpDownButtonStyle() => (UpDownButtonStyle != ButtonStyle.InputControl);
+        private bool ShouldSerializeUpDownButtonStyle() => UpDownButtonStyle != ButtonStyle.InputControl;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
@@ -1449,8 +1447,8 @@ namespace Krypton.Toolkit
                 ? _fixedActive.Value
                 : DesignMode || AlwaysActive ||
                   ContainsFocus || _mouseOver || _numericUpDown.MouseOver ||
-                  ((_subclassEdit != null) && (_subclassEdit.MouseOver)) ||
-                  ((_subclassButtons != null) && (_subclassButtons.MouseOver));
+                  ((_subclassEdit != null) && _subclassEdit.MouseOver) ||
+                  ((_subclassButtons != null) && _subclassButtons.MouseOver);
 
         /// <summary>
         /// Sets input focus to the control.
@@ -1813,23 +1811,19 @@ namespace Krypton.Toolkit
                                               int width, int height,
                                               BoundsSpecified specified)
         {
+            // Get the preferred size of the entire control
+            Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+
             // If setting the actual height
-            if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
+            if (specified.HasFlag(BoundsSpecified.Height))
             {
-                // First time the height is set, remember it
-                if (_cachedHeight == -1)
-                {
-                    _cachedHeight = height;
-                }
-
                 // Override the actual height used
-                height = PreferredHeight;
+                height = preferredSize.Height;
             }
-
-            // If setting the actual height then cache it for later
-            if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
+            if (specified.HasFlag(BoundsSpecified.Width))
             {
-                _cachedHeight = height;
+                // Override the actual height used
+                width = preferredSize.Width;
             }
 
             base.SetBoundsCore(x, y, width, height, specified);
@@ -1937,7 +1931,7 @@ namespace Krypton.Toolkit
         #region Internal
         internal bool InTransparentDesignMode => InRibbonDesignMode;
 
-        internal bool IsFixedActive => (_fixedActive != null);
+        internal bool IsFixedActive => _fixedActive != null;
 
         #endregion
 

@@ -276,8 +276,8 @@ namespace Krypton.Toolkit
                 // 
                 // treeView
                 // 
-                _treeView.Anchor = ((AnchorStyles.Top | AnchorStyles.Bottom)
-                                   | AnchorStyles.Left)
+                _treeView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+                                   | AnchorStyles.Left
                                   | AnchorStyles.Right;
                 _treeView.HideSelection = false;
                 _treeView.ImageIndex = 0;
@@ -518,7 +518,7 @@ namespace Krypton.Toolkit
                 // 
                 // propertyGrid1
                 // 
-                _propertyGrid1.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom)
+                _propertyGrid1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
                                    | AnchorStyles.Right;
                 _propertyGrid1.HelpVisible = false;
                 _propertyGrid1.Location = new Point(538, 33);
@@ -990,8 +990,8 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                _buttonMoveUp.Enabled = ((item != null) && (nodeIndex > 0));
-                _buttonMoveDown.Enabled = ((item != null) && (nodeIndex < (parentNodeCount - 1)));
+                _buttonMoveUp.Enabled = (item != null) && (nodeIndex > 0);
+                _buttonMoveDown.Enabled = (item != null) && (nodeIndex < (parentNodeCount - 1));
                 _buttonAddItem.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuItem));
                 _buttonAddItems.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuItems));
                 _buttonAddSeparator.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuSeparator));
@@ -1003,7 +1003,7 @@ namespace Krypton.Toolkit
                 _buttonAddLinkLabel.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuLinkLabel));
                 _buttonAddColorColumns.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuColorColumns));
                 _buttonAddImageSelect.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuImageSelect));
-                _buttonDelete.Enabled = (item != null);
+                _buttonDelete.Enabled = item != null;
             }
 
             private bool AllowAddItem(KryptonContextMenuItemBase item,

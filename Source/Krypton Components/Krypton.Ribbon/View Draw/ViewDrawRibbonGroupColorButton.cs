@@ -252,7 +252,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            var drawNonTrackingAreas = (_ribbon.RibbonShape != PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365);
+            var drawNonTrackingAreas = _ribbon.RibbonShape != PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365;
 
             // Update the views with the type of button being used
             _viewLarge.ButtonType = GroupColorButton.ButtonType;
@@ -504,8 +504,8 @@ namespace Krypton.Ribbon
         private void UpdateDropDownState()
         {
             // Only show the drop down if the button is the correct type
-            var dropDown = ((GroupColorButton.ButtonType == GroupButtonType.DropDown) ||
-                            (GroupColorButton.ButtonType == GroupButtonType.Split));
+            var dropDown = (GroupColorButton.ButtonType == GroupButtonType.DropDown) ||
+                            (GroupColorButton.ButtonType == GroupButtonType.Split);
 
             // Only show text line 2 separators is a drop down is showing with no text
             var separators = dropDown && (!string.IsNullOrEmpty(GroupColorButton.TextLine2));
@@ -534,7 +534,7 @@ namespace Krypton.Ribbon
             {
                 case GroupItemSize.Small:
                 case GroupItemSize.Medium:
-                    var show = (size == GroupItemSize.Medium);
+                    var show = size == GroupItemSize.Medium;
                     _viewMediumSmallCenter.CurrentSize = size;
                     _viewMediumSmallText1.Visible = show;
                     _viewMediumSmallText2.Visible = show;

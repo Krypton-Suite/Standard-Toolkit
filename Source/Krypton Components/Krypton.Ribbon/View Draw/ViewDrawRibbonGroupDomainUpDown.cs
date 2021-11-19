@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem()
         {
-            if ((GroupDomainUpDown.Visible) && (GroupDomainUpDown.LastDomainUpDown?.DomainUpDown != null) && (GroupDomainUpDown.LastDomainUpDown.DomainUpDown.CanSelect))
+            if (GroupDomainUpDown.Visible && (GroupDomainUpDown.LastDomainUpDown?.DomainUpDown != null) && GroupDomainUpDown.LastDomainUpDown.DomainUpDown.CanSelect)
             {
                 return this;
             }
@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem()
         {
-            if ((GroupDomainUpDown.Visible) && (GroupDomainUpDown.LastDomainUpDown?.DomainUpDown != null) && (GroupDomainUpDown.LastDomainUpDown.DomainUpDown.CanSelect))
+            if (GroupDomainUpDown.Visible && (GroupDomainUpDown.LastDomainUpDown?.DomainUpDown != null) && GroupDomainUpDown.LastDomainUpDown.DomainUpDown.CanSelect)
             {
                 return this;
             }
@@ -191,7 +191,7 @@ namespace Krypton.Ribbon
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -206,7 +206,7 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -562,7 +562,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if ((GroupDomainUpDown.RibbonContainer.RibbonGroup.IsCollapsed) &&
+                            if (GroupDomainUpDown.RibbonContainer.RibbonGroup.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupDomainUpDown.DomainUpDown) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupDomainUpDown.DomainUpDown) is VisualPopupMinimized)))
                             {

@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
             Image = null;
         }
 
-        private bool ShouldSerializeImage() => (Image != null);
+        private bool ShouldSerializeImage() => Image != null;
 
         /// <summary>
         /// Gets and sets the command image transparent color.

@@ -491,7 +491,7 @@ namespace Krypton.Toolkit
             {
                 if (!found)
                 {
-                    found = (specView.ViewButton == current);
+                    found = specView.ViewButton == current;
                 }
                 else
                 {
@@ -529,7 +529,7 @@ namespace Krypton.Toolkit
 
                 if (!found)
                 {
-                    found = (specView.ViewButton == current);
+                    found = specView.ViewButton == current;
                 }
                 else
                 {
@@ -726,8 +726,8 @@ namespace Krypton.Toolkit
                 for (var i = 0; i < _viewMetrics.Length; i++)
                 {
                     // Only enable the spacer if there is at least one visible button on that edge
-                    var farVisible = (farCounts[i] > 0);
-                    var nearVisible = (nearCounts[i] > 0);
+                    var farVisible = farCounts[i] > 0;
+                    var nearVisible = nearCounts[i] > 0;
 
                     ListSpacers spacer = _viewSpacers[i];
 
@@ -806,7 +806,7 @@ namespace Krypton.Toolkit
                 buttonView.ViewCenter.Orientation = DockerOrientation(viewDockerIndex);
 
                 // Insert the button view into the docker
-                AddViewToDocker(viewDockerIndex, GetDockStyle(buttonSpec), buttonView.ViewCenter, (_viewMetrics != null));
+                AddViewToDocker(viewDockerIndex, GetDockStyle(buttonSpec), buttonView.ViewCenter, _viewMetrics != null);
 
                 // Perform any last construction steps for button spec
                 ButtonSpecCreated(buttonSpec, buttonView, viewDockerIndex);
@@ -885,7 +885,7 @@ namespace Krypton.Toolkit
             return -1;
         }
 
-        private ViewDockStyle GetDockStyle(ButtonSpec spec) => (spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right);
+        private ViewDockStyle GetDockStyle(ButtonSpec spec) => spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
 
         private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,
                                                        ButtonOrientation buttonOrientation)

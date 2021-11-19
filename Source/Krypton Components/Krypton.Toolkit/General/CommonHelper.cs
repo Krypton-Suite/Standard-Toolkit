@@ -400,7 +400,7 @@ namespace Krypton.Toolkit
         /// <returns>True to display; otherwise false.</returns>
         public static bool ValidContextMenuStrip(ContextMenuStrip cms) =>
             // Must be a valid reference to examine
-            ((cms != null) && (cms.Items.Count > 0));
+            (cms != null) && (cms.Items.Count > 0);
 
         /// <summary>
         /// Decide if the KryptonContextMenu should be displayed.
@@ -409,7 +409,7 @@ namespace Krypton.Toolkit
         /// <returns>True to display; otherwise false.</returns>
         public static bool ValidKryptonContextMenu(KryptonContextMenu kcm) =>
             // Must be a valid reference to examine
-            ((kcm != null) && (kcm.Items.Count > 0));
+            (kcm != null) && (kcm.Items.Count > 0);
 
         /// <summary>
         /// Perform operation in a worker thread with wait dialog in main thread.
@@ -477,7 +477,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if no border specified; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasNoBorders(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.All) == PaletteDrawBorders.None);
+        public static bool HasNoBorders(PaletteDrawBorders borders) => (borders & PaletteDrawBorders.All) == PaletteDrawBorders.None;
 
         /// <summary>
         /// Gets a value indicating if the enumeration specifies at least one border.
@@ -485,7 +485,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if at least one border specified; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasABorder(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.All) != PaletteDrawBorders.None);
+        public static bool HasABorder(PaletteDrawBorders borders) => (borders & PaletteDrawBorders.All) != PaletteDrawBorders.None;
 
         /// <summary>
         /// Gets a value indicating if the enumeration specifies at least one border.
@@ -495,7 +495,7 @@ namespace Krypton.Toolkit
         [DebuggerStepThrough]
         public static bool HasOneBorder(PaletteDrawBorders borders)
         {
-            PaletteDrawBorders justBorders = (borders & PaletteDrawBorders.All);
+            PaletteDrawBorders justBorders = borders & PaletteDrawBorders.All;
 
             // If borders value equals just one of the edges
             return (justBorders == PaletteDrawBorders.Top) ||
@@ -510,7 +510,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if includes the top border; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasTopBorder(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.Top) == PaletteDrawBorders.Top);
+        public static bool HasTopBorder(PaletteDrawBorders borders) => (borders & PaletteDrawBorders.Top) == PaletteDrawBorders.Top;
 
         /// <summary>
         /// Gets a value indicating if the enumeration includes the bottom border.
@@ -518,7 +518,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if includes the bottom border; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasBottomBorder(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.Bottom) == PaletteDrawBorders.Bottom);
+        public static bool HasBottomBorder(PaletteDrawBorders borders) => (borders & PaletteDrawBorders.Bottom) == PaletteDrawBorders.Bottom;
 
         /// <summary>
         /// Gets a value indicating if the enumeration includes the left border.
@@ -526,7 +526,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if includes the left border; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasLeftBorder(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.Left) == PaletteDrawBorders.Left);
+        public static bool HasLeftBorder(PaletteDrawBorders borders) => (borders & PaletteDrawBorders.Left) == PaletteDrawBorders.Left;
 
         /// <summary>
         /// Gets a value indicating if the enumeration includes the right border.
@@ -534,7 +534,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if includes the right border; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasRightBorder(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.Right) == PaletteDrawBorders.Right);
+        public static bool HasRightBorder(PaletteDrawBorders borders) => (borders & PaletteDrawBorders.Right) == PaletteDrawBorders.Right;
 
         /// <summary>
         /// Gets a value indicating if the enumeration specifies all four borders.
@@ -542,7 +542,7 @@ namespace Krypton.Toolkit
         /// <param name="borders">Enumeration for borders.</param>
         /// <returns>True if all four borders specified; otherwise false.</returns>
         [DebuggerStepThrough]
-        public static bool HasAllBorders(PaletteDrawBorders borders) => ((borders & PaletteDrawBorders.All) == PaletteDrawBorders.All);
+        public static bool HasAllBorders(PaletteDrawBorders borders) => (borders & PaletteDrawBorders.All) == PaletteDrawBorders.All;
 
         /// <summary>
         /// Apply an orientation to the draw border edges to get a correct value.
@@ -1076,7 +1076,7 @@ namespace Krypton.Toolkit
         public static bool IsShiftKeyPressed
         {
             [DebuggerStepThrough]
-            get => ((PI.GetKeyState(VK_SHIFT) & 0x00008000) != 0);
+            get => (PI.GetKeyState(VK_SHIFT) & 0x00008000) != 0;
         }
 
         /// <summary>
@@ -1085,7 +1085,7 @@ namespace Krypton.Toolkit
         public static bool IsCtrlKeyPressed
         {
             [DebuggerStepThrough]
-            get => ((PI.GetKeyState(VK_CONTROL) & 0x00008000) != 0);
+            get => (PI.GetKeyState(VK_CONTROL) & 0x00008000) != 0;
         }
 
         /// <summary>
@@ -1094,7 +1094,7 @@ namespace Krypton.Toolkit
         public static bool IsAltKeyPressed
         {
             [DebuggerStepThrough]
-            get => ((PI.GetKeyState(VK_MENU) & 0x00008000) != 0);
+            get => (PI.GetKeyState(VK_MENU) & 0x00008000) != 0;
         }
 
         /// <summary>
@@ -1212,7 +1212,7 @@ namespace Krypton.Toolkit
             // WindowState property as it can be slightly out of date)
             var style = PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
 
-            return ((style & PI.WS_.MINIMIZE) != 0);
+            return (style & PI.WS_.MINIMIZE) != 0;
         }
 
         /// <summary>
@@ -1226,7 +1226,7 @@ namespace Krypton.Toolkit
             // WindowState property as it can be slightly out of date)
             var style = PI.GetWindowLong(f.Handle, PI.GWL_.STYLE);
 
-            return ((style & PI.WS_.MAXIMIZE) != 0);
+            return (style & PI.WS_.MAXIMIZE) != 0;
         }
 
 
@@ -1551,12 +1551,12 @@ namespace Krypton.Toolkit
             // so convert to actual int values for the negative positions
             if (clientPt.x >= 32767)
             {
-                clientPt.x = (clientPt.x - 65536);
+                clientPt.x = clientPt.x - 65536;
             }
 
             if (clientPt.y >= 32767)
             {
-                clientPt.y = (clientPt.y - 65536);
+                clientPt.y = clientPt.y - 65536;
             }
 
             // Convert a 0,0 point from client to screen to find offsetting
@@ -1606,8 +1606,8 @@ namespace Krypton.Toolkit
         {
             rect.X += margins.Left;
             rect.Y += margins.Top;
-            rect.Width -= (margins.Left+margins.Right);
-            rect.Height -= (margins.Top+margins.Bottom);
+            rect.Width -= margins.Left+margins.Right;
+            rect.Height -= margins.Top+margins.Bottom;
         }
 
     }

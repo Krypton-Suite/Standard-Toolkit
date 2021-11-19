@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
             {
                 // Move previously by the number of display items
                 var trackingIndex = _gallery.TrackingIndex;
-                trackingIndex -= (_displayLines * _lineItems);
+                trackingIndex -= _displayLines * _lineItems;
 
                 // Limit check and use new index
                 trackingIndex = Math.Max(0, trackingIndex);
@@ -166,7 +166,7 @@ namespace Krypton.Ribbon
             {
                 // Move next by the number of display items
                 var trackingIndex = _gallery.TrackingIndex;
-                trackingIndex += (_displayLines * _lineItems);
+                trackingIndex += _displayLines * _lineItems;
 
                 // Limit check and use new index
                 trackingIndex = Math.Min(trackingIndex, Count - 1);
@@ -258,12 +258,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Is there a next line that can be displayed.
         /// </summary>
-        public bool CanNextLine => (_topLine < _endLine);
+        public bool CanNextLine => _topLine < _endLine;
 
         /// <summary>
         /// Is there a previous line that can be displayed.
         /// </summary>
-        public bool CanPrevLine => (_topLine > 0);
+        public bool CanPrevLine => _topLine > 0;
 
         /// <summary>
         /// Scroll to make the next line visible.
@@ -417,7 +417,7 @@ namespace Krypton.Ribbon
                 _lineItems = Math.Max(1, displayRect.Width / _itemSize.Width);
 
                 // Number of lines needed to show all the items
-                _layoutLines = Math.Max(1, ((Count + _lineItems) - 1) / _lineItems);
+                _layoutLines = Math.Max(1, (Count + _lineItems - 1) / _lineItems);
 
                 // Number of display lines that can be shown at a time
                 _displayLines = Math.Max(1, Math.Min(_layoutLines, displayRect.Height / _itemSize.Height));
@@ -442,7 +442,7 @@ namespace Krypton.Ribbon
                 nextPoint.Y += (displayRect.Height - (_displayLines * _itemSize.Height)) / 2;
 
                 // Stating item is from the top line and last item is number of display items onwards
-                var start = (_topLine * _lineItems);
+                var start = _topLine * _lineItems;
                 var end = start + (_displayLines * _lineItems);
 
                 // Do we need to handle scroll offsetting?
@@ -461,10 +461,10 @@ namespace Krypton.Ribbon
                         }
 
                         // Move start to ensure that the previous lines are visible
-                        start -= (extraLines * _lineItems);
+                        start -= extraLines * _lineItems;
 
                         // Adjust offset to reflect change in start
-                        offset += (extraLines * _itemSize.Height);
+                        offset += extraLines * _itemSize.Height;
                     }
                     else
                     {
@@ -472,7 +472,7 @@ namespace Krypton.Ribbon
                         var extraLines = _beginLine - _topLine;
 
                         // Move start to ensure that the previous lines are visible
-                        end += (extraLines * _lineItems);
+                        end += extraLines * _lineItems;
 
                         // Limit check the end item to stop it overflowing number of items
                         if (end > Count)
@@ -570,7 +570,7 @@ namespace Krypton.Ribbon
                 ViewDrawRibbonGalleryItem item = (ViewDrawRibbonGalleryItem)this[i];
                 item.ImageList = imageList;
                 item.ImageIndex = i;
-                item.Checked = (selectedIndex == i);
+                item.Checked = selectedIndex == i;
             }
         }
 
