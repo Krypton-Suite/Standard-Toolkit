@@ -344,8 +344,8 @@ namespace Krypton.Toolkit
             }
 
             // Get the current focus date
-            DateTime focusDate = _months.FocusDay ?? (_monthCalendar?.SelectionStart ?? _months.Calendar.SelectionStart);
-            DateTime anchorDate = _months.AnchorDay ?? (_monthCalendar?.SelectionStart ?? _months.Calendar.SelectionStart);
+            DateTime focusDate = _months.FocusDay ?? _monthCalendar?.SelectionStart ?? _months.Calendar.SelectionStart;
+            DateTime anchorDate = _months.AnchorDay ?? _monthCalendar?.SelectionStart ?? _months.Calendar.SelectionStart;
 
             // Use keyboard to modify the new focus date
             switch (e.KeyCode)

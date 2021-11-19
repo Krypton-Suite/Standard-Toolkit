@@ -97,10 +97,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        public override bool IsDefault => (!ShouldSerializePlacementMode()
+        public override bool IsDefault => !ShouldSerializePlacementMode()
                                          && !ShouldSerializePlacementTarget()
                                          && !ShouldSerializePlacementRectangle()
-                                         );
+                                         ;
         #endregion Default Values
     }
 }

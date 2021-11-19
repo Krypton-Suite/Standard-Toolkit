@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
             KryptonContextMenuCheckBox.SetPaletteRedirect(provider.ProviderRedirector);
 
             // Create the content for the actual heading text/image
-            ViewDrawContent = new ViewDrawContent((ItemEnabled ? KryptonContextMenuCheckBox.OverrideNormal : KryptonContextMenuCheckBox.OverrideDisabled),
+            ViewDrawContent = new ViewDrawContent(ItemEnabled ? KryptonContextMenuCheckBox.OverrideNormal : KryptonContextMenuCheckBox.OverrideDisabled,
                                                _contentValues, VisualOrientation.Top)
             {
                 UseMnemonic = true,

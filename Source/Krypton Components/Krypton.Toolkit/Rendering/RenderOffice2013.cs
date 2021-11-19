@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
             {
 
                 // Setup the need to use rounded corners
-                RoundedEdges = (colorPalette.ColorTable.UseRoundedEdges != InheritBool.False)
+                RoundedEdges = colorPalette.ColorTable.UseRoundedEdges != InheritBool.False
             };
 
             return renderer;

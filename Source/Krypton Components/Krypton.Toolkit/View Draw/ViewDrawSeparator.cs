@@ -210,14 +210,14 @@ namespace Krypton.Toolkit
 
             // Ask the renderer to perform drawing of the separator glyph
             context.Renderer.RenderGlyph.DrawSeparator(context, rect, _palette.PaletteBack, _palette.PaletteBorder,
-                                                       Orientation, State, ((Source == null) || Source.SeparatorCanMove));
+                                                       Orientation, State, (Source == null) || Source.SeparatorCanMove);
         }
         #endregion
 
         #region Implementation
         private void CheckPaletteState()
         {
-            PaletteState state = (IsFixed ? FixedState : State);
+            PaletteState state = IsFixed ? FixedState : State;
 
             // Set the current palette based on the element state
             switch (state)

@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeContainerBackStyle() => (ContainerBackStyle != PaletteBackStyle.PanelClient);
+        private bool ShouldSerializeContainerBackStyle() => ContainerBackStyle != PaletteBackStyle.PanelClient;
 
         private void ResetContainerBackStyle()
         {
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeSeparatorStyle() => (SeparatorStyle != SeparatorStyle.LowProfile);
+        private bool ShouldSerializeSeparatorStyle() => SeparatorStyle != SeparatorStyle.LowProfile;
 
         private void ResetSeparatorStyle()
         {
@@ -810,7 +810,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool SeparatorCanMove => (!IsSplitterFixed && !Collapsed);
+        public bool SeparatorCanMove => !IsSplitterFixed && !Collapsed;
 
         /// <summary>
         /// Gets the amount the splitter can be incremented.
@@ -1174,7 +1174,7 @@ namespace Krypton.Toolkit
             if (IsInitialized || _forcedLayout || (DesignMode && (_drawSeparator != null)))
             {
                 // Do we need to perform right to left layout of the control?
-                var rtl = (CommonHelper.GetRightToLeftLayout(this) && (RightToLeft == RightToLeft.Yes));
+                var rtl = CommonHelper.GetRightToLeftLayout(this) && (RightToLeft == RightToLeft.Yes);
 
                 // If we are zero sized then reflect that in the child panels
                 if (Width == 0)
@@ -1202,7 +1202,7 @@ namespace Krypton.Toolkit
                                     // Set the fixed size of first panel, and fill remaining space with 
                                     // second but applying the second panel minimum size specification
                                     Panel1.Size = new Size(_fixedDistance, Height);
-                                    Panel2.Size = new Size(Math.Max((Width - SplitterWidth - _fixedDistance), Panel2MinSize), Height);
+                                    Panel2.Size = new Size(Math.Max(Width - SplitterWidth - _fixedDistance, Panel2MinSize), Height);
 
                                     // Positioning depends on right-to-left layout setting
                                     if (rtl)
@@ -1224,7 +1224,7 @@ namespace Krypton.Toolkit
                                     // Set the fixed size of second panel, and fill remaining space with 
                                     // first but applying the first panel minimum size specification
                                     Panel2.Size = new Size(_fixedDistance, Height);
-                                    Panel1.Size = new Size(Math.Max((Width - SplitterWidth - _fixedDistance), Panel1MinSize), Height);
+                                    Panel1.Size = new Size(Math.Max(Width - SplitterWidth - _fixedDistance, Panel1MinSize), Height);
 
                                     // Positioning depends on right-to-left layout setting
                                     if (rtl)
@@ -1290,7 +1290,7 @@ namespace Krypton.Toolkit
                                     // Set the fixed size of first panel, and fill remaining space with 
                                     // second but applying the second panel minimum size specification
                                     Panel1.Size = new Size(Width, _fixedDistance);
-                                    Panel2.Size = new Size(Width, Math.Max((Height - SplitterWidth - _fixedDistance), Panel2MinSize));
+                                    Panel2.Size = new Size(Width, Math.Max(Height - SplitterWidth - _fixedDistance, Panel2MinSize));
 
                                     Panel1.Location = Point.Empty;
                                     Panel2.Location = new Point(0, Panel1.Height + SplitterWidth);
@@ -1303,7 +1303,7 @@ namespace Krypton.Toolkit
                                     // Set the fixed size of second panel, and fill remaining space with 
                                     // first but applying the first panel minimum size specification
                                     Panel2.Size = new Size(Width, _fixedDistance);
-                                    Panel1.Size = new Size(Width, Math.Max((Height - SplitterWidth - _fixedDistance), Panel1MinSize));
+                                    Panel1.Size = new Size(Width, Math.Max(Height - SplitterWidth - _fixedDistance, Panel1MinSize));
 
                                     Panel1.Location = Point.Empty;
                                     Panel2.Location = new Point(0, Panel1.Height + SplitterWidth);

@@ -382,7 +382,7 @@ namespace Krypton.Ribbon
 
         private void UpdateImageSmallState()
         {
-            _viewMediumSmallImage.Visible = (GroupLabel.ImageSmall != null);
+            _viewMediumSmallImage.Visible = GroupLabel.ImageSmall != null;
         }
 
         private void UpdateItemSizeState()
@@ -398,7 +398,7 @@ namespace Krypton.Ribbon
             {
                 case GroupItemSize.Small:
                 case GroupItemSize.Medium:
-                    var show = (size == GroupItemSize.Medium);
+                    var show = size == GroupItemSize.Medium;
                     _viewMediumSmallCenter.CurrentSize = size;
                     _viewMediumSmallText2.Visible = show;
 

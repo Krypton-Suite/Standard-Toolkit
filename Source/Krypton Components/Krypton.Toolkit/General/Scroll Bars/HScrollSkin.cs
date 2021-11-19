@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
             SuspendLayout();
 
             //this.VScrollBar1.Anchor = AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top;
-            VScrollBar1.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Right))); VScrollBar1.Dock = DockStyle.Right;
+            VScrollBar1.Anchor = (AnchorStyles)(AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right); VScrollBar1.Dock = DockStyle.Right;
             VScrollBar1.LargeChange = 10;
             VScrollBar1.Location = new Point(0x91, 0); // (145,0)
             VScrollBar1.Maximum = 20;
@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
                 var nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
                 var nShouldBeAt = (int)e.NewValue;
 
-                var pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
+                var pixelsToScroll = Convert.ToInt32(nShouldBeAt - nIsAt);
 
                 PI.SendMessage(listView1.Handle, PI.LVM_SCROLL, (IntPtr)pixelsToScroll, IntPtr.Zero);
 
@@ -471,7 +471,7 @@ namespace Krypton.Toolkit
 
             foreach (Control ctr in dgv.Controls)
             {
-                if ((ctr) is HScrollBar bar)
+                if (ctr is HScrollBar bar)
                 {
                     HSB = bar;
                     isPresent = true;

@@ -324,7 +324,7 @@ namespace Krypton.Toolkit
 
         private void ResetMinDate() => MinDate = DateTimePicker.MinimumDateTime;
 
-        private bool ShouldSerializeMinDate() => (_minDate != DateTimePicker.MinimumDateTime);
+        private bool ShouldSerializeMinDate() => _minDate != DateTimePicker.MinimumDateTime;
 
         /// <summary>
         /// Gets or sets the today date format string.
@@ -393,7 +393,7 @@ namespace Krypton.Toolkit
 
         private void ResetTodayDate() => TodayDate = DateTime.Now.Date;
 
-        private bool ShouldSerializeTodayDate() => (TodayDate != DateTime.Now.Date);
+        private bool ShouldSerializeTodayDate() => TodayDate != DateTime.Now.Date;
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
@@ -431,7 +431,7 @@ namespace Krypton.Toolkit
 
         private void ResetAnnuallyBoldedDates() => AnnuallyBoldedDates = null;
 
-        private bool ShouldSerializeAnnuallyBoldedDates() => (_annualDates.Count > 0);
+        private bool ShouldSerializeAnnuallyBoldedDates() => _annualDates.Count > 0;
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determine which monthly days to bold. 
@@ -465,7 +465,7 @@ namespace Krypton.Toolkit
 
         private void ResetMonthlyBoldedDates() => MonthlyBoldedDates = null;
 
-        private bool ShouldSerializeMonthlyBoldedDates() => (_monthlyDates.Count > 0);
+        private bool ShouldSerializeMonthlyBoldedDates() => _monthlyDates.Count > 0;
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are displayed in bold.
@@ -488,7 +488,7 @@ namespace Krypton.Toolkit
 
         private void ResetBoldedDates() => BoldedDates = null;
 
-        private bool ShouldSerializeBoldedDates() => (BoldedDatesList.Count > 0);
+        private bool ShouldSerializeBoldedDates() => BoldedDatesList.Count > 0;
 
         /// <summary>
         /// Gets or sets the maximum allowable date.
@@ -601,7 +601,7 @@ namespace Krypton.Toolkit
 
         private void ResetSelectionStart() => SelectionStart = DateTime.Now.Date;
 
-        private bool ShouldSerializeSelectionStart() => (SelectionStart != DateTime.Now.Date);
+        private bool ShouldSerializeSelectionStart() => SelectionStart != DateTime.Now.Date;
 
         /// <summary>
         /// Gets or sets the end date of the selected range of dates.
@@ -651,7 +651,7 @@ namespace Krypton.Toolkit
 
         private void ResetSelectionEnd() => SelectionEnd = DateTime.Now.Date;
 
-        private bool ShouldSerializeSelectionEnd() => (SelectionEnd != DateTime.Now.Date);
+        private bool ShouldSerializeSelectionEnd() => SelectionEnd != DateTime.Now.Date;
 
         /// <summary>
         /// Gets or sets the selected range of dates for a month calendar control.
@@ -750,7 +750,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeControlBackStyle() => (ControlBackStyle != PaletteBackStyle.ControlClient);
+        private bool ShouldSerializeControlBackStyle() => ControlBackStyle != PaletteBackStyle.ControlClient;
 
         private void ResetControlBackStyle() => ControlBackStyle = PaletteBackStyle.ControlClient;
 
@@ -773,7 +773,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeControlBorderStyle() => (ControlBorderStyle != PaletteBorderStyle.ControlClient);
+        private bool ShouldSerializeControlBorderStyle() => ControlBorderStyle != PaletteBorderStyle.ControlClient;
 
         private void ResetControlBorderStyle() => ControlBorderStyle = PaletteBorderStyle.ControlClient;
 
@@ -797,7 +797,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeHeaderStyle() => (_headerStyle != HeaderStyle.Calendar);
+        private bool ShouldSerializeHeaderStyle() => _headerStyle != HeaderStyle.Calendar;
 
         private void ResetHeaderStyle() => HeaderStyle = HeaderStyle.Calendar;
 
@@ -824,7 +824,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeDayStyle() => (_dayStyle != ButtonStyle.CalendarDay);
+        private bool ShouldSerializeDayStyle() => _dayStyle != ButtonStyle.CalendarDay;
 
         private void ResetDayStyle() => DayOfWeekStyle = ButtonStyle.CalendarDay;
 
@@ -848,7 +848,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeDayOfWeekStyle() => (_dayOfWeekStyle != ButtonStyle.CalendarDay);
+        private bool ShouldSerializeDayOfWeekStyle() => _dayOfWeekStyle != ButtonStyle.CalendarDay;
 
 
         private void ResetDayOfWeekStyle() => DayOfWeekStyle = ButtonStyle.CalendarDay;

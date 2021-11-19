@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
         public bool CanScrollV
         {
             [DebuggerStepThrough]
-            get => (_limit.Y != 0);
+            get => _limit.Y != 0;
         }
         #endregion
 
@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
         public bool CanScrollH
         {
             [DebuggerStepThrough]
-            get => (_limit.X != 0);
+            get => _limit.X != 0;
         }
         #endregion
 
@@ -326,9 +326,9 @@ namespace Krypton.Toolkit
                 {
                     case RelativePositionAlign.Near:
                     case RelativePositionAlign.Center:
-                        return (offset > limit);
+                        return offset > limit;
                     case RelativePositionAlign.Far:
-                        return (offset < 0);
+                        return offset < 0;
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -368,9 +368,9 @@ namespace Krypton.Toolkit
                 {
                     case RelativePositionAlign.Near:
                     case RelativePositionAlign.Center:
-                        return (offset < 0);
+                        return offset < 0;
                     case RelativePositionAlign.Far:
-                        return (offset > limit);
+                        return offset > limit;
                     default:
                         // Should never happen!
                         Debug.Assert(false);
@@ -640,8 +640,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private bool Horizontal => ((Orientation == VisualOrientation.Top) ||
-                                    (Orientation == VisualOrientation.Bottom));
+        private bool Horizontal => (Orientation == VisualOrientation.Top) ||
+                                    (Orientation == VisualOrientation.Bottom);
 
         private RelativePositionAlign AlignmentRTL
         {
@@ -701,7 +701,7 @@ namespace Krypton.Toolkit
 
                 case RelativePositionAlign.Far:
                     // Position against the far side
-                    return (posRect + posRectLength) - extent - offset;
+                    return posRect + posRectLength - extent - offset;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -899,44 +899,44 @@ namespace Krypton.Toolkit
                         case RelativePositionAlign.Near:
                             if (rect.Right > ClientRectangle.Right)
                             {
-                                offset.X += (ClientRectangle.Right - rect.Right);
+                                offset.X += ClientRectangle.Right - rect.Right;
                             }
 
                             if (rect.Left < ClientRectangle.Left)
                             {
-                                offset.X += (ClientRectangle.Left - rect.Left);
+                                offset.X += ClientRectangle.Left - rect.Left;
                             }
 
                             if (rect.Bottom > ClientRectangle.Bottom)
                             {
-                                offset.Y += (ClientRectangle.Bottom - rect.Bottom);
+                                offset.Y += ClientRectangle.Bottom - rect.Bottom;
                             }
 
                             if (rect.Top < ClientRectangle.Top)
                             {
-                                offset.Y += (ClientRectangle.Top - rect.Top);
+                                offset.Y += ClientRectangle.Top - rect.Top;
                             }
 
                             break;
                         case RelativePositionAlign.Far:
                             if (rect.Right > ClientRectangle.Right)
                             {
-                                offset.X -= (ClientRectangle.Right - rect.Right);
+                                offset.X -= ClientRectangle.Right - rect.Right;
                             }
 
                             if (rect.Left < ClientRectangle.Left)
                             {
-                                offset.X -= (ClientRectangle.Left - rect.Left);
+                                offset.X -= ClientRectangle.Left - rect.Left;
                             }
 
                             if (rect.Bottom > ClientRectangle.Bottom)
                             {
-                                offset.Y -= (ClientRectangle.Bottom - rect.Bottom);
+                                offset.Y -= ClientRectangle.Bottom - rect.Bottom;
                             }
 
                             if (rect.Top < ClientRectangle.Top)
                             {
-                                offset.Y -= (ClientRectangle.Top - rect.Top);
+                                offset.Y -= ClientRectangle.Top - rect.Top;
                             }
 
                             break;

@@ -246,12 +246,12 @@ namespace Krypton.Ribbon
 
             if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
-                moveFirst = (_ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) > 0);
-                movePrev = (_ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) > 0);
-                moveNext = (_ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) < (_ribbonTriple.RibbonGroup.Items.Count - 1));
-                moveLast = (_ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) < (_ribbonTriple.RibbonGroup.Items.Count - 1));
-                add = (_ribbonTriple.Items.Count < 3);
-                clearItems = (_ribbonTriple.Items.Count > 0);
+                moveFirst = _ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) > 0;
+                movePrev = _ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) > 0;
+                moveNext = _ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) < (_ribbonTriple.RibbonGroup.Items.Count - 1);
+                moveLast = _ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) < (_ribbonTriple.RibbonGroup.Items.Count - 1);
+                add = _ribbonTriple.Items.Count < 3;
+                clearItems = _ribbonTriple.Items.Count > 0;
             }
 
             _moveFirstVerb.Enabled = moveFirst;
@@ -1043,17 +1043,17 @@ namespace Krypton.Ribbon
                 // Update menu items state from versb
                 _toggleHelpersMenu.Checked = _ribbonTriple.Ribbon.InDesignHelperMode;
                 _visibleMenu.Checked = _ribbonTriple.Visible;
-                _maximumLMenu.Checked = (_ribbonTriple.MaximumSize == GroupItemSize.Large);
-                _maximumMMenu.Checked = (_ribbonTriple.MaximumSize == GroupItemSize.Medium);
-                _maximumSMenu.Checked = (_ribbonTriple.MaximumSize == GroupItemSize.Small);
-                _minimumLMenu.Checked = (_ribbonTriple.MinimumSize == GroupItemSize.Large);
-                _minimumMMenu.Checked = (_ribbonTriple.MinimumSize == GroupItemSize.Medium);
-                _minimumSMenu.Checked = (_ribbonTriple.MinimumSize == GroupItemSize.Small);
+                _maximumLMenu.Checked = _ribbonTriple.MaximumSize == GroupItemSize.Large;
+                _maximumMMenu.Checked = _ribbonTriple.MaximumSize == GroupItemSize.Medium;
+                _maximumSMenu.Checked = _ribbonTriple.MaximumSize == GroupItemSize.Small;
+                _minimumLMenu.Checked = _ribbonTriple.MinimumSize == GroupItemSize.Large;
+                _minimumMMenu.Checked = _ribbonTriple.MinimumSize == GroupItemSize.Medium;
+                _minimumSMenu.Checked = _ribbonTriple.MinimumSize == GroupItemSize.Small;
                 _moveFirstMenu.Enabled = _moveFirstVerb.Enabled;
                 _movePreviousMenu.Enabled = _movePrevVerb.Enabled;
                 _moveNextMenu.Enabled = _moveNextVerb.Enabled;
                 _moveLastMenu.Enabled = _moveLastVerb.Enabled;
-                _moveToGroupMenu.Enabled = (_moveToGroupMenu.DropDownItems.Count > 0);
+                _moveToGroupMenu.Enabled = _moveToGroupMenu.DropDownItems.Count > 0;
                 _addButtonMenu.Enabled = _addButtonVerb.Enabled;
                 _addColorButtonMenu.Enabled = _addColorButtonVerb.Enabled;
                 _addCheckBoxMenu.Enabled = _addCheckBoxVerb.Enabled;

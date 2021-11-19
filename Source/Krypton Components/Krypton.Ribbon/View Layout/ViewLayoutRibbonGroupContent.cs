@@ -271,7 +271,7 @@ namespace Krypton.Ribbon
                 }
                 else
                 {
-                    matched = (DialogView.GetFocusView() == current);
+                    matched = DialogView.GetFocusView() == current;
                 }
             }
 
@@ -300,7 +300,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                matched = (DialogView.GetFocusView() == current);
+                matched = DialogView.GetFocusView() == current;
             }
 
             // Scan all the children, which must be containers
@@ -695,7 +695,7 @@ namespace Krypton.Ribbon
                     : container.CreateView(_ribbon, _needPaint);
 
                 // Update the visible state of the item
-                containerView.Visible = (container.Visible || _ribbon.InDesignHelperMode);
+                containerView.Visible = container.Visible || _ribbon.InDesignHelperMode;
                 
                 // We need to keep this association
                 regenerate.Add(container, containerView);

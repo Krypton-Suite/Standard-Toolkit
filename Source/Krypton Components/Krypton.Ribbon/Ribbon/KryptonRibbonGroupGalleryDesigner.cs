@@ -219,10 +219,10 @@ namespace Krypton.Ribbon
 
             if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
-                moveFirst = (_ribbonGallery.RibbonGroup.Items.IndexOf(_ribbonGallery) > 0);
-                movePrev = (_ribbonGallery.RibbonGroup.Items.IndexOf(_ribbonGallery) > 0);
-                moveNext = (_ribbonGallery.RibbonGroup.Items.IndexOf(_ribbonGallery) < (_ribbonGallery.RibbonGroup.Items.Count - 1));
-                moveLast = (_ribbonGallery.RibbonGroup.Items.IndexOf(_ribbonGallery) < (_ribbonGallery.RibbonGroup.Items.Count - 1));
+                moveFirst = _ribbonGallery.RibbonGroup.Items.IndexOf(_ribbonGallery) > 0;
+                movePrev = _ribbonGallery.RibbonGroup.Items.IndexOf(_ribbonGallery) > 0;
+                moveNext = _ribbonGallery.RibbonGroup.Items.IndexOf(_ribbonGallery) < (_ribbonGallery.RibbonGroup.Items.Count - 1);
+                moveLast = _ribbonGallery.RibbonGroup.Items.IndexOf(_ribbonGallery) < (_ribbonGallery.RibbonGroup.Items.Count - 1);
             }
 
             _moveFirstVerb.Enabled = moveFirst;
@@ -519,12 +519,12 @@ namespace Krypton.Ribbon
                 _toggleHelpersMenu.Checked = _ribbonGallery.Ribbon.InDesignHelperMode;
                 _visibleMenu.Checked = Visible;
                 _enabledMenu.Checked = Enabled;
-                _maximumLMenu.Checked = (_ribbonGallery.MaximumSize == GroupItemSize.Large);
-                _maximumMMenu.Checked = (_ribbonGallery.MaximumSize == GroupItemSize.Medium);
-                _maximumSMenu.Checked = (_ribbonGallery.MaximumSize == GroupItemSize.Small);
-                _minimumLMenu.Checked = (_ribbonGallery.MinimumSize == GroupItemSize.Large);
-                _minimumMMenu.Checked = (_ribbonGallery.MinimumSize == GroupItemSize.Medium);
-                _minimumSMenu.Checked = (_ribbonGallery.MinimumSize == GroupItemSize.Small);
+                _maximumLMenu.Checked = _ribbonGallery.MaximumSize == GroupItemSize.Large;
+                _maximumMMenu.Checked = _ribbonGallery.MaximumSize == GroupItemSize.Medium;
+                _maximumSMenu.Checked = _ribbonGallery.MaximumSize == GroupItemSize.Small;
+                _minimumLMenu.Checked = _ribbonGallery.MinimumSize == GroupItemSize.Large;
+                _minimumMMenu.Checked = _ribbonGallery.MinimumSize == GroupItemSize.Medium;
+                _minimumSMenu.Checked = _ribbonGallery.MinimumSize == GroupItemSize.Small;
                 _moveFirstMenu.Enabled = _moveFirstVerb.Enabled;
                 _movePreviousMenu.Enabled = _movePrevVerb.Enabled;
                 _moveNextMenu.Enabled = _moveNextVerb.Enabled;

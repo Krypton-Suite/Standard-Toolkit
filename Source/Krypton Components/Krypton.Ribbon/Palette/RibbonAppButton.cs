@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((AppButtonImage == _defaultAppImage) &&
+        public override bool IsDefault => (AppButtonImage == _defaultAppImage) &&
                                            (AppButtonText == DEFAULT_APP_TEXT) &&
                                            (AppButtonBaseColorDark == _defaultAppBaseColorDark) &&
                                            (AppButtonBaseColorLight == _defaultAppBaseColorLight) &&
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
                                            (AppButtonToolTipImage == null) &&
                                            (AppButtonToolTipImageTransparentColor == Color.Empty) &&
                                            (AppButtonToolTipStyle == LabelStyle.SuperTip) &&
-                                           AppButtonVisible);
+                                           AppButtonVisible;
 
         #endregion
 

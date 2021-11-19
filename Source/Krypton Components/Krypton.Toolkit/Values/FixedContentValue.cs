@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public Image Image { get; set; }
 
-        private bool ShouldSerializeImage() => (Image != null);
+        private bool ShouldSerializeImage() => Image != null;
 
         #endregion
 
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public Color ImageTransparentColor { get; set; }
 
-        private bool ShouldSerializeImageTransparentColor() => (ImageTransparentColor != Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
 
         #endregion
 

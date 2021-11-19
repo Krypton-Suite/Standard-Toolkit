@@ -237,13 +237,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        public override bool IsDefault => (!ShouldSerializeEnableShadows()
+        public override bool IsDefault => !ShouldSerializeEnableShadows()
                                             && !ShouldSerializeOffset()
                                             && !ShouldSerializeExtraWidth()
                                             && !ShouldSerializeBlurDistance()
                                             && !ShouldSerializeColour()
                                             && !ShouldSerializeOpacity()
-                                            );
+                                            ;
 
         #endregion Default Values
     }

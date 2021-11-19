@@ -29,10 +29,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (base.IsDefault &&
+        public override bool IsDefault => base.IsDefault &&
                                            (ImageCheckedNormal == null) &&
                                            (ImageCheckedPressed == null) &&
-                                           (ImageCheckedTracking == null));
+                                           (ImageCheckedTracking == null);
 
         #endregion
 

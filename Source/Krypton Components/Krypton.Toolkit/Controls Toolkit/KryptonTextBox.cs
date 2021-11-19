@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
 
                             // Create rect for the text area
                             Size borderSize = SystemInformation.BorderSize;
-                            rect.left -= (borderSize.Width + 1);
+                            rect.left -= borderSize.Width + 1;
 
                             if (!string.IsNullOrWhiteSpace(_kryptonTextBox.CueHint.CueHintText)
                                 && string.IsNullOrEmpty(_kryptonTextBox.Text)
@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
                             Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
-                            if (((int)((long)m.LParam)) == -1)
+                            if (((int)(long)m.LParam) == -1)
                             {
                                 mousePt = PointToScreen(new Point(Width / 2, Height / 2));
                             }
@@ -1043,7 +1043,7 @@ namespace Krypton.Toolkit
 
         private void ResetInputControlStyle() => InputControlStyle = InputControlStyle.Standalone;
 
-        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
+        private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
         /// <summary>
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.

@@ -336,7 +336,7 @@ namespace Krypton.Ribbon
 
             // Our current size is based on the parent one
             ViewLayoutRibbonGroupLines viewLines = (ViewLayoutRibbonGroupLines)Parent;
-            _currentSize = (viewLines.CurrentSize == GroupItemSize.Small ? GroupItemSize.Small : GroupItemSize.Medium);
+            _currentSize = viewLines.CurrentSize == GroupItemSize.Small ? GroupItemSize.Small : GroupItemSize.Medium;
         }
 
         /// <summary>
@@ -489,10 +489,10 @@ namespace Krypton.Ribbon
             // Grab the shape of the ribbon
             _lastShape = _ribbon.RibbonShape;
 
-            var itemEdgeVisible = (_lastShape != PaletteRibbonShape.Office2010);
-            var itemEdgeIgnoreNormal = (_lastShape == PaletteRibbonShape.Office2010);
-            var itemConstantBorder = (_lastShape != PaletteRibbonShape.Office2010);
-            var itemDrawNonTrackingAreas = (_lastShape != PaletteRibbonShape.Office2010);
+            var itemEdgeVisible = _lastShape != PaletteRibbonShape.Office2010;
+            var itemEdgeIgnoreNormal = _lastShape == PaletteRibbonShape.Office2010;
+            var itemConstantBorder = _lastShape != PaletteRibbonShape.Office2010;
+            var itemDrawNonTrackingAreas = _lastShape != PaletteRibbonShape.Office2010;
 
             // Remove all child elements
             Clear();
@@ -630,8 +630,8 @@ namespace Krypton.Ribbon
             Add(_endSep);
 
             // Define visible state of the separators
-            _startSep.Visible = (_lastShape == PaletteRibbonShape.Office2010);
-            _endSep.Visible = (_lastShape == PaletteRibbonShape.Office2010);
+            _startSep.Visible = _lastShape == PaletteRibbonShape.Office2010;
+            _endSep.Visible = _lastShape == PaletteRibbonShape.Office2010;
 
             // When in design time help mode
             if (_ribbon.InDesignHelperMode)

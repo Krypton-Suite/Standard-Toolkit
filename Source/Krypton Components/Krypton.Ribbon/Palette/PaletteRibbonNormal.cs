@@ -48,11 +48,11 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (base.IsDefault &&
+        public override bool IsDefault => base.IsDefault &&
                                            RibbonGroupCheckBoxText.IsDefault &&
                                            RibbonGroupButtonText.IsDefault &&
                                            RibbonGroupLabelText.IsDefault &&
-                                           RibbonGroupRadioButtonText.IsDefault);
+                                           RibbonGroupRadioButtonText.IsDefault;
 
         #endregion
 

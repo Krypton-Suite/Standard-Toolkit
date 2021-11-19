@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeButtonStyle() => (ButtonStyle != ButtonStyle.Standalone);
+        private bool ShouldSerializeButtonStyle() => ButtonStyle != ButtonStyle.Standalone;
 
         private void ResetButtonStyle()
         {

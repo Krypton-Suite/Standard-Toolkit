@@ -299,7 +299,7 @@ namespace Krypton.Toolkit
             LabelStyle = LabelStyle.NormalPanel;
         }
 
-        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalPanel);
+        private bool ShouldSerializeLabelStyle() => LabelStyle != LabelStyle.NormalPanel;
 
         /// <summary>
         /// Gets access to the label content.
@@ -467,7 +467,7 @@ namespace Krypton.Toolkit
 
             // Request fixed state from the view
             _overrideNormal.Apply = focus;
-            _drawContent.FixedState = (enabled ? PaletteState.Normal : PaletteState.Disabled);
+            _drawContent.FixedState = enabled ? PaletteState.Normal : PaletteState.Disabled;
             _drawRadioButton.Enabled = enabled;
             _drawRadioButton.Tracking = tracking;
             _drawRadioButton.Pressed = pressed;

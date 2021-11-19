@@ -390,7 +390,7 @@ namespace Krypton.Toolkit
             {
 
                 // Setup the need to use rounded corners
-                RoundedEdges = (colorPalette.ColorTable.UseRoundedEdges != InheritBool.False)
+                RoundedEdges = colorPalette.ColorTable.UseRoundedEdges != InheritBool.False
             };
 
             return renderer;
@@ -600,7 +600,7 @@ namespace Krypton.Toolkit
                                         CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
                                         palette.GetBorderWidth(state),
                                         palette.GetBorderRounding(state),
-                                        (palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias),
+                                        palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias,
                                         0);
         }
 
@@ -644,7 +644,7 @@ namespace Krypton.Toolkit
                                         CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
                                         palette.GetBorderWidth(state),
                                         palette.GetBorderRounding(state),
-                                        (palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias),
+                                        palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias,
                                         0);
         }
 
@@ -688,7 +688,7 @@ namespace Krypton.Toolkit
                                         CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
                                         palette.GetBorderWidth(state),
                                         palette.GetBorderRounding(state),
-                                        (palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias),
+                                        palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias,
                                         0);
         }
 
@@ -730,7 +730,7 @@ namespace Krypton.Toolkit
             if ((rect.Width > 0) && (rect.Height > 0) && CommonHelper.HasABorder(borders))
             {
                 // Only use anti aliasing if the border is rounded
-                SmoothingMode smoothMode = (palette.GetBorderRounding(state) > 0 ? SmoothingMode.AntiAlias : SmoothingMode.Default);
+                SmoothingMode smoothMode = palette.GetBorderRounding(state) > 0 ? SmoothingMode.AntiAlias : SmoothingMode.Default;
 
                 // We want to draw using anti aliasing for a nice smooth effect
                 using (GraphicsHint hint = new(context.Graphics, palette.GetBorderGraphicsHint(state)))
@@ -749,7 +749,7 @@ namespace Krypton.Toolkit
                             // We always create the first border path variant
                             GraphicsPath borderPath0 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
                                                                             palette.GetBorderRounding(state),
-                                                                            (smoothMode == SmoothingMode.AntiAlias), 0);
+                                                                            smoothMode == SmoothingMode.AntiAlias, 0);
 
                             GraphicsPath borderPath1 = null;
 
@@ -759,7 +759,7 @@ namespace Krypton.Toolkit
                             {
                                 borderPath1 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
                                                                    palette.GetBorderRounding(state),
-                                                                   (smoothMode == SmoothingMode.AntiAlias), 1);
+                                                                   smoothMode == SmoothingMode.AntiAlias, 1);
                             }
 
                             // Get the rectangle to use when dealing with gradients
@@ -1081,7 +1081,7 @@ namespace Krypton.Toolkit
                                (orientation == VisualOrientation.Right);
 
                 // Drawing vertical means we can ignore right to left, otherwise get value from control
-                RightToLeft rtl = (vertical ? RightToLeft.No : context.Control.RightToLeft);
+                RightToLeft rtl = vertical ? RightToLeft.No : context.Control.RightToLeft;
 
                 // Allocate space for each required content in turn
                 AllocateImageSpace(memento, palette, values, state, displayRect, rtl, ref allocation);
@@ -1215,7 +1215,7 @@ namespace Krypton.Toolkit
             var spacingGap = palette.GetContentAdjacentGap(state);
 
             // Drawing vertical means we can ignore right to left, otherwise get value from control
-            RightToLeft rtl = (vertical ? RightToLeft.No : context.Control.RightToLeft);
+            RightToLeft rtl = vertical ? RightToLeft.No : context.Control.RightToLeft;
 
             // Allocate space for each required content in turn
             AllocateImageSpace(memento, palette, values, state, availableRect, rtl, ref allocation);
@@ -1239,7 +1239,7 @@ namespace Krypton.Toolkit
             // Excess height to allocate?
             if (allocatedHeight < availableRect.Height)
             {
-                rowHeights[1] += (availableRect.Height - allocatedHeight);
+                rowHeights[1] += availableRect.Height - allocatedHeight;
             }
 
             // Find x positions and y positions
@@ -1266,9 +1266,9 @@ namespace Krypton.Toolkit
             var row2 = row1 + rowHeights[1];
 
             // Decide on the ordering of the alignment to position
-            PaletteRelativeAlign aAlign = (rtl == RightToLeft.Yes ? PaletteRelativeAlign.Far : PaletteRelativeAlign.Near);
+            PaletteRelativeAlign aAlign = rtl == RightToLeft.Yes ? PaletteRelativeAlign.Far : PaletteRelativeAlign.Near;
             const PaletteRelativeAlign B_ALIGN = PaletteRelativeAlign.Center;
-            PaletteRelativeAlign cAlign = (rtl == RightToLeft.Yes ? PaletteRelativeAlign.Near : PaletteRelativeAlign.Far);
+            PaletteRelativeAlign cAlign = rtl == RightToLeft.Yes ? PaletteRelativeAlign.Near : PaletteRelativeAlign.Far;
 
             // Size and position the contents of each aligned cell
             PositionAlignContent(memento, palette, state, rtl, aAlign, PaletteRelativeAlign.Near, col0, row0, colWidths[0], rowHeights[0], spacingGap);
@@ -1722,7 +1722,7 @@ namespace Krypton.Toolkit
             var borderWidth = palette.GetBorderWidth(state);
 
             // Cache the right to left setting
-            var rtl = (context.Control.RightToLeft == RightToLeft.Yes);
+            var rtl = context.Control.RightToLeft == RightToLeft.Yes;
 
             Padding ret = Padding.Empty;
 
@@ -1752,30 +1752,30 @@ namespace Krypton.Toolkit
                 case TabBorderStyle.SlantEqualNear:
                 case TabBorderStyle.SlantOutsizeNear:
                     // Calculte the extra needed for the outsize variant
-                    var x = (tabBorderStyle == TabBorderStyle.SlantOutsizeNear ? SPACING_TAB_OUTSIZE_PADDING : 0);
+                    var x = tabBorderStyle == TabBorderStyle.SlantOutsizeNear ? SPACING_TAB_OUTSIZE_PADDING : 0;
 
                     switch (orientation)
                     {
                         case VisualOrientation.Top:
                             ret = rtl
                                 ? new Padding(borderWidth + x, borderWidth + x,
-                                    (borderWidth + x + SPACING_TAB_SLANT_PADDING) - 1, 0)
-                                : new Padding((borderWidth + x + SPACING_TAB_SLANT_PADDING) - 1, borderWidth + x,
+                                    borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0)
+                                : new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x,
                                     borderWidth + x, 0);
 
                             break;
                         case VisualOrientation.Left:
-                            ret = new Padding((borderWidth + x + SPACING_TAB_SLANT_PADDING) - 1, borderWidth + x, borderWidth + x, 0);
+                            ret = new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x, borderWidth + x, 0);
                             break;
                         case VisualOrientation.Right:
-                            ret = new Padding(borderWidth + x, borderWidth + x, (borderWidth + x + SPACING_TAB_SLANT_PADDING) - 1, 0);
+                            ret = new Padding(borderWidth + x, borderWidth + x, borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0);
                             break;
                         case VisualOrientation.Bottom:
                             ret = rtl
-                                ? new Padding((borderWidth + x + SPACING_TAB_SLANT_PADDING) - 1, borderWidth + x,
+                                ? new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x,
                                     borderWidth + x, 0)
                                 : new Padding(borderWidth + x, borderWidth + x,
-                                    (borderWidth + x + SPACING_TAB_SLANT_PADDING) - 1, 0);
+                                    borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0);
 
                             break;
                     }
@@ -1783,29 +1783,29 @@ namespace Krypton.Toolkit
                 case TabBorderStyle.SlantEqualFar:
                 case TabBorderStyle.SlantOutsizeFar:
                     // Calculte the extra needed for the outsize variant
-                    var y = (tabBorderStyle == TabBorderStyle.SlantOutsizeFar ? SPACING_TAB_OUTSIZE_PADDING : 0);
+                    var y = tabBorderStyle == TabBorderStyle.SlantOutsizeFar ? SPACING_TAB_OUTSIZE_PADDING : 0;
 
                     switch (orientation)
                     {
                         case VisualOrientation.Top:
                             ret = rtl
-                                ? new Padding((borderWidth + y + SPACING_TAB_SLANT_PADDING) - 1, borderWidth + y,
+                                ? new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y,
                                     borderWidth + y, 0)
                                 : new Padding(borderWidth + y, borderWidth + y,
-                                    (borderWidth + y + SPACING_TAB_SLANT_PADDING) - 1, 0);
+                                    borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0);
 
                             break;
                         case VisualOrientation.Left:
-                            ret = new Padding(borderWidth + y, borderWidth + y, (borderWidth + y + SPACING_TAB_SLANT_PADDING) - 1, 0);
+                            ret = new Padding(borderWidth + y, borderWidth + y, borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0);
                             break;
                         case VisualOrientation.Right:
-                            ret = new Padding((borderWidth + y + SPACING_TAB_SLANT_PADDING) - 1, borderWidth + y, borderWidth + y, 0);
+                            ret = new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y, borderWidth + y, 0);
                             break;
                         case VisualOrientation.Bottom:
                             ret = rtl
                                 ? new Padding(borderWidth + y, borderWidth + y,
-                                    (borderWidth + y + SPACING_TAB_SLANT_PADDING) - 1, 0)
-                                : new Padding((borderWidth + y + SPACING_TAB_SLANT_PADDING) - 1, borderWidth + y,
+                                    borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0)
+                                : new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y,
                                     borderWidth + y, 0);
 
                             break;
@@ -1814,10 +1814,10 @@ namespace Krypton.Toolkit
                 case TabBorderStyle.SlantEqualBoth:
                 case TabBorderStyle.SlantOutsizeBoth:
                     // Calculte the extra needed for the outsize variant
-                    var z = (tabBorderStyle == TabBorderStyle.SlantOutsizeBoth ? SPACING_TAB_OUTSIZE_PADDING : 0);
+                    var z = tabBorderStyle == TabBorderStyle.SlantOutsizeBoth ? SPACING_TAB_OUTSIZE_PADDING : 0;
 
-                    ret = new Padding((borderWidth + z + SPACING_TAB_SLANT_PADDING) - 1, borderWidth + z,
-                                      (borderWidth + z + SPACING_TAB_SLANT_PADDING) - 1, 0);
+                    ret = new Padding(borderWidth + z + SPACING_TAB_SLANT_PADDING - 1, borderWidth + z,
+                                      borderWidth + z + SPACING_TAB_SLANT_PADDING - 1, 0);
                     break;
                 case TabBorderStyle.OneNote:
                     // Is the current tab selected?
@@ -1826,10 +1826,10 @@ namespace Krypton.Toolkit
                                    (state == PaletteState.CheckedTracking);
 
                     // Find the correct edge padding values to use
-                    var lp = (selected ? SPACING_TAB_ONE_NOTE_LPS : SPACING_TAB_ONE_NOTE_LPI);
-                    var tp = (selected ? SPACING_TAB_ONE_NOTE_TPS : SPACING_TAB_ONE_NOTE_TPI);
-                    var bp = (selected ? SPACING_TAB_ONE_NOTE_BPS : SPACING_TAB_ONE_NOTE_BPI);
-                    var rp = (selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI);
+                    var lp = selected ? SPACING_TAB_ONE_NOTE_LPS : SPACING_TAB_ONE_NOTE_LPI;
+                    var tp = selected ? SPACING_TAB_ONE_NOTE_TPS : SPACING_TAB_ONE_NOTE_TPI;
+                    var bp = selected ? SPACING_TAB_ONE_NOTE_BPS : SPACING_TAB_ONE_NOTE_BPI;
+                    var rp = selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI;
 
                     switch (orientation)
                     {
@@ -1906,7 +1906,7 @@ namespace Krypton.Toolkit
             // Use helper to create a border path in middle of the pen
             return CreateTabBorderBackPath(context.Control.RightToLeft, state, false, rect,
                                            palette.GetBorderWidth(state), tabBorderStyle, orientation,
-                                           (palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias));
+                                           palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias);
         }
 
         /// <summary>
@@ -1947,7 +1947,7 @@ namespace Krypton.Toolkit
             // Use helper to create a border path in middle of the pen
             return CreateTabBorderBackPath(context.Control.RightToLeft, state, false, rect,
                                            palette.GetBorderWidth(state), tabBorderStyle, orientation,
-                                           (palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias));
+                                           palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias);
         }
 
         /// <summary>
@@ -1999,7 +1999,7 @@ namespace Krypton.Toolkit
                         // Create the path that represents the entire tab border
                         using (GraphicsPath borderPath = CreateTabBorderBackPath(context.Control.RightToLeft, state, true, rect,
                                                                                  borderWidth, tabBorderStyle, orientation,
-                                                                                 (palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias)))
+                                                                                 palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias))
                         {
                             // Get the rectangle to use when dealing with gradients
                             Rectangle gradientRect = context.GetAlignedRectangle(palette.GetBorderColorAlign(state), rect);
@@ -2064,7 +2064,7 @@ namespace Krypton.Toolkit
                                                    IDisposable memento)
         {
             // Note is the incoming state is detailed we are drawing inside a popip
-            var showingInPopup = ((state & PaletteState.FocusOverride) == PaletteState.FocusOverride);
+            var showingInPopup = (state & PaletteState.FocusOverride) == PaletteState.FocusOverride;
             if (showingInPopup)
             {
                 state &= ~PaletteState.FocusOverride;
@@ -2306,8 +2306,8 @@ namespace Krypton.Toolkit
             if (paletteBack.GetBackDraw(state) == InheritBool.True)
             {
                 // Convert from separator orientation to border orientation value
-                VisualOrientation borderOrientation = (orientation == Orientation.Horizontal ? VisualOrientation.Top :
-                                                                                               VisualOrientation.Left);
+                VisualOrientation borderOrientation = orientation == Orientation.Horizontal ? VisualOrientation.Top :
+                                                                                               VisualOrientation.Left;
 
                 // Ask the border renderer for a path that encloses the border
                 using (GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, displayRect, paletteBorder, borderOrientation, state))
@@ -2841,11 +2841,11 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(paletteGeneral));
             }
 
-            Color darkColor = (state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledDark(state) :
-                                                                paletteGeneral.GetRibbonDropArrowDark(state));
+            Color darkColor = state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledDark(state) :
+                                                                paletteGeneral.GetRibbonDropArrowDark(state);
 
-            Color lightColor = (state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledLight(state) :
-                                                                 paletteGeneral.GetRibbonDropArrowLight(state));
+            Color lightColor = state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledLight(state) :
+                                                                 paletteGeneral.GetRibbonDropArrowLight(state);
 
             switch (shape)
             {
@@ -3076,14 +3076,14 @@ namespace Krypton.Toolkit
             Debug.Assert(paletteContent != null);
 
             // Get the appropriate each to draw
-            Image sortImage = _gridSortOrder.Images[(sortOrder == SortOrder.Ascending ? 0 : 1)];
+            Image sortImage = _gridSortOrder.Images[sortOrder == SortOrder.Ascending ? 0 : 1];
 
             // Is there enough room to draw the image?
             if ((sortImage.Width < cellRect.Width) && (sortImage.Height < cellRect.Height))
             {
                 // Find the drawing location of the image
                 var y = cellRect.Top + ((cellRect.Height - sortImage.Height) / 2);
-                var x = (rtl ? cellRect.X : cellRect.Right - sortImage.Width);
+                var x = rtl ? cellRect.X : cellRect.Right - sortImage.Width;
 
                 // Grab the foreground color to use for the image
                 Color imageColor = paletteContent.GetContentShortTextColor1(state);
@@ -3163,7 +3163,7 @@ namespace Krypton.Toolkit
             {
                 // Find the drawing location of the image
                 var y = cellRect.Top + ((cellRect.Height - rowImage.Height) / 2);
-                var x = (rtl ? cellRect.Right - rowImage.Width : cellRect.Left);
+                var x = rtl ? cellRect.Right - rowImage.Width : cellRect.Left;
 
                 // Grab the foreground color to use for the image
                 Color imageColor = paletteContent.GetContentShortTextColor1(state);
@@ -3220,7 +3220,7 @@ namespace Krypton.Toolkit
             {
                 // Find the drawing location of the image
                 var y = cellRect.Top + ((cellRect.Height - errorImage.Height) / 2);
-                var x = (rtl ? cellRect.Left : cellRect.Right - errorImage.Width);
+                var x = rtl ? cellRect.Left : cellRect.Right - errorImage.Width;
 
                 if (state == PaletteState.Disabled)
                 {
@@ -3862,7 +3862,7 @@ namespace Krypton.Toolkit
                 // Shrink the rect by half the width of the pen, because the pen will 
                 // draw half the distance overlapping each side of the centre anyway.
                 // Unless not drawing into the middle in which case give the outside.
-                var halfBorderWidthTL = (middle ? borderWidth / 2 : 0);
+                var halfBorderWidthTL = middle ? borderWidth / 2 : 0;
 
                 // Only adjust the edges that are being drawn
                 if (CommonHelper.HasTopBorder(borders))
@@ -4414,13 +4414,13 @@ namespace Krypton.Toolkit
                 var halfBorderWidth = borderWidth / 2;
 
                 // Adjust rectangle for all except the bottom edges
-                rect.Width -= (halfBorderWidth * 2);
+                rect.Width -= halfBorderWidth * 2;
                 rect.Height -= halfBorderWidth;
                 rect.X += halfBorderWidth;
                 rect.Y += halfBorderWidth;
 
                 // Populate the graphics path for the border style
-                CreateTabBorderPath((rtl == RightToLeft.Yes), state, forBorder,
+                CreateTabBorderPath(rtl == RightToLeft.Yes, state, forBorder,
                                     borderPath, rect, tabBorderStyle, orientation);
             }
 
@@ -4531,7 +4531,7 @@ namespace Krypton.Toolkit
                                    (state == PaletteState.CheckedTracking);
 
                     // The right padding depends on the selected state
-                    var rp = (selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI);
+                    var rp = selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI;
 
                     // If not selected then need to make the tab shorter
                     if (!selected)
@@ -5052,7 +5052,7 @@ namespace Krypton.Toolkit
             // The tension of the lines depends on the width/height
             var minLength = Math.Min(rect.Width, rect.Height);
             var calcLength = Math.Min(minLength, 50);
-            var tension = Math.Max(0.5f - ((0.5f / 50) * calcLength), 0.05f);
+            var tension = Math.Max(0.5f - (0.5f / 50 * calcLength), 0.05f);
             var indentW = Math.Min(5, rect.Width / 10);
             var indentH = Math.Min(5, rect.Height / 10);
 
@@ -5165,7 +5165,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static bool ShouldDrawImage(Image image) => (image != null);
+        private static bool ShouldDrawImage(Image image) => image != null;
 
         private static Brush CreateColorBrush(Rectangle rect,
                                               Color color1,
@@ -5725,7 +5725,7 @@ namespace Krypton.Toolkit
                 if ((font.Height > fontSpace) && (fontSpace > 5))
                 {
                     // Find the point size from the pixel height required
-                    var point = (72 / context.Graphics.DpiY) * (fontSpace / 1.333f);
+                    var point = 72 / context.Graphics.DpiY * (fontSpace / 1.333f);
 
                     // No point having a font smaller than 3 points
                     if (point > 3)
@@ -5843,7 +5843,7 @@ namespace Krypton.Toolkit
                 if (paletteContent.GetContentStyle() == PaletteContentStyle.HeaderForm)
                 {
                     Font captionFont = ContentFontForButtonForm(context, textFont);
-                    fontChanged = (captionFont != textFont);
+                    fontChanged = captionFont != textFont;
                     textFont = captionFont;
                 }
 
@@ -5928,7 +5928,7 @@ namespace Krypton.Toolkit
                 if (paletteContent.GetContentStyle() == PaletteContentStyle.HeaderForm)
                 {
                     Font captionFont = ContentFontForButtonForm(context, textFont);
-                    fontChanged = (captionFont != textFont);
+                    fontChanged = captionFont != textFont;
                     textFont = captionFont;
                 }
 
@@ -5972,11 +5972,11 @@ namespace Krypton.Toolkit
             switch (align)
             {
                 case PaletteRelativeAlign.Near:
-                    return (rtl == RightToLeft.Yes ? 2 : 0);
+                    return rtl == RightToLeft.Yes ? 2 : 0;
                 case PaletteRelativeAlign.Center:
                     return 1;
                 case PaletteRelativeAlign.Far:
-                    return (rtl == RightToLeft.Yes ? 0 : 2);
+                    return rtl == RightToLeft.Yes ? 0 : 2;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -6198,7 +6198,7 @@ namespace Krypton.Toolkit
 
                 // Space in the near and the far, so give half to each
                 cells[0] += half;
-                cells[2] += (excess - half);
+                cells[2] += excess - half;
             }
         }
 
@@ -6261,7 +6261,7 @@ namespace Krypton.Toolkit
 
                     // Then center the space for the content
                     var halfWidth = (cellRect.Width - totalWidth) / 2;
-                    cellRect.Width -= (halfWidth * 2);
+                    cellRect.Width -= halfWidth * 2;
                     cellRect.X += halfWidth;
 
                     // Ensure all content are placed near, so they fit exactly
@@ -6315,8 +6315,8 @@ namespace Krypton.Toolkit
             {
                 case PaletteRelativeAlign.Near:
                     location.X = cellRect.Left;
-                    cellRect.X += (contentSize.Width + spacingGap);
-                    cellRect.Width -= (contentSize.Width + spacingGap);
+                    cellRect.X += contentSize.Width + spacingGap;
+                    cellRect.Width -= contentSize.Width + spacingGap;
                     break;
                 case PaletteRelativeAlign.Center:
                     var halfHorz = (cellRect.Width - contentSize.Width) / 2;
@@ -6324,7 +6324,7 @@ namespace Krypton.Toolkit
                     break;
                 case PaletteRelativeAlign.Far:
                     location.X = cellRect.Right - contentSize.Width;
-                    cellRect.Width -= (contentSize.Width + spacingGap);
+                    cellRect.Width -= contentSize.Width + spacingGap;
                     break;
             }
 
@@ -6521,7 +6521,7 @@ namespace Krypton.Toolkit
                                                 Color active, Color inactive,
                                                 RenderDragDockingData dragData)
         {
-            DrawDragDockingRoundedRect(context, (dragData.ActiveLeft ? active : inside), (dragData.ActiveLeft ? active : border), dragData.RectLeft, 3);
+            DrawDragDockingRoundedRect(context, dragData.ActiveLeft ? active : inside, dragData.ActiveLeft ? active : border, dragData.RectLeft, 3);
             DrawDragDockingArrow(context, active, dragData.RectLeft, VisualOrientation.Left);
         }
 
@@ -6530,7 +6530,7 @@ namespace Krypton.Toolkit
                                                  Color active, Color inactive,
                                                  RenderDragDockingData dragData)
         {
-            DrawDragDockingRoundedRect(context, (dragData.ActiveRight ? active : inside), (dragData.ActiveRight ? active : border), dragData.RectRight, 3);
+            DrawDragDockingRoundedRect(context, dragData.ActiveRight ? active : inside, dragData.ActiveRight ? active : border, dragData.RectRight, 3);
             DrawDragDockingArrow(context, active, dragData.RectRight, VisualOrientation.Right);
         }
 
@@ -6539,7 +6539,7 @@ namespace Krypton.Toolkit
                                                Color active, Color inactive,
                                                RenderDragDockingData dragData)
         {
-            DrawDragDockingRoundedRect(context, (dragData.ActiveTop ? active : inside), (dragData.ActiveTop ? active : border), dragData.RectTop, 3);
+            DrawDragDockingRoundedRect(context, dragData.ActiveTop ? active : inside, dragData.ActiveTop ? active : border, dragData.RectTop, 3);
             DrawDragDockingArrow(context, active, dragData.RectTop, VisualOrientation.Top);
         }
 
@@ -6548,7 +6548,7 @@ namespace Krypton.Toolkit
                                                   Color active, Color inactive,
                                                   RenderDragDockingData dragData)
         {
-            DrawDragDockingRoundedRect(context, (dragData.ActiveBottom ? active : inside), (dragData.ActiveBottom ? active : border), dragData.RectBottom, 3);
+            DrawDragDockingRoundedRect(context, dragData.ActiveBottom ? active : inside, dragData.ActiveBottom ? active : border, dragData.RectBottom, 3);
             DrawDragDockingArrow(context, active, dragData.RectBottom, VisualOrientation.Bottom);
         }
 
@@ -6557,8 +6557,8 @@ namespace Krypton.Toolkit
                                                   Color active, Color inactive,
                                                   RenderDragDockingData dragData)
         {
-            Color borderColor = (dragData.ActiveMiddle ? active : border);
-            Color insideColor = (dragData.ActiveMiddle ? active : inside);
+            Color borderColor = dragData.ActiveMiddle ? active : border;
+            Color insideColor = dragData.ActiveMiddle ? active : inside;
             using (AntiAlias aa = new(context.Graphics))
             {
                 using (GraphicsPath borderPath = new(),
@@ -6609,7 +6609,7 @@ namespace Krypton.Toolkit
                                                   new(rect.Right - 2, rect.Bottom - 4),
                                                   new(rect.X + tabExtend, rect.Bottom - 4),
                                                   new(rect.X + tabExtend, rect.Bottom - 2),
-                                                  new((rect.X + tabExtend) - 1, rect.Bottom - 1),
+                                                  new(rect.X + tabExtend - 1, rect.Bottom - 1),
                                                   new(rect.X + 1, rect.Bottom - 1),
                                                   new(rect.X, rect.Bottom - 2)});
         }
@@ -7314,11 +7314,11 @@ namespace Krypton.Toolkit
                     context.Graphics.DrawPath(cache.outsidePen, cache.outsidePath);
 
                     // Draw the highlighting inside border
-                    context.Graphics.DrawPath(cache.insidePen, (limited ? cache.insidePathL : cache.insidePathN));
+                    context.Graphics.DrawPath(cache.insidePen, limited ? cache.insidePathL : cache.insidePathN);
                 }
 
-                Pen shadowMedium = (limited ? _lightShadowPen : _medium2ShadowPen);
-                Pen shadowDark = (limited ? _medium2ShadowPen : _darkShadowPen);
+                Pen shadowMedium = limited ? _lightShadowPen : _medium2ShadowPen;
+                Pen shadowDark = limited ? _medium2ShadowPen : _darkShadowPen;
                 context.Graphics.DrawPath(limited ? cache.shadowPenL : cache.shadowPenN, cache.shadowPath);
                 context.Graphics.DrawLine(shadowMedium, rect.Left, rect.Bottom, rect.Left, rect.Bottom - 1);
                 context.Graphics.DrawLine(shadowMedium, rect.Left, rect.Bottom - 1, rect.Left + 1, rect.Bottom);
@@ -7384,7 +7384,7 @@ namespace Krypton.Toolkit
                     {
                         Blend = _ribbonGroupArea3
                     };
-                    cache.gradientBorderPen = (gradientTop ? new Pen(cache.gradientBorderBrush) : new Pen(c1));
+                    cache.gradientBorderPen = gradientTop ? new Pen(cache.gradientBorderBrush) : new Pen(c1);
                     cache.solidBorderPen = new Pen(c2);
                     cache.shadowPen1 = new Pen(CommonHelper.MergeColors(c5, 0.4f, c1, 0.6f));
                     cache.shadowPen2 = new Pen(CommonHelper.MergeColors(c5, 0.25f, c1, 0.75f));
@@ -10346,8 +10346,8 @@ namespace Krypton.Toolkit
                                                             Color topMedium,
                                                             bool trackBorderAsPressed)
         {
-            var pressed = (state == PaletteState.Pressed);
-            var tracking = (state == PaletteState.Tracking);
+            var pressed = state == PaletteState.Pressed;
+            var tracking = state == PaletteState.Tracking;
 
             // Override tracking/pressed states?
             if (tracking && trackBorderAsPressed)
@@ -10509,8 +10509,8 @@ namespace Krypton.Toolkit
                                                           Color bottomLight,
                                                           bool trackBorderAsPressed)
         {
-            var pressed = (state == PaletteState.Pressed);
-            var tracking = (state == PaletteState.Tracking);
+            var pressed = state == PaletteState.Pressed;
+            var tracking = state == PaletteState.Tracking;
 
             // Override tracking/pressed states?
             if (tracking && trackBorderAsPressed)
@@ -10552,7 +10552,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            borderGlowColor = (pressed ? _whiten50 : _whiten80);
+            borderGlowColor = pressed ? _whiten50 : _whiten80;
             using (Pen p = new(borderGlowColor))
             {
                 g.DrawArc(p, memento.borderMain2, 180, 180);
@@ -12079,7 +12079,7 @@ namespace Krypton.Toolkit
                         if (DrawImage)
                         {
                             var x = ImageRect.Y - displayRect.Top;
-                            ImageRect.Y = (displayRect.Top + displayRect.Width) - ImageRect.Width - (ImageRect.X - displayRect.X);
+                            ImageRect.Y = displayRect.Top + displayRect.Width - ImageRect.Width - (ImageRect.X - displayRect.X);
                             ImageRect.X = x + displayRect.Left;
                         }
 
@@ -12087,7 +12087,7 @@ namespace Krypton.Toolkit
                         if (DrawShortText)
                         {
                             var x = ShortTextRect.Y - displayRect.Top;
-                            ShortTextRect.Y = (displayRect.Top + displayRect.Width) - ShortTextRect.Width - (ShortTextRect.X - displayRect.X);
+                            ShortTextRect.Y = displayRect.Top + displayRect.Width - ShortTextRect.Width - (ShortTextRect.X - displayRect.X);
                             ShortTextRect.X = x + displayRect.Left;
                             SwapRectangleSizes(ref ShortTextRect);
                         }
@@ -12096,7 +12096,7 @@ namespace Krypton.Toolkit
                         if (DrawLongText)
                         {
                             var x = LongTextRect.Y - displayRect.Top;
-                            LongTextRect.Y = (displayRect.Top + displayRect.Width) - LongTextRect.Width - (LongTextRect.X - displayRect.X);
+                            LongTextRect.Y = displayRect.Top + displayRect.Width - LongTextRect.Width - (LongTextRect.X - displayRect.X);
                             LongTextRect.X = x + displayRect.Left;
                             SwapRectangleSizes(ref LongTextRect);
                         }
@@ -12108,7 +12108,7 @@ namespace Krypton.Toolkit
                         if (DrawImage)
                         {
                             var y = ImageRect.X - displayRect.Left;
-                            ImageRect.X = (displayRect.Left + displayRect.Bottom) - ImageRect.Bottom;
+                            ImageRect.X = displayRect.Left + displayRect.Bottom - ImageRect.Bottom;
                             ImageRect.Y = y + displayRect.Top;
                         }
 
@@ -12116,7 +12116,7 @@ namespace Krypton.Toolkit
                         if (DrawShortText)
                         {
                             var y = ShortTextRect.X - displayRect.Left;
-                            ShortTextRect.X = (displayRect.Left + displayRect.Bottom) - ShortTextRect.Bottom;
+                            ShortTextRect.X = displayRect.Left + displayRect.Bottom - ShortTextRect.Bottom;
                             ShortTextRect.Y = y + displayRect.Top;
                             SwapRectangleSizes(ref ShortTextRect);
                         }
@@ -12125,7 +12125,7 @@ namespace Krypton.Toolkit
                         if (DrawLongText)
                         {
                             var y = LongTextRect.X - displayRect.Left;
-                            LongTextRect.X = (displayRect.Left + displayRect.Bottom) - LongTextRect.Bottom;
+                            LongTextRect.X = displayRect.Left + displayRect.Bottom - LongTextRect.Bottom;
                             LongTextRect.Y = y + displayRect.Top;
                             SwapRectangleSizes(ref LongTextRect);
                         }

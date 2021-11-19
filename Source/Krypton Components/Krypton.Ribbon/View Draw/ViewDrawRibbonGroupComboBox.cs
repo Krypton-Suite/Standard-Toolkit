@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem()
         {
-            if ((GroupComboBox.Visible) && (GroupComboBox.LastComboBox?.ComboBox != null) && (GroupComboBox.LastComboBox.ComboBox.CanSelect))
+            if (GroupComboBox.Visible && (GroupComboBox.LastComboBox?.ComboBox != null) && GroupComboBox.LastComboBox.ComboBox.CanSelect)
             {
                 return this;
             }
@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem()
         {
-            if ((GroupComboBox.Visible) && (GroupComboBox.LastComboBox?.ComboBox != null) && (GroupComboBox.LastComboBox.ComboBox.CanSelect))
+            if (GroupComboBox.Visible && (GroupComboBox.LastComboBox?.ComboBox != null) && GroupComboBox.LastComboBox.ComboBox.CanSelect)
             {
                 return this;
             }
@@ -191,7 +191,7 @@ namespace Krypton.Ribbon
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -206,7 +206,7 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -566,7 +566,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if ((GroupComboBox.RibbonContainer.RibbonGroup.IsCollapsed) &&
+                            if (GroupComboBox.RibbonContainer.RibbonGroup.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupComboBox.ComboBox) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupComboBox.ComboBox) is VisualPopupMinimized)))
                             {

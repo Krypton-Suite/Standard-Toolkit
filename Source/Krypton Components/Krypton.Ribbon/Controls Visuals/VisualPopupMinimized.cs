@@ -300,12 +300,12 @@ namespace Krypton.Ribbon
             if (popupRect.Right > workingArea.Right)
             {
                 // Reduce width to bring it back onto the screen
-                popupRect.Width -= (popupRect.Right - workingArea.Right);
+                popupRect.Width -= popupRect.Right - workingArea.Right;
 
                 // Enforce a minimum useful width for the popup
                 if (popupRect.Width < MINIMUM_WIDTH)
                 {
-                    popupRect.X -= (MINIMUM_WIDTH - popupRect.Width);
+                    popupRect.X -= MINIMUM_WIDTH - popupRect.Width;
                     popupRect.Width = MINIMUM_WIDTH;
                 }
             }
@@ -315,7 +315,7 @@ namespace Krypton.Ribbon
                 if (popupRect.Left < workingArea.Left)
                 {
                     // Reduce left side of popup to start at screen left edge
-                    var reduce = (workingArea.Left - popupRect.Left);
+                    var reduce = workingArea.Left - popupRect.Left;
                     popupRect.Width -= reduce;
                     popupRect.X += reduce;
 

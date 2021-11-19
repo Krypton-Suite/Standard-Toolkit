@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
             ClientRectangle = context.DisplayRectangle;
 
             // Content palette depends on enabled state of the control
-            PaletteState state = (Enabled ? PaletteState.Normal : PaletteState.Disabled);
+            PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             // Layout the 7 day names
             Rectangle layoutRect = new(ClientLocation, _months.SizeDays);
@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Content palette depends on enabled state of the control
-            PaletteState state = (Enabled ? PaletteState.Normal : PaletteState.Disabled);
+            PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             // Draw the 7 day names
             Rectangle drawRect = new(ClientLocation, _months.SizeDays);

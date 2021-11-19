@@ -787,7 +787,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeItemStyle() => (ItemStyle != ButtonStyle.ListItem);
+        private bool ShouldSerializeItemStyle() => ItemStyle != ButtonStyle.ListItem;
 
         private void ResetItemStyle() => ItemStyle = ButtonStyle.ListItem;
 
@@ -950,7 +950,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBackStyle() => (BackStyle != PaletteBackStyle.InputControlStandalone);
+        private bool ShouldSerializeBackStyle() => BackStyle != PaletteBackStyle.InputControlStandalone;
 
         private void ResetBackStyle() => BackStyle = PaletteBackStyle.InputControlStandalone;
 
@@ -974,7 +974,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBorderStyle() => (BorderStyle != PaletteBorderStyle.InputControlStandalone);
+        private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.InputControlStandalone;
 
         private void ResetBorderStyle() => BorderStyle = PaletteBorderStyle.InputControlStandalone;
 
@@ -1556,7 +1556,7 @@ namespace Krypton.Toolkit
                     (SelectionMode != SelectionMode.None))
                 {
                     _drawButton.Checked = true;
-                    buttonState = (mouseOver ? PaletteState.CheckedTracking : PaletteState.CheckedNormal);
+                    buttonState = mouseOver ? PaletteState.CheckedTracking : PaletteState.CheckedNormal;
                 }
                 else
                 {

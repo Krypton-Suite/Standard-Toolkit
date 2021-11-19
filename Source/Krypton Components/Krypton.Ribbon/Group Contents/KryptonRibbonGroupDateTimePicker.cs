@@ -225,7 +225,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the date time picker.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
+        private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -508,7 +508,7 @@ namespace Krypton.Ribbon
             CalendarTodayDate = DateTime.Now.Date;
         }
 
-        private bool ShouldSerializeCalendarTodayDate() => (CalendarTodayDate != DateTime.Now.Date);
+        private bool ShouldSerializeCalendarTodayDate() => CalendarTodayDate != DateTime.Now.Date;
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
@@ -778,7 +778,7 @@ namespace Krypton.Ribbon
             CalendarHeaderStyle = HeaderStyle.Calendar;
         }
 
-        private bool ShouldSerializeCalendarHeaderStyle() => (CalendarHeaderStyle != HeaderStyle.Calendar);
+        private bool ShouldSerializeCalendarHeaderStyle() => CalendarHeaderStyle != HeaderStyle.Calendar;
 
         /// <summary>
         /// Gets and sets the content style for the day entries.
@@ -796,7 +796,7 @@ namespace Krypton.Ribbon
             CalendarDayStyle = ButtonStyle.CalendarDay;
         }
 
-        private bool ShouldSerializeCalendarDayStyle() => (CalendarDayStyle != ButtonStyle.CalendarDay);
+        private bool ShouldSerializeCalendarDayStyle() => CalendarDayStyle != ButtonStyle.CalendarDay;
 
         /// <summary>
         /// Gets and sets the content style for the day of week labels.
@@ -814,7 +814,7 @@ namespace Krypton.Ribbon
             CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
         }
 
-        private bool ShouldSerializeCalendarDayOfWeekStyle() => (CalendarDayOfWeekStyle != ButtonStyle.CalendarDay);
+        private bool ShouldSerializeCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle != ButtonStyle.CalendarDay;
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.

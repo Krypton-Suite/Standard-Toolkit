@@ -163,11 +163,11 @@ namespace Krypton.Ribbon
 
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
-                moveFirst = (_ribbonTab.Ribbon.RibbonTabs.IndexOf(_ribbonTab) > 0);
-                movePrev = (_ribbonTab.Ribbon.RibbonTabs.IndexOf(_ribbonTab) > 0);
-                moveNext = (_ribbonTab.Ribbon.RibbonTabs.IndexOf(_ribbonTab) < (_ribbonTab.Ribbon.RibbonTabs.Count - 1));
-                moveLast = (_ribbonTab.Ribbon.RibbonTabs.IndexOf(_ribbonTab) < (_ribbonTab.Ribbon.RibbonTabs.Count - 1));
-                clearGroups = (_ribbonTab.Groups.Count > 0);
+                moveFirst = _ribbonTab.Ribbon.RibbonTabs.IndexOf(_ribbonTab) > 0;
+                movePrev = _ribbonTab.Ribbon.RibbonTabs.IndexOf(_ribbonTab) > 0;
+                moveNext = _ribbonTab.Ribbon.RibbonTabs.IndexOf(_ribbonTab) < (_ribbonTab.Ribbon.RibbonTabs.Count - 1);
+                moveLast = _ribbonTab.Ribbon.RibbonTabs.IndexOf(_ribbonTab) < (_ribbonTab.Ribbon.RibbonTabs.Count - 1);
+                clearGroups = _ribbonTab.Groups.Count > 0;
             }
 
             _moveFirstVerb.Enabled = moveFirst;

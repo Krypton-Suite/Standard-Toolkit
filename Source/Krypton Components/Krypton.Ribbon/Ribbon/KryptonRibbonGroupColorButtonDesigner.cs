@@ -141,10 +141,10 @@ namespace Krypton.Ribbon
             if (_ribbonColorButton?.Ribbon != null)
             {
                 var items = ParentItems;
-                moveFirst = (items.IndexOf(_ribbonColorButton) > 0);
-                movePrev = (items.IndexOf(_ribbonColorButton) > 0);
-                moveNext = (items.IndexOf(_ribbonColorButton) < (items.Count - 1));
-                moveLast = (items.IndexOf(_ribbonColorButton) < (items.Count - 1));
+                moveFirst = items.IndexOf(_ribbonColorButton) > 0;
+                movePrev = items.IndexOf(_ribbonColorButton) > 0;
+                moveNext = items.IndexOf(_ribbonColorButton) < (items.Count - 1);
+                moveLast = items.IndexOf(_ribbonColorButton) < (items.Count - 1);
             }
 
             _moveFirstVerb.Enabled = moveFirst;
@@ -435,10 +435,10 @@ namespace Krypton.Ribbon
                 _visibleMenu.Checked = _ribbonColorButton.Visible;
                 _enabledMenu.Checked = _ribbonColorButton.Enabled;
                 _checkedMenu.Checked = _ribbonColorButton.Checked;
-                _typePushMenu.Checked = (_ribbonColorButton.ButtonType == GroupButtonType.Push);
-                _typeCheckMenu.Checked = (_ribbonColorButton.ButtonType == GroupButtonType.Check);
-                _typeDropDownMenu.Checked = (_ribbonColorButton.ButtonType == GroupButtonType.DropDown);
-                _typeSplitMenu.Checked = (_ribbonColorButton.ButtonType == GroupButtonType.Split);
+                _typePushMenu.Checked = _ribbonColorButton.ButtonType == GroupButtonType.Push;
+                _typeCheckMenu.Checked = _ribbonColorButton.ButtonType == GroupButtonType.Check;
+                _typeDropDownMenu.Checked = _ribbonColorButton.ButtonType == GroupButtonType.DropDown;
+                _typeSplitMenu.Checked = _ribbonColorButton.ButtonType == GroupButtonType.Split;
                 _moveFirstMenu.Enabled = _moveFirstVerb.Enabled;
                 _movePreviousMenu.Enabled = _movePrevVerb.Enabled;
                 _moveNextMenu.Enabled = _moveNextVerb.Enabled;

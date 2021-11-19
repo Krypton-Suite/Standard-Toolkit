@@ -418,7 +418,7 @@ namespace Krypton.Toolkit
 
         private void ResetCollapseTarget() => CollapseTarget = HeaderGroupCollapsedTarget.CollapsedToPrimary;
 
-        private bool ShouldSerializeCollapseTarget() => (CollapseTarget != HeaderGroupCollapsedTarget.CollapsedToPrimary);
+        private bool ShouldSerializeCollapseTarget() => CollapseTarget != HeaderGroupCollapsedTarget.CollapsedToPrimary;
 
 
         /// <summary>
@@ -466,7 +466,7 @@ namespace Krypton.Toolkit
 
         private void ResetGroupBorderStyle() => GroupBorderStyle = PaletteBorderStyle.ControlClient;
 
-        private bool ShouldSerializeGroupBorderStyle() => (GroupBorderStyle != PaletteBorderStyle.ControlClient);
+        private bool ShouldSerializeGroupBorderStyle() => GroupBorderStyle != PaletteBorderStyle.ControlClient;
 
         /// <summary>
         /// Gets and sets the background style.
@@ -490,7 +490,7 @@ namespace Krypton.Toolkit
 
         private void ResetGroupBackStyle() => GroupBackStyle = PaletteBackStyle.ControlClient;
 
-        private bool ShouldSerializeGroupBackStyle() => (GroupBackStyle != PaletteBackStyle.ControlClient);
+        private bool ShouldSerializeGroupBackStyle() => GroupBackStyle != PaletteBackStyle.ControlClient;
 
         /// <summary>
         /// Gets and sets the primary header style.
@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
 
         private void ResetHeaderStylePrimary() => HeaderStylePrimary = HeaderStyle.Primary;
 
-        private bool ShouldSerializeHeaderStylePrimary() => (HeaderStylePrimary != HeaderStyle.Primary);
+        private bool ShouldSerializeHeaderStylePrimary() => HeaderStylePrimary != HeaderStyle.Primary;
 
         /// <summary>
         /// Gets and sets the secondary header style.
@@ -538,7 +538,7 @@ namespace Krypton.Toolkit
 
         private void ResetHeaderStyleSecondary() => HeaderStyleSecondary = HeaderStyle.Secondary;
 
-        private bool ShouldSerializeHeaderStyleSecondary() => (HeaderStyleSecondary != HeaderStyle.Secondary);
+        private bool ShouldSerializeHeaderStyleSecondary() => HeaderStyleSecondary != HeaderStyle.Secondary;
 
         /// <summary>
         /// Gets and sets the position of the primary header.

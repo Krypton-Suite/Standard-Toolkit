@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets a value indicating if there is an active char fragment.
             /// </summary>
-            public bool HasActiveFragment => (_activeFragment >= 0);
+            public bool HasActiveFragment => _activeFragment >= 0;
 
             /// <summary>
             /// Gets and sets the active fragment based on the fragment string.
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
                     var totalWidth = 0;
                     for (var i = _fragments.Count - 1; i >= 0; i--)
                     {
-                        totalWidth += (i == 0 ? _fragments[i].TotalWidth : _fragments[i].TotalWidth - _fragments[i - 1].TotalWidth);
+                        totalWidth += i == 0 ? _fragments[i].TotalWidth : _fragments[i].TotalWidth - _fragments[i - 1].TotalWidth;
                         if (_fragments[i].AllowActive)
                         {
 
@@ -350,7 +350,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets a value indicating if input digits are being processed.
             /// </summary>
-            public bool IsInputDigits => (_inputDigits != null);
+            public bool IsInputDigits => _inputDigits != null;
 
             /// <summary>
             /// Process the input of numeric digit.
@@ -628,7 +628,7 @@ namespace Krypton.Toolkit
                         EndInputDigits();
                         _activeFragment = firstFocus;
                     }
-                    else if (!(_fragments[_activeFragment].AllowActive))
+                    else if (!_fragments[_activeFragment].AllowActive)
                     {
                         EndInputDigits();
                         _activeFragment = firstFocus;
@@ -636,7 +636,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            private bool ImplRightToLeft => (RightToLeftLayout && (_dateTimePicker.RightToLeft == RightToLeft.Yes));
+            private bool ImplRightToLeft => RightToLeftLayout && (_dateTimePicker.RightToLeft == RightToLeft.Yes);
 
             private void MeasureFragments(Graphics g, Font font, DateTime dt)
             {
@@ -1569,7 +1569,7 @@ namespace Krypton.Toolkit
                 case Keys.P:
                     if (_dateTimePicker.Checked)
                     {
-                        _dateTimePicker.Value = ValidateDate(_formatHandler.AMPM((e.KeyCode == Keys.A)));
+                        _dateTimePicker.Value = ValidateDate(_formatHandler.AMPM(e.KeyCode == Keys.A));
                         PerformNeedPaint(false);
                     }
                     break;

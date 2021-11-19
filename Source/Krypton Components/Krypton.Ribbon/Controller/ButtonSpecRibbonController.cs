@@ -51,7 +51,7 @@ namespace Krypton.Ribbon
             ButtonSpec buttonSpec = ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton);
 
             // Note if we are on the near edge
-            var isNear = (buttonSpec.Edge == PaletteRelativeEdgeAlign.Near);
+            var isNear = buttonSpec.Edge == PaletteRelativeEdgeAlign.Near;
 
             switch (e.KeyData)
             {

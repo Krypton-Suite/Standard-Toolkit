@@ -227,7 +227,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to fire click event of the quick access toolbar button.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
+        private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -344,7 +344,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ShouldSerializeTag() => (Tag != null);
+        private bool ShouldSerializeTag() => Tag != null;
 
         private void ResetTag()
         {

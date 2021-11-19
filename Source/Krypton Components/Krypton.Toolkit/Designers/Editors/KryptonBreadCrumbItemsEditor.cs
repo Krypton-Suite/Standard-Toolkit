@@ -284,8 +284,8 @@ namespace Krypton.Toolkit
                 // 
                 // treeView1
                 // 
-                treeView1.Anchor = ((AnchorStyles.Top | AnchorStyles.Bottom)
-                                    | AnchorStyles.Left)
+                treeView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+                                    | AnchorStyles.Left
                                    | AnchorStyles.Right;
                 treeView1.Location = new Point(12, 32);
                 treeView1.Name = "treeView1";
@@ -356,7 +356,7 @@ namespace Krypton.Toolkit
                 // 
                 // propertyGrid1
                 // 
-                propertyGrid1.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom)
+                propertyGrid1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
                                        | AnchorStyles.Right;
                 propertyGrid1.HelpVisible = false;
                 propertyGrid1.Location = new Point(373, 32);
@@ -545,7 +545,7 @@ namespace Krypton.Toolkit
                     {
                         if (!found)
                         {
-                            found |= (node == target);
+                            found |= node == target;
                         }
                         else
                         {
@@ -574,7 +574,7 @@ namespace Krypton.Toolkit
                         {
                             if (!found)
                             {
-                                found |= (node == target);
+                                found |= node == target;
                             }
                             else
                             {
@@ -602,7 +602,7 @@ namespace Krypton.Toolkit
 
                         // Remove cell from parent collection
                         MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
-                        TreeNodeCollection parentCollection = (node.Parent == null ? treeView1.Nodes : node.Parent.Nodes);
+                        TreeNodeCollection parentCollection = node.Parent == null ? treeView1.Nodes : node.Parent.Nodes;
                         parentNode?.Item.Items.Remove(node.Item);
                         parentCollection.Remove(node);
 
@@ -610,11 +610,11 @@ namespace Krypton.Toolkit
                         {
                             // Add cell to the parent of target node
                             MenuTreeNode previousParent = (MenuTreeNode)previousNode.Parent;
-                            parentCollection = (previousNode.Parent == null ? treeView1.Nodes : previousNode.Parent.Nodes);
+                            parentCollection = previousNode.Parent == null ? treeView1.Nodes : previousNode.Parent.Nodes;
                             var pageIndex = parentCollection.IndexOf(previousNode);
 
                             // If the current and previous nodes are inside the same common node
-                            if (!contained && ((previousParent != null) && (previousParent != parentNode)))
+                            if (!contained && (previousParent != null) && (previousParent != parentNode))
                             {
                                 // If the page is the last one in the collection then we need to insert afterwards
                                 if (pageIndex == (previousParent.Nodes.Count - 1))
@@ -657,7 +657,7 @@ namespace Krypton.Toolkit
 
                         // Remove cell from parent collection
                         MenuTreeNode parentNode = (MenuTreeNode)node.Parent;
-                        TreeNodeCollection parentCollection = (node.Parent == null ? treeView1.Nodes : node.Parent.Nodes);
+                        TreeNodeCollection parentCollection = node.Parent == null ? treeView1.Nodes : node.Parent.Nodes;
                         parentNode?.Item.Items.Remove(node.Item);
                         parentCollection.Remove(node);
 
@@ -665,7 +665,7 @@ namespace Krypton.Toolkit
                         {
                             // Add cell to the parent sequence of target cell
                             MenuTreeNode previousParent = (MenuTreeNode)nextNode.Parent;
-                            parentCollection = (nextNode.Parent == null ? treeView1.Nodes : nextNode.Parent.Nodes);
+                            parentCollection = nextNode.Parent == null ? treeView1.Nodes : nextNode.Parent.Nodes;
                             var pageIndex = parentCollection.IndexOf(nextNode);
                             previousParent?.Item.Items.Insert(pageIndex + 1, node.Item);
                             parentCollection.Insert(pageIndex + 1, node);
@@ -793,7 +793,7 @@ namespace Krypton.Toolkit
                 MenuTreeNode node = treeView1.SelectedNode as MenuTreeNode;
                 buttonMoveUp.Enabled = (node != null) && (PreviousNode(node) != null);
                 buttonMoveDown.Enabled = (node != null) && (NextNode(node) != null);
-                buttonDelete.Enabled = (node != null);
+                buttonDelete.Enabled = node != null;
             }
 
             private void UpdatePropertyGrid()

@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
             SuspendLayout();
 
             //VScrollBar1.Anchor = AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top;
-            VScrollBar1.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Right))); VScrollBar1.Dock = DockStyle.Right;
+            VScrollBar1.Anchor = (AnchorStyles)(AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right); VScrollBar1.Dock = DockStyle.Right;
             VScrollBar1.LargeChange = 10;
             VScrollBar1.Location = new Point(0x91, 0); // (145,0)
             VScrollBar1.Maximum = 100;
@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
                 var itemRectHeight = listView1.GetItemRect(0).Height;
 
                 var nTimes = (nHeight - 17) / itemRectHeight;
-                var nScrollPositions = (nMax - nTimes) + 1;
+                var nScrollPositions = nMax - nTimes + 1;
 
                 double nThePos = VScrollBar1.Maximum / nScrollPositions;
 
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
                 var nShouldBeAt = RealPos * itemRectHeight;
                 double nIsAt = nPos * itemRectHeight;
 
-                var pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
+                var pixelsToScroll = Convert.ToInt32(nShouldBeAt - nIsAt);
 
                 PI.SendMessage(listView1.Handle, PI.LVM_SCROLL, IntPtr.Zero, (IntPtr)pixelsToScroll);
 
@@ -349,7 +349,7 @@ namespace Krypton.Toolkit
                 var nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
                 var nShouldBeAt = (int)e.NewValue;
 
-                var pixelsToScroll = Convert.ToInt32((nShouldBeAt - nIsAt));
+                var pixelsToScroll = Convert.ToInt32(nShouldBeAt - nIsAt);
 
                 PI.SendMessage(listView1.Handle, PI.LVM_SCROLL, (IntPtr)pixelsToScroll, IntPtr.Zero);
 
@@ -632,7 +632,7 @@ namespace Krypton.Toolkit
 
             foreach (Control ctr in dgv.Controls)
             {
-                if ((ctr) is VScrollBar bar)
+                if (ctr is VScrollBar bar)
                 {
                     VSB = bar;
                     isPresent = true;
@@ -665,7 +665,7 @@ namespace Krypton.Toolkit
 
             foreach (Control ctr in dgv.Controls)
             {
-                if ((ctr) is HScrollBar bar)
+                if (ctr is HScrollBar bar)
                 {
                     HSB = bar;
                     isPresent = true;

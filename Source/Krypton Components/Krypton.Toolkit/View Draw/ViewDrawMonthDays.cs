@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
             // Search the list of days for the one containing the requested point
             for (var i = 0; i < DAYS; i++)
             {
-                if ((_dayMementos[i] != null) && (_dayRects[i].Contains(pt)))
+                if ((_dayMementos[i] != null) && _dayRects[i].Contains(pt))
                 {
                     DateTime day = _firstDay.AddDays(i);
                     if (!exact || ((day >= _month) && (day <= _lastDay)))
@@ -294,7 +294,7 @@ namespace Krypton.Toolkit
                             // Is this day part of the selection?
                             if ((displayDate >= selectStart) && (displayDate <= selectEnd))
                             {
-                                _calendar.SetFocusOverride(((_months.FocusDay != null) && (_months.FocusDay.Value == displayDate)));
+                                _calendar.SetFocusOverride((_months.FocusDay != null) && (_months.FocusDay.Value == displayDate));
 
                                 if (_months.TrackingDay.HasValue && (_months.TrackingDay.Value == displayDate))
                                 {
@@ -421,7 +421,7 @@ namespace Krypton.Toolkit
                                 // Is this day part of the selection?
                                 if ((displayDate >= selectStart) && (displayDate <= selectEnd))
                                 {
-                                    _calendar.SetFocusOverride(((_months.FocusDay != null) && (_months.FocusDay.Value == displayDate)));
+                                    _calendar.SetFocusOverride((_months.FocusDay != null) && (_months.FocusDay.Value == displayDate));
 
                                     if (_months.TrackingDay.HasValue && (_months.TrackingDay.Value == displayDate))
                                     {

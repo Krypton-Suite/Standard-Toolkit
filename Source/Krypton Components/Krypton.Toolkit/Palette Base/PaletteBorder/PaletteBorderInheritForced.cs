@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
                     PaletteDrawBorders inheritEdges = _inherit.GetBorderDrawBorders(state);
 
                     // Limit the edges to those allowed
-                    return (inheritEdges & MaxBorderEdges);
+                    return inheritEdges & MaxBorderEdges;
                 }
             }
         }

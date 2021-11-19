@@ -685,7 +685,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to fire click event of the color button.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
+        private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -1272,7 +1272,7 @@ namespace Krypton.Ribbon
             // Update visible state based of properties
             _separatorTheme.Visible = _headingTheme.Visible = _colorsTheme.Visible = _visibleThemes;
             _separatorStandard.Visible = _headingStandard.Visible = _colorsStandard.Visible = _visibleStandard;
-            _separatorRecent.Visible = _headingRecent.Visible = _colorsRecent.Visible = (_visibleRecent && (_recentColors.Count > 0));
+            _separatorRecent.Visible = _headingRecent.Visible = _colorsRecent.Visible = _visibleRecent && (_recentColors.Count > 0);
             _itemsNoColor.Visible = _visibleNoColor;
             _itemsMoreColors.Visible = _visibleMoreColors;
 

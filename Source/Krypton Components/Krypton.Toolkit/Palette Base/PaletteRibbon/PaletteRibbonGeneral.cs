@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((ContextTextAlign == PaletteRelativeAlign.Inherit) &&
+        public override bool IsDefault => (ContextTextAlign == PaletteRelativeAlign.Inherit) &&
                                            (ContextTextColor == Color.Empty) &&
                                            (ContextTextFont == null) &&
                                            (DisabledDark == Color.Empty) &&
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
                                            (TabSeparatorColor == Color.Empty) &&
                                            (TabSeparatorContextColor == Color.Empty) &&
                                            (QATButtonDarkColor == Color.Empty) &&
-                                           (QATButtonLightColor == Color.Empty));
+                                           (QATButtonLightColor == Color.Empty);
 
         #endregion
 

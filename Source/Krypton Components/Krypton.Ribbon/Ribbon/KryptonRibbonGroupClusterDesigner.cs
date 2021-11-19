@@ -164,11 +164,11 @@ namespace Krypton.Ribbon
                 // Cast container to the correct type
                 KryptonRibbonGroupLines lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
 
-                moveFirst = (lines.Items.IndexOf(_ribbonCluster) > 0);
-                movePrev = (lines.Items.IndexOf(_ribbonCluster) > 0);
-                moveNext = (lines.Items.IndexOf(_ribbonCluster) < (lines.Items.Count - 1));
-                moveLast = (lines.Items.IndexOf(_ribbonCluster) < (lines.Items.Count - 1));
-                clearItems = (_ribbonCluster.Items.Count > 0);
+                moveFirst = lines.Items.IndexOf(_ribbonCluster) > 0;
+                movePrev = lines.Items.IndexOf(_ribbonCluster) > 0;
+                moveNext = lines.Items.IndexOf(_ribbonCluster) < (lines.Items.Count - 1);
+                moveLast = lines.Items.IndexOf(_ribbonCluster) < (lines.Items.Count - 1);
+                clearItems = _ribbonCluster.Items.Count > 0;
             }
 
             _moveFirstVerb.Enabled = moveFirst;

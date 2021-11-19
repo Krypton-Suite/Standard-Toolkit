@@ -201,7 +201,7 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (RibbonAppButton.IsDefault &&
+        public override bool IsDefault => RibbonAppButton.IsDefault &&
                                            RibbonAppMenuOuter.IsDefault &&
                                            RibbonAppMenuInner.IsDefault &&
                                            RibbonAppMenuDocs.IsDefault &&
@@ -225,7 +225,7 @@ namespace Krypton.Ribbon
                                            RibbonQATFullbar.IsDefault &&
                                            RibbonQATMinibarActive.IsDefault &&
                                            RibbonQATMinibarInactive.IsDefault &&
-                                           RibbonQATOverflow.IsDefault);
+                                           RibbonQATOverflow.IsDefault;
 
         #endregion
 

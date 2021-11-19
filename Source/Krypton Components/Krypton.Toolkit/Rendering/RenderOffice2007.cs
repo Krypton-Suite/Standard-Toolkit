@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
             KryptonOffice2007Renderer renderer = new(colorPalette.ColorTable)
             {
                 // Setup the need to use rounded corners
-                RoundedEdges = (colorPalette.ColorTable.UseRoundedEdges != InheritBool.False)
+                RoundedEdges = colorPalette.ColorTable.UseRoundedEdges != InheritBool.False
             };
 
             return renderer;

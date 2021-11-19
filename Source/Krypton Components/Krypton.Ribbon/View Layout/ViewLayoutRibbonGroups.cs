@@ -429,7 +429,7 @@ namespace Krypton.Ribbon
                 KryptonRibbonGroup ribbonGroup = _ribbonTab.Groups[i];
 
                 // Only make the separator visible if the group is and not the first sep
-                var groupVisible = (_ribbon.InDesignHelperMode || ribbonGroup.Visible);
+                var groupVisible = _ribbon.InDesignHelperMode || ribbonGroup.Visible;
                 _groupSepCache[i].Visible = groupVisible && !ignoreSep;
                 regenerate[ribbonGroup].Visible = groupVisible;
 
@@ -558,7 +558,7 @@ namespace Krypton.Ribbon
                 _groupWidths = new int[listGroups.Count];
                 for (var i = 0; i < listGroups.Count; i++)
                 {
-                    _groupWidths[i] = (listWidths[i][bestIndexes[i]].Width);
+                    _groupWidths[i] = listWidths[i][bestIndexes[i]].Width;
                     listGroups[i].SetSolutionSize(listWidths[i][bestIndexes[i]].Sizing);
                 }
             }
@@ -568,7 +568,7 @@ namespace Krypton.Ribbon
                 _groupWidths = new int[listGroups.Count];
                 for (var i = 0; i < listGroups.Count; i++)
                 {
-                    _groupWidths[i] = (listWidths[i][listWidths[i].Length - 1].Width);
+                    _groupWidths[i] = listWidths[i][listWidths[i].Length - 1].Width;
                     listGroups[i].SetSolutionSize(listWidths[i][listWidths[i].Length - 1].Sizing);
                 }
             }

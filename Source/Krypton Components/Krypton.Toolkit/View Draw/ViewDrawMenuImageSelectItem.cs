@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Item is becoming tracked by the mouse.
         /// </summary>
-        public bool IsTracking => (_imageSelect.TrackingIndex == _imageIndex);
+        public bool IsTracking => _imageSelect.TrackingIndex == _imageIndex;
 
         /// <summary>
         /// Item is becoming tracked by the mouse.

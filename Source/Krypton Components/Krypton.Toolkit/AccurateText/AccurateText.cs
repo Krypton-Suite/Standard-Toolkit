@@ -334,10 +334,10 @@ namespace Krypton.Toolkit
         private static Color ContrastColor(Color color)
         {
             //  Counting the perceptive luminance - human eye favours green colour... 
-            var a = (1
+            var a = 1
                      - (((0.299 * color.R)
                          + ((0.587 * color.G) + (0.114 * color.B)))
-                        / 255));
+                        / 255);
             var d = a < 0.5 ? 0 : 255;
 
             //  dark colours - white font
@@ -405,8 +405,8 @@ namespace Krypton.Toolkit
                 {
                     left = 0,
                     top = 0,
-                    right = (bounds.Right - bounds.Left),
-                    bottom = (bounds.Bottom - bounds.Top) + (GLOW_EXTRA_HEIGHT * 2)
+                    right = bounds.Right - bounds.Left,
+                    bottom = bounds.Bottom - bounds.Top + (GLOW_EXTRA_HEIGHT * 2)
                 };
                 PI.DTTOPTS dttOpts = new()
                 {
@@ -479,7 +479,7 @@ namespace Krypton.Toolkit
                 PI.BITMAPINFO bmi = new()
                 {
                     biWidth = bounds.Width,
-                    biHeight = -(bounds.Height),
+                    biHeight = -bounds.Height,
                     biCompression = 0,
                     biBitCount = 32,
                     biPlanes = 1
@@ -510,8 +510,8 @@ namespace Krypton.Toolkit
                 {
                     left = 0,
                     top = 0,
-                    right = (bounds.Right - bounds.Left),
-                    bottom = (bounds.Bottom - bounds.Top)
+                    right = bounds.Right - bounds.Left,
+                    bottom = bounds.Bottom - bounds.Top
                 };
                 PI.DTTOPTS dttOpts = new()
                 {

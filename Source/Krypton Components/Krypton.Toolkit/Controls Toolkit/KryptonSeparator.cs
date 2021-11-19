@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeContainerBackStyle() => (ContainerBackStyle != PaletteBackStyle.PanelClient);
+        private bool ShouldSerializeContainerBackStyle() => ContainerBackStyle != PaletteBackStyle.PanelClient;
 
         private void ResetContainerBackStyle()
         {
@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeSeparatorStyle() => (SeparatorStyle != SeparatorStyle.HighProfile);
+        private bool ShouldSerializeSeparatorStyle() => SeparatorStyle != SeparatorStyle.HighProfile;
 
         private void ResetSeparatorStyle()
         {

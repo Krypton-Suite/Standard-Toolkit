@@ -339,7 +339,7 @@ namespace Krypton.Toolkit
             HeaderStyle = HeaderStyle.Primary;
         }
 
-        private bool ShouldSerializeHeaderStyle() => (HeaderStyle != HeaderStyle.Primary);
+        private bool ShouldSerializeHeaderStyle() => HeaderStyle != HeaderStyle.Primary;
 
         /// <summary>
         /// Gets access to the header content.

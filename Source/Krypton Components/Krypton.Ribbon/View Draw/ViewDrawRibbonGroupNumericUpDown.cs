@@ -152,7 +152,9 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem()
         {
-            if ((GroupNumericUpDown.Visible) && (GroupNumericUpDown.LastNumericUpDown?.NumericUpDown != null) && (GroupNumericUpDown.LastNumericUpDown.NumericUpDown.CanSelect))
+            if (GroupNumericUpDown.Visible 
+                && (GroupNumericUpDown.LastNumericUpDown?.NumericUpDown != null) 
+                && GroupNumericUpDown.LastNumericUpDown.NumericUpDown.CanSelect)
             {
                 return this;
             }
@@ -170,7 +172,9 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem()
         {
-            if ((GroupNumericUpDown.Visible) && (GroupNumericUpDown.LastNumericUpDown?.NumericUpDown != null) && (GroupNumericUpDown.LastNumericUpDown.NumericUpDown.CanSelect))
+            if (GroupNumericUpDown.Visible 
+                && (GroupNumericUpDown.LastNumericUpDown?.NumericUpDown != null) 
+                && GroupNumericUpDown.LastNumericUpDown.NumericUpDown.CanSelect)
             {
                 return this;
             }
@@ -191,7 +195,7 @@ namespace Krypton.Ribbon
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -206,7 +210,7 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -565,7 +569,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if ((GroupNumericUpDown.RibbonContainer.RibbonGroup.IsCollapsed) &&
+                            if (GroupNumericUpDown.RibbonContainer.RibbonGroup.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupNumericUpDown.NumericUpDown) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupNumericUpDown.NumericUpDown) is VisualPopupMinimized))
                                 )

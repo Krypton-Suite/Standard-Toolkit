@@ -251,11 +251,11 @@ namespace Krypton.Ribbon
 
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
-                moveFirst = (_ribbonLines.RibbonGroup.Items.IndexOf(_ribbonLines) > 0);
-                movePrev = (_ribbonLines.RibbonGroup.Items.IndexOf(_ribbonLines) > 0);
-                moveNext = (_ribbonLines.RibbonGroup.Items.IndexOf(_ribbonLines) < (_ribbonLines.RibbonGroup.Items.Count - 1));
-                moveLast = (_ribbonLines.RibbonGroup.Items.IndexOf(_ribbonLines) < (_ribbonLines.RibbonGroup.Items.Count - 1));
-                clearItems = (_ribbonLines.Items.Count > 0);
+                moveFirst = _ribbonLines.RibbonGroup.Items.IndexOf(_ribbonLines) > 0;
+                movePrev = _ribbonLines.RibbonGroup.Items.IndexOf(_ribbonLines) > 0;
+                moveNext = _ribbonLines.RibbonGroup.Items.IndexOf(_ribbonLines) < (_ribbonLines.RibbonGroup.Items.Count - 1);
+                moveLast = _ribbonLines.RibbonGroup.Items.IndexOf(_ribbonLines) < (_ribbonLines.RibbonGroup.Items.Count - 1);
+                clearItems = _ribbonLines.Items.Count > 0;
             }
 
             _moveFirstVerb.Enabled = moveFirst;
@@ -1076,17 +1076,17 @@ namespace Krypton.Ribbon
                 // Update menu items state from versb
                 _toggleHelpersMenu.Checked = _ribbonLines.Ribbon.InDesignHelperMode;
                 _visibleMenu.Checked = _ribbonLines.Visible;
-                _maximumLMenu.Checked = (_ribbonLines.MaximumSize == GroupItemSize.Large);
-                _maximumMMenu.Checked = (_ribbonLines.MaximumSize == GroupItemSize.Medium);
-                _maximumSMenu.Checked = (_ribbonLines.MaximumSize == GroupItemSize.Small);
-                _minimumLMenu.Checked = (_ribbonLines.MinimumSize == GroupItemSize.Large);
-                _minimumMMenu.Checked = (_ribbonLines.MinimumSize == GroupItemSize.Medium);
-                _minimumSMenu.Checked = (_ribbonLines.MinimumSize == GroupItemSize.Small);
+                _maximumLMenu.Checked = _ribbonLines.MaximumSize == GroupItemSize.Large;
+                _maximumMMenu.Checked = _ribbonLines.MaximumSize == GroupItemSize.Medium;
+                _maximumSMenu.Checked = _ribbonLines.MaximumSize == GroupItemSize.Small;
+                _minimumLMenu.Checked = _ribbonLines.MinimumSize == GroupItemSize.Large;
+                _minimumMMenu.Checked = _ribbonLines.MinimumSize == GroupItemSize.Medium;
+                _minimumSMenu.Checked = _ribbonLines.MinimumSize == GroupItemSize.Small;
                 _moveFirstMenu.Enabled = _moveFirstVerb.Enabled;
                 _movePreviousMenu.Enabled = _movePrevVerb.Enabled;
                 _moveNextMenu.Enabled = _moveNextVerb.Enabled;
                 _moveLastMenu.Enabled = _moveLastVerb.Enabled;
-                _moveToGroupMenu.Enabled = (_moveToGroupMenu.DropDownItems.Count > 0);
+                _moveToGroupMenu.Enabled = _moveToGroupMenu.DropDownItems.Count > 0;
                 _clearItemsMenu.Enabled = _clearItemsVerb.Enabled;
 
                 // Show the context menu

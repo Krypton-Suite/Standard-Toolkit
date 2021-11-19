@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
                     wrapMode = OwningColumn.DefaultCellStyle.WrapMode;
                 }
 
-                textBox.WordWrap = textBox.Multiline = (wrapMode == DataGridViewTriState.True);
+                textBox.WordWrap = textBox.Multiline = wrapMode == DataGridViewTriState.True;
 
                 if (OwningColumn is KryptonDataGridViewTextBoxColumn textBoxColumn)
                 {

@@ -113,7 +113,7 @@ namespace Krypton.Ribbon
                         // Our width is the distance between the left most button edge and the right
                         // side of the client area (this space the buttons are taking up). Plus a small
                         // extra gap between the first button and the caption elements to its left.
-                        _width = (clientScreenRight - leftMost) + SPACING_GAP;
+                        _width = clientScreenRight - leftMost + SPACING_GAP;
 
                         preferredSize.Width = _width;
                     }

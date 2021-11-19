@@ -1103,7 +1103,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeItemStyle() => (ItemStyle != ButtonStyle.ListItem);
+        private bool ShouldSerializeItemStyle() => ItemStyle != ButtonStyle.ListItem;
 
         private void ResetItemStyle() => ItemStyle = ButtonStyle.ListItem;
 
@@ -1139,7 +1139,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBackStyle() => (BackStyle != PaletteBackStyle.InputControlStandalone);
+        private bool ShouldSerializeBackStyle() => BackStyle != PaletteBackStyle.InputControlStandalone;
 
         private void ResetBackStyle() => BackStyle = PaletteBackStyle.InputControlStandalone;
 
@@ -1163,7 +1163,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeBorderStyle() => (BorderStyle != PaletteBorderStyle.InputControlStandalone);
+        private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.InputControlStandalone;
 
         private void ResetBorderStyle() => BorderStyle = PaletteBorderStyle.InputControlStandalone;
 
@@ -1910,7 +1910,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            _layoutImageCenterState.Visible = (drawStateImage != null);
+            _layoutImageCenterState.Visible = drawStateImage != null;
 
             // Do we need the check box?
             _layoutCheckBoxStack.Visible = (StateImageList == null)
@@ -1973,7 +1973,7 @@ namespace Krypton.Toolkit
 
                 // Create indent rectangle and adjust bounds for remainder
                 var nodeIndent = NodeIndent(e.Node) + 2;
-                Rectangle indentBounds = new((bounds.X + nodeIndent) - indent, bounds.Y, indent, bounds.Height);
+                Rectangle indentBounds = new(bounds.X + nodeIndent - indent, bounds.Y, indent, bounds.Height);
                 bounds.X += nodeIndent;
                 bounds.Width -= nodeIndent;
 
@@ -2030,7 +2030,7 @@ namespace Krypton.Toolkit
                             if (ShowLines && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
                             {
                                 // Find center points
-                                var hCenter = (indentBounds.X + (indentBounds.Width / 2)) - 1;
+                                var hCenter = indentBounds.X + (indentBounds.Width / 2) - 1;
                                 var vCenter = indentBounds.Y + (indentBounds.Height / 2);
                                 vCenter -= (vCenter + 1) % 2;
 
@@ -2076,7 +2076,7 @@ namespace Krypton.Toolkit
                                 Image drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
                                 if (drawImage != null)
                                 {
-                                    g.DrawImage(drawImage, new Rectangle((indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2)) - 1,
+                                    g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
                                         indentBounds.Y + ((indentBounds.Height - drawImage.Height) / 2),
                                         drawImage.Width, drawImage.Height));
                                 }

@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
                             Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
-                            if (((int)((long)m.LParam)) == -1)
+                            if (((int)(long)m.LParam) == -1)
                             {
                                 mousePt = PointToScreen(new Point(Width / 2, Height / 2));
                             }
@@ -267,8 +267,8 @@ namespace Krypton.Toolkit
                 set => PI.SetWindowPos(Handle,
                     IntPtr.Zero,
                     0, 0, 0, 0,
-                    (PI.SWP_.NOMOVE | PI.SWP_.NOSIZE |
-                           (value ? PI.SWP_.SHOWWINDOW : PI.SWP_.HIDEWINDOW))
+                    PI.SWP_.NOMOVE | PI.SWP_.NOSIZE |
+                           (value ? PI.SWP_.SHOWWINDOW : PI.SWP_.HIDEWINDOW)
                     );
             }
             #endregion
@@ -348,10 +348,10 @@ namespace Krypton.Toolkit
                                 // Grab the client area of the control
                                 PI.GetClientRect(Handle, out PI.RECT rect);
 
-                                PaletteState state = (DomainUpDown.Enabled
+                                PaletteState state = DomainUpDown.Enabled
                                         ? (DomainUpDown.IsActive ? PaletteState.Tracking : PaletteState.Normal)
                                         : PaletteState.Disabled
-                                    );
+                                    ;
                                 PaletteInputControlTripleStates states = DomainUpDown.GetTripleState();
 
                                 // Drawn entire client area in the background color
@@ -362,7 +362,7 @@ namespace Krypton.Toolkit
 
                                 // Create rect for the text area
                                 Size borderSize = SystemInformation.BorderSize;
-                                rect.left -= (borderSize.Width + 1);
+                                rect.left -= borderSize.Width + 1;
 
                                 //////////////////////////////////////////////////////
                                 // Following removed to allow the Draw to always happen, to allow centering etc  
@@ -448,7 +448,7 @@ namespace Krypton.Toolkit
                             Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
-                            if (((int)((long)m.LParam)) == -1)
+                            if (((int)(long)m.LParam) == -1)
                             {
                                 PI.GetClientRect(Handle, out PI.RECT clientRect);
                                 mousePt = DomainUpDown.PointToScreen(new Point((clientRect.right - clientRect.left) / 2,
@@ -1203,7 +1203,7 @@ namespace Krypton.Toolkit
 
         private void ResetInputControlStyle() => InputControlStyle = InputControlStyle.Standalone;
 
-        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
+        private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
         /// <summary>
         /// Gets and sets the up and down buttons style.
@@ -1226,7 +1226,7 @@ namespace Krypton.Toolkit
 
         private void ResetUpDownButtonStyle() => UpDownButtonStyle = ButtonStyle.InputControl;
 
-        private bool ShouldSerializeUpDownButtonStyle() => (UpDownButtonStyle != ButtonStyle.InputControl);
+        private bool ShouldSerializeUpDownButtonStyle() => UpDownButtonStyle != ButtonStyle.InputControl;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
@@ -1332,8 +1332,8 @@ namespace Krypton.Toolkit
                 ? _fixedActive.Value
                 : DesignMode || AlwaysActive ||
                   ContainsFocus || _mouseOver || _domainUpDown.MouseOver ||
-                  ((_subclassEdit != null) && (_subclassEdit.MouseOver)) ||
-                  ((_subclassButtons != null) && (_subclassButtons.MouseOver));
+                  ((_subclassEdit != null) && _subclassEdit.MouseOver) ||
+                  ((_subclassButtons != null) && _subclassButtons.MouseOver);
 
         /// <summary>
         /// Sets input focus to the control.
@@ -1810,7 +1810,7 @@ namespace Krypton.Toolkit
         #region Internal
         internal bool InTransparentDesignMode => InRibbonDesignMode;
 
-        internal bool IsFixedActive => (_fixedActive != null);
+        internal bool IsFixedActive => _fixedActive != null;
 
         #endregion
 

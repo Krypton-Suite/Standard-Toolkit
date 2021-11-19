@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Visible
         {
-            get => (_ribbon.Visible && base.Visible);
+            get => _ribbon.Visible && base.Visible;
             set => base.Visible = value;
         }
         #endregion
@@ -248,7 +248,7 @@ namespace Krypton.Ribbon
             // Office 2010 draws a shadow effect of the text
             if ((_ribbon.RibbonShape == PaletteRibbonShape.Office2010) && (_mementoContentShadow1 != null))
             {
-                PaletteState state = (_ribbon.Enabled ? PaletteState.Normal : PaletteState.Disabled);
+                PaletteState state = _ribbon.Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
                 // Use renderer to draw the tab background
                 _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
@@ -294,7 +294,7 @@ namespace Krypton.Ribbon
                 }
                 else
                 {
-                    PaletteState state = (_ribbon.Enabled ? PaletteState.Normal : PaletteState.Disabled);
+                    PaletteState state = _ribbon.Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
                     // Use renderer to draw the tab background
                     _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
@@ -474,7 +474,7 @@ namespace Krypton.Ribbon
                     dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
                     dwFlags = PI.DTT_COMPOSITED | PI.DTT_GLOWSIZE | PI.DTT_TEXTCOLOR,
                     crText = ColorTranslator.ToWin32(SystemColors.ActiveCaptionText),
-                    iGlowSize = (_ribbon.Enabled ? 12 : 2)
+                    iGlowSize = _ribbon.Enabled ? 12 : 2
                 };
 
                 // Always draw text centered

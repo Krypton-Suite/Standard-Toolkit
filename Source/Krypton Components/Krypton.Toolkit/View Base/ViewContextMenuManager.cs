@@ -378,7 +378,7 @@ namespace Krypton.Toolkit
             {
                 if (!found)
                 {
-                    found = (_target == target);
+                    found = _target == target;
                 }
                 else
                 {

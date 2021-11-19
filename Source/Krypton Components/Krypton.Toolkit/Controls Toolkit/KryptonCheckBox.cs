@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
 
         private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalPanel;
 
-        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalPanel);
+        private bool ShouldSerializeLabelStyle() => LabelStyle != LabelStyle.NormalPanel;
 
         /// <summary>
         /// Gets access to the label content.
@@ -416,7 +416,7 @@ namespace Krypton.Toolkit
                 {
                     // Store new values
                     _checked = value;
-                    _checkState = (_checked ? CheckState.Checked : CheckState.Unchecked);
+                    _checkState = _checked ? CheckState.Checked : CheckState.Unchecked;
 
                     // Generate events
                     OnCheckedChanged(EventArgs.Empty);
@@ -473,8 +473,8 @@ namespace Krypton.Toolkit
                 {
                     // Store new values
                     _checkState = value;
-                    var newChecked = (_checkState != CheckState.Unchecked);
-                    var checkedChanged = (_checked != newChecked);
+                    var newChecked = _checkState != CheckState.Unchecked;
+                    var checkedChanged = _checked != newChecked;
                     _checked = newChecked;
 
                     // Generate events
@@ -547,7 +547,7 @@ namespace Krypton.Toolkit
 
             // Request fixed state from the view
             _overrideNormal.Apply = focus;
-            _drawContent.FixedState = (enabled ? PaletteState.Normal : PaletteState.Disabled);
+            _drawContent.FixedState = enabled ? PaletteState.Normal : PaletteState.Disabled;
             _drawCheckBox.Enabled = enabled;
             _drawCheckBox.Tracking = tracking;
             _drawCheckBox.Pressed = pressed;
@@ -719,7 +719,7 @@ namespace Krypton.Toolkit
                 CheckState = CheckState switch
                 {
                     CheckState.Unchecked => CheckState.Checked,
-                    CheckState.Checked => (ThreeState ? CheckState.Indeterminate : CheckState.Unchecked),
+                    CheckState.Checked => ThreeState ? CheckState.Indeterminate : CheckState.Unchecked,
                     CheckState.Indeterminate => CheckState.Unchecked,
                     _ => CheckState
                 };
