@@ -50,8 +50,6 @@ namespace Krypton.Toolkit
         {
             DropDownStyle = ComboBoxStyle.DropDown;
 
-            ThemeManager.PropagateThemeSelector(this);
-
             AutoCompleteCustomSource = new AutoCompleteStringCollection() { ThemeManager.ReturnThemeArray().ToString() };
 
             AutoCompleteSource = AutoCompleteSource.CustomSource;
