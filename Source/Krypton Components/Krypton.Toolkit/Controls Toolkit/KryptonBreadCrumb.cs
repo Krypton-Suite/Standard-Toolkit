@@ -325,7 +325,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeControlBackStyle() => (ControlBackStyle != PaletteBackStyle.PanelAlternate);
+        private bool ShouldSerializeControlBackStyle() => ControlBackStyle != PaletteBackStyle.PanelAlternate;
 
         private void ResetControlBackStyle()
         {
@@ -352,7 +352,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeCrumbButtonStyle() => (CrumbButtonStyle != ButtonStyle.BreadCrumb);
+        private bool ShouldSerializeCrumbButtonStyle() => CrumbButtonStyle != ButtonStyle.BreadCrumb;
 
         private void ResetCrumbButtonStyle()
         {
@@ -379,7 +379,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeControlBorderStyle() => (ControlBorderStyle != PaletteBorderStyle.ControlClient);
+        private bool ShouldSerializeControlBorderStyle() => ControlBorderStyle != PaletteBorderStyle.ControlClient;
 
         private void ResetControlBorderStyle()
         {

@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
                     cache.insideLighten = new PathGradientBrush(cache.ellipsePath)
                     {
                         CenterPoint = ellipseCenter,
-                        CenterColor = (light ? Color.FromArgb(64, Color.White) : Color.FromArgb(128, Color.White)),
+                        CenterColor = light ? Color.FromArgb(64, Color.White) : Color.FromArgb(128, Color.White),
                         Blend = _rounded2Blend,
                         SurroundColors = new Color[] { Color.Transparent }
                     };
@@ -437,7 +437,7 @@ namespace Krypton.Toolkit
                     RectangleF ellipseRect;
                     PointF ellipseCenter;
                     var ellipseHeight = Math.Max(1, drawRect.Height / 4);
-                    var ellipseWidth = Math.Max(1, (tracking ? drawRect.Width : drawRect.Width / 4));
+                    var ellipseWidth = Math.Max(1, tracking ? drawRect.Width : drawRect.Width / 4);
 
                     // Ellipse is based on the orientation
                     switch (orientation)

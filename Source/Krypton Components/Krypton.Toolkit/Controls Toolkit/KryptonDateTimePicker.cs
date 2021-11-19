@@ -494,7 +494,7 @@ namespace Krypton.Toolkit
             CalendarTodayDate = DateTime.Now.Date;
         }
 
-        private bool ShouldSerializeCalendarTodayDate() => (CalendarTodayDate != DateTime.Now.Date);
+        private bool ShouldSerializeCalendarTodayDate() => CalendarTodayDate != DateTime.Now.Date;
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
@@ -522,7 +522,7 @@ namespace Krypton.Toolkit
         /// Should the CalendarAnnuallyBoldedDates property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeCalendarAnnuallyBoldedDates() => (_annualDates.Count > 0);
+        public bool ShouldSerializeCalendarAnnuallyBoldedDates() => _annualDates.Count > 0;
 
         private void ResetCalendarAnnuallyBoldedDates()
         {
@@ -555,7 +555,7 @@ namespace Krypton.Toolkit
         /// Should the CalendarMonthlyBoldedDates property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeCalendarMonthlyBoldedDates() => (_monthlyDates.Count > 0);
+        public bool ShouldSerializeCalendarMonthlyBoldedDates() => _monthlyDates.Count > 0;
 
         private void ResetCalendarMonthlyBoldedDates()
         {
@@ -585,7 +585,7 @@ namespace Krypton.Toolkit
         /// Should the CalendarBoldedDates property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeCalendarBoldedDates() => (_dates.Count > 0);
+        public bool ShouldSerializeCalendarBoldedDates() => _dates.Count > 0;
 
         private void ResetCalendarBoldedDates()
         {
@@ -968,7 +968,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public bool Checked
         {
-            get => (InternalViewDrawCheckBox.CheckState == CheckState.Checked);
+            get => InternalViewDrawCheckBox.CheckState == CheckState.Checked;
 
             set
             {
@@ -1059,7 +1059,7 @@ namespace Krypton.Toolkit
             CalendarHeaderStyle = HeaderStyle.Calendar;
         }
 
-        private bool ShouldSerializeCalendarHeaderStyle() => (CalendarHeaderStyle != HeaderStyle.Calendar);
+        private bool ShouldSerializeCalendarHeaderStyle() => CalendarHeaderStyle != HeaderStyle.Calendar;
 
         /// <summary>
         /// Gets and sets the content style for the day entries.
@@ -1073,7 +1073,7 @@ namespace Krypton.Toolkit
             CalendarDayStyle = ButtonStyle.CalendarDay;
         }
 
-        private bool ShouldSerializeCalendarDayStyle() => (CalendarDayStyle != ButtonStyle.CalendarDay);
+        private bool ShouldSerializeCalendarDayStyle() => CalendarDayStyle != ButtonStyle.CalendarDay;
 
         /// <summary>
         /// Gets and sets the content style for the day of week labels.
@@ -1087,7 +1087,7 @@ namespace Krypton.Toolkit
             CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
         }
 
-        private bool ShouldSerializeCalendarDayOfWeekStyle() => (CalendarDayOfWeekStyle != ButtonStyle.CalendarDay);
+        private bool ShouldSerializeCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle != ButtonStyle.CalendarDay;
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -1168,7 +1168,7 @@ namespace Krypton.Toolkit
             InputControlStyle = InputControlStyle.Standalone;
         }
 
-        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
+        private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
         /// <summary>
         /// Gets and sets the up and down buttons style.
@@ -1195,7 +1195,7 @@ namespace Krypton.Toolkit
             UpDownButtonStyle = ButtonStyle.InputControl;
         }
 
-        private bool ShouldSerializeUpDownButtonStyle() => (UpDownButtonStyle != ButtonStyle.InputControl);
+        private bool ShouldSerializeUpDownButtonStyle() => UpDownButtonStyle != ButtonStyle.InputControl;
 
         /// <summary>
         /// Gets and sets the drop button style.
@@ -1222,7 +1222,7 @@ namespace Krypton.Toolkit
             DropButtonStyle = ButtonStyle.InputControl;
         }
 
-        private bool ShouldSerializeDropButtonStyle() => (DropButtonStyle != ButtonStyle.InputControl);
+        private bool ShouldSerializeDropButtonStyle() => DropButtonStyle != ButtonStyle.InputControl;
 
         /// <summary>
         /// Gets the collection of button specifications.
@@ -1769,7 +1769,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            var rtl = (_drawText.RightToLeftLayout && (RightToLeft == RightToLeft.Yes));
+            var rtl = _drawText.RightToLeftLayout && (RightToLeft == RightToLeft.Yes);
 
             // If the point is before the drop buttons...
             if ((!ShowUpDown && !rtl && (e.X < _buttonDropDown.ClientLocation.X)) ||
@@ -1978,11 +1978,11 @@ namespace Krypton.Toolkit
         #region Internal
         internal DateTime InternalDateTime() => _dateTime;
 
-        internal bool InternalDateTimeNull() => (_rawDateTime == DBNull.Value);
+        internal bool InternalDateTimeNull() => _rawDateTime == DBNull.Value;
 
         internal ViewDrawCheckBox InternalViewDrawCheckBox { get; }
 
-        internal bool IsFixedActive => (_fixedActive != null);
+        internal bool IsFixedActive => _fixedActive != null;
 
         internal DateTime EffectiveMaxDate(DateTime maxDate)
         {
@@ -2173,7 +2173,7 @@ namespace Krypton.Toolkit
 
                 // Give user a change to modify the context menu or even cancel the menu entirely
                 DateTimePickerDropArgs dtpda = new(kcm,
-                                                                          (DropDownAlign == LeftRightAlignment.Left ? KryptonContextMenuPositionH.Left : KryptonContextMenuPositionH.Right),
+                                                                          DropDownAlign == LeftRightAlignment.Left ? KryptonContextMenuPositionH.Left : KryptonContextMenuPositionH.Right,
                                                                           KryptonContextMenuPositionV.Below);
                 // Let user examine and later values
                 OnDropDown(dtpda);

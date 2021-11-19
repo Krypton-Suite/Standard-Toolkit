@@ -357,7 +357,7 @@ namespace Krypton.Toolkit
             _overrideVisited.OverrideState = LinkVisited ? PaletteState.LinkVisitedOverride : PaletteState.LinkNotVisitedOverride;
 
             // Is the item being pressed?
-            _overridePressed.Apply = ((linkState & LinkState.Active) == LinkState.Active);
+            _overridePressed.Apply = (linkState & LinkState.Active) == LinkState.Active;
 
             _viewLabel.ElementState = (linkState & LinkState.Hover) == LinkState.Hover
                 ? PaletteState.Tracking

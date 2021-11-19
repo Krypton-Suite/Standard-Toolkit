@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="item">Object reference.</param>
             /// <returns>True if button spec found; otherwise false.</returns>
-            public bool Contains(object item) => (IndexOf(item) != -1);
+            public bool Contains(object item) => IndexOf(item) != -1;
 
             /// <summary>
             /// Copies all the elements of the current collection to the specified Array. 
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="item">Object reference.</param>
             /// <returns>True if button spec found; otherwise false.</returns>
-            public bool Contains(object item) => (IndexOf(item) != -1);
+            public bool Contains(object item) => IndexOf(item) != -1;
 
             /// <summary>
             /// Copies all the elements of the current collection to the specified Array. 
@@ -594,7 +594,7 @@ namespace Krypton.Toolkit
                 {
                     var index = (int)m.WParam.ToInt64();
                     var lParam = (int)m.LParam;
-                    if (((index < 0) || (index >= Items.Count)) || ((lParam != 1) && (lParam != 0)))
+                    if ((index < 0) || (index >= Items.Count) || ((lParam != 1) && (lParam != 0)))
                     {
                         m.Result = IntPtr.Zero;
                     }
@@ -1389,7 +1389,7 @@ namespace Krypton.Toolkit
             ItemStyle = ButtonStyle.ListItem;
         }
 
-        private bool ShouldSerializeItemStyle() => (ItemStyle != ButtonStyle.ListItem);
+        private bool ShouldSerializeItemStyle() => ItemStyle != ButtonStyle.ListItem;
 
         /// <summary>
         /// Gets or sets the width by which the horizontal scroll bar of a KryptonCheckedListBox can scroll. 
@@ -1542,7 +1542,7 @@ namespace Krypton.Toolkit
             BackStyle = PaletteBackStyle.InputControlStandalone;
         }
 
-        private bool ShouldSerializeBackStyle() => (BackStyle != PaletteBackStyle.InputControlStandalone);
+        private bool ShouldSerializeBackStyle() => BackStyle != PaletteBackStyle.InputControlStandalone;
 
         /// <summary>
         /// Gets and sets the border style.
@@ -1569,7 +1569,7 @@ namespace Krypton.Toolkit
             BorderStyle = PaletteBorderStyle.InputControlStandalone;
         }
 
-        private bool ShouldSerializeBorderStyle() => (BorderStyle != PaletteBorderStyle.InputControlStandalone);
+        private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.InputControlStandalone;
 
         /// <summary>
         /// Gets access to the item appearance when it has focus.
@@ -1711,7 +1711,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">The index of the item.</param>
         /// <returns>true if the item is checked; otherwise, false.</returns>
-        public bool GetItemChecked(int index) => (GetItemCheckState(index) != CheckState.Unchecked);
+        public bool GetItemChecked(int index) => GetItemCheckState(index) != CheckState.Unchecked;
 
         /// <summary>
         /// Returns a value indicating the check state of the current item.
@@ -2212,7 +2212,7 @@ namespace Krypton.Toolkit
                     else
                     {
                         _drawButton.Checked = true;
-                        buttonState = (mouseOver ? PaletteState.CheckedTracking : PaletteState.CheckedNormal);
+                        buttonState = mouseOver ? PaletteState.CheckedTracking : PaletteState.CheckedNormal;
                     }
                 }
                 else

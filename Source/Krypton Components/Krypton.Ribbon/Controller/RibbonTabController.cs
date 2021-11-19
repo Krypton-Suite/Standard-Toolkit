@@ -332,7 +332,8 @@ namespace Krypton.Ribbon
                 case Keys.Enter:
                 case Keys.Space:
                     // When minimize, pressing enter will select the tab and pop it up
-                    if ((_ribbon.RealMinimizedMode) && (_ribbon.SelectedTab != _target.RibbonTab))
+                    if (_ribbon.RealMinimizedMode 
+                        && (_ribbon.SelectedTab != _target.RibbonTab))
                     {
                         // Select the tab will automatically create a popup for it
                         _ribbon.SelectedTab = _target.RibbonTab;
@@ -398,7 +399,7 @@ namespace Krypton.Ribbon
             _ribbon.FocusView = _target;
 
             // Update key tips with those appropriate for this tab
-            KeyTipMode mode = (_ribbon.RealMinimizedMode ? KeyTipMode.PopupMinimized : KeyTipMode.SelectedGroups);
+            KeyTipMode mode = _ribbon.RealMinimizedMode ? KeyTipMode.PopupMinimized : KeyTipMode.SelectedGroups;
             _ribbon.KeyTipMode = mode;
             _ribbon.SetKeyTips(_ribbon.GenerateKeyTipsForSelectedTab(), mode);
         }

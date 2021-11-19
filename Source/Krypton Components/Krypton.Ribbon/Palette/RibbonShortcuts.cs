@@ -20,8 +20,8 @@ namespace Krypton.Ribbon
     {
         #region Static Fields
 
-        private const Keys DEFAULT_TOGGLE_MINIMIZE_MODE = (Keys.Control | Keys.F1);
-        private const Keys DEFAULT_TOGGLE_KEYBOARD_ACCESS1 = (Keys.RButton | Keys.ShiftKey | Keys.Alt);
+        private const Keys DEFAULT_TOGGLE_MINIMIZE_MODE = Keys.Control | Keys.F1;
+        private const Keys DEFAULT_TOGGLE_KEYBOARD_ACCESS1 = Keys.RButton | Keys.ShiftKey | Keys.Alt;
         private const Keys DEFAULT_TOGGLE_KEYBOARD_ACCESS2 = Keys.F10;
 
         #endregion
@@ -48,9 +48,9 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((ToggleMinimizeMode == DEFAULT_TOGGLE_MINIMIZE_MODE) &&
+        public override bool IsDefault => (ToggleMinimizeMode == DEFAULT_TOGGLE_MINIMIZE_MODE) &&
                                            (ToggleKeyboardAccess1 == DEFAULT_TOGGLE_KEYBOARD_ACCESS1) &&
-                                           (ToggleKeyboardAccess2 == DEFAULT_TOGGLE_KEYBOARD_ACCESS2));
+                                           (ToggleKeyboardAccess2 == DEFAULT_TOGGLE_KEYBOARD_ACCESS2);
 
         #endregion
 
@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Keys), "F1, Control")]
         public Keys ToggleMinimizeMode { get; set; }
 
-        private bool ShouldSerializeToggleMinimizeMode() => (ToggleMinimizeMode != DEFAULT_TOGGLE_MINIMIZE_MODE);
+        private bool ShouldSerializeToggleMinimizeMode() => ToggleMinimizeMode != DEFAULT_TOGGLE_MINIMIZE_MODE;
 
         /// <summary>
         /// Resets the ToggleMinimizeMode property to its default value.
@@ -87,7 +87,7 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Keys), "Menu, Alt")]
         public Keys ToggleKeyboardAccess1 { get; set; }
 
-        private bool ShouldSerializeToggleKeyboardAccess1() => (ToggleKeyboardAccess1 != DEFAULT_TOGGLE_KEYBOARD_ACCESS1);
+        private bool ShouldSerializeToggleKeyboardAccess1() => ToggleKeyboardAccess1 != DEFAULT_TOGGLE_KEYBOARD_ACCESS1;
 
         /// <summary>
         /// Resets the ToggleKeyboardAccess1 property to its default value.
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Keys), "F10")]
         public Keys ToggleKeyboardAccess2 { get; set; }
 
-        private bool ShouldSerializeToggleKeyboardAccess2() => (ToggleKeyboardAccess2 != DEFAULT_TOGGLE_KEYBOARD_ACCESS2);
+        private bool ShouldSerializeToggleKeyboardAccess2() => ToggleKeyboardAccess2 != DEFAULT_TOGGLE_KEYBOARD_ACCESS2;
 
         /// <summary>
         /// Resets the ToggleKeyboardAccess2 property to its default value.

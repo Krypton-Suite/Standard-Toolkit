@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
                         if (IgnoreAltF4)
                         {
                             // Extract the keys being pressed
-                            Keys keys = ((Keys)((int)m.WParam.ToInt64()));
+                            Keys keys = (Keys)(int)m.WParam.ToInt64();
 
                             // If the user standard combination ALT + F4
                             if ((keys == Keys.F4) && ((ModifierKeys & Keys.Alt) == Keys.Alt))
@@ -600,8 +600,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Work out DPI adjustment factor
-                var factorX = g.DpiX > 96 ? ((1.0f * g.DpiX) / 96) : 1.0f;
-                var factorY = g.DpiY > 96 ? ((1.0f * g.DpiY) / 96) : 1.0f;
+                var factorX = g.DpiX > 96 ? (1.0f * g.DpiX / 96) : 1.0f;
+                var factorY = g.DpiY > 96 ? (1.0f * g.DpiY / 96) : 1.0f;
                 messageMainSize.Width = (int)(messageMainSize.Width * factorX);
                 messageMainSize.Height = (int)(messageMainSize.Height * factorY);
                 messageContentSize.Width = (int)(messageContentSize.Width * factorX);
@@ -842,7 +842,7 @@ namespace Krypton.Toolkit
             }
 
             // Do we have anything to show?
-            _panelFooter.Visible = (requiredSize.Width > 0);
+            _panelFooter.Visible = requiredSize.Width > 0;
 
             // Position the footer elements
             if (requiredSize.Width > 0)
@@ -1009,21 +1009,21 @@ namespace Krypton.Toolkit
             _iconFooter = new PictureBox();
             _footerLabel = new KryptonWrapLabel();
             _panelFooterBorderTop = new KryptonBorderEdge();
-            ((ISupportInitialize)(_panelMain)).BeginInit();
+            ((ISupportInitialize)_panelMain).BeginInit();
             _panelMain.SuspendLayout();
-            ((ISupportInitialize)(_panelMainSpacer)).BeginInit();
-            ((ISupportInitialize)(_panelMainCommands)).BeginInit();
-            ((ISupportInitialize)(_panelMainRadio)).BeginInit();
-            ((ISupportInitialize)(_panelMainText)).BeginInit();
+            ((ISupportInitialize)_panelMainSpacer).BeginInit();
+            ((ISupportInitialize)_panelMainCommands).BeginInit();
+            ((ISupportInitialize)_panelMainRadio).BeginInit();
+            ((ISupportInitialize)_panelMainText).BeginInit();
             _panelMainText.SuspendLayout();
-            ((ISupportInitialize)(_panelIcon)).BeginInit();
+            ((ISupportInitialize)_panelIcon).BeginInit();
             _panelIcon.SuspendLayout();
-            ((ISupportInitialize)(_messageIcon)).BeginInit();
-            ((ISupportInitialize)(_panelButtons)).BeginInit();
+            ((ISupportInitialize)_messageIcon).BeginInit();
+            ((ISupportInitialize)_panelButtons).BeginInit();
             _panelButtons.SuspendLayout();
-            ((ISupportInitialize)(_panelFooter)).BeginInit();
+            ((ISupportInitialize)_panelFooter).BeginInit();
             _panelFooter.SuspendLayout();
-            ((ISupportInitialize)(_iconFooter)).BeginInit();
+            ((ISupportInitialize)_iconFooter).BeginInit();
             SuspendLayout();
             // 
             // _panelMain
@@ -1334,24 +1334,24 @@ namespace Krypton.Toolkit
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.CenterParent;
             FormClosing += OnTaskDialogFormClosing;
-            ((ISupportInitialize)(_panelMain)).EndInit();
+            ((ISupportInitialize)_panelMain).EndInit();
             _panelMain.ResumeLayout(false);
             _panelMain.PerformLayout();
-            ((ISupportInitialize)(_panelMainSpacer)).EndInit();
-            ((ISupportInitialize)(_panelMainCommands)).EndInit();
-            ((ISupportInitialize)(_panelMainRadio)).EndInit();
-            ((ISupportInitialize)(_panelMainText)).EndInit();
+            ((ISupportInitialize)_panelMainSpacer).EndInit();
+            ((ISupportInitialize)_panelMainCommands).EndInit();
+            ((ISupportInitialize)_panelMainRadio).EndInit();
+            ((ISupportInitialize)_panelMainText).EndInit();
             _panelMainText.ResumeLayout(false);
-            ((ISupportInitialize)(_panelIcon)).EndInit();
+            ((ISupportInitialize)_panelIcon).EndInit();
             _panelIcon.ResumeLayout(false);
-            ((ISupportInitialize)(_messageIcon)).EndInit();
-            ((ISupportInitialize)(_panelButtons)).EndInit();
+            ((ISupportInitialize)_messageIcon).EndInit();
+            ((ISupportInitialize)_panelButtons).EndInit();
             _panelButtons.ResumeLayout(false);
             _panelButtons.PerformLayout();
-            ((ISupportInitialize)(_panelFooter)).EndInit();
+            ((ISupportInitialize)_panelFooter).EndInit();
             _panelFooter.ResumeLayout(false);
             _panelFooter.PerformLayout();
-            ((ISupportInitialize)(_iconFooter)).EndInit();
+            ((ISupportInitialize)_iconFooter).EndInit();
             ResumeLayout(false);
             PerformLayout();
 

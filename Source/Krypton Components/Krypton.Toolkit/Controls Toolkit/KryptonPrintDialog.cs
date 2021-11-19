@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
                 {
                     var text = new StringBuilder(8);
                     PI.GetWindowText(_editHwnd.Value, text, 8);
-                    _collateCheckbox.Enabled = (int.Parse(text.ToString()) > 1);
+                    _collateCheckbox.Enabled = int.Parse(text.ToString()) > 1;
                 }
                 else if (msg == PI.WM_.PRINTCLIENT )
                 {
@@ -139,12 +139,12 @@ namespace Krypton.Toolkit
                         if (control.Button is KryptonCheckBox checkBox)
                         {
                             var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
-                            checkBox.Checked = (state != PI.BST_.UNCHECKED);
+                            checkBox.Checked = state != PI.BST_.UNCHECKED;
                         }
                         else if (control.Button is KryptonRadioButton radioBut)
                         {
                             var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
-                            radioBut.Checked = (state != PI.BST_.UNCHECKED);
+                            radioBut.Checked = state != PI.BST_.UNCHECKED;
                         }
                     }
                 }

@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
 
             var colors = colorColumns.Colors;
             var columns = colors.Length;
-            var rows = ((columns > 0) && (colors[0] != null) ? colors[0].Length : 0);
+            var rows = (columns > 0) && (colors[0] != null) ? colors[0].Length : 0;
             var enabled = provider.ProviderEnabled;
 
             // Always assume there is a first row of colors

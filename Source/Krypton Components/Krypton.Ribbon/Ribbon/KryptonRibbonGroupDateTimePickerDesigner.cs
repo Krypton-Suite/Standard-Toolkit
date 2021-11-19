@@ -211,10 +211,10 @@ namespace Krypton.Ribbon
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
                 var items = ParentItems;
-                moveFirst = (items.IndexOf(_ribbonDateTimePicker) > 0);
-                movePrev = (items.IndexOf(_ribbonDateTimePicker) > 0);
-                moveNext = (items.IndexOf(_ribbonDateTimePicker) < (items.Count - 1));
-                moveLast = (items.IndexOf(_ribbonDateTimePicker) < (items.Count - 1));
+                moveFirst = items.IndexOf(_ribbonDateTimePicker) > 0;
+                movePrev = items.IndexOf(_ribbonDateTimePicker) > 0;
+                moveNext = items.IndexOf(_ribbonDateTimePicker) < (items.Count - 1);
+                moveLast = items.IndexOf(_ribbonDateTimePicker) < (items.Count - 1);
             }
 
             _moveFirstVerb.Enabled = moveFirst;

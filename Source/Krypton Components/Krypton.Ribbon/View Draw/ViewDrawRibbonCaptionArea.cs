@@ -906,7 +906,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public void AppButtonVisibleChanged()
         {
-            var appButtonVisible = (_ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007));
+            var appButtonVisible = _ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007);
             if (_captionAppButton.Visible != appButtonVisible)
             {
                 // Update visible state of the app button to reflect current state
@@ -1245,12 +1245,12 @@ namespace Krypton.Ribbon
                 _kryptonForm.AllowComposition = _ribbon.AllowFormIntegrate && !_ribbon.InDesignMode;
 
                 //TODO call this function when palette is changing
-                var newAllowIconDisplay = (!_integrated
+                var newAllowIconDisplay = !_integrated
                                            || !_ribbon.RibbonAppButton.AppButtonVisible
                                            || (_ribbon.RibbonAppButton.AppButtonVisible
                                                && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365)
                                            )
-                                            );
+                                            ;
                 if (_kryptonForm.AllowIconDisplay != newAllowIconDisplay)
                 {
                     _kryptonForm.AllowIconDisplay = newAllowIconDisplay;

@@ -433,7 +433,7 @@ namespace Krypton.Toolkit
         private void UpdateTarget()
         {
             var pressed = false;
-            PaletteState state = (_menuLinkLabel.ItemEnabled ? PaletteState.Normal : PaletteState.Disabled);
+            PaletteState state = _menuLinkLabel.ItemEnabled ? PaletteState.Normal : PaletteState.Disabled;
 
             // Find new state for drawing the label
             if (_mouseOver)
@@ -452,7 +452,7 @@ namespace Krypton.Toolkit
             // Update target and link label with new states
             _target.ElementState = state;
             _menuLinkLabel.Pressed = pressed;
-            _menuLinkLabel.Focused = (_highlight && !_mouseReallyOver);
+            _menuLinkLabel.Focused = _highlight && !_mouseReallyOver;
 
             PerformNeedPaint();
         }

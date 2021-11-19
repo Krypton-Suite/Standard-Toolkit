@@ -143,10 +143,10 @@ namespace Krypton.Ribbon
                 // Cast container to the correct type
                 KryptonRibbonGroupCluster cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
 
-                moveFirst = (cluster.Items.IndexOf(_ribbonColorButton) > 0);
-                movePrev = (cluster.Items.IndexOf(_ribbonColorButton) > 0);
-                moveNext = (cluster.Items.IndexOf(_ribbonColorButton) < (cluster.Items.Count - 1));
-                moveLast = (cluster.Items.IndexOf(_ribbonColorButton) < (cluster.Items.Count - 1));
+                moveFirst = cluster.Items.IndexOf(_ribbonColorButton) > 0;
+                movePrev = cluster.Items.IndexOf(_ribbonColorButton) > 0;
+                moveNext = cluster.Items.IndexOf(_ribbonColorButton) < (cluster.Items.Count - 1);
+                moveLast = cluster.Items.IndexOf(_ribbonColorButton) < (cluster.Items.Count - 1);
             }
 
             _moveFirstVerb.Enabled = moveFirst;
@@ -437,10 +437,10 @@ namespace Krypton.Ribbon
                 _visibleMenu.Checked = _ribbonColorButton.Visible;
                 _enabledMenu.Checked = _ribbonColorButton.Enabled;
                 _checkedMenu.Checked = _ribbonColorButton.Checked;
-                _typePushMenu.Checked = (_ribbonColorButton.ButtonType == GroupButtonType.Push);
-                _typeCheckMenu.Checked = (_ribbonColorButton.ButtonType == GroupButtonType.Check);
-                _typeDropDownMenu.Checked = (_ribbonColorButton.ButtonType == GroupButtonType.DropDown);
-                _typeSplitMenu.Checked = (_ribbonColorButton.ButtonType == GroupButtonType.Split);
+                _typePushMenu.Checked = _ribbonColorButton.ButtonType == GroupButtonType.Push;
+                _typeCheckMenu.Checked = _ribbonColorButton.ButtonType == GroupButtonType.Check;
+                _typeDropDownMenu.Checked = _ribbonColorButton.ButtonType == GroupButtonType.DropDown;
+                _typeSplitMenu.Checked = _ribbonColorButton.ButtonType == GroupButtonType.Split;
                 _moveFirstMenu.Enabled = _moveFirstVerb.Enabled;
                 _movePreviousMenu.Enabled = _movePrevVerb.Enabled;
                 _moveNextMenu.Enabled = _moveNextVerb.Enabled;

@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetFirstFocusItem()
         {
-            if ((GroupMaskedTextBox.Visible) && (GroupMaskedTextBox.LastMaskedTextBox?.MaskedTextBox != null) && (GroupMaskedTextBox.LastMaskedTextBox.MaskedTextBox.CanSelect))
+            if (GroupMaskedTextBox.Visible && (GroupMaskedTextBox.LastMaskedTextBox?.MaskedTextBox != null) && GroupMaskedTextBox.LastMaskedTextBox.MaskedTextBox.CanSelect)
             {
                 return this;
             }
@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetLastFocusItem()
         {
-            if ((GroupMaskedTextBox.Visible) && (GroupMaskedTextBox.LastMaskedTextBox?.MaskedTextBox != null) && (GroupMaskedTextBox.LastMaskedTextBox.MaskedTextBox.CanSelect))
+            if (GroupMaskedTextBox.Visible && (GroupMaskedTextBox.LastMaskedTextBox?.MaskedTextBox != null) && GroupMaskedTextBox.LastMaskedTextBox.MaskedTextBox.CanSelect)
             {
                 return this;
             }
@@ -191,7 +191,7 @@ namespace Krypton.Ribbon
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -206,7 +206,7 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == this);
+            matched = current == this;
             return null;
         }
         #endregion
@@ -563,7 +563,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if ((GroupMaskedTextBox.RibbonContainer.RibbonGroup.IsCollapsed) &&
+                            if (GroupMaskedTextBox.RibbonContainer.RibbonGroup.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupMaskedTextBox.MaskedTextBox) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupMaskedTextBox.MaskedTextBox) is VisualPopupMinimized)))
                             {

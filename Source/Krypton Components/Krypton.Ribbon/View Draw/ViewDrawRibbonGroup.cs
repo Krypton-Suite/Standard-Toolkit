@@ -251,7 +251,7 @@ namespace Krypton.Ribbon
                 }
                 else
                 {
-                    matched = (current == _layoutCollapsedMain);
+                    matched = current == _layoutCollapsedMain;
                 }
             }
             else
@@ -282,7 +282,7 @@ namespace Krypton.Ribbon
                 }
                 else
                 {
-                    matched = (current == _layoutCollapsedMain);
+                    matched = current == _layoutCollapsedMain;
                 }
             }
             else
@@ -327,7 +327,7 @@ namespace Krypton.Ribbon
             // Grab the requested min/max sizes of the group
             var minWidth = _ribbonGroup.MinimumWidth;
             var maxWidth = _ribbonGroup.MaximumWidth;
-            var ignoreMin = (minWidth < 0);
+            var ignoreMin = minWidth < 0;
 
             // If a minus number then max width is effectively as big as you like
             if (maxWidth <= 0)
@@ -461,7 +461,7 @@ namespace Krypton.Ribbon
         public void SetSolutionSize(ItemSizeWidth[] size)
         {
             // Should we become collapsed?
-            Collapsed = (size == null);
+            Collapsed = size == null;
 
             // Pass solution onto the contained view
             IRibbonViewGroupSize viewSize = _layoutNormalContent;

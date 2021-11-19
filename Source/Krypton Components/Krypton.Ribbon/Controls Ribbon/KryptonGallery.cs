@@ -459,7 +459,7 @@ namespace Krypton.Ribbon
                 }
                 else
                 {
-                    return (DesignMode || AlwaysActive || ContainsFocus || _mouseOver);
+                    return DesignMode || AlwaysActive || ContainsFocus || _mouseOver;
                 }
             }
         }
@@ -795,7 +795,7 @@ namespace Krypton.Ribbon
                 {
                     ImageList = ImageList,
                     ImageIndexStart = 0,
-                    ImageIndexEnd = (ImageList == null ? 0 : ImageList.Images.Count - 1),
+                    ImageIndexEnd = ImageList == null ? 0 : ImageList.Images.Count - 1,
                     SelectedIndex = SelectedIndex,
                     LineItems = lineItems
                 };
@@ -826,7 +826,7 @@ namespace Krypton.Ribbon
                     {
                         ImageList = ImageList,
                         ImageIndexStart = Math.Max(0, range.ImageIndexStart),
-                        ImageIndexEnd = Math.Min(range.ImageIndexEnd, (ImageList == null ? 0 : ImageList.Images.Count - 1)),
+                        ImageIndexEnd = Math.Min(range.ImageIndexEnd, ImageList == null ? 0 : ImageList.Images.Count - 1),
                         SelectedIndex = SelectedIndex,
                         LineItems = lineItems
                     };

@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             Shield = 106
         }
 
-        public static Image SetIcon(Image image, Size size) => (Image)(new Bitmap(image, size));
+        public static Image SetIcon(Image image, Size size) => (Image)new Bitmap(image, size);
     }
 
     public enum KryptonMessageBoxIcon

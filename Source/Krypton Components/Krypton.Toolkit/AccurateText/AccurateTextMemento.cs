@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if the memento represents nothing that can be drawn.
         /// </summary>
-        public bool IsEmpty => (Size == Size.Empty);
+        public bool IsEmpty => Size == Size.Empty;
 
         #endregion
 

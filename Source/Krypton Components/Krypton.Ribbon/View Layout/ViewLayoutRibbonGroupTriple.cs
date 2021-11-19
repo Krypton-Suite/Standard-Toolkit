@@ -396,7 +396,7 @@ namespace Krypton.Ribbon
             Size preferredSize = Size.Empty;
 
             // Are we sizing horizontal or vertical?
-            var horizontal = (_currentSize == GroupItemSize.Large);
+            var horizontal = _currentSize == GroupItemSize.Large;
 
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)
@@ -472,8 +472,8 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Are we sizing horizontal or vertical?
-            var horizontal = (_currentSize == GroupItemSize.Large);
-            var widest = (_currentSize == GroupItemSize.Small ? _smallWidest : _mediumWidest);
+            var horizontal = _currentSize == GroupItemSize.Large;
+            var widest = _currentSize == GroupItemSize.Small ? _smallWidest : _mediumWidest;
 
             // Are there any children to layout?
             if (Count > 0)
@@ -533,7 +533,7 @@ namespace Krypton.Ribbon
                                     context.DisplayRectangle = new Rectangle(x + ((widest - childSize.Width) / 2), y, childSize.Width, childSize.Height);
                                     break;
                                 case RibbonItemAlignment.Far:
-                                    context.DisplayRectangle = new Rectangle((x + widest) - childSize.Width, y, childSize.Width, childSize.Height);
+                                    context.DisplayRectangle = new Rectangle(x + widest - childSize.Width, y, childSize.Width, childSize.Height);
                                     break;
                             }
 

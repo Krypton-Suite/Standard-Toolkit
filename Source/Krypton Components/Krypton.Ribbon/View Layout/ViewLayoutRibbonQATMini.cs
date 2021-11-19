@@ -104,7 +104,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Visible
         {
-            get => (_ribbon.Visible && base.Visible);
+            get => _ribbon.Visible && base.Visible;
             set => base.Visible = value;
         }
         #endregion
@@ -146,7 +146,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _borderContents.ParentControl.RectangleToScreen(_extraButton.ClientRectangle);
 
                 // The keytip should be centered on the bottom center of the view
-                Point screenPt = new((viewRect.Left + (viewRect.Width / 2)) - borders.Left,
+                Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left,
                                            viewRect.Bottom - 2 - borders.Top);
 
                 // Create fixed key tip of '00' that invokes the extra button contoller

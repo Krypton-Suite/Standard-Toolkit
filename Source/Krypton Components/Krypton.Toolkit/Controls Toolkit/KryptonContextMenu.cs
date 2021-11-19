@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public object Tag { get; set; }
 
-        private bool ShouldSerializeTag() => (Tag != null);
+        private bool ShouldSerializeTag() => Tag != null;
 
         /// <summary>
         /// </summary>
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
             set;
         }
 
-        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
+        private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.

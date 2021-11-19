@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
 
                     if (keyTip.ScreenPt.X > enclosingRect.Right)
                     {
-                        enclosingRect.Width += (keyTip.ScreenPt.X - enclosingRect.Right);
+                        enclosingRect.Width += keyTip.ScreenPt.X - enclosingRect.Right;
                     }
 
                     if (keyTip.ScreenPt.Y < enclosingRect.Top)
@@ -100,7 +100,7 @@ namespace Krypton.Ribbon
 
                     if (keyTip.ScreenPt.Y > enclosingRect.Bottom)
                     {
-                        enclosingRect.Height += (keyTip.ScreenPt.Y - enclosingRect.Bottom);
+                        enclosingRect.Height += keyTip.ScreenPt.Y - enclosingRect.Bottom;
                     }
                 }
 
@@ -241,8 +241,8 @@ namespace Krypton.Ribbon
                         Point clientPt = PointToClient(viewKeyTip.KeyTipInfo.ScreenPt);
 
                         // Center the child at the requested screen position
-                        clientPt.X -= (viewSize.Width / 2);
-                        clientPt.Y -= (viewSize.Height / 2);
+                        clientPt.X -= viewSize.Width / 2;
+                        clientPt.Y -= viewSize.Height / 2;
 
                         // Position the child at the calculated position
                         layoutContext.DisplayRectangle = new Rectangle(clientPt, viewSize);

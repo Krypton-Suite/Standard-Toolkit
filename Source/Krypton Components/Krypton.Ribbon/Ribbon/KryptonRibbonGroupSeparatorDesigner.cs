@@ -135,10 +135,10 @@ namespace Krypton.Ribbon
 
                 if ((_ribbonSeparator?.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
                 {
-                    moveFirst = (_ribbonSeparator.RibbonGroup.Items.IndexOf(_ribbonSeparator) > 0);
-                    movePrev = (_ribbonSeparator.RibbonGroup.Items.IndexOf(_ribbonSeparator) > 0);
-                    moveNext = (_ribbonSeparator.RibbonGroup.Items.IndexOf(_ribbonSeparator) < (_ribbonSeparator.RibbonGroup.Items.Count - 1));
-                    moveLast = (_ribbonSeparator.RibbonGroup.Items.IndexOf(_ribbonSeparator) < (_ribbonSeparator.RibbonGroup.Items.Count - 1));
+                    moveFirst = _ribbonSeparator.RibbonGroup.Items.IndexOf(_ribbonSeparator) > 0;
+                    movePrev = _ribbonSeparator.RibbonGroup.Items.IndexOf(_ribbonSeparator) > 0;
+                    moveNext = _ribbonSeparator.RibbonGroup.Items.IndexOf(_ribbonSeparator) < (_ribbonSeparator.RibbonGroup.Items.Count - 1);
+                    moveLast = _ribbonSeparator.RibbonGroup.Items.IndexOf(_ribbonSeparator) < (_ribbonSeparator.RibbonGroup.Items.Count - 1);
                 }
 
                 _moveFirstVerb.Enabled = moveFirst;
@@ -352,7 +352,7 @@ namespace Krypton.Ribbon
                 _movePreviousMenu.Enabled = _movePrevVerb.Enabled;
                 _moveNextMenu.Enabled = _moveNextVerb.Enabled;
                 _moveLastMenu.Enabled = _moveLastVerb.Enabled;
-                _moveToGroupMenu.Enabled = (_moveToGroupMenu.DropDownItems.Count > 0);
+                _moveToGroupMenu.Enabled = _moveToGroupMenu.DropDownItems.Count > 0;
 
                 // Show the context menu
                 if (CommonHelper.ValidContextMenuStrip(_cms))

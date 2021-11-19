@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
             Flags |= flags;
 
             // Return set of flags that have changed value
-            return (before ^ Flags);
+            return before ^ Flags;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
             Flags &= ~flags;
 
             // Return set of flags that have changed value
-            return (before ^ Flags);
+            return before ^ Flags;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="flags">Flags to test.</param>
         /// <returns>True if all flags are set; otherwise false.</returns>
-        public bool AreFlagsSet(int flags) => ((Flags & flags) == flags);
+        public bool AreFlagsSet(int flags) => (Flags & flags) == flags;
 
         #endregion
     }

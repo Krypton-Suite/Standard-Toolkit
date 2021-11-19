@@ -44,13 +44,13 @@ namespace Krypton.Ribbon
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((BackStyle == PaletteBackStyle.PanelClient) &&
+        public override bool IsDefault => (BackStyle == PaletteBackStyle.PanelClient) &&
                                            (GroupButtonStyle == ButtonStyle.ButtonSpec) &&
                                            (GroupClusterButtonStyle == ButtonStyle.Cluster) &&
                                            (GroupDialogButtonStyle == ButtonStyle.ButtonSpec) &&
                                            (GroupCollapsedButtonStyle == ButtonStyle.Alternate) &&
                                            (QATButtonStyle == ButtonStyle.ButtonSpec) &&
-                                           (ScrollerStyle == ButtonStyle.Standalone));
+                                           (ScrollerStyle == ButtonStyle.Standalone);
 
         #endregion
 

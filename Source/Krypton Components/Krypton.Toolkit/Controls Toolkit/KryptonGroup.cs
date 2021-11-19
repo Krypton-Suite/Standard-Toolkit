@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeGroupBorderStyle() => (GroupBorderStyle != PaletteBorderStyle.ControlClient);
+        private bool ShouldSerializeGroupBorderStyle() => GroupBorderStyle != PaletteBorderStyle.ControlClient;
 
         private void ResetGroupBorderStyle() => GroupBorderStyle = PaletteBorderStyle.ControlClient;
 
@@ -198,7 +198,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeGroupBackStyle() => (GroupBackStyle != PaletteBackStyle.ControlClient);
+        private bool ShouldSerializeGroupBackStyle() => GroupBackStyle != PaletteBackStyle.ControlClient;
 
         private void ResetGroupBackStyle() => GroupBackStyle = PaletteBackStyle.ControlClient;
 

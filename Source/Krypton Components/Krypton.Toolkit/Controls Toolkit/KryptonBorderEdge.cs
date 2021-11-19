@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
             BorderStyle = PaletteBorderStyle.ControlClient;
         }
 
-        private bool ShouldSerializeBorderStyle() => (BorderStyle != PaletteBorderStyle.ControlClient);
+        private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.ControlClient;
 
         /// <summary>
         /// Gets and sets the orientation of the border edge used to determine sizing.

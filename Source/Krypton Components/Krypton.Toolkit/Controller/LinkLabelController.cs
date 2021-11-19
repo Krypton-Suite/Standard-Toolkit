@@ -450,7 +450,7 @@ namespace Krypton.Toolkit
         protected virtual void UpdateTargetPalette()
         {
             // Should the pressed override be applied?
-            _pressed.Apply = (_target.State == PaletteState.Pressed);
+            _pressed.Apply = _target.State == PaletteState.Pressed;
 
             switch (_target.State)
             {

@@ -191,7 +191,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                if ((GroupGallery.Visible) &&
+                if (GroupGallery.Visible &&
                     GroupGallery.LastGallery is { CanSelect: true })
                 {
                     return this;
@@ -218,7 +218,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                if ((GroupGallery.Visible) &&
+                if (GroupGallery.Visible &&
                     GroupGallery.LastGallery is { CanSelect: true })
                 {
                     return this;
@@ -238,7 +238,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            matched = ((current == this) || (current == _viewLarge));
+            matched = (current == this) || (current == _viewLarge);
             return null;
         }
         #endregion
@@ -252,7 +252,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            matched = ((current == this) || (current == _viewLarge));
+            matched = (current == this) || (current == _viewLarge);
             return null;
         }
         #endregion
@@ -403,7 +403,7 @@ namespace Krypton.Ribbon
             // Update the container definition
             GroupGallery.ItemSizeCurrent = size.GroupItemSize;
             GroupGallery.InternalItemCount = size.Tag;
-            _viewLarge.Visible = (size.GroupItemSize == GroupItemSize.Small);
+            _viewLarge.Visible = size.GroupItemSize == GroupItemSize.Small;
         }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace Krypton.Ribbon
             // Restore the container back to the defined size
             GroupGallery.ItemSizeCurrent = GroupGallery.ItemSizeMaximum;
             GroupGallery.InternalItemCount = GroupGallery.LargeItemCount;
-            _viewLarge.Visible = (GroupGallery.ItemSizeCurrent == GroupItemSize.Small);
+            _viewLarge.Visible = GroupGallery.ItemSizeCurrent == GroupItemSize.Small;
         }
 
         /// <summary>
@@ -816,7 +816,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if ((GroupGallery.RibbonGroup.IsCollapsed) &&
+                            if (GroupGallery.RibbonGroup.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupGallery.Gallery) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupGallery.Gallery) is VisualPopupMinimized)))
                             {
@@ -826,7 +826,7 @@ namespace Krypton.Ribbon
                     }
                 }
 
-                c.Visible = (visible && (GroupGallery.ItemSizeCurrent != GroupItemSize.Small));
+                c.Visible = visible && (GroupGallery.ItemSizeCurrent != GroupItemSize.Small);
             }
         }
 

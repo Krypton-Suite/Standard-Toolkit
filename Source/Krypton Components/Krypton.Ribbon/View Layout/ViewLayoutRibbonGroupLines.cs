@@ -351,7 +351,7 @@ namespace Krypton.Ribbon
         public void GetGroupKeyTips(KeyTipInfoList keyTipList)
         {
             var visibleIndex = 0;
-            var lineHint = (_currentSize == GroupItemSize.Small ? 1 : 4);
+            var lineHint = _currentSize == GroupItemSize.Small ? 1 : 4;
 
             // Scan all the children, which must be containers or items
             foreach (ViewBase child in this)
@@ -933,8 +933,11 @@ namespace Krypton.Ribbon
                         }
 
                         // Add the spacing gaps before relevant items
-                        if (((_split1Small >= 0) && (_split1Small < _sizeList.Count)) &&
-                            ((_split2Small >= 0) && (_split2Small < _sizeList.Count)))
+                        if ((_split1Small >= 0) 
+                            && (_split1Small < _sizeList.Count) 
+                            && (_split2Small >= 0) 
+                            && (_split2Small < _sizeList.Count)
+                            )
                         {
                             bestTop += GetItemSpacingGap(0, _split1Small);
                             bestMiddle += GetItemSpacingGap(_split1Small + 1, _split2Small);

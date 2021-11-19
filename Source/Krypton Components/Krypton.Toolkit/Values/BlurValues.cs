@@ -172,11 +172,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        public override bool IsDefault => (!ShouldSerializeEnableBlur()
+        public override bool IsDefault => !ShouldSerializeEnableBlur()
                                             && !ShouldSerializeRadius()
                                             && !ShouldSerializeOpacity()
                                             && !ShouldSerializeBlurWhenFocusLost()
-                                            );
+                                            ;
 
         #endregion Default Values
     }

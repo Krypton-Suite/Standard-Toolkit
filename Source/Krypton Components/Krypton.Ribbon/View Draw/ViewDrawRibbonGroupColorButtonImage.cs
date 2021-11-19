@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
                     // Paint over the image with a color indicator
                     using (Graphics g = Graphics.FromImage(copyBitmap))
                     {
-                        Rectangle selectedRect = (_large ? _selectedRectLarge : _selectedRectSmall);
+                        Rectangle selectedRect = _large ? _selectedRectLarge : _selectedRectSmall;
 
                         // If the color is not defined, i.e. it is empty then...
                         if (_selectedColor.Equals(Color.Empty))

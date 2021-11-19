@@ -445,7 +445,7 @@ namespace Krypton.Toolkit
         private void UpdateTarget()
         {
             // Find new state for drawing the radio button
-            PaletteState state = (_menuRadioButton.ItemEnabled ? PaletteState.Normal : PaletteState.Disabled);
+            PaletteState state = _menuRadioButton.ItemEnabled ? PaletteState.Normal : PaletteState.Disabled;
             if (_mouseOver)
             {
                 state = _mouseDown ? PaletteState.Pressed : PaletteState.Tracking;
@@ -467,7 +467,7 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            var applyFocus = (_highlight && !_mouseReallyOver);
+            var applyFocus = _highlight && !_mouseReallyOver;
             _menuRadioButton.KryptonContextMenuRadioButton.OverrideNormal.Apply = applyFocus;
             _menuRadioButton.KryptonContextMenuRadioButton.OverrideDisabled.Apply = applyFocus;
             _menuRadioButton.ViewDrawContent.ElementState = state;

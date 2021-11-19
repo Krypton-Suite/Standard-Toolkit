@@ -141,10 +141,10 @@ namespace Krypton.Ribbon
             if (_ribbonButton?.Ribbon != null)
             {
                 var items = ParentItems;
-                moveFirst = (items.IndexOf(_ribbonButton) > 0);
-                movePrev = (items.IndexOf(_ribbonButton) > 0);
-                moveNext = (items.IndexOf(_ribbonButton) < (items.Count - 1));
-                moveLast = (items.IndexOf(_ribbonButton) < (items.Count - 1));
+                moveFirst = items.IndexOf(_ribbonButton) > 0;
+                movePrev = items.IndexOf(_ribbonButton) > 0;
+                moveNext = items.IndexOf(_ribbonButton) < (items.Count - 1);
+                moveLast = items.IndexOf(_ribbonButton) < (items.Count - 1);
             }
 
             _moveFirstVerb.Enabled = moveFirst;
@@ -435,10 +435,10 @@ namespace Krypton.Ribbon
                 _visibleMenu.Checked = _ribbonButton.Visible;
                 _enabledMenu.Checked = _ribbonButton.Enabled;
                 _checkedMenu.Checked = _ribbonButton.Checked;
-                _typePushMenu.Checked = (_ribbonButton.ButtonType == GroupButtonType.Push);
-                _typeCheckMenu.Checked = (_ribbonButton.ButtonType == GroupButtonType.Check);
-                _typeDropDownMenu.Checked = (_ribbonButton.ButtonType == GroupButtonType.DropDown);
-                _typeSplitMenu.Checked = (_ribbonButton.ButtonType == GroupButtonType.Split);
+                _typePushMenu.Checked = _ribbonButton.ButtonType == GroupButtonType.Push;
+                _typeCheckMenu.Checked = _ribbonButton.ButtonType == GroupButtonType.Check;
+                _typeDropDownMenu.Checked = _ribbonButton.ButtonType == GroupButtonType.DropDown;
+                _typeSplitMenu.Checked = _ribbonButton.ButtonType == GroupButtonType.Split;
                 _moveFirstMenu.Enabled = _moveFirstVerb.Enabled;
                 _movePreviousMenu.Enabled = _movePrevVerb.Enabled;
                 _moveNextMenu.Enabled = _moveNextVerb.Enabled;

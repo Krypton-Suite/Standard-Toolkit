@@ -304,7 +304,7 @@ namespace Krypton.Toolkit
             ButtonStyle = ButtonStyle.Standalone;
         }
 
-        private bool ShouldSerializeButtonStyle() => (ButtonStyle != ButtonStyle.Standalone);
+        private bool ShouldSerializeButtonStyle() => ButtonStyle != ButtonStyle.Standalone;
 
         /// <summary>
         /// Gets access to the button content.

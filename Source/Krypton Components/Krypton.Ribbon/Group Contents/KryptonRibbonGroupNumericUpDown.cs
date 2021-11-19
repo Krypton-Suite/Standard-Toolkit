@@ -194,7 +194,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to set focus to the numeric up-down.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
+        private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.

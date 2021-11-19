@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
                     if ((_paletteMetric != null) && (_metricOverlay != PaletteMetricBool.None))
                     {
                         InheritBool overlay = _paletteMetric.GetMetricBool(ElementState, _metricOverlay);
-                        return (overlay == InheritBool.False);
+                        return overlay == InheritBool.False;
                     }
                     else
                     {
@@ -732,29 +732,29 @@ namespace Krypton.Toolkit
             var pullBackRight = padding.Right * 2;
 
             if ((padding.Left > borderWidth) &&
-                ((topDiff >= pullBackTop) && (topDiff >= padding.Top)) &&
-                ((bottomDiff >= pullBackBottom) && (bottomDiff >= padding.Bottom)))
+                (topDiff >= pullBackTop) && (topDiff >= padding.Top) &&
+                (bottomDiff >= pullBackBottom) && (bottomDiff >= padding.Bottom))
             {
                 padding.Left = borderWidth;
             }
 
             if ((padding.Right > borderWidth) &&
-                ((topDiff >= pullBackTop) && (topDiff >= padding.Top)) &&
-                ((bottomDiff >= pullBackBottom) && (bottomDiff >= padding.Bottom)))
+                (topDiff >= pullBackTop) && (topDiff >= padding.Top) &&
+                (bottomDiff >= pullBackBottom) && (bottomDiff >= padding.Bottom))
             {
                 padding.Right = borderWidth;
             }
 
             if ((padding.Top > borderWidth) &&
-                ((leftDiff >= pullBackLeft) && (leftDiff >= padding.Left)) &&
-                ((rightDiff >= pullBackRight) && (rightDiff >= padding.Right)))
+                (leftDiff >= pullBackLeft) && (leftDiff >= padding.Left) &&
+                (rightDiff >= pullBackRight) && (rightDiff >= padding.Right))
             {
                 padding.Top = borderWidth;
             }
 
             if ((padding.Bottom > borderWidth) &&
-                ((leftDiff >= pullBackLeft) && (leftDiff >= padding.Left)) &&
-                ((rightDiff >= pullBackRight) && (rightDiff >= padding.Right)))
+                (leftDiff >= pullBackLeft) && (leftDiff >= padding.Left) &&
+                (rightDiff >= pullBackRight) && (rightDiff >= padding.Right))
             {
                 padding.Bottom = borderWidth;
             }

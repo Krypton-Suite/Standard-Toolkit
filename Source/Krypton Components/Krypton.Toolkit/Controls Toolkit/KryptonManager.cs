@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeGlobalPaletteMode() => (GlobalPaletteMode != PaletteModeManager.Office365Blue);
+        private bool ShouldSerializeGlobalPaletteMode() => GlobalPaletteMode != PaletteModeManager.Office365Blue;
 
         private void ResetGlobalPaletteMode() => GlobalPaletteMode = PaletteModeManager.Office365Blue;
 
@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeGlobalPalette() => (GlobalPalette != null);
+        private bool ShouldSerializeGlobalPalette() => GlobalPalette != null;
 
         private void ResetGlobalPalette() => GlobalPaletteMode = PaletteModeManager.Office365Blue;
 

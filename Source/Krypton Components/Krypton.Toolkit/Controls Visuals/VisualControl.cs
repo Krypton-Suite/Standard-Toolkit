@@ -74,7 +74,10 @@ namespace Krypton.Toolkit
             OnNeedPaint(this, new NeedLayoutEventArgs(true));
 
             // Should layout once initialization is complete
-            ResumeLayout(true);
+            // https://github.com/Krypton-Suite/Standard-Toolkit/issues/393
+            // Do not do layout as `true` here , as al the controls have already had the scaling
+            // factors applied once, _do not do them again!_
+            ResumeLayout(false);
 
             // Raise event to show control is now initialized
             OnInitialized(EventArgs.Empty);
@@ -89,7 +92,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-            private set;
+            set;
         }
 
         /// <summary>
@@ -101,7 +104,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-            private set;
+            set;
         }
 
         #endregion

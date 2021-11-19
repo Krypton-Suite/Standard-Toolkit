@@ -57,11 +57,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((Font == null) &&
+        public override bool IsDefault => (Font == null) &&
                                            (Color1 == Color.Empty) &&
                                            Padding.Equals(CommonHelper.InheritPadding)
                                            && (TextH == PaletteRelativeAlign.Inherit)
-                                            );
+                                            ;
 
         #endregion
 

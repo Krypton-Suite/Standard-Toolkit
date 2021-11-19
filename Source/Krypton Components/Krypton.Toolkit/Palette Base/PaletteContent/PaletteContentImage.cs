@@ -43,11 +43,11 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets a value indicating if all values are default.
             /// </summary>
-            public bool IsDefault => ((ContentImageH == PaletteRelativeAlign.Inherit) &&
+            public bool IsDefault => (ContentImageH == PaletteRelativeAlign.Inherit) &&
                                       (ContentImageV == PaletteRelativeAlign.Inherit) &&
                                       (ContentEffect == PaletteImageEffect.Inherit) &&
                                       (ContentImageColorMap == Color.Empty) &&
-                                      (ContentImageColorTo == Color.Empty));
+                                      (ContentImageColorTo == Color.Empty);
         }
         #endregion
 
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((_storage == null) || _storage.IsDefault);
+        public override bool IsDefault => (_storage == null) || _storage.IsDefault;
 
         #endregion
 

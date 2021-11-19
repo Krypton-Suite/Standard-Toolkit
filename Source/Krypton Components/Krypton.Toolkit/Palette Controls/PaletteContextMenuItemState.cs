@@ -75,12 +75,12 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (ItemHighlight.IsDefault &&
+        public override bool IsDefault => ItemHighlight.IsDefault &&
                                            ItemImage.IsDefault &&
                                            ItemShortcutText.IsDefault &&
                                            ItemSplit.IsDefault &&
                                            ItemTextStandard.IsDefault &&
-                                           ItemTextAlternate.IsDefault);
+                                           ItemTextAlternate.IsDefault;
 
         #endregion
 

@@ -101,7 +101,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Visible
         {
-            get => (_ribbon.Visible && base.Visible);
+            get => _ribbon.Visible && base.Visible;
             set => base.Visible = value;
         }
         #endregion
@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
             if (OwnerForm != null)
             {
                 // Calculate the maximum width allowed
-                var maxWidth = ((OwnerForm.Width - 100) / 3) * 2;
+                var maxWidth = (OwnerForm.Width - 100) / 3 * 2;
 
                 // Adjust so the width is a multiple of a button size
                 var buttons = (maxWidth - BarPadding.Horizontal) / QAT_BUTTON_WIDTH;

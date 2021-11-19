@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (ControlInner.IsDefault &&
+        public override bool IsDefault => ControlInner.IsDefault &&
                                            ControlOuter.IsDefault &&
                                            Heading.IsDefault &&
                                            ItemHighlight.IsDefault &&
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
                                            ItemSplit.IsDefault &&
                                            ItemTextAlternate.IsDefault &&
                                            ItemTextStandard.IsDefault &&
-                                           Separator.IsDefault);
+                                           Separator.IsDefault;
 
         #endregion
 

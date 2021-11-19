@@ -121,7 +121,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Find the correct padding to use
-            Padding padding = (_ribbon.RealMinimizedMode ? _layoutMinimizedPadding : _layoutNormalPadding);
+            Padding padding = _ribbon.RealMinimizedMode ? _layoutMinimizedPadding : _layoutNormalPadding;
 
             // Reduce display rect by our border size
             context.DisplayRectangle = new Rectangle(ClientLocation.X + padding.Left,

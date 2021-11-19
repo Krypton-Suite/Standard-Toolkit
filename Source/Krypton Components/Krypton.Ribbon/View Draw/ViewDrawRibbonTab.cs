@@ -617,7 +617,7 @@ namespace Krypton.Ribbon
                 PaletteState buttonState = State;
 
                 // Update the checked state
-                Checked = (Ribbon.SelectedTab == RibbonTab);
+                Checked = Ribbon.SelectedTab == RibbonTab;
 
                 // Is this tab a context tab?
                 var contextTab = !string.IsNullOrEmpty(RibbonTab.ContextName);

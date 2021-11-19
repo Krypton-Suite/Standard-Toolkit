@@ -282,12 +282,12 @@ namespace Krypton.Toolkit
 
                             // Create rect for the text area
                             rect.left += borderSize.Width;
-                            rect.right -= (borderSize.Width + dropDownWidth);
+                            rect.right -= borderSize.Width + dropDownWidth;
                             rect.top += borderSize.Height;
                             rect.bottom -= borderSize.Height;
 
                             // Create rectangle that represents the drop down button
-                            Rectangle dropRect = new(rect.right + 2, rect.top, dropDownWidth - 2, (rect.bottom - rect.top));
+                            Rectangle dropRect = new(rect.right + 2, rect.top, dropDownWidth - 2, rect.bottom - rect.top);
 
                             // Extract the point in client coordinates
                             Point clientPoint = new((int)m.LParam);
@@ -360,15 +360,15 @@ namespace Krypton.Toolkit
                                 // Update text and drop down rects dependent on the right to left setting
                                 if (_kryptonComboBox.RightToLeft == RightToLeft.Yes)
                                 {
-                                    dropRect = new Rectangle(rect.left + borderSize.Width + 1, rect.top + 1, dropDownWidth - 2, (rect.bottom - rect.top - 2));
+                                    dropRect = new Rectangle(rect.left + borderSize.Width + 1, rect.top + 1, dropDownWidth - 2, rect.bottom - rect.top - 2);
                                     rect.left += borderSize.Width + dropDownWidth;
                                     rect.right -= borderSize.Width;
                                 }
                                 else
                                 {
                                     rect.left += borderSize.Width;
-                                    rect.right -= (borderSize.Width + dropDownWidth);
-                                    dropRect = new Rectangle(rect.right + 1, rect.top + 1, dropDownWidth - 2, (rect.bottom - rect.top - 2));
+                                    rect.right -= borderSize.Width + dropDownWidth;
+                                    dropRect = new Rectangle(rect.right + 1, rect.top + 1, dropDownWidth - 2, rect.bottom - rect.top - 2);
                                 }
 
                                 // Exclude border from being drawn, we need to take off another 2 pixels from all edges
@@ -455,7 +455,7 @@ namespace Krypton.Toolkit
                             Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
-                            if (((int)((long)m.LParam)) == -1)
+                            if (((int)(long)m.LParam) == -1)
                             {
                                 mousePt = PointToScreen(new Point(Width / 2, Height / 2));
                             }
@@ -579,7 +579,7 @@ namespace Krypton.Toolkit
                     {
                         if (!_appThemed.HasValue)
                         {
-                            _appThemed = (PI.IsThemeActive() && PI.IsAppThemed());
+                            _appThemed = PI.IsThemeActive() && PI.IsAppThemed();
                         }
 
                         return _appThemed.Value;
@@ -664,8 +664,8 @@ namespace Krypton.Toolkit
                 set => PI.SetWindowPos(Handle,
                     IntPtr.Zero,
                     0, 0, 0, 0,
-                    (PI.SWP_.NOMOVE | PI.SWP_.NOSIZE |
-                           (value ? PI.SWP_.SHOWWINDOW : PI.SWP_.HIDEWINDOW))
+                    PI.SWP_.NOMOVE | PI.SWP_.NOSIZE |
+                           (value ? PI.SWP_.SHOWWINDOW : PI.SWP_.HIDEWINDOW)
                     );
             }
 
@@ -731,7 +731,7 @@ namespace Krypton.Toolkit
                             Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
-                            if (((int)((long)m.LParam)) == -1)
+                            if (((int)(long)m.LParam) == -1)
                             {
                                 PI.GetClientRect(Handle, out PI.RECT clientRect);
                                 mousePt = new Point((clientRect.right - clientRect.left) / 2,
@@ -1691,7 +1691,7 @@ namespace Krypton.Toolkit
             InputControlStyle = InputControlStyle.Standalone;
         }
 
-        private bool ShouldSerializeInputControlStyle() => (InputControlStyle != InputControlStyle.Standalone);
+        private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
         /// <summary>
         /// Gets and sets the item style.
@@ -1718,7 +1718,7 @@ namespace Krypton.Toolkit
             ItemStyle = ButtonStyle.ListItem;
         }
 
-        private bool ShouldSerializeItemStyle() => (ItemStyle != ButtonStyle.ListItem);
+        private bool ShouldSerializeItemStyle() => ItemStyle != ButtonStyle.ListItem;
 
         /// <summary>
         /// Gets and sets the drop button style.
@@ -1744,7 +1744,7 @@ namespace Krypton.Toolkit
             DropButtonStyle = ButtonStyle.InputControl;
         }
 
-        private bool ShouldSerializeDropButtonStyle() => (DropButtonStyle != ButtonStyle.InputControl);
+        private bool ShouldSerializeDropButtonStyle() => DropButtonStyle != ButtonStyle.InputControl;
 
         /// <summary>
         /// Gets and sets the drop button style.
@@ -1771,7 +1771,7 @@ namespace Krypton.Toolkit
             DropBackStyle = PaletteBackStyle.ControlClient;
         }
 
-        private bool ShouldSerializeDropBackStyle() => (DropBackStyle != PaletteBackStyle.ControlClient);
+        private bool ShouldSerializeDropBackStyle() => DropBackStyle != PaletteBackStyle.ControlClient;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
@@ -2615,7 +2615,7 @@ namespace Krypton.Toolkit
         #region Internal
         internal bool InTransparentDesignMode => InRibbonDesignMode;
 
-        internal bool IsFixedActive => (_fixedActive != null);
+        internal bool IsFixedActive => _fixedActive != null;
 
         internal void DetachEditControl()
         {

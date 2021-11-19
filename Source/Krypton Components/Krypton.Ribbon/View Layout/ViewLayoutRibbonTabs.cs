@@ -160,7 +160,7 @@ namespace Krypton.Ribbon
         {
             foreach (ViewBase child in this)
             {
-                if ((child.Visible) && (child is ViewDrawRibbonTab))
+                if (child.Visible && (child is ViewDrawRibbonTab))
                 {
                     return child as ViewDrawRibbonTab;
                 }
@@ -187,7 +187,7 @@ namespace Krypton.Ribbon
                     // Wait until we see the provided tab, then first visible tab after it
                     if (!found)
                     {
-                        found = (viewTab.RibbonTab == ribbonTab);
+                        found = viewTab.RibbonTab == ribbonTab;
                     }
                     else if (child.Visible)
                     {
@@ -217,7 +217,7 @@ namespace Krypton.Ribbon
                     // Wait until we see the provided tab, then first visible tab after it
                     if (!found)
                     {
-                        found = (viewTab.RibbonTab == ribbonTab);
+                        found = viewTab.RibbonTab == ribbonTab;
                     }
                     else if (child.Visible)
                     {
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
         {
             foreach (ViewBase child in Reverse())
             {
-                if ((child.Visible) && (child is ViewDrawRibbonTab))
+                if (child.Visible && (child is ViewDrawRibbonTab))
                 {
                     return child as ViewDrawRibbonTab;
                 }
@@ -481,7 +481,7 @@ namespace Krypton.Ribbon
                                 break;
                             case ViewDrawRibbonTab tab:
                                 // Update checked state of the tab
-                                tab.Checked = (_ribbon.SelectedTab == tab.RibbonTab);
+                                tab.Checked = _ribbon.SelectedTab == tab.RibbonTab;
 
                                 context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
                                 break;
@@ -835,7 +835,7 @@ namespace Krypton.Ribbon
                     if (!string.IsNullOrEmpty(tab.ContextName) &&
                         string.IsNullOrEmpty(contextName))
                     {
-                        return (_ribbon.RibbonContexts[tab.ContextName] == null);
+                        return _ribbon.RibbonContexts[tab.ContextName] == null;
                     }
                 }
             }

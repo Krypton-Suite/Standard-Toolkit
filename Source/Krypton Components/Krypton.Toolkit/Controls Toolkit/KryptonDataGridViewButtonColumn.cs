@@ -221,12 +221,12 @@ namespace Krypton.Toolkit
             }
 
             DataGridViewCellStyle defaultCellStyle = DefaultCellStyle;
-            return (((defaultCellStyle.BackColor.IsEmpty && defaultCellStyle.ForeColor.IsEmpty) &&
-                  (defaultCellStyle.SelectionBackColor.IsEmpty && defaultCellStyle.SelectionForeColor.IsEmpty)) &&
-                 (((defaultCellStyle.Font == null) && defaultCellStyle.IsNullValueDefault) &&
-                  (defaultCellStyle.IsDataSourceNullValueDefault && string.IsNullOrEmpty(defaultCellStyle.Format)))) &&
-                ((defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture) && (defaultCellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter)) &&
-                 ((defaultCellStyle.WrapMode == DataGridViewTriState.NotSet) && (defaultCellStyle.Tag == null)))
+            return defaultCellStyle.BackColor.IsEmpty && defaultCellStyle.ForeColor.IsEmpty &&
+                  defaultCellStyle.SelectionBackColor.IsEmpty && defaultCellStyle.SelectionForeColor.IsEmpty &&
+                 (defaultCellStyle.Font == null) && defaultCellStyle.IsNullValueDefault &&
+                  defaultCellStyle.IsDataSourceNullValueDefault && string.IsNullOrEmpty(defaultCellStyle.Format) &&
+                defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture) && (defaultCellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter) &&
+                 (defaultCellStyle.WrapMode == DataGridViewTriState.NotSet) && (defaultCellStyle.Tag == null)
                 ? !defaultCellStyle.Padding.Equals(Padding.Empty)
                 : true;
         }

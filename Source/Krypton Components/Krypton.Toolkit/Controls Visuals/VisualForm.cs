@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
             try
             {
                 // Is this application in an OS that is capable of themes and is currently themed
-                _themedApp = (VisualStyleInformation.IsEnabledByUser && !string.IsNullOrEmpty(VisualStyleInformation.ColorScheme));
+                _themedApp = VisualStyleInformation.IsEnabledByUser && !string.IsNullOrEmpty(VisualStyleInformation.ColorScheme);
             }
             catch
             {
@@ -345,7 +345,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
+        private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -677,7 +677,7 @@ namespace Krypton.Toolkit
 
             // Now adjust to take into account the top and left borders
             Padding borders = RealWindowBorders;
-            clientPt.Offset(borders.Left, (ApplyComposition ? 0 : borders.Top));
+            clientPt.Offset(borders.Left, ApplyComposition ? 0 : borders.Top);
 
             return clientPt;
         }
@@ -1221,7 +1221,7 @@ namespace Krypton.Toolkit
             }
 
             // We have handled the message
-            m.Result = (IntPtr)(1);
+            m.Result = (IntPtr)1;
 
             // Message processed, do not pass onto base class for processing
             return true;
@@ -1292,7 +1292,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCACTIVATE(ref Message m)
         {
             // Cache the new active state
-            WindowActive = (m.WParam == (IntPtr)(1));
+            WindowActive = m.WParam == (IntPtr)1;
 
             if (!ApplyComposition)
             {
@@ -1304,7 +1304,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Allow default processing of activation change
-                    m.Result = (IntPtr)(1);
+                    m.Result = (IntPtr)1;
 
                     // Message processed, do not pass onto base class for processing
                     return true;
@@ -1742,7 +1742,7 @@ namespace Krypton.Toolkit
                     }
 
                     // With composition we extend the top into the client area
-                    DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, (ApplyComposition ? _compositionHeight : 0), 0, 0));
+                    DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, ApplyComposition ? _compositionHeight : 0, 0, 0));
 
                     // A change in composition when using custom chrome must turn custom chrome
                     // off and on again to have it reprocess correctly to the new composition state
@@ -1765,7 +1765,7 @@ namespace Krypton.Toolkit
                     {
                         // Apply the new height requirement
                         _compositionHeight = newCompHeight;
-                        DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, (ApplyComposition ? _compositionHeight : 0), 0, 0));
+                        DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, ApplyComposition ? _compositionHeight : 0, 0, 0));
                     }
                 }
 

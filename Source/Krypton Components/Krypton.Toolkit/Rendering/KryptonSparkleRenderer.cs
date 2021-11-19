@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
                         (e.Item.Owner is ToolStripDropDownMenu) ||
                         (e.Item.OwnerItem is ToolStripOverflowButton))
                     {
-                        if (((e.Item.Owner is ContextMenuStrip) || (e.Item.Owner is ToolStripDropDownMenu)) ||
+                        if ((e.Item.Owner is ContextMenuStrip) || (e.Item.Owner is ToolStripDropDownMenu) ||
                             ((e.Item.OwnerItem is ToolStripOverflowButton) && ((e.Item is ToolStripSplitButton) || (e.Item is ToolStripDropDownButton)) && (!e.Item.Selected || e.Item.Pressed)))
                         {
                             color1 = KCT.MenuItemText;
@@ -351,7 +351,7 @@ namespace Krypton.Toolkit
                         case MenuStrip _ when !e.Item.Pressed:
                             e.TextColor = KCT.MenuStripText;
                             break;
-                        case MenuStrip _ when (e.Item.Pressed || e.Item.Selected):
+                        case MenuStrip _ when e.Item.Pressed || e.Item.Selected:
                             e.TextColor = KCT.MenuItemText;
                             break;
                         case StatusStrip _ when !e.Item.Pressed && !e.Item.Selected:
@@ -446,7 +446,7 @@ namespace Krypton.Toolkit
                 (e.ToolStrip is ContextMenuStrip) ||
                 (e.ToolStrip is ToolStripDropDownMenu))
             {
-                if ((e.Item.Pressed) && (e.ToolStrip is MenuStrip))
+                if (e.Item.Pressed && (e.ToolStrip is MenuStrip))
                 {
                     // Draw the menu/tool strip as a header for a context menu item
                     DrawContextMenuHeader(e.Graphics, e.Item);
@@ -532,17 +532,17 @@ namespace Krypton.Toolkit
             using SolidBrush darkBrush = new(KCT.GripDark),
                 lightBrush = new(KCT.GripLight);
             // Do we need to invert the drawing edge?
-            var rtl = (e.ToolStrip.RightToLeft == RightToLeft.Yes);
+            var rtl = e.ToolStrip.RightToLeft == RightToLeft.Yes;
 
             // Find vertical position of the lowest grip line
-            var y = (e.AffectedBounds.Bottom - (GRIP_SIZE * 2)) + 1;
+            var y = e.AffectedBounds.Bottom - (GRIP_SIZE * 2) + 1;
 
             // Draw three lines of grips
             for (var i = GRIP_LINES; i >= 1; i--)
             {
                 // Find the rightmost grip position on the line
-                var x = (rtl ? e.AffectedBounds.Left + 1 :
-                    (e.AffectedBounds.Right - (GRIP_SIZE * 2)) + 1);
+                var x = rtl ? e.AffectedBounds.Left + 1 :
+                    e.AffectedBounds.Right - (GRIP_SIZE * 2) + 1;
 
                 // Draw grips from right to left on line
                 for (var j = 0; j < i; j++)
@@ -551,7 +551,7 @@ namespace Krypton.Toolkit
                     DrawGripGlyph(e.Graphics, x, y, darkBrush, lightBrush);
 
                     // Move left to next grip position
-                    x -= (rtl ? -GRIP_MOVE : GRIP_MOVE);
+                    x -= rtl ? -GRIP_MOVE : GRIP_MOVE;
                 }
 
                 // Move upwards to next grip line
@@ -600,7 +600,7 @@ namespace Krypton.Toolkit
                     {
                         DrawSeparator(e.Graphics, e.Vertical, e.Item.Bounds,
                             lightPen, darkPen, SEPARATOR_INSET,
-                            (e.ToolStrip.RightToLeft == RightToLeft.Yes));
+                            e.ToolStrip.RightToLeft == RightToLeft.Yes);
                     }
                     break;
                 case StatusStrip _:
@@ -740,7 +740,7 @@ namespace Krypton.Toolkit
                 Rectangle marginRect = e.AffectedBounds;
 
                 // Do we need to draw with separator on the opposite edge?
-                var rtl = (e.ToolStrip.RightToLeft == RightToLeft.Yes);
+                var rtl = e.ToolStrip.RightToLeft == RightToLeft.Yes;
 
                 marginRect.Y += MARGIN_INSET;
                 marginRect.Height -= MARGIN_INSET * 2;
@@ -1239,7 +1239,7 @@ namespace Krypton.Toolkit
             var x3 = rect.Right - cut;
             var y0 = rect.Y + cut;
             var y3 = rect.Bottom - cut;
-            var cutBack = (cut == 0f ? 1 : cut);
+            var cutBack = cut == 0f ? 1 : cut;
 
             // Does the exclude intercept the top line
             if ((rect.Y >= exclude.Top) && (rect.Y <= exclude.Bottom))

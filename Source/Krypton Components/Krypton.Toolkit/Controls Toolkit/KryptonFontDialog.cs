@@ -172,7 +172,7 @@ namespace Krypton.Toolkit
                         if (control.Button is KryptonCheckBox checkBox)
                         {
                             var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
-                            checkBox.Checked = (state != PI.BST_.UNCHECKED);
+                            checkBox.Checked = state != PI.BST_.UNCHECKED;
                         }
                     }
                 }

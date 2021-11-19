@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePanelBackStyle() => (PanelBackStyle != PaletteBackStyle.PanelClient);
+        private bool ShouldSerializePanelBackStyle() => PanelBackStyle != PaletteBackStyle.PanelClient;
 
         private void ResetPanelBackStyle()
         {

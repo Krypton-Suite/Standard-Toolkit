@@ -478,19 +478,19 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public bool Checked
         {
-            get => (CheckState != CheckState.Unchecked);
+            get => CheckState != CheckState.Unchecked;
 
             set
             {
                 // Are we currently checked?
-                var areChecked = (CheckState != CheckState.Unchecked);
+                var areChecked = CheckState != CheckState.Unchecked;
 
                 // Only interested in a change of value
                 if (areChecked != value)
                 {
                     // Work out if the check state has changed, and update to new value
-                    CheckState newCheckState = (value ? CheckState.Checked : CheckState.Unchecked);
-                    var checkStateChanged = (newCheckState != _checkState);
+                    CheckState newCheckState = value ? CheckState.Checked : CheckState.Unchecked;
+                    var checkStateChanged = newCheckState != _checkState;
                     _checkState = newCheckState;
 
                     // Checked value has always changed
@@ -645,7 +645,7 @@ namespace Krypton.Toolkit
             if (CheckOnClick)
             {
                 // Grab current state from command or ourself
-                CheckState state = (KryptonCommand == null ? CheckState : KryptonCommand.CheckState);
+                CheckState state = KryptonCommand == null ? CheckState : KryptonCommand.CheckState;
 
                 // Find new state
                 switch (state)

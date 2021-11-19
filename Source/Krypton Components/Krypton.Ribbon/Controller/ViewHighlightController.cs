@@ -86,7 +86,8 @@ namespace Krypton.Ribbon
         /// <returns>True if capturing input; otherwise false.</returns>
         public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
         {
-            if ((_mouseOver) && (button == MouseButtons.Left))
+            if (_mouseOver 
+                && (button == MouseButtons.Left))
             {
                 OnClick(EventArgs.Empty);
             }
@@ -217,7 +218,7 @@ namespace Krypton.Ribbon
         protected void UpdateTargetState(Point pt)
         {
             // Decide if tracking the target or not
-            PaletteState newState = (_mouseOver ? PaletteState.Tracking : PaletteState.Normal);
+            PaletteState newState = _mouseOver ? PaletteState.Tracking : PaletteState.Normal;
 
             // If state has changed
             if (Target.ElementState != newState)

@@ -238,7 +238,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeDrawBorders() => (DrawBorders != PaletteDrawBorders.Inherit);
+        private bool ShouldSerializeDrawBorders() => DrawBorders != PaletteDrawBorders.Inherit;
 
         /// <summary>
         /// Gets the actual borders to draw value.
@@ -716,7 +716,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageStyle() => (ImageStyle != PaletteImageStyle.Inherit);
+        private bool ShouldSerializeImageStyle() => ImageStyle != PaletteImageStyle.Inherit;
 
         /// <summary>
         /// Gets the border image style.

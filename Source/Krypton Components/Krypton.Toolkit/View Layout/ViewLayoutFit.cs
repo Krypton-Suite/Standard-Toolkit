@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
 
             // Layout each child
             var offset = 0;
-            var space = (_orientation == Orientation.Vertical ? ClientHeight : ClientWidth);
+            var space = _orientation == Orientation.Vertical ? ClientHeight : ClientWidth;
             for(var i=0; i<Count; i++)
             {
                 ViewBase child = this[i];
