@@ -1084,6 +1084,7 @@ namespace Krypton.Toolkit
             _comboBox.TextChanged += OnComboBoxTextChanged;
             _comboBox.GotFocus += OnComboBoxGotFocus;
             _comboBox.LostFocus += OnComboBoxLostFocus;
+            _comboBox.MouseDoubleClick += OnMouseDoubleClick;
             _comboBox.KeyDown += OnComboBoxKeyDown;
             _comboBox.KeyUp += OnComboBoxKeyUp;
             _comboBox.KeyPress += OnComboBoxKeyPress;
@@ -3090,6 +3091,7 @@ namespace Krypton.Toolkit
         
         private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
 
+        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
         #endregion
     }
 }

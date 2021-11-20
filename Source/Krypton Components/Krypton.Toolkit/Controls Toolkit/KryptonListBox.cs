@@ -562,6 +562,7 @@ namespace Krypton.Toolkit
             _listBox.FormattingEnabledChanged += OnListBoxFormattingEnabledChanged;
             _listBox.GotFocus += OnListBoxGotFocus;
             _listBox.LostFocus += OnListBoxLostFocus;
+            _listBox.MouseDoubleClick += OnMouseDoubleClick;
             _listBox.KeyDown += OnListBoxKeyDown;
             _listBox.KeyUp += OnListBoxKeyUp;
             _listBox.KeyPress += OnListBoxKeyPress;
@@ -1784,6 +1785,9 @@ namespace Krypton.Toolkit
         }
 
         private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+
+        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
         #endregion
     }
 }
