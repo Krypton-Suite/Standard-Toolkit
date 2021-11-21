@@ -63,14 +63,14 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((Feedback == PaletteDragFeedback.Inherit) &&
+        public override bool IsDefault => (Feedback == PaletteDragFeedback.Inherit) &&
                                            (SolidBack == Color.Empty) &&
                                            (SolidBorder == Color.Empty) &&
                                            (SolidOpacity == -1.0f) &&
                                            (DropDockBack == Color.Empty) &&
                                            (DropDockBorder == Color.Empty) &&
                                            (DropDockActive == Color.Empty) &&
-                                           (DropDockInactive == Color.Empty));
+                                           (DropDockInactive == Color.Empty);
 
         #endregion
 

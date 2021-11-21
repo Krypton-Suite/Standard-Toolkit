@@ -211,7 +211,7 @@ namespace Krypton.Ribbon
         public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == _viewMediumSmall);
+            matched = current == _viewMediumSmall;
             return null;
         }
         #endregion
@@ -226,7 +226,7 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
-            matched = (current == _viewMediumSmall);
+            matched = current == _viewMediumSmall;
             return null;
         }
         #endregion
@@ -373,7 +373,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage = new ViewDrawRibbonGroupClusterColorButtonImage(_ribbon, GroupClusterColorButton);
             _viewMediumSmallText1 = new ViewDrawRibbonGroupClusterColorButtonText(_ribbon, GroupClusterColorButton)
             {
-                Visible = (_currentSize != GroupItemSize.Small)
+                Visible = _currentSize != GroupItemSize.Small
             };
             _viewMediumSmallDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewMediumSmallText2Sep1 = new ViewLayoutRibbonSeparator(3, false);
@@ -419,7 +419,7 @@ namespace Krypton.Ribbon
         {
             _currentSize = size;
             _viewMediumSmallCenter.CurrentSize = size;
-            _viewMediumSmallText1.Visible = (size != GroupItemSize.Small);
+            _viewMediumSmallText1.Visible = size != GroupItemSize.Small;
         }
 
         private void UpdateEnabledState()
@@ -455,8 +455,8 @@ namespace Krypton.Ribbon
         private void UpdateDropDownState()
         {
             // Only show the drop down if the button is the correct type
-            var dropDown = ((GroupClusterColorButton.ButtonType == GroupButtonType.DropDown) ||
-                            (GroupClusterColorButton.ButtonType == GroupButtonType.Split));
+            var dropDown = (GroupClusterColorButton.ButtonType == GroupButtonType.DropDown) ||
+                            (GroupClusterColorButton.ButtonType == GroupButtonType.Split);
 
             _viewMediumSmallDropArrow.Visible = dropDown;
             _viewMediumSmallText2Sep2.Visible = dropDown;

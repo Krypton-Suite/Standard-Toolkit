@@ -252,7 +252,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            var drawNonTrackingAreas = (_ribbon.RibbonShape != PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365);
+            var drawNonTrackingAreas = _ribbon.RibbonShape != PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365;
 
             // Update the views with the type of button being used
             _viewLarge.ButtonType = GroupButton.ButtonType;
@@ -504,21 +504,21 @@ namespace Krypton.Ribbon
 
         private void UpdateDropDownState()
         {
-            var dropDown = (GroupButton.ButtonType == GroupButtonType.DropDown);
-            var splitButton = (GroupButton.ButtonType == GroupButtonType.Split);
+            var dropDown = GroupButton.ButtonType == GroupButtonType.DropDown;
+            var splitButton = GroupButton.ButtonType == GroupButtonType.Split;
 
             // Only show text line 2 separators is a drop down is showing with no text
             var separators = (dropDown || splitButton) && (!string.IsNullOrEmpty(GroupButton.TextLine2));
 
             // Update large view
-            _viewLargeDropArrow.Visible = (dropDown || splitButton);
+            _viewLargeDropArrow.Visible = dropDown || splitButton;
             _viewLargeText2Sep1.Visible = separators;
             _viewLargeText2Sep2.Visible = separators;
 
             // Update medium/small view
             _viewMediumSmallText2Sep2.Visible = splitButton;
-            _viewMediumSmallDropArrow.Visible = (dropDown || splitButton);
-            _viewMediumSmallText2Sep3.Visible = (dropDown || splitButton);
+            _viewMediumSmallDropArrow.Visible = dropDown || splitButton;
+            _viewMediumSmallText2Sep3.Visible = dropDown || splitButton;
         }
 
         private void UpdateItemSizeState()
@@ -534,7 +534,7 @@ namespace Krypton.Ribbon
             {
                 case GroupItemSize.Small:
                 case GroupItemSize.Medium:
-                    var show = (size == GroupItemSize.Medium);
+                    var show = size == GroupItemSize.Medium;
                     _viewMediumSmallCenter.CurrentSize = size;
                     _viewMediumSmallText1.Visible = show;
                     _viewMediumSmallText2.Visible = show;

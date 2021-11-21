@@ -126,7 +126,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Enabled
         {
-            get => (base.Enabled && _ribbon.Enabled);
+            get => base.Enabled && _ribbon.Enabled;
 
             set
             {

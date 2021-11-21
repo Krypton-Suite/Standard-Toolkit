@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
                 if (value != _orientation)
                 {
                     _orientation = value;
-                    VisualOrientation visual = (_orientation == Orientation.Horizontal ? VisualOrientation.Top : VisualOrientation.Right);
+                    VisualOrientation visual = _orientation == Orientation.Horizontal ? VisualOrientation.Top : VisualOrientation.Right;
                     _layoutTop.Orientation = visual;
                 }
             }
@@ -436,9 +436,9 @@ namespace Krypton.Toolkit
             {
                 return TrackBarSize switch
                 {
-                    PaletteTrackBarSize.Small => (_orientation == Orientation.Horizontal ? _positionSizeSmallH : _positionSizeSmallV),
-                    PaletteTrackBarSize.Large => (_orientation == Orientation.Horizontal ? _positionSizeLargeH : _positionSizeLargeV),
-                    _ => (_orientation == Orientation.Horizontal ? _positionSizeMediumH : _positionSizeMediumV)
+                    PaletteTrackBarSize.Small => _orientation == Orientation.Horizontal ? _positionSizeSmallH : _positionSizeSmallV,
+                    PaletteTrackBarSize.Large => _orientation == Orientation.Horizontal ? _positionSizeLargeH : _positionSizeLargeV,
+                    _ => _orientation == Orientation.Horizontal ? _positionSizeMediumH : _positionSizeMediumV
                 };
             }
         }

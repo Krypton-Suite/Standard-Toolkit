@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
                         }
                         else
                         {
-                            temp2 = (Luminance + Saturation) - (Luminance * Saturation);
+                            temp2 = Luminance + Saturation - (Luminance * Saturation);
                         }
 
                         var temp1 = (2.0 * Luminance) - temp2;
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
                             }
                             else if ((3.0 * t3[i]) < 2.0)
                             {
-                                clr[i] = (temp1 + ((temp2 - temp1) * ((2.0 / 3.0) - t3[i]) * 6.0));
+                                clr[i] = temp1 + ((temp2 - temp1) * ((2.0 / 3.0) - t3[i]) * 6.0);
                             }
                             else
                             {

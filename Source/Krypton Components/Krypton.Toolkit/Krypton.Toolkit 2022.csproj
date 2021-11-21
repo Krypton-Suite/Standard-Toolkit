@@ -9,15 +9,30 @@
         <ApplicationIcon>Krypton.ico</ApplicationIcon>
         <DelaySign>false</DelaySign>
         <UseWindowsForms>true</UseWindowsForms>
-        <LangVersion>preview</LangVersion>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
-        <AnalysisLevel>latest</AnalysisLevel>
         <NeutralLanguage>en</NeutralLanguage>
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
         <NoWarn>1701;1702</NoWarn>
         <WarningLevel>5</WarningLevel>
+        <Configurations>Debug;Release;Preview</Configurations>
     </PropertyGroup>
+
+    <Choose>
+        <When Condition="'$(Configuration)' == 'Release'">
+            <PropertyGroup>
+                <LangVersion>latest</LangVersion>
+                <AnalysisLevel>latest</AnalysisLevel>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <LangVersion>preview</LangVersion>
+                <AnalysLevel>preview</AnalysLevel>
+                <IncludeSymbols>true</IncludeSymbols>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
 
     <ItemGroup>
         <Reference Include="System.Windows.Forms.Design.Editors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Condition="$(TargetFramework.StartsWith('netcore'))">
@@ -112,9 +127,7 @@
         <Compile Update="Palette Builtin\Office 365\PaletteOffice365Blue.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 365\PaletteOffice365Black.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="Palette Builtin\Office 365\PaletteOffice365Black.cs" />
         <Compile Update="Palette Builtin\Office 365\PaletteOffice365Silver.cs">
             <SubType>Component</SubType>
         </Compile>

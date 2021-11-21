@@ -63,9 +63,9 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (Back.IsDefault &&
+        public override bool IsDefault => Back.IsDefault &&
                                            Border.IsDefault &&
-                                           Content.IsDefault);
+                                           Content.IsDefault;
 
         #endregion
 

@@ -60,10 +60,10 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (base.IsDefault &&
+        public override bool IsDefault => base.IsDefault &&
                                            Visible &&
                                            (Enabled == ButtonEnabled.Container) &&
-                                           (Checked == ButtonCheckState.NotCheckButton));
+                                           (Checked == ButtonCheckState.NotCheckButton);
 
         #endregion
 
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeChecked() => (Checked != ButtonCheckState.NotCheckButton);
+        private bool ShouldSerializeChecked() => Checked != ButtonCheckState.NotCheckButton;
 
         /// <summary>
         /// Resets the Checked property to its default value.
@@ -286,13 +286,13 @@ namespace Krypton.Toolkit
                     case @"KryptonCommand":
                         if (Checked != ButtonCheckState.NotCheckButton)
                         {
-                            Checked = (KryptonCommand.Checked ? ButtonCheckState.Checked : ButtonCheckState.Unchecked);
+                            Checked = KryptonCommand.Checked ? ButtonCheckState.Checked : ButtonCheckState.Unchecked;
                         }
 
-                        Enabled = (KryptonCommand.Enabled ? ButtonEnabled.True : ButtonEnabled.False);
+                        Enabled = KryptonCommand.Enabled ? ButtonEnabled.True : ButtonEnabled.False;
                         break;
                     case @"Checked":
-                        KryptonCommand.Checked = (Checked == ButtonCheckState.Checked);
+                        KryptonCommand.Checked = Checked == ButtonCheckState.Checked;
                         break;
                 }
             }
@@ -310,10 +310,10 @@ namespace Krypton.Toolkit
             switch (e.PropertyName)
             {
                 case @"Checked":
-                    Checked = (KryptonCommand.Checked ? ButtonCheckState.Checked : ButtonCheckState.Unchecked);
+                    Checked = KryptonCommand.Checked ? ButtonCheckState.Checked : ButtonCheckState.Unchecked;
                     break;
                 case @"Enabled":
-                    Enabled = (KryptonCommand.Enabled ? ButtonEnabled.True : ButtonEnabled.False);
+                    Enabled = KryptonCommand.Enabled ? ButtonEnabled.True : ButtonEnabled.False;
                     break;
             }
         }

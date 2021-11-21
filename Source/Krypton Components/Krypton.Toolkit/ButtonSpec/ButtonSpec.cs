@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public virtual bool IsDefault => (_imageStates.IsDefault &&
+        public virtual bool IsDefault => _imageStates.IsDefault &&
                                           (Image == null) &&
                                           (ToolTipImage == null) &&
                                           (ColorMap == Color.Empty) &&
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
                                           AllowInheritImage &&
                                           AllowInheritText &&
                                           AllowInheritExtraText &&
-                                          AllowInheritToolTipTitle);
+                                          AllowInheritToolTipTitle;
 
         #endregion
 
@@ -673,7 +673,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyle() => (Style != PaletteButtonStyle.Inherit);
+        private bool ShouldSerializeStyle() => Style != PaletteButtonStyle.Inherit;
 
         /// <summary>
         /// Resets the Style property to its default value.
@@ -703,7 +703,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeOrientation() => (Orientation != PaletteButtonOrientation.Inherit);
+        private bool ShouldSerializeOrientation() => Orientation != PaletteButtonOrientation.Inherit;
 
         /// <summary>
         /// Resets the Orientation property to its default value.
@@ -736,7 +736,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeEdge() => (Edge != PaletteRelativeEdgeAlign.Inherit);
+        private bool ShouldSerializeEdge() => Edge != PaletteRelativeEdgeAlign.Inherit;
 
         private void ResetEdge()
         {

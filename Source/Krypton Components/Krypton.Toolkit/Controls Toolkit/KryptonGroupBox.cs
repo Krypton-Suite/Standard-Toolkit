@@ -281,7 +281,7 @@ namespace Krypton.Toolkit
             GroupBorderStyle = PaletteBorderStyle.ControlGroupBox;
         }
 
-        private bool ShouldSerializeGroupBorderStyle() => (GroupBorderStyle != PaletteBorderStyle.ControlGroupBox);
+        private bool ShouldSerializeGroupBorderStyle() => GroupBorderStyle != PaletteBorderStyle.ControlGroupBox;
 
         /// <summary>
         /// Gets and sets the background style.
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
 
         private void ResetGroupBackStyle() => GroupBackStyle = PaletteBackStyle.ControlGroupBox;
 
-        private bool ShouldSerializeGroupBackStyle() => (GroupBackStyle != PaletteBackStyle.ControlGroupBox);
+        private bool ShouldSerializeGroupBackStyle() => GroupBackStyle != PaletteBackStyle.ControlGroupBox;
 
         /// <summary>
         /// Gets and sets the caption style.
@@ -331,7 +331,7 @@ namespace Krypton.Toolkit
 
         private void ResetCaptionStyle() => CaptionStyle = LabelStyle.GroupBoxCaption;
 
-        private bool ShouldSerializeCaptionStyle() => (CaptionStyle != LabelStyle.GroupBoxCaption);
+        private bool ShouldSerializeCaptionStyle() => CaptionStyle != LabelStyle.GroupBoxCaption;
 
         /// <summary>
         /// Gets and sets the position of the caption.

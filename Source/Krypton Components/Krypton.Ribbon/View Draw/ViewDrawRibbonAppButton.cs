@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
 
             _ribbon = ribbon;
             _bottomHalf = bottomHalf;
-            _size = (_bottomHalf ? SIZE_BOTTOM : SIZE_TOP);
+            _size = _bottomHalf ? SIZE_BOTTOM : SIZE_TOP;
             _mementos = new IDisposable[3];
         }
 
@@ -86,7 +86,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Visible
         {
-            get => (base.Visible && ((Parent == null) ? true : Parent.Visible));
+            get => base.Visible && ((Parent == null) ? true : Parent.Visible);
             set => base.Visible = value;
         }
         #endregion
@@ -114,7 +114,7 @@ namespace Krypton.Ribbon
             if (_bottomHalf)
             {
                 Rectangle client = ClientRectangle;
-                client.Y -= (SIZE_FULL.Height - SIZE_BOTTOM.Height);
+                client.Y -= SIZE_FULL.Height - SIZE_BOTTOM.Height;
                 ClientRectangle = client;
             }
 

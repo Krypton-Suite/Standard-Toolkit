@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
             try
             {
                 // Is this application in an OS that is capable of themes and is currently themed
-                _themedApp = (VisualStyleInformation.IsEnabledByUser && !string.IsNullOrEmpty(VisualStyleInformation.ColorScheme));
+                _themedApp = VisualStyleInformation.IsEnabledByUser && !string.IsNullOrEmpty(VisualStyleInformation.ColorScheme);
             }
             catch
             {
@@ -345,7 +345,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
+        private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -677,7 +677,7 @@ namespace Krypton.Toolkit
 
             // Now adjust to take into account the top and left borders
             Padding borders = RealWindowBorders;
-            clientPt.Offset(borders.Left, (ApplyComposition ? 0 : borders.Top));
+            clientPt.Offset(borders.Left, ApplyComposition ? 0 : borders.Top);
 
             return clientPt;
         }
@@ -1000,7 +1000,9 @@ namespace Krypton.Toolkit
             // LayoutMdi call on the parent from working and cascading/tiling the children
             //if ((m.Msg == (int)PI.WM_NCCALCSIZE) && _themedApp &&
             //    ((MdiParent == null) || ApplyCustomChrome))
-            if (_themedApp && ((MdiParent == null) || ApplyCustomChrome))
+            if (_themedApp 
+                && ((MdiParent == null) || ApplyCustomChrome)
+                )
             {
                 switch (m.Msg)
                 {
@@ -1012,7 +1014,10 @@ namespace Krypton.Toolkit
                         /* Setting handled to false enables the application to process it's own Min/Max requirements,
                 * as mentioned by jason.bullard (comment from September 22, 2011) on http://gallery.expression.microsoft.com/ZuneWindowBehavior/ */
                         processed = false;
-                        break;
+                        // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
+                        // Still got to call - base - to allow the "application to process it's own Min/Max requirements" !!
+                        base.WndProc(ref m);
+                        return;
                 }
             }
 
@@ -1126,7 +1131,6 @@ namespace Krypton.Toolkit
         /// Only used to process a WM_GETMINMAXINFO message.
         /// </summary>
         /// <param name="m">A Windows-based message.</param>
-        /// <returns>True if the message was processed; otherwise false.</returns>
         protected virtual void OnWM_GETMINMAXINFO(ref Message m)
         {
             PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO));
@@ -1137,7 +1141,6 @@ namespace Krypton.Toolkit
 
             if (monitor != IntPtr.Zero)
             {
-
                 PI.MONITORINFO monitorInfo = PI.GetMonitorInfo(monitor);
                 PI.RECT rcWorkArea = monitorInfo.rcWork;
                 PI.RECT rcMonitorArea = monitorInfo.rcMonitor;
@@ -1148,6 +1151,18 @@ namespace Krypton.Toolkit
                 // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415 so changed to "* 3 / 2"
                 mmi.ptMinTrackSize.X = Math.Max(mmi.ptMinTrackSize.X * 3 / 2, MinimumSize.Width);
                 mmi.ptMinTrackSize.Y = Math.Max(mmi.ptMinTrackSize.Y * 2, MinimumSize.Height);
+                
+                // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
+                if (MaximumSize.Width > mmi.ptMinTrackSize.X
+                    && MaximumSize.Width < mmi.ptMaxSize.X)
+                {
+                    mmi.ptMaxSize.X = MaximumSize.Width;
+                }
+                if (MaximumSize.Height > mmi.ptMinTrackSize.Y
+                    && MaximumSize.Height < mmi.ptMaxSize.Y)
+                {
+                    mmi.ptMaxSize.Y = MaximumSize.Height;
+                }
             }
 
             Marshal.StructureToPtr(mmi, m.LParam, true);
@@ -1206,7 +1221,7 @@ namespace Krypton.Toolkit
             }
 
             // We have handled the message
-            m.Result = (IntPtr)(1);
+            m.Result = (IntPtr)1;
 
             // Message processed, do not pass onto base class for processing
             return true;
@@ -1277,7 +1292,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCACTIVATE(ref Message m)
         {
             // Cache the new active state
-            WindowActive = (m.WParam == (IntPtr)(1));
+            WindowActive = m.WParam == (IntPtr)1;
 
             if (!ApplyComposition)
             {
@@ -1289,7 +1304,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Allow default processing of activation change
-                    m.Result = (IntPtr)(1);
+                    m.Result = (IntPtr)1;
 
                     // Message processed, do not pass onto base class for processing
                     return true;
@@ -1727,7 +1742,7 @@ namespace Krypton.Toolkit
                     }
 
                     // With composition we extend the top into the client area
-                    DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, (ApplyComposition ? _compositionHeight : 0), 0, 0));
+                    DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, ApplyComposition ? _compositionHeight : 0, 0, 0));
 
                     // A change in composition when using custom chrome must turn custom chrome
                     // off and on again to have it reprocess correctly to the new composition state
@@ -1750,7 +1765,7 @@ namespace Krypton.Toolkit
                     {
                         // Apply the new height requirement
                         _compositionHeight = newCompHeight;
-                        DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, (ApplyComposition ? _compositionHeight : 0), 0, 0));
+                        DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, ApplyComposition ? _compositionHeight : 0, 0, 0));
                     }
                 }
 

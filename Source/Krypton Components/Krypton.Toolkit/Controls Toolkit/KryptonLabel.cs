@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         }
 
         private bool ShouldSerializeOrientation()
-        => (_orientation != VisualOrientation.Top);
+        => _orientation != VisualOrientation.Top;
 
         private void ResetOrientation()
         {
@@ -207,7 +207,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeLabelStyle() => (LabelStyle != LabelStyle.NormalPanel);
+        private bool ShouldSerializeLabelStyle() => LabelStyle != LabelStyle.NormalPanel;
 
         private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalPanel;
 

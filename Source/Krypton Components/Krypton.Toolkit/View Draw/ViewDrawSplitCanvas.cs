@@ -576,11 +576,11 @@ namespace Krypton.Toolkit
                             {
                                 if (SplitWithFading)
                                 {
-                                    DrawBackground(context, rect, (mouseInSplit ? _paletteBackLight : PaletteBack), PaletteBorder, PaletteState.Tracking);
+                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackLight : PaletteBack, PaletteBorder, PaletteState.Tracking);
                                 }
                                 else
                                 {
-                                    DrawBackground(context, rect, (mouseInSplit ? _paletteBackDraw : PaletteBack), PaletteBorder, (mouseInSplit ? PaletteState.Normal : PaletteState.Tracking));
+                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackDraw : PaletteBack, PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Tracking);
                                 }
                             }
 
@@ -588,11 +588,11 @@ namespace Krypton.Toolkit
                             {
                                 if (SplitWithFading)
                                 {
-                                    DrawBackground(context, rect, (mouseInSplit ? PaletteBack : _paletteBackLight), PaletteBorder, PaletteState.Tracking);
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight, PaletteBorder, PaletteState.Tracking);
                                 }
                                 else
                                 {
-                                    DrawBackground(context, rect, (mouseInSplit ? PaletteBack : _paletteBackDraw), PaletteBorder, (mouseInSplit ? PaletteState.Tracking : PaletteState.Normal));
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw, PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Normal);
                                 }
                             }
                             break;
@@ -601,13 +601,13 @@ namespace Krypton.Toolkit
                             {
                                 if (SplitWithFading)
                                 {
-                                    DrawBackground(context, rect, (mouseInSplit ? PaletteBack : _paletteBackLight),
-                                                   PaletteBorder, (mouseInSplit ? PaletteState.Pressed : PaletteState.Tracking));
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight,
+                                                   PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Tracking);
                                 }
                                 else
                                 {
-                                    DrawBackground(context, rect, (mouseInSplit ? PaletteBack : _paletteBackDraw),
-                                                   PaletteBorder, (mouseInSplit ? PaletteState.Pressed : PaletteState.Normal));
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw,
+                                                   PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Normal);
                                 }
                             }
 
@@ -615,13 +615,13 @@ namespace Krypton.Toolkit
                             {
                                 if (SplitWithFading)
                                 {
-                                    DrawBackground(context, rect, (mouseInSplit ? _paletteBackLight : PaletteBack),
-                                                  PaletteBorder, (mouseInSplit ? PaletteState.Tracking : PaletteState.Pressed));
+                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackLight : PaletteBack,
+                                                  PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Pressed);
                                 }
                                 else
                                 {
-                                    DrawBackground(context, rect, (mouseInSplit ? _paletteBackDraw : PaletteBack),
-                                                   PaletteBorder, (mouseInSplit ? PaletteState.Normal : PaletteState.Pressed));
+                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackDraw : PaletteBack,
+                                                   PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Pressed);
                                 }
                             }
                             break;
@@ -655,7 +655,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Pressed:
                             DrawBorder(context, rect, PaletteBorder, PaletteState.Tracking);
 
-                            using (Clipping clipToSplitter = new(context.Graphics, (mouseInSplit ? _splitRectangle : NonSplitRectangle)))
+                            using (Clipping clipToSplitter = new(context.Graphics, mouseInSplit ? _splitRectangle : NonSplitRectangle))
                             {
                                 DrawBorder(context, rect, PaletteBorder, PaletteState.Pressed);
                             }

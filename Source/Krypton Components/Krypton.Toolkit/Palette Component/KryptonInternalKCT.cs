@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public bool IsDefault => (InternalUseRoundedEdges == InheritBool.Inherit);
+        public bool IsDefault => InternalUseRoundedEdges == InheritBool.Inherit;
 
         #endregion
 

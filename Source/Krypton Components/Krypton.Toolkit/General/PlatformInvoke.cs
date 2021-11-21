@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
             POS = 0x4,
             DISABLENOSCROLL = 0x8,
             TRACKPOS = 0x16,
-            ALL = (RANGE | PAGE | POS | TRACKPOS)
+            ALL = RANGE | PAGE | POS | TRACKPOS
         }
 
 #pragma warning disable CA1069 // Enums values should not be duplicated
@@ -207,32 +207,32 @@ namespace Krypton.Toolkit
         internal struct TVM_
         {
             public const int
-                TVM_INSERTITEMA = (0x1100 + 0),
-                TVM_INSERTITEMW = (0x1100 + 50),
-                TVM_DELETEITEM = (0x1100 + 1),
-                TVM_EXPAND = (0x1100 + 2),
-                TVM_GETITEMRECT = (0x1100 + 4),
-                TVM_GETINDENT = (0x1100 + 6),
-                TVM_SETINDENT = (0x1100 + 7),
-                TVM_GETIMAGELIST = (0x1100 + 8),
-                TVM_SETIMAGELIST = (0x1100 + 9),
-                TVM_GETNEXTITEM = (0x1100 + 10),
-                TVM_SELECTITEM = (0x1100 + 11),
-                TVM_GETITEMA = (0x1100 + 12),
-                TVM_GETITEMW = (0x1100 + 62),
-                TVM_SETITEMA = (0x1100 + 13),
-                TVM_SETITEMW = (0x1100 + 63),
-                TVM_EDITLABELA = (0x1100 + 14),
-                TVM_EDITLABELW = (0x1100 + 65),
-                TVM_GETEDITCONTROL = (0x1100 + 15),
-                TVM_GETVISIBLECOUNT = (0x1100 + 16),
-                TVM_HITTEST = (0x1100 + 17),
-                TVM_ENSUREVISIBLE = (0x1100 + 20),
-                TVM_ENDEDITLABELNOW = (0x1100 + 22),
-                TVM_GETISEARCHSTRINGA = (0x1100 + 23),
-                TVM_GETISEARCHSTRINGW = (0x1100 + 64),
-                TVM_SETITEMHEIGHT = (0x1100 + 27),
-                TVM_GETITEMHEIGHT = (0x1100 + 28),
+                TVM_INSERTITEMA = 0x1100 + 0,
+                TVM_INSERTITEMW = 0x1100 + 50,
+                TVM_DELETEITEM = 0x1100 + 1,
+                TVM_EXPAND = 0x1100 + 2,
+                TVM_GETITEMRECT = 0x1100 + 4,
+                TVM_GETINDENT = 0x1100 + 6,
+                TVM_SETINDENT = 0x1100 + 7,
+                TVM_GETIMAGELIST = 0x1100 + 8,
+                TVM_SETIMAGELIST = 0x1100 + 9,
+                TVM_GETNEXTITEM = 0x1100 + 10,
+                TVM_SELECTITEM = 0x1100 + 11,
+                TVM_GETITEMA = 0x1100 + 12,
+                TVM_GETITEMW = 0x1100 + 62,
+                TVM_SETITEMA = 0x1100 + 13,
+                TVM_SETITEMW = 0x1100 + 63,
+                TVM_EDITLABELA = 0x1100 + 14,
+                TVM_EDITLABELW = 0x1100 + 65,
+                TVM_GETEDITCONTROL = 0x1100 + 15,
+                TVM_GETVISIBLECOUNT = 0x1100 + 16,
+                TVM_HITTEST = 0x1100 + 17,
+                TVM_ENSUREVISIBLE = 0x1100 + 20,
+                TVM_ENDEDITLABELNOW = 0x1100 + 22,
+                TVM_GETISEARCHSTRINGA = 0x1100 + 23,
+                TVM_GETISEARCHSTRINGW = 0x1100 + 64,
+                TVM_SETITEMHEIGHT = 0x1100 + 27,
+                TVM_GETITEMHEIGHT = 0x1100 + 28,
 
                 SETITEMA = 0x110d,
                 SETITEM = 0x110d,
@@ -2354,8 +2354,8 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 LAYOUTRTL = 0x00400000, // Right to left mirroring
                 COMPOSITED = 0x02000000,
                 NOACTIVATE = 0x08000000,
-                OVERLAPPEDWINDOW = (WINDOWEDGE + CLIENTEDGE),
-                PALETTEWINDOW = (WINDOWEDGE + TOOLWINDOW + TOPMOST);
+                OVERLAPPEDWINDOW = WINDOWEDGE + CLIENTEDGE,
+                PALETTEWINDOW = WINDOWEDGE + TOOLWINDOW + TOPMOST;
         }
 
         internal enum SC_
@@ -2429,13 +2429,13 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         /// </summary>
         internal enum GWL_
         {
-            WNDPROC = (-4),
-            HINSTANCE = (-6),
-            HWNDPARENT = (-8),
-            STYLE = (-16),
-            EXSTYLE = (-20),
-            USERDATA = (-21),
-            ID = (-12)
+            WNDPROC = -4,
+            HINSTANCE = -6,
+            HWNDPARENT = -8,
+            STYLE = -16,
+            EXSTYLE = -20,
+            USERDATA = -21,
+            ID = -12
         }
 
         internal enum WH_ : int
@@ -2500,25 +2500,25 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #region Static Methods
         internal static int LOWORD(IntPtr value)
         {
-            var int32 = ((int)value.ToInt64() & 0xFFFF);
+            var int32 = (int)value.ToInt64() & 0xFFFF;
             return (int32 > 32767) ? int32 - 65536 : int32;
         }
 
         internal static int HIWORD(IntPtr value)
         {
-            var int32 = (((int)value.ToInt64() >> 0x10) & 0xFFFF);
+            var int32 = ((int)value.ToInt64() >> 0x10) & 0xFFFF;
             return (int32 > 32767) ? int32 - 65536 : int32;
         }
 
-        internal static int LOWORD(int value) => (value & 0xFFFF);
+        internal static int LOWORD(int value) => value & 0xFFFF;
 
-        internal static int HIWORD(int value) => ((value >> 0x10) & 0xFFFF);
+        internal static int HIWORD(int value) => (value >> 0x10) & 0xFFFF;
 
-        internal static int MAKELOWORD(int value) => (value & 0xFFFF);
+        internal static int MAKELOWORD(int value) => value & 0xFFFF;
 
-        internal static int MAKEHIWORD(int value) => ((value & 0xFFFF) << 0x10);
+        internal static int MAKEHIWORD(int value) => (value & 0xFFFF) << 0x10;
 
-        internal static int MakeLParam(int LoWord, int HiWord) => ((HiWord << 16) | (LoWord & 0xffff));
+        internal static int MakeLParam(int LoWord, int HiWord) => (HiWord << 16) | (LoWord & 0xffff);
 
         internal static IntPtr MakeWParam(int LoWord, int HiWord) => new IntPtr((long)((HiWord << 16) | (LoWord & 0xffff)));
 
@@ -3071,7 +3071,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             DrawTopBorder = 0x40,
             DrawRightBorder = 0x80,
             DrawBottomBorder = 0x100,
-            DrawAllBorders = (DrawLeftBorder | DrawTopBorder | DrawRightBorder | DrawBottomBorder)
+            DrawAllBorders = DrawLeftBorder | DrawTopBorder | DrawRightBorder | DrawBottomBorder
             // ...
         }
 
@@ -3114,7 +3114,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             {
             }
 
-            public LOGFONT(PI.LOGFONT lf)
+            public LOGFONT(LOGFONT lf)
             {
                 lfHeight = lf.lfHeight;
                 lfWidth = lf.lfWidth;
@@ -3529,7 +3529,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         [DllImport(@"comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        public static extern bool ChooseFont([In, Out] PI.CHOOSEFONT cf);
+        public static extern bool ChooseFont([In, Out] CHOOSEFONT cf);
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         internal class CHOOSEFONT
@@ -3542,7 +3542,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             public int Flags;
             public int rgbColors;
             public IntPtr lCustData = IntPtr.Zero;
-            internal PI.WndProc lpfnHook;
+            internal WndProc lpfnHook;
             public string lpTemplateName;
             public IntPtr hInstance;
             public string lpszStyle;
@@ -3596,6 +3596,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 X = x;
                 Y = y;
             }
+            public static implicit operator Point(POINT p) => new (p.X, p.Y);
+
+            public static implicit operator POINT(Point p) => new (p.X, p.Y);
         }
 
         [StructLayout(LayoutKind.Sequential)]

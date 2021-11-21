@@ -73,13 +73,13 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (ImageStates.IsDefault &&
+        public override bool IsDefault => ImageStates.IsDefault &&
                                            (Image == _defaultImage) &&
                                            (ImageTransparentColor == Color.Empty) &&
                                            (Text == _defaultText) &&
                                            (ExtraText == _defaultExtraText)
                                            && (_roundedCorners == 0)
-                                           );
+                                           ;
 
         #endregion
 

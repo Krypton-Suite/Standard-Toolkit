@@ -211,10 +211,10 @@ namespace Krypton.Ribbon
             if (_ribbonTextBox?.Ribbon != null)
             {
                 var items = ParentItems;
-                moveFirst = (items.IndexOf(_ribbonTextBox) > 0);
-                movePrev = (items.IndexOf(_ribbonTextBox) > 0);
-                moveNext = (items.IndexOf(_ribbonTextBox) < (items.Count - 1));
-                moveLast = (items.IndexOf(_ribbonTextBox) < (items.Count - 1));
+                moveFirst = items.IndexOf(_ribbonTextBox) > 0;
+                movePrev = items.IndexOf(_ribbonTextBox) > 0;
+                moveNext = items.IndexOf(_ribbonTextBox) < (items.Count - 1);
+                moveLast = items.IndexOf(_ribbonTextBox) < (items.Count - 1);
             }
 
             _moveFirstVerb.Enabled = moveFirst;

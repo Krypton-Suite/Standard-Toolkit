@@ -252,7 +252,7 @@ namespace Krypton.Ribbon
         {
             if (_verbs != null)
             {
-                _clearTabsVerb.Enabled = (_ribbon.RibbonTabs.Count > 0);
+                _clearTabsVerb.Enabled = _ribbon.RibbonTabs.Count > 0;
             }
         }
 

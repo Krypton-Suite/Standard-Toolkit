@@ -62,12 +62,12 @@ namespace Krypton.Toolkit
             _lineItems = _itemSelect.LineItems;
             _needPaint = provider.ProviderNeedPaintDelegate;
             _padding = _itemSelect.Padding;
-            _imageCount = (_imageList == null ? 0 : _imageList.Images.Count);
+            _imageCount = _imageList == null ? 0 : _imageList.Images.Count;
 
             // Limit check the start and end values
             _imageIndexStart = Math.Max(0, _imageIndexStart);
             _imageIndexEnd = Math.Min(_imageIndexEnd, _imageCount - 1);
-            _imageIndexCount = Math.Max(0, (_imageIndexEnd - _imageIndexStart) + 1);
+            _imageIndexCount = Math.Max(0, _imageIndexEnd - _imageIndexStart + 1);
 
             IPalette palette = provider.ProviderPalette ?? KryptonManager.GetPaletteForMode(provider.ProviderPaletteMode);
 
@@ -246,7 +246,7 @@ namespace Krypton.Toolkit
                 ViewDrawMenuImageSelectItem item = (ViewDrawMenuImageSelectItem)this[i];
                 item.ImageList = _imageList;
                 item.ImageIndex = imageIndex;
-                item.Checked = (_selectedIndex == imageIndex);
+                item.Checked = _selectedIndex == imageIndex;
                 item.Enabled = ItemEnabled;
             }
         }

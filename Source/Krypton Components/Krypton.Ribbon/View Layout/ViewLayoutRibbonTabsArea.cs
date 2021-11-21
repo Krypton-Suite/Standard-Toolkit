@@ -249,8 +249,8 @@ namespace Krypton.Ribbon
         public void AppButtonVisibleChanged()
         {
             // Update visible state of the app button/tab to reflect current state
-            LayoutAppButton.Visible = (_ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007));
-            LayoutAppTab.Visible = (_ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape != PaletteRibbonShape.Office2007));
+            LayoutAppButton.Visible = _ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007);
+            LayoutAppTab.Visible = _ribbon.RibbonAppButton.AppButtonVisible && (_ribbon.RibbonShape != PaletteRibbonShape.Office2007);
             _leftSeparator.SeparatorSize = (_ribbon.RibbonShape == PaletteRibbonShape.Office2007) ? new Size(BUTTON_TAB_GAP_2007, BUTTON_TAB_GAP_2007) : new Size(BUTTON_TAB_GAP_2010, BUTTON_TAB_GAP_2010);
 
             // If no app button then need separator to stop first tab being to close to the left edge
@@ -810,7 +810,7 @@ namespace Krypton.Ribbon
                                 toolTipStyle = _ribbon.RibbonAppButton.AppButtonToolTipStyle;
 
                                 // Display below the mouse cursor
-                                screenRect.Height += (SystemInformation.CursorSize.Height / 3) * 2;
+                                screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
                             }
                             break;
                         case ViewDrawRibbonQATButton viewElement1:
@@ -829,7 +829,7 @@ namespace Krypton.Ribbon
                                 toolTipStyle = viewElement1.QATButton.GetToolTipStyle();
 
                                 // Display below the mouse cursor
-                                screenRect.Height += (SystemInformation.CursorSize.Height / 3) * 2;
+                                screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
                             }
                             break;
                         default:
@@ -957,7 +957,7 @@ namespace Krypton.Ribbon
                                                     toolTipStyle = buttonSpec.ToolTipStyle;
 
                                                     // Display below the mouse cursor
-                                                    screenRect.Height += (SystemInformation.CursorSize.Height / 3) * 2;
+                                                    screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
                                                 }
                                             }
                                         }

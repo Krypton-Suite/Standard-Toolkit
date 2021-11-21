@@ -245,7 +245,7 @@ namespace Krypton.Toolkit
                 PerformLayout();
 
                 // Do we have a manager to use for laying out?
-                if (viewLayout && ((ViewManager != null) && (Renderer != null)))
+                if (viewLayout && (ViewManager != null) && (Renderer != null))
                 {
                     // Prevent infinite loop by looping a maximum number of times
                     var max = 5;
@@ -303,7 +303,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
+        private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.
@@ -1041,7 +1041,7 @@ namespace Krypton.Toolkit
                     Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
-                    if (((int)((long)m.LParam)) == -1)
+                    if (((int)(long)m.LParam) == -1)
                     {
                         mousePt = new Point(Width / 2, Height / 2);
                     }

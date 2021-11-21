@@ -612,7 +612,7 @@ namespace Krypton.Ribbon
             set
             {
                 if ((value != null) &&                          // Cannot remove selection
-                    ((value.Visible) || InDesignHelperMode) &&  // Tab must be visible
+                    (value.Visible || InDesignHelperMode) &&  // Tab must be visible
                     RibbonTabs.Contains(value) &&               // Tab must be in our collection
                     TabIsContextValid(value))                   // Context tab must be in current context selection
                 {
@@ -804,7 +804,7 @@ namespace Krypton.Ribbon
                     _minimizedMode = value;
 
                     // Only show the minimize bar if in minimized mode and not showing the QAT below the ribbon
-                    _minimizeBar.Visible = (RealMinimizedMode && (QATLocation != QATLocation.Below));
+                    _minimizeBar.Visible = RealMinimizedMode && (QATLocation != QATLocation.Below);
 
                     if (RealMinimizedMode)
                     {
@@ -909,10 +909,10 @@ namespace Krypton.Ribbon
                     using ScreenObscurer obscurer = new(this, DesignMode);
                     // Only show the minimize bar if in minimized mode 
                     // and not showing the QAT below the ribbon
-                    _minimizeBar.Visible = (RealMinimizedMode && (QATLocation != QATLocation.Below));
+                    _minimizeBar.Visible = RealMinimizedMode && (QATLocation != QATLocation.Below);
 
                     // Update the fullbar version of the QAT
-                    _qatBelowRibbon.Visible = (_qatLocation == QATLocation.Below);
+                    _qatBelowRibbon.Visible = _qatLocation == QATLocation.Below;
 
                     // Update the minibar versions of the QAT
                     CaptionArea.UpdateQAT();
@@ -1118,7 +1118,7 @@ namespace Krypton.Ribbon
                             if (ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
                             {
                                 // Extract the keys being pressed
-                                Keys keys = ((Keys)((int)m.WParam.ToInt64()));
+                                Keys keys = (Keys)(int)m.WParam.ToInt64();
 
                                 // If the user standard combination ALT + F4
                                 if ((keys == Keys.F4) && ((ModifierKeys & Keys.Alt) == Keys.Alt))
@@ -2706,7 +2706,7 @@ namespace Krypton.Ribbon
             CalculatedValues = new CalculatedValues(this);
 
             // On Vista and above we always invalidate the control on a resize
-            _invalidateOnResize = (Environment.OSVersion.Version.Major >= 6);
+            _invalidateOnResize = Environment.OSVersion.Version.Major >= 6;
 
             // Create a hidden button not inside the visible area, so acts as a target for
             // giving the focus when we do not want the focus showing on a child control

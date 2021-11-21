@@ -587,7 +587,7 @@ namespace Krypton.Toolkit
 
             // draw border
             using Pen pen = new(
-                (Enabled ? ScrollBarKryptonRenderer.borderColours[0] : _disabledBorderColor));
+                Enabled ? ScrollBarKryptonRenderer.borderColours[0] : _disabledBorderColor);
             e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
         }
 
@@ -1240,7 +1240,7 @@ namespace Krypton.Toolkit
                 return trackSize;
             }
 
-            var newThumbSize = ((float)_largeChange * (float)trackSize) / (float)_maximum;
+            var newThumbSize = (float)_largeChange * (float)trackSize / (float)_maximum;
 
             return Convert.ToInt32(Math.Min((float)trackSize, Math.Max(newThumbSize, 10f)));
         }

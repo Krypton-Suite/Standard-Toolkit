@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
 
             // Decide on the enabled state of the display
             ItemEnabled = provider.ProviderEnabled && ResolveEnabled;
-            PaletteContextMenuItemState menuItemState = (ItemEnabled ? KryptonContextMenuItem.StateNormal : KryptonContextMenuItem.StateDisabled);
+            PaletteContextMenuItemState menuItemState = ItemEnabled ? KryptonContextMenuItem.StateNormal : KryptonContextMenuItem.StateDisabled;
 
             // Calculate the image to show inside in the image column
             Image itemColumnImage = ResolveImage;
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
             }
 
             // Column Image
-            PaletteTripleJustImage justImage = (ResolveChecked ? KryptonContextMenuItem.StateChecked.ItemImage : menuItemState.ItemImage);
+            PaletteTripleJustImage justImage = ResolveChecked ? KryptonContextMenuItem.StateChecked.ItemImage : menuItemState.ItemImage;
             _fixedImage = new FixedContentValue(null, null, itemColumnImage, itemImageTransparent);
             _imageContent = new ViewDrawContent(justImage.Content, _fixedImage, VisualOrientation.Top);
             _imageCanvas = new ViewDrawMenuImageCanvas(justImage.Back, justImage.Border, 0, false)
@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
             _imageContent.Enabled = ItemEnabled;
 
             // Text/Extra Text
-            PaletteContentJustText menuItemStyle = (standardStyle ? menuItemState.ItemTextStandard : menuItemState.ItemTextAlternate);
+            PaletteContentJustText menuItemStyle = standardStyle ? menuItemState.ItemTextStandard : menuItemState.ItemTextAlternate;
             _fixedTextExtraText = new FixedContentValue(ResolveText, ResolveExtraText, null, Color.Empty);
             _textContent = new ViewDrawMenuItemContent(menuItemStyle, _fixedTextExtraText, 1);
             docker.Add(_textContent, ViewDockStyle.Fill);
@@ -142,8 +142,8 @@ namespace Krypton.Toolkit
             SplitSeparator.Draw = (KryptonContextMenuItem.Items.Count > 0) && KryptonContextMenuItem.SplitSubMenu;
 
             // SubMenu Indicator
-            HasSubMenu = (KryptonContextMenuItem.Items.Count > 0);
-            _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, (!HasSubMenu ? _empty16x16 : provider.ProviderImages.GetContextMenuSubMenuImage()), (KryptonContextMenuItem.Items.Count == 0 ? Color.Magenta : Color.Empty)), 3);
+            HasSubMenu = KryptonContextMenuItem.Items.Count > 0;
+            _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, !HasSubMenu ? _empty16x16 : provider.ProviderImages.GetContextMenuSubMenuImage(), KryptonContextMenuItem.Items.Count == 0 ? Color.Magenta : Color.Empty), 3);
             docker.Add(new ViewLayoutCenter(_subMenuContent), ViewDockStyle.Right);
             _subMenuContent.Enabled = ItemEnabled;
             
@@ -319,7 +319,7 @@ namespace Krypton.Toolkit
                 {
                     // If mouse is inside or to the right of the slip indicator, 
                     // then a sub menu is required when the button is used
-                    return (pt.X > SplitSeparator.ClientRectangle.X);
+                    return pt.X > SplitSeparator.ClientRectangle.X;
                 }
 
                 // Whole item is the sub menu area
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
         public void ShowSubMenu(bool keyboardActivated)
         {
             // Only need to show if not already doing so
-            if ((_contextMenu == null) || (_contextMenu.IsDisposed))
+            if ((_contextMenu == null) || _contextMenu.IsDisposed)
             {
                 // No need for the sub menu timer anymore, we are showing
                 _provider.ProviderViewManager.SetTargetSubMenu((IContextMenuTarget)KeyController);
@@ -528,10 +528,10 @@ namespace Krypton.Toolkit
 
                 // Decide on the enabled state of the display
                 ItemEnabled = _provider.ProviderEnabled && ResolveEnabled;
-                PaletteContextMenuItemState menuItemState = (ItemEnabled ? KryptonContextMenuItem.StateNormal : KryptonContextMenuItem.StateDisabled);
+                PaletteContextMenuItemState menuItemState = ItemEnabled ? KryptonContextMenuItem.StateNormal : KryptonContextMenuItem.StateDisabled;
 
                 // Update palettes based on Checked state
-                PaletteTripleJustImage justImage = (ResolveChecked ? KryptonContextMenuItem.StateChecked.ItemImage : menuItemState.ItemImage);
+                PaletteTripleJustImage justImage = ResolveChecked ? KryptonContextMenuItem.StateChecked.ItemImage : menuItemState.ItemImage;
                 _imageCanvas?.SetPalettes(justImage.Back, justImage.Border);
 
                 // Update the Enabled state

@@ -136,10 +136,10 @@ namespace Krypton.Ribbon
             if (_ribbonRadioButton?.Ribbon != null)
             {
                 var items = ParentItems;
-                moveFirst = (items.IndexOf(_ribbonRadioButton) > 0);
-                movePrev = (items.IndexOf(_ribbonRadioButton) > 0);
-                moveNext = (items.IndexOf(_ribbonRadioButton) < (items.Count - 1));
-                moveLast = (items.IndexOf(_ribbonRadioButton) < (items.Count - 1));
+                moveFirst = items.IndexOf(_ribbonRadioButton) > 0;
+                movePrev = items.IndexOf(_ribbonRadioButton) > 0;
+                moveNext = items.IndexOf(_ribbonRadioButton) < (items.Count - 1);
+                moveLast = items.IndexOf(_ribbonRadioButton) < (items.Count - 1);
             }
 
             _moveFirstVerb.Enabled = moveFirst;

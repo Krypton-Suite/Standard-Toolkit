@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
-        public override bool IsDefault => (_gridStyle == DataGridViewStyle.List);
+        public override bool IsDefault => _gridStyle == DataGridViewStyle.List;
 
         #endregion
 
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyle() => (Style != DataGridViewStyle.List);
+        private bool ShouldSerializeStyle() => Style != DataGridViewStyle.List;
 
         private void ResetStyle()
         {
@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleColumn() => (StyleColumn != GridStyle.List);
+        private bool ShouldSerializeStyleColumn() => StyleColumn != GridStyle.List;
 
         private void ResetStyleColumn()
         {
@@ -270,7 +270,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleRow() => (StyleRow != GridStyle.List);
+        private bool ShouldSerializeStyleRow() => StyleRow != GridStyle.List;
 
         private void ResetStyleRow()
         {
@@ -351,7 +351,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleDataCells() => (StyleDataCells != GridStyle.List);
+        private bool ShouldSerializeStyleDataCells() => StyleDataCells != GridStyle.List;
 
         private void ResetStyleDataCells()
         {
@@ -407,7 +407,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeStyleBackground() => (StyleBackground != PaletteBackStyle.GridBackgroundList);
+        private bool ShouldSerializeStyleBackground() => StyleBackground != PaletteBackStyle.GridBackgroundList;
 
         private void ResetStyleBackground()
         {

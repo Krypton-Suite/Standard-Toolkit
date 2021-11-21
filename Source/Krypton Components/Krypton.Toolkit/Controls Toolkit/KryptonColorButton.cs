@@ -571,7 +571,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeButtonStyle() => (ButtonStyle != ButtonStyle.Standalone);
+        private bool ShouldSerializeButtonStyle() => ButtonStyle != ButtonStyle.Standalone;
 
         private void ResetButtonStyle()
         {
@@ -1332,7 +1332,7 @@ namespace Krypton.Toolkit
             // Update visible state based of properties
             _separatorTheme.Visible = _headingTheme.Visible = _colorsTheme.Visible = VisibleThemes;
             _separatorStandard.Visible = _headingStandard.Visible = _colorsStandard.Visible = VisibleStandard;
-            _separatorRecent.Visible = _headingRecent.Visible = _colorsRecent.Visible = (VisibleRecent && (_recentColors.Count > 0));
+            _separatorRecent.Visible = _headingRecent.Visible = _colorsRecent.Visible = VisibleRecent && (_recentColors.Count > 0);
             _itemsNoColor.Visible = VisibleNoColor;
             _itemsMoreColors.Visible = VisibleMoreColors;
 

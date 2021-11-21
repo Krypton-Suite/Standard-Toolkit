@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
             ViewCenter.Visible = ButtonSpec.GetVisible(_redirector);
 
             // Return if a change has occured
-            return (prevVisible != ViewCenter.Visible);
+            return prevVisible != ViewCenter.Visible;
         }
 
         /// <summary>

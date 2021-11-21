@@ -101,7 +101,7 @@ namespace Krypton.Ribbon
                 if (_ribbon.InKeyboardMode &&(_ribbon.KeyTipMode == KeyTipMode.PopupGroup))
                 {
                     // Revert back to key tips for selected tab
-                    KeyTipMode mode = (_ribbon.RealMinimizedMode ? KeyTipMode.PopupMinimized : KeyTipMode.SelectedGroups);
+                    KeyTipMode mode = _ribbon.RealMinimizedMode ? KeyTipMode.PopupMinimized : KeyTipMode.SelectedGroups;
                     _ribbon.KeyTipMode = mode;
                     _ribbon.SetKeyTips(_ribbon.GenerateKeyTipsForSelectedTab(), mode);
                 }

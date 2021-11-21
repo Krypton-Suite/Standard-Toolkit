@@ -153,7 +153,7 @@ namespace Krypton.Ribbon
                     Rectangle viewRect = ParentControl.RectangleToScreen(viewQAT.ClientRectangle);
 
                     // The keytip should be centered on the bottom center of the view
-                    Point screenPt = new((viewRect.Left + (viewRect.Width / 2)) - borders.Left, 
+                    Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left, 
                                                viewRect.Bottom - 2 - borders.Top);
 
                     // Create new key tip that invokes the qat controller
@@ -169,7 +169,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = ParentControl.RectangleToScreen(_extraButton.ClientRectangle);
 
                 // The keytip should be centered on the bottom center of the view
-                Point screenPt = new((viewRect.Left + (viewRect.Width / 2)) - borders.Left,
+                Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left,
                                            viewRect.Bottom - 2 - borders.Top);
 
                 // Create fixed key tip of '00' that invokes the extra button contoller
@@ -451,7 +451,7 @@ namespace Krypton.Ribbon
             {
                 if (!found)
                 {
-                    found = (qatView == qatButton);
+                    found = qatView == qatButton;
                 }
                 else if (qatView.Visible && qatView.Enabled)
                 {
@@ -478,7 +478,7 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousQATView(ViewBase qatButton)
         {
             // If the provided view is the extra button, then implicitly already found previous entry
-            var found = ((qatButton != null) && (qatButton == _extraButton));
+            var found = (qatButton != null) && (qatButton == _extraButton);
 
             // Extract the set of views into an array
             var qatViews = new ViewDrawRibbonQATButton[_qatButtonToView.Count];
@@ -492,7 +492,7 @@ namespace Krypton.Ribbon
                 
                 if (!found)
                 {
-                    found = (qatView == qatButton);
+                    found = qatView == qatButton;
                 }
                 else if (qatView.Visible && qatView.Enabled)
                 {

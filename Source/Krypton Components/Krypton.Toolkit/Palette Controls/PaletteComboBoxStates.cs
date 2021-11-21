@@ -50,8 +50,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (ComboBox.IsDefault &&
-                                           Item.IsDefault);
+        public override bool IsDefault => ComboBox.IsDefault &&
+                                           Item.IsDefault;
 
         #endregion
 

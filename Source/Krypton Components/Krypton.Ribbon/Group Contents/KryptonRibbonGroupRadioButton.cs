@@ -293,7 +293,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to fire click event of the radio button.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
+        private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.

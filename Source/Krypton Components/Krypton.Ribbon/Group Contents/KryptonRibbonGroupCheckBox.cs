@@ -259,8 +259,8 @@ namespace Krypton.Ribbon
                 if (value != _checkState)
                 {
                     _checkState = value;
-                    var newChecked = (_checkState != CheckState.Unchecked);
-                    var checkedChanged = (_checked != newChecked);
+                    var newChecked = _checkState != CheckState.Unchecked;
+                    var checkedChanged = _checked != newChecked;
                     _checked = newChecked;
                     OnPropertyChanged(nameof(CheckState));
 
@@ -292,7 +292,7 @@ namespace Krypton.Ribbon
                 {
                     // Store new values
                     _checked = value;
-                    _checkState = (_checked ? CheckState.Checked : CheckState.Unchecked);
+                    _checkState = _checked ? CheckState.Checked : CheckState.Unchecked;
                     OnPropertyChanged(nameof(Checked));
 
                     // Generate events
@@ -350,7 +350,7 @@ namespace Krypton.Ribbon
         [Description("Shortcut key combination to fire click event of the check box.")]
         public Keys ShortcutKeys { get; set; }
 
-        private bool ShouldSerializeShortcutKeys() => (ShortcutKeys != Keys.None);
+        private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
 
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
@@ -588,7 +588,7 @@ namespace Krypton.Ribbon
                                 checkState = CheckState.Checked;
                                 break;
                             case CheckState.Checked:
-                                checkState = (ThreeState ? CheckState.Indeterminate : CheckState.Unchecked);
+                                checkState = ThreeState ? CheckState.Indeterminate : CheckState.Unchecked;
                                 break;
                             case CheckState.Indeterminate:
                                 checkState = CheckState.Unchecked;

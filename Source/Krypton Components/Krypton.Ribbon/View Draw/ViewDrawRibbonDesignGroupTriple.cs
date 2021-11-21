@@ -103,17 +103,17 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the padding to use when calculating the preferred size.
         /// </summary>
-        protected override Padding PreferredPadding => (CurrentSize == GroupItemSize.Large ? _preferredPaddingL : _paddingMS);
+        protected override Padding PreferredPadding => CurrentSize == GroupItemSize.Large ? _preferredPaddingL : _paddingMS;
 
         /// <summary>
         /// Gets the padding to use when laying out the view.
         /// </summary>
-        protected override Padding LayoutPadding => (CurrentSize == GroupItemSize.Large ? _layoutPaddingL : Padding.Empty);
+        protected override Padding LayoutPadding => CurrentSize == GroupItemSize.Large ? _layoutPaddingL : Padding.Empty;
 
         /// <summary>
         /// Gets the padding to shrink the client area by when laying out.
         /// </summary>
-        protected override Padding OuterPadding => (CurrentSize == GroupItemSize.Large ? _outerPaddingL : _paddingMS);
+        protected override Padding OuterPadding => CurrentSize == GroupItemSize.Large ? _outerPaddingL : _paddingMS;
 
         /// <summary>
         /// Raises the Click event.

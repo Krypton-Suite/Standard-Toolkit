@@ -240,11 +240,11 @@ namespace Krypton.Toolkit
                 // Cursor depends on orientation direction
                 if (_source.SeparatorOrientation == Orientation.Vertical)
                 {
-                    _source.SeparatorControl.Cursor = (_splitCursors ? _cursorVSplit : _cursorVMove);
+                    _source.SeparatorControl.Cursor = _splitCursors ? _cursorVSplit : _cursorVMove;
                 }
                 else
                 {
-                    _source.SeparatorControl.Cursor = (_splitCursors ? _cursorHSplit : _cursorHMove);
+                    _source.SeparatorControl.Cursor = _splitCursors ? _cursorHSplit : _cursorHMove;
                 }
             }
 

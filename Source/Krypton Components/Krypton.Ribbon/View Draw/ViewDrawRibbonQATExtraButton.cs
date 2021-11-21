@@ -111,7 +111,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Visible
         {
-            get => (_ribbon.Visible && base.Visible);
+            get => _ribbon.Visible && base.Visible;
             set => base.Visible = value;
         }
         #endregion

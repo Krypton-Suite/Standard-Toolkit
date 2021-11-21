@@ -207,10 +207,10 @@ namespace Krypton.Toolkit
             this._kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this._buttonOk = new Krypton.Toolkit.KryptonButton();
             this._buttonCancel = new Krypton.Toolkit.KryptonButton();
-            ((System.ComponentModel.ISupportInitialize)(this._panelMessage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)this._panelMessage).BeginInit();
             this._panelMessage.SuspendLayout();
             this._tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._kryptonPanel1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)this._kryptonPanel1).BeginInit();
             this._kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
             // _labelPrompt
             // 
             this._labelPrompt.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this._labelPrompt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this._labelPrompt.ForeColor = System.Drawing.Color.FromArgb((int)(byte)30, (int)(byte)57, (int)(byte)91);
             this._labelPrompt.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
             this._labelPrompt.Location = new System.Drawing.Point(5, 5);
             this._labelPrompt.Margin = new System.Windows.Forms.Padding(5);
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
             // 
             // _buttonOk
             // 
-            this._buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonOk.Anchor = (System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
             this._buttonOk.AutoSize = true;
             this._buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._buttonOk.Location = new System.Drawing.Point(283, 0);
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
             // 
             // _buttonCancel
             // 
-            this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonCancel.Anchor = (System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
             this._buttonCancel.AutoSize = true;
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.Location = new System.Drawing.Point(378, 0);
@@ -336,12 +336,12 @@ namespace Krypton.Toolkit
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Load += new System.EventHandler(this.KryptonInputBox_Load);
-            ((System.ComponentModel.ISupportInitialize)(this._panelMessage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)this._panelMessage).EndInit();
             this._panelMessage.ResumeLayout(false);
             this._panelMessage.PerformLayout();
             this._tableLayoutPanel1.ResumeLayout(false);
             this._tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._kryptonPanel1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)this._kryptonPanel1).EndInit();
             this._kryptonPanel1.ResumeLayout(false);
             this._kryptonPanel1.PerformLayout();
             this.ResumeLayout(false);

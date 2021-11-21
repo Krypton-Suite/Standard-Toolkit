@@ -339,7 +339,7 @@ namespace Krypton.Toolkit
                 {
                     // Store new values
                     _checked = value;
-                    _checkState = (_checked ? CheckState.Checked : CheckState.Unchecked);
+                    _checkState = _checked ? CheckState.Checked : CheckState.Unchecked;
 
                     // Generate events
                     OnCheckedChanged(EventArgs.Empty);
@@ -367,8 +367,8 @@ namespace Krypton.Toolkit
                 {
                     // Store new values
                     _checkState = value;
-                    var newChecked = (_checkState != CheckState.Unchecked);
-                    var checkedChanged = (_checked != newChecked);
+                    var newChecked = _checkState != CheckState.Unchecked;
+                    var checkedChanged = _checked != newChecked;
                     _checked = newChecked;
 
                     // Generate events

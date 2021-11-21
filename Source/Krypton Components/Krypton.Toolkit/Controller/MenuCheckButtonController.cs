@@ -459,7 +459,7 @@ namespace Krypton.Toolkit
         private void UpdateTarget()
         {
             // Find new state for drawing the check box
-            PaletteState state = (_menuCheckButton.ItemEnabled ? PaletteState.Normal : PaletteState.Disabled);
+            PaletteState state = _menuCheckButton.ItemEnabled ? PaletteState.Normal : PaletteState.Disabled;
             if (_mouseOver)
             {
                 state = _mouseDown ? PaletteState.Pressed : PaletteState.Tracking;
@@ -471,7 +471,7 @@ namespace Krypton.Toolkit
                 state |= PaletteState.Checked;
             }
 
-            var applyFocus = (_highlight && !_mouseReallyOver);
+            var applyFocus = _highlight && !_mouseReallyOver;
             _menuCheckButton.KryptonContextMenuCheckButton.OverrideDisabled.Apply = applyFocus;
             _menuCheckButton.KryptonContextMenuCheckButton.OverrideNormal.Apply = applyFocus;
             _menuCheckButton.KryptonContextMenuCheckButton.OverrideTracking.Apply = applyFocus;

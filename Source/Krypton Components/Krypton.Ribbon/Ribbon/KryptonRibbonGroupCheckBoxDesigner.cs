@@ -138,10 +138,10 @@ namespace Krypton.Ribbon
             if (_ribbonCheckBox?.Ribbon != null)
             {
                 var items = ParentItems;
-                moveFirst = (items.IndexOf(_ribbonCheckBox) > 0);
-                movePrev = (items.IndexOf(_ribbonCheckBox) > 0);
-                moveNext = (items.IndexOf(_ribbonCheckBox) < (items.Count - 1));
-                moveLast = (items.IndexOf(_ribbonCheckBox) < (items.Count - 1));
+                moveFirst = items.IndexOf(_ribbonCheckBox) > 0;
+                movePrev = items.IndexOf(_ribbonCheckBox) > 0;
+                moveNext = items.IndexOf(_ribbonCheckBox) < (items.Count - 1);
+                moveLast = items.IndexOf(_ribbonCheckBox) < (items.Count - 1);
             }
 
             _moveFirstVerb.Enabled = moveFirst;

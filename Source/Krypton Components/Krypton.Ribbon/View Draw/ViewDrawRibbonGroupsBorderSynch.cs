@@ -63,7 +63,7 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonGroup ViewGroupFromPoint(Point pt)
         {
             // There can only be groups showing for the currently selected tab
-            if (Ribbon.SelectedTab != null && (_tabToView.ContainsKey(Ribbon.SelectedTab)))
+            if (Ribbon.SelectedTab != null && _tabToView.ContainsKey(Ribbon.SelectedTab))
             {
                 // Get the scroll port for this tab
                 ViewLayoutRibbonScrollPort viewScrollPort = _tabToView[Ribbon.SelectedTab];
@@ -102,7 +102,7 @@ namespace Krypton.Ribbon
         public ViewBase GetFirstFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
-                (_tabToView.ContainsKey(Ribbon.SelectedTab)))
+                _tabToView.ContainsKey(Ribbon.SelectedTab))
             {
                 return _tabToView[Ribbon.SelectedTab].GetFirstFocusItem();
             }
@@ -121,7 +121,7 @@ namespace Krypton.Ribbon
         public ViewBase GetLastFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
-                (_tabToView.ContainsKey(Ribbon.SelectedTab)))
+                _tabToView.ContainsKey(Ribbon.SelectedTab))
             {
                 return _tabToView[Ribbon.SelectedTab].GetLastFocusItem();
             }
@@ -141,7 +141,7 @@ namespace Krypton.Ribbon
         public ViewBase GetNextFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
-                (_tabToView.ContainsKey(Ribbon.SelectedTab)))
+                _tabToView.ContainsKey(Ribbon.SelectedTab))
             {
                 return _tabToView[Ribbon.SelectedTab].GetNextFocusItem(current);
             }
@@ -161,7 +161,7 @@ namespace Krypton.Ribbon
         public ViewBase GetPreviousFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
-                (_tabToView.ContainsKey(Ribbon.SelectedTab)))
+                _tabToView.ContainsKey(Ribbon.SelectedTab))
             {
                 return _tabToView[Ribbon.SelectedTab].GetPreviousFocusItem(current);
             }
@@ -228,7 +228,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Make sure only the selected tab is visible
-                view.Visible = (Ribbon.SelectedTab == tab);
+                view.Visible = Ribbon.SelectedTab == tab;
 
                 // Add to the lookup for future reference
                 regenerate.Add(tab, view);

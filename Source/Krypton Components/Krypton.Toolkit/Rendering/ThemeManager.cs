@@ -351,12 +351,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">The palette.</param>
         /// <param name="manager">The manager.</param>
+        /// <param name="themeFile">A custom theme file.</param>
         /// <param name="silent">if set to <c>true</c> [silent].</param>
-        public static void LoadCustomTheme(KryptonPalette palette, KryptonManager manager, bool silent = false)
+        public static void LoadCustomTheme(KryptonPalette palette, KryptonManager manager, string themeFile = "", bool silent = false)
         {
             try
             {
-                throw new ApplicationException(@"Currently not implemented correctly");
+                //throw new ApplicationException(@"Currently not implemented correctly");
 
                 // Declare new instances
                 palette = new KryptonPalette();
@@ -366,11 +367,14 @@ namespace Krypton.Toolkit
                 // Prompt user for palette definition
 
                 // TODO: Add silent option
-                //if (silent)
-                //{
-
-                //}
-                //else
+                if (silent)
+                {
+                    if (themeFile != string.Empty || themeFile != "")
+                    {
+                        palette.Import(themeFile, silent);
+                    }
+                }
+                else
                 {
                     palette.Import();
                 }

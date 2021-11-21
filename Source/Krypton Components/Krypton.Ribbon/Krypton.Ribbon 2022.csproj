@@ -9,13 +9,28 @@
 		<ApplicationIcon>Krypton.ico</ApplicationIcon>
 		<DelaySign>false</DelaySign>
 		<UseWindowsForms>true</UseWindowsForms>
-		<LangVersion>preview</LangVersion>
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<AnalysisLevel>latest</AnalysisLevel>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<Configurations>Debug;Release;Preview</Configurations>
 	</PropertyGroup>
+
+    <Choose>
+        <When Condition="'$(Configuration)' == 'Release'">
+            <PropertyGroup>
+                <LangVersion>latest</LangVersion>
+                <AnalysisLevel>latest</AnalysisLevel>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <LangVersion>preview</LangVersion>
+                <AnalysLevel>preview</AnalysLevel>
+                <IncludeSymbols>true</IncludeSymbols>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
 
 	<ItemGroup>
 		<Reference Include="System.Windows.Forms.Design.Editors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Condition="$(TargetFramework.StartsWith('netcore'))">
@@ -108,7 +123,7 @@
 		<Compile Remove="View Layout Install\ViewLayoutRibbonAppTab.cs" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
+		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 	</ItemGroup>
 	<PropertyGroup>
 		<DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Ribbon.xml</DocumentationFile>

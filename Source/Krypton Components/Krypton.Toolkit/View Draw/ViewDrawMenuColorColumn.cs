@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
             for (var i = start; i < end; i++)
             {
                 vertical.Add(new ViewDrawMenuColorBlock(provider, colorColumns, colors[i], 
-                                                        (i == start), (i == (end - 1)), enabled));
+                                                        i == start, i == (end - 1), enabled));
             }
 
             Add(vertical);

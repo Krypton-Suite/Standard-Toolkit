@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
         /// <returns>True if view found; otherwise false.</returns>
         public override bool ContainsRecurse(ViewBase item) =>
             // Only need to check against ourself
-            (this == item);
+            this == item;
 
         /// <summary>
         /// Copies views to specified array starting at particular index.

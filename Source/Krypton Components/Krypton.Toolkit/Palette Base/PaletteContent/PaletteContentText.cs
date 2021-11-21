@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets a value indicating if all values are default.
             /// </summary>
-            public bool IsDefault => ((ContentTextFont == null) &&
+            public bool IsDefault => (ContentTextFont == null) &&
                                       (ContentTextHint == PaletteTextHint.Inherit) &&
                                       (ContentTextTrim == PaletteTextTrim.Inherit) &&
                                       (ContentTextPrefix == PaletteTextHotkeyPrefix.Inherit) &&
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
                                       (ContentTextColorAngle == -1) &&
                                       (ContentTextImage == null) &&
                                       (ContentTextImageStyle == PaletteImageStyle.Inherit) &&
-                                      (ContentTextImageAlign == PaletteRectangleAlign.Inherit));
+                                      (ContentTextImageAlign == PaletteRectangleAlign.Inherit);
         }
         #endregion
 
@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((_storage == null) || _storage.IsDefault);
+        public override bool IsDefault => (_storage == null) || _storage.IsDefault;
 
         #endregion
 

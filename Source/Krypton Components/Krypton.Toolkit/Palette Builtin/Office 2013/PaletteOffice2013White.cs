@@ -27,12 +27,12 @@ namespace Krypton.Toolkit
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources._2010ButtonCloseHover;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources._2010ButtonCloseNormal;
         private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxNormal;
-        private static readonly Image _formMaximiseDisabled = null;
+        //private static readonly Image _formMaximiseDisabled = null;
         private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverControlBoxButtonMinNormal;
         private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010SilverControlBoxButtonMinHover;
         private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverControlBoxButtonMinDisabled;
         private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
-        private static readonly Image _formRestoreDisabled = null;
+        //private static readonly Image _formRestoreDisabled = null;
         private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice365HelpIconWhite;
         private static readonly Image _formHelpHover = HelpIconResources.GenericOffice365HelpIconHover;
         private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice365HelpIconDisabled;
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(255, 255, 255),    // HeaderPrimaryBack2 -n
                                                                       Color.FromArgb(255, 255, 255),    // HeaderSecondaryBack1
                                                                       Color.FromArgb(255, 255, 255),    // HeaderSecondaryBack2-n
-                                                                      Color.FromArgb( 59,  59,  59),    // HeaderText
+                                                                      Color.FromArgb(255, 255, 255),    // HeaderText (59, 59, 59)
                                                                       Color.FromArgb(255, 255, 255),    // StatusStripText
                                                                       Color.FromArgb(236, 199,  87),    // ButtonBorder
                                                                       Color.FromArgb(247, 250, 252),    // SeparatorLight

@@ -606,7 +606,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the active control on the container control.</summary>
         [DefaultValue(null), Description("Defines an active control for this window.")]
-        public Control ActiveControl
+        public new Control ActiveControl
         {
             get => _activeControl;
 
@@ -681,21 +681,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Window relative point to test.</param>
         /// <returns>True if inside the button; otherwise false.</returns>
-        public bool HitTestMinButton(Point pt) => (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt));
+        public bool HitTestMinButton(Point pt) => _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt);
 
         /// <summary>
         /// Gets a value indicating if the provided point is inside the maximize button.
         /// </summary>
         /// <param name="pt">Window relative point to test.</param>
         /// <returns>True if inside the button; otherwise false.</returns>
-        public bool HitTestMaxButton(Point pt) => (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt));
+        public bool HitTestMaxButton(Point pt) => _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt);
 
         /// <summary>
         /// Gets a value indicating if the provided point is inside the close button.
         /// </summary>
         /// <param name="pt">Window relative point to test.</param>
         /// <returns>True if inside the button; otherwise false.</returns>
-        public bool HitTestCloseButton(Point pt) => (_buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt));
+        public bool HitTestCloseButton(Point pt) => _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt);
 
         /// <summary>
         /// Gets and sets a rectangle to treat as a custom caption area.
@@ -986,9 +986,9 @@ namespace Krypton.Toolkit
             if (!composition)
             {
                 // Is the mouse over any of the min/max/close buttons?
-                if ((_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt)) ||
-                    (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt)) ||
-                    (_buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt)))
+                if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt) ||
+                    _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt) ||
+                    _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
                 {
                     // Get the mouse controller for this button
                     ViewBase viewBase = ViewManager.Root.ViewFromPoint(pt);
@@ -1250,7 +1250,7 @@ namespace Krypton.Toolkit
                         ButtonSpecMin.ButtonSpecType = PaletteButtonSpecStyle.FormMin;
 
                         // Make sure the top level form docker has the status strip being merged
-                        _drawDocker.StatusStrip = (StatusStripMerging ? _statusStrip : null);
+                        _drawDocker.StatusStrip = StatusStripMerging ? _statusStrip : null;
                     }
 
                     // Recreate buttons to get latest state
@@ -1441,13 +1441,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal bool StatusStripMerging => (_allowStatusStripMerge &&
+        internal bool StatusStripMerging => _allowStatusStripMerge &&
                                              (_statusStrip != null) &&
                                              _statusStrip.Visible &&
                                              (_statusStrip.Dock == DockStyle.Bottom) &&
                                              (_statusStrip.Bottom == ClientRectangle.Bottom) &&
                                              (_statusStrip.RenderMode == ToolStripRenderMode.ManagerRenderMode) &&
-                                             (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonSparkleRenderer));
+                                             (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonSparkleRenderer);
 
         private void MonitorStatusStrip(StatusStrip statusStrip)
         {

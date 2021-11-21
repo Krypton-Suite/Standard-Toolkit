@@ -465,7 +465,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            _layoutImageCenterState.Visible = (drawStateImage != null);
+            _layoutImageCenterState.Visible = drawStateImage != null;
             _layoutCheckBoxStack.Visible = (drawStateImage == null) && CheckBoxes && (View != View.Tile);
             if (_layoutCheckBoxStack.Visible)
             {
@@ -676,7 +676,7 @@ namespace Krypton.Toolkit
                         Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                         // If keyboard activated, the menu position is centered
-                        if (((int)((long)m.LParam)) == -1)
+                        if (((int)(long)m.LParam) == -1)
                         {
                             mousePt = new Point(Width / 2, Height / 2);
                         }
@@ -810,7 +810,7 @@ namespace Krypton.Toolkit
             BackStyle = PaletteBackStyle.InputControlStandalone;
         }
 
-        private bool ShouldSerializeBackStyle() => (BackStyle != PaletteBackStyle.InputControlStandalone);
+        private bool ShouldSerializeBackStyle() => BackStyle != PaletteBackStyle.InputControlStandalone;
 
         /// <summary>
         /// Gets and sets the border style.
@@ -836,7 +836,7 @@ namespace Krypton.Toolkit
             BorderStyle = PaletteBorderStyle.InputControlStandalone;
         }
 
-        private bool ShouldSerializeBorderStyle() => (BorderStyle != PaletteBorderStyle.InputControlStandalone);
+        private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.InputControlStandalone;
 
         /// <summary>
         /// Gets access to the item appearance when it has focus.
@@ -1034,7 +1034,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializePaletteMode() => (PaletteMode != PaletteMode.Global);
+        private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
 
         /// <summary>
         /// Resets the PaletteMode property to its default value.

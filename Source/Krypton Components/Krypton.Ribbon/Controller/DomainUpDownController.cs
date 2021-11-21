@@ -55,7 +55,8 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         public void GotFocus(Control c)
         {
-            if ((_domainUpDown.LastDomainUpDown?.DomainUpDown != null) && (_domainUpDown.LastDomainUpDown.DomainUpDown.CanFocus))
+            if ((_domainUpDown.LastDomainUpDown?.DomainUpDown != null) 
+                && _domainUpDown.LastDomainUpDown.DomainUpDown.CanFocus)
             {
                 _ribbon.LostFocusLosesKeyboard = false;
                 _domainUpDown.LastDomainUpDown.DomainUpDown.Focus();

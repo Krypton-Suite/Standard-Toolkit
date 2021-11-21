@@ -851,7 +851,7 @@ namespace Krypton.Toolkit
 
         private void ResetCalendarTodayDate() => CalendarTodayDate = DateTime.Now.Date;
 
-        private bool ShouldSerializeCalendarTodayDate() => (CalendarTodayDate != DateTime.Now.Date);
+        private bool ShouldSerializeCalendarTodayDate() => CalendarTodayDate != DateTime.Now.Date;
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
@@ -879,7 +879,7 @@ namespace Krypton.Toolkit
         /// Should the CalendarAnnuallyBoldedDates property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeCalendarAnnuallyBoldedDates() => (_annualDates.Count > 0);
+        public bool ShouldSerializeCalendarAnnuallyBoldedDates() => _annualDates.Count > 0;
 
         private void ResetCalendarAnnuallyBoldedDates() => CalendarAnnuallyBoldedDates = null;
 
@@ -909,7 +909,7 @@ namespace Krypton.Toolkit
         /// Should the CalendarMonthlyBoldedDates property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeCalendarMonthlyBoldedDates() => (_monthlyDates.Count > 0);
+        public bool ShouldSerializeCalendarMonthlyBoldedDates() => _monthlyDates.Count > 0;
 
         private void ResetCalendarMonthlyBoldedDates() => CalendarMonthlyBoldedDates = null;
 
@@ -936,7 +936,7 @@ namespace Krypton.Toolkit
         /// Should the CalendarBoldedDates property be serialized.
         /// </summary>
         /// <returns>True if property needs to be serialized.</returns>
-        public bool ShouldSerializeCalendarBoldedDates() => (_dates.Count > 0);
+        public bool ShouldSerializeCalendarBoldedDates() => _dates.Count > 0;
 
         private void ResetCalendarBoldedDates() => CalendarBoldedDates = null;
 

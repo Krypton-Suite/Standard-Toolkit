@@ -133,6 +133,16 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Windows_8_and_10_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Windows_8_and_10_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Windows11 {
             get {
                 object obj = ResourceManager.GetObject("Windows11", resourceCulture);

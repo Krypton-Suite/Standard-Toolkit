@@ -104,10 +104,10 @@ namespace Krypton.Ribbon
             GroupLineHeight = GroupLineContentHeight + GROUP_LINE_CONTENT_EXTRA;
 
             // Group inside height is 3 group lines plus space at bottom of the lines
-            GroupTripleHeight = (GroupLineHeight * 3);
+            GroupTripleHeight = GroupLineHeight * 3;
 
             // The gap between lines is one of the lines divide by a gap above, between and below lines
-            GroupLineGapHeight = (GroupLineHeight / 3);
+            GroupLineGapHeight = GroupLineHeight / 3;
 
             // Group height is the inside plus title area at bottom and the top border
             GroupHeight = GroupTripleHeight + GROUP_INSIDE_BOTTOM_GAP + GroupTitleHeight + GROUP_TOP_BORDER;
@@ -219,7 +219,7 @@ namespace Krypton.Ribbon
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Top);
                     break;
                 case 2:
-                    screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, (viewRect.Top + (viewRect.Height / 2)) + KEYTIP_VOFFSET_LINE2);
+                    screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Top + (viewRect.Height / 2) + KEYTIP_VOFFSET_LINE2);
                     break;
                 case 3:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Bottom);

@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((Draw == InheritBool.Inherit) &&
+        public override bool IsDefault => (Draw == InheritBool.Inherit) &&
                                            (Hint == PaletteTextHint.Inherit) &&
                                            (Trim == PaletteTextTrim.Inherit) &&
                                            (Color1 == Color.Empty) &&
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
                                            (ImageStyle == PaletteImageStyle.Inherit) &&
                                            (ImageAlign == PaletteRectangleAlign.Inherit) &&
                                            (MultiLine == InheritBool.Inherit) &&
-                                           (MultiLineH == PaletteRelativeAlign.Inherit));
+                                           (MultiLineH == PaletteRelativeAlign.Inherit);
 
         #endregion
 

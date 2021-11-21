@@ -218,20 +218,20 @@ namespace Krypton.Toolkit
 
             if (ViewDrawTrackBar.Orientation == Orientation.Horizontal)
             {
-                float valueLength = (ClientWidth - positionSize.Width);
+                float valueLength = ClientWidth - positionSize.Width;
 
                 if (ViewDrawTrackBar.RightToLeft == RightToLeft.Yes)
                 {
                     if (valueLength > 0)
                     {
-                        positionRect.X = positionRect.Right - positionSize.Width - (int)Math.Round((valueLength / range) * offset, 0, MidpointRounding.AwayFromZero);
+                        positionRect.X = positionRect.Right - positionSize.Width - (int)Math.Round(valueLength / range * offset, 0, MidpointRounding.AwayFromZero);
                     }
                 }
                 else
                 {
                     if (valueLength > 0)
                     {
-                        positionRect.X += (int)Math.Round((valueLength / range) * offset, 0, MidpointRounding.AwayFromZero);
+                        positionRect.X += (int)Math.Round(valueLength / range * offset, 0, MidpointRounding.AwayFromZero);
                     }
                 }
 
@@ -244,10 +244,10 @@ namespace Krypton.Toolkit
             }
             else
             {
-                float valueLength = (ClientHeight - positionSize.Height);
+                float valueLength = ClientHeight - positionSize.Height;
                 if (valueLength > 0)
                 {
-                    positionRect.Y = positionRect.Bottom - positionSize.Height - (int)Math.Round((valueLength / range) * offset, 0, MidpointRounding.AwayFromZero);
+                    positionRect.Y = positionRect.Bottom - positionSize.Height - (int)Math.Round(valueLength / range * offset, 0, MidpointRounding.AwayFromZero);
                 }
 
                 trackRect.X += (ClientWidth - trackSize.Width) / 2;
