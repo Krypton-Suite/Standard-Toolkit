@@ -49,9 +49,8 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
         private static readonly Color[] _schemeColors = { Color.White,    // TextLabelControl
-                                                                      //Color.FromArgb( 70,  70,  70),
-                                                                      Color.White,                                     // TextButtonNormal
-                                                                      Color.Black,                      // TextButtonChecked
+                                                                      Color.FromArgb( 70,  70,  70),    // TextButtonNormal (White)
+                                                                      Color.White,                      // TextButtonChecked (Black)
                                                                       Color.FromArgb(137, 135, 133),    // ButtonNormalBorder1
                                                                       Color.FromArgb(127, 125, 123),    // ButtonNormalBorder2
                                                                       Color.FromArgb(203, 213, 223),    // ButtonNormalBack1
