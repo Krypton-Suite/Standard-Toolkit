@@ -1087,7 +1087,6 @@ namespace Krypton.Toolkit
         /// Gets access to the view element for the color button.
         /// </summary>
         protected virtual ViewDrawButton ViewDrawButton => _drawButton;
-
         #endregion
 
         #region Implementation
@@ -1112,7 +1111,7 @@ namespace Krypton.Toolkit
                 // Raise event to indicate it was a mouse activated click
                 OnMouseClick(e);
             }
-
+            
             // If not showing a context menu then perform cleanup straight away
             if (!showingContextMenu)
             {
