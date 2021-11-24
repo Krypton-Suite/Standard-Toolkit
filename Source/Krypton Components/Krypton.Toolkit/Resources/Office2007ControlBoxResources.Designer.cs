@@ -59,5 +59,965 @@ namespace Krypton.Toolkit.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackCloseDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackCloseDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackCloseDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackCloseDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackCloseHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackCloseHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackCloseHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackCloseHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackCloseNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackCloseNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackCloseNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackCloseNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackClosePressed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackClosePressed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackClosePressed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackClosePressed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMaximiseDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMaximiseDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMaximiseDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMaximiseDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMaximiseHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMaximiseHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMaximiseHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMaximiseHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMaximiseNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMaximiseNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMaximiseNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMaximiseNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMaximisePressed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMaximisePressed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMaximisePressed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMaximisePressed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMinimiseDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMinimiseDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMinimiseDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMinimiseDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMinimiseHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMinimiseHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMinimiseHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMinimiseHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMinimiseNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMinimiseNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMinimiseNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMinimiseNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMinimisePessed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMinimisePessed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackMinimisePessed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackMinimisePessed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackRestoreDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackRestoreDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackRestoreDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackRestoreDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackRestoreHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackRestoreHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackRestoreHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackRestoreHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackRestoreNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackRestoreNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackRestoreNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackRestoreNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackRestorePressed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackRestorePressed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlackRestorePressed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlackRestorePressed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueCloseDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueCloseDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueCloseDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueCloseDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueCloseHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueCloseHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueCloseHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueCloseHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueCloseNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueCloseNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueCloseNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueCloseNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueClosePressed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueClosePressed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueClosePressed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueClosePressed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMaximiseDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMaximiseDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMaximiseDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMaximiseDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMaximiseHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMaximiseHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMaximiseHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMaximiseHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMaximiseNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMaximiseNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMaximiseNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMaximiseNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMaximisePressed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMaximisePressed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMaximisePressed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMaximisePressed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMinimiseDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMinimiseDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMinimiseDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMinimiseDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMinimiseHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMinimiseHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMinimiseHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMinimiseHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMinimiseNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMinimiseNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMinimiseNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMinimiseNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMinimisePessed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMinimisePessed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueMinimisePessed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueMinimisePessed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueRestoreDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueRestoreDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueRestoreDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueRestoreDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueRestoreHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueRestoreHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueRestoreHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueRestoreHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueRestoreNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueRestoreNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueRestoreNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueRestoreNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueRestorePressed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueRestorePressed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxBlueRestorePressed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxBlueRestorePressed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverCloseDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverCloseDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverCloseDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverCloseDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverCloseHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverCloseHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverCloseHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverCloseHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverCloseNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverCloseNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverCloseNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverCloseNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverClosePressed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverClosePressed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverClosePressed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverClosePressed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMaximiseDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMaximiseDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMaximiseDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMaximiseDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMaximiseHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMaximiseHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMaximiseHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMaximiseHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMaximiseNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMaximiseNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMaximiseNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMaximiseNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMaximisePressed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMaximisePressed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMaximisePressed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMaximisePressed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMinimiseDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMinimiseDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMinimiseDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMinimiseDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMinimiseHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMinimiseHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMinimiseHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMinimiseHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMinimiseNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMinimiseNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMinimiseNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMinimiseNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMinimisePessed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMinimisePessed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverMinimisePessed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverMinimisePessed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverRestoreDisabled_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverRestoreDisabled_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverRestoreDisabled_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverRestoreDisabled_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverRestoreHover_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverRestoreHover_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverRestoreHover_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverRestoreHover_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverRestoreNormal_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverRestoreNormal_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverRestoreNormal_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverRestoreNormal_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverRestorePressed_16_x_16 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverRestorePressed_16_x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2007ControlBoxSilverRestorePressed_24_x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Office2007ControlBoxSilverRestorePressed_24_x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
