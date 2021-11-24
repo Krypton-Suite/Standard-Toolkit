@@ -23,14 +23,18 @@ namespace Krypton.Toolkit
         private static readonly ImageList _galleryButtonList;
         private static readonly Image[] _radioButtonArray;
         private static readonly Image _blueDropDownButton = GenericImageResources.BlueDropDownButton;
-        private static readonly Image _blueCloseNormal = Office2007ControlBoxResources.Office2007BlueControlBoxButtonCloseHover;
-        private static readonly Image _blueCloseDisabled = Office2007ControlBoxResources.Office2007BlueControlBoxButtonCloseDisabled;
-        private static readonly Image _blueMaximumNormal = Office2007ControlBoxResources.Office2007BlueControlBoxButtonMaxHover;
-        private static readonly Image _blueMaximumDisabled = Office2007ControlBoxResources.Office2007BlueControlBoxButtonMaxDisabled;
-        private static readonly Image _blueMinimumNormal = Office2007ControlBoxResources.Office2007BlueControlBoxButtonMinHover;
-        private static readonly Image _blueMinimumDisabled = Office2007ControlBoxResources.Office2007BlueControlBoxButtonMinDisabled;
-        private static readonly Image _blueRestoreNormal = Office2007ControlBoxResources.Office2007BlueControlBoxButtonRestoreHover;
-        private static readonly Image _blueRestoreDisabled = Office2007ControlBoxResources.Office2007BlueControlBoxButtonRestoreDisabled;
+        private static readonly Image _blueCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseNormal_24_x_24;
+        private static readonly Image _blueCloseHover = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseHover_24_x_24;
+        private static readonly Image _blueCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseDisabled_24_x_24;
+        private static readonly Image _blueMaximumNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseNormal_24_x_24;
+        private static readonly Image _blueMaximumHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseHover_24_x_24;
+        private static readonly Image _blueMaximumDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMaximiseDisabled_24_x_24;
+        private static readonly Image _blueMinimumNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseNormal_24_x_24;
+        private static readonly Image _blueMinimumHover = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseHover_24_x_24;
+        private static readonly Image _blueMinimumDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueMinimiseDisabled_24_x_24;
+        private static readonly Image _blueRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreNormal_24_x_24;
+        private static readonly Image _blueRestoreHover = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreHover_24_x_24;
+        private static readonly Image _blueRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueRestoreDisabled_24_x_24;
         private static readonly Image _blueHelpNormal = HelpIconResources.GenericPre2010HelpIconBlue;
         private static readonly Image _blueHelpDisabled = HelpIconResources.GenericPre2010HelpIconDisabled;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.BlueContextMenuSub;
@@ -43,7 +47,7 @@ namespace Krypton.Toolkit
                                                                       };
         private static readonly Color[] _schemeColors = { Color.FromArgb( 21,  66, 139),    // TextLabelControl
                                                                       Color.FromArgb( 21,  66, 139),    // TextButtonNormal
-                                                                      Color.Black,                      // TextButtonChecked
+                                                                      Color.Blue,                      // TextButtonChecked
                                                                       Color.FromArgb(161, 189, 207),    // ButtonNormalBorder
                                                                       Color.FromArgb(121, 157, 182),    // ButtonNormalDefaultBorder
                                                                       Color.FromArgb(210, 225, 244),    // ButtonNormalBack1
@@ -217,7 +221,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(255, 213, 141),    // GridSheetRowSelected
                                                                       Color.FromArgb(188, 195, 209),    // GridDataCellBorder
                                                                       Color.FromArgb(194, 217, 240),    // GridDataCellSelected
-                                                                      Color.Black,                      // InputControlTextNormal
+                                                                      Color.Blue,                      // InputControlTextNormal
                                                                       Color.FromArgb(172, 168, 153),    // InputControlTextDisabled
                                                                       Color.FromArgb(171, 193, 222),    // InputControlBorderNormal
                                                                       Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled
