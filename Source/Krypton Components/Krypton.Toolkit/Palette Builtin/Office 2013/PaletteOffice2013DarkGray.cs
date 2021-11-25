@@ -12,6 +12,9 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>
+    /// Provides the dark gray color scheme variant of the Office 2013 palette.
+    /// </summary>
     public class PaletteOffice2013DarkGray : PaletteOffice2013Base
     {
         public PaletteOffice2013DarkGray(Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColors) : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)

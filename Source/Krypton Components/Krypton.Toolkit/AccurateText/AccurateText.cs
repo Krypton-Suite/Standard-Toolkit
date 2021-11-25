@@ -275,16 +275,18 @@ namespace Krypton.Toolkit
                         {
                             //DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
                             //                           SystemColors.ActiveCaptionText, true);
-                            if (Environment.OSVersion.Version.Major >= 10 &&
-                                Environment.OSVersion.Version.Build >= 10586)
-                            {
-                                DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
-                                    (state == PaletteState.Disabled)
-                                        ? Color.FromArgb(170, 170, 170)
-                                        : ContrastColor(AccentColorService.GetColorByTypeName("ImmersiveSystemAccent")),
-                                    true);
-                            }
-                            else
+
+                            // Why was this added?
+                            //if (Environment.OSVersion.Version.Major >= 10 &&
+                            //    Environment.OSVersion.Version.Build >= 10586)
+                            //{
+                            //    DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
+                            //        (state == PaletteState.Disabled)
+                            //            ? Color.FromArgb(170, 170, 170)
+                            //            : ContrastColor(AccentColorService.GetColorByTypeName("ImmersiveSystemAccent")),
+                            //        true);
+                            //}
+                            //else
                             {
                                 DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
                                     SystemColors.ActiveCaptionText, true);
