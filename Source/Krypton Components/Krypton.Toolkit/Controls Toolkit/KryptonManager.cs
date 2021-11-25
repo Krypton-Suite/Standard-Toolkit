@@ -462,8 +462,8 @@ namespace Krypton.Toolkit
                         return PaletteOffice2010Black;
                     case PaletteModeManager.Office2010BlackDarkMode:
                         return PaletteOffice2010BlackDarkMode;
-                    case PaletteModeManager.Office2013:
-                        return PaletteOffice2013;
+                    /*case PaletteModeManager.Office2013:
+                        return PaletteOffice2013;*/
                     case PaletteModeManager.Office2013White:
                         return PaletteOffice2013White;
                     case PaletteModeManager.SparkleBlue:
@@ -560,8 +560,8 @@ namespace Krypton.Toolkit
                     return PaletteOffice2010Black;
                 case PaletteMode.Office2010BlackDarkMode:
                     return PaletteOffice2010BlackDarkMode;
-                case PaletteMode.Office2013:
-                    return PaletteOffice2013;
+                /*case PaletteMode.Office2013:
+                    return PaletteOffice2013;*/
                 case PaletteMode.Office2013White:
                     return PaletteOffice2013White;
                 case PaletteMode.SparkleBlue:

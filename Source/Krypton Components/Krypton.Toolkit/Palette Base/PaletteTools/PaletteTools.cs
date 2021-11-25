@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
                                                             "Office 2010 - Blue",
                                                             "Office 2010 - Silver",
                                                             "Office 2010 - White",
-                                                            "Office 2013",
+                                                            //"Office 2013",
                                                             "Office 2013 - White",
                                                             "Office 365 - Black",
                                                             "Office 365 - Blue",
@@ -103,10 +103,10 @@ namespace Krypton.Toolkit
             {
                 paletteMode = PaletteModeManager.Office2010White;
             }
-            else if (themeName.Equals("Office 2013"))
+            /*else if (themeName.Equals("Office 2013"))
             {
                 paletteMode = PaletteModeManager.Office2013;
-            }
+            }*/
             else if (themeName.Equals("Office 2013 - White"))
             {
                 paletteMode = PaletteModeManager.Office2013White;
