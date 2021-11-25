@@ -118,88 +118,292 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Office2007BlackControlBoxButtonCloseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonCloseDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackCloseDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackCloseDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonCloseHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonCloseHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackCloseDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackCloseDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonCloseNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonCloseNormal.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackCloseHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackCloseHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonMaxDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonMaxDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackCloseHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackCloseHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonMaxHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonMaxHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackCloseNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackCloseNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonMaxNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonMaxNormal.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackCloseNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackCloseNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonMinDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonMinDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackClosePressed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackClosePressed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonMinHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonMinHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackClosePressed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackClosePressed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonMinNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonMinNormal.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMaximiseDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMaximiseDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonRestoreDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonRestoreDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMaximiseDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMaximiseDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonRestoreHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonRestoreHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMaximiseHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMaximiseHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlackControlBoxButtonRestoreNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlackControlBoxButtonRestoreNormal.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMaximiseHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMaximiseHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlueControlBoxButtonCloseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlueControlBoxButtonCloseDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMaximiseNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMaximiseNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlueControlBoxButtonCloseHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlueControlBoxButtonCloseHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMaximiseNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMaximiseNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlueControlBoxButtonMaxDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlueControlBoxButtonMaxDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMaximisePressed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMaximisePressed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlueControlBoxButtonMaxHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlueControlBoxButtonMaxHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMaximisePressed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMaximisePressed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlueControlBoxButtonMinDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlueControlBoxButtonMinDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMinimiseDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMinimiseDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlueControlBoxButtonMinHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlueControlBoxButtonMinHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMinimiseDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMinimiseDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlueControlBoxButtonRestoreDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlueControlBoxButtonRestoreDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMinimiseHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMinimiseHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007BlueControlBoxButtonRestoreHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007BlueControlBoxButtonRestoreHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMinimiseHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMinimiseHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007SilverControlBoxButtonCloseDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007SilverControlBoxButtonCloseDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMinimiseNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMinimiseNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007SilverControlBoxButtonCloseHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007SilverControlBoxButtonCloseHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMinimiseNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMinimiseNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007SilverControlBoxButtonMaxDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007SilverControlBoxButtonMaxDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMinimisePessed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMinimisePessed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007SilverControlBoxButtonMaxHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007SilverControlBoxButtonMaxHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackMinimisePessed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackMinimisePessed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007SilverControlBoxButtonMinDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007SilverControlBoxButtonMinDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackRestoreDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackRestoreDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007SilverControlBoxButtonMinHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007SilverControlBoxButtonMinHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackRestoreDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackRestoreDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007SilverControlBoxButtonRestoreDisabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007SilverControlBoxButtonRestoreDisabled.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackRestoreHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackRestoreHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Office2007SilverControlBoxButtonRestoreHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Office2007SilverControlBoxButtonRestoreHover.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Office2007ControlBoxBlackRestoreHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackRestoreHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlackRestoreNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackRestoreNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlackRestoreNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackRestoreNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlackRestorePressed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackRestorePressed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlackRestorePressed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlackRestorePressed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueCloseDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueCloseDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueCloseDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueCloseDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueCloseHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueCloseHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueCloseHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueCloseHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueCloseNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueCloseNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueCloseNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueCloseNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueClosePressed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueClosePressed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueClosePressed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueClosePressed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMaximiseDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMaximiseDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMaximiseDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMaximiseDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMaximiseHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMaximiseHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMaximiseHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMaximiseHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMaximiseNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMaximiseNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMaximiseNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMaximiseNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMaximisePressed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMaximisePressed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMaximisePressed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMaximisePressed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMinimiseDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMinimiseDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMinimiseDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMinimiseDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMinimiseHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMinimiseHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMinimiseHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMinimiseHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMinimiseNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMinimiseNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMinimiseNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMinimiseNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMinimisePessed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMinimisePessed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueMinimisePessed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueMinimisePessed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueRestoreDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueRestoreDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueRestoreDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueRestoreDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueRestoreHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueRestoreHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueRestoreHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueRestoreHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueRestoreNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueRestoreNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueRestoreNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueRestoreNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueRestorePressed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueRestorePressed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxBlueRestorePressed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxBlueRestorePressed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverCloseDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverCloseDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverCloseDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverCloseDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverCloseHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverCloseHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverCloseHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverCloseHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverCloseNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverCloseNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverCloseNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverCloseNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverClosePressed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverClosePressed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverClosePressed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverClosePressed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMaximiseDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMaximiseDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMaximiseDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMaximiseDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMaximiseHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMaximiseHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMaximiseHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMaximiseHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMaximiseNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMaximiseNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMaximiseNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMaximiseNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMaximisePressed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMaximisePressed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMaximisePressed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMaximisePressed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMinimiseDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMinimiseDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMinimiseDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMinimiseDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMinimiseHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMinimiseHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMinimiseHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMinimiseHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMinimiseNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMinimiseNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMinimiseNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMinimiseNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMinimisePessed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMinimisePessed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverMinimisePessed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverMinimisePessed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverRestoreDisabled_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverRestoreDisabled_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverRestoreDisabled_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverRestoreDisabled_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverRestoreHover_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverRestoreHover_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverRestoreHover_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverRestoreHover_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverRestoreNormal_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverRestoreNormal_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverRestoreNormal_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverRestoreNormal_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverRestorePressed_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverRestorePressed_16_x_16.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Office2007ControlBoxSilverRestorePressed_24_x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Office2007ControlBoxSilverRestorePressed_24_x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

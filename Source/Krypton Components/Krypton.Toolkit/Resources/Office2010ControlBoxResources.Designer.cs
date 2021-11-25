@@ -233,9 +233,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonMaximiseDisabled {
+        internal static System.Drawing.Bitmap Office2010BackMaximiseNormal_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonMaximiseDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BackMaximiseNormal_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -243,9 +243,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonMaximiseHover {
+        internal static System.Drawing.Bitmap Office2010BackMaximiseNormal_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonMaximiseHover", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BackMaximiseNormal_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -253,9 +253,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonMinDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackCloseDisabled_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonMinDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackCloseDisabled_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -263,9 +263,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonMinHover {
+        internal static System.Drawing.Bitmap Office2010BlackCloseDisabled_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonMinHover", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackCloseDisabled_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -273,9 +273,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonMinNormal {
+        internal static System.Drawing.Bitmap Office2010BlackCloseHover_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonMinNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackCloseHover_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -283,9 +283,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonRestoreDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackCloseHover_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonRestoreDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackCloseHover_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -293,9 +293,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlackControlBoxButtonRestoreHover {
+        internal static System.Drawing.Bitmap Office2010BlackCloseNormal_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlackControlBoxButtonRestoreHover", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackCloseNormal_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -303,9 +303,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlackMinimiseDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackCloseNormal_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlackMinimiseDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackCloseNormal_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -313,9 +313,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonMaximiseDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackClosePressed_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonMaximiseDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackClosePressed_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -323,9 +323,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonMaximiseHover {
+        internal static System.Drawing.Bitmap Office2010BlackClosePressed_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonMaximiseHover", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackClosePressed_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -333,9 +333,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonMinDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackMaximiseDisabled_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonMinDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMaximiseDisabled_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -343,9 +343,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonMinHover {
+        internal static System.Drawing.Bitmap Office2010BlackMaximiseDisabled_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonMinHover", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMaximiseDisabled_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -353,9 +353,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonMinNormal {
+        internal static System.Drawing.Bitmap Office2010BlackMaximiseHover_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonMinNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMaximiseHover_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -363,9 +363,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonRestoreDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackMaximiseHover_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonRestoreDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMaximiseHover_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -373,9 +373,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlueControlBoxButtonRestoreHover {
+        internal static System.Drawing.Bitmap Office2010BlackMaximisePressed_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlueControlBoxButtonRestoreHover", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMaximisePressed_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -383,9 +383,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010BlueMinimiseDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackMaximisePressed_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010BlueMinimiseDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMaximisePressed_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -393,9 +393,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonMaximiseDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackMinimiseDisabled_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonMaximiseDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMinimiseDisabled_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -403,9 +403,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonMaximiseHover {
+        internal static System.Drawing.Bitmap Office2010BlackMinimiseDisabled_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonMaximiseHover", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMinimiseDisabled_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -413,9 +413,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonMinDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackMinimiseHover_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonMinDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMinimiseHover_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -423,9 +423,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonMinHover {
+        internal static System.Drawing.Bitmap Office2010BlackMinimiseHover_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonMinHover", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMinimiseHover_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -433,9 +433,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonMinNormal {
+        internal static System.Drawing.Bitmap Office2010BlackMinimiseNormal_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonMinNormal", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMinimiseNormal_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -443,9 +443,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonRestoreDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackMinimiseNormal_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonRestoreDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMinimiseNormal_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -453,9 +453,9 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010SilverControlBoxButtonRestoreHover {
+        internal static System.Drawing.Bitmap Office2010BlackMinimisePressed_13_x_12 {
             get {
-                object obj = ResourceManager.GetObject("Office2010SilverControlBoxButtonRestoreHover", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMinimisePressed_13_x_12", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -463,9 +463,729 @@ namespace Krypton.Toolkit.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Office2010SilverMinimiseDisabled {
+        internal static System.Drawing.Bitmap Office2010BlackMinimisePressed_25_x_23 {
             get {
-                object obj = ResourceManager.GetObject("Office2010SilverMinimiseDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject("Office2010BlackMinimisePressed_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackRestoreDisabled_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackRestoreDisabled_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackRestoreDisabled_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackRestoreDisabled_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackRestoreHover_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackRestoreHover_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackRestoreHover_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackRestoreHover_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackRestoreNormal_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackRestoreNormal_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackRestoreNormal_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackRestoreNormal_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackRestorePressed_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackRestorePressed_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlackRestorePressed_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlackRestorePressed_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueCloseDisabled_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueCloseDisabled_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueCloseDisabled_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueCloseDisabled_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueCloseHover_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueCloseHover_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueCloseHover_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueCloseHover_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueCloseNormal_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueCloseNormal_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueCloseNormal_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueCloseNormal_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueClosePressed_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueClosePressed_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueClosePressed_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueClosePressed_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMaximiseDisabled_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMaximiseDisabled_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMaximiseDisabled_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMaximiseDisabled_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMaximiseHover_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMaximiseHover_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMaximiseHover_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMaximiseHover_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMaximiseNormal_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMaximiseNormal_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMaximiseNormal_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMaximiseNormal_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMaximisePressed_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMaximisePressed_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMaximisePressed_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMaximisePressed_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMinimiseDisabled_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMinimiseDisabled_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMinimiseDisabled_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMinimiseDisabled_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMinimiseHover_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMinimiseHover_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMinimiseHover_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMinimiseHover_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMinimiseNormal_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMinimiseNormal_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMinimiseNormal_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMinimiseNormal_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMinimisePressed_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMinimisePressed_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueMinimisePressed_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueMinimisePressed_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueRestoreDisabled_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueRestoreDisabled_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueRestoreDisabled_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueRestoreDisabled_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueRestoreHover_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueRestoreHover_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueRestoreHover_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueRestoreHover_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueRestoreNormal_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueRestoreNormal_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueRestoreNormal_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueRestoreNormal_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueRestorePressed_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueRestorePressed_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010BlueRestorePressed_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010BlueRestorePressed_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverCloseDisabled_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverCloseDisabled_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverCloseDisabled_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverCloseDisabled_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverCloseHover_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverCloseHover_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverCloseHover_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverCloseHover_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverCloseNormal_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverCloseNormal_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverCloseNormal_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverCloseNormal_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverClosePressed_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverClosePressed_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverClosePressed_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverClosePressed_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMaximiseDisabled_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMaximiseDisabled_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMaximiseDisabled_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMaximiseDisabled_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMaximiseHover_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMaximiseHover_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMaximiseHover_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMaximiseHover_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMaximiseNormal_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMaximiseNormal_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMaximiseNormal_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMaximiseNormal_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMaximisePressed_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMaximisePressed_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMaximisePressed_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMaximisePressed_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMinimiseDisabled_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMinimiseDisabled_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMinimiseDisabled_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMinimiseDisabled_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMinimiseHover_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMinimiseHover_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMinimiseHover_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMinimiseHover_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMinimiseNormal_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMinimiseNormal_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMinimiseNormal_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMinimiseNormal_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMinimisePressed_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMinimisePressed_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverMinimisePressed_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverMinimisePressed_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverRestoreDisabled_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverRestoreDisabled_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverRestoreDisabled_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverRestoreDisabled_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverRestoreHover_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverRestoreHover_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverRestoreHover_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverRestoreHover_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverRestoreNormal_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverRestoreNormal_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverRestoreNormal_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverRestoreNormal_25_x_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverRestorePressed_13_x_12 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverRestorePressed_13_x_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Office2010SilverRestorePressed_25_x_23 {
+            get {
+                object obj = ResourceManager.GetObject("Office2010SilverRestorePressed_25_x_23", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
