@@ -341,7 +341,9 @@ namespace Krypton.Toolkit
             {
                 PaletteButtonSpecStyle.FormClose => state switch
                 {
-                    PaletteState.Tracking or PaletteState.Pressed => _formCloseNormal,
+                    PaletteState.Tracking => _formCloseHover,
+                    PaletteState.Normal => _formCloseNormal,
+                    //? TODO: Invoke PaletteState.Pressed for all controlbox items in all office palettes
                     _ => _formCloseDisabled
                 },
                 PaletteButtonSpecStyle.FormMin => state switch
