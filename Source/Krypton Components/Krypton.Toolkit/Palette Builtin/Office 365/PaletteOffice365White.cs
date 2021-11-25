@@ -21,15 +21,18 @@ namespace Krypton.Toolkit
         private static readonly Image[] _radioButtonArray;
         private static readonly Image _silverDropDownButton = Office2010Arrows._2010BlueDropDownButton;
         private static readonly Image _contextMenuSubMenu = Office2010Arrows._2010BlueContextMenuSub;
-        private static readonly Image _formCloseNormal = Office2010ControlBoxResources._2010ButtonCloseHover;
-        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources._2010ButtonCloseNormal;
-        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources._2010ButtonMaxBlackNormal;
-        //private static readonly Image _formMaximiseDisabled = null; // TODO: Instate these for all O2k10 & O2k13/365 palettes!
-        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverControlBoxButtonMinNormal;
-        private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010SilverControlBoxButtonMinHover;
-        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverControlBoxButtonMinDisabled;
-        private static readonly Image _formRestoreNormal = Office2010ControlBoxResources._2010ButtonRestore;
-        //private static readonly Image _formRestoreDisabled = null;
+        private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal_25_x_23;
+        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled_25_x_23;
+        private static readonly Image _formCloseHover = Office2010ControlBoxResources.Office2010SilverCloseHover_25_x_23;
+        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal_25_x_23;
+        private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled_25_x_23;
+        private static readonly Image _formMaximiseHover = Office2010ControlBoxResources.Office2010SilverMaximiseHover_25_x_23;
+        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal_25_x_23;
+        private static readonly Image _formMinimiseHover = Office2010ControlBoxResources.Office2010SilverMinimiseHover_25_x_23;
+        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled_25_x_23;
+        private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal_25_x_23;
+        private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled_25_x_23;
+        private static readonly Image _formRestoreHover = Office2010ControlBoxResources.Office2010SilverRestoreHover_25_x_23;
         private static readonly Image _formHelpNormal = HelpIconResources.GenericOffice365HelpIconWhite;
         private static readonly Image _formHelpHover = HelpIconResources.GenericOffice365HelpIconHover;
         private static readonly Image _formHelpDisabled = HelpIconResources.GenericOffice365HelpIconDisabled;
@@ -341,8 +344,18 @@ namespace Krypton.Toolkit
                     PaletteState.Tracking => _formMinimiseHover,
                     _ => _formMinimiseDisabled
                 },
-                PaletteButtonSpecStyle.FormMax => _formMaximiseNormal,
-                PaletteButtonSpecStyle.FormRestore => _formRestoreNormal,
+                PaletteButtonSpecStyle.FormMax => state switch
+                {
+                    PaletteState.Normal => _formMaximiseNormal,
+                    PaletteState.Tracking => _formMaximiseHover,
+                    _ => _formMaximiseDisabled
+                },
+                PaletteButtonSpecStyle.FormRestore => state switch
+                {
+                    PaletteState.Normal => _formRestoreNormal,
+                    PaletteState.Tracking => _formRestoreHover,
+                    _ => _formRestoreDisabled
+                },
                 PaletteButtonSpecStyle.FormHelp => state switch
                 {
                     PaletteState.Tracking => _formHelpHover,
