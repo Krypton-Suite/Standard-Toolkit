@@ -2143,10 +2143,12 @@ namespace Krypton.Toolkit
 
         Office2010BlackDarkMode,
 
+        /*
         /// <summary>
         /// Specifies the Office 2013 palette appearance.
         /// </summary>
         Office2013,
+        */
 
         /// <summary>
         /// Specifies the White color variant of the Office 2013 appearance.
@@ -2303,10 +2305,12 @@ namespace Krypton.Toolkit
 
         Office2010BlackDarkMode,
 
+        /*
         /// <summary>
         /// Specifies the Office 2013 appearance.
         /// </summary>
         Office2013,
+        */
 
         /// <summary>
         /// Specifies the White color variant of the Office 2013 appearance.
