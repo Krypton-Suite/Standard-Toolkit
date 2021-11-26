@@ -463,6 +463,8 @@ namespace Krypton.Toolkit
 
             // Create the internal text box used for containing content
             _textBox = new InternalTextBox(this);
+            _textBox.DoubleClick += OnDoubleClick;
+            _textBox.MouseDoubleClick += OnMouseDoubleClick;
             _textBox.TrackMouseEnter += OnTextBoxMouseChange;
             _textBox.TrackMouseLeave += OnTextBoxMouseChange;
             _textBox.AcceptsTabChanged += OnTextBoxAcceptsTabChanged;
@@ -527,11 +529,6 @@ namespace Krypton.Toolkit
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
         }
-
-        private void OnTextBoxClick(object sender, EventArgs e) =>
-            // ReSharper disable RedundantBaseQualifier
-            base.OnClick(e);
-        // ReSharper restore RedundantBaseQualifier
 
         /// <summary>
         /// Clean up any resources being used.
@@ -1958,6 +1955,14 @@ namespace Krypton.Toolkit
 
         private void OnEditorButtonClicked(object sender, EventArgs e) => new MultilineStringEditor(this).ShowEditor();
 
+        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+
+        private void OnTextBoxClick(object sender, EventArgs e) =>
+            // ReSharper disable RedundantBaseQualifier
+            base.OnClick(e);
+        // ReSharper restore RedundantBaseQualifier
         #endregion
     }
 }

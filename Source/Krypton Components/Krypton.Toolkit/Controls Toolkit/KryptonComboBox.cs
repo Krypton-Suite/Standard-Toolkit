@@ -1077,12 +1077,14 @@ namespace Krypton.Toolkit
             _comboBox.DropDown += OnComboBoxDropDown;
             _comboBox.DropDownClosed += OnComboBoxDropDownClosed;
             _comboBox.DropDownStyleChanged += OnComboBoxDropDownStyleChanged;
+            _comboBox.DoubleClick += OnDoubleClick;
             _comboBox.SelectedIndexChanged += OnComboBoxSelectedIndexChanged;
             _comboBox.SelectionChangeCommitted += OnComboBoxSelectionChangeCommitted;
             _comboBox.TextUpdate += OnComboBoxTextUpdate;
             _comboBox.TextChanged += OnComboBoxTextChanged;
             _comboBox.GotFocus += OnComboBoxGotFocus;
             _comboBox.LostFocus += OnComboBoxLostFocus;
+            _comboBox.MouseDoubleClick += OnMouseDoubleClick;
             _comboBox.KeyDown += OnComboBoxKeyDown;
             _comboBox.KeyUp += OnComboBoxKeyUp;
             _comboBox.KeyPress += OnComboBoxKeyPress;
@@ -3086,6 +3088,10 @@ namespace Krypton.Toolkit
             Point point = new(location.X + DropDownWidth, location.Y);
             tip.ShowCalculatingSize(PointToScreen(point));
         }
+        
+        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+
+        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
         #endregion
     }
 }

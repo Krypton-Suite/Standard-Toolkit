@@ -600,10 +600,12 @@ namespace Krypton.Toolkit
 
             // Create the internal tree view used for containing content
             _treeView = new InternalTreeView(this);
+            _treeView.DoubleClick += OnDoubleClick;
             _treeView.TrackMouseEnter += OnTreeViewMouseChange;
             _treeView.TrackMouseLeave += OnTreeViewMouseChange;
             _treeView.GotFocus += OnTreeViewGotFocus;
             _treeView.LostFocus += OnTreeViewLostFocus;
+            _treeView.MouseDoubleClick += OnMouseDoubleClick;
             _treeView.KeyDown += OnTreeViewKeyDown;
             _treeView.KeyUp += OnTreeViewKeyUp;
             _treeView.KeyPress += OnTreeViewKeyPress;
@@ -2249,6 +2251,11 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+
+        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
         #endregion
 
     }

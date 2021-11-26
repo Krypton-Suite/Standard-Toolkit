@@ -970,26 +970,6 @@ namespace Krypton.Toolkit
             base.OnMouseLeave(e);
         }
 
-
-        /// <summary>
-        /// Raises the DoubleClick event.
-        /// </summary>
-        /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        protected override void OnDoubleClick(EventArgs e)
-        {
-            // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing)
-            {
-                Point location = PointToClient(MousePosition);
-                _toolTipManager.DoubleClick(ViewManager?.ActiveView ?? ViewManager?.Root, location);
-                // Do we have a manager for processing mouse messages?
-                ViewManager?.DoubleClick(location);
-            }
-
-            // Let base class fire events
-            base.OnDoubleClick(e);
-        }
-
         /// <summary>
         /// Raises the KeyDown event.
         /// </summary>
