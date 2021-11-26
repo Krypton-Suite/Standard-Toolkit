@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
 
             "Office 2010 - White",
 
-            "Office 2013",
+            "Office 2013 - White",
 
             "Office 365 - Black",
 
