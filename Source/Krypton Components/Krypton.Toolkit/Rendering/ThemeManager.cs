@@ -110,6 +110,10 @@ namespace Krypton.Toolkit
         };
         #endregion
 
+        #region Instance Fields
+        
+        #endregion
+
         #region Properties        
         /// <summary>
         /// Gets the supported theme array.
@@ -544,6 +548,25 @@ namespace Krypton.Toolkit
         ///   <br />
         /// </returns>
         public static string[] ReturnThemeArray() => _supportedThemes;
+
+        public static void PropagateSupportedThemeList(List<string> supportedThemeList)
+        {
+            try
+            {
+                supportedThemeList = new List<string>();
+
+                foreach (string theme in ReturnThemeArray())
+                {
+                    supportedThemeList.Add(theme);
+                }
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
+            }
+        }
+
+        public static string[] ReturnListToArray(List<string> themeList) => themeList.ToArray();
 
         #endregion
     }
