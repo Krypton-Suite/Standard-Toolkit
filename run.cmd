@@ -9,6 +9,9 @@ set /P INPUT=Type input: %=%
 if /I "%INPUT%"=="y" goto yes
 if /I "%INPUT%"=="n" goto no
 
+echo Invalid argument.
+goto break
+
 :yes
 echo Deleting the 'Bin' folder
 rd /s /q "Bin"
@@ -39,6 +42,9 @@ set /PINPUT=Type input: %=%
 if /I "%INPUT%"=="y" goto buildproject
 if /I "%INPUT%"=="n" goto break
 
+echo Invalid argument.
+goto break
+
 :buildproject
 buildsolution.cmd
 
@@ -48,6 +54,9 @@ set /PINPUT=Type input: %=%
 if /I "%INPUT%"=="y" goto createpackages
 if /I "%INPUT%"=="n" goto break
 
+echo Invalid argument.
+goto break
+
 :createpackages
 echo Do you want to pack using Visual Studio 2019 or 2022? (2019/2022)
 set INPUT=
@@ -55,13 +64,14 @@ set /P INPUT=Type 2019 or 2022: %=%
 if /I "%INPUT%"=="2019" goto vs2019pack
 if /I "%INPUT%"=="2022" goto vs2022pack
 
+echo Invalid argument.
+goto break
+
 :vs2019pack
 build-2019.cmd Pack
 
 :vs2022pack
 build-2022.cmd Pack
-
-pause
 
 :break
 pause
