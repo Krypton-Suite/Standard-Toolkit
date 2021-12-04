@@ -9,6 +9,7 @@
 =======
 
 ## 2022-01-05 - Build 2201 - January 2022
+* Fixed [#502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/502), KNumericUpDowner, when told to display 1 decimal place, does not display a `0` when needed
 * Fixed [#488](https://github.com/Krypton-Suite/Standard-Toolkit/issues/488), `KryptonTextBox` DoubleClick event does not fire
 * Fixed [#484](https://github.com/Krypton-Suite/Standard-Toolkit/issues/484), Using todays alpha, Active form does not show the title text when using QAT
 * Fixed [#483](https://github.com/Krypton-Suite/Standard-Toolkit/issues/483), `KryptonForm` loses visibility when the form border property is set to ***None*** using certain themes (thanks to [mbsysde99](https://github.com/mbsysde99))
