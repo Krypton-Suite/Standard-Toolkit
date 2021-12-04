@@ -246,7 +246,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb( 64,  64,  64),    // AppButtonOuter3
                                                                       Color.FromArgb(107, 108, 113),    // AppButtonInner1
                                                                       Color.FromArgb( 67,  66,  65),    // AppButtonInner2
-                                                                      Color.FromArgb(233, 234, 238),    // AppButtonMenuDocs
+                                                                      Color.FromArgb(83,  83,  83),     // AppButtonMenuDocs
                                                                       Color.FromArgb(70,   70,  70),    // AppButtonMenuDocsText
                                                                       Color.FromArgb(240, 241, 242),    // SeparatorHighInternalBorder1
                                                                       Color.FromArgb(195, 200, 206),    // SeparatorHighInternalBorder2
