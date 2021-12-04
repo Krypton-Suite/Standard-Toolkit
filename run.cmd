@@ -38,7 +38,7 @@ echo Deleted the 'build.log' file
 :no
 echo Do you now want to build the repository? (y/n)
 set INPUT=
-set /PINPUT=Type input: %=%
+set /P INPUT=Type input: %=%
 if /I "%INPUT%"=="y" goto buildproject
 if /I "%INPUT%"=="n" goto break
 
@@ -50,7 +50,7 @@ buildsolution.cmd
 
 echo Do you now want to create NuGet packages? (REMINDER: If you are creating Nightly packages, please ensure that the 'CurrentDate' adheres to the correct ISO format, i.e. yyyyMMdd) (y/n)
 set INPUT=
-set /PINPUT=Type input: %=%
+set /P INPUT=Type input: %=%
 if /I "%INPUT%"=="y" goto createpackages
 if /I "%INPUT%"=="n" goto break
 
