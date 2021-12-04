@@ -1,6 +1,7 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
 ## 2022-02-01 - Build 2202 - February 2022
+* Fixed some minor issues regarding some dark themes
 * Fixed minor batch script bugs
 * Fixed tracking colours in `Office 2010 - Black (Dark Mode)`
 * Fixed [#500](https://github.com/Krypton-Suite/Standard-Toolkit/issues/500), `KryptonThemeComboBox` Themes List empty at Runtime
