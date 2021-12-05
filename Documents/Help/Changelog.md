@@ -1,11 +1,16 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
 ## 2022-02-01 - Build 2202 - February 2022
+* Fixed some minor issues regarding some dark themes
+* Fixed minor batch script bugs
+* Fixed tracking colours in `Office 2010 - Black (Dark Mode)`
+* Fixed [#500](https://github.com/Krypton-Suite/Standard-Toolkit/issues/500), `KryptonThemeComboBox` Themes List empty at Runtime
 * Implemented [#492](https://github.com/Krypton-Suite/Standard-Toolkit/issues/492), Remove `Office 2013` due to redundancy with `Office 2013 White` theme
 
 =======
 
 ## 2022-01-05 - Build 2201 - January 2022
+* Fixed [#502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/502), KNumericUpDowner, when told to display 1 decimal place, does not display a `0` when needed
 * Fixed [#488](https://github.com/Krypton-Suite/Standard-Toolkit/issues/488), `KryptonTextBox` DoubleClick event does not fire
 * Fixed [#484](https://github.com/Krypton-Suite/Standard-Toolkit/issues/484), Using todays alpha, Active form does not show the title text when using QAT
 * Fixed [#483](https://github.com/Krypton-Suite/Standard-Toolkit/issues/483), `KryptonForm` loses visibility when the form border property is set to ***None*** using certain themes (thanks to [mbsysde99](https://github.com/mbsysde99))

@@ -19,66 +19,86 @@ namespace Krypton.Toolkit
     public class KryptonThemeComboBox : KryptonComboBox
     {
         #region Instance Fields
-        private KryptonManager _internalKryptonManager;
-        private readonly PaletteModeManager _paletteMode;
+        private List<string> _supportedThemesList;
+
+        private int _selectedIndex;
+
+        private KryptonManager _manager;
+
+        private PaletteModeManager _paletteModeManager;
         #endregion
 
-        #region Public
-        /// <summary>Gets or sets the krypton manager.</summary>
-        /// <value>The krypton manager.</value>
-        public KryptonManager KryptonManager
+        #region Properties
+
+        public List<string> SupportedThemesList => _supportedThemesList;
+
+        [DefaultValue(22)]
+        public int ThemeSelectedIndex
         {
-            get => _internalKryptonManager;
+            get => _selectedIndex;
 
-            set 
-            {
-                if (_internalKryptonManager == null)
-                {
-                    _internalKryptonManager = new KryptonManager();
-                }
-                else
-                {
-                    _internalKryptonManager = value;
-                }
-            }
+            set => _selectedIndex = value;
         }
+
         #endregion
 
-        #region Identity
-        /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
+        #region Constructor
+
         public KryptonThemeComboBox()
         {
-            DropDownStyle = ComboBoxStyle.DropDown;
-
-            AutoCompleteCustomSource = new AutoCompleteStringCollection() { ThemeManager.ReturnThemeArray().ToString() };
-
-            AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-            AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
             DropDownStyle = ComboBoxStyle.DropDownList;
-            
-            if (KryptonManager == null)
+
+            ThemeSelectedIndex = 22;
+
+            ThemeManager.PropagateSupportedThemeList(_supportedThemesList);
+
+            try
             {
-                KryptonManager = new KryptonManager();
+               
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
+                throw;
             }
 
-            Text = KryptonManager.GlobalPaletteMode.ToString();
+            
 
-            // Store the current GlobalPaletteMode, so we don't run into any issues
-            _paletteMode = KryptonManager.GlobalPaletteMode;
+            //_paletteMode = _manager.GlobalPaletteMode;
         }
         #endregion
 
-        #region Protected
-        /// <summary>Raises the SelectedIndexChanged event.</summary>
-        /// <param name="e">An EventArgs containing the event data.</param>
+        #region Protected Overrides
+
+        protected override void OnCreateControl()
+        {
+            if (!DesignMode)
+            {
+                Items.AddRange(ThemeManager.ReturnThemeArray());
+            }
+
+            if (_manager == null)
+            {
+                _manager = new KryptonManager();
+            }
+
+            Text = _manager.GlobalPaletteMode.ToString();
+
+
+            _paletteModeManager = _manager.GlobalPaletteMode;
+
+            base.OnCreateControl();
+        }
+
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
-            ThemeManager.ApplyTheme(Text, KryptonManager); // TODO: Protect the current value to prevent conflict
+            ThemeManager.ApplyTheme(Text, _manager);
+
+            ThemeSelectedIndex = SelectedIndex;
 
             base.OnSelectedIndexChanged(e);
         }
+
         #endregion
     }
 }
