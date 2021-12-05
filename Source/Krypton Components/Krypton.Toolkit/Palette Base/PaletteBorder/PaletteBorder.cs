@@ -245,7 +245,15 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteDrawBorders value.</returns>
-        public PaletteDrawBorders GetBorderDrawBorders(PaletteState state) => DrawBorders != PaletteDrawBorders.Inherit ? DrawBorders : _inherit.GetBorderDrawBorders(state);
+        public PaletteDrawBorders GetBorderDrawBorders(PaletteState state)
+        {
+            if (DrawBorders != PaletteDrawBorders.Inherit)
+            {
+                return Draw == InheritBool.False ? PaletteDrawBorders.None : DrawBorders;
+            }
+
+            return _inherit.GetBorderDrawBorders(state);
+        }
 
         #endregion
 

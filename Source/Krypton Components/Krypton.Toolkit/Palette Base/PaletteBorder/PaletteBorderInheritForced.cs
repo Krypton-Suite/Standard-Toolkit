@@ -111,7 +111,11 @@ namespace Krypton.Toolkit
             else
             {
                 // If no border edges are allowed then provide none
-                if ((MaxBorderEdges == PaletteDrawBorders.None) || (BorderIgnoreNormal && (state == PaletteState.Normal)))
+                if ((MaxBorderEdges == PaletteDrawBorders.None) 
+                    || (BorderIgnoreNormal 
+                        && (state == PaletteState.Normal)
+                        )
+                    )
                 {
                     return PaletteDrawBorders.None;
                 }
