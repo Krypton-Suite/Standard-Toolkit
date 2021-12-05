@@ -481,7 +481,7 @@ namespace Krypton.Toolkit
 
         private void OnCommonChange()
         {
-            if ((DataGridView != null) && !DataGridView.IsDisposed && !DataGridView.Disposing)
+            if (DataGridView is { IsDisposed: false, Disposing: false })
             {
                 if (RowIndex == -1)
                 {

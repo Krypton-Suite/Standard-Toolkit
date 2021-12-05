@@ -1684,7 +1684,7 @@ namespace Krypton.Toolkit
             // If we moused down on a active view element
             // Ask the controller if the mouse down should be ignored by wnd proc processing
             IMouseController controller = ViewManager.ActiveView?.FindMouseController();
-            return (controller != null) && controller.IgnoreVisualFormLeftButtonDown;
+            return controller is { IgnoreVisualFormLeftButtonDown: true };
         }
 
         /// <summary>

@@ -522,7 +522,7 @@ namespace Krypton.Toolkit
             {
                 // Do not show tooltips when the form we are in does not have focus
                 Form topForm = FindForm();
-                if ((topForm != null) && !topForm.ContainsFocus)
+                if (topForm is { ContainsFocus: false })
                 {
                     return;
                 }

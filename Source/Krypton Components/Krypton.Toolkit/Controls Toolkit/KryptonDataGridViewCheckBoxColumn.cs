@@ -229,15 +229,13 @@ namespace Krypton.Toolkit
                     }
 
                     if (value 
-                        && DefaultCellStyle.NullValue is bool b 
-                        && !b
+                        && DefaultCellStyle.NullValue is bool and false
                         )
                     {
                         DefaultCellStyle.NullValue = CheckState.Indeterminate;
                     }
                     else if (!value 
-                             && (DefaultCellStyle.NullValue is CheckState state) 
-                             && (state == CheckState.Indeterminate)
+                             && (DefaultCellStyle.NullValue is CheckState and CheckState.Indeterminate)
                              )
                     {
                         DefaultCellStyle.NullValue = false;

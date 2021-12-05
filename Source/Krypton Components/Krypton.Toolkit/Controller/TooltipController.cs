@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
         /// Should the left mouse down be ignored when present on a visual form border area.
         /// </summary>
         public bool IgnoreVisualFormLeftButtonDown =>
-            _targetController != null && _targetController.IgnoreVisualFormLeftButtonDown;
+            _targetController is { IgnoreVisualFormLeftButtonDown: true };
 
         #endregion
     }

@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public override Font GetContentLongTextFont(PaletteState state) =>
-            (TreeNode is KryptonTreeNode kryptonNode) && (kryptonNode.LongNodeFont != null)
+            (TreeNode is KryptonTreeNode { LongNodeFont: { } } kryptonNode)
                 ? kryptonNode.LongNodeFont
                 : _inherit.GetContentLongTextFont(state);
 

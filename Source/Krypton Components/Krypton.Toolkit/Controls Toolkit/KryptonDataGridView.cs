@@ -2354,7 +2354,7 @@ namespace Krypton.Toolkit
             if (_miGCI == null)
             {
                 // Cache access to the internal method 'GetCellInternal'
-                _miGCI = typeof(DataGridView).GetMethod("GetCellInternal", BindingFlags.Instance |
+                _miGCI = typeof(DataGridView).GetMethod(@"GetCellInternal", BindingFlags.Instance |
                                                                            BindingFlags.NonPublic |
                                                                            BindingFlags.GetField);
             }
@@ -2368,7 +2368,7 @@ namespace Krypton.Toolkit
             if (_miGTTT == null)
             {
                 // Cache access to the internal get property 'GetToolTipText'
-                _miGTTT = typeof(DataGridViewCell).GetMethod("GetToolTipText", BindingFlags.Instance |
+                _miGTTT = typeof(DataGridViewCell).GetMethod(@"GetToolTipText", BindingFlags.Instance |
                                                                                BindingFlags.NonPublic |
                                                                                BindingFlags.GetField);
             }
@@ -2389,7 +2389,7 @@ namespace Krypton.Toolkit
             if (_miGET == null)
             {
                 // Cache access to the internal get property 'GetErrorText'
-                _miGET = typeof(DataGridViewCell).GetMethod("GetErrorText", BindingFlags.Instance |
+                _miGET = typeof(DataGridViewCell).GetMethod(@"GetErrorText", BindingFlags.Instance |
                                                                             BindingFlags.NonPublic |
                                                                             BindingFlags.GetField);
             }
@@ -2410,7 +2410,7 @@ namespace Krypton.Toolkit
             if (_piCML == null)
             {
                 // Cache access to the internal get property 'CurrentMouseLocation'
-                _piCML = typeof(DataGridViewCell).GetProperty("CurrentMouseLocation", BindingFlags.Instance |
+                _piCML = typeof(DataGridViewCell).GetProperty(@"CurrentMouseLocation", BindingFlags.Instance |
                                                                                       BindingFlags.NonPublic |
                                                                                       BindingFlags.GetField);
             }
@@ -2425,7 +2425,7 @@ namespace Krypton.Toolkit
             if (_miGPW == null)
             {
                 // Cache access to the internal method 'GetPreferredWidth' of cells
-                _miGPW = typeof(DataGridViewCell).GetMethod("GetPreferredWidth", BindingFlags.Instance |
+                _miGPW = typeof(DataGridViewCell).GetMethod(@"GetPreferredWidth", BindingFlags.Instance |
                                                                                  BindingFlags.NonPublic |
                                                                                  BindingFlags.GetField);
             }
@@ -2439,7 +2439,7 @@ namespace Krypton.Toolkit
             if (_miGPH == null)
             {
                 // Cache access to the internal method 'GetPreferredHeight' of cells
-                _miGPH = typeof(DataGridViewCell).GetMethod("GetPreferredHeight", BindingFlags.Instance |
+                _miGPH = typeof(DataGridViewCell).GetMethod(@"GetPreferredHeight", BindingFlags.Instance |
                                                                                   BindingFlags.NonPublic |
                                                                                   BindingFlags.GetField);
             }
@@ -2453,7 +2453,7 @@ namespace Krypton.Toolkit
             if (_miATT == null)
             {
                 // Cache access to the internal get property 'ActivateToolTip'
-                _miATT = typeof(DataGridView).GetMethod("ActivateToolTip", BindingFlags.Instance |
+                _miATT = typeof(DataGridView).GetMethod(@"ActivateToolTip", BindingFlags.Instance |
                                                                            BindingFlags.NonPublic |
                                                                            BindingFlags.GetField);
             }
@@ -2466,7 +2466,7 @@ namespace Krypton.Toolkit
             if (toolTipText.Length > 0x120)
             {
                 StringBuilder builder = new(toolTipText.Substring(0, 0x100), 0x103);
-                builder.Append("...");
+                builder.Append(@"...");
                 return builder.ToString();
             }
             return toolTipText;

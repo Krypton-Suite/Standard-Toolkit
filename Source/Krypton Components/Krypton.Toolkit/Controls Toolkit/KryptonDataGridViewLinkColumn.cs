@@ -116,7 +116,10 @@ namespace Krypton.Toolkit
                             var count = rows.Count;
                             for (var i = 0; i < count; i++)
                             {
-                                if ((rows.SharedRow(i).Cells[Index] is KryptonDataGridViewLinkCell cell) && cell.UseColumnTextForLinkValue)
+                                if ((rows.SharedRow(i).Cells[Index] is KryptonDataGridViewLinkCell
+                                    {
+                                        UseColumnTextForLinkValue: true
+                                    }))
                                 {
                                     ColumnCommonChange(Index);
                                     return;

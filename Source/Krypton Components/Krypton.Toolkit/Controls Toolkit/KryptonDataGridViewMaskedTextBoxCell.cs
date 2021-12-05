@@ -495,14 +495,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                if (initialFormattedValue is not string initialFormattedValueStr)
-                {
-                    maskedTextBox.Text = string.Empty;
-                }
-                else
-                {
-                    maskedTextBox.Text = initialFormattedValueStr;
-                }
+                maskedTextBox.Text = initialFormattedValue is not string initialFormattedValueStr ? string.Empty : initialFormattedValueStr;
             }
         }
 
@@ -572,6 +565,7 @@ namespace Krypton.Toolkit
 
             return preferredSize;
         }
+
         #endregion
 
         #region Private
@@ -611,7 +605,7 @@ namespace Krypton.Toolkit
 
         private void OnCommonChange()
         {
-            if ((DataGridView != null) && !DataGridView.IsDisposed && !DataGridView.Disposing)
+            if (DataGridView is { IsDisposed: false, Disposing: false })
             {
                 if (RowIndex == -1)
                 {
@@ -791,5 +785,6 @@ namespace Krypton.Toolkit
             }
         }
         #endregion
+
     }
 }

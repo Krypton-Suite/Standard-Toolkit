@@ -347,7 +347,7 @@ namespace Krypton.Toolkit
             }
 
             return (char.IsDigit((char)e.KeyCode) ||
-                    ((e.KeyCode >= Keys.NumPad0) && (e.KeyCode <= Keys.NumPad9)) ||
+                    e.KeyCode is >= Keys.NumPad0 and <= Keys.NumPad9 ||
                     (negativeSignKey == e.KeyCode) ||
                     (Keys.Subtract == e.KeyCode)) &&
                    !e.Shift && !e.Alt && !e.Control;
@@ -504,7 +504,7 @@ namespace Krypton.Toolkit
 
         private void OnCommonChange()
         {
-            if ((DataGridView != null) && !DataGridView.IsDisposed && !DataGridView.Disposing)
+            if (DataGridView is { IsDisposed: false, Disposing: false })
             {
                 if (RowIndex == -1)
                 {
