@@ -3,6 +3,7 @@
 ## 2022-01-05 - Build 2201 - January 2022
 * Fixed [#499](https://github.com/Krypton-Suite/Standard-Toolkit/issues/499), `KDataGridView` Cell Borders
 * Fixed [#502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/502),KNumericUpDowner, when told to display 1 decimal place, does not display a 0 when needed
+* Fixed issue while running `build-2019.cmd` would cause build errors
 * Fixed [#491](https://github.com/Krypton-Suite/Standard-Toolkit/issues/491), Krypton.Toolkit.KryptonMessageBox wrong form height when YesNo or AbortRetryIgnore buttons selected (thanks to [mbsysde99](https://github.com/mbsysde99))
 * Fixed [#488](https://github.com/Krypton-Suite/Standard-Toolkit/issues/488), `KryptonTextBox` DoubleClick event does not fire
 * Fixed [#484](https://github.com/Krypton-Suite/Standard-Toolkit/issues/484), Using todays alpha, Active form does not show the title text when using QAT
@@ -97,6 +98,7 @@
 * Remove references to V2.0.0.0 of the System.Design when using the `MultilineStringEditor`
 * Remove nullable messages caused by `CS8618`
 * New UAC option for `KryptonButton`
+* All `using` statements are now kept in one global file for each project, as per the C# 10 specification
 
 =======
 

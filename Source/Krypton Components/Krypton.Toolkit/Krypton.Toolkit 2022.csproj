@@ -21,8 +21,11 @@
     <Choose>
         <When Condition="'$(Configuration)' == 'Release'">
             <PropertyGroup>
-                <LangVersion>latest</LangVersion>
-                <AnalysisLevel>latest</AnalysisLevel>
+                <!--<LangVersion>latest</LangVersion>
+                <AnalysisLevel>latest</AnalysisLevel>-->
+
+                <LangVersion>preview</LangVersion>
+                <AnalysLevel>preview</AnalysLevel>
             </PropertyGroup>
         </When>
         <Otherwise>
