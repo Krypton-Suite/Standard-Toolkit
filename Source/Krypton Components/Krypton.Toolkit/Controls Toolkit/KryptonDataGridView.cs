@@ -2471,7 +2471,7 @@ namespace Krypton.Toolkit
             }
             return toolTipText;
         }
-        
+
         private void SetPalette(IPalette palette)
         {
             if (palette != _palette)
