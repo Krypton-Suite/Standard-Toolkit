@@ -649,7 +649,7 @@ namespace Krypton.Toolkit
             }
 
             // Is the menu capable of being closed?
-            if (CloseOnTodayClick && (Provider != null) && Provider.ProviderCanCloseMenu)
+            if (CloseOnTodayClick && Provider is { ProviderCanCloseMenu: true })
             {
                 // Ask the original context menu definition, if we can close
                 CancelEventArgs cea = new();
@@ -793,7 +793,7 @@ namespace Krypton.Toolkit
             {
                 // Do not show tooltips when the form we are in does not have focus
                 Form topForm = Calendar.CalendarControl.FindForm();
-                if ((topForm != null) && !topForm.ContainsFocus)
+                if (topForm is { ContainsFocus: false })
                 {
                     return;
                 }

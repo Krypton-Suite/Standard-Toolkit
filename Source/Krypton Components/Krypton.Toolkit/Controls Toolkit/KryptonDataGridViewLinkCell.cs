@@ -131,7 +131,10 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if ((kDGV.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn col) && col.UseColumnTextForButtonValue && !kDGV.Rows[rowIndex].IsNewRow)
+                    if ((kDGV.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn
+                        {
+                            UseColumnTextForButtonValue: true
+                        } col) && !kDGV.Rows[rowIndex].IsNewRow)
                     {
                         _shortTextValue.ShortText = col.Text;
                     }
@@ -210,7 +213,10 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        if ((kDgv.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn col) && col.UseColumnTextForButtonValue && !kDgv.Rows[rowIndex].IsNewRow)
+                        if ((kDgv.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn
+                            {
+                                UseColumnTextForButtonValue: true
+                            } col) && !kDgv.Rows[rowIndex].IsNewRow)
                         {
                             _shortTextValue.ShortText = col.Text;
                         }

@@ -849,7 +849,7 @@ namespace Krypton.Toolkit
                     }
 
                     // If we still have a target and it has a sub menu
-                    if ((_target != null) && _target.HasSubMenu)
+                    if (_target is { HasSubMenu: true })
                     {
                         // Remember we told the target to show any sub menu
                         _targetSubMenu = _target;

@@ -157,8 +157,7 @@ namespace Krypton.Toolkit
             set
             {
                 if (Math.Abs(_blurDistance - value) > 0.001
-                    && 0 <= value
-                    && value <= 100
+                    && value is >= 0 and <= 100
                     )
                 {
                     _blurDistance = value;
@@ -213,8 +212,7 @@ namespace Krypton.Toolkit
             set
             {
                 if (Math.Abs(_opacity - value) > 0.001
-                    && 0 <= value
-                    && value <= 100
+                    && value is >= 0 and <= 100
                 )
                 {
                     _opacity = value;

@@ -567,7 +567,7 @@ namespace Krypton.Toolkit
                             e.TextColor = KCT.MenuItemText;
                             break;
                         default:
-                            if ((e.Item is ToolStripButton button) && button.Checked)
+                            if ((e.Item is ToolStripButton { Checked: true }))
                             {
                                 e.TextColor = KCT.MenuItemText;
                             }

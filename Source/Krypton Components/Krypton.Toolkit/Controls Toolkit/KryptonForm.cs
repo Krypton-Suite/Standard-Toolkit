@@ -1452,12 +1452,7 @@ namespace Krypton.Toolkit
         }
 
         internal bool StatusStripMerging => _allowStatusStripMerge &&
-                                             (_statusStrip != null) &&
-                                             _statusStrip.Visible &&
-                                             (_statusStrip.Dock == DockStyle.Bottom) &&
-                                             (_statusStrip.Bottom == ClientRectangle.Bottom) &&
-                                             (_statusStrip.RenderMode == ToolStripRenderMode.ManagerRenderMode) &&
-                                             (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonSparkleRenderer);
+                                            _statusStrip is { Visible: true, Dock: DockStyle.Bottom } && (_statusStrip.Bottom == ClientRectangle.Bottom) && (_statusStrip.RenderMode == ToolStripRenderMode.ManagerRenderMode) && (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonSparkleRenderer);
 
         private void MonitorStatusStrip(StatusStrip statusStrip)
         {
@@ -1489,7 +1484,7 @@ namespace Krypton.Toolkit
             {
                 // Do not show tooltips when the form we are in does not have focus
                 Form topForm = FindForm();
-                if ((topForm != null) && !topForm.ContainsFocus)
+                if (topForm is { ContainsFocus: false })
                 {
                     return;
                 }

@@ -1437,8 +1437,8 @@ namespace Krypton.Toolkit
                 ? _fixedActive.Value
                 : DesignMode || AlwaysActive ||
                   ContainsFocus || _mouseOver || _numericUpDown.MouseOver ||
-                  ((_subclassEdit != null) && _subclassEdit.MouseOver) ||
-                  ((_subclassButtons != null) && _subclassButtons.MouseOver);
+                  _subclassEdit is { MouseOver: true } ||
+                  _subclassButtons is { MouseOver: true };
 
         /// <summary>
         /// Sets input focus to the control.
@@ -2065,7 +2065,7 @@ namespace Krypton.Toolkit
             {
                 // Do not show tooltips when the form we are in does not have focus
                 Form topForm = FindForm();
-                if ((topForm != null) && !topForm.ContainsFocus)
+                if (topForm is { ContainsFocus: false })
                 {
                     return;
                 }
@@ -2140,8 +2140,8 @@ namespace Krypton.Toolkit
         {
             // Find new tracking mouse change state
             var tracking = _numericUpDown.MouseOver ||
-                           ((_subclassEdit != null) && _subclassEdit.MouseOver) ||
-                           ((_subclassButtons != null) && _subclassButtons.MouseOver);
+                           _subclassEdit is { MouseOver: true } ||
+                           _subclassButtons is { MouseOver: true };
 
             // Change in tracking state?
             if (tracking != _trackingMouseEnter)

@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         public ScreenObscurer(Form f, bool designMode)
         {
             // Check the incoming form is valid
-            if ((f != null) && !f.IsDisposed && !designMode)
+            if (f is { IsDisposed: false } && !designMode)
             {
                 // First time needed, create the top level obscurer window
                 if (_obscurer == null)
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
         public ScreenObscurer(Control c, bool designMode)
         {
             // Check the incoming control is valid
-            if ((c != null) && !c.IsDisposed && !designMode)
+            if (c is { IsDisposed: false } && !designMode)
             {
                 // First time needed, create the top level obscurer window
                 if (_obscurer == null)
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
         public void Cover(Form f)
         {
             // Check the incoming form is valid
-            if ((f != null) && !f.IsDisposed)
+            if (f is { IsDisposed: false })
             {
                 // Show over top of the provided form
                 _obscurer?.ShowForm(f.Bounds);
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
         public void Cover(Control c)
         {
             // Check the incoming control is valid
-            if ((c != null) && !c.IsDisposed)
+            if (c is { IsDisposed: false })
             {
                 // Show over top of the provided control
                 _obscurer?.ShowForm(c.RectangleToScreen(c.ClientRectangle));

@@ -24,29 +24,12 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        [ThreadStatic]
-        private static KryptonTextBox _paintingTextBox;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewTextBoxEditingControl);
         private static readonly Type _defaultValueType = typeof(string);
 
         #endregion
 
         #region Identity
-        /// <summary>
-        /// Constructor for the KryptonDataGridViewTextBoxCell cell type
-        /// </summary>
-        public KryptonDataGridViewTextBoxCell()
-        {
-            // Create a thread specific KryptonTextBox control used for the painting of the non-edited cells
-            if (_paintingTextBox == null)
-            {
-                _paintingTextBox = new KryptonTextBox();
-                _paintingTextBox.StateCommon.Border.Width = 0;
-                _paintingTextBox.StateCommon.Border.Draw = InheritBool.False;
-                _paintingTextBox.StateCommon.Back.Color1 = Color.Empty;
-            }
-            IconSpecs = new List<IconSpec>();
-        }
 
         /// <summary>
         /// The Multiline property replicates the one from the KryptonTextBox control
@@ -86,8 +69,7 @@ namespace Krypton.Toolkit
         /// Returns a standard textual representation of the cell.
         /// </summary>
         public override string ToString() =>
-            "KryptonDataGridViewTextBoxCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
-            ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
+            $@"KryptonDataGridViewTextBoxCell {{{{ ColumnIndex={ColumnIndex.ToString(CultureInfo.CurrentCulture)}, RowIndex={RowIndex.ToString(CultureInfo.CurrentCulture)} }}";
 
         /// <summary>
         /// Creates an exact copy of this cell.
@@ -178,14 +160,7 @@ namespace Krypton.Toolkit
 
             if (DataGridView.EditingControl is KryptonTextBox textBox)
             {
-                if (initialFormattedValue is not string initialFormattedValueStr)
-                {
-                    textBox.Text = string.Empty;
-                }
-                else
-                {
-                    textBox.Text = initialFormattedValueStr;
-                }
+                textBox.Text = initialFormattedValue is not string initialFormattedValueStr ? string.Empty : initialFormattedValueStr;
 
                 DataGridViewTriState wrapMode = Style.WrapMode;
                 if (wrapMode == DataGridViewTriState.NotSet)
@@ -199,13 +174,15 @@ namespace Krypton.Toolkit
                 {
                     textBox.Multiline = textBoxColumn.Multiline;
                     textBox.MultilineStringEditor = textBoxColumn.MultilineStringEditor;
-                    // Set this cell as the owner of the buttonspecs
-                    //textBox.ButtonSpecs.Clear();
-                    //textBox.ButtonSpecs.Owner = DataGridView.Rows[rowIndex].Cells[ColumnIndex];
-                    //foreach (ButtonSpec bs in textBoxColumn.ButtonSpecs) {
-                    //    bs.Click += new EventHandler(OnButtonClick);
-                    //    textBox.ButtonSpecs.Add(bs);
-                    //}
+                    if (!textBox.MultilineStringEditor)
+                    {
+                        if (textBoxColumn.Multiline
+                            || dataGridViewCellStyle.WrapMode == DataGridViewTriState.True
+                           )
+                        {
+                            textBox.ScrollBars = ScrollBars.Vertical;
+                        }
+                    }
                 }
             }
         }
@@ -235,6 +212,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected
+
         /// <summary>
         /// Customized implementation of the GetErrorIconBounds function in order to draw the potential 
         /// error icon next to the up/down buttons and not on top of them.
@@ -267,15 +245,16 @@ namespace Krypton.Toolkit
             }
 
             Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
+
             if (constraintSize.Width == 0)
             {
                 const int BUTTONS_WIDTH = 16; // Account for the width of the up/down buttons.
                 const int BUTTON_MARGIN = 8;  // Account for some blank pixels between the text and buttons.
                 preferredSize.Width += BUTTONS_WIDTH + BUTTON_MARGIN;
             }
-
             return preferredSize;
         }
+
         #endregion
 
         #region Private
@@ -315,7 +294,7 @@ namespace Krypton.Toolkit
 
         private void OnCommonChange()
         {
-            if ((DataGridView != null) && !DataGridView.IsDisposed && !DataGridView.Disposing)
+            if (DataGridView is { IsDisposed: false, Disposing: false })
             {
                 if (RowIndex == -1)
                 {
@@ -334,7 +313,7 @@ namespace Krypton.Toolkit
                 : (DataGridView.EditingControl is KryptonDataGridViewTextBoxEditingControl control)
                   && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
-        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
+        private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => paintParts.HasFlag(paintPart);
 
         #endregion
 
@@ -364,6 +343,6 @@ namespace Krypton.Toolkit
         [Category("Data")]
         [Description("Set of extra icons to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<IconSpec> IconSpecs { get; }
+        public List<IconSpec> IconSpecs { get; } = new List<IconSpec>();
     }
 }
