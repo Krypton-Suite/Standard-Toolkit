@@ -26,7 +26,12 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private object _tag;
+
+#pragma warning disable CS1591
+#pragma warning disable CS3008 // Identifier is not CLS-compliant
         protected ToolTipValues _toolTipValues;
+#pragma warning restore CS3008 // Identifier is not CLS-compliant
+#pragma warning restore CS1591
 
         #endregion
 
