@@ -35,6 +35,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Public
+        
         /// <summary>
         /// Gets access to the parent group instance.
         /// </summary>

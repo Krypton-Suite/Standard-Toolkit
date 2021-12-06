@@ -795,6 +795,11 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
+        /// Gets access to the Wrapped Controls Tooltips.
+        /// </summary>
+        public override ToolTipValues ToolTipValues => MaskedTextBox.ToolTipValues;
+
+        /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
         [Category("Visuals")]

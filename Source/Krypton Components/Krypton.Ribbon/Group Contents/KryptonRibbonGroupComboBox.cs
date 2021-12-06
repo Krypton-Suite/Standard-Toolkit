@@ -585,6 +585,12 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
+        /// Gets access to the Wrapped Controls Tooltips.
+        /// </summary>
+        public override ToolTipValues ToolTipValues => ComboBox.ToolTipValues;
+
+
+        /// <summary>
         /// Gets or sets the items in the KryptonComboBox.
         /// </summary>
         [Category("Data")]

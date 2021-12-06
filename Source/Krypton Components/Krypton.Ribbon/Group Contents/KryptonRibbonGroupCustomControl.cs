@@ -121,12 +121,28 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();
             }
         }
+
+        /// <summary>
+        /// Gets access to the Wrapped Controls Tooltips.
+        /// </summary>
+        public override ToolTipValues ToolTipValues
+        {
+            get
+            {
+                // TODO: This will not be here when the designer is performing it's actions ??
+                if (CustomControl is VisualControlBase vcb)
+                    return vcb.ToolTipValues;
+                // TODO: Should really pass these values into the `CustomControl` after it has been created !
+                return _toolTipValues; 
+            }
+        }
+
 
         /// <summary>
         /// Gets and sets the custom control for display inside ribbon element.

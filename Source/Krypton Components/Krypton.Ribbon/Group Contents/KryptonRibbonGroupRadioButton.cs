@@ -88,10 +88,6 @@ namespace Krypton.Ribbon
             _itemSizeMax = GroupItemSize.Large;
             _itemSizeMin = GroupItemSize.Small;
             _itemSizeCurrent = GroupItemSize.Large;
-            ToolTipImageTransparentColor = Color.Empty;
-            ToolTipTitle = string.Empty;
-            ToolTipBody = string.Empty;
-            ToolTipStyle = LabelStyle.SuperTip;
         }
         #endregion
 
@@ -155,7 +151,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Ribbon group radio button key tip.")]
-        [DefaultValue("R")]
+        [DefaultValue(@"R")]
         public string KeyTip
         {
             get => _keyTip;
@@ -164,7 +160,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "R";
+                    value = @"R";
                 }
 
                 _keyTip = value.ToUpper();
@@ -304,54 +300,9 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
-        /// Gets and sets the tooltip label style for group radio button.
+        /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Tooltip style for the group radio button.")]
-        [DefaultValue(typeof(LabelStyle), "SuperTip")]
-        public LabelStyle ToolTipStyle { get; set; }
-
-        /// <summary>
-        /// Gets and sets the image for the item ToolTip.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Display image associated ToolTip.")]
-        [DefaultValue(null)]
-        [Localizable(true)]
-        public Image ToolTipImage { get; set; }
-
-        /// <summary>
-        /// Gets and sets the color to draw as transparent in the ToolTipImage.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColor()]
-        [Localizable(true)]
-        public Color ToolTipImageTransparentColor { get; set; }
-
-        /// <summary>
-        /// Gets and sets the title text for the item ToolTip.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-        [DefaultValue("")]
-        [Localizable(true)]
-        public string ToolTipTitle { get; set; }
-
-        /// <summary>
-        /// Gets and sets the body text for the item ToolTip.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-        [DefaultValue("")]
-        [Localizable(true)]
-        public string ToolTipBody { get; set; }
+        public override ToolTipValues ToolTipValues => _toolTipValues;
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.
@@ -421,8 +372,11 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint) =>
-            new ViewDrawRibbonGroupRadioButton(ribbon, this, needPaint);
+                                            NeedPaintHandler needPaint)
+        {
+            _toolTipValues.NeedPaint = needPaint;
+            return new ViewDrawRibbonGroupRadioButton(ribbon, this, needPaint);
+        }
 
         /// <summary>
         /// Generates a Click event for a check box.
@@ -541,16 +495,6 @@ namespace Krypton.Ribbon
 
             return false;
         }
-
-        internal override LabelStyle InternalToolTipStyle => ToolTipStyle;
-
-        internal override Image InternalToolTipImage => ToolTipImage;
-
-        internal override Color InternalToolTipImageTransparentColor => ToolTipImageTransparentColor;
-
-        internal override string InternalToolTipTitle => ToolTipTitle;
-
-        internal override string InternalToolTipBody => ToolTipBody;
 
         #endregion
 

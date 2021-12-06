@@ -158,6 +158,12 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         ViewBase CreateView(KryptonRibbon ribbon, NeedPaintHandler needPaint);
+
+        ToolTipValues ToolTipValues 
+        { 
+            // Return base objects tooltip
+            get;
+        }
     }
     #endregion
 
