@@ -135,6 +135,11 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
+        /// Gets access to the Wrapped Controls Tooltips.
+        /// </summary>
+        public override ToolTipValues ToolTipValues => _toolTipValues;
+
+        /// <summary>
         /// Creates an appropriate view element for this item.
         /// </summary>
         /// <param name="ribbon">Reference to the owning ribbon control.</param>
@@ -142,8 +147,11 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint) =>
-            new ViewDrawRibbonGroupSeparator(ribbon, this, needPaint);
+                                            NeedPaintHandler needPaint)
+        {
+            _toolTipValues.NeedPaint = needPaint;
+            return new ViewDrawRibbonGroupSeparator(ribbon, this, needPaint);
+        }
 
         /// <summary>
         /// Internal design time properties.

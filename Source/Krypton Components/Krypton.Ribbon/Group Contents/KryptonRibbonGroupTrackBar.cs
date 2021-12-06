@@ -159,6 +159,11 @@ namespace Krypton.Ribbon
         public KryptonTrackBar TrackBar { get; private set; }
 
         /// <summary>
+        /// Gets access to the Wrapped Controls Tooltips.
+        /// </summary>
+        public override ToolTipValues ToolTipValues => TrackBar.ToolTipValues;
+
+        /// <summary>
         /// Gets and sets the key tip for the ribbon group track bar.
         /// </summary>
         [Bindable(true)]
