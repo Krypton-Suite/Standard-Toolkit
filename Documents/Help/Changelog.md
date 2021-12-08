@@ -1,6 +1,7 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
 
 ## 2022-01-05 - Build 2201 - January 2022
+* Complete [#517](https://github.com/Krypton-Suite/Standard-Toolkit/issues/517), Warning CS3008: Identifier '_toolTipValues' is not CLS-compliant
 * Fixed [#515](https://github.com/Krypton-Suite/Standard-Toolkit/issues/515), Office 365 Dark mode does not have enough contrast for disabled text
 * Fixed [#511](https://github.com/Krypton-Suite/Standard-Toolkit/issues/511), KryptonRibbonGroupComboBox does not have tooltips
 * Fixed [#382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/382), RibbonGroupNumericUpDown does not have tooltips
