@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -122,14 +122,6 @@ namespace Krypton.Ribbon
                 TabStop = false
             };
 
-            ToolTipImageTransparentColor = Color.Empty;
-
-            ToolTipTitle = string.Empty;
-
-            ToolTipBody = string.Empty;
-
-            ToolTipStyle = LabelStyle.SuperTip;
-
             // Hook into events to expose via this container
             NumericUpDown.ValueChanged += OnNumericUpDownValueChanged;
             NumericUpDown.GotFocus += OnNumericUpDownGotFocus;
@@ -164,6 +156,12 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Public
+
+        /// <summary>
+        /// Gets access to the Wrapped Controls Tooltips.
+        /// </summary>
+        public override ToolTipValues ToolTipValues => NumericUpDown.ToolTipValues;
+
         /// <summary>
         /// Gets access to the owning ribbon control.
         /// </summary>
@@ -203,56 +201,6 @@ namespace Krypton.Ribbon
         {
             ShortcutKeys = Keys.None;
         }
-
-        /// <summary>
-        /// Gets and sets the tooltip label style for group numeric up down button.
-        /// </summary>
-        [Category("Appearance")]
-        [Description("Tooltip style for the group numeric up down button.")]
-        [DefaultValue(typeof(LabelStyle), "SuperTip")]
-        public LabelStyle ToolTipStyle { get; set; }
-
-        /// <summary>
-        /// Gets and sets the image for the item ToolTip.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Display image associated ToolTip.")]
-        [DefaultValue(null)]
-        [Localizable(true)]
-        public Image ToolTipImage { get; set; }
-
-        /// <summary>
-        /// Gets and sets the numeric up down to draw as transparent in the ToolTipImage.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColor()]
-        [Localizable(true)]
-        public Color ToolTipImageTransparentColor { get; set; }
-
-        /// <summary>
-        /// Gets and sets the title text for the item ToolTip.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-        [DefaultValue("")]
-        [Localizable(true)]
-        public string ToolTipTitle { get; set; }
-
-        /// <summary>
-        /// Gets and sets the body text for the item ToolTip.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-        [DefaultValue("")]
-        [Localizable(true)]
-        public string ToolTipBody { get; set; }
 
         /// <summary>
         /// Access to the actual embedded KryptonNumericUpDown instance.
@@ -761,15 +709,6 @@ namespace Krypton.Ribbon
             return false;
         }
 
-        internal override LabelStyle InternalToolTipStyle => ToolTipStyle;
-
-        internal override Image InternalToolTipImage => ToolTipImage;
-
-        internal override Color InternalToolTipImageTransparentColor => ToolTipImageTransparentColor;
-
-        internal override string InternalToolTipTitle => ToolTipTitle;
-
-        internal override string InternalToolTipBody => ToolTipBody;
         #endregion
 
         #region Implementation

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -71,10 +71,6 @@ namespace Krypton.Ribbon
             _textLine1 = "Label";
             _textLine2 = string.Empty;
             _itemSizeCurrent = GroupItemSize.Medium;
-            ToolTipImageTransparentColor = Color.Empty;
-            ToolTipTitle = string.Empty;
-            ToolTipBody = string.Empty;
-            ToolTipStyle = LabelStyle.SuperTip;
 
             // Create delegate fired by a change to one of the state palettes
             _needPaintDelegate = OnPaletteNeedPaint;
@@ -269,54 +265,10 @@ namespace Krypton.Ribbon
         private bool ShouldSerializeStateDisabled() => !_stateDisabled.IsDefault;
 
         /// <summary>
-        /// Gets and sets the tooltip label style for group label.
+        /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Tooltip style for the group label.")]
-        [DefaultValue(typeof(LabelStyle), "SuperTip")]
-        public LabelStyle ToolTipStyle { get; set; }
+        public override ToolTipValues ToolTipValues => _toolTipValues;
 
-        /// <summary>
-        /// Gets and sets the image for the item ToolTip.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Display image associated ToolTip.")]
-        [DefaultValue(null)]
-        [Localizable(true)]
-        public Image ToolTipImage { get; set; }
-
-        /// <summary>
-        /// Gets and sets the color to draw as transparent in the ToolTipImage.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Color to draw as transparent in the ToolTipImage.")]
-        [KryptonDefaultColor()]
-        [Localizable(true)]
-        public Color ToolTipImageTransparentColor { get; set; }
-
-        /// <summary>
-        /// Gets and sets the title text for the item ToolTip.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor,", typeof(UITypeEditor))]
-        [DefaultValue("")]
-        [Localizable(true)]
-        public string ToolTipTitle { get; set; }
-
-        /// <summary>
-        /// Gets and sets the body text for the item ToolTip.
-        /// </summary>
-        [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-        [DefaultValue("")]
-        [Localizable(true)]
-        public string ToolTipBody { get; set; }
 
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
@@ -400,8 +352,11 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ViewBase CreateView(KryptonRibbon ribbon,
-                                            NeedPaintHandler needPaint) =>
-            new ViewDrawRibbonGroupLabel(ribbon, this, needPaint);
+                                            NeedPaintHandler needPaint)
+        {
+            _toolTipValues.NeedPaint = needPaint;
+            return new ViewDrawRibbonGroupLabel(ribbon, this, needPaint);
+        }
 
         /// <summary>
         /// Internal design time property.
@@ -462,16 +417,6 @@ namespace Krypton.Ribbon
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData) =>
             // A label never has any command keys to process
             false;
-
-        internal override LabelStyle InternalToolTipStyle => ToolTipStyle;
-
-        internal override Image InternalToolTipImage => ToolTipImage;
-
-        internal override Color InternalToolTipImageTransparentColor => ToolTipImageTransparentColor;
-
-        internal override string InternalToolTipTitle => ToolTipTitle;
-
-        internal override string InternalToolTipBody => ToolTipBody;
 
         #endregion
 

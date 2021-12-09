@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
                                                             "Office 2010 - Blue",
                                                             "Office 2010 - Silver",
                                                             "Office 2010 - White",
-                                                            "Office 2013",
+                                                            //"Office 2013",
                                                             "Office 2013 - White",
                                                             "Office 365 - Black",
                                                             "Office 365 - Blue",
@@ -103,10 +103,10 @@ namespace Krypton.Toolkit
             {
                 paletteMode = PaletteModeManager.Office2010White;
             }
-            else if (themeName.Equals("Office 2013"))
+            /*else if (themeName.Equals("Office 2013"))
             {
                 paletteMode = PaletteModeManager.Office2013;
-            }
+            }*/
             else if (themeName.Equals("Office 2013 - White"))
             {
                 paletteMode = PaletteModeManager.Office2013White;

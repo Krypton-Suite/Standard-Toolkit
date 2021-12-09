@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
             Debug.Assert(_suspended == 0);
 
             // The popup control must be valid
-            if ((popup != null) && !popup.IsDisposed && popup.IsHandleCreated)
+            if (popup is { IsDisposed: false, IsHandleCreated: true })
             {
                 // Cannot start tracking when a popup menu is alive
                 if (_suspended == 0)
@@ -734,14 +734,14 @@ namespace Krypton.Toolkit
 
         private bool IsKeyOrMouseMessage(ref Message m)
         {
-            if ((m.Msg >= PI.WM_.MOUSEMOVE) && (m.Msg <= PI.WM_.MOUSEWHEEL))
+            if (m.Msg is >= PI.WM_.MOUSEMOVE and <= PI.WM_.MOUSEWHEEL)
             {
                 return true;
             }
 
-            return (m.Msg >= PI.WM_.NCMOUSEMOVE) && (m.Msg <= PI.WM_.NCMBUTTONDBLCLK)
+            return m.Msg is >= PI.WM_.NCMOUSEMOVE and <= PI.WM_.NCMBUTTONDBLCLK
                 ? true
-                : (m.Msg >= PI.WM_.KEYDOWN) && (m.Msg <= PI.WM_.KEYLAST);
+                : m.Msg is >= PI.WM_.KEYDOWN and <= PI.WM_.KEYLAST;
         }
 
         private void FilterMessages(bool filter)

@@ -1,11 +1,12 @@
-﻿#region BSD License
+﻿
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -26,17 +27,25 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private object _tag;
 
+#pragma warning disable CS1591
+#pragma warning disable CS3008 // Identifier is not CLS-compliant
+        protected ToolTipValues _toolTipValues;
+#pragma warning restore CS3008 // Identifier is not CLS-compliant
+#pragma warning restore CS1591
+
         #endregion
 
         #region Identity
         /// <summary>
         /// Initialise a new instance of the KryptonRibbonGroupItem class.
         /// </summary>
-        public KryptonRibbonGroupItem()
+        protected KryptonRibbonGroupItem()
         {
+            // Do the Tooltip Magic
+            _toolTipValues = new ToolTipValues(null/*NeedPaintDelegate*/); // Must be replaced by appropriate call
         }
-        #endregion
-        
+        #endregion Identity
+
         #region Public
         /// <summary>
         /// Gets access to the owning ribbon control.
@@ -104,7 +113,6 @@ namespace Krypton.Ribbon
             // If the previous item is a group button cluster then we want 3 pixels
             previousItem is KryptonRibbonGroupCluster ? 3 : 1;
 
-        // By default we just want a single pixel gap
         /// <summary>
         /// Creates an appropriate view element for this item.
         /// </summary>
@@ -140,7 +148,27 @@ namespace Krypton.Ribbon
         {
             Tag = null;
         }
-        #endregion
+
+        /// <summary>
+        /// Gets access to the Wrapped Controls Tooltips.
+        /// </summary>
+        [Category("ToolTip")]
+        [Description("Control ToolTip Text")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public abstract ToolTipValues ToolTipValues 
+        { 
+            // Return base objects tooltip
+             get;
+        }
+
+        private bool ShouldSerializeToolTipValues() => !ToolTipValues.IsDefault;
+
+        /// <summary>
+        /// Resets the ToolTipValues property to its default value.
+        /// </summary>
+        public void ResetToolTipValues() => ToolTipValues.Reset();
+
+        #endregion#endregion
 
         #region Protected
         /// <summary>
@@ -172,16 +200,6 @@ namespace Krypton.Ribbon
 
         #region Internal
         internal abstract bool ProcessCmdKey(ref Message msg, Keys keyData);
-
-        internal virtual Image InternalToolTipImage => null;
-
-        internal virtual LabelStyle InternalToolTipStyle => LabelStyle.SuperTip;
-
-        internal virtual Color InternalToolTipImageTransparentColor => Color.Empty;
-
-        internal virtual string InternalToolTipTitle => string.Empty;
-
-        internal virtual string InternalToolTipBody => string.Empty;
 
         #endregion
 

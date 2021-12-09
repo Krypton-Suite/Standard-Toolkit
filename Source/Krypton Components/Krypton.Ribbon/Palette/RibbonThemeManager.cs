@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -99,9 +99,9 @@ namespace Krypton.Ribbon
                 case PaletteModeManager.Office2010Black:
                     manager.GlobalPaletteMode = PaletteModeManager.Office2010Black;
                     break;
-                case PaletteModeManager.Office2013:
+                /*case PaletteModeManager.Office2013:
                     manager.GlobalPaletteMode = PaletteModeManager.Office2013;
-                    break;
+                    break;*/
                 case PaletteModeManager.Office2013White:
                     manager.GlobalPaletteMode = PaletteModeManager.Office2013White;
                     break;
@@ -197,10 +197,10 @@ namespace Krypton.Ribbon
                 ApplyTheme(PaletteModeManager.Office2010Black, manager);
             }
 
-            if (themeName == "Office 2013")
+            /*if (themeName == "Office 2013")
             {
                 ApplyTheme(PaletteModeManager.Office2013, manager);
-            }
+            }*/
 
             if (themeName == "Office 2013 - White")
             {
@@ -308,7 +308,7 @@ namespace Krypton.Ribbon
 
                 if (manager.GlobalPaletteMode == PaletteModeManager.Office2010Black) result = "Office 2010 - Black";
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2013) result = "Office 2013";
+                //if (manager.GlobalPaletteMode == PaletteModeManager.Office2013) result = "Office 2013";
 
                 if (manager.GlobalPaletteMode == PaletteModeManager.Office2013White) result = "Office 2013 - White";
 
@@ -350,7 +350,7 @@ namespace Krypton.Ribbon
 
                 if (paletteModeManager == PaletteModeManager.Office2010Black) result = "Office 2010 - Black";
 
-                if (paletteModeManager == PaletteModeManager.Office2013) result = "Office 2013";
+                //if (paletteModeManager == PaletteModeManager.Office2013) result = "Office 2013";
 
                 if (paletteModeManager == PaletteModeManager.Office2013White) result = "Office 2013 - White";
 
@@ -405,7 +405,7 @@ namespace Krypton.Ribbon
 
             if (paletteMode == PaletteMode.Office2010Black) result = "Office 2010 - Black";
 
-            if (paletteMode == PaletteMode.Office2013) result = "Office 2013";
+            //if (paletteMode == PaletteMode.Office2013) result = "Office 2013";
 
             if (paletteMode == PaletteMode.Office2013White) result = "Office 2013 - White";
 

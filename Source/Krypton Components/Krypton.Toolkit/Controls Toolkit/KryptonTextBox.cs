@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -94,7 +94,6 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
-            public override Size GetPreferredSize(Size proposedSize) => base.GetPreferredSize(proposedSize);
 
             /// <summary>
             /// Process Windows-based messages.
@@ -463,6 +462,8 @@ namespace Krypton.Toolkit
 
             // Create the internal text box used for containing content
             _textBox = new InternalTextBox(this);
+            _textBox.DoubleClick += OnDoubleClick;
+            _textBox.MouseDoubleClick += OnMouseDoubleClick;
             _textBox.TrackMouseEnter += OnTextBoxMouseChange;
             _textBox.TrackMouseLeave += OnTextBoxMouseChange;
             _textBox.AcceptsTabChanged += OnTextBoxAcceptsTabChanged;
@@ -527,11 +528,6 @@ namespace Krypton.Toolkit
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
         }
-
-        private void OnTextBoxClick(object sender, EventArgs e) =>
-            // ReSharper disable RedundantBaseQualifier
-            base.OnClick(e);
-        // ReSharper restore RedundantBaseQualifier
 
         /// <summary>
         /// Clean up any resources being used.
@@ -1865,7 +1861,7 @@ namespace Krypton.Toolkit
             {
                 // Do not show tooltips when the form we are in does not have focus
                 Form topForm = FindForm();
-                if ((topForm != null) && !topForm.ContainsFocus)
+                if (topForm is { ContainsFocus: false })
                 {
                     return;
                 }
@@ -1958,6 +1954,14 @@ namespace Krypton.Toolkit
 
         private void OnEditorButtonClicked(object sender, EventArgs e) => new MultilineStringEditor(this).ShowEditor();
 
+        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+
+        private void OnTextBoxClick(object sender, EventArgs e) =>
+            // ReSharper disable RedundantBaseQualifier
+            base.OnClick(e);
+        // ReSharper restore RedundantBaseQualifier
         #endregion
     }
 }

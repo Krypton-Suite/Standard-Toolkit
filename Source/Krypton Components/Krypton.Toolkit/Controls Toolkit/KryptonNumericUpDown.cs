@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -13,6 +13,7 @@
 // ReSharper disable MemberCanBePrivate.Local
 // ReSharper disable UnusedMember.Local
 
+// ReSharper disable MemberCanBeProtected.Global
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -66,21 +67,6 @@ namespace Krypton.Toolkit
             }
             #endregion
 
-            #region Public
-
-            /// <summary>
-            /// Gets or sets whether the control displays trailing zeroes.
-            /// </summary>
-            [Category("Behavior")]
-            [Description("Indicates whether the control will display traling zeroes, When decimals are in play.")]
-            [DefaultValue(false)]
-            public bool TrailingZeroes
-            {
-                get;
-                set;
-            }
-            #endregion
-
             #region MouseOver
             /// <summary>
             /// Gets and sets if the mouse is currently over the combo box.
@@ -111,7 +97,6 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Protected
-
             /// <summary>
             /// Process Windows-based messages.
             /// </summary>
@@ -429,21 +414,26 @@ namespace Krypton.Toolkit
                                     };
 
                                     Rectangle rectangle = new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-                                    rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle,
-                                        states.Content.GetContentPadding(state));
+                                    rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetContentPadding(state));
 
                                     // Draw using a solid brush
                                     var text = _internalNumericUpDown.Text;
                                     if (!NumericUpDown.TrailingZeroes && NumericUpDown.AllowDecimals)
                                     {
-                                        text = text.TrimEnd('0');
+                                        // Got ot deal with culture formatting, and also the override to include `ThousandsSeparator`
+                                        var textInvariantAsRequested = _internalNumericUpDown.Value.ToString('F' + _internalNumericUpDown.DecimalPlaces.ToString(CultureInfo.InvariantCulture), (IFormatProvider) CultureInfo.CurrentCulture);
+                                        var textInvariantAsTrimmed = _internalNumericUpDown.Value.ToString(@"0.#########################", CultureInfo.InvariantCulture);
+                                        var lengthToRemove = textInvariantAsRequested.Length - textInvariantAsTrimmed.Length;
+                                        if (lengthToRemove > 0)
+                                        {
+                                            text = text.Substring(0, text.Length - lengthToRemove);
+                                        }
                                     }
 
                                     try
                                     {
                                         using SolidBrush foreBrush = new(states.Content.GetContentShortTextColor1(state));
-                                        g.DrawString(text, states.Content.GetContentShortTextFont(state), foreBrush,
-                                            rectangle, stringFormat);
+                                        g.DrawString(text, states.Content.GetContentShortTextFont(state), foreBrush, rectangle, stringFormat);
                                     }
                                     catch (ArgumentException)
                                     {
@@ -1110,12 +1100,12 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category("Behavior")]
         [Description("Indicates whether the control will display traling zeroes, when decimals are in play")]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool TrailingZeroes
         {
-            get => _numericUpDown.TrailingZeroes;
-            set => _numericUpDown.TrailingZeroes = value;
-        }
+            get;
+            set;
+        } = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
@@ -1447,8 +1437,8 @@ namespace Krypton.Toolkit
                 ? _fixedActive.Value
                 : DesignMode || AlwaysActive ||
                   ContainsFocus || _mouseOver || _numericUpDown.MouseOver ||
-                  ((_subclassEdit != null) && _subclassEdit.MouseOver) ||
-                  ((_subclassButtons != null) && _subclassButtons.MouseOver);
+                  _subclassEdit is { MouseOver: true } ||
+                  _subclassButtons is { MouseOver: true };
 
         /// <summary>
         /// Sets input focus to the control.
@@ -2075,7 +2065,7 @@ namespace Krypton.Toolkit
             {
                 // Do not show tooltips when the form we are in does not have focus
                 Form topForm = FindForm();
-                if ((topForm != null) && !topForm.ContainsFocus)
+                if (topForm is { ContainsFocus: false })
                 {
                     return;
                 }
@@ -2150,8 +2140,8 @@ namespace Krypton.Toolkit
         {
             // Find new tracking mouse change state
             var tracking = _numericUpDown.MouseOver ||
-                           ((_subclassEdit != null) && _subclassEdit.MouseOver) ||
-                           ((_subclassButtons != null) && _subclassButtons.MouseOver);
+                           _subclassEdit is { MouseOver: true } ||
+                           _subclassButtons is { MouseOver: true };
 
             // Change in tracking state?
             if (tracking != _trackingMouseEnter)

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
                 // Only interested in left mouse being released
                 if (button == MouseButtons.Left)
                 {
-                    if ((_monthCalendar != null) && _monthCalendar.AutoClose && (_months.Provider != null))
+                    if (_monthCalendar is { AutoClose: true } && (_months.Provider != null))
                     {
                         // If the mouse was pressed down on a day entry, then we close down on mouse up
                         if (_selectionStart != DateTime.MinValue)
@@ -399,20 +399,20 @@ namespace Krypton.Toolkit
                     break;
                 case Keys.Enter:
                 case Keys.Space:
-                    if ((_monthCalendar != null) && _monthCalendar.AutoClose && (_months.Provider != null))
-                    {
-                        // Is the menu capable of being closed?
-                        if (_months.Provider.ProviderCanCloseMenu)
+                    if (_monthCalendar is { AutoClose: true } && _months.Provider is
                         {
-                            // Ask the original context menu definition, if we can close
-                            CancelEventArgs cea = new();
-                            _months.Provider.OnClosing(cea);
+                            ProviderCanCloseMenu: true
+                        })
+                        // Is the menu capable of being closed?
+                    {
+                        // Ask the original context menu definition, if we can close
+                        CancelEventArgs cea = new();
+                        _months.Provider.OnClosing(cea);
 
-                            if (!cea.Cancel)
-                            {
-                                // Close the menu from display and pass in the item clicked as the reason
-                                _months.Provider.OnClose(new CloseReasonEventArgs(ToolStripDropDownCloseReason.Keyboard));
-                            }
+                        if (!cea.Cancel)
+                        {
+                            // Close the menu from display and pass in the item clicked as the reason
+                            _months.Provider.OnClose(new CloseReasonEventArgs(ToolStripDropDownCloseReason.Keyboard));
                         }
                     }
                     break;

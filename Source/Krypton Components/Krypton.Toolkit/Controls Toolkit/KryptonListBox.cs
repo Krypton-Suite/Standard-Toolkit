@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -546,6 +546,7 @@ namespace Krypton.Toolkit
             // Create the internal list box used for containing content
             _listBox = new InternalListBox(this);
             _listBox.DrawItem += OnListBoxDrawItem;
+            _listBox.DoubleClick += OnDoubleClick;
             _listBox.MeasureItem += OnListBoxMeasureItem;
             _listBox.TrackMouseEnter += OnListBoxMouseChange;
             _listBox.TrackMouseLeave += OnListBoxMouseChange;
@@ -561,6 +562,7 @@ namespace Krypton.Toolkit
             _listBox.FormattingEnabledChanged += OnListBoxFormattingEnabledChanged;
             _listBox.GotFocus += OnListBoxGotFocus;
             _listBox.LostFocus += OnListBoxLostFocus;
+            _listBox.MouseDoubleClick += OnMouseDoubleClick;
             _listBox.KeyDown += OnListBoxKeyDown;
             _listBox.KeyUp += OnListBoxKeyUp;
             _listBox.KeyPress += OnListBoxKeyPress;
@@ -1781,6 +1783,11 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+
+        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
         #endregion
     }
 }

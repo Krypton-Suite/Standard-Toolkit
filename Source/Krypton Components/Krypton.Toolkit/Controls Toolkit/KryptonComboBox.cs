@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -1077,12 +1077,14 @@ namespace Krypton.Toolkit
             _comboBox.DropDown += OnComboBoxDropDown;
             _comboBox.DropDownClosed += OnComboBoxDropDownClosed;
             _comboBox.DropDownStyleChanged += OnComboBoxDropDownStyleChanged;
+            _comboBox.DoubleClick += OnDoubleClick;
             _comboBox.SelectedIndexChanged += OnComboBoxSelectedIndexChanged;
             _comboBox.SelectionChangeCommitted += OnComboBoxSelectionChangeCommitted;
             _comboBox.TextUpdate += OnComboBoxTextUpdate;
             _comboBox.TextChanged += OnComboBoxTextChanged;
             _comboBox.GotFocus += OnComboBoxGotFocus;
             _comboBox.LostFocus += OnComboBoxLostFocus;
+            _comboBox.MouseDoubleClick += OnMouseDoubleClick;
             _comboBox.KeyDown += OnComboBoxKeyDown;
             _comboBox.KeyUp += OnComboBoxKeyUp;
             _comboBox.KeyPress += OnComboBoxKeyPress;
@@ -2989,7 +2991,7 @@ namespace Krypton.Toolkit
             {
                 // Do not show tooltips when the form we are in does not have focus
                 Form topForm = FindForm();
-                if ((topForm != null) && !topForm.ContainsFocus)
+                if (topForm is { ContainsFocus: false })
                 {
                     return;
                 }
@@ -3061,8 +3063,7 @@ namespace Krypton.Toolkit
 
         private VisualPopupToolTip GetToolTip()
         {
-            if (_toolTip != null
-                && !_toolTip.IsDisposed
+            if (_toolTip is { IsDisposed: false }
                 )
             {
                 return _toolTip;
@@ -3086,6 +3087,10 @@ namespace Krypton.Toolkit
             Point point = new(location.X + DropDownWidth, location.Y);
             tip.ShowCalculatingSize(PointToScreen(point));
         }
+        
+        private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
+
+        private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -398,7 +398,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Keep the digit if there is just a single '1' or '0' digit that might be start of two digit month
-                        if ((_inputDigits.Length > 1) || ((_inputDigits.Length == 1) && (monthNumber > 1) && (monthNumber < 10)))
+                        if ((_inputDigits.Length > 1) || ((_inputDigits.Length == 1) && monthNumber is > 1 and < 10))
                         {
                             // Do we need to shift to the next field?
                             if ((_inputDigits.Length == 2) && _dateTimePicker.AutoShift)
@@ -1016,7 +1016,7 @@ namespace Krypton.Toolkit
                     case "M":
                     case "MM":
                         var monthNumber = int.Parse(digits);
-                        if ((monthNumber <= 12) && (monthNumber > 0))
+                        if (monthNumber is <= 12 and > 0)
                         {
                             dt = dt.AddMonths(monthNumber - dt.Month);
                         }
@@ -1043,7 +1043,7 @@ namespace Krypton.Toolkit
                 if (FragFormat.StartsWith("h") || FragFormat.StartsWith("H"))
                 {
                     var hoursNumber = int.Parse(digits);
-                    if ((hoursNumber < 24) && (hoursNumber >= 0))
+                    if (hoursNumber is < 24 and >= 0)
                     {
                         dt = dt.AddHours(hoursNumber - dt.Hour);
                     }
@@ -1051,7 +1051,7 @@ namespace Krypton.Toolkit
                 else if (FragFormat.StartsWith("m"))
                 {
                     var minutesNumber = int.Parse(digits);
-                    if ((minutesNumber < 60) && (minutesNumber >= 0))
+                    if (minutesNumber is < 60 and >= 0)
                     {
                         dt = dt.AddMinutes(minutesNumber - dt.Minute);
                     }
@@ -1059,7 +1059,7 @@ namespace Krypton.Toolkit
                 else if (FragFormat.StartsWith("s"))
                 {
                     var secondsNumber = int.Parse(digits);
-                    if ((secondsNumber < 60) && (secondsNumber >= 0))
+                    if (secondsNumber is < 60 and >= 0)
                     {
                         dt = dt.AddSeconds(secondsNumber - dt.Second);
                     }

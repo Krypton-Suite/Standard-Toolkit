@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -91,6 +91,7 @@ namespace Krypton.Toolkit
 
             base.Dispose(disposing);
         }
+        
         #endregion
 
         #region Public
@@ -154,6 +155,45 @@ namespace Krypton.Toolkit
                 }
 
                 base.CellTemplate = value;
+            }
+        }
+
+        /// <summary>
+        /// Make sure that when the style is set that the datagrid respects the values
+        /// </summary>
+        [Browsable(true)]
+        [Category("Appearance")]
+        [Description("DataGridView Column DefaultCell Style\r\nIf you set wrap mode, then this will ensure the DataRows are set to display the wrapped text!")]
+        public override DataGridViewCellStyle DefaultCellStyle
+        {
+            get => base.DefaultCellStyle;
+
+            set
+            {
+                base.DefaultCellStyle = value;
+                if ((value.WrapMode != DataGridViewTriState.True)
+                    || DataGridView == null)
+                {
+                    return;
+                }
+                // https://stackoverflow.com/questions/16514352/multiple-lines-in-a-datagridview-cell/16514393
+                switch (DataGridView.AutoSizeRowsMode)
+                {
+                    case DataGridViewAutoSizeRowsMode.AllCells:
+                    case DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders:
+                    case DataGridViewAutoSizeRowsMode.DisplayedCells:
+                    case DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders:
+                        break;
+                    case DataGridViewAutoSizeRowsMode.AllHeaders:
+                        DataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
+                        break;
+                    case DataGridViewAutoSizeRowsMode.DisplayedHeaders:
+                        DataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
+                        break;
+                    case DataGridViewAutoSizeRowsMode.None:
+                        DataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+                        break;
+                }
             }
         }
 

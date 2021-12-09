@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
  *  
  */
 #endregion
@@ -121,12 +121,28 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();
             }
         }
+
+        /// <summary>
+        /// Gets access to the Wrapped Controls Tooltips.
+        /// </summary>
+        public override ToolTipValues ToolTipValues
+        {
+            get
+            {
+                // TODO: This will not be here when the designer is performing it's actions ??
+                if (CustomControl is VisualControlBase vcb)
+                    return vcb.ToolTipValues;
+                // TODO: Should really pass these values into the `CustomControl` after it has been created !
+                return _toolTipValues; 
+            }
+        }
+
 
         /// <summary>
         /// Gets and sets the custom control for display inside ribbon element.

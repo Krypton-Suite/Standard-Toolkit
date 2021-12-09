@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Provides the Silver color scheme variant of the Office 2013 palette.
     /// </summary>
-    public class PaletteOffice2013 : PaletteOffice2013Base
+    public class PaletteOffice2013 : PaletteOffice2013Base // TODO: To remove in a future build due to redundancy with `Office 2013 White` theme
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
