@@ -8,7 +8,7 @@ if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current
 
 echo "Unable to detect suitable environment. Check if VS 2022 is installed."
 
-pause
+goto end
 
 :vs17prev
 set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin
@@ -35,14 +35,15 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
 )
 
-@echo Started: %date% %time% %zone%
-@echo
+echo Started: %date% %time% %zone%
+echo
 set targets=Build
 if not "%~1" == "" set targets=%~1
 "%msbuildpath%\msbuild.exe" /t:%targets% build.proj /fl /flp:logfile=build.log
 
-@echo Build Completed: %date% %time% %zone%
-@echo
-echo Plese alter file '{Path}\Directory.Build.props' before executing 'publish.cmd' script!
+echo Build Completed: %date% %time% %zone%
+echo.
+echo Please alter file '{Path}\Directory.Build.props' before executing 'publish.cmd' script!
 
+:end
 pause

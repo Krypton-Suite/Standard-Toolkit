@@ -53,7 +53,6 @@ namespace Krypton.Toolkit
         private static PaletteOffice2010Silver _paletteOffice2010Silver;
         private static PaletteOffice2010SilverDarkMode _paletteOffice2010SilverDarkMode;
         private static PaletteOffice2010SilverLightMode _paletteOffice2010SilverLightMode;
-        private static PaletteOffice2013 _paletteOffice2013;
         private static PaletteOffice2013White _paletteOffice2013White;
         private static PaletteSparkleBlue _paletteSparkleBlue;
         private static PaletteSparkleBlueDarkMode _paletteSparkleBlueDarkMode;
@@ -672,12 +671,7 @@ namespace Krypton.Toolkit
         public static PaletteOffice2010BlackDarkMode PaletteOffice2010BlackDarkMode => _paletteOffice2010BlackDarkMode ?? (_paletteOffice2010BlackDarkMode = new PaletteOffice2010BlackDarkMode());
 
         public static PaletteOffice2010White PaletteOffice2010White => _paletteOffice2010White ?? (_paletteOffice2010White = new PaletteOffice2010White());
-
-        /// <summary>
-        /// Gets the single instance of the Office 2013 palette.
-        /// </summary>
-        public static PaletteOffice2013 PaletteOffice2013 => _paletteOffice2013 ?? (_paletteOffice2013 = new PaletteOffice2013());
-
+        
         /// <summary>
         /// Gets the single instance of the Office 2013 palette.
         /// </summary>
@@ -902,8 +896,6 @@ namespace Krypton.Toolkit
             _paletteOffice2010Black?.UserPreferenceChanged();
 
             _paletteOffice2010White?.UserPreferenceChanged();
-
-            _paletteOffice2013?.UserPreferenceChanged();
 
             _paletteOffice2013White?.UserPreferenceChanged();
 

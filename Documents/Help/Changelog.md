@@ -1,4 +1,13 @@
-# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
+# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
+
+## 2022-02-01 - Build 2202 - February 2022
+* Fixed some minor issues regarding some dark themes
+* Fixed minor batch script bugs
+* Fixed tracking colours in `Office 2010 - Black (Dark Mode)`
+* Fixed [#500](https://github.com/Krypton-Suite/Standard-Toolkit/issues/500), `KryptonThemeComboBox` Themes List empty at Runtime
+* Implemented [#492](https://github.com/Krypton-Suite/Standard-Toolkit/issues/492), Remove `Office 2013` due to redundancy with `Office 2013 White` theme
+
+=======
 
 ## 2022-01-05 - Build 2201 - January 2022
 * Complete [#517](https://github.com/Krypton-Suite/Standard-Toolkit/issues/517), Warning CS3008: Identifier '_toolTipValues' is not CLS-compliant
