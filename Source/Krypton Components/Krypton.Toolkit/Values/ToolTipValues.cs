@@ -40,6 +40,10 @@ namespace Krypton.Toolkit
             ResetEnableToolTips();
             ResetToolTipStyle();
             ResetToolTipPosition();
+            ResetImage();
+            ResetImageTransparentColor();
+            ResetHeading();
+            ResetDescription();
         }
 
         /// <summary>
@@ -50,6 +54,8 @@ namespace Krypton.Toolkit
         public bool EnableToolTips { get; set; }
 
         private bool ShouldSerializeEnableToolTips() => EnableToolTips;
+
+        protected override Image GetImageDefault() => null;
 
         /// <summary>
         /// 
