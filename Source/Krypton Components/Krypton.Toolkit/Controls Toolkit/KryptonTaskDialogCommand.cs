@@ -323,12 +323,15 @@ namespace Krypton.Toolkit
     public class KryptonTaskDialogCommandCollection : TypedCollection<KryptonTaskDialogCommand>
     {
         #region Public
+
+#pragma warning disable CS1570 // XML comment has badly formed XML
         /// <summary>
         /// Gets the item with the provided name.
         /// </summary>
         /// <param name=(@"Name")>Name to find.</param>
         /// <returns>Item with matching name.</returns>
         public override KryptonTaskDialogCommand this[string name]
+#pragma warning restore CS1570 // XML comment has badly formed XML
         {
             get
             {

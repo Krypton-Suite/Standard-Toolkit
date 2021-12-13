@@ -43,12 +43,15 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Public
+
+#pragma warning disable CS1570 // XML comment has badly formed XML
             /// <summary>
             /// Gets the item with the provided unique name.
             /// </summary>
             /// <param name=(@"Name")>Name of the ribbon tab instance.</param>
             /// <returns>Item at specified index.</returns>
             public override KryptonBreadCrumbItem this[string name]
+#pragma warning restore CS1570 // XML comment has badly formed XML
             {
                 get
                 {

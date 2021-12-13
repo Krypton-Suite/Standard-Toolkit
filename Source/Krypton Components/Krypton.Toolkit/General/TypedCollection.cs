@@ -239,12 +239,15 @@ namespace Krypton.Toolkit
             set => throw new NotImplementedException("Cannot set a collection index with a new value");
         }
 
+
+#pragma warning disable CS1570 // XML comment has badly formed XML
         /// <summary>
         /// Gets the item with the provided unique name.
         /// </summary>
         /// <param name=(@"Name")>Name of the ribbon tab instance.</param>
         /// <returns>Item at specified index.</returns>
         public virtual T this[string name] => null;
+#pragma warning restore CS1570 // XML comment has badly formed XML
 
         /// <summary>
         /// Move the source item to be immediately after the target item.

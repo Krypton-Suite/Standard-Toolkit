@@ -5,6 +5,8 @@
     /// </summary>
     public static class XmlHelper
     {
+
+#pragma warning disable CS1570 // XML comment has badly formed XML
         /// <summary>
         /// Only persist the provided name/value pair as an Xml attribute if the value is not null/empty and not the default.
         /// </summary>
@@ -13,6 +15,7 @@
         /// <param name="value">Attribute value.</param>
         /// <param name="defaultValue">Default value.</param>
         public static void TextToXmlAttribute(XmlWriter xmlWriter, string name, string value, string defaultValue = @"")
+#pragma warning restore CS1570 // XML comment has badly formed XML
         {
             if (!string.IsNullOrEmpty(value) && (value != defaultValue))
             {
@@ -20,14 +23,17 @@
             }
         }
 
+
+#pragma warning disable CS1570 // XML comment has badly formed XML
         /// <summary>
         /// Read the named attribute value but if no attribute is found then return the provided default.
         /// </summary>
         /// <param name="xmlReader">Xml reader to load information from.</param>
         /// <param name=(@"Name")>Attribute name.</param>
         /// <param name="defaultValue">Default value.</param>
-        /// <returns></returns>
+        /// <returns>Returns the provided default.</returns>
         public static string XmlAttributeToText(XmlReader xmlReader, string name, string defaultValue = @"")
+#pragma warning restore CS1570 // XML comment has badly formed XML
         {
             try
             {
@@ -42,6 +48,8 @@
         }
 
 
+
+#pragma warning disable CS1570 // XML comment has badly formed XML
         /// <summary>
         /// Convert a Image to a culture invariant string value.
         /// </summary>
@@ -49,6 +57,7 @@
         /// <param name=(@"Name")>Name of image to save.</param>
         /// <param name="image">Image to persist.</param>
         public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap image)
+#pragma warning restore CS1570 // XML comment has badly formed XML
         {
             // Only store if we have an actual image to persist
             if (image != null)
