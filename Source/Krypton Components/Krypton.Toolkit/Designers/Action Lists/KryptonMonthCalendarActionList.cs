@@ -206,18 +206,18 @@ namespace Krypton.Toolkit
             if (_monthCalendar != null)
             {
                 // Add the list of bread crumb specific actions
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
-                actions.Add(new DesignerActionPropertyItem("DayShortTextFont", "Day Short Text Font", "Appearance", "The short text font."));
-                actions.Add(new DesignerActionPropertyItem("DayLongTextFont", "Day Long Text Font", "Appearance", "The long text font."));
-                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
-                actions.Add(new DesignerActionHeaderItem("Behavior"));
-                actions.Add(new DesignerActionPropertyItem("MaxSelectionCount", "MaxSelectionCount", "Behavior", "Maximum number of selected days"));
-                actions.Add(new DesignerActionPropertyItem("ShowToday", "ShowToday", "Behavior", "Show the today button"));
-                actions.Add(new DesignerActionPropertyItem("ShowTodayCircle", "ShowTodayCircle", "Behavior", "Show a circle around the today entry"));
-                actions.Add(new DesignerActionPropertyItem("ShowWeekNumbers", "ShowWeekNumbers", "Behavior", "Show the week numbers"));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
+                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"DayShortTextFont", @"Day Short Text Font", @"Appearance", @"The short text font."));
+                actions.Add(new DesignerActionPropertyItem(@"DayLongTextFont", @"Day Long Text Font", @"Appearance", @"The long text font."));
+                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionHeaderItem(@"Behavior"));
+                actions.Add(new DesignerActionPropertyItem(@"MaxSelectionCount", @"MaxSelectionCount", @"Behavior", @"Maximum number of selected days"));
+                actions.Add(new DesignerActionPropertyItem(@"ShowToday", @"ShowToday", @"Behavior", @"Show the today button"));
+                actions.Add(new DesignerActionPropertyItem(@"ShowTodayCircle", @"ShowTodayCircle", @"Behavior", @"Show a circle around the today entry"));
+                actions.Add(new DesignerActionPropertyItem(@"ShowWeekNumbers", @"ShowWeekNumbers", @"Behavior", @"Show the week numbers"));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the header description text.
         /// </summary>
-        [DefaultValue("")]
+        [DefaultValue(@"")]
         public override string Description
         {
             get => base.Description;

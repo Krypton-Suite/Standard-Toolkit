@@ -18,11 +18,11 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonContextMenu), "ToolboxBitmaps.KryptonContextMenu.bmp")]
-    [DefaultEvent("Opening")]
-    [DefaultProperty("PaletteMode")]
-    [DesignerCategory("code")]
-    [Designer("Krypton.Toolkit.KryptonContextMenuDesigner, Krypton.Toolkit")]
-    [Description("Displays a shortcut menu in popup window.")]
+    [DefaultEvent(@"Opening")]
+    [DefaultProperty(@"PaletteMode")]
+    [DesignerCategory(@"code")]
+    [Designer(@"Krypton.Toolkit.KryptonContextMenuDesigner, Krypton.Toolkit")]
+    [Description(@"Displays a shortcut menu in popup window.")]
     public class KryptonContextMenu : Component
     {
         #region Instance Fields
@@ -37,29 +37,29 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the context menu is opening.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when context menu is opening but not displayed as yet.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when context menu is opening but not displayed as yet.")]
         public event CancelEventHandler Opening;
 
         /// <summary>
         /// Occurs when the context menu is opened.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the context menu is fully opened for display.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the context menu is fully opened for display.")]
         public event EventHandler Opened;
 
         /// <summary>
         /// Occurs when the context menu is about to close.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the context menu is about to close.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the context menu is about to close.")]
         public event CancelEventHandler Closing;
 
         /// <summary>
         /// Occurs when the context menu has been closed.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the context menu has been closed.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the context menu has been closed.")]
         public event ToolStripDropDownClosedEventHandler Closed;
         #endregion
 
@@ -110,8 +110,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the image value overrides.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Image value overrides.")]
+        [Category(@"Visuals")]
+        [Description(@"Image value overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ContextMenuImages Images { get; }
 
@@ -120,8 +120,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common context menu appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common context menu appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common context menu appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuRedirect StateCommon { get; }
 
@@ -130,8 +130,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu disabled appearance values.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining context menu disabled appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context menu disabled appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateDisabled { get; }
 
@@ -140,8 +140,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu normal appearance values.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for context menu item normal appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for context menu item normal appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateNormal { get; }
 
@@ -150,8 +150,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu normal appearance values.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining context menu checked appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context menu checked appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateChecked StateChecked { get; }
 
@@ -160,8 +160,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu highlight appearance values.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining context menu highlight appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context menu highlight appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateHighlight StateHighlight { get; }
 
@@ -170,16 +170,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Collection of menu items for display.
         /// </summary>
-        [Category("Data")]
-        [Description("Collection of menu items.")]
+        [Category(@"Data")]
+        [Description(@"Collection of menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonContextMenuCollection Items { get; }
 
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
         public object Tag { get; set; }
@@ -196,8 +196,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the context menu is enabled.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the context menu is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the context menu is enabled.")]
         [DefaultValue(true)]
         [Bindable(true)]
         public bool Enabled { get; set; }
@@ -205,8 +205,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
@@ -227,8 +227,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette Palette
         {

@@ -133,8 +133,7 @@ namespace Krypton.Toolkit
         public bool PreFilterMessage(ref Message m)
         {
             // Prevent mouse messages from activating any application windows
-            if (m.Msg is >= 0x0200 and <= 0x0209 ||
-                m.Msg is >= 0x00A0 and <= 0x00A9)
+            if (m.Msg is >= 0x0200 and <= 0x0209 or >= 0x00A0 and <= 0x00A9)
             {
                 // Discover target control for message
                 if (FromHandle(m.HWnd) != null)

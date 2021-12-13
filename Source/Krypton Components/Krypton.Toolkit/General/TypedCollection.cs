@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the item with the provided unique name.
         /// </summary>
-        /// <param name="name">Name of the ribbon tab instance.</param>
+        /// <param name=(@"Name")>Name of the ribbon tab instance.</param>
         /// <returns>Item at specified index.</returns>
         public virtual T this[string name] => null;
 

@@ -18,11 +18,11 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckSet), "ToolboxBitmaps.KryptonCheckSet.bmp")]
-    [DefaultEvent("CheckedButtonChanged")]
-    [DefaultProperty("CheckButtons")]
-    [DesignerCategory("code")]
-    [Designer("Krypton.Toolkit.KryptonCheckSetDesigner, Krypton.Toolkit")]
-    [Description("Provide exclusive checked logic for a set of KryptonCheckButton controls.")]
+    [DefaultEvent(@"CheckedButtonChanged")]
+    [DefaultProperty(@"CheckButtons")]
+    [DesignerCategory(@"code")]
+    [Designer(@"Krypton.Toolkit.KryptonCheckSetDesigner, Krypton.Toolkit")]
+    [Description(@"Provide exclusive checked logic for a set of KryptonCheckButton controls.")]
     public class KryptonCheckSet : Component,
                                    ISupportInitialize
     {
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
 
                 if (Contains(checkButton))
                 {
-                    throw new ArgumentException("Reference already exists in the collection");
+                    throw new ArgumentException(@"Reference already exists in the collection");
                 }
 
                 // ReSharper disable RedundantBaseQualifier
@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
 
                 if (Contains(checkButton))
                 {
-                    throw new ArgumentException("Reference already in collection");
+                    throw new ArgumentException(@"Reference already in collection");
                 }
 
                 // ReSharper disable RedundantBaseQualifier
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
 
                 if (!Contains(checkButton))
                 {
-                    throw new ArgumentException("No matching reference to remove");
+                    throw new ArgumentException(@"No matching reference to remove");
                 }
 
                 // ReSharper disable RedundantBaseQualifier
@@ -240,8 +240,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the CheckedButton property has changed.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs whenever the CheckedButton property has changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs whenever the CheckedButton property has changed.")]
         public event EventHandler CheckedButtonChanged;
         #endregion
 
@@ -310,8 +310,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if the checked button is allowed to be unchecked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Is the current checked button allowed to be unchecked.")]
+        [Category(@"Behavior")]
+        [Description(@"Is the current checked button allowed to be unchecked.")]
         [DefaultValue(false)]
         public bool AllowUncheck { get; set; }
 
@@ -319,8 +319,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the currently checked button in the set.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Determine which of the associated buttons is checked.")]
+        [Category(@"Appearance")]
+        [Description(@"Determine which of the associated buttons is checked.")]
         [RefreshProperties(RefreshProperties.All)]
         [TypeConverter(typeof(KryptonCheckedButtonConverter))]
         [DefaultValue(null)]
@@ -366,8 +366,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the index of the checked button.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Determine the index of the checked button.")]
+        [Category(@"Appearance")]
+        [Description(@"Determine the index of the checked button.")]
         [RefreshProperties(RefreshProperties.All)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [DefaultValue(-1)]
@@ -391,8 +391,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the collection of KryptonCheckButton referencs.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determine which of the associated buttons is checked.")]
+        [Category(@"Behavior")]
+        [Description(@"Determine which of the associated buttons is checked.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Editor(@"Krypton.Toolkit.KryptonCheckButtonCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.All)]

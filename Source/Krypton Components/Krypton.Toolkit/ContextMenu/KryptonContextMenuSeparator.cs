@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuSeparator), "ToolboxBitmaps.KryptonContextMenuSeparator.bmp")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Horizontal")]
+    [DefaultProperty(@"Horizontal")]
     public class KryptonContextMenuSeparator : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -129,8 +129,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the separator is a horizontal or vertical break.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Is this a horizontal or vertical break in the menu.")]
+        [Category(@"Behavior")]
+        [Description(@"Is this a horizontal or vertical break in the menu.")]
         [DefaultValue(true)]
         public bool Horizontal
         {
@@ -150,8 +150,8 @@ namespace Krypton.Toolkit
         /// Gets access to the separator instance specific appearance values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining separator instance specific appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining separator instance specific appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect StateNormal { get; }
 

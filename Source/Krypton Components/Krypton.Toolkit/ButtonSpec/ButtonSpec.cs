@@ -54,15 +54,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs whenever a button specification property has changed.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the component is clicked.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the component is clicked.")]
         public event EventHandler Click;
 
         /// <summary>
         /// Occurs whenever a button specification property has changed.
         /// </summary>
-        [Category("ButtonSpec")]
-        [Description("Occurs when a button specification property has changed.")]
+        [Category(@"ButtonSpec")]
+        [Description(@"Occurs when a button specification property has changed.")]
         public event PropertyChangedEventHandler ButtonSpecPropertyChanged;
         #endregion
 
@@ -174,8 +174,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the button image.
         /// </summary>
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Button image.")]
+        [Category(@"Appearance")]
+        [Description(@"Button image.")]
         public Image Image
         {
             get => _image;
@@ -206,8 +206,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the button image.
         /// </summary>
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Button image transparent color.")]
+        [Category(@"Appearance")]
+        [Description(@"Button image transparent color.")]
         [KryptonDefaultColor()]
         public Color ImageTransparentColor
         {
@@ -238,8 +238,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the state specific images for the button.
         /// </summary>
-        [Category("Appearance")]
-        [Description("State specific images for the button.")]
+        [Category(@"Appearance")]
+        [Description(@"State specific images for the button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonImageStates ImageStates => _imageStates;
 
@@ -252,9 +252,9 @@ namespace Krypton.Toolkit
         /// Gets and sets the button text.
         /// </summary>
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Button text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Category(@"Appearance")]
+        [Description(@"Button text.")]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => _text;
@@ -285,9 +285,9 @@ namespace Krypton.Toolkit
         /// Gets and sets the button extra text.
         /// </summary>
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Button extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Category(@"Appearance")]
+        [Description(@"Button extra text.")]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string ExtraText
         {
             get => _extraText;
@@ -318,8 +318,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the button tooltip image.
         /// </summary>
         [Localizable(true)]
-        [Category("ToolTip")]
-        [Description("Button tooltip image.")]
+        [Category(@"ToolTip")]
+        [Description(@"Button tooltip image.")]
         [DefaultValue(null)]
         public Image ToolTipImage
         {
@@ -351,8 +351,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the tooltip image transparent color.
         /// </summary>
         [Localizable(true)]
-        [Category("ToolTip")]
-        [Description("Button image transparent color.")]
+        [Category(@"ToolTip")]
+        [Description(@"Button image transparent color.")]
         [KryptonDefaultColor()]
         public Color ToolTipImageTransparentColor
         {
@@ -384,10 +384,10 @@ namespace Krypton.Toolkit
         /// Gets and sets the button title tooltip text.
         /// </summary>
         [Localizable(true)]
-        [Category("ToolTip")]
-        [Description("Button tooltip title text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-        [DefaultValue("")]
+        [Category(@"ToolTip")]
+        [Description(@"Button tooltip title text.")]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [DefaultValue(@"")]
         public string ToolTipTitle
         {
             get => _toolTipTitle;
@@ -418,10 +418,10 @@ namespace Krypton.Toolkit
         /// Gets and sets the button body tooltip text.
         /// </summary>
         [Localizable(true)]
-        [Category("ToolTip")]
-        [Description("Button tooltip body text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-        [DefaultValue("")]
+        [Category(@"ToolTip")]
+        [Description(@"Button tooltip body text.")]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [DefaultValue(@"")]
         public string ToolTipBody
         {
             get => _toolTipBody;
@@ -451,8 +451,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the tooltip label style.
         /// </summary>
-        [Category("ToolTip")]
-        [Description("Button tooltip label style.")]
+        [Category(@"ToolTip")]
+        [Description(@"Button tooltip label style.")]
         [DefaultValue(typeof(LabelStyle), "Tooltip")]
         public LabelStyle ToolTipStyle { get; set; }
 
@@ -471,8 +471,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the unique name of the ButtonSpec.
         /// </summary>
-        [Category("Data")]
-        [Description("The unique name of the ButtonSpec.")]
+        [Category(@"Data")]
+        [Description(@"The unique name of the ButtonSpec.")]
         public string UniqueName { get; set; }
 
         /// <summary>
@@ -489,8 +489,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the button image be inherited if defined as null.
         /// </summary>
         [Localizable(true)]
-        [Category("Inherit")]
-        [Description("Should button image be inherited if defined as null.")]
+        [Category(@"Inherit")]
+        [Description(@"Should button image be inherited if defined as null.")]
         [DefaultValue(true)]
         public bool AllowInheritImage
         {
@@ -520,8 +520,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the button text be inherited if defined as empty.
         /// </summary>
         [Localizable(true)]
-        [Category("Inherit")]
-        [Description("Should button text be inherited if defined as empty.")]
+        [Category(@"Inherit")]
+        [Description(@"Should button text be inherited if defined as empty.")]
         [DefaultValue(true)]
         public bool AllowInheritText
         {
@@ -551,8 +551,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the button extra text be inherited if defined as empty.
         /// </summary>
         [Localizable(true)]
-        [Category("Inherit")]
-        [Description("Should button extra text be inherited if defined as empty.")]
+        [Category(@"Inherit")]
+        [Description(@"Should button extra text be inherited if defined as empty.")]
         [DefaultValue(true)]
         public bool AllowInheritExtraText
         {
@@ -582,8 +582,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the button tooltip title be inherited if defined as empty.
         /// </summary>
         [Localizable(true)]
-        [Category("Inherit")]
-        [Description("Should button tooltip title text be inherited if defined as empty.")]
+        [Category(@"Inherit")]
+        [Description(@"Should button tooltip title text be inherited if defined as empty.")]
         [DefaultValue(true)]
         public bool AllowInheritToolTipTitle
         {
@@ -623,8 +623,8 @@ namespace Krypton.Toolkit
         /// Gets and sets image color to remap to container foreground.
         /// </summary>
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Image color to remap to container foreground.")]
+        [Category(@"Appearance")]
+        [Description(@"Image color to remap to container foreground.")]
         [KryptonDefaultColor()]
         public Color ColorMap
         {
@@ -656,8 +656,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the button style.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Button style.")]
+        [Category(@"Behavior")]
+        [Description(@"Button style.")]
         [DefaultValue(typeof(PaletteButtonStyle), "Inherit")]
         public PaletteButtonStyle Style
         {
@@ -686,8 +686,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the button orientation.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Defines the button orientation.")]
+        [Category(@"Behavior")]
+        [Description(@"Defines the button orientation.")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteButtonOrientation Orientation
         {
@@ -719,8 +719,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the header edge to display the button against.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("The header edge to display the button against.")]
+        [Category(@"Behavior")]
+        [Description(@"The header edge to display the button against.")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeEdgeAlign Edge
         {
@@ -749,8 +749,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the context menu strip for the button.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("ContextMenuStrip to show when the button is pressed.")]
+        [Category(@"Behavior")]
+        [Description(@"ContextMenuStrip to show when the button is pressed.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public ContextMenuStrip ContextMenuStrip { get; set; }
@@ -762,8 +762,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the krypton context menu for the button.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("KryptonContextMenu to show when the button is pressed.")]
+        [Category(@"Behavior")]
+        [Description(@"KryptonContextMenu to show when the button is pressed.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu { get; set; }
@@ -774,8 +774,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the button.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the button.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public virtual KryptonCommand KryptonCommand
@@ -817,8 +817,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
         public object Tag { get; set; }

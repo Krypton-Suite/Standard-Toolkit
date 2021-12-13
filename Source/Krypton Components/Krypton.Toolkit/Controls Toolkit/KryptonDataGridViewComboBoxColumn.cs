@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewComboBoxCell cells.
     /// </summary>
-    [Designer("Krypton.Toolkit.KryptonComboBoxColumnDesigner, Krypton.Toolkit")]
+    [Designer(@"Krypton.Toolkit.KryptonComboBoxColumnDesigner, Krypton.Toolkit")]
     [ToolboxBitmap(typeof(KryptonDataGridViewComboBoxColumn), "ToolboxBitmaps.KryptonComboBox.bmp")]
     public class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIconColumn
     {
@@ -50,13 +50,13 @@ namespace Krypton.Toolkit
         public override string ToString()
         {
             StringBuilder builder = new(0x40);
-            builder.Append("KryptonDataGridViewComboBoxColumn { Name=");
+            builder.Append(@"KryptonDataGridViewComboBoxColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
-            builder.Append(", Index=");
+            builder.Append(@", Index=");
             builder.Append(base.Index.ToString(CultureInfo.CurrentCulture));
             // ReSharper restore RedundantBaseQualifier
-            builder.Append(" }");
+            builder.Append(@" }");
             return builder.ToString();
         }
 
@@ -116,18 +116,18 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of the button specifications.
         /// </summary>
-        [Category("Data")]
-        [Description("Set of extra button specs to appear with control.")]
+        [Category(@"Data")]
+        [Description(@"Set of extra button specs to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DataGridViewColumnSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets the collection of allowable items of the domain up down.
         /// </summary>
-        [Category("Data")]
-        [Description("The allowable items of the domain up down.")]
+        [Category(@"Data")]
+        [Description(@"The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [Localizable(true)]
         public List<object> Items { get; }
 
@@ -136,8 +136,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the appearance and functionality of the KryptonComboBox.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Controls the appearance and functionality of the KryptonComboBox.")]
+        [Category(@"Appearance")]
+        [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
         [DefaultValue(typeof(ComboBoxStyle), "DropDown")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
@@ -180,8 +180,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the maximum number of entries to display in the drop-down list.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The maximum number of entries to display in the drop-down list.")]
+        [Category(@"Behavior")]
+        [Description(@"The maximum number of entries to display in the drop-down list.")]
         [Localizable(true)]
         [DefaultValue(8)]
         public int MaxDropDownItems
@@ -224,8 +224,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the height, in pixels, of the drop down box in a KryptonComboBox.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The height, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Category(@"Behavior")]
+        [Description(@"The height, in pixels, of the drop down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DefaultValue(200)]
         [Browsable(true)]
@@ -269,8 +269,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the width, in pixels, of the drop down box in a KryptonComboBox.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The width, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Category(@"Behavior")]
+        [Description(@"The width, in pixels, of the drop down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public int DropDownWidth
@@ -313,8 +313,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
-        [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
+        [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text completion behavior of the combobox.
         /// </summary>
-        [Description("Indicates the text completion behavior of the combobox.")]
+        [Description(@"Indicates the text completion behavior of the combobox.")]
         [DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -370,7 +370,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
-        [Description("The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
+        [Description(@"The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
         [DefaultValue(typeof(AutoCompleteSource), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -414,23 +414,23 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the appearance and functionality of the KryptonComboBox.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
-        [DefaultValue("")]
+        [Category(@"Data")]
+        [Description(@"Indicates the property to display for the items in this control.")]
+        [TypeConverter(@"System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
+        [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [DefaultValue(@"")]
         public string DisplayMember
         {
             get =>
                 ComboBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
                     : ComboBoxCellTemplate.DisplayMember;
 
             set
             {
                 if (ComboBoxCellTemplate == null)
                 {
-                    throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                    throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
                 }
 
                 // Update the template cell so that subsequent cloned cells use the new value.
@@ -459,16 +459,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the appearance and functionality of the KryptonComboBox.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
-        [DefaultValue("")]
+        [Category(@"Data")]
+        [Description(@"Indicates the property to display for the items in this control.")]
+        [TypeConverter(@"System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
+        [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [DefaultValue(@"")]
         public string ValueMember
         {
             get =>
                 ComboBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                    ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
                     : ComboBoxCellTemplate.ValueMember;
 
             set
@@ -503,10 +503,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// "Indicates the Datasource for the items in this control.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the Datasource for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataSourceConverter, " + AssemblyRef.SystemDesign)]
-        [Editor("System.Windows.Forms.Design.DataSourceListEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Category(@"Data")]
+        [Description(@"Indicates the Datasource for the items in this control.")]
+        [TypeConverter(@"System.Windows.Forms.Design.DataSourceConverter, " + AssemblyRef.SystemDesign)]
+        [Editor(@"System.Windows.Forms.Design.DataSourceListEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         public object DataSource
         {
 

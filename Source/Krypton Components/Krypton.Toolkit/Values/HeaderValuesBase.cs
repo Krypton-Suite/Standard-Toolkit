@@ -92,8 +92,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the heading image.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Heading image.")]
+        [Category(@"Visuals")]
+        [Description(@"Heading image.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
@@ -133,8 +133,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the heading image transparent color.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Heading image transparent color.")]
+        [Category(@"Visuals")]
+        [Description(@"Heading image transparent color.")]
         [RefreshProperties(RefreshProperties.All)]
         [KryptonDefaultColor()]
         public Color ImageTransparentColor
@@ -175,10 +175,10 @@ namespace Krypton.Toolkit
         /// Gets and sets the heading text.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Heading text.")]
+        [Category(@"Visuals")]
+        [Description(@"Heading text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public virtual string Heading
         {
             get => _heading;
@@ -216,10 +216,10 @@ namespace Krypton.Toolkit
         /// Gets and sets the header description text.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Header description text.")]
+        [Category(@"Visuals")]
+        [Description(@"Header description text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public virtual string Description
         {
             get => _description;

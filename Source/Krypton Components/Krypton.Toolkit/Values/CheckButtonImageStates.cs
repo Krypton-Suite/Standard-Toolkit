@@ -42,8 +42,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button image for checked normal state.")]
+        [Category(@"Visuals")]
+        [Description(@"Button image for checked normal state.")]
         [RefreshProperties(RefreshProperties.All)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button image for checked pressed state.")]
+        [Category(@"Visuals")]
+        [Description(@"Button image for checked pressed state.")]
         [RefreshProperties(RefreshProperties.All)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -116,8 +116,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button image for checked tracking state.")]
+        [Category(@"Visuals")]
+        [Description(@"Button image for checked tracking state.")]
         [RefreshProperties(RefreshProperties.All)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]

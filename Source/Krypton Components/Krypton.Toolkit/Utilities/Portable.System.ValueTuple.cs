@@ -75,7 +75,7 @@ namespace System
             /// treat the first type argument as a tuple with element names and the
             /// second as a tuple without element names. In which case, the
             /// appropriate attribute specification should use a
-            /// <c>transformNames</c> value of <c>{ "name1", "name2", null, null,
+            /// <c>transformNames</c> value of <c>{ "name1", @"name2", null, null,
             /// null }</c>.
             /// </remarks>
             public TupleElementNamesAttribute(string[] transformNames) => _transformNames = transformNames ?? throw new ArgumentNullException(nameof(transformNames));

@@ -197,8 +197,7 @@ namespace Krypton.Toolkit
             else
             {
                 // If the button is in a normal state (not being tracked or pressed)
-                if ((ElementState == PaletteState.Normal) ||
-                    (ElementState == PaletteState.CheckedNormal))
+                if (ElementState is PaletteState.Normal or PaletteState.CheckedNormal)
                 {
                     // If the control is active then use the checked normal appearance, otherwise not active and so use the normal appearance
                     if (_dateTimePicker.IsActive || (_dateTimePicker.IsFixedActive && (_dateTimePicker.InputControlStyle == InputControlStyle.Standalone)))

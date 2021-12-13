@@ -224,8 +224,7 @@ namespace Krypton.Toolkit
                 if ((screenPt.X + preferredSize.Width) > workingArea.Right)
                 {
                     // ...and we tried to position afterwards
-                    if ((horz == KryptonContextMenuPositionH.After) ||
-                        (horz == KryptonContextMenuPositionH.Left))
+                    if (horz is KryptonContextMenuPositionH.After or KryptonContextMenuPositionH.Left)
                     {
                         // Then switch to positioning before
                         horz = KryptonContextMenuPositionH.Before;
@@ -237,8 +236,7 @@ namespace Krypton.Toolkit
                 if (screenPt.X < workingArea.X)
                 {
                     // ...and we tried to position before
-                    if ((horz == KryptonContextMenuPositionH.Before) ||
-                        (horz == KryptonContextMenuPositionH.Right))
+                    if (horz is KryptonContextMenuPositionH.Before or KryptonContextMenuPositionH.Right)
                     {
                         // Then switch to positioning after
                         horz = KryptonContextMenuPositionH.After;
@@ -250,8 +248,7 @@ namespace Krypton.Toolkit
                 if ((screenPt.Y + preferredSize.Height) > workingArea.Bottom)
                 {
                     // ...and we tried to position downwards
-                    if ((vert == KryptonContextMenuPositionV.Below) ||
-                        (vert == KryptonContextMenuPositionV.Top))
+                    if (vert is KryptonContextMenuPositionV.Below or KryptonContextMenuPositionV.Top)
                     {
                         // Then switch to positoning upwards
                         vert = KryptonContextMenuPositionV.Bottom;
@@ -263,8 +260,7 @@ namespace Krypton.Toolkit
                 if (screenPt.Y < workingArea.Y)
                 {
                     // ...and we tried to position upwards
-                    if ((vert == KryptonContextMenuPositionV.Above) ||
-                        (vert == KryptonContextMenuPositionV.Bottom))
+                    if (vert is KryptonContextMenuPositionV.Above or KryptonContextMenuPositionV.Bottom)
                     {
                         // Then switch to positoning downwards
                         vert = KryptonContextMenuPositionV.Top;

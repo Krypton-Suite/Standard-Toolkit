@@ -754,8 +754,7 @@ namespace Krypton.Toolkit
                             GraphicsPath borderPath1 = null;
 
                             // We only need the second border path if the two borders used are opposite each other
-                            if ((borders == PaletteDrawBorders.TopBottom) ||
-                                (borders == PaletteDrawBorders.LeftRight))
+                            if (borders is PaletteDrawBorders.TopBottom or PaletteDrawBorders.LeftRight)
                             {
                                 borderPath1 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
                                                                    palette.GetBorderRounding(state),
@@ -1077,8 +1076,7 @@ namespace Krypton.Toolkit
                 var spacingGap = palette.GetContentAdjacentGap(state);
 
                 // Is the content intended for a vertical drawing orientation?
-                var vertical = (orientation == VisualOrientation.Left) ||
-                               (orientation == VisualOrientation.Right);
+                var vertical = orientation is VisualOrientation.Left or VisualOrientation.Right;
 
                 // Drawing vertical means we can ignore right to left, otherwise get value from control
                 RightToLeft rtl = vertical ? RightToLeft.No : context.Control.RightToLeft;
@@ -1097,8 +1095,7 @@ namespace Krypton.Toolkit
 
                 // For the form level buttons we have to calculate the correct padding based on caption area
                 PaletteContentStyle contentStyle = palette.GetContentStyle();
-                if ((contentStyle == PaletteContentStyle.ButtonForm) ||
-                    (contentStyle == PaletteContentStyle.ButtonFormClose))
+                if (contentStyle is PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose)
                 {
                     borderPadding = ContentPaddingForButtonForm(borderPadding, context, allocatedHeight);
                 }
@@ -1171,8 +1168,7 @@ namespace Krypton.Toolkit
             Padding borderPadding = palette.GetContentPadding(state);
 
             // Is the content intended for a vertical drawing orientation?
-            var vertical = (orientation == VisualOrientation.Left) ||
-                           (orientation == VisualOrientation.Right);
+            var vertical = orientation is VisualOrientation.Left or VisualOrientation.Right;
 
             // If we need to apply in a vertical orientation
             if (vertical)
@@ -1821,9 +1817,7 @@ namespace Krypton.Toolkit
                     break;
                 case TabBorderStyle.OneNote:
                     // Is the current tab selected?
-                    var selected = (state == PaletteState.CheckedNormal) ||
-                                   (state == PaletteState.CheckedPressed) ||
-                                   (state == PaletteState.CheckedTracking);
+                    var selected = state is PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking;
 
                     // Find the correct edge padding values to use
                     var lp = selected ? SPACING_TAB_ONE_NOTE_LPS : SPACING_TAB_ONE_NOTE_LPI;
@@ -2558,8 +2552,7 @@ namespace Krypton.Toolkit
             }
 
             // Alter size for different orientations
-            if ((orientation == VisualOrientation.Left) ||
-                (orientation == VisualOrientation.Right))
+            if (orientation is VisualOrientation.Left or VisualOrientation.Right)
             {
                 // Switch dimensions to reflect rotation of 90 or 270 degrees
                 imageSize = new Size(imageSize.Height, imageSize.Width);
@@ -4488,7 +4481,7 @@ namespace Krypton.Toolkit
                         rect = AdjustOutsizeTab(state, rect, orientation);
                     }
 
-                    if (rtl && ((orientation == VisualOrientation.Top) || (orientation == VisualOrientation.Bottom)))
+                    if (rtl && orientation is VisualOrientation.Top or VisualOrientation.Bottom)
                     {
                         AddSlantFarPath(borderPath, orientation, rect, forBorder);
                     }
@@ -4505,7 +4498,7 @@ namespace Krypton.Toolkit
                         rect = AdjustOutsizeTab(state, rect, orientation);
                     }
 
-                    if (rtl && ((orientation == VisualOrientation.Top) || (orientation == VisualOrientation.Bottom)))
+                    if (rtl && orientation is VisualOrientation.Top or VisualOrientation.Bottom)
                     {
                         AddSlantNearPath(borderPath, orientation, rect, forBorder);
                     }
@@ -4526,9 +4519,7 @@ namespace Krypton.Toolkit
                     break;
                 case TabBorderStyle.OneNote:
                     // Is the current tab selected?
-                    var selected = (state == PaletteState.CheckedNormal) ||
-                                   (state == PaletteState.CheckedPressed) ||
-                                   (state == PaletteState.CheckedTracking);
+                    var selected = state is PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking;
 
                     // The right padding depends on the selected state
                     var rp = selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI;
@@ -4539,7 +4530,7 @@ namespace Krypton.Toolkit
                         rect = AdjustOneNoteTab(rect, orientation);
                     }
 
-                    if (rtl && ((orientation == VisualOrientation.Top) || (orientation == VisualOrientation.Bottom)))
+                    if (rtl && orientation is VisualOrientation.Top or VisualOrientation.Bottom)
                     {
                         AddOneNoteReversePath(borderPath, orientation, rect, forBorder, rp);
                     }
@@ -5823,9 +5814,9 @@ namespace Krypton.Toolkit
                 if (paletteContent.GetContentShortTextMultiLine(state) == InheritBool.False)
                 {
                     // Replace any carriage returns and newlines with just spaces
-                    shortText = shortText.Replace("\r\n", " ");
-                    shortText = shortText.Replace("\n", " ");
-                    shortText = shortText.Replace("\r", " ");
+                    shortText = shortText.Replace("\r\n", @" ");
+                    shortText = shortText.Replace("\n", @" ");
+                    shortText = shortText.Replace("\r", @" ");
                 }
 
                 // Convert from alignment enums to integers
@@ -5908,9 +5899,9 @@ namespace Krypton.Toolkit
                 if (paletteContent.GetContentLongTextMultiLine(state) == InheritBool.False)
                 {
                     // Replace any carriage returns and newlines with just spaces
-                    longText = longText.Replace("\r\n", " ");
-                    longText = longText.Replace("\n", " ");
-                    longText = longText.Replace("\r", " ");
+                    longText = longText.Replace("\r\n", @" ");
+                    longText = longText.Replace("\n", @" ");
+                    longText = longText.Replace("\r", @" ");
                 }
 
                 // Convert from alignment enums to integers
@@ -10472,7 +10463,7 @@ namespace Krypton.Toolkit
             var lightTransparency = 50;
             var mediumTransparency = 50;
 
-            if ((state == PaletteState.Pressed) || (state == PaletteState.Tracking))
+            if (state is PaletteState.Pressed or PaletteState.Tracking)
             {
                 lightTransparency = 200;
                 mediumTransparency = 200;

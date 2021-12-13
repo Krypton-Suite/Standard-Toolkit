@@ -304,24 +304,24 @@ namespace Krypton.Toolkit
             if (_colorButton != null)
             {
                 // Add the list of button specific actions
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("Splitter", "Splitter", "Appearance", "Splitter of DropDown"));
-                actions.Add(new DesignerActionPropertyItem("ButtonStyle", "ButtonStyle", "Appearance", "Button style"));
-                actions.Add(new DesignerActionPropertyItem("ButtonOrientation", "ButtonOrientation", "Appearance", "Button orientation"));
-                actions.Add(new DesignerActionPropertyItem("DropDownPosition", "DropDownPosition", "Appearance", "DropDown position"));
-                actions.Add(new DesignerActionPropertyItem("DropDownOrientation", "DropDownOrientation", "Appearance", "DropDown orientation"));
-                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
-                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
-                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
-                actions.Add(new DesignerActionHeaderItem("Values"));
-                actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Button text"));
-                actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Button extra text"));
-                actions.Add(new DesignerActionPropertyItem("Image", "Image", "Values", "Button image"));
-                actions.Add(new DesignerActionPropertyItem("SelectedColour", "Selected Colour", "Values", "The selected colour."));
-                actions.Add(new DesignerActionPropertyItem("AllowFullOpen", "Allow Full Open", "Values", "Allows the color dialog to fully open."));
-                actions.Add(new DesignerActionPropertyItem("SelectedRect", "SelectedRect", "Visuals", "Selected color drawing rectangle."));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
+                actions.Add(new DesignerActionPropertyItem(@"Splitter", @"Splitter", @"Appearance", @"Splitter of DropDown"));
+                actions.Add(new DesignerActionPropertyItem(@"ButtonStyle", @"ButtonStyle", @"Appearance", @"Button style"));
+                actions.Add(new DesignerActionPropertyItem(@"ButtonOrientation", @"ButtonOrientation", @"Appearance", @"Button orientation"));
+                actions.Add(new DesignerActionPropertyItem(@"DropDownPosition", @"DropDownPosition", @"Appearance", @"DropDown position"));
+                actions.Add(new DesignerActionPropertyItem(@"DropDownOrientation", @"DropDownOrientation", @"Appearance", @"DropDown orientation"));
+                actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
+                actions.Add(new DesignerActionPropertyItem(@"LongTextFont", @"Long Text Font", @"Appearance", @"The long text font."));
+                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionHeaderItem(@"Values"));
+                actions.Add(new DesignerActionPropertyItem(@"Text", @"Text", @"Values", @"Button text"));
+                actions.Add(new DesignerActionPropertyItem(@"ExtraText", @"ExtraText", @"Values", @"Button extra text"));
+                actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"Button image"));
+                actions.Add(new DesignerActionPropertyItem(@"SelectedColour", @"Selected Colour", @"Values", @"The selected colour."));
+                actions.Add(new DesignerActionPropertyItem(@"AllowFullOpen", @"Allow Full Open", @"Values", @"Allows the color dialog to fully open."));
+                actions.Add(new DesignerActionPropertyItem(@"SelectedRect", @"SelectedRect", @"Visuals", @"Selected color drawing rectangle."));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

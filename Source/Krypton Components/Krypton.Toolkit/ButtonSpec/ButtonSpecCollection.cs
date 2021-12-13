@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
         {
             get => _specs[index];
 
-            set => throw new NotImplementedException("Cannot set a collection index with a new value");
+            set => throw new NotImplementedException(@"Cannot set a collection index with a new value");
         }
         #endregion
 
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         {
             get => _specs[index];
 
-            set => throw new NotImplementedException("Cannot set a collection index with a new value");
+            set => throw new NotImplementedException(@"Cannot set a collection index with a new value");
         }
 
         /// <summary>

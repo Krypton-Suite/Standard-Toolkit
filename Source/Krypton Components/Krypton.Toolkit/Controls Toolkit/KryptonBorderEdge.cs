@@ -18,11 +18,11 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonBorderEdge), "ToolboxBitmaps.KryptonBorderEdge.bmp")]
-    [DefaultEvent("Paint")]
-    [DefaultProperty("Orientation")]
-    [Designer("Krypton.Toolkit.KryptonBorderEdgeDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Displays a vertical or horizontal border edge.")]
+    [DefaultEvent(@"Paint")]
+    [DefaultProperty(@"Orientation")]
+    [Designer(@"Krypton.Toolkit.KryptonBorderEdgeDesigner, Krypton.Toolkit")]
+    [DesignerCategory(@"code")]
+    [Description(@"Displays a vertical or horizontal border edge.")]
     public class KryptonBorderEdge : VisualControlBase
     {
         #region Instance Fields
@@ -154,8 +154,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the auto size mode.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies if the control grows and shrinks to fit the contents exactly.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
         [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public AutoSizeMode AutoSizeMode
         {
@@ -184,8 +184,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the border style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Border style.")]
+        [Category(@"Visuals")]
+        [Description(@"Border style.")]
         public PaletteBorderStyle BorderStyle
         {
             get => _borderRedirect.Style;
@@ -210,8 +210,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the orientation of the border edge used to determine sizing.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Orientation of border edge used to determine sizing.")]
+        [Category(@"Visuals")]
+        [Description(@"Orientation of border edge used to determine sizing.")]
         [DefaultValue(typeof(Orientation), "Horizontal")]
         public virtual Orientation Orientation
         {
@@ -230,8 +230,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common border edge appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common border edge appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common border edge appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorderEdgeRedirect StateCommon { get; }
 
@@ -240,8 +240,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled border edge appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled border edge appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled border edge appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorderEdge StateDisabled { get; }
 
@@ -250,8 +250,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal border edge appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal border edge appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal border edge appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorderEdge StateNormal { get; }
 

@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette state to fix.</param>
         public virtual void SetFixedState(PaletteState state)
         {
-            if ((state == PaletteState.Normal) || (state == PaletteState.Disabled))
+            if (state is PaletteState.Normal or PaletteState.Disabled)
             {
                 _drawTrack.FixedState = state;
             }

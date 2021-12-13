@@ -533,9 +533,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
         protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
         {
-            if ((e.ToolStrip is ToolStrip) ||
-                (e.ToolStrip is ContextMenuStrip) ||
-                (e.ToolStrip is ToolStripDropDownMenu))
+            if ((e.ToolStrip is ToolStrip or ContextMenuStrip or ToolStripDropDownMenu))
             {
                 if (!e.Item.Enabled)
                 {
@@ -608,8 +606,7 @@ namespace Krypton.Toolkit
         protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e)
         {
             // We only override the image drawing for context menus
-            if ((e.ToolStrip is ContextMenuStrip) ||
-                (e.ToolStrip is ToolStripDropDownMenu))
+            if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
             {
                 if (e.Image != null)
                 {
@@ -643,9 +640,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
         {
-            if ((e.ToolStrip is MenuStrip) ||
-                (e.ToolStrip is ContextMenuStrip) ||
-                (e.ToolStrip is ToolStripDropDownMenu))
+            if ((e.ToolStrip is MenuStrip or ContextMenuStrip or ToolStripDropDownMenu))
             {
                 if (e.Item.Pressed && (e.ToolStrip is MenuStrip))
                 {
@@ -708,8 +703,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripSeparatorRenderEventArgs containing the event data.</param>
         protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
         {
-            if ((e.ToolStrip is ContextMenuStrip) ||
-                (e.ToolStrip is ToolStripDropDownMenu))
+            if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
             {
                 DrawContextMenuSeparator(e.Graphics, e.Vertical, e.Item.Bounds, SEPARATOR_INSET,
                                          e.ToolStrip.RightToLeft == RightToLeft.Yes);
@@ -1004,8 +998,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
         protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
         {
-            if ((e.ToolStrip is ContextMenuStrip) ||
-                (e.ToolStrip is ToolStripDropDownMenu))
+            if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
             {
                 // Start with the total margin area
                 Rectangle marginRect = e.AffectedBounds;
@@ -1531,8 +1524,7 @@ namespace Krypton.Toolkit
             int x, y;
 
             // Find the correct starting position, which depends on direction
-            if ((direction == ArrowDirection.Left) ||
-                (direction == ArrowDirection.Right))
+            if (direction is ArrowDirection.Left or ArrowDirection.Right)
             {
                 x = rect.Right - ((rect.Width - 4) / 2);
                 y = rect.Y + (rect.Height / 2);

@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
                 if (_piButtonState == null)
                 {
                     // Cache access to the internal get property 'ButtonState'
-                    _piButtonState = typeof(DataGridViewCheckBoxCell).GetProperty("ButtonState", BindingFlags.Instance |
+                    _piButtonState = typeof(DataGridViewCheckBoxCell).GetProperty(@"ButtonState", BindingFlags.Instance |
                                                                                                  BindingFlags.NonPublic |
                                                                                                  BindingFlags.GetField);
 
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
                 if (_fiMouseInContentBounds == null)
                 {
                     // Cache field info about the internal 'mouseInContentBounds' instance
-                    _fiMouseInContentBounds = typeof(DataGridViewCheckBoxCell).GetField("mouseInContentBounds", BindingFlags.Static |
+                    _fiMouseInContentBounds = typeof(DataGridViewCheckBoxCell).GetField(@"mouseInContentBounds", BindingFlags.Static |
                                                                                                                 BindingFlags.NonPublic |
                                                                                                                 BindingFlags.GetField);
                 }
@@ -301,7 +301,7 @@ namespace Krypton.Toolkit
                 if (_piMouseEnteredCellAddress == null)
                 {
                     // Cache access to the internal get property 'MouseEnteredCellAddress'
-                    _piMouseEnteredCellAddress = typeof(DataGridView).GetProperty("MouseEnteredCellAddress", BindingFlags.Instance |
+                    _piMouseEnteredCellAddress = typeof(DataGridView).GetProperty(@"MouseEnteredCellAddress", BindingFlags.Instance |
                                                                                                              BindingFlags.NonPublic |
                                                                                                              BindingFlags.GetField);
 

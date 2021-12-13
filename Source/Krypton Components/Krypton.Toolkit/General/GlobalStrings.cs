@@ -94,8 +94,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the OK string used in message box buttons.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("OK string used for message box buttons.")]
+        [Category(@"Visuals")]
+        [Description(@"OK string used for message box buttons.")]
         [DefaultValue(DEFAULT_OK)]
         [RefreshProperties(RefreshProperties.All)]
         public string OK { get; set; }
@@ -104,8 +104,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the Cancel string used in message box buttons.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Cancel string used for message box buttons.")]
+        [Category(@"Visuals")]
+        [Description(@"Cancel string used for message box buttons.")]
         [DefaultValue(DEFAULT_CANCEL)]
         [RefreshProperties(RefreshProperties.All)]
         public string Cancel { get; set; }
@@ -114,8 +114,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the Yes string used in message box buttons.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Yes string used for message box buttons.")]
+        [Category(@"Visuals")]
+        [Description(@"Yes string used for message box buttons.")]
         [DefaultValue(DEFAULT_YES)]
         [RefreshProperties(RefreshProperties.All)]
         public string Yes { get; set; }
@@ -124,8 +124,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the No string used in message box buttons.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("No string used for message box buttons.")]
+        [Category(@"Visuals")]
+        [Description(@"No string used for message box buttons.")]
         [DefaultValue(DEFAULT_NO)]
         [RefreshProperties(RefreshProperties.All)]
         public string No { get; set; }
@@ -134,8 +134,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the Abort string used in message box buttons.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Abort string used for message box buttons.")]
+        [Category(@"Visuals")]
+        [Description(@"Abort string used for message box buttons.")]
         [DefaultValue(DEFAULT_ABORT)]
         [RefreshProperties(RefreshProperties.All)]
         public string Abort { get; set; }
@@ -144,8 +144,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the Retry string used in message box buttons.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Retry string used for message box buttons.")]
+        [Category(@"Visuals")]
+        [Description(@"Retry string used for message box buttons.")]
         [DefaultValue(DEFAULT_RETRY)]
         [RefreshProperties(RefreshProperties.All)]
         public string Retry { get; set; }
@@ -154,8 +154,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the Ignore string used in message box buttons.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Ignore string used for message box buttons.")]
+        [Category(@"Visuals")]
+        [Description(@"Ignore string used for message box buttons.")]
         [DefaultValue(DEFAULT_IGNORE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Ignore { get; set; }
@@ -164,8 +164,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the Close string used in message box buttons.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Close string used for message box buttons.")]
+        [Category(@"Visuals")]
+        [Description(@"Close string used for message box buttons.")]
         [DefaultValue(DEFAULT_CLOSE)]
 
         [RefreshProperties(RefreshProperties.All)]
@@ -175,8 +175,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the Close string used in calendars.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Today string used for calendars.")]
+        [Category(@"Visuals")]
+        [Description(@"Today string used for calendars.")]
         [DefaultValue(DEFAULT_TODAY)]
         [RefreshProperties(RefreshProperties.All)]
         public string Today { get; set; }
@@ -185,8 +185,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the Close string used in calendars.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Help string used for Message Box Buttons.")]
+        [Category(@"Visuals")]
+        [Description(@"Help string used for Message Box Buttons.")]
         [DefaultValue(DEFAULT_HELP)]
         [RefreshProperties(RefreshProperties.All)]
         public string Help { get; set; }

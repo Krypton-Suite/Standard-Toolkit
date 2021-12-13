@@ -19,7 +19,7 @@ namespace Krypton.Toolkit.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(@"System.Resources.Tools.StronglyTypedResourceBuilder", @"16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class HelpIconResources {
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit.Resources {
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(@"Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal HelpIconResources() {
         }
         
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.HelpIconResources", typeof(HelpIconResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager(@"Krypton.Toolkit.Resources.HelpIconResources", typeof(HelpIconResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice2010HelpIcon {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice2010HelpIcon", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice2010HelpIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice2010HelpIconBlack {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice2010HelpIconBlack", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice2010HelpIconBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice2010HelpIconBlue {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice2010HelpIconBlue", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice2010HelpIconBlue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice2010HelpIconDisabled {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice2010HelpIconDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice2010HelpIconDisabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice2010HelpIconHover {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice2010HelpIconHover", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice2010HelpIconHover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice2010HelpIconSilver {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice2010HelpIconSilver", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice2010HelpIconSilver", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice2010HelpIconWhite {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice2010HelpIconWhite", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice2010HelpIconWhite", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice365HelpIcon {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice365HelpIcon", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice365HelpIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice365HelpIconBlack {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice365HelpIconBlack", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice365HelpIconBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice365HelpIconBlue {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice365HelpIconBlue", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice365HelpIconBlue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice365HelpIconDisabled {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice365HelpIconDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice365HelpIconDisabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice365HelpIconHover {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice365HelpIconHover", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice365HelpIconHover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice365HelpIconSilver {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice365HelpIconSilver", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice365HelpIconSilver", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericOffice365HelpIconWhite {
             get {
-                object obj = ResourceManager.GetObject("GenericOffice365HelpIconWhite", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericOffice365HelpIconWhite", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericPre2010HelpIcon {
             get {
-                object obj = ResourceManager.GetObject("GenericPre2010HelpIcon", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericPre2010HelpIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericPre2010HelpIconBlack {
             get {
-                object obj = ResourceManager.GetObject("GenericPre2010HelpIconBlack", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericPre2010HelpIconBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -225,7 +225,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericPre2010HelpIconBlue {
             get {
-                object obj = ResourceManager.GetObject("GenericPre2010HelpIconBlue", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericPre2010HelpIconBlue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericPre2010HelpIconDisabled {
             get {
-                object obj = ResourceManager.GetObject("GenericPre2010HelpIconDisabled", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericPre2010HelpIconDisabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -245,7 +245,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericPre2010HelpIconHover {
             get {
-                object obj = ResourceManager.GetObject("GenericPre2010HelpIconHover", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericPre2010HelpIconHover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericPre2010HelpIconSilver {
             get {
-                object obj = ResourceManager.GetObject("GenericPre2010HelpIconSilver", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericPre2010HelpIconSilver", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap GenericPre2010HelpIconWhite {
             get {
-                object obj = ResourceManager.GetObject("GenericPre2010HelpIconWhite", resourceCulture);
+                object obj = ResourceManager.GetObject(@"GenericPre2010HelpIconWhite", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

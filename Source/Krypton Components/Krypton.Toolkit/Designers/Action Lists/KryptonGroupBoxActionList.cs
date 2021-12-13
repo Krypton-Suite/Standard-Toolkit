@@ -239,20 +239,20 @@ namespace Krypton.Toolkit
             if (_groupBox != null)
             {
                 // Add the list of panel specific actions
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("GroupBackStyle", "Back style", "Appearance", "Background style"));
-                actions.Add(new DesignerActionPropertyItem("GroupBorderStyle", "Border style", "Appearance", "Border style"));
-                actions.Add(new DesignerActionPropertyItem("CaptionStyle", "Caption style", "Appearance", "Caption style"));
-                actions.Add(new DesignerActionPropertyItem("CaptionEdge", "Caption edge", "Appearance", "Caption edge"));
-                actions.Add(new DesignerActionPropertyItem("CaptionOverlap", "Caption overlap", "Appearance", "Caption overlap"));
-                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
-                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
-                actions.Add(new DesignerActionHeaderItem("Values"));
-                actions.Add(new DesignerActionPropertyItem("Description", "Description", "Values", "The header description text."));
-                actions.Add(new DesignerActionPropertyItem("Heading", "Heading", "Values", "The heading text."));
-                actions.Add(new DesignerActionPropertyItem("Image", "Image", "Values", "The heading image."));
+                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
+                actions.Add(new DesignerActionPropertyItem(@"GroupBackStyle", @"Back style", @"Appearance", @"Background style"));
+                actions.Add(new DesignerActionPropertyItem(@"GroupBorderStyle", @"Border style", @"Appearance", @"Border style"));
+                actions.Add(new DesignerActionPropertyItem(@"CaptionStyle", @"Caption style", @"Appearance", @"Caption style"));
+                actions.Add(new DesignerActionPropertyItem(@"CaptionEdge", @"Caption edge", @"Appearance", @"Caption edge"));
+                actions.Add(new DesignerActionPropertyItem(@"CaptionOverlap", @"Caption overlap", @"Appearance", @"Caption overlap"));
+                actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
+                actions.Add(new DesignerActionPropertyItem(@"LongTextFont", @"Long Text Font", @"Appearance", @"The long text font."));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionHeaderItem(@"Values"));
+                actions.Add(new DesignerActionPropertyItem(@"Description", @"Description", @"Values", @"The header description text."));
+                actions.Add(new DesignerActionPropertyItem(@"Heading", @"Heading", @"Values", @"The heading text."));
+                actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"The heading image."));
             }
 
             return actions;

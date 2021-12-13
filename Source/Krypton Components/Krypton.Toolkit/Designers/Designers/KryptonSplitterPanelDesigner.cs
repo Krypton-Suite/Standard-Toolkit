@@ -141,22 +141,22 @@ namespace Krypton.Toolkit
         /// <param name="properties">The properties for the class of the component.</param>
         protected override void PreFilterProperties(IDictionary properties)
         {
-            // Let base clas filter properties first
+            // Let base class filter properties first
             base.PreFilterProperties(properties);
 
             // Remove the design time properties we do not want
-            properties.Remove("Modifiers");
-            properties.Remove("Locked");
-            properties.Remove("GenerateMember");
+            properties.Remove(@"Modifiers");
+            properties.Remove(@"Locked");
+            properties.Remove(@"GenerateMember");
 
-            // Scan for the 'Name' propertty
+            // Scan for the 'Name' property
             foreach (DictionaryEntry entry in properties)
             {
                 // Get the property descriptor for the entry
                 PropertyDescriptor descriptor = (PropertyDescriptor)entry.Value;
 
                 // Is this the 'Name' we are searching for?
-                if (descriptor.Name.Equals("Name") && descriptor.DesignTimeOnly)
+                if (descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)
                 {
                     // Hide the 'Name' property so the user cannot modify it
                     var attributeArray = new Attribute[2] { BrowsableAttribute.No, DesignerSerializationVisibilityAttribute.Hidden };

@@ -145,12 +145,9 @@ namespace Krypton.Toolkit
                 if (e.Item.Enabled)
                 {
                     // If the arrow is on a context menu
-                    if ((e.Item.Owner is ContextMenuStrip) ||
-                        (e.Item.Owner is ToolStripDropDownMenu) ||
-                        (e.Item.OwnerItem is ToolStripOverflowButton))
+                    if ((e.Item.Owner is ContextMenuStrip or ToolStripDropDownMenu) || (e.Item.OwnerItem is ToolStripOverflowButton))
                     {
-                        if ((e.Item.Owner is ContextMenuStrip) || (e.Item.Owner is ToolStripDropDownMenu) ||
-                            ((e.Item.OwnerItem is ToolStripOverflowButton) && ((e.Item is ToolStripSplitButton) || (e.Item is ToolStripDropDownButton)) && (!e.Item.Selected || e.Item.Pressed)))
+                        if ((e.Item.Owner is ContextMenuStrip or ToolStripDropDownMenu) || ((e.Item.OwnerItem is ToolStripOverflowButton) && (e.Item is ToolStripSplitButton or ToolStripDropDownButton) && (!e.Item.Selected || e.Item.Pressed)))
                         {
                             color1 = KCT.MenuItemText;
                         }
@@ -163,10 +160,9 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        if ((e.Item.Owner is ToolStrip) ||
-                            (e.Item.Owner is StatusStrip))
+                        if ((e.Item.Owner is ToolStrip or StatusStrip))
                         {
-                            if (((e.Item is ToolStripSplitButton) || (e.Item is ToolStripDropDownButton)) && e.Item.Pressed)
+                            if ((e.Item is ToolStripSplitButton or ToolStripDropDownButton) && e.Item.Pressed)
                             {
                                 color1 = KCT.MenuItemText;
                             }
@@ -336,9 +332,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
         protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
         {
-            if ((e.ToolStrip is ToolStrip) ||
-                (e.ToolStrip is ContextMenuStrip) ||
-                (e.ToolStrip is ToolStripDropDownMenu))
+            if ((e.ToolStrip is ToolStrip or ContextMenuStrip or ToolStripDropDownMenu))
             {
                 if (!e.Item.Enabled)
                 {
@@ -363,11 +357,11 @@ namespace Krypton.Toolkit
                             break;
                         default:
                             {
-                                if (((e.ToolStrip is ToolStripDropDownMenu) || (e.ToolStrip is ToolStripOverflow)) && !e.Item.Selected)
+                                if ((e.ToolStrip is ToolStripDropDownMenu or ToolStripOverflow) && !e.Item.Selected)
                                 {
                                     e.TextColor = KCT.MenuItemText;
                                 }
-                                else if ((e.ToolStrip is ToolStrip) && ((e.Item is ToolStripSplitButton) || (e.Item is ToolStripDropDownButton)) &&
+                                else if ((e.ToolStrip is ToolStrip) && (e.Item is ToolStripSplitButton or ToolStripDropDownButton) &&
                                          e.Item.Pressed)
                                 {
                                     e.TextColor = KCT.MenuItemText;
@@ -407,8 +401,7 @@ namespace Krypton.Toolkit
         protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e)
         {
             // We only override the image drawing for context menus
-            if ((e.ToolStrip is ContextMenuStrip) ||
-                (e.ToolStrip is ToolStripDropDownMenu))
+            if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
             {
                 if (e.Image != null)
                 {
@@ -442,9 +435,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
         {
-            if ((e.ToolStrip is MenuStrip) ||
-                (e.ToolStrip is ContextMenuStrip) ||
-                (e.ToolStrip is ToolStripDropDownMenu))
+            if ((e.ToolStrip is MenuStrip or ContextMenuStrip or ToolStripDropDownMenu))
             {
                 if (e.Item.Pressed && (e.ToolStrip is MenuStrip))
                 {
@@ -733,8 +724,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
         protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
         {
-            if ((e.ToolStrip is ContextMenuStrip) ||
-                (e.ToolStrip is ToolStripDropDownMenu))
+            if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
             {
                 // Start with the total margin area
                 Rectangle marginRect = e.AffectedBounds;
@@ -793,8 +783,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
         protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
         {
-            if ((e.ToolStrip is ContextMenuStrip) ||
-                (e.ToolStrip is ToolStripDropDownMenu))
+            if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
             {
                 // If there is a connected area to be drawn
                 if (!e.ConnectedArea.IsEmpty)
@@ -1369,8 +1358,7 @@ namespace Krypton.Toolkit
             int x, y;
 
             // Find the correct starting position, which depends on direction
-            if ((direction == ArrowDirection.Left) ||
-                (direction == ArrowDirection.Right))
+            if (direction is ArrowDirection.Left or ArrowDirection.Right)
             {
                 x = rect.Right - ((rect.Width - 4) / 2);
                 y = rect.Y + (rect.Height / 2);

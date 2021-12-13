@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuItems), "ToolboxBitmaps.KryptonContextMenuItems.bmp")]
-    [Designer("Krypton.Toolkit.KryptonContextMenuItemsDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
+    [Designer(@"Krypton.Toolkit.KryptonContextMenuItemsDesigner, Krypton.Toolkit")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Items")]
+    [DefaultProperty(@"Items")]
     public class KryptonContextMenuItems : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -119,8 +119,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Collection of standard menu items.
         /// </summary>
-        [Category("Data")]
-        [Description("Collection of standard menu items.")]
+        [Category(@"Data")]
+        [Description(@"Collection of standard menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Editor(@"Krypton.Toolkit.KryptonContextMenuItemCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         public KryptonContextMenuItemCollection Items { get; }
@@ -129,8 +129,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the collection appears as standard or alternate items.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Determines if collection appears as standard or alternate items.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines if collection appears as standard or alternate items.")]
         [DefaultValue(true)]
         public bool StandardStyle
         {
@@ -150,8 +150,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the an image column is provided for background of images.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Determines if an image column is provided for background of images.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines if an image column is provided for background of images.")]
         [DefaultValue(true)]
         public bool ImageColumn
         {
@@ -171,8 +171,8 @@ namespace Krypton.Toolkit
         /// Gets access to the image column specific appearance values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining image column specific appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining image column specific appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect StateNormal { get; }
 

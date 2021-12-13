@@ -2789,19 +2789,19 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         internal static extern uint SetWindowLong(IntPtr hwnd, GWL_ nIndex, uint nLong);
 
         // This is aliased as a macro in 32bit Windows.
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal static IntPtr SetWindowLongPtr(IntPtr hwnd, GWL_ nIndex, IntPtr dwNewLong) =>
             (8 == IntPtr.Size)
                 ? SetWindowLongPtr64(hwnd, nIndex, dwNewLong)
                 : new IntPtr(SetWindowLongPtr32(hwnd, nIndex, dwNewLong.ToInt32()));
 
-        [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist")]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
+        [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         [DllImport(@"user32.dll", EntryPoint = "SetWindowLong", SetLastError = true)]
         private static extern int SetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex, int dwNewLong);
 
-        [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist")]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
+        [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         [DllImport(@"user32.dll", EntryPoint = "SetWindowLongPtr", SetLastError = true)]
         private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex, IntPtr dwNewLong);
 
@@ -2972,12 +2972,12 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint RegisterWindowMessage(string lpString);
 
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         [DllImport(@"user32.dll", EntryPoint = "GetMonitorInfo", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _GetMonitorInfo(IntPtr hMonitor, [In, Out] MONITORINFO lpmi);
 
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal static MONITORINFO GetMonitorInfo(IntPtr hMonitor)
         {
             MONITORINFO mi = new();

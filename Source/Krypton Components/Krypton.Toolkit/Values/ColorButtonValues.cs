@@ -88,8 +88,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the button image.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button image.")]
+        [Category(@"Visuals")]
+        [Description(@"Button image.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
@@ -121,8 +121,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the label image transparent color.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Label image transparent color.")]
+        [Category(@"Visuals")]
+        [Description(@"Label image transparent color.")]
         [RefreshProperties(RefreshProperties.All)]
         [KryptonDefaultColor()]
         public Color ImageTransparentColor
@@ -162,8 +162,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the state specific images for the button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("State specific images for the button.")]
+        [Category(@"Visuals")]
+        [Description(@"State specific images for the button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonImageStates ImageStates { get; }
 
@@ -176,10 +176,10 @@ namespace Krypton.Toolkit
         /// Gets and sets the button text.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button text.")]
+        [Category(@"Visuals")]
+        [Description(@"Button text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
             get => _text;
@@ -211,11 +211,11 @@ namespace Krypton.Toolkit
         /// Gets and sets the button extra text.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button extra text.")]
+        [Category(@"Visuals")]
+        [Description(@"Button extra text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-        [DefaultValue("")]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [DefaultValue(@"")]
         public string ExtraText
         {
             get => _extraText;
@@ -292,8 +292,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the selected color drawing rectangle.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Rounded color drawing rectangle.")]
+        [Category(@"Appearance")]
+        [Description(@"Rounded color drawing rectangle.")]
         public int RoundedCorners
         {
             get => _roundedCorners;

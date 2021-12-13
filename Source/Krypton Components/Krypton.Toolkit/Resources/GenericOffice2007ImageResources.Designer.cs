@@ -19,7 +19,7 @@ namespace Krypton.Toolkit.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(@"System.Resources.Tools.StronglyTypedResourceBuilder", @"16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class GenericOffice2007ImageResources {
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit.Resources {
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(@"Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal GenericOffice2007ImageResources() {
         }
         
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.GenericOffice2007ImageResources", typeof(GenericOffice2007ImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager(@"Krypton.Toolkit.Resources.GenericOffice2007ImageResources", typeof(GenericOffice2007ImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Office2007Checked {
             get {
-                object obj = ResourceManager.GetObject("Office2007Checked", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Office2007Checked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Office2007Indeterminate {
             get {
-                object obj = ResourceManager.GetObject("Office2007Indeterminate", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Office2007Indeterminate", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -373,7 +373,7 @@ namespace Krypton.Toolkit
                 // TODO: Add silent option
                 if (silent)
                 {
-                    if (themeFile != string.Empty || themeFile != "")
+                    if (themeFile is not ("" and ""))
                     {
                         palette.Import(themeFile, silent);
                     }

@@ -89,11 +89,11 @@ namespace Krypton.Toolkit
 
             if (_propertyGrid != null)
             {
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("PropertySort", "Property Sort", "Appearance", "Sort properties by."));
-                //actions.Add(new DesignerActionHeaderItem("Values"));
-                //actions.Add(new DesignerActionPropertyItem("SelectedObject", "Selected Object", "Values", "The object to alter."));
-                //actions.Add(new DesignerActionPropertyItem("SelectedObjects", "Selected Objects", "Values", "The objects to alter."));
+                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
+                actions.Add(new DesignerActionPropertyItem(@"PropertySort", @"Property Sort", @"Appearance", @"Sort properties by."));
+                //actions.Add(new DesignerActionHeaderItem(@"Values"));
+                //actions.Add(new DesignerActionPropertyItem(@"SelectedObject", @"Selected Object", @"Values", @"The object to alter."));
+                //actions.Add(new DesignerActionPropertyItem(@"SelectedObjects", @"Selected Objects", @"Values", @"The objects to alter."));
             }
 
             return actions;

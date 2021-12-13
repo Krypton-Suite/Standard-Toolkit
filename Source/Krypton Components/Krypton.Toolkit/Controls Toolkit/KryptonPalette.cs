@@ -2004,7 +2004,7 @@ namespace Krypton.Toolkit
                 _suspendCount--;
 
                 // If an immediate drawing update is required and updates have just been enabled
-                if (updateNow && (_suspendCount == 0))
+                if (updateNow && _suspendCount == 0)
                 {
                     OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
                     OnButtonSpecChanged(this, EventArgs.Empty);
@@ -2637,7 +2637,7 @@ namespace Krypton.Toolkit
                     IPalette tempPalette = _basePalette;
 
                     // Find the new palette mode based on the incoming value
-                    _basePaletteMode = (value == null) ? PaletteMode.Office365Blue : PaletteMode.Custom;
+                    _basePaletteMode = value == null ? PaletteMode.Office365Blue : PaletteMode.Custom;
                     _basePalette = value;
 
                     // If the new value creates a circular reference
@@ -2745,7 +2745,7 @@ namespace Krypton.Toolkit
                 if (_baseRenderer != value)
                 {
                     // Find the new renderer mode based on the incoming value
-                    _baseRenderMode = (value == null) ? RendererMode.Inherit : RendererMode.Custom;
+                    _baseRenderMode = value == null ? RendererMode.Inherit : RendererMode.Custom;
                     _baseRenderer = value;
 
                     // Fire events to indicate a change in palette values
@@ -3147,7 +3147,7 @@ namespace Krypton.Toolkit
                 // having a version number the loading of older version is easier
                 XmlElement root = doc.CreateElement("KryptonPalette");
                 root.SetAttribute("Version", _paletteVersion.ToString());
-                root.SetAttribute("Generated", DateTime.Now.ToLongDateString() + ", " + DateTime.Now.ToShortTimeString());
+                root.SetAttribute("Generated", DateTime.Now.ToLongDateString() + ", @" + DateTime.Now.ToShortTimeString());
                 doc.AppendChild(root);
 
                 // Add two children, one for storing actual palette values the other for cached images
@@ -3249,7 +3249,7 @@ namespace Krypton.Toolkit
 
                                             // We ignore conversion of a Font of value (none) because instead
                                             // of providing null it returns a default font value
-                                            if ((valueType != nameof(Font)) || (valueValue != @"(none)"))
+                                            if (valueType != nameof(Font) || valueValue != @"(none)")
                                             {
                                                 // We need the type converter to create a string representation
                                                 TypeConverter converter = TypeDescriptor.GetConverter(StringToType(valueType));
@@ -3273,7 +3273,7 @@ namespace Krypton.Toolkit
         private void ImportImagesFromElement(XmlElement element, ImageReverseDictionary imageCache)
         {
             // Get all nodes storing images
-            XmlNodeList images = element.SelectNodes("Image");
+            XmlNodeList images = element.SelectNodes(@"Image");
 
             // Load each image node entry in turn
             if (images != null)
@@ -3284,10 +3284,10 @@ namespace Krypton.Toolkit
                     XmlElement imageElement = (XmlElement)image;
 
                     // Check the element is the expected type and has the required data
-                    if ((imageElement != null) &&
+                    if (imageElement != null &&
                         imageElement.HasAttribute(@"Name") &&
-                        (imageElement.ChildNodes.Count == 1) &&
-                        (imageElement.ChildNodes[0].NodeType == XmlNodeType.CDATA))
+                        imageElement.ChildNodes.Count == 1 &&
+                        imageElement.ChildNodes[0].NodeType == XmlNodeType.CDATA)
                     {
                         try
                         {
@@ -3367,7 +3367,7 @@ namespace Krypton.Toolkit
                                         PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)[@"IsDefault"];
 
                                         // All compound objects are expected to have an 'IsDefault' returning a boolean
-                                        if ((propertyIsDefault != null) && (propertyIsDefault.PropertyType == typeof(bool)))
+                                        if (propertyIsDefault != null && propertyIsDefault.PropertyType == typeof(bool))
                                         {
                                             // If the object 'IsDefault' then no need to persist it
                                             if ((bool)propertyIsDefault.GetValue(childObj))
@@ -3496,7 +3496,7 @@ namespace Krypton.Toolkit
 
                     // Create and add a new xml element
                     XmlElement imageElement = doc.CreateElement(@"Image");
-                    imageElement.SetAttribute("Name", entry.Value);
+                    imageElement.SetAttribute(@"Name", entry.Value);
                     element.AppendChild(imageElement);
 
                     // Set the image data into a CDATA section
@@ -3539,7 +3539,7 @@ namespace Krypton.Toolkit
                                     PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)[@"IsDefault"];
 
                                     // All compound objects are expected to have an 'IsDefault' returning a boolean
-                                    if ((propertyIsDefault != null) && (propertyIsDefault.PropertyType == typeof(bool)))
+                                    if (propertyIsDefault != null && propertyIsDefault.PropertyType == typeof(bool))
                                     {
                                         // If the object 'IsDefault' then no need to reset it
                                         if ((bool)propertyIsDefault.GetValue(childObj))

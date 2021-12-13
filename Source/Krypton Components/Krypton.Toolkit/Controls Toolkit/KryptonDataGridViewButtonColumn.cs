@@ -49,13 +49,13 @@ namespace Krypton.Toolkit
         public override string ToString()
         {
             StringBuilder builder = new(0x40);
-            builder.Append("KryptonDataGridViewButtonColumn { Name=");
+            builder.Append(@"KryptonDataGridViewButtonColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
-            builder.Append(", Index=");
+            builder.Append(@", Index=");
             builder.Append(base.Index.ToString(CultureInfo.CurrentCulture));
             // ReSharper restore RedundantBaseQualifier
-            builder.Append(" }");
+            builder.Append(@" }");
             return builder.ToString();
         }
 
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
             {
                 if ((value != null) && value is not KryptonDataGridViewButtonCell)
                 {
-                    throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewButtonCell");
+                    throw new InvalidCastException(@"Can only assign a object of type KryptonDataGridViewButtonCell");
                 }
 
                 base.CellTemplate = value;
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the column's default cell style.
         /// </summary>
         [Browsable(true)]
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         public override DataGridViewCellStyle DefaultCellStyle
         {
             get => base.DefaultCellStyle;
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the default text displayed on the button cell.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(null)]
         public string Text
         {
@@ -148,13 +148,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the Text property value is displayed as the button text for cells in this column.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(false)]
         public bool UseColumnTextForButtonValue
         {
             get =>
                 CellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewButtonColumn cell template required")
+                    ? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required")
                     : ((KryptonDataGridViewButtonCell)CellTemplate).UseColumnTextForButtonValue;
 
             set
@@ -183,13 +183,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the Text property value is displayed as the button text for cells in this column.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(typeof(ButtonStyle), "Standalone")]
         public ButtonStyle ButtonStyle
         {
             get =>
                 CellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewButtonColumn cell template required")
+                    ? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required")
                     : ((KryptonDataGridViewButtonCell)CellTemplate).ButtonStyle;
 
             set
@@ -240,7 +240,7 @@ namespace Krypton.Toolkit
             if (_miColumnCommonChange == null)
             {
                 // Cache access to the internal method 'OnColumnCommonChange'
-                _miColumnCommonChange = typeof(DataGridView).GetMethod("OnColumnCommonChange", BindingFlags.Instance |
+                _miColumnCommonChange = typeof(DataGridView).GetMethod(@"OnColumnCommonChange", BindingFlags.Instance |
                                                                                                BindingFlags.NonPublic |
                                                                                                BindingFlags.GetField);
 
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
             if (_piUseColumnTextForButtonValueInternal == null)
             {
                 // Cache access to the internal property sette 'UseColumnTextForButtonValueInternal'
-                _piUseColumnTextForButtonValueInternal = typeof(DataGridViewButtonCell).GetProperty("UseColumnTextForButtonValueInternal", BindingFlags.Instance |
+                _piUseColumnTextForButtonValueInternal = typeof(DataGridViewButtonCell).GetProperty(@"UseColumnTextForButtonValueInternal", BindingFlags.Instance |
                                                                                                                                            BindingFlags.NonPublic |
                                                                                                                                            BindingFlags.SetProperty);
 

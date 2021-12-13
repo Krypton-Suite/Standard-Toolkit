@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuHeading), "ToolboxBitmaps.KryptonContextMenuHeading.bmp")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Text")]
+    [DefaultProperty(@"Text")]
     public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuHeading class.
         /// </summary>
         public KryptonContextMenuHeading()
-            : this("Heading")
+            : this(@"Heading")
         {
         }
 
@@ -112,11 +112,11 @@ namespace Krypton.Toolkit
         /// Gets and sets the heading menu item text.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Heading menu item text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Category(@"Appearance")]
+        [Description(@"Heading menu item text.")]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [Localizable(true)]
-        [DefaultValue("Heading")]
+        [DefaultValue(@"Heading")]
         public string Text
         {
             get => _text;
@@ -135,9 +135,9 @@ namespace Krypton.Toolkit
         /// Gets and sets the heading menu item extra text.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Heading menu item extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Category(@"Appearance")]
+        [Description(@"Heading menu item extra text.")]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [Localizable(true)]
         [DefaultValue(null)]
         public string ExtraText
@@ -158,8 +158,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the heading menu item image.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Heading menu item image.")]
+        [Category(@"Appearance")]
+        [Description(@"Heading menu item image.")]
         [Localizable(true)]
         [DefaultValue(null)]
         public Image Image
@@ -180,8 +180,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the heading image color to make transparent.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Heading image color to make transparent.")]
+        [Category(@"Appearance")]
+        [Description(@"Heading image color to make transparent.")]
         [Localizable(true)]
         public Color ImageTransparentColor
         {
@@ -203,8 +203,8 @@ namespace Krypton.Toolkit
         /// Gets access to the header instance specific appearance values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining header instance specific appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining header instance specific appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateNormal { get; }
 

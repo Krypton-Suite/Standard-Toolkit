@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewDomainUpDownCell cells.
     /// </summary>
-    [Designer("Krypton.Toolkit.KryptonDomainUpDownColumnDesigner, Krypton.Toolkit")]
+    [Designer(@"Krypton.Toolkit.KryptonDomainUpDownColumnDesigner, Krypton.Toolkit")]
     [ToolboxBitmap(typeof(KryptonDataGridViewDomainUpDownColumn), "ToolboxBitmaps.KryptonDomainUpDown.bmp")]
     public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColumn
     {
@@ -48,13 +48,13 @@ namespace Krypton.Toolkit
         public override string ToString()
         {
             StringBuilder builder = new(0x40);
-            builder.Append("KryptonDataGridViewDomainUpDownColumn { Name=");
+            builder.Append(@"KryptonDataGridViewDomainUpDownColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
-            builder.Append(", Index=");
+            builder.Append(@", Index=");
             builder.Append(base.Index.ToString(CultureInfo.CurrentCulture));
             // ReSharper restore RedundantBaseQualifier
-            builder.Append(" }");
+            builder.Append(@" }");
             return builder.ToString();
         }
 
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             {
                 if ((value != null) && (value is not KryptonDataGridViewDomainUpDownCell cell))
                 {
-                    throw new InvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewDomainUpDownCell or derive from it.");
+                    throw new InvalidCastException(@"Value provided for CellTemplate must be of type KryptonDataGridViewDomainUpDownCell or derive from it.");
                 }
 
                 base.CellTemplate = value;
@@ -108,18 +108,18 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of the button specifications.
         /// </summary>
-        [Category("Data")]
-        [Description("Set of extra button specs to appear with control.")]
+        [Category(@"Data")]
+        [Description(@"Set of extra button specs to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DataGridViewColumnSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets the collection of allowable items of the domain up down.
         /// </summary>
-        [Category("Data")]
-        [Description("The allowable items of the domain up down.")]
+        [Category(@"Data")]
+        [Description(@"The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         public StringCollection Items { get; }
 
         #endregion

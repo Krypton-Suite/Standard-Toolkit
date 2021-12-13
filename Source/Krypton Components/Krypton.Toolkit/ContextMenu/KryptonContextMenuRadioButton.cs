@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuRadioButton), "ToolboxBitmaps.KryptonRadioButton.bmp")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Text")]
-    [DefaultEvent("CheckedChanged")]
+    [DefaultProperty(@"Text")]
+    [DefaultEvent(@"CheckedChanged")]
     public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -41,15 +41,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the radio button is clicked.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the radio button is clicked.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the radio button is clicked.")]
         public event EventHandler Click;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
-        [Category("Misc")]
-        [Description("Occurs whenever the Checked property has changed.")]
+        [Category(@"Misc")]
+        [Description(@"Occurs whenever the Checked property has changed.")]
         public event EventHandler CheckedChanged;
         #endregion
 
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuRadioButton class.
         /// </summary>
         public KryptonContextMenuRadioButton()
-            : this("RadioButton")
+            : this(@"RadioButton")
         {
         }
 
@@ -145,8 +145,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if clicking the radio button automatically closes the context menu.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates if clicking the cradio button automatically closes the context menu.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if clicking the cradio button automatically closes the context menu.")]
         [DefaultValue(false)]
         public bool AutoClose
         {
@@ -166,9 +166,9 @@ namespace Krypton.Toolkit
         /// Gets and sets the radio button text.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Main radio button text.")]
-        [DefaultValue("RadioButton")]
+        [Category(@"Appearance")]
+        [Description(@"Main radio button text.")]
+        [DefaultValue(@"RadioButton")]
         [Localizable(true)]
         public string Text
         {
@@ -188,8 +188,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the radio button extra text.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Radio button extra text.")]
+        [Category(@"Appearance")]
+        [Description(@"Radio button extra text.")]
         [DefaultValue(null)]
         [Localizable(true)]
         public string ExtraText
@@ -210,8 +210,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the radio button image.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Radio button image.")]
+        [Category(@"Appearance")]
+        [Description(@"Radio button image.")]
         [DefaultValue(null)]
         [Localizable(true)]
         public Image Image
@@ -232,8 +232,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the radio button image color to make transparent.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Radio button image color to make transparent.")]
+        [Category(@"Appearance")]
+        [Description(@"Radio button image color to make transparent.")]
         [Localizable(true)]
         public Color ImageTransparentColor
         {
@@ -255,8 +255,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the radio button label style.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Radio button label style.")]
+        [Category(@"Visuals")]
+        [Description(@"Radio button label style.")]
         [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
@@ -277,8 +277,8 @@ namespace Krypton.Toolkit
         /// Gets access to the image value overrides.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Image value overrides.")]
+        [Category(@"Visuals")]
+        [Description(@"Image value overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public RadioButtonImages Images { get; }
 
@@ -288,8 +288,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the radio button is enabled.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates whether the radio button is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the radio button is enabled.")]
         [DefaultValue(true)]
         [Bindable(true)]
         public bool Enabled
@@ -310,8 +310,8 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating if the component is in the checked state.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Indicates if the component is in the checked state.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates if the component is in the checked state.")]
         [DefaultValue(false)]
         [Bindable(true)]
         public bool Checked
@@ -333,8 +333,8 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating if the radio button is automatically changed state when clicked. 
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Causes the radio button to automatically change state when clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"Causes the radio button to automatically change state when clicked.")]
         [DefaultValue(true)]
         public bool AutoCheck
         {
@@ -354,8 +354,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common radio button appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common radio button appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common radio button appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
@@ -365,8 +365,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled radio button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled radio button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled radio button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
@@ -376,8 +376,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal radio button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal radio button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal radio button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
@@ -387,8 +387,8 @@ namespace Krypton.Toolkit
         /// Gets access to the radio button appearance when it has focus.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining radio button appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining radio button appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 

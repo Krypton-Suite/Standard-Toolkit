@@ -18,11 +18,11 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckButton), "ToolboxBitmaps.KryptonCheckButton.bmp")]
-    [DefaultEvent("Click")]
-    [DefaultProperty("Text")]
-    [Designer("Krypton.Toolkit.KryptonCheckButtonDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Toggles checked state when user clicks button.")]
+    [DefaultEvent(@"Click")]
+    [DefaultProperty(@"Text")]
+    [Designer(@"Krypton.Toolkit.KryptonCheckButtonDesigner, Krypton.Toolkit")]
+    [DesignerCategory(@"code")]
+    [Description(@"Toggles checked state when user clicks button.")]
     public class KryptonCheckButton : KryptonButton
     {
         #region Instance Fields
@@ -39,15 +39,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the Checked property is about to change.
         /// </summary>
-        [Category("Property Changing")]
-        [Description("Occurs whenever the Checked property is about to change.")]
+        [Category(@"Property Changing")]
+        [Description(@"Occurs whenever the Checked property is about to change.")]
         public event CancelEventHandler CheckedChanging;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs whenever the Checked property has changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs whenever the Checked property has changed.")]
         public event EventHandler CheckedChanged;
         #endregion
 
@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal checked button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal checked button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedNormal { get; }
 
@@ -89,8 +89,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking checked button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking checked button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedTracking { get; }
 
@@ -99,8 +99,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed checked button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed checked button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedPressed { get; }
 
@@ -109,8 +109,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the KryptonCheckButton is in the checked state. 
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates whether the control is in the checked state.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates whether the control is in the checked state.")]
         [DefaultValue(false)]
         [Bindable(true)]
         public bool Checked
@@ -144,8 +144,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the user can uncheck the button when in the checked state.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the user can uncheck the button when in the checked state.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the user can uncheck the button when in the checked state.")]
         [DefaultValue(true)]
         public bool AllowUncheck
         {
@@ -156,8 +156,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the check button.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the check button.")]
         [DefaultValue(null)]
         public override IKryptonCommand KryptonCommand
         {
