@@ -72,8 +72,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the button should be shown.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Should the button be shown.")]
+        [Category(@"Behavior")]
+        [Description(@"Should the button be shown.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool Visible
@@ -104,8 +104,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the button enabled state.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Defines the button enabled state.")]
+        [Category(@"Behavior")]
+        [Description(@"Defines the button enabled state.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonEnabled), "Container")]
         public ButtonEnabled Enabled
@@ -136,8 +136,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the button is checked or capable of being checked.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Defines if the button is checked or capable of being checked.")]
+        [Category(@"Behavior")]
+        [Description(@"Defines if the button is checked or capable of being checked.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonCheckState), "NotCheckButton")]
         public ButtonCheckState Checked
@@ -167,8 +167,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the button.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the button.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public override KryptonCommand KryptonCommand
@@ -202,8 +202,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the button type.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Defines the type of button specification.")]
+        [Category(@"Behavior")]
+        [Description(@"Defines the type of button specification.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(PaletteButtonSpecStyle), "Generic")]
         public PaletteButtonSpecStyle Type

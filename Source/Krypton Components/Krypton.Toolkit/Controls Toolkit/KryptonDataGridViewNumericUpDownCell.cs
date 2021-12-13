@@ -129,9 +129,9 @@ namespace Krypton.Toolkit
 
             set
             {
-                if ((value < 0) || (value > 99))
+                if (value is < 0 or > 99)
                 {
-                    throw new ArgumentOutOfRangeException("The DecimalPlaces property cannot be smaller than 0 or larger than 99.");
+                    throw new ArgumentOutOfRangeException(@"The DecimalPlaces property cannot be smaller than 0 or larger than 99.");
                 }
 
                 if (_decimalPlaces != value)
@@ -170,7 +170,7 @@ namespace Krypton.Toolkit
             {
                 if (value < (decimal)0.0)
                 {
-                    throw new ArgumentOutOfRangeException("The Increment property cannot be smaller than 0.");
+                    throw new ArgumentOutOfRangeException(@"The Increment property cannot be smaller than 0.");
                 }
 
                 SetIncrement(RowIndex, value);

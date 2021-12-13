@@ -19,7 +19,7 @@ namespace Krypton.Toolkit.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(@"System.Resources.Tools.StronglyTypedResourceBuilder", @"16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class DataBarImageResources {
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit.Resources {
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(@"Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal DataBarImageResources() {
         }
         
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.DataBarImageResources", typeof(DataBarImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager(@"Krypton.Toolkit.Resources.DataBarImageResources", typeof(DataBarImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap databar_generic_16 {
             get {
-                object obj = ResourceManager.GetObject("databar_generic_16", resourceCulture);
+                object obj = ResourceManager.GetObject(@"databar_generic_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_gradient_blue_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_blue_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_gradient_blue_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_gradient_green_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_green_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_gradient_green_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_gradient_pink_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_pink_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_gradient_pink_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_gradient_red_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_red_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_gradient_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_gradient_rose_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_rose_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_gradient_rose_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_gradient_violet_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_violet_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_gradient_violet_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_gradient_yellow_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient_yellow_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_gradient_yellow_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_gradient2_blue_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_gradient2_blue_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_gradient2_blue_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_solid_blue_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_blue_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_solid_blue_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_solid_green_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_green_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_solid_green_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_solid_pink_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_pink_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_solid_pink_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_solid_red_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_red_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_solid_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_solid_rose_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_rose_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_solid_rose_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_solid_violet_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_violet_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_solid_violet_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Databar_solid_yellow_32 {
             get {
-                object obj = ResourceManager.GetObject("Databar_solid_yellow_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Databar_solid_yellow_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

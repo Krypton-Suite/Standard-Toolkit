@@ -641,7 +641,7 @@ namespace Krypton.Toolkit
             // are not added correctly when inside a TabControl. Bonkers but true.
             if (!_ignoreLayout)
             {
-                // Let base class calulcate fill rectangle
+                // Let base class calculate fill rectangle
                 base.OnLayout(levent);
 
                 // Only use layout logic if control is fully initialized or if being forced

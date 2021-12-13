@@ -18,13 +18,13 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonComboBox), "ToolboxBitmaps.KryptonComboBox.bmp")]
-    [DefaultEvent("SelectedIndexChanged")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Text")]
-    [LookupBindingProperties("DataSource", "DisplayMember", "ValueMember", "SelectedValue")]
-    [Designer("Krypton.Toolkit.KryptonComboBoxDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Displays an editable textbox with a drop-down list of permitted values.")]
+    [DefaultEvent(@"SelectedIndexChanged")]
+    [DefaultProperty(@"Text")]
+    [DefaultBindingProperty(@"Text")]
+    [LookupBindingProperties(@"DataSource", @"DisplayMember", @"ValueMember", @"SelectedValue")]
+    [Designer(@"Krypton.Toolkit.KryptonComboBoxDesigner, Krypton.Toolkit")]
+    [DesignerCategory(@"code")]
+    [Description(@"Displays an editable textbox with a drop-down list of permitted values.")]
     public class KryptonComboBox : VisualControlBase,
                                    IContainedInputControl,
                                    ISupportInitializeNotification
@@ -478,8 +478,8 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            [Description("Raises the TrackMouseEnter event in the wrapped control.")]
-            [Category("Mouse")]
+            [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
+            [Category(@"Mouse")]
             [EditorBrowsable(EditorBrowsableState.Advanced)]
             protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
@@ -831,142 +831,142 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when [draw item].
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when an item needs to be Drawn.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when an item needs to be Drawn.")]
         public event DrawItemEventHandler DrawItem;
 
         /// <summary>
         /// Occurs when the control is initialized.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the control has been fully initialized.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the control has been fully initialized.")]
         public event EventHandler Initialized;
 
         /// <summary>
         /// Occurs when the drop-down portion of the KryptonComboBox is shown.
         /// </summary>
-        [Description("Occurs when the drop-down portion of the KryptonComboBox is shown.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the drop-down portion of the KryptonComboBox is shown.")]
+        [Category(@"Behavior")]
         public event EventHandler DropDown;
 
         /// <summary>
         /// Indicates that the drop-down portion of the KryptonComboBox has closed.
         /// </summary>
-        [Description("Indicates that the drop-down portion of the KryptonComboBox has closed.")]
-        [Category("Behavior")]
+        [Description(@"Indicates that the drop-down portion of the KryptonComboBox has closed.")]
+        [Category(@"Behavior")]
         public event EventHandler DropDownClosed;
 
         /// <summary>
         /// Occurs when the value of the DropDownStyle property changed.
         /// </summary>
-        [Description("Occurs when the value of the DropDownStyle property changed.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the value of the DropDownStyle property changed.")]
+        [Category(@"Behavior")]
         public event EventHandler DropDownStyleChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
-        [Description("Occurs when the value of the SelectedIndex property changes.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the value of the SelectedIndex property changes.")]
+        [Category(@"Behavior")]
         public event EventHandler SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when an item is chosen from the drop-down list and the drop-down list is closed.
         /// </summary>
-        [Description("Occurs when an item is chosen from the drop-down list and the drop-down list is closed.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when an item is chosen from the drop-down list and the drop-down list is closed.")]
+        [Category(@"Behavior")]
         public event EventHandler SelectionChangeCommitted;
 
         /// <summary>
         /// Occurs when the value of the DataSource property changed.
         /// </summary>
-        [Description("Occurs when the value of the DataSource property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the DataSource property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler DataSourceChanged;
 
         /// <summary>
         /// Occurs when the value of the DisplayMember property changed.
         /// </summary>
-        [Description("Occurs when the value of the DisplayMember property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the DisplayMember property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler DisplayMemberChanged;
 
         /// <summary>
         /// Occurs when the list format has changed.
         /// </summary>
-        [Description("Occurs when the list format has changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the list format has changed.")]
+        [Category(@"PropertyChanged")]
         public event ListControlConvertEventHandler Format;
 
         /// <summary>
         /// Occurs when the value of the FormatInfo property changed.
         /// </summary>
-        [Description("Occurs when the value of the FormatInfo property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the FormatInfo property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler FormatInfoChanged;
 
         /// <summary>
         /// Occurs when the value of the FormatString property changed.
         /// </summary>
-        [Description("Occurs when the value of the FormatString property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the FormatString property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler FormatStringChanged;
 
         /// <summary>
         /// Occurs when the value of the FormattingEnabled property changed.
         /// </summary>
-        [Description("Occurs when the value of the FormattingEnabled property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the FormattingEnabled property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler FormattingEnabledChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedValue property changed.
         /// </summary>
-        [Description("Occurs when the value of the SelectedValue property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the SelectedValue property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler SelectedValueChanged;
 
         /// <summary>
         /// Occurs when the value of the ValueMember property changed.
         /// </summary>
-        [Description("Occurs when the value of the ValueMember property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the ValueMember property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler ValueMemberChanged;
 
         /// <summary>
         /// Occurs when the KryptonComboBox text has changed.
         /// </summary>
-        [Description("Occurs when the KryptonComboBox text has changed.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the KryptonComboBox text has changed.")]
+        [Category(@"Behavior")]
         public event EventHandler TextUpdate;
 
         /// <summary>
         /// Occurs when the hovered selection changed.
         /// </summary>
-        [Description("Occurs when the hovered selection changed.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the hovered selection changed.")]
+        [Category(@"Behavior")]
         public event EventHandler<HoveredSelectionChangedEventArgs> HoveredSelectionChanged;
 
         /// <summary>
         /// Occurs when the <see cref="KryptonComboBox"/> wants to display a tooltip.
         /// </summary>
-        [Description("Occurs when the KryptonComboBox wants to display a tooltip.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the KryptonComboBox wants to display a tooltip.")]
+        [Category(@"Behavior")]
         public event EventHandler<ToolTipNeededEventArgs> ToolTipNeeded;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
         /// </summary>
-        [Description("Raises the TrackMouseEnter event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
         /// </summary>
-        [Description("Raises the TrackMouseLeave event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseLeave;
 
@@ -1183,8 +1183,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Set a watermark/prompt message for the user.")]
+        [Category(@"Visuals")]
+        [Description(@"Set a watermark/prompt message for the user.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteCueHintText CueHint { get; }
 
@@ -1221,7 +1221,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if the control is initialized.
         /// </summary>
         [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsInitialized
         {
             [DebuggerStepThrough]
@@ -1233,7 +1234,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if the control is initialized.
         /// </summary>
         [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsInitializing
         {
             [DebuggerStepThrough]
@@ -1252,7 +1254,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the draw mode of the combobox.</summary>
         /// <value>The draw mode of the combobox.</value>
-        [Description("Gets or sets the draw mode of the combobox.")]
+        [Description(@"Gets or sets the draw mode of the combobox.")]
         public DrawMode DrawMode
         {
             get => _comboBox.DrawMode;
@@ -1424,10 +1426,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the value member.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the property to use as the actual value of the items in the control.")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
-        [DefaultValue("")]
+        [Category(@"Data")]
+        [Description(@"Indicates the property to use as the actual value of the items in the control.")]
+        [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [DefaultValue(@"")]
         public string ValueMember
         {
             get => _comboBox.ValueMember;
@@ -1437,8 +1439,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the list that this control will use to gets its items.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the list that this control will use to gets its items.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the list that this control will use to gets its items.")]
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
@@ -1451,11 +1453,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the property to display for the items in this control.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
-        [DefaultValue("")]
+        [Category(@"Data")]
+        [Description(@"Indicates the property to display for the items in this control.")]
+        [TypeConverter(@"System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
+        [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [DefaultValue(@"")]
         public string DisplayMember
         {
             get => _comboBox.DisplayMember;
@@ -1499,8 +1501,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Defines if mnemonic characters generate click events for button specs.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines if mnemonic characters generate click events for button specs.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -1519,8 +1521,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {
@@ -1539,8 +1541,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the appearance and functionality of the KryptonComboBox.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Controls the appearance and functionality of the KryptonComboBox.")]
+        [Category(@"Appearance")]
+        [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
         [Editor(@"Krypton.Toolkit.OverrideComboBoxStyleDropDownStyle", typeof(UITypeEditor))]
         [DefaultValue(typeof(ComboBoxStyle), "DropDown")]
         [RefreshProperties(RefreshProperties.Repaint)]
@@ -1564,7 +1566,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary />
-        [Category("Behavior")]
+        [Category(@"Behavior")]
         [DefaultValue(true)]
         [Description(@"Determines if the ComboBox Items are shown in full")]
         public bool IntegralHeight
@@ -1576,8 +1578,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the height, in pixels, of the drop down box in a KryptonComboBox.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The height, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Category(@"Behavior")]
+        [Description(@"The height, in pixels, of the drop down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DefaultValue(200)]
         [Browsable(true)]
@@ -1590,8 +1592,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the width, in pixels, of the drop down box in a KryptonComboBox.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The width, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Category(@"Behavior")]
+        [Description(@"The width, in pixels, of the drop down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public int DropDownWidth
@@ -1603,8 +1605,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the height, in pixels, of items in an owner-draw KryptonComboBox.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Do not use this property, it is provided for backwards compatability only.")]
+        [Category(@"Behavior")]
+        [Description(@"Do not use this property, it is provided for backwards compatability only.")]
         [Localizable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -1622,8 +1624,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the maximum number of entries to display in the drop-down list.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The maximum number of entries to display in the drop-down list.")]
+        [Category(@"Behavior")]
+        [Description(@"The maximum number of entries to display in the drop-down list.")]
         [Localizable(true)]
         [DefaultValue(8)]
         public int MaxDropDownItems
@@ -1635,8 +1637,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the maximum number of characters that can be entered into the edit control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Specifies the maximum number of characters that can be entered into the edit control.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies the maximum number of characters that can be entered into the edit control.")]
         [DefaultValue(0)]
         [Localizable(true)]
         public int MaxLength
@@ -1648,8 +1650,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets whether the items in the list portion of the KryptonComboBox are sorted.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Specifies whether the items in the list portion of the KryptonComboBox are sorted.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies whether the items in the list portion of the KryptonComboBox are sorted.")]
         [DefaultValue(false)]
         public bool Sorted
         {
@@ -1660,9 +1662,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the items in the KryptonComboBox.
         /// </summary>
-        [Category("Data")]
-        [Description("The items in the KryptonComboBox.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Category(@"Data")]
+        [Description(@"The items in the KryptonComboBox.")]
+        [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1671,8 +1673,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the input control style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Input control style.")]
+        [Category(@"Visuals")]
+        [Description(@"Input control style.")]
         public InputControlStyle InputControlStyle
         {
             get => _inputControlStyle;
@@ -1698,8 +1700,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the item style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Item style.")]
+        [Category(@"Visuals")]
+        [Description(@"Item style.")]
         public ButtonStyle ItemStyle
         {
             get => _style;
@@ -1725,8 +1727,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the drop button style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("DropButton style.")]
+        [Category(@"Visuals")]
+        [Description(@"DropButton style.")]
         public ButtonStyle DropButtonStyle
         {
             get => _dropButtonStyle;
@@ -1751,8 +1753,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the drop button style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("DropButton style.")]
+        [Category(@"Visuals")]
+        [Description(@"DropButton style.")]
         public PaletteBackStyle DropBackStyle
         {
             get => _dropBackStyle;
@@ -1778,32 +1780,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ComboBoxButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
-        [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
+        [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -1817,7 +1819,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text completion behavior of the combobox.
         /// </summary>
-        [Description("Indicates the text completion behavior of the combobox.")]
+        [Description(@"Indicates the text completion behavior of the combobox.")]
         [DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -1831,7 +1833,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
-        [Description("The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
+        [Description(@"The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
         [DefaultValue(typeof(AutoCompleteSource), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -1845,10 +1847,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
         /// </summary>
-        [Description("The format specifier characters that indicate how a value is to be displayed.")]
-        [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Description(@"The format specifier characters that indicate how a value is to be displayed.")]
+        [Editor(@"System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [MergableProperty(false)]
-        [DefaultValue("")]
+        [DefaultValue(@"")]
         public string FormatString
         {
             get => _comboBox.FormatString;
@@ -1858,7 +1860,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets if this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.
         /// </summary>
-        [Description("If this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.")]
+        [Description(@"If this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.")]
         [DefaultValue(false)]
         public bool FormattingEnabled
         {
@@ -1869,8 +1871,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common combobox appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common combobox appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common combobox appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxRedirect StateCommon { get; }
 
@@ -1879,8 +1881,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled combobox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled combobox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled combobox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxStates StateDisabled { get; }
 
@@ -1889,8 +1891,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal combobox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal combobox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal combobox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxStates StateNormal { get; }
 
@@ -1899,8 +1901,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active combobox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active combobox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active combobox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxJustComboStates StateActive { get; }
 
@@ -1909,8 +1911,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the tracking combobox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking combobox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking combobox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteComboBoxJustItemStates StateTracking { get; }
 

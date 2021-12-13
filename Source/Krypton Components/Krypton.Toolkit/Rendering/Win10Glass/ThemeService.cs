@@ -29,14 +29,14 @@ namespace Krypton.Toolkit
         //{
         //    dictionary["WindowBackground"] = new SolidColorBrush(GetWindowBackgroundColor());
 
-        //    SetBrush(dictionary, "WindowForeground", "ImmersiveApplicationTextDarkTheme");
-        //    ReplaceBrush(dictionary, "CottonSwabSliderThumb", "ImmersiveSystemAccent");
+        //    SetBrush(dictionary, "WindowForeground", @"ImmersiveApplicationTextDarkTheme");
+        //    ReplaceBrush(dictionary, "CottonSwabSliderThumb", @"ImmersiveSystemAccent");
         //    ReplaceBrush(dictionary, "CottonSwabSliderTrackBackground", SystemParameters.HighContrast ? "ImmersiveSystemAccentLight1" : "ImmersiveControlDarkSliderTrackBackgroundRest");
         //    SetBrushWithOpacity(dictionary, "CottonSwabSliderTrackBackgroundHover", SystemParameters.HighContrast ? "ImmersiveSystemAccentLight1" : "ImmersiveDarkBaseMediumHigh", SystemParameters.HighContrast ? 1.0 : 0.25);
-        //    SetBrush(dictionary, "CottonSwabSliderTrackBackgroundPressed", "ImmersiveControlDarkSliderTrackBackgroundRest");
-        //    ReplaceBrush(dictionary, "CottonSwabSliderTrackFill", "ImmersiveSystemAccentLight1");
-        //    SetBrush(dictionary, "CottonSwabSliderThumbHover", "ImmersiveControlDarkSliderThumbHover");
-        //    SetBrush(dictionary, "CottonSwabSliderThumbPressed", "ImmersiveControlDarkSliderThumbHover");
+        //    SetBrush(dictionary, "CottonSwabSliderTrackBackgroundPressed", @"ImmersiveControlDarkSliderTrackBackgroundRest");
+        //    ReplaceBrush(dictionary, "CottonSwabSliderTrackFill", @"ImmersiveSystemAccentLight1");
+        //    SetBrush(dictionary, "CottonSwabSliderThumbHover", @"ImmersiveControlDarkSliderThumbHover");
+        //    SetBrush(dictionary, "CottonSwabSliderThumbPressed", @"ImmersiveControlDarkSliderThumbHover");
         //}
 
         /// <summary>

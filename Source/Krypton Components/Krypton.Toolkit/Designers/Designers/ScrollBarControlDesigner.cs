@@ -56,15 +56,15 @@ namespace Krypton.Toolkit
         /// <param name="properties">The property dictionary.</param>
         protected override void PreFilterProperties(IDictionary properties)
         {
-            properties.Remove("Text");
-            properties.Remove("BackgroundImage");
-            properties.Remove("ForeColor");
-            properties.Remove("ImeMode");
-            properties.Remove("Padding");
-            properties.Remove("BackgroundImageLayout");
-            properties.Remove("BackColor");
-            properties.Remove("Font");
-            properties.Remove("RightToLeft");
+            properties.Remove(@"Text");
+            properties.Remove(@"BackgroundImage");
+            properties.Remove(@"ForeColor");
+            properties.Remove(@"ImeMode");
+            properties.Remove(@"Padding");
+            properties.Remove(@"BackgroundImageLayout");
+            properties.Remove(@"BackColor");
+            properties.Remove(@"Font");
+            properties.Remove(@"RightToLeft");
 
             base.PreFilterProperties(properties);
         }

@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuImageSelect), "ToolboxBitmaps.KryptonContextMenuImageSelect.bmp")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("ImageList")]
-    [DefaultEvent("SelectedIndexChanged")]
+    [DefaultProperty(@"ImageList")]
+    [DefaultEvent(@"SelectedIndexChanged")]
     public class KryptonContextMenuImageSelect : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -43,22 +43,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the SelectedIndex property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the SelectedIndex property changes.")]
         public event EventHandler SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when user is tracking over an image.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when user is tracking over an image.")]
         public event EventHandler<ImageSelectEventArgs> TrackingImage;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when an image is clicked.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when an image is clicked.")]
         public event EventHandler Click;
 
         #endregion
@@ -137,8 +137,8 @@ namespace Krypton.Toolkit
         /// Gets and sets padding around the image selection area.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Padding used around the image selection area.")]
+        [Category(@"Behavior")]
+        [Description(@"Padding used around the image selection area.")]
         [DefaultValue(typeof(Padding), "2,2,2,2")]
         public Padding Padding
         {
@@ -158,8 +158,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if selecting an image automatically closes the context menu.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates if selecting an image automatically closes the context menu.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if selecting an image automatically closes the context menu.")]
         [DefaultValue(true)]
         public bool AutoClose
         {
@@ -179,8 +179,8 @@ namespace Krypton.Toolkit
         /// Gets access to the collection of images for display and selection.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("The index of the selected image.")]
+        [Category(@"Behavior")]
+        [Description(@"The index of the selected image.")]
         [DefaultValue(-1)]
         public int SelectedIndex
         {
@@ -200,8 +200,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the button style used for each image item.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Button style used for each image item.")]
+        [Category(@"Visuals")]
+        [Description(@"Button style used for each image item.")]
         [DefaultValue(typeof(ButtonStyle), "LowProfile")]
         public ButtonStyle ButtonStyle
         {
@@ -221,8 +221,8 @@ namespace Krypton.Toolkit
         /// Gets access to the collection of images for display and selection.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Collection of images for display and selection.")]
+        [Category(@"Behavior")]
+        [Description(@"Collection of images for display and selection.")]
         [DefaultValue(null)]
         public ImageList ImageList
         {
@@ -242,8 +242,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the index of first image in the ImageList for display.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Index of first image in the ImageList for display.")]
+        [Category(@"Behavior")]
+        [Description(@"Index of first image in the ImageList for display.")]
         [DefaultValue(-1)]
         public int ImageIndexStart
         {
@@ -263,8 +263,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the index of last image in the ImageList for display.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Index of last image in the ImageList for display.")]
+        [Category(@"Behavior")]
+        [Description(@"Index of last image in the ImageList for display.")]
         [DefaultValue(-1)]
         public int ImageIndexEnd
         {
@@ -284,8 +284,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the number of items to place on each display line.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Number of items to place on each display line.")]
+        [Category(@"Behavior")]
+        [Description(@"Number of items to place on each display line.")]
         [DefaultValue(5)]
         public int LineItems
         {

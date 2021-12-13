@@ -698,7 +698,7 @@ namespace Krypton.Toolkit
             }
 
             // We allow all non-keyboard messages
-            if ((m.Msg < 0x100) || (m.Msg > 0x108))
+            if (m.Msg is < 0x100 or > 0x108)
             {
                 return false;
             }

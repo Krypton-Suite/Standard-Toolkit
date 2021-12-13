@@ -18,11 +18,11 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuItem), "ToolboxBitmaps.KryptonContextMenuItem.bmp")]
-    [Designer("Krypton.Toolkit.KryptonContextMenuItemDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
+    [Designer(@"Krypton.Toolkit.KryptonContextMenuItemDesigner, Krypton.Toolkit")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Text")]
-    [DefaultEvent("Click")]
+    [DefaultProperty(@"Text")]
+    [DefaultEvent(@"Click")]
     public class KryptonContextMenuItem : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -47,22 +47,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the menu item is clicked.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the menu item is clicked.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the menu item is clicked.")]
         public event EventHandler Click;
 
         /// <summary>
         /// Occurs when the menu item is clicked.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the checked property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the checked property changes.")]
         public event EventHandler CheckedChanged;
 
         /// <summary>
         /// Occurs when the menu item is clicked.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the check state property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the check state property changes.")]
         public event EventHandler CheckStateChanged;
         #endregion
 
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuItem class.
         /// </summary>
         public KryptonContextMenuItem()
-            : this("Menu Item", null, null, Keys.None)
+            : this(@"Menu Item", null, null, Keys.None)
         {
         }
 
@@ -226,10 +226,10 @@ namespace Krypton.Toolkit
         /// Gets and sets the standard menu item text.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Standard menu item text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-        [DefaultValue("MenuItem")]
+        [Category(@"Appearance")]
+        [Description(@"Standard menu item text.")]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [DefaultValue(@"MenuItem")]
         [Localizable(true)]
         [Bindable(true)]
         public string Text
@@ -250,10 +250,10 @@ namespace Krypton.Toolkit
         /// Gets and sets the standard menu item extra text.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Standard menu item extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-        [DefaultValue("")]
+        [Category(@"Appearance")]
+        [Description(@"Standard menu item extra text.")]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [DefaultValue(@"")]
         [Localizable(true)]
         [Bindable(true)]
         public string ExtraText
@@ -274,8 +274,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the standard menu item image.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Standard menu item image.")]
+        [Category(@"Appearance")]
+        [Description(@"Standard menu item image.")]
         [DefaultValue(null)]
         [Localizable(true)]
         [Bindable(true)]
@@ -297,8 +297,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the heading image color to make transparent.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Heading image color to make transparent.")]
+        [Category(@"Appearance")]
+        [Description(@"Heading image color to make transparent.")]
         [Localizable(true)]
         [Bindable(true)]
         public Color ImageTransparentColor
@@ -321,8 +321,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the shortcut key combination associated with the menu item.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("The shortcut key combination associated with the menu item.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut key combination associated with the menu item.")]
         [DefaultValue(typeof(Keys), "None")]
         [Localizable(true)]
         public Keys ShortcutKeys
@@ -343,8 +343,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if clicking the menu item automatically closes the context menu.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates if clicking the menu item automatically closes the context menu.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if clicking the menu item automatically closes the context menu.")]
         [DefaultValue(true)]
         public bool AutoClose
         {
@@ -364,8 +364,8 @@ namespace Krypton.Toolkit
         /// Gets and sets whether the menu item toggles checked state when clicked.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates whether the menu item toggles checked state when clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the menu item toggles checked state when clicked.")]
         [DefaultValue(false)]
         public bool SplitSubMenu
         {
@@ -385,8 +385,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the shortcut display text is shown.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Determines if the shortcut display text is shown.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if the shortcut display text is shown.")]
         [DefaultValue(false)]
         public bool CheckOnClick
         {
@@ -406,8 +406,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the shortcut display text is shown.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Determines if the shortcut display text is shown.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines if the shortcut display text is shown.")]
         [DefaultValue(true)]
         [Localizable(true)]
         public bool ShowShortcutKeys
@@ -428,8 +428,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the large image is used from the attached KryptonCommand.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Determines if the large image is used from the attached KryptonCommand.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if the large image is used from the attached KryptonCommand.")]
         [DefaultValue(false)]
         public bool LargeKryptonCommandImage
         {
@@ -449,9 +449,9 @@ namespace Krypton.Toolkit
         /// Gets and sets the display text to use in preference to the shortcut key setting.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Display text to use in preference to the shortcut key setting.")]
-        [DefaultValue("")]
+        [Category(@"Appearance")]
+        [Description(@"Display text to use in preference to the shortcut key setting.")]
+        [DefaultValue(@"")]
         [Localizable(true)]
         public string ShortcutKeyDisplayString
         {
@@ -471,8 +471,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the menu item is in the checked state.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Indicates if the menu item is in the checked state.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates if the menu item is in the checked state.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(false)]
         [Bindable(true)]
@@ -511,8 +511,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the checked state of the menu item.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Indicates the checked state of the menu item.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates the checked state of the menu item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(CheckState), "Unchecked")]
         [Bindable(true)]
@@ -543,8 +543,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Collection of sub-menu items for display.
         /// </summary>
-        [Category("Data")]
-        [Description("Collection of sub-menu items.")]
+        [Category(@"Data")]
+        [Description(@"Collection of sub-menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Editor(@"Krypton.Toolkit.KryptonContextMenuCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
         public KryptonContextMenuCollection Items { get; }
@@ -553,8 +553,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the menu item is enabled.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates whether the menu item is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the menu item is enabled.")]
         [DefaultValue(true)]
         [Bindable(true)]
         public bool Enabled
@@ -575,8 +575,8 @@ namespace Krypton.Toolkit
         /// Gets access to the menu item disabled appearance values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining menu item disabled appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining menu item disabled appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateDisabled { get; }
 
@@ -586,8 +586,8 @@ namespace Krypton.Toolkit
         /// Gets access to the menu item normal appearance values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining menu item normal appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining menu item normal appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateNormal { get; }
 
@@ -597,8 +597,8 @@ namespace Krypton.Toolkit
         /// Gets access to the menu item normal appearance values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining menu item checked appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining menu item checked appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateChecked StateChecked { get; }
 
@@ -608,8 +608,8 @@ namespace Krypton.Toolkit
         /// Gets access to the menu item highlight appearance values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining menu item highlight appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining menu item highlight appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateHighlight StateHighlight { get; }
 
@@ -619,8 +619,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Command associated with the menu item.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the menu item.")]
         [DefaultValue(null)]
         public virtual KryptonCommand KryptonCommand
         {

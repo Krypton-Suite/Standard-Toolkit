@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// 
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public class BlurValues : Storage
     {
         #region statics
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description("Blur this when not Active")]
+        [Description(@"Blur this when not Active")]
         [DefaultValue(false)]
         public bool EnableBlur
         {
@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description("Gausian pixel radius used to blur each pixel")]
+        [Description(@"Gausian pixel radius used to blur each pixel")]
         [DefaultValue(_radiusDefault)]
         public byte Radius
         {
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description("Opacity Percentage to be applied to the blur over source form. Tuning this allows for background updates to show through.")]
+        [Description(@"Opacity Percentage to be applied to the blur over source form. Tuning this allows for background updates to show through.")]
         [DefaultValue(_opacityDefault)]
         public double Opacity
         {
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description("Blur this when not Focused")]
+        [Description(@"Blur this when not Focused")]
         [DefaultValue(false)]
         public bool BlurWhenFocusLost
         {

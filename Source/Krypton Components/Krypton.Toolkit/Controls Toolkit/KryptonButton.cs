@@ -19,11 +19,11 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonButton), "ToolboxBitmaps.KryptonButton.bmp")]
-    [DefaultEvent("Click")]
-    [DefaultProperty("Text")]
-    [DesignerCategory("code")]
-    [Description("Raises an event when the user clicks it.")]
-    [Designer("Krypton.Toolkit.KryptonButtonDesigner, Krypton.Toolkit")]
+    [DefaultEvent(@"Click")]
+    [DefaultProperty(@"Text")]
+    [DesignerCategory(@"code")]
+    [Description(@"Raises an event when the user clicks it.")]
+    [Designer(@"Krypton.Toolkit.KryptonButtonDesigner, Krypton.Toolkit")]
 
     public class KryptonButton : VisualSimpleBase, IButtonControl, IContentValues
     {
@@ -44,8 +44,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the KryptonCommand property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the KryptonCommand property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the KryptonCommand property changes.")]
         public event EventHandler KryptonCommandChanged;
         #endregion
 
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public override string Text
         {
             get => Values.Text;
@@ -174,8 +174,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the visual orientation of the control.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Visual orientation of the control.")]
+        [Category(@"Visuals")]
+        [Description(@"Visual orientation of the control.")]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
@@ -198,8 +198,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the button style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Button style.")]
+        [Category(@"Visuals")]
+        [Description(@"Button style.")]
         public ButtonStyle ButtonStyle
         {
             get => _style;
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
         }
 
         [DefaultValue(false), 
-         Description("If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
+         Description(@"If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
         public bool UseAsADialogButton 
         { 
             get => _useAsDialogButton; 
@@ -231,7 +231,7 @@ namespace Krypton.Toolkit
         }
 
         [DefaultValue(false), 
-         Description("Transforms the button into a UAC elevated button.")]
+         Description(@"Transforms the button into a UAC elevated button.")]
         public bool UseAsUACElevationButton 
         { 
             get => _useAsUACElevationButton; 
@@ -245,8 +245,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the button content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Button values")]
+        [Category(@"Visuals")]
+        [Description(@"Button values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonValues Values { get; }
 
@@ -255,8 +255,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common button appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common button appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common button appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon { get; }
 
@@ -265,8 +265,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateDisabled { get; }
 
@@ -275,8 +275,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateNormal { get; }
 
@@ -285,8 +285,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateTracking { get; }
 
@@ -295,8 +295,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StatePressed { get; }
 
@@ -305,8 +305,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal button appearance when default.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal button appearance when default.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal button appearance when default.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideDefault { get; }
 
@@ -315,8 +315,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the button appearance when it has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining button appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining button appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideFocus { get; }
 
@@ -325,16 +325,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the value returned to the parent form when the button is clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The dialog-box result produced in a modal form by clicking the button.")]
+        [Category(@"Behavior")]
+        [Description(@"The dialog-box result produced in a modal form by clicking the button.")]
         [DefaultValue(typeof(DialogResult), "None")]
         public DialogResult DialogResult { get; set; }
 
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the button.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the button.")]
         [DefaultValue(null)]
         public virtual IKryptonCommand KryptonCommand
         {
@@ -403,8 +403,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
         /// </summary>
-        [Category("Appearance")]
-        [Description("When true the first character after an ampersand will be used as a mnemonic.")]
+        [Category(@"Appearance")]
+        [Description(@"When true the first character after an ampersand will be used as a mnemonic.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {

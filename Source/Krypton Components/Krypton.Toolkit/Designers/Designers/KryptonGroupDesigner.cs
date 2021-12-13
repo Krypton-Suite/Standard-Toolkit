@@ -64,7 +64,9 @@ namespace Krypton.Toolkit
         /// <returns>A ControlDesigner at the specified index.</returns>
         public override ControlDesigner InternalControlDesigner(int internalControlIndex) =>
             // Get the control designer for the requested indexed child control
-            (internalControlIndex == 0) && (_group != null) ? (ControlDesigner)_designerHost.GetDesigner(_group.Panel) : null;
+            (internalControlIndex == 0) && (_group != null) 
+                ? (ControlDesigner)_designerHost.GetDesigner(_group.Panel) 
+                : null;
 
         /// <summary>
         /// Returns the number of internal control designers in the ControlDesigner.
@@ -82,7 +84,6 @@ namespace Krypton.Toolkit
                 // Create a collection of action lists
                 DesignerActionListCollection actionLists = new()
                 {
-
                     // Add the group specific list
                     new KryptonGroupActionList(this)
                 };

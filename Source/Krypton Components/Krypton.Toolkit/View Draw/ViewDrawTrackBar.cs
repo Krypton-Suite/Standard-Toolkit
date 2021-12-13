@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
                 {
                     if ((value < Minimum) || (value > Maximum))
                     {
-                        throw new ArgumentOutOfRangeException("Value", "Provided value is out of the Minimum to Maximum range of values.");
+                        throw new ArgumentOutOfRangeException(@"Value", @"Provided value is out of the Minimum to Maximum range of values.");
                     }
 
                     _value = value;
@@ -319,7 +319,7 @@ namespace Krypton.Toolkit
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("SmallChange", "SmallChange cannot be less than zero.");
+                    throw new ArgumentOutOfRangeException(@"SmallChange", @"SmallChange cannot be less than zero.");
                 }
 
                 _smallChange = value;
@@ -337,7 +337,7 @@ namespace Krypton.Toolkit
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("LargeChange", "LargeChange cannot be less than zero.");
+                    throw new ArgumentOutOfRangeException(@"LargeChange", @"LargeChange cannot be less than zero.");
                 }
 
                 _largeChange = value;
@@ -385,7 +385,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette state to fix.</param>
         public virtual void SetFixedState(PaletteState state)
         {
-            if ((state == PaletteState.Normal) || (state == PaletteState.Disabled))
+            if (state is PaletteState.Normal or PaletteState.Disabled)
             {
                 _ticksTop.FixedState = state;
                 _ticksBottom.FixedState = state;

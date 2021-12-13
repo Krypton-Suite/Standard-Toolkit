@@ -9,7 +9,7 @@
         /// Only persist the provided name/value pair as an Xml attribute if the value is not null/empty and not the default.
         /// </summary>
         /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name="name">Attribute name.</param>
+        /// <param name=(@"Name")>Attribute name.</param>
         /// <param name="value">Attribute value.</param>
         /// <param name="defaultValue">Default value.</param>
         public static void TextToXmlAttribute(XmlWriter xmlWriter, string name, string value, string defaultValue = @"")
@@ -24,7 +24,7 @@
         /// Read the named attribute value but if no attribute is found then return the provided default.
         /// </summary>
         /// <param name="xmlReader">Xml reader to load information from.</param>
-        /// <param name="name">Attribute name.</param>
+        /// <param name=(@"Name")>Attribute name.</param>
         /// <param name="defaultValue">Default value.</param>
         /// <returns></returns>
         public static string XmlAttributeToText(XmlReader xmlReader, string name, string defaultValue = @"")
@@ -46,7 +46,7 @@
         /// Convert a Image to a culture invariant string value.
         /// </summary>
         /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name="name">Name of image to save.</param>
+        /// <param name=(@"Name")>Name of image to save.</param>
         /// <param name="image">Image to persist.</param>
         public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap image)
         {

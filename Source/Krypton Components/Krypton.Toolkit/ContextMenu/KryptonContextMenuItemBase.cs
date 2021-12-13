@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of property has changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
@@ -81,8 +81,8 @@ namespace Krypton.Toolkit
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
         [KryptonPersist]
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
         [Bindable(true)]
@@ -92,8 +92,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the item is visible in the context menu.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Determines if the item is visible in the context menu.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if the item is visible in the context menu.")]
         [DefaultValue(true)]
         [Bindable(true)]
         public bool Visible

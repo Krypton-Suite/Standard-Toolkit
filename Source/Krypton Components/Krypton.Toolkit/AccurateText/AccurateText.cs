@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
             }
 
             // Replace tab characters with a fixed four spaces
-            text = text.Replace("\t", "    ");
+            text = text.Replace("\t", @"    ");
 
             // Perform actual measure of the text
             using GraphicsTextHint graphicsHint = new(g, hint);
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
                             //    DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
                             //        (state == PaletteState.Disabled)
                             //            ? Color.FromArgb(170, 170, 170)
-                            //            : ContrastColor(AccentColorService.GetColorByTypeName("ImmersiveSystemAccent")),
+                            //            : ContrastColor(AccentColorService.GetColorByTypeName(@"ImmersiveSystemAccent")),
                             //        true);
                             //}
                             //else

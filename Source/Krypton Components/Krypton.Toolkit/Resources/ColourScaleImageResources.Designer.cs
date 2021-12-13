@@ -19,7 +19,7 @@ namespace Krypton.Toolkit.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(@"System.Resources.Tools.StronglyTypedResourceBuilder", @"16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ColourScaleImageResources {
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit.Resources {
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(@"Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal ColourScaleImageResources() {
         }
         
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.ColourScaleImageResources", typeof(ColourScaleImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager(@"Krypton.Toolkit.Resources.ColourScaleImageResources", typeof(ColourScaleImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Colour2scale_generic_16 {
             get {
-                object obj = ResourceManager.GetObject("Colour2scale_generic_16", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Colour2scale_generic_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Colour3scale_generic_16 {
             get {
-                object obj = ResourceManager.GetObject("Colour3scale_generic_16", resourceCulture);
+                object obj = ResourceManager.GetObject(@"Colour3scale_generic_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ThreeColours_blue_white_red_32 {
             get {
-                object obj = ResourceManager.GetObject("ThreeColours_blue_white_red_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ThreeColours_blue_white_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ThreeColours_green_white_red_32 {
             get {
-                object obj = ResourceManager.GetObject("ThreeColours_green_white_red_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ThreeColours_green_white_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ThreeColours_green_yellow_red_32 {
             get {
-                object obj = ResourceManager.GetObject("ThreeColours_green_yellow_red_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ThreeColours_green_yellow_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ThreeColours_red_white_blue_32 {
             get {
-                object obj = ResourceManager.GetObject("ThreeColours_red_white_blue_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ThreeColours_red_white_blue_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ThreeColours_red_white_green_32 {
             get {
-                object obj = ResourceManager.GetObject("ThreeColours_red_white_green_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ThreeColours_red_white_green_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ThreeColours_red_yellow_green_32 {
             get {
-                object obj = ResourceManager.GetObject("ThreeColours_red_yellow_green_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ThreeColours_red_yellow_green_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_blue_white_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_blue_white_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_blue_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_green_white_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_green_white_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_green_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_pink_white_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_pink_white_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_pink_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_red_white_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_red_white_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_red_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_violet_white_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_violet_white_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_violet_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_white_blue_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_white_blue_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_white_blue_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_white_green_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_white_green_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_white_green_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_white_pink_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_white_pink_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_white_pink_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -225,7 +225,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_white_red_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_white_red_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_white_red_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_white_violet_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_white_violet_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_white_violet_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -245,7 +245,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_white_yellow_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_white_yellow_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_white_yellow_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap TwoColours_yellow_white_32 {
             get {
-                object obj = ResourceManager.GetObject("TwoColours_yellow_white_32", resourceCulture);
+                object obj = ResourceManager.GetObject(@"TwoColours_yellow_white_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

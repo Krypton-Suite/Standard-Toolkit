@@ -208,7 +208,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if the control is initialized.
         /// </summary>
         [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsInitialized
         {
             [DebuggerStepThrough]
@@ -220,7 +221,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if the control is initialized.
         /// </summary>
         [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsInitializing
         {
             [DebuggerStepThrough]

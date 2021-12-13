@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuLinkLabel), "ToolboxBitmaps.KryptonLinkLabel.bmp")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Text")]
-    [DefaultEvent("Click")]
+    [DefaultProperty(@"Text")]
+    [DefaultEvent(@"Click")]
     public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -46,8 +46,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the link label item is clicked.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the link label item is clicked.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the link label item is clicked.")]
         public event EventHandler Click;
         #endregion
 
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuLinkLabel class.
         /// </summary>
         public KryptonContextMenuLinkLabel()
-            : this("LinkLabel")
+            : this(@"LinkLabel")
         {
         }
 
@@ -149,8 +149,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the link label style.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Link label style.")]
+        [Category(@"Visuals")]
+        [Description(@"Link label style.")]
         [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
@@ -171,8 +171,8 @@ namespace Krypton.Toolkit
         /// Gets and sets a value that determines the underline behavior of the link label.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Determines the underline behavior of the link label.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines the underline behavior of the link label.")]
         [DefaultValue(typeof(KryptonLinkBehavior), "Always Underline")]
         public KryptonLinkBehavior LinkBehavior
         {
@@ -192,8 +192,8 @@ namespace Krypton.Toolkit
         /// Gets and sets a value indicating if the label has been visited.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Indicates if the hyperlink has been visited already.")]
+        [Category(@"Visuals")]
+        [Description(@"Indicates if the hyperlink has been visited already.")]
         [DefaultValue(false)]
         public bool LinkVisited
         {
@@ -213,8 +213,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if clicking the link label automatically closes the context menu.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates if clicking the link label automatically closes the context menu.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if clicking the link label automatically closes the context menu.")]
         [DefaultValue(true)]
         public bool AutoClose
         {
@@ -234,9 +234,9 @@ namespace Krypton.Toolkit
         /// Gets and sets the link label text.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Main link label text.")]
-        [DefaultValue("LinkLabel")]
+        [Category(@"Appearance")]
+        [Description(@"Main link label text.")]
+        [DefaultValue(@"LinkLabel")]
         [Localizable(true)]
         public string Text
         {
@@ -256,8 +256,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the link label extra text.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Link label extra text.")]
+        [Category(@"Appearance")]
+        [Description(@"Link label extra text.")]
         [DefaultValue(null)]
         [Localizable(true)]
         public string ExtraText
@@ -278,8 +278,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the link label image.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Link label image.")]
+        [Category(@"Appearance")]
+        [Description(@"Link label image.")]
         [DefaultValue(null)]
         [Localizable(true)]
         public Image Image
@@ -300,8 +300,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the link label image color to make transparent.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Link label image color to make transparent.")]
+        [Category(@"Appearance")]
+        [Description(@"Link label image color to make transparent.")]
         [Localizable(true)]
         public Color ImageTransparentColor
         {
@@ -323,8 +323,8 @@ namespace Krypton.Toolkit
         /// Gets access to the link label normal instance specific appearance values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining link label normal instance specific appearance values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining link label normal instance specific appearance values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
@@ -334,8 +334,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed link label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed link label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed link label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverridePressed { get; }
 
@@ -345,8 +345,8 @@ namespace Krypton.Toolkit
         /// Gets access to the link label appearance when it has focus.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining link label appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining link label appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
@@ -356,8 +356,8 @@ namespace Krypton.Toolkit
         /// Gets access to normal state modifications when link label has been visited.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for modifying normal state when link label has been visited.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for modifying normal state when link label has been visited.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideVisited { get; }
 
@@ -367,8 +367,8 @@ namespace Krypton.Toolkit
         /// Gets access to normal state modifications when link label has not been visited.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for modifying normal state when link label has not been visited.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for modifying normal state when link label has not been visited.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideNotVisited { get; }
 
@@ -378,8 +378,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Command associated with the menu check box.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the menu check box.")]
         [DefaultValue(null)]
         public virtual KryptonCommand KryptonCommand
         {

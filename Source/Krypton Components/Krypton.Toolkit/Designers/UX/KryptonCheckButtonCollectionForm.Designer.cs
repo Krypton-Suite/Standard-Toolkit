@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.checkedListBox);
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font(@"Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MinimumSize = new System.Drawing.Size(250, 205);
             this.Name = "KryptonCheckButtonCollectionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

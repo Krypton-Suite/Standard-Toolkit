@@ -134,14 +134,14 @@ namespace Krypton.Toolkit
             if (_borderEdge != null)
             {
                 // Add our own action to the end
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("BorderStyle", "Border style", "Appearance", "Border style"));
-                actions.Add(new DesignerActionHeaderItem("Layout"));
-                actions.Add(new DesignerActionPropertyItem("AutoSize", "AutoSize", "Layout", "Determines whether the control resizes based on its contents."));
-                actions.Add(new DesignerActionPropertyItem("Dock", "Dock", "Layout", "Determines how the control is sized with its parent."));
+                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
+                actions.Add(new DesignerActionPropertyItem(@"BorderStyle", @"Border style", @"Appearance", @"Border style"));
+                actions.Add(new DesignerActionHeaderItem(@"Layout"));
+                actions.Add(new DesignerActionPropertyItem(@"AutoSize", @"AutoSize", @"Layout", @"Determines whether the control resizes based on its contents."));
+                actions.Add(new DesignerActionPropertyItem(@"Dock", @"Dock", @"Layout", @"Determines how the control is sized with its parent."));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnOrientationClick), "Layout"));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
             if (sender is DesignerVerb verb)
             {
                 // Decide on the new orientation required
-                Orientation orientation = verb.Text.Equals("Horizontal border orientation") ? Orientation.Horizontal : Orientation.Vertical;
+                Orientation orientation = verb.Text.Equals(@"Horizontal border orientation") ? Orientation.Horizontal : Orientation.Vertical;
 
                 // Decide on the next action to take given the new setting
                 _action = orientation == Orientation.Vertical ? "Horizontal border orientation" : "Vertical border orientation";

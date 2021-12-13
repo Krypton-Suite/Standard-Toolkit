@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
             DataGridView dataGridView = DataGridView;
             if (dataGridView?.EditingControl == null)
             {
-                throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
+                throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");
             }
 
             if (dataGridView.EditingControl is KryptonDomainUpDown domainUpDown)

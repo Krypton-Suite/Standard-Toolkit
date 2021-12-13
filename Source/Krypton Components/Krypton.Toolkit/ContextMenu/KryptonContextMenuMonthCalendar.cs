@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuMonthCalendar), "ToolboxBitmaps.KryptonMonthCalendar.bmp")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("DateChanged")]
-    [DefaultProperty("SelectionRange")]
+    [DefaultEvent(@"DateChanged")]
+    [DefaultProperty(@"SelectionRange")]
     public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
     {
         #region Static Fields
@@ -74,22 +74,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the selected date changes.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the selected date changes.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the selected date changes.")]
         public event DateRangeEventHandler DateChanged;
 
         /// <summary>
         /// Occurs when the selected start date changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the selected start date changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the selected start date changes.")]
         public event EventHandler SelectionStartChanged;
 
         /// <summary>
         /// Occurs when the selected end date changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the selected end date changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the selected end date changes.")]
         public event EventHandler SelectionEndChanged;
         #endregion
 
@@ -216,8 +216,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if selecting a day automatically closes the context menu.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates if selecting a day closes the context menu.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if selecting a day closes the context menu.")]
         [DefaultValue(true)]
         public bool AutoClose
         {
@@ -237,8 +237,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if clicking the Today button closes the drop down menu.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates if clicking the Today button closes the drop down menu.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if clicking the Today button closes the drop down menu.")]
         [DefaultValue(false)]
         public bool CloseOnTodayClick
         {
@@ -258,8 +258,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the radio button is enabled.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates whether the month calendar is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the month calendar is enabled.")]
         [DefaultValue(true)]
         [Bindable(true)]
         public bool Enabled
@@ -280,8 +280,8 @@ namespace Krypton.Toolkit
         /// Gets or sets the number of months to scroll when next/prev buttons are used.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Number of months to scroll when next/prev buttons are used.")]
+        [Category(@"Behavior")]
+        [Description(@"Number of months to scroll when next/prev buttons are used.")]
         [DefaultValue(0)]
         public int ScrollChange
         {
@@ -303,8 +303,8 @@ namespace Krypton.Toolkit
         /// Gets or sets today's date.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Today's date.")]
+        [Category(@"Behavior")]
+        [Description(@"Today's date.")]
         public DateTime TodayDate
         {
             get => _todayDate;
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist]
         [Localizable(true)]
-        [Description("Indicates which annual dates should be boldface.")]
+        [Description(@"Indicates which annual dates should be boldface.")]
         public DateTime[] AnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
@@ -372,7 +372,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist]
         [Localizable(true)]
-        [Description("Indicates which monthly dates should be boldface.")]
+        [Description(@"Indicates which monthly dates should be boldface.")]
         public DateTime[] MonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist]
         [Localizable(true)]
-        [Description("Indicates which dates should be boldface.")]
+        [Description(@"Indicates which dates should be boldface.")]
         public DateTime[] BoldedDates
         {
             get => BoldedDatesList.ToArray();
@@ -439,8 +439,8 @@ namespace Krypton.Toolkit
         /// Gets or sets the minimum allowable date.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Minimum allowable date.")]
+        [Category(@"Behavior")]
+        [Description(@"Minimum allowable date.")]
         [RefreshProperties(RefreshProperties.All)]
         public DateTime MinDate
         {
@@ -478,8 +478,8 @@ namespace Krypton.Toolkit
         /// Gets or sets the maximum allowable date.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Maximum allowable date.")]
+        [Category(@"Behavior")]
+        [Description(@"Maximum allowable date.")]
         [RefreshProperties(RefreshProperties.All)]
         public DateTime MaxDate
         {
@@ -517,8 +517,8 @@ namespace Krypton.Toolkit
         /// Gets or sets the maximum number of days that can be selected in a month calendar control.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Maximum number of days that can be selected.")]
+        [Category(@"Behavior")]
+        [Description(@"Maximum number of days that can be selected.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(7)]
         public int MaxSelectionCount
@@ -545,8 +545,8 @@ namespace Krypton.Toolkit
         /// Gets or sets the start date of the selected range of dates.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Start date of the selected range of dates.")]
+        [Category(@"Behavior")]
+        [Description(@"Start date of the selected range of dates.")]
         [RefreshProperties(RefreshProperties.All)]
         [Browsable(true)]
         public DateTime SelectionStart
@@ -598,8 +598,8 @@ namespace Krypton.Toolkit
         /// Gets or sets the end date of the selected range of dates.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("End date of the selected range of dates.")]
+        [Category(@"Behavior")]
+        [Description(@"End date of the selected range of dates.")]
         [RefreshProperties(RefreshProperties.All)]
         [Bindable(true)]
         public DateTime SelectionEnd
@@ -651,8 +651,8 @@ namespace Krypton.Toolkit
         /// Gets or sets the selected range of dates for a month calendar control.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Specifies the selected range of dates.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies the selected range of dates.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [RefreshProperties(RefreshProperties.All)]
         [Bindable(true)]
@@ -673,9 +673,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the today date format string.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The today format string used to format the date displayed in the today button.")]
-        [DefaultValue("d")]
+        [Category(@"Behavior")]
+        [Description(@"The today format string used to format the date displayed in the today button.")]
+        [DefaultValue(@"d")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
         public string TodayFormat
@@ -696,9 +696,9 @@ namespace Krypton.Toolkit
         /// Gets or sets the label text for todays text. 
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Text used as label for todays date.")]
-        [DefaultValue("Today:")]
+        [Category(@"Appearance")]
+        [Description(@"Text used as label for todays date.")]
+        [DefaultValue(@"Today:")]
         [Localizable(true)]
         public string TodayText
         {
@@ -725,8 +725,8 @@ namespace Krypton.Toolkit
         /// Gets or sets the number of columns and rows of months displayed. 
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Specifies the number of rows and columns of months displayed.")]
+        [Category(@"Appearance")]
+        [Description(@"Specifies the number of rows and columns of months displayed.")]
         [DefaultValue(typeof(Size), "1,1")]
         [Localizable(true)]
         public Size CalendarDimensions
@@ -757,8 +757,8 @@ namespace Krypton.Toolkit
         /// First day of the week.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("First day of the week.")]
+        [Category(@"Behavior")]
+        [Description(@"First day of the week.")]
         [Localizable(true)]
         public Day FirstDayOfWeek
         {
@@ -785,8 +785,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the control will display todays date.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates whether this month calendar will display todays date.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether this month calendar will display todays date.")]
         [DefaultValue(true)]
         public bool ShowToday
         {
@@ -806,8 +806,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the control will circle the today date.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates whether this month calendar will circle the today date.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether this month calendar will circle the today date.")]
         [DefaultValue(true)]
         public bool ShowTodayCircle
         {
@@ -827,8 +827,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if week numbers to the left of each row.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates whether this month calendar will display week numbers to the left of each row.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether this month calendar will display week numbers to the left of each row.")]
         [DefaultValue(false)]
         public bool ShowWeekNumbers
         {
@@ -848,8 +848,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the header style for the month calendar.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Header style for the month calendar.")]
+        [Category(@"Visuals")]
+        [Description(@"Header style for the month calendar.")]
         [DefaultValue(typeof(HeaderStyle), "Calendar")]
         public HeaderStyle HeaderStyle
         {
@@ -872,8 +872,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the content style for the day entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Content style for the day entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Content style for the day entries.")]
         [DefaultValue(typeof(ButtonStyle), "Calendar Day")]
         public ButtonStyle DayStyle
         {
@@ -904,8 +904,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the content style for the day of week labels.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Content style for the day of week labels.")]
+        [Category(@"Visuals")]
+        [Description(@"Content style for the day of week labels.")]
         [DefaultValue(typeof(ButtonStyle), "CalendarDay")]
         public ButtonStyle DayOfWeekStyle
         {
@@ -933,8 +933,8 @@ namespace Krypton.Toolkit
         /// Gets access to the day appearance when it has focus.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining month calendar appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining month calendar appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideFocus { get; }
 
@@ -944,8 +944,8 @@ namespace Krypton.Toolkit
         /// Gets access to the day appearance when it is bolded.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining month calendar appearance when it is bolded.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining month calendar appearance when it is bolded.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideBolded { get; }
 
@@ -955,8 +955,8 @@ namespace Krypton.Toolkit
         /// Gets access to the day appearance when it is todays.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining month calendar appearance when it is today.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining month calendar appearance when it is today.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarStateRedirect OverrideToday { get; }
 
@@ -966,8 +966,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common month calendar appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common month calendar appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common month calendar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarRedirect StateCommon { get; }
 
@@ -977,8 +977,8 @@ namespace Krypton.Toolkit
         /// Gets access to the month calendar disabled appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining month calendar disabled appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining month calendar disabled appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarDoubleState StateDisabled { get; }
 
@@ -988,8 +988,8 @@ namespace Krypton.Toolkit
         /// Gets access to the month calendar normal appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining month calendar normal appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining month calendar normal appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarDoubleState StateNormal { get; }
 
@@ -999,8 +999,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tracking month calendar appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking month calendar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateTracking { get; }
 
@@ -1010,8 +1010,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed month calendar appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed month calendar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StatePressed { get; }
 
@@ -1021,8 +1021,8 @@ namespace Krypton.Toolkit
         /// Gets access to the checked normal month calendar appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining checked normal month calendar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked normal month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedNormal { get; }
 
@@ -1032,8 +1032,8 @@ namespace Krypton.Toolkit
         /// Gets access to the checked tracking month calendar appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining checked tracking month calendar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked tracking month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedTracking { get; }
 
@@ -1043,8 +1043,8 @@ namespace Krypton.Toolkit
         /// Gets access to the checked pressed month calendar appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining checked pressed month calendar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked pressed month calendar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarState StateCheckedPressed { get; }
 
@@ -1204,22 +1204,22 @@ namespace Krypton.Toolkit
         {
             if (start.Ticks > _maxDate.Ticks)
             {
-                throw new ArgumentOutOfRangeException("Start date provided is greater than the maximum date.");
+                throw new ArgumentOutOfRangeException(@"Start date provided is greater than the maximum date.");
             }
 
             if (start.Ticks < _minDate.Ticks)
             {
-                throw new ArgumentOutOfRangeException("Start date provided is less than the minimum date.");
+                throw new ArgumentOutOfRangeException(@"Start date provided is less than the minimum date.");
             }
 
             if (end.Ticks > _maxDate.Ticks)
             {
-                throw new ArgumentOutOfRangeException("End date provided is greater than the maximum date.");
+                throw new ArgumentOutOfRangeException(@"End date provided is greater than the maximum date.");
             }
 
             if (end.Ticks < _minDate.Ticks)
             {
-                throw new ArgumentOutOfRangeException("End date provided is less than the minimum date.");
+                throw new ArgumentOutOfRangeException(@"End date provided is less than the minimum date.");
             }
 
             if (start > end)

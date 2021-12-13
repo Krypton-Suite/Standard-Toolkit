@@ -388,8 +388,7 @@ namespace Krypton.Toolkit
                             }
 
                             // Only if the button is still pressed, do we generate a click
-                            if ((Target.ElementState == PaletteState.Pressed) ||
-                                (Target.ElementState == (PaletteState.Pressed | PaletteState.Checked)))
+                            if (Target.ElementState is PaletteState.Pressed or (PaletteState.Pressed | PaletteState.Checked))
                             {
                                 if (!_fixedPressed)
                                 {
@@ -566,7 +565,7 @@ namespace Krypton.Toolkit
             }
 
             // If the user pressed the escape key
-            if ((e.KeyCode == Keys.Escape) || (e.KeyCode == Keys.Space))
+            if (e.KeyCode is Keys.Escape or Keys.Space)
             {
                 // If we are capturing mouse input
                 if (Captured)

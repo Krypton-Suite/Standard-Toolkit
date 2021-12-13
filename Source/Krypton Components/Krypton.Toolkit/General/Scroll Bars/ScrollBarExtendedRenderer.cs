@@ -952,8 +952,7 @@ namespace Krypton.Toolkit
             }
 
             using Image arrowIcon = (Image)GetScrollBarArrowDownBitmap().Clone();
-            if (state == ScrollBarArrowButtonState.DownDisabled
-                || state == ScrollBarArrowButtonState.UpDisabled)
+            if (state is ScrollBarArrowButtonState.DownDisabled or ScrollBarArrowButtonState.UpDisabled)
             {
                 ControlPaint.DrawImageDisabled(
                     g,

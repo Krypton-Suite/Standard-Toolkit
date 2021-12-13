@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
                                 if (!ApplyComposition)
                                 {
                                     // Remove any theme that is currently drawing chrome
-                                    PI.SetWindowTheme(Handle, "", "");
+                                    PI.SetWindowTheme(Handle, "", @"");
                                 }
                                 else
                                 {

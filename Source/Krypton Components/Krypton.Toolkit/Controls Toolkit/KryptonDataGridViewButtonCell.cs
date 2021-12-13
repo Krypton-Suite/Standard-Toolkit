@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the button style.
         /// </summary>
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(typeof(ButtonStyle), "Standalone")]
         public ButtonStyle ButtonStyle
         {
@@ -352,7 +352,7 @@ namespace Krypton.Toolkit
                 if (_piButtonState == null)
                 {
                     // Cache access to the internal get property 'ButtonState'
-                    _piButtonState = typeof(DataGridViewButtonCell).GetProperty("ButtonState", BindingFlags.Instance |
+                    _piButtonState = typeof(DataGridViewButtonCell).GetProperty(@"ButtonState", BindingFlags.Instance |
                                                                                                BindingFlags.NonPublic |
                                                                                                BindingFlags.GetField);
 
@@ -371,7 +371,7 @@ namespace Krypton.Toolkit
                 if (_fiMouseInContentBounds == null)
                 {
                     // Cache field info about the internal 'mouseInContentBounds' instance
-                    _fiMouseInContentBounds = typeof(DataGridViewButtonCell).GetField("mouseInContentBounds", BindingFlags.Static |
+                    _fiMouseInContentBounds = typeof(DataGridViewButtonCell).GetField(@"mouseInContentBounds", BindingFlags.Static |
                                                                                                               BindingFlags.NonPublic |
                                                                                                               BindingFlags.GetField);
                 }
@@ -389,7 +389,7 @@ namespace Krypton.Toolkit
                 if (_piMouseEnteredCellAddress == null)
                 {
                     // Cache access to the internal get property 'MouseEnteredCellAddress'
-                    _piMouseEnteredCellAddress = typeof(DataGridView).GetProperty("MouseEnteredCellAddress", BindingFlags.Instance |
+                    _piMouseEnteredCellAddress = typeof(DataGridView).GetProperty(@"MouseEnteredCellAddress", BindingFlags.Instance |
                                                                                                              BindingFlags.NonPublic |
                                                                                                              BindingFlags.GetField);
 
