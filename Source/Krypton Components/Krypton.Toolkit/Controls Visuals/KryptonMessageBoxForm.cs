@@ -526,52 +526,57 @@ namespace Krypton.Toolkit
             return new Size((maxButtonSize.Width * numButtons) + (GAP * (numButtons + 1)), maxButtonSize.Height + (GAP * 2));
         }
 
-        private void button_keyDown(object sender, KeyEventArgs e)
+        private void AnyKeyDown(object sender, KeyEventArgs e)
         {
             // Escape key kills the dialog if we allow it to be closed
-            if ((e.KeyCode == Keys.Escape) && ControlBox)
+            if (ControlBox
+                && (e.KeyCode == Keys.Escape)
+                )
             {
                 Close();
             }
-            else
+            else if (!e.Control
+                     || (e.KeyCode != Keys.C)
+                     )
             {
-                // Pressing Ctrl+C should copy message text into the clipboard
-                if ((e.Modifiers == Keys.Control) && (e.KeyCode == Keys.C))
+                return;
+            }
+
+            const string DIVIDER = @"---------------------------";
+            const string BUTTON_TEXT_SPACER = @"   ";
+
+            // Pressing Ctrl+C should copy message text into the clipboard
+            var sb = new StringBuilder();
+
+            sb.AppendLine(DIVIDER);
+            sb.AppendLine(Text);
+            sb.AppendLine(DIVIDER);
+            sb.AppendLine(_messageText.Text);
+            sb.AppendLine(DIVIDER);
+            sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
+            if (_button2.Enabled)
+            {
+                sb.Append(_button2.Text).Append(BUTTON_TEXT_SPACER);
+                if (_button3.Enabled)
                 {
-                    StringBuilder sb = new();
+                    sb.Append(_button3.Text).Append(BUTTON_TEXT_SPACER);
+                }
 
-                    sb.AppendLine("---------------------------");
-                    sb.AppendLine(Text);
-                    sb.AppendLine("---------------------------");
-                    sb.AppendLine(_messageText.Text);
-                    sb.AppendLine("---------------------------");
-                    sb.Append(_button1.Text);
-                    sb.Append("   ");
-                    if (_button2.Enabled)
-                    {
-                        sb.Append(_button2.Text);
-                        sb.Append("   ");
-                        if (_button3.Enabled)
-                        {
-                            sb.Append(_button3.Text);
-                            sb.Append("   ");
-                        }
-                        if (_button4.Enabled)
-                        {
-                            sb.Append(_button4.Text);
-                            sb.Append("   ");
-                        }
-                    }
-                    sb.AppendLine("");
-                    sb.AppendLine("---------------------------");
-
-                    Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
-                    Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
+                if (_button4.Enabled)
+                {
+                    sb.Append(_button4.Text).Append(BUTTON_TEXT_SPACER);
                 }
             }
+
+            sb.AppendLine(string.Empty);
+            sb.AppendLine(DIVIDER);
+
+            Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
+            Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
         }
 
     }
+
     #region Types
     internal class HelpInfo
     {
