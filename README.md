@@ -114,6 +114,11 @@ There are list of changes that have occurred during the development of the V6.##
 - https://github.com/Krypton-Suite/Standard-Toolkit/issues/511
 ![][image_ref_tnqwpvc0]### Ribbon Tooltips
 
+## Be Aware
+
+### `dpiAware`
+If you are getting scaling problems in high dpi monitors, then please add an application manifest to your MainForm application, and uncomment the section that covers the `dpiAware` setting.
+
 =======
 
 ## Introduction
