@@ -53,8 +53,8 @@ namespace Krypton.Toolkit
             this._messageText.Dock = System.Windows.Forms.DockStyle.Fill;
             this._messageText.Font = new System.Drawing.Font("Segoe UI", 9F);
             this._messageText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this._messageText.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
-            this._messageText.Location = new System.Drawing.Point(0, 0);
+            this._messageText.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
+            this._messageText.Location = new System.Drawing.Point(64, 0);
             this._messageText.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this._messageText.Name = "_messageText";
             this._messageText.Size = new System.Drawing.Size(180, 51);
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
             // 
             this._messageIcon.BackColor = System.Drawing.Color.Transparent;
             this._messageIcon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._messageIcon.Location = new System.Drawing.Point(190, 5);
+            this._messageIcon.Location = new System.Drawing.Point(10, 5);
             this._messageIcon.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
             this._messageIcon.Name = "_messageIcon";
             this._messageIcon.Size = new System.Drawing.Size(44, 41);
@@ -192,6 +192,7 @@ namespace Krypton.Toolkit
             this.ClientSize = new System.Drawing.Size(244, 77);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "KryptonMessageBoxForm";
@@ -200,6 +201,7 @@ namespace Krypton.Toolkit
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.TopMost = true;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnyKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).EndInit();
             this._panelButtons.ResumeLayout(false);
