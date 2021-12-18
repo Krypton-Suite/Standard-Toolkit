@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
                 actions.Add(new DesignerActionPropertyItem(@"LongTextFont", @"Long Text Font", @"Appearance", @"The long text font."));
                 actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
-                actions.Add(new DesignerActionPropertyItem(@"ItemCornerRadius", @"Item Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the item."));
+                actions.Add(new DesignerActionPropertyItem(@"ItemCornerRounding", @"Item Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the item."));
                 actions.Add(new DesignerActionHeaderItem(@"Behavior"));
                 actions.Add(new DesignerActionPropertyItem(@"SelectionMode", @"Selection Mode", @"Behavior", @"Determines the selection mode."));
                 actions.Add(new DesignerActionPropertyItem(@"Sorted", @"Sorted", @"Behavior", @"Should items be sorted according to string."));
