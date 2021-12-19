@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
 
             // Should layout once initialization is complete
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/393
-            // Do not do layout as `true` here , as al the controls have already had the scaling
+            // Do not do layout as `true` here , as all the controls have already had the scaling
             // factors applied once, _do not do them again!_
             ResumeLayout(false);
 
