@@ -2,7 +2,7 @@
 
 ## 2022-02-01 - Build 2202 - February 2022
 * Fixed [#533](https://github.com/Krypton-Suite/Standard-Toolkit/issues/533), KDataGridView: can column high lighting be turned of.
-* Fixed ActionLists for `KryptonListBox` and `KryptonListView`
+* Fixed [#538](https://github.com/Krypton-Suite/Standard-Toolkit/issues/538), `KryptonListBox` error inside the IDE/ActionLists for `KryptonListBox` and `KryptonListView`
 * Fixed [#530](https://github.com/Krypton-Suite/Standard-Toolkit/issues/530), "Ctrl+C" in Error KMessageBoxes no longer works
 * Fixed [#525](https://github.com/Krypton-Suite/Standard-Toolkit/issues/525), Undesired behaviour in KryptonGroupBox
 * Fixed [#520](https://github.com/Krypton-Suite/Standard-Toolkit/issues/520), KTooltips default to using the KryptonIcon when nothing is set by the developer
