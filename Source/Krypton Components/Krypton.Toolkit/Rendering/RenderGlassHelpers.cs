@@ -1749,8 +1749,7 @@ namespace Krypton.Toolkit
         }
 
         private static bool VerticalOrientation(VisualOrientation orientation) =>
-            (orientation == VisualOrientation.Top) ||
-            (orientation == VisualOrientation.Bottom);
+            orientation is VisualOrientation.Top or VisualOrientation.Bottom;
 
         private static float AngleFromOrientation(VisualOrientation orientation)
         {

@@ -241,20 +241,20 @@ namespace Krypton.Toolkit
             if (_listBox != null)
             {
                 // Add the list of list box specific actions
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("BackStyle", "Back Style", "Appearance", "Style used to draw background."));
-                actions.Add(new DesignerActionPropertyItem("BorderStyle", "Border Style", "Appearance", "Style used to draw the border."));
-                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
-                actions.Add(new DesignerActionPropertyItem("ItemStyle", "Item Style", "Appearance", "How to display list items."));
-                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
-                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
-                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
-                actions.Add(new DesignerActionPropertyItem("ItemCornerRadius", "Item Corner Rounding Radius", "Appearance", "The corner rounding radius of the item."));
-                actions.Add(new DesignerActionHeaderItem("Behavior"));
-                actions.Add(new DesignerActionPropertyItem("SelectionMode", "Selection Mode", "Behavior", "Determines the selection mode."));
-                actions.Add(new DesignerActionPropertyItem("Sorted", "Sorted", "Behavior", "Should items be sorted according to string."));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
+                actions.Add(new DesignerActionPropertyItem(@"BackStyle", @"Back Style", @"Appearance", @"Style used to draw background."));
+                actions.Add(new DesignerActionPropertyItem(@"BorderStyle", @"Border Style", @"Appearance", @"Style used to draw the border."));
+                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"ItemStyle", @"Item Style", @"Appearance", @"How to display list items."));
+                actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
+                actions.Add(new DesignerActionPropertyItem(@"LongTextFont", @"Long Text Font", @"Appearance", @"The long text font."));
+                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"ItemCornerRounding", @"Item Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the item."));
+                actions.Add(new DesignerActionHeaderItem(@"Behavior"));
+                actions.Add(new DesignerActionPropertyItem(@"SelectionMode", @"Selection Mode", @"Behavior", @"Determines the selection mode."));
+                actions.Add(new DesignerActionPropertyItem(@"Sorted", @"Sorted", @"Behavior", @"Should items be sorted according to string."));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

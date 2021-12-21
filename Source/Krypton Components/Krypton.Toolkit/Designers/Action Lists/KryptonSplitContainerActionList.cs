@@ -119,13 +119,13 @@ namespace Krypton.Toolkit
             if (_splitContainer != null)
             {
                 // Add our own action to the end
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("ContainerBackStyle", "Back style", "Appearance", "Background style"));
-                actions.Add(new DesignerActionHeaderItem("Splitter"));
+                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
+                actions.Add(new DesignerActionPropertyItem(@"ContainerBackStyle", @"Back style", @"Appearance", @"Background style"));
+                actions.Add(new DesignerActionHeaderItem(@"Splitter"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnOrientationClick), "Splitter"));
-                actions.Add(new DesignerActionPropertyItem("SeparatorStyle", "Separator style", "Splitter", "Separator style"));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(@"SeparatorStyle", @"Separator style", @"Splitter", @"Separator style"));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

@@ -501,12 +501,12 @@ namespace Krypton.Toolkit
                                                             };
 
         private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
-                                                                Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
-                                                                Color.FromArgb(194, 118, 43),  // Button, Pressed, Border 1
-                                                                Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
+                                                                Color.FromArgb(145, 160, 179),  // Button, Tracking, Border 1
+                                                                Color.FromArgb(165, 180, 204),  // Button, Tracking, Border 2
+                                                                Color.FromArgb(103, 114, 128),  // Button, Pressed, Border 1
+                                                                Color.FromArgb(145, 160, 179),  // Button, Pressed, Border 2
                                                                 Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
-                                                                           Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
+                                                                Color.FromArgb(124, 137, 153)   // Button, Checked, Border 2
                                                                          };
         private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
                                                                          Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2

@@ -187,17 +187,17 @@ namespace Krypton.Toolkit
             if (_trackBar != null)
             {
                 // Add our own action to the end
-                actions.Add(new DesignerActionHeaderItem("Layout"));
-                actions.Add(new DesignerActionPropertyItem("TickStyle", "Tick Style", "Layout", "Tick style"));
-                actions.Add(new DesignerActionPropertyItem("TrackBarSize", "TrackBar Size", "Layout", "Size of the track bar"));
+                actions.Add(new DesignerActionHeaderItem(@"Layout"));
+                actions.Add(new DesignerActionPropertyItem(@"TickStyle", @"Tick Style", @"Layout", @"Tick style"));
+                actions.Add(new DesignerActionPropertyItem(@"TrackBarSize", @"TrackBar Size", @"Layout", @"Size of the track bar"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnOrientationClick), "Layout"));
-                actions.Add(new DesignerActionHeaderItem("Values"));
-                actions.Add(new DesignerActionPropertyItem("Minimum", "Minimum", "Values", "Minium value"));
-                actions.Add(new DesignerActionPropertyItem("Maximum", "Maximum", "Values", "Maximum value"));
-                actions.Add(new DesignerActionPropertyItem("SmallChange", "Small Change", "Values", "Small change value"));
-                actions.Add(new DesignerActionPropertyItem("LargeChange", "Large Change", "Values", "Large change value"));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionHeaderItem(@"Values"));
+                actions.Add(new DesignerActionPropertyItem(@"Minimum", @"Minimum", @"Values", @"Minium value"));
+                actions.Add(new DesignerActionPropertyItem(@"Maximum", @"Maximum", @"Values", @"Maximum value"));
+                actions.Add(new DesignerActionPropertyItem(@"SmallChange", @"Small Change", @"Values", @"Small change value"));
+                actions.Add(new DesignerActionPropertyItem(@"LargeChange", @"Large Change", @"Values", @"Large change value"));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

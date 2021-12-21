@@ -754,8 +754,7 @@ namespace Krypton.Toolkit
                             GraphicsPath borderPath1 = null;
 
                             // We only need the second border path if the two borders used are opposite each other
-                            if ((borders == PaletteDrawBorders.TopBottom) ||
-                                (borders == PaletteDrawBorders.LeftRight))
+                            if (borders is PaletteDrawBorders.TopBottom or PaletteDrawBorders.LeftRight)
                             {
                                 borderPath1 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
                                                                    palette.GetBorderRounding(state),
@@ -861,157 +860,170 @@ namespace Krypton.Toolkit
             Debug.Assert(!context.Control.IsDisposed);
 
             // Is there anything to actually draw?
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if ((rect.Width <= 0) 
+                || (rect.Height <= 0)
+                )
             {
-                // We want to draw using anti aliasing for a nice smooth effect
-                using (GraphicsHint smooth = new(context.Graphics, palette.GetBackGraphicsHint(state)))
+                return memento;
+            }
+
+            // The `RenderBefore` does not know about tracking - so check again
+            if ((state == PaletteState.Tracking)
+                && (palette.GetBackDraw(state) != InheritBool.True) 
+               )
+            {
+                state = PaletteState.Normal;
+            }
+
+
+            // We want to draw using anti aliasing for a nice smooth effect
+            using (GraphicsHint smooth = new(context.Graphics, palette.GetBackGraphicsHint(state)))
+            {
+                // Cache commonly used values
+                Image backImage = palette.GetBackImage(state);
+                PaletteImageStyle backImageStyle = palette.GetBackImageStyle(state);
+                PaletteColorStyle backColorStyle = palette.GetBackColorStyle(state);
+                Color backColor1 = palette.GetBackColor1(state);
+                Color backColor2 = palette.GetBackColor2(state);
+                var backColorAngle = palette.GetBackColorAngle(state);
+
+                // Get the rectangle to use when dealing with gradients
+                Rectangle gradientRect = context.GetAlignedRectangle(palette.GetBackColorAlign(state), rect);
+
+                switch (backColorStyle)
                 {
-                    // Cache commonly used values
-                    Image backImage = palette.GetBackImage(state);
-                    PaletteImageStyle backImageStyle = palette.GetBackImageStyle(state);
-                    PaletteColorStyle backColorStyle = palette.GetBackColorStyle(state);
-                    Color backColor1 = palette.GetBackColor1(state);
-                    Color backColor2 = palette.GetBackColor2(state);
-                    var backColorAngle = palette.GetBackColorAngle(state);
-
-                    // Get the rectangle to use when dealing with gradients
-                    Rectangle gradientRect = context.GetAlignedRectangle(palette.GetBackColorAlign(state), rect);
-
-                    switch (backColorStyle)
-                    {
-                        case PaletteColorStyle.GlassSimpleFull:
-                            memento = RenderGlassHelpers.DrawBackGlassSimpleFull(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassNormalFull:
-                            memento = RenderGlassHelpers.DrawBackGlassNormalFull(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassTrackingFull:
-                            memento = RenderGlassHelpers.DrawBackGlassTrackingFull(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassPressedFull:
-                            memento = RenderGlassHelpers.DrawBackGlassPressedFull(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassCheckedFull:
-                            memento = RenderGlassHelpers.DrawBackGlassCheckedFull(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassCheckedTrackingFull:
-                            memento = RenderGlassHelpers.DrawBackGlassCheckedTrackingFull(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassNormalStump:
-                            memento = RenderGlassHelpers.DrawBackGlassNormalStump(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassTrackingStump:
-                            memento = RenderGlassHelpers.DrawBackGlassTrackingStump(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassPressedStump:
-                            memento = RenderGlassHelpers.DrawBackGlassPressedStump(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassCheckedStump:
-                            memento = RenderGlassHelpers.DrawBackGlassCheckedStump(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassCheckedTrackingStump:
-                            memento = RenderGlassHelpers.DrawBackGlassCheckedTrackingStump(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassThreeEdge:
-                            memento = RenderGlassHelpers.DrawBackGlassThreeEdge(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassNormalSimple:
-                            memento = RenderGlassHelpers.DrawBackGlassNormalSimple(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassTrackingSimple:
-                            memento = RenderGlassHelpers.DrawBackGlassTrackingSimple(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassPressedSimple:
-                            memento = RenderGlassHelpers.DrawBackGlassPressedSimple(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassCheckedSimple:
-                            memento = RenderGlassHelpers.DrawBackGlassCheckedSimple(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassCheckedTrackingSimple:
-                            memento = RenderGlassHelpers.DrawBackGlassCheckedTrackingSimple(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassCenter:
-                            memento = RenderGlassHelpers.DrawBackGlassCenter(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassBottom:
-                            memento = RenderGlassHelpers.DrawBackGlassBottom(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.GlassFade:
-                            memento = RenderGlassHelpers.DrawBackGlassFade(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.ExpertTracking:
-                            memento = RenderExpertHelpers.DrawBackExpertTracking(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.ExpertPressed:
-                            memento = RenderExpertHelpers.DrawBackExpertPressed(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.ExpertChecked:
-                            memento = RenderExpertHelpers.DrawBackExpertChecked(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.ExpertCheckedTracking:
-                            memento = RenderExpertHelpers.DrawBackExpertCheckedTracking(context, rect, backColor1, backColor2, orientation, path, memento);
-                            break;
-                        case PaletteColorStyle.ExpertSquareHighlight:
-                            memento = RenderExpertHelpers.DrawBackExpertSquareHighlight(context, rect, backColor1, backColor2, orientation, path, memento, false);
-                            break;
-                        case PaletteColorStyle.ExpertSquareHighlight2:
-                            memento = RenderExpertHelpers.DrawBackExpertSquareHighlight(context, rect, backColor1, backColor2, orientation, path, memento, true);
-                            break;
-                        case PaletteColorStyle.SolidInside:
-                            DrawBackSolidInside(context, gradientRect, backColor1, backColor2, path);
-                            break;
-                        case PaletteColorStyle.SolidLeftLine:
-                        case PaletteColorStyle.SolidRightLine:
-                        case PaletteColorStyle.SolidTopLine:
-                        case PaletteColorStyle.SolidBottomLine:
-                        case PaletteColorStyle.SolidAllLine:
-                            DrawBackSolidLine(context, rect, backColor1, backColor2, backColorStyle, path);
-                            break;
-                        case PaletteColorStyle.OneNote:
-                            DrawBackOneNote(context, gradientRect, backColor1, backColor2,
-                                            backColorStyle, backColorAngle, orientation, path);
-                            break;
-                        case PaletteColorStyle.RoundedTopLeftWhite:
-                            DrawBackRoundedTopLeftWhite(context, rect, gradientRect, backColor1, backColor2,
-                                                        backColorStyle, backColorAngle, orientation, path);
-                            break;
-                        case PaletteColorStyle.RoundedTopLight:
-                            DrawBackRoundedTopLight(context, rect, gradientRect, backColor1, backColor2,
-                                                    backColorStyle, backColorAngle, orientation, path);
-                            break;
-                        case PaletteColorStyle.Rounding4:
-                            DrawBackRounded4(context, rect, gradientRect, backColor1, backColor2,
-                                             backColorStyle, backColorAngle, orientation, path);
-                            break;
-                        case PaletteColorStyle.Rounding5:
-                            DrawBackRounding5(context, rect, gradientRect, backColor1, backColor2,
-                                                  backColorStyle, backColorAngle, orientation, path);
-                            break;
-                        case PaletteColorStyle.LinearShadow:
-                            DrawBackLinearShadow(context, rect, gradientRect, backColor1, backColor2,
-                                                 backColorStyle, backColorAngle, orientation, path);
-                            break;
-                        default:
-                            // Use standard helper routine to create appropriate color brush
-                            using (Brush backBrush = CreateColorBrush(gradientRect, backColor1, backColor2,
-                                                                      backColorStyle, backColorAngle, orientation))
-                            {
-                                context.Graphics.FillPath(backBrush, path);
-                            }
-                            break;
-                    }
-
-                    // Do we need to draw the image?
-                    if (ShouldDrawImage(backImage))
-                    {
-                        // Get the rectangle to use when dealing with gradients
-                        Rectangle imageRect = context.GetAlignedRectangle(palette.GetBackImageAlign(state), rect);
-
-                        // Use standard helper routine to create appropriate image brush
-                        using (Brush backBrush = CreateImageBrush(imageRect, backImage, backImageStyle))
+                    case PaletteColorStyle.GlassSimpleFull:
+                        memento = RenderGlassHelpers.DrawBackGlassSimpleFull(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassNormalFull:
+                        memento = RenderGlassHelpers.DrawBackGlassNormalFull(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassTrackingFull:
+                        memento = RenderGlassHelpers.DrawBackGlassTrackingFull(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassPressedFull:
+                        memento = RenderGlassHelpers.DrawBackGlassPressedFull(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassCheckedFull:
+                        memento = RenderGlassHelpers.DrawBackGlassCheckedFull(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassCheckedTrackingFull:
+                        memento = RenderGlassHelpers.DrawBackGlassCheckedTrackingFull(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassNormalStump:
+                        memento = RenderGlassHelpers.DrawBackGlassNormalStump(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassTrackingStump:
+                        memento = RenderGlassHelpers.DrawBackGlassTrackingStump(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassPressedStump:
+                        memento = RenderGlassHelpers.DrawBackGlassPressedStump(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassCheckedStump:
+                        memento = RenderGlassHelpers.DrawBackGlassCheckedStump(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassCheckedTrackingStump:
+                        memento = RenderGlassHelpers.DrawBackGlassCheckedTrackingStump(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassThreeEdge:
+                        memento = RenderGlassHelpers.DrawBackGlassThreeEdge(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassNormalSimple:
+                        memento = RenderGlassHelpers.DrawBackGlassNormalSimple(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassTrackingSimple:
+                        memento = RenderGlassHelpers.DrawBackGlassTrackingSimple(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassPressedSimple:
+                        memento = RenderGlassHelpers.DrawBackGlassPressedSimple(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassCheckedSimple:
+                        memento = RenderGlassHelpers.DrawBackGlassCheckedSimple(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassCheckedTrackingSimple:
+                        memento = RenderGlassHelpers.DrawBackGlassCheckedTrackingSimple(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassCenter:
+                        memento = RenderGlassHelpers.DrawBackGlassCenter(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassBottom:
+                        memento = RenderGlassHelpers.DrawBackGlassBottom(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.GlassFade:
+                        memento = RenderGlassHelpers.DrawBackGlassFade(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.ExpertTracking:
+                        memento = RenderExpertHelpers.DrawBackExpertTracking(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.ExpertPressed:
+                        memento = RenderExpertHelpers.DrawBackExpertPressed(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.ExpertChecked:
+                        memento = RenderExpertHelpers.DrawBackExpertChecked(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.ExpertCheckedTracking:
+                        memento = RenderExpertHelpers.DrawBackExpertCheckedTracking(context, rect, backColor1, backColor2, orientation, path, memento);
+                        break;
+                    case PaletteColorStyle.ExpertSquareHighlight:
+                        memento = RenderExpertHelpers.DrawBackExpertSquareHighlight(context, rect, backColor1, backColor2, orientation, path, memento, false);
+                        break;
+                    case PaletteColorStyle.ExpertSquareHighlight2:
+                        memento = RenderExpertHelpers.DrawBackExpertSquareHighlight(context, rect, backColor1, backColor2, orientation, path, memento, true);
+                        break;
+                    case PaletteColorStyle.SolidInside:
+                        DrawBackSolidInside(context, gradientRect, backColor1, backColor2, path);
+                        break;
+                    case PaletteColorStyle.SolidLeftLine:
+                    case PaletteColorStyle.SolidRightLine:
+                    case PaletteColorStyle.SolidTopLine:
+                    case PaletteColorStyle.SolidBottomLine:
+                    case PaletteColorStyle.SolidAllLine:
+                        DrawBackSolidLine(context, rect, backColor1, backColor2, backColorStyle, path);
+                        break;
+                    case PaletteColorStyle.OneNote:
+                        DrawBackOneNote(context, gradientRect, backColor1, backColor2,
+                            backColorStyle, backColorAngle, orientation, path);
+                        break;
+                    case PaletteColorStyle.RoundedTopLeftWhite:
+                        DrawBackRoundedTopLeftWhite(context, rect, gradientRect, backColor1, backColor2,
+                            backColorStyle, backColorAngle, orientation, path);
+                        break;
+                    case PaletteColorStyle.RoundedTopLight:
+                        DrawBackRoundedTopLight(context, rect, gradientRect, backColor1, backColor2,
+                            backColorStyle, backColorAngle, orientation, path);
+                        break;
+                    case PaletteColorStyle.Rounding4:
+                        DrawBackRounded4(context, rect, gradientRect, backColor1, backColor2,
+                            backColorStyle, backColorAngle, orientation, path);
+                        break;
+                    case PaletteColorStyle.Rounding5:
+                        DrawBackRounding5(context, rect, gradientRect, backColor1, backColor2,
+                            backColorStyle, backColorAngle, orientation, path);
+                        break;
+                    case PaletteColorStyle.LinearShadow:
+                        DrawBackLinearShadow(context, rect, gradientRect, backColor1, backColor2,
+                            backColorStyle, backColorAngle, orientation, path);
+                        break;
+                    default:
+                        // Use standard helper routine to create appropriate color brush
+                        using (Brush backBrush = CreateColorBrush(gradientRect, backColor1, backColor2,
+                                   backColorStyle, backColorAngle, orientation))
                         {
                             context.Graphics.FillPath(backBrush, path);
                         }
+                        break;
+                }
+
+                // Do we need to draw the image?
+                if (ShouldDrawImage(backImage))
+                {
+                    // Get the rectangle to use when dealing with gradients
+                    Rectangle imageRect = context.GetAlignedRectangle(palette.GetBackImageAlign(state), rect);
+
+                    // Use standard helper routine to create appropriate image brush
+                    using (Brush backBrush = CreateImageBrush(imageRect, backImage, backImageStyle))
+                    {
+                        context.Graphics.FillPath(backBrush, path);
                     }
                 }
             }
@@ -1077,8 +1089,7 @@ namespace Krypton.Toolkit
                 var spacingGap = palette.GetContentAdjacentGap(state);
 
                 // Is the content intended for a vertical drawing orientation?
-                var vertical = (orientation == VisualOrientation.Left) ||
-                               (orientation == VisualOrientation.Right);
+                var vertical = orientation is VisualOrientation.Left or VisualOrientation.Right;
 
                 // Drawing vertical means we can ignore right to left, otherwise get value from control
                 RightToLeft rtl = vertical ? RightToLeft.No : context.Control.RightToLeft;
@@ -1097,8 +1108,7 @@ namespace Krypton.Toolkit
 
                 // For the form level buttons we have to calculate the correct padding based on caption area
                 PaletteContentStyle contentStyle = palette.GetContentStyle();
-                if ((contentStyle == PaletteContentStyle.ButtonForm) ||
-                    (contentStyle == PaletteContentStyle.ButtonFormClose))
+                if (contentStyle is PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose)
                 {
                     borderPadding = ContentPaddingForButtonForm(borderPadding, context, allocatedHeight);
                 }
@@ -1171,8 +1181,7 @@ namespace Krypton.Toolkit
             Padding borderPadding = palette.GetContentPadding(state);
 
             // Is the content intended for a vertical drawing orientation?
-            var vertical = (orientation == VisualOrientation.Left) ||
-                           (orientation == VisualOrientation.Right);
+            var vertical = orientation is VisualOrientation.Left or VisualOrientation.Right;
 
             // If we need to apply in a vertical orientation
             if (vertical)
@@ -1821,9 +1830,7 @@ namespace Krypton.Toolkit
                     break;
                 case TabBorderStyle.OneNote:
                     // Is the current tab selected?
-                    var selected = (state == PaletteState.CheckedNormal) ||
-                                   (state == PaletteState.CheckedPressed) ||
-                                   (state == PaletteState.CheckedTracking);
+                    var selected = state is PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking;
 
                     // Find the correct edge padding values to use
                     var lp = selected ? SPACING_TAB_ONE_NOTE_LPS : SPACING_TAB_ONE_NOTE_LPI;
@@ -2558,8 +2565,7 @@ namespace Krypton.Toolkit
             }
 
             // Alter size for different orientations
-            if ((orientation == VisualOrientation.Left) ||
-                (orientation == VisualOrientation.Right))
+            if (orientation is VisualOrientation.Left or VisualOrientation.Right)
             {
                 // Switch dimensions to reflect rotation of 90 or 270 degrees
                 imageSize = new Size(imageSize.Height, imageSize.Width);
@@ -4488,7 +4494,7 @@ namespace Krypton.Toolkit
                         rect = AdjustOutsizeTab(state, rect, orientation);
                     }
 
-                    if (rtl && ((orientation == VisualOrientation.Top) || (orientation == VisualOrientation.Bottom)))
+                    if (rtl && orientation is VisualOrientation.Top or VisualOrientation.Bottom)
                     {
                         AddSlantFarPath(borderPath, orientation, rect, forBorder);
                     }
@@ -4505,7 +4511,7 @@ namespace Krypton.Toolkit
                         rect = AdjustOutsizeTab(state, rect, orientation);
                     }
 
-                    if (rtl && ((orientation == VisualOrientation.Top) || (orientation == VisualOrientation.Bottom)))
+                    if (rtl && orientation is VisualOrientation.Top or VisualOrientation.Bottom)
                     {
                         AddSlantNearPath(borderPath, orientation, rect, forBorder);
                     }
@@ -4526,9 +4532,7 @@ namespace Krypton.Toolkit
                     break;
                 case TabBorderStyle.OneNote:
                     // Is the current tab selected?
-                    var selected = (state == PaletteState.CheckedNormal) ||
-                                   (state == PaletteState.CheckedPressed) ||
-                                   (state == PaletteState.CheckedTracking);
+                    var selected = state is PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking;
 
                     // The right padding depends on the selected state
                     var rp = selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI;
@@ -4539,7 +4543,7 @@ namespace Krypton.Toolkit
                         rect = AdjustOneNoteTab(rect, orientation);
                     }
 
-                    if (rtl && ((orientation == VisualOrientation.Top) || (orientation == VisualOrientation.Bottom)))
+                    if (rtl && orientation is VisualOrientation.Top or VisualOrientation.Bottom)
                     {
                         AddOneNoteReversePath(borderPath, orientation, rect, forBorder, rp);
                     }
@@ -5823,9 +5827,9 @@ namespace Krypton.Toolkit
                 if (paletteContent.GetContentShortTextMultiLine(state) == InheritBool.False)
                 {
                     // Replace any carriage returns and newlines with just spaces
-                    shortText = shortText.Replace("\r\n", " ");
-                    shortText = shortText.Replace("\n", " ");
-                    shortText = shortText.Replace("\r", " ");
+                    shortText = shortText.Replace("\r\n", @" ");
+                    shortText = shortText.Replace("\n", @" ");
+                    shortText = shortText.Replace("\r", @" ");
                 }
 
                 // Convert from alignment enums to integers
@@ -5908,9 +5912,9 @@ namespace Krypton.Toolkit
                 if (paletteContent.GetContentLongTextMultiLine(state) == InheritBool.False)
                 {
                     // Replace any carriage returns and newlines with just spaces
-                    longText = longText.Replace("\r\n", " ");
-                    longText = longText.Replace("\n", " ");
-                    longText = longText.Replace("\r", " ");
+                    longText = longText.Replace("\r\n", @" ");
+                    longText = longText.Replace("\n", @" ");
+                    longText = longText.Replace("\r", @" ");
                 }
 
                 // Convert from alignment enums to integers
@@ -10472,7 +10476,7 @@ namespace Krypton.Toolkit
             var lightTransparency = 50;
             var mediumTransparency = 50;
 
-            if ((state == PaletteState.Pressed) || (state == PaletteState.Tracking))
+            if (state is PaletteState.Pressed or PaletteState.Tracking)
             {
                 lightTransparency = 200;
                 mediumTransparency = 200;

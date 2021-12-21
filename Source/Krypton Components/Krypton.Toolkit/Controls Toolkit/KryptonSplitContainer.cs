@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException("Panel1MinSize", "Value cannot be less than zero");
+                        throw new ArgumentOutOfRangeException(@"Panel1MinSize", @"Value cannot be less than zero");
                     }
 
                     // Use the new minimum size
@@ -430,7 +430,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException("Panel2MinSize", "Value cannot be less than zero");
+                        throw new ArgumentOutOfRangeException(@"Panel2MinSize", @"Value cannot be less than zero");
                     }
 
                     // Use the new minimum size
@@ -674,7 +674,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException("SplitterWidth", "Value cannot be less than zero");
+                        throw new ArgumentOutOfRangeException(@"SplitterWidth", @"Value cannot be less than zero");
                     }
 
                     // Use new width of the splitter area
@@ -714,7 +714,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 1)
                     {
-                        throw new ArgumentOutOfRangeException("SplitterIncrement", "Value cannot be less than one");
+                        throw new ArgumentOutOfRangeException(@"SplitterIncrement", @"Value cannot be less than one");
                     }
 
                     // Remember new value for use when moving the splitter

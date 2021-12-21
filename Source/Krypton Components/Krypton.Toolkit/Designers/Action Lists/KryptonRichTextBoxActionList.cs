@@ -172,16 +172,16 @@ namespace Krypton.Toolkit
             if (_richTextBox != null)
             {
                 // Add the list of rich text box specific actions
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
-                actions.Add(new DesignerActionPropertyItem("InputControlStyle", "Style", "Appearance", "TextBox display style."));
-                actions.Add(new DesignerActionPropertyItem("Font", "Font", "Appearance", "Modifies the font of the control."));
-                actions.Add(new DesignerActionPropertyItem("CornerRadius", "Corner Rounding Radius", "Appearance", "The corner rounding radius of the control."));
-                actions.Add(new DesignerActionHeaderItem("TextBox"));
-                actions.Add(new DesignerActionPropertyItem("Multiline", "Multiline", "TextBox", "Should text span multiple lines."));
-                actions.Add(new DesignerActionPropertyItem("WordWrap", "WordWrap", "TextBox", "Should words be wrapped over multiple lines."));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing."));
+                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
+                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"InputControlStyle", @"Style", @"Appearance", @"TextBox display style."));
+                actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"Modifies the font of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionHeaderItem(@"TextBox"));
+                actions.Add(new DesignerActionPropertyItem(@"Multiline", @"Multiline", @"TextBox", @"Should text span multiple lines."));
+                actions.Add(new DesignerActionPropertyItem(@"WordWrap", @"WordWrap", @"TextBox", @"Should words be wrapped over multiple lines."));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing."));
             }
 
             return actions;

@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
 
             // Should layout once initialization is complete
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/393
-            // Do not do layout as `true` here , as al the controls have already had the scaling
+            // Do not do layout as `true` here , as all the controls have already had the scaling
             // factors applied once, _do not do them again!_
             ResumeLayout(false);
 
@@ -87,7 +87,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if the control is initialized.
         /// </summary>
         [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsInitialized
         {
             [DebuggerStepThrough]
@@ -99,7 +100,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if the control is initialized.
         /// </summary>
         [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsInitializing
         {
             [DebuggerStepThrough]

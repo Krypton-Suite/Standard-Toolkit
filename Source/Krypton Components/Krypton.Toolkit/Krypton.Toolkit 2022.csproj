@@ -115,9 +115,6 @@
         <Compile Update="Palette Builtin\Office 2010\PaletteOffice2010White.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="Palette Builtin\Office 2013\PaletteOffice2013.cs">
-            <SubType>Component</SubType>
-        </Compile>
         <Compile Update="Palette Builtin\Office 2013\PaletteOffice2013Base.cs">
             <SubType>Component</SubType>
         </Compile>

@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             if (value is string)
             {
                 var stringValue = value.ToString().ToLower();
-                if ((stringValue == "dbnull") || (stringValue == "null") || (stringValue == "nothing"))
+                if (stringValue is "dbnull" or "null" or "nothing")
                 {
                     return DBNull.Value;
                 }

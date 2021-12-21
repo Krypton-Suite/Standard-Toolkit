@@ -54,10 +54,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the short text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Main text.")]
+        [Category(@"Appearance")]
+        [Description(@"Main text.")]
         [Localizable(true)]
-        [DefaultValue("")]
+        [DefaultValue(@"")]
         public string ShortText { get; set; }
 
         private bool ShouldSerializeShortText() => !string.IsNullOrEmpty(ShortText);
@@ -68,10 +68,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the long text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Supplementary text.")]
+        [Category(@"Appearance")]
+        [Description(@"Supplementary text.")]
         [Localizable(true)]
-        [DefaultValue("")]
+        [DefaultValue(@"")]
         public string LongText { get; set; }
 
         private bool ShouldSerializeLongText() => !string.IsNullOrEmpty(LongText);
@@ -82,8 +82,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the image.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Image associated with item.")]
+        [Category(@"Appearance")]
+        [Description(@"Image associated with item.")]
         [Localizable(true)]
         public Image Image { get; set; }
 
@@ -95,8 +95,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the image transparent color.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Color to treat as transparent in the Image.")]
+        [Category(@"Appearance")]
+        [Description(@"Color to treat as transparent in the Image.")]
         [Localizable(true)]
         public Color ImageTransparentColor { get; set; }
 

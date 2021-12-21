@@ -1,4 +1,18 @@
-# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - Changelog
+# <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
+
+## 2022-02-01 - Build 2202 - February 2022
+* Fixed [#533](https://github.com/Krypton-Suite/Standard-Toolkit/issues/533), KDataGridView: can column high lighting be turned of.
+* Fixed ActionLists for `KryptonListBox` and `KryptonListView`
+* Fixed [#530](https://github.com/Krypton-Suite/Standard-Toolkit/issues/530), "Ctrl+C" in Error KMessageBoxes no longer works
+* Fixed [#525](https://github.com/Krypton-Suite/Standard-Toolkit/issues/525), Undesired behaviour in KryptonGroupBox
+* Fixed [#520](https://github.com/Krypton-Suite/Standard-Toolkit/issues/520), KTooltips default to using the KryptonIcon when nothing is set by the developer
+* Fixed some minor issues regarding some dark themes
+* Fixed minor batch script bugs
+* Fixed tracking colours in `Office 2010 - Black (Dark Mode)`
+* Fixed [#500](https://github.com/Krypton-Suite/Standard-Toolkit/issues/500), `KryptonThemeComboBox` Themes List empty at Runtime
+* Implemented [#492](https://github.com/Krypton-Suite/Standard-Toolkit/issues/492), Remove `Office 2013` due to redundancy with `Office 2013 White` theme
+
+=======
 
 ## 2022-01-05 - Build 2201 - January 2022
 * Complete [#517](https://github.com/Krypton-Suite/Standard-Toolkit/issues/517), Warning CS3008: Identifier '_toolTipValues' is not CLS-compliant

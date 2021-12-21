@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
             _borderWidth = -1;
 
             // Create the helper object that passes background
-            // requests from the base clas and converts them into
+            // requests from the base class and converts them into
             // border requests on ourself.
             _translate = new BackToBorder(this);
             SetInherit(_translate);

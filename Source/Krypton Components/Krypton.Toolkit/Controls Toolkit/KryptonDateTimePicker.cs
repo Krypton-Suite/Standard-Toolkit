@@ -616,7 +616,7 @@ namespace Krypton.Toolkit
             set
             {
                 // We only allow a null/DBNull (as a way of setting no value) or a DateTime value
-                if ((value == null) || (value is DBNull) || (value is DateTime))
+                if (value is null or DBNull or DateTime)
                 {
                     // Only interested in changes of value
                     if (_rawDateTime != value)
@@ -625,7 +625,7 @@ namespace Krypton.Toolkit
                         _userSetDateTime = true;
 
                         // Update the checkbox to reflect the value
-                        if ((_rawDateTime == null) || (_rawDateTime is DBNull))
+                        if (_rawDateTime is null or DBNull)
                         {
                             _rawDateTime = DBNull.Value;
                             InternalViewDrawCheckBox.CheckState = CheckState.Unchecked;
@@ -867,12 +867,12 @@ namespace Krypton.Toolkit
                 {
                     if (value < EffectiveMinDate(_minDateTime))
                     {
-                        throw new ArgumentOutOfRangeException("Date provided is less than the minimum supported date.");
+                        throw new ArgumentOutOfRangeException(@"Date provided is less than the minimum supported date.");
                     }
 
                     if (value > DateTimePicker.MaximumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException("Date provided is greater than the maximum supported date.");
+                        throw new ArgumentOutOfRangeException(@"Date provided is greater than the maximum supported date.");
                     }
 
                     _maxDateTime = value;
@@ -920,12 +920,12 @@ namespace Krypton.Toolkit
                 {
                     if (value > EffectiveMaxDate(_maxDateTime))
                     {
-                        throw new ArgumentOutOfRangeException("Date provided is greater than the maximum supported date.");
+                        throw new ArgumentOutOfRangeException(@"Date provided is greater than the maximum supported date.");
                     }
 
                     if (value < DateTimePicker.MinimumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException("Date provided is less than the minimum supported date.");
+                        throw new ArgumentOutOfRangeException(@"Date provided is less than the minimum supported date.");
                     }
 
                     _minDateTime = value;

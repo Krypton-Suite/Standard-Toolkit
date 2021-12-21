@@ -60,13 +60,13 @@ namespace Krypton.Toolkit
         public override string ToString()
         {
             StringBuilder builder = new(0x40);
-            builder.Append("KryptonDataGridViewCheckBoxColumn { Name=");
+            builder.Append(@"KryptonDataGridViewCheckBoxColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
-            builder.Append(", Index=");
+            builder.Append(@", Index=");
             builder.Append(base.Index.ToString(CultureInfo.CurrentCulture));
             // ReSharper restore RedundantBaseQualifier
-            builder.Append(" }");
+            builder.Append(@" }");
             return builder.ToString();
         }
         #endregion
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
             {
                 if ((value != null) && value is not KryptonDataGridViewCheckBoxCell)
                 {
-                    throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewCheckBoxCell");
+                    throw new InvalidCastException(@"Can only assign a object of type KryptonDataGridViewCheckBoxCell");
                 }
 
                 base.CellTemplate = value;
@@ -95,14 +95,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the underlying value corresponding to a cell value of false, which appears as an unchecked box.
         /// </summary>
-        [Category("Data")]
-        [DefaultValue("")]
+        [Category(@"Data")]
+        [DefaultValue(@"")]
         [TypeConverter(typeof(StringConverter))]
         public object FalseValue
         {
             get =>
                 CheckBoxCellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required")
+                    ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
                     : CheckBoxCellTemplate.FalseValue;
             set
             {
@@ -130,14 +130,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the underlying value corresponding to an indeterminate or a null reference (Nothing in Visual Basic) cell value, which appears as a disabled checkbox.
         /// </summary>
-        [Category("Data")]
-        [DefaultValue("")]
+        [Category(@"Data")]
+        [DefaultValue(@"")]
         [TypeConverter(typeof(StringConverter))]
         public object IndeterminateValue
         {
             get =>
                 CheckBoxCellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required")
+                    ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
                     : CheckBoxCellTemplate.IndeterminateValue;
             set
             {
@@ -165,14 +165,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the underlying value corresponding to a cell value of true, which appears as a checked box.
         /// </summary>
-        [Category("Data")]
-        [DefaultValue("")]
+        [Category(@"Data")]
+        [DefaultValue(@"")]
         [TypeConverter(typeof(StringConverter))]
         public object TrueValue
         {
             get =>
                 CheckBoxCellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required")
+                    ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
                     : CheckBoxCellTemplate.TrueValue;
             set
             {
@@ -200,13 +200,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the hosted check box cells will allow three check states rather than two.
         /// </summary>
-        [Category("Behavior")]
+        [Category(@"Behavior")]
         [DefaultValue(false)]
         public bool ThreeState
         {
             get =>
                 CheckBoxCellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewCheckBoxColumn cell template required")
+                    ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
                     : CheckBoxCellTemplate.ThreeState;
             set
             {

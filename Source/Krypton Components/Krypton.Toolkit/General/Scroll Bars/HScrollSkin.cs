@@ -20,13 +20,13 @@ namespace Krypton.Toolkit
         #region "   Members   "
         //private static List<WeakReference> __ENCList = new List<WeakReference>();
 
-        [AccessedThroughProperty("_win")]
+        [AccessedThroughProperty(@"_win")]
         private Control __win;
 
-        [AccessedThroughProperty("VScrollBar1")]
+        [AccessedThroughProperty(@"VScrollBar1")]
         private KryptonScrollBar _VScrollBar1;
 
-        [AccessedThroughProperty("HScrollBar1")]
+        [AccessedThroughProperty(@"HScrollBar1")]
         private KryptonScrollBar _HScrollBar1;
 
         private IContainer components;

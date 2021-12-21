@@ -55,8 +55,8 @@ namespace Krypton.Toolkit
         /// Gallery up button images.
         /// </summary>
         [KryptonPersist(true)]
-        [Category("Visuals")]
-        [Description("Gallery up button images.")]
+        [Category(@"Visuals")]
+        [Description(@"Gallery up button images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public GalleryButtonImages Up { get; }
 
@@ -67,8 +67,8 @@ namespace Krypton.Toolkit
         /// Gallery down button images.
         /// </summary>
         [KryptonPersist(true)]
-        [Category("Visuals")]
-        [Description("Gallery down button images.")]
+        [Category(@"Visuals")]
+        [Description(@"Gallery down button images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public GalleryButtonImages Down { get; }
 
@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
         /// Gallery drop down button images.
         /// </summary>
         [KryptonPersist(true)]
-        [Category("Visuals")]
-        [Description("Gallery drop down button images.")]
+        [Category(@"Visuals")]
+        [Description(@"Gallery drop down button images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public GalleryButtonImages DropDown { get; }
 

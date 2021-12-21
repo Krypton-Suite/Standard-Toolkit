@@ -640,8 +640,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private bool Horizontal => (Orientation == VisualOrientation.Top) ||
-                                    (Orientation == VisualOrientation.Bottom);
+        private bool Horizontal => Orientation is VisualOrientation.Top or VisualOrientation.Bottom;
 
         private RelativePositionAlign AlignmentRTL
         {
@@ -765,8 +764,7 @@ namespace Krypton.Toolkit
             Point offset = _offset;
 
             // Are we scrolling in the horizontal?
-            if ((Orientation == VisualOrientation.Top) ||
-                (Orientation == VisualOrientation.Bottom))
+            if (Orientation is VisualOrientation.Top or VisualOrientation.Bottom)
             {
                 // Find the distance to move horizontally
                 var change = Math.Max((int)(ClientSize.Width * _scrollPercentage), _scrollMinimum);
@@ -866,8 +864,7 @@ namespace Krypton.Toolkit
 
             // Move the required rectangle more than exactly into view in order to make it
             // easier for users to see extra pages before and after it for easy selection
-            if ((Orientation == VisualOrientation.Top) ||
-                (Orientation == VisualOrientation.Bottom))
+            if (Orientation is VisualOrientation.Top or VisualOrientation.Bottom)
             {
                 rect.X -= overs;
                 rect.Width += overs * 2;

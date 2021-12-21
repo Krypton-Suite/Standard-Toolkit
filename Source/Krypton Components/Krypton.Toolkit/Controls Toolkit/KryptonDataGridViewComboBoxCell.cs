@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The DisplayMember property replicates the one from the KryptonComboBox control
         /// </summary>
-        [DefaultValue("")]
+        [DefaultValue(@"")]
         public string DisplayMember
         {
             get => _displayMember;
@@ -243,7 +243,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The ValueMember property replicates the one from the KryptonComboBox control
         /// </summary>
-        [DefaultValue("")]
+        [DefaultValue(@"")]
         public string ValueMember
         {
             get => _valueMember;
@@ -261,8 +261,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the list that this control will use to gets its items.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the list that this control will use to gets its items.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the list that this control will use to gets its items.")]
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
@@ -288,7 +288,7 @@ namespace Krypton.Toolkit
             DataGridView dataGridView = DataGridView;
             if (dataGridView?.EditingControl == null)
             {
-                throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
+                throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");
             }
 
             if (dataGridView.EditingControl is KryptonComboBox comboBox)

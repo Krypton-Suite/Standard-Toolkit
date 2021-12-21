@@ -307,24 +307,24 @@ namespace Krypton.Toolkit
             if (_checkBox != null)
             {
                 // Add the list of checkbox specific actions
-                actions.Add(new DesignerActionHeaderItem("Operation"));
-                actions.Add(new DesignerActionPropertyItem("Checked", "Checked", "Operation", "Checked state"));
-                actions.Add(new DesignerActionPropertyItem("AutoCheck", "AutoCheck", "Operation", "AutoCheck of other instances."));
-                actions.Add(new DesignerActionPropertyItem("ThreeState", "ThreeState", "Operation", "ThreeState setting"));
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("LabelStyle", "Style", "Appearance", "Label style"));
-                actions.Add(new DesignerActionPropertyItem("Orientation", "Orientation", "Appearance", "Visual orientation"));
-                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
-                actions.Add(new DesignerActionPropertyItem("ShortTextTrim", "Short Text Trim", "Appearance", "The trim mode of the short text."));
-                actions.Add(new DesignerActionPropertyItem("LongTextFont", "Long Text Font", "Appearance", "The long text font."));
-                actions.Add(new DesignerActionPropertyItem("LongTextTrim", "Long Text Trim", "Appearance", "The trim mode of the long text."));
-                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
-                actions.Add(new DesignerActionHeaderItem("Values"));
-                actions.Add(new DesignerActionPropertyItem("Text", "Text", "Values", "Checkbox text"));
-                actions.Add(new DesignerActionPropertyItem("ExtraText", "ExtraText", "Values", "Checkbox extra text"));
-                actions.Add(new DesignerActionPropertyItem("Image", "Image", "Values", "Checkbox image"));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionHeaderItem(@"Operation"));
+                actions.Add(new DesignerActionPropertyItem(@"Checked", @"Checked", @"Operation", @"Checked state"));
+                actions.Add(new DesignerActionPropertyItem(@"AutoCheck", @"AutoCheck", @"Operation", @"AutoCheck of other instances."));
+                actions.Add(new DesignerActionPropertyItem(@"ThreeState", @"ThreeState", @"Operation", @"ThreeState setting"));
+                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
+                actions.Add(new DesignerActionPropertyItem(@"LabelStyle", @"Style", @"Appearance", @"Label style"));
+                actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"Visual orientation"));
+                actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
+                actions.Add(new DesignerActionPropertyItem(@"ShortTextTrim", @"Short Text Trim", @"Appearance", @"The trim mode of the short text."));
+                actions.Add(new DesignerActionPropertyItem(@"LongTextFont", @"Long Text Font", @"Appearance", @"The long text font."));
+                actions.Add(new DesignerActionPropertyItem(@"LongTextTrim", @"Long Text Trim", @"Appearance", @"The trim mode of the long text."));
+                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionHeaderItem(@"Values"));
+                actions.Add(new DesignerActionPropertyItem(@"Text", @"Text", @"Values", @"Checkbox text"));
+                actions.Add(new DesignerActionPropertyItem(@"ExtraText", @"ExtraText", @"Values", @"Checkbox extra text"));
+                actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"Checkbox image"));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

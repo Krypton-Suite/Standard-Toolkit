@@ -69,8 +69,8 @@ namespace Krypton.Toolkit
             if (_manager != null)
             {
                 // Add the list of panel specific actions
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("GlobalPaletteMode", "Global Palette", "Visuals", "Global palette setting"));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
+                actions.Add(new DesignerActionPropertyItem(@"GlobalPaletteMode", @"Global Palette", @"Visuals", @"Global palette setting"));
             }
 
             return actions;

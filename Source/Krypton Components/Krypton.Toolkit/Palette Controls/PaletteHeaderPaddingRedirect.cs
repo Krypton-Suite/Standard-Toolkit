@@ -100,10 +100,7 @@ namespace Krypton.Toolkit
         public override Padding GetMetricPadding(PaletteState state, PaletteMetricPadding metric)
         {
             // Is this the metric we provide?
-            if ((metric == PaletteMetricPadding.HeaderGroupPaddingPrimary) ||
-                (metric == PaletteMetricPadding.HeaderGroupPaddingSecondary) ||
-                (metric == PaletteMetricPadding.HeaderGroupPaddingDockInactive) ||
-                (metric == PaletteMetricPadding.HeaderGroupPaddingDockActive))
+            if (metric is PaletteMetricPadding.HeaderGroupPaddingPrimary or PaletteMetricPadding.HeaderGroupPaddingSecondary or PaletteMetricPadding.HeaderGroupPaddingDockInactive or PaletteMetricPadding.HeaderGroupPaddingDockActive)
             {
                 // If the user has defined an actual value to use
                 if (!HeaderPadding.Equals(CommonHelper.InheritPadding))

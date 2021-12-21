@@ -392,8 +392,7 @@ namespace Krypton.Toolkit
                         underline = true;
                         break;
                     case KryptonLinkBehavior.HoverUnderline:
-                        underline = (state == PaletteState.Tracking) ||
-                                     (state == PaletteState.Pressed);
+                        underline = state is PaletteState.Tracking or PaletteState.Pressed;
                         break;
                     case KryptonLinkBehavior.NeverUnderline:
                         // Nothing to do

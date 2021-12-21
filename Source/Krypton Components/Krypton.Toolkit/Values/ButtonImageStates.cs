@@ -43,8 +43,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button image for normal state.")]
+        [Category(@"Visuals")]
+        [Description(@"Button image for normal state.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImageNormal
@@ -78,8 +78,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button image for disabled state.")]
+        [Category(@"Visuals")]
+        [Description(@"Button image for disabled state.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImageDisabled
@@ -113,8 +113,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button image for pressed state.")]
+        [Category(@"Visuals")]
+        [Description(@"Button image for pressed state.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImagePressed
@@ -148,8 +148,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button image for tracking state.")]
+        [Category(@"Visuals")]
+        [Description(@"Button image for tracking state.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image ImageTracking

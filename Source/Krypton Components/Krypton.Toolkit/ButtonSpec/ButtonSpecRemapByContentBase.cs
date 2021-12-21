@@ -137,8 +137,7 @@ namespace Krypton.Toolkit
             if (PaletteContent != null)
             {
                 // We only override the normal/disabled states
-                if ((state == PaletteState.Normal) ||
-                    (state == PaletteState.Disabled))
+                if (state is PaletteState.Normal or PaletteState.Disabled)
                 {
                     // ReSharper disable RedundantBaseQualifier
                     // Get the color map from the button spec

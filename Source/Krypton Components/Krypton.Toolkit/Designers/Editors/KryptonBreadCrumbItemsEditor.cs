@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets and sets the short text.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 public string ShortText
                 {
                     get => _item.ShortText;
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets and sets the long text.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 public string LongText
                 {
                     get => _item.LongText;
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets and sets the image.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue(null)]
                 public Image Image
                 {
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets and sets the image transparent color.
                 /// </summary>
-                [Category("Appearance")]
+                [Category(@"Appearance")]
                 [DefaultValue(typeof(Color), "")]
                 public Color ImageTransparentColor
                 {
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets and sets user-defined data associated with the object.
                 /// </summary>
-                [Category("Data")]
+                [Category(@"Data")]
                 [TypeConverter(typeof(StringConverter))]
                 [DefaultValue(null)]
                 public object Tag
@@ -416,7 +416,7 @@ namespace Krypton.Toolkit
                 Controls.Add(buttonMoveUp);
                 Controls.Add(treeView1);
                 Controls.Add(buttonOK);
-                Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+                Font = new Font(@"Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 MinimumSize = new Size(501, 296);
                 Name = "KryptonBreadCrumbCollectionForm";
                 StartPosition = FormStartPosition.CenterScreen;

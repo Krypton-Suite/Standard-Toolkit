@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
                                                                         Color.FromArgb(35, 35, 35)          // Border (normal) position
                                                                       };
         private static readonly Color[] _schemeColors = {             Color.White,             // TextLabelControl - Why is this used for  context menu normal & tracking text?
-                                                                      Color.FromArgb(70, 70, 70),                      // TextButtonNormal - Normal button text
+                                                                      Color.White,                      // TextButtonNormal - Normal button text
                                                                       Color.FromArgb(128, 128, 128),                      // TextButtonChecked
                                                                       Color.FromArgb(106, 106, 106),    // ButtonNormalBorder1
                                                                       Color.FromArgb( 32, 32, 32),    // ButtonNormalDefaultBorder
@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(218, 220, 221),    // GridDataCellBorder
                                                                       Color.FromArgb(183, 219, 255),    // GridDataCellSelected
                                                                       Color.White,                                   // InputControlTextNormal - Combobox, textbox etc text colour
-                                                                      Color.FromArgb(172, 168, 153),    // InputControlTextDisabled
+                                                                      Color.FromArgb(128, 128, 128),    // InputControlTextDisabled
                                                                       Color.FromArgb(132, 132, 132),    // InputControlBorderNormal
                                                                       Color.FromArgb(187, 187, 187),    // InputControlBorderDisabled
                                                                       Color.FromArgb(91, 91, 91), //38, 38, 38 InputControlBackNormal

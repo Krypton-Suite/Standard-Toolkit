@@ -498,10 +498,7 @@ namespace Krypton.Toolkit
             PaletteDrawBorders justBorders = borders & PaletteDrawBorders.All;
 
             // If borders value equals just one of the edges
-            return (justBorders == PaletteDrawBorders.Top) ||
-                   (justBorders == PaletteDrawBorders.Bottom) ||
-                   (justBorders == PaletteDrawBorders.Left) ||
-                   (justBorders == PaletteDrawBorders.Right);
+            return justBorders is PaletteDrawBorders.Top or PaletteDrawBorders.Bottom or PaletteDrawBorders.Left or PaletteDrawBorders.Right;
         }
 
         /// <summary>
@@ -560,7 +557,7 @@ namespace Krypton.Toolkit
             }
 
             // No need to change the All or None values
-            if ((borders == PaletteDrawBorders.All) || (borders == PaletteDrawBorders.None))
+            if (borders is PaletteDrawBorders.All or PaletteDrawBorders.None)
             {
                 return borders;
             }
@@ -664,7 +661,7 @@ namespace Krypton.Toolkit
             }
 
             // No need to change the All or None values
-            if ((borders == PaletteDrawBorders.All) || (borders == PaletteDrawBorders.None))
+            if (borders is PaletteDrawBorders.All or PaletteDrawBorders.None)
             {
                 return borders;
             }

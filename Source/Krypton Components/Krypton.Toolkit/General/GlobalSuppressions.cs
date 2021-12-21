@@ -15,4 +15,4 @@
 // Project-level suppressions either have no target or are given
 // a specific target and scoped to a namespace, type, member, etc.
 
-[assembly: SuppressMessage("Style", "IDE0063:Use simple 'using' statement", Justification = "Prevent confusion between different framework code patterns")]
+[assembly: SuppressMessage(@"Style", @"IDE0063:Use simple 'using' statement", Justification = "Prevent confusion between different framework code patterns")]

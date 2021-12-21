@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the button header location.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Defines header location for the button.")]
+        [Category(@"Visuals")]
+        [Description(@"Defines header location for the button.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
         public HeaderLocation HeaderLocation

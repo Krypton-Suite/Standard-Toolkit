@@ -19,7 +19,7 @@ namespace Krypton.Toolkit.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(@"System.Resources.Tools.StronglyTypedResourceBuilder", @"16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class CursorResources {
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit.Resources {
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(@"Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal CursorResources() {
         }
         
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.CursorResources", typeof(CursorResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager(@"Krypton.Toolkit.Resources.CursorResources", typeof(CursorResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static byte[] SplitHorizontal {
             get {
-                object obj = ResourceManager.GetObject("SplitHorizontal", resourceCulture);
+                object obj = ResourceManager.GetObject(@"SplitHorizontal", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static byte[] SplitVertical {
             get {
-                object obj = ResourceManager.GetObject("SplitVertical", resourceCulture);
+                object obj = ResourceManager.GetObject(@"SplitVertical", resourceCulture);
                 return ((byte[])(obj));
             }
         }

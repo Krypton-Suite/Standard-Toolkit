@@ -19,7 +19,7 @@ namespace Krypton.Toolkit.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(@"System.Resources.Tools.StronglyTypedResourceBuilder", @"16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class GenericProfessionalImageResources {
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit.Resources {
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(@"Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal GenericProfessionalImageResources() {
         }
         
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Resources.GenericProfessionalImageResources", typeof(GenericProfessionalImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager(@"Krypton.Toolkit.Resources.GenericProfessionalImageResources", typeof(GenericProfessionalImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalArrowDownButton {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalArrowDownButton", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalArrowDownButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalArrowLeftButton {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalArrowLeftButton", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalArrowLeftButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalArrowRightButton {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalArrowRightButton", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalArrowRightButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalArrowUpButton {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalArrowUpButton", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalArrowUpButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalCloseButton {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalCloseButton", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalCloseButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalContextButton {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalContextButton", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalContextButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalDropDownButton {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalDropDownButton", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalDropDownButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalMaximize {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalMaximize", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalMaximize", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalNextButton {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalNextButton", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalNextButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalPreviousButton {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalPreviousButton", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalPreviousButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap ProfessionalRestore {
             get {
-                object obj = ResourceManager.GetObject("ProfessionalRestore", resourceCulture);
+                object obj = ResourceManager.GetObject(@"ProfessionalRestore", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap SystemChecked {
             get {
-                object obj = ResourceManager.GetObject("SystemChecked", resourceCulture);
+                object obj = ResourceManager.GetObject(@"SystemChecked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap SystemContextMenuSub {
             get {
-                object obj = ResourceManager.GetObject("SystemContextMenuSub", resourceCulture);
+                object obj = ResourceManager.GetObject(@"SystemContextMenuSub", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap SystemIndeterminate {
             get {
-                object obj = ResourceManager.GetObject("SystemIndeterminate", resourceCulture);
+                object obj = ResourceManager.GetObject(@"SystemIndeterminate", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

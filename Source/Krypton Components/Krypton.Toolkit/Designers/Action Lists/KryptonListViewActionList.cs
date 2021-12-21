@@ -120,6 +120,42 @@ namespace Krypton.Toolkit.Designers.Action_Lists
             }
         }
 
+        /// <summary>Gets or sets the corner radius.</summary>
+        /// <value>The corner radius.</value>
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRadius
+        {
+            get => _listView.StateCommon.Border.Rounding;
+
+            set
+            {
+                if (_listView.StateCommon.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_listView, null, _listView.StateCommon.Border.Rounding, value);
+
+                    _listView.StateCommon.Border.Rounding = value;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the item corner radius.</summary>
+        /// <value>The item corner radius.</value>
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float ItemCornerRounding
+        {
+            get => _listView.StateCommon.Item.Border.Rounding;
+
+            set
+            {
+                if (_listView.StateCommon.Item.Border.Rounding != value)
+                {
+                    _service.OnComponentChanged(_listView, null, _listView.StateCommon.Item.Border.Rounding, value);
+
+                    _listView.StateCommon.Item.Border.Rounding = value;
+                }
+            }
+        }
+
         #endregion
 
         #region Public Override
@@ -136,14 +172,16 @@ namespace Krypton.Toolkit.Designers.Action_Lists
             if (_listView != null)
             {
                 // Add the list of list box specific actions
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("BackStyle", "Back Style", "Appearance", "Style used to draw background."));
-                actions.Add(new DesignerActionPropertyItem("BorderStyle", "Border Style", "Appearance", "Style used to draw the border."));
-                actions.Add(new DesignerActionPropertyItem("ContextMenuStrip", "Context Menu Strip", "Appearance", "The context menu strip for the control."));
-                actions.Add(new DesignerActionPropertyItem("ItemStyle", "Item Style", "Appearance", "How to display list items."));
-                actions.Add(new DesignerActionPropertyItem("ShortTextFont", "Short Text Font", "Appearance", "The short text font."));
-                actions.Add(new DesignerActionHeaderItem("Behavior"));
-                actions.Add(new DesignerActionHeaderItem("Visuals"));
+                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
+                actions.Add(new DesignerActionPropertyItem(@"BackStyle", @"Back Style", @"Appearance", @"Style used to draw background."));
+                actions.Add(new DesignerActionPropertyItem(@"BorderStyle", @"Border Style", @"Appearance", @"Style used to draw the border."));
+                actions.Add(new DesignerActionPropertyItem(@"ContextMenuStrip", @"Context Menu Strip", @"Appearance", @"The context menu strip for the control."));
+                actions.Add(new DesignerActionPropertyItem(@"ItemStyle", @"Item Style", @"Appearance", @"How to display list items."));
+                actions.Add(new DesignerActionPropertyItem(@"ShortTextFont", @"Short Text Font", @"Appearance", @"The short text font."));
+                actions.Add(new DesignerActionPropertyItem(@"CornerRadius", @"Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionPropertyItem(@"ItemCornerRounding", @"Item Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the item."));
+                actions.Add(new DesignerActionHeaderItem(@"Behavior"));
+                actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             }
 
             return actions;
