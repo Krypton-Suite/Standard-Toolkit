@@ -28,6 +28,9 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        /// <summary>
+        /// Set a watermark/prompt message for the user.
+        /// </summary>
         [Category("Visuals")]
         [Description("Set a watermark/prompt message for the user.")]
         [RefreshProperties(RefreshProperties.All)]

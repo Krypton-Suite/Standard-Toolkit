@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class PaletteHeaderPaddingRedirect : PaletteHeaderButtonRedirect
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private readonly PaletteRedirect _redirect;
         private Padding _headerPadding;
         #endregion
 

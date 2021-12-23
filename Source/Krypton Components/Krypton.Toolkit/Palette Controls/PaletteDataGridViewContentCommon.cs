@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state) => _font != null ? _font : Inherit.GetContentShortTextFont(state);
+        public override Font GetContentShortTextFont(PaletteState state) => _font ?? Inherit.GetContentShortTextFont(state);
 
         #endregion
 

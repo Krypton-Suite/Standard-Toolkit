@@ -13,6 +13,9 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>
+    /// Gets the single instance of the ### palette.
+    /// </summary>
     public class PaletteOffice365BlueLightMode : PaletteOffice365BlueThemeLightModeBase
     {
         #region Static Fields

@@ -621,7 +621,7 @@ namespace Krypton.Workspace
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public WorkspaceMenus ContextMenus { get; }
 
-        private bool ShouldSerializeWorkspaceMenus() => !ContextMenus.IsDefault;
+        private bool ShouldSerializeContextMenus() => !ContextMenus.IsDefault;
 
         /// <summary>
         /// Gets access to the root sequence.
@@ -1685,8 +1685,7 @@ namespace Krypton.Workspace
             var visibleCells = 0;
             var numPages = 0;
 
-            if ((MaximizedCell != null)
-                && MaximizedCell.AllowDroppingPages
+            if (MaximizedCell is { AllowDroppingPages: true }
                 )
             {
                 // Generate targets for maximized cell only
@@ -1929,7 +1928,7 @@ namespace Krypton.Workspace
                 }
 
                 // Load the format version number
-                var version = xmlReader.GetAttribute("V");
+                var version = xmlReader.GetAttribute(@"V");
                 var activePageUniqueName = xmlReader.GetAttribute(@"A");
 
                 // Convert format version from string to double
@@ -2356,7 +2355,7 @@ namespace Krypton.Workspace
 
         #region Protected
         /// <summary>
-        /// Change has occured in the hierarchy of children.
+        /// Change has occurred in the hierarchy of children.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Arguments associated with the event.</param>
@@ -2567,7 +2566,7 @@ namespace Krypton.Workspace
                 {
                     if (MaximizedCell != null)
                     {
-                        LayoutSequenceMaximized(Root, ClientRectangle, controls, layoutContext);
+                        LayoutSequenceMaximized(Root, ClientRectangle, controls);
                     }
                     else
                     {
@@ -2595,13 +2594,10 @@ namespace Krypton.Workspace
                         ((KryptonReadOnlyControls)Controls).RemoveInternal(c);
 
                         // If the control has the expected interface
-                        if (c is IWorkspaceItem item)
-                        {
+                        if (c is IWorkspaceItem { DisposeOnRemove: true })
                             // Does the item want to be disposed on removal?
-                            if (item.DisposeOnRemove)
-                            {
-                                c.Dispose();
-                            }
+                        {
+                            c.Dispose();
                         }
 
                         // Generate event so users can reverse actions taken when cell was added
@@ -2646,8 +2642,7 @@ namespace Krypton.Workspace
                 }
 
                 // If we have a maximized cell then ensure it has focus and not some other cell
-                if ((MaximizedCell != null)
-                    && !MaximizedCell.ContainsFocus && ContainsFocus
+                if (MaximizedCell is { ContainsFocus: false } && ContainsFocus
                     )
                 {
                     MaximizedCell.Select();
@@ -2909,7 +2904,7 @@ namespace Krypton.Workspace
                     offset = splitter.Y - separator.ClientLocation.Y;
                 }
 
-                // Only need to process if a change has occured
+                // Only need to process if a change has occurred
                 if (offset != 0)
                 {
                     // Update the sizing value for each item in the sequence
@@ -3050,8 +3045,7 @@ namespace Krypton.Workspace
         #region Implementation
         private void LayoutSequenceMaximized(KryptonWorkspaceSequence seq,
                                              Rectangle client,
-                                             ControlList controls,
-                                             ViewLayoutContext layoutContext)
+                                             ControlList controls)
         {
             // Inform the sequence of the client rectangle it occupies
             seq.WorkspaceActualSize = client.Size;
@@ -3575,7 +3569,7 @@ namespace Krypton.Workspace
             return null;
         }
 
-        private void SeparatorToItems(ViewDrawWorkspaceSeparator separator,
+        private static void SeparatorToItems(ViewDrawWorkspaceSeparator separator,
                                       out IWorkspaceItem after,
                                       out IWorkspaceItem before)
         {
@@ -3589,7 +3583,7 @@ namespace Krypton.Workspace
             before = null;
             for (var i = beforeSequence.Children.IndexOf(after) - 1; i >= 0; i--)
             {
-                if ((beforeSequence.Children[i] is IWorkspaceItem item) && item.WorkspaceVisible)
+                if ((beforeSequence.Children[i] is IWorkspaceItem { WorkspaceVisible: true } item))
                 {
                     before = item;
                     break;
@@ -3597,7 +3591,7 @@ namespace Krypton.Workspace
             }
         }
 
-        private void SeparatorToMovement(ViewDrawWorkspaceSeparator separator,
+        private static void SeparatorToMovement(ViewDrawWorkspaceSeparator separator,
                                          IWorkspaceItem after,
                                          IWorkspaceItem before,
                                          out int moveBefore,
@@ -3746,7 +3740,7 @@ namespace Krypton.Workspace
             targets.Add(new DragTargetWorkspaceCellTransfer(screenRect, rectsHot[4], screenRect, this, cell, allowFlags));
         }
 
-        private Rectangle[] SubdivideRectangle(Rectangle area,
+        private static Rectangle[] SubdivideRectangle(Rectangle area,
                                                int divisor,
                                                int maxLength)
         {
@@ -3820,7 +3814,7 @@ namespace Krypton.Workspace
         {
             if (!IsActivePageChangedEventSuspended)
             {
-                // If change occured on the active cell
+                // If change occurred on the active cell
                 KryptonWorkspaceCell cell = (KryptonWorkspaceCell)sender;
                 if (cell == ActiveCell)
                 {
@@ -4137,7 +4131,7 @@ namespace Krypton.Workspace
             }
         }
 
-        private UniqueNameToPage BuildUniqueNameDictionary(KryptonPageCollection pages)
+        private static UniqueNameToPage BuildUniqueNameDictionary(KryptonPageCollection pages)
         {
             UniqueNameToPage dict = new();
 
@@ -4154,7 +4148,7 @@ namespace Krypton.Workspace
             return dict;
         }
 
-        private Bitmap ReadOptionalImageElement(XmlReader xmlReader, string name)
+        private static Bitmap ReadOptionalImageElement(XmlReader xmlReader, string name)
         {
             Bitmap retImage = null;
 

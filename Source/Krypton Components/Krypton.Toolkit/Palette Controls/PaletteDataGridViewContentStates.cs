@@ -575,7 +575,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => _image != null ? _image : Inherit.GetContentShortTextImage(state);
+        public Image GetContentShortTextImage(PaletteState state) => _image ?? Inherit.GetContentShortTextImage(state);
 
         #endregion
 

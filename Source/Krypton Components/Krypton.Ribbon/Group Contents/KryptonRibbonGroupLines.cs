@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Update all contained elements to reflect the same sizing
-                    GroupItemSize itemSize = LinesToItemSize(_itemSizeMin);
+                    _ = LinesToItemSize(_itemSizeMin);
                     foreach (IRibbonGroupItem item in Items)
                     {
                         item.ItemSizeMinimum = value;

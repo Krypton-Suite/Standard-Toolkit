@@ -86,7 +86,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool Visible
         {
-            get => base.Visible && ((Parent == null) ? true : Parent.Visible);
+            get => base.Visible && (Parent?.Visible ?? true);
             set => base.Visible = value;
         }
         #endregion

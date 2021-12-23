@@ -490,7 +490,7 @@ namespace Krypton.Ribbon
         {
             // Perform processing that is common to any action that would dismiss
             // any popup controls such as the showing minimized group popup
-            Ribbon?.ActionOccured();
+            Ribbon?.Actionoccurred();
 
             DialogBoxLauncherClick?.Invoke(this, e);
         }

@@ -645,7 +645,7 @@ namespace Krypton.Toolkit
             if (CheckOnClick)
             {
                 // Grab current state from command or ourself
-                CheckState state = KryptonCommand == null ? CheckState : KryptonCommand.CheckState;
+                CheckState state = KryptonCommand?.CheckState ?? CheckState;
 
                 // Find new state
                 switch (state)

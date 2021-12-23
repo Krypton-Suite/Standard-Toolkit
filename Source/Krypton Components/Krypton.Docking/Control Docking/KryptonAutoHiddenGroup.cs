@@ -80,7 +80,7 @@ namespace Krypton.Docking
         /// </summary>
         public void StoreAllPages()
         {
-            List<string> uniqueNames = new List<string>();
+            var uniqueNames = new List<string>();
 
             // Create a list of pages that have not yet store placeholders
             foreach(KryptonPage page in Pages)
@@ -100,7 +100,7 @@ namespace Krypton.Docking
         /// <param name="uniqueNames">Array of page names.</param>
         public void StorePages(string[] uniqueNames)
         {
-            foreach (string uniqueName in uniqueNames)
+            foreach (var uniqueName in uniqueNames)
             {
                 // If a matching page exists and it is not a store placeholder already
                 KryptonPage page = Pages[uniqueName];

@@ -361,11 +361,10 @@ namespace Krypton.Ribbon
             var maxEntries = 0;
             for (var i = 0; i < Count; i++)
             {
-                if (this[i].Visible && (this[i] is IRibbonViewGroupContainerView))
+                if (this[i].Visible 
+                    && (this[i] is IRibbonViewGroupContainerView container)
+                    )
                 {
-                    // Cast child view to correct interface
-                    IRibbonViewGroupContainerView container = (IRibbonViewGroupContainerView)this[i];
-
                     // Find list of possible sizes for this container
                     var widths = container.GetPossibleSizes(context);
 
@@ -534,9 +533,10 @@ namespace Krypton.Ribbon
                 // Look for visible child containers
                 for (var i = 0; i < Count; i++)
                 {
-                    if (this[i].Visible && (this[i] is IRibbonViewGroupContainerView))
+                    if (this[i].Visible 
+                        && (this[i] is IRibbonViewGroupContainerView container)
+                        )
                     {
-                        IRibbonViewGroupContainerView container = (IRibbonViewGroupContainerView)this[i];
                         container.ResetSolutionSize();
                     }
                 }
@@ -551,13 +551,12 @@ namespace Krypton.Ribbon
                 // Look for visible child containers
                 for (int i = 0, j = 0; i < Count; i++)
                 {
-                    if (this[i].Visible && (this[i] is IRibbonViewGroupContainerView))
+                    if (this[i].Visible 
+                        && (this[i] is IRibbonViewGroupContainerView container)
+                        )
                     {
                         // Get the width returned for this container
                         _containerWidths[j] = size[j].Width;
-
-                        // Cast child view to correct interface
-                        IRibbonViewGroupContainerView container = (IRibbonViewGroupContainerView)this[i];
 
                         // Push the solution size into the actual container
                         container.SetSolutionSize(size[j++]);

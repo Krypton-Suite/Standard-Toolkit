@@ -1599,9 +1599,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsActive =>
-            _fixedActive != null
-                ? _fixedActive.Value
-                : DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _richTextBox.MouseOver;
+            _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _richTextBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.

@@ -213,7 +213,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         public BindingContext BindingContext
         {
-            get => bindingContext ?? (bindingContext = new BindingContext());
+            get => bindingContext ??= new BindingContext();
             set => bindingContext = value;
         }
 
@@ -225,7 +225,7 @@ namespace Krypton.Ribbon
         [Description(@"ControlBindings")]
         [RefreshProperties(RefreshProperties.All)]
         [ParenthesizePropertyName(true)]
-        public ControlBindingsCollection DataBindings => dataBindings ?? (dataBindings = new ControlBindingsCollection(this));
+        public ControlBindingsCollection DataBindings => dataBindings ??= new ControlBindingsCollection(this);
 
         #endregion
     }

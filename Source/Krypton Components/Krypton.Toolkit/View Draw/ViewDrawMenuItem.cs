@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         private readonly FixedContentValue _fixedTextExtraText;
         private KryptonCommand _cachedCommand;
         private readonly bool _imageColumn;
-        private bool _standardStyle;
+        private readonly bool _standardStyle;
 
         #endregion
 
@@ -239,7 +239,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct enabled state to use from the menu item.
         /// </summary>
-        public bool ResolveEnabled => _cachedCommand != null ? _cachedCommand.Enabled : KryptonContextMenuItem.Enabled;
+        public bool ResolveEnabled => _cachedCommand?.Enabled ?? KryptonContextMenuItem.Enabled;
 
         #endregion
 
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image transparent color to use from the menu item.
         /// </summary>
-        public Color ResolveImageTransparentColor => _cachedCommand != null ? _cachedCommand.ImageTransparentColor : KryptonContextMenuItem.ImageTransparentColor;
+        public Color ResolveImageTransparentColor => _cachedCommand?.ImageTransparentColor ?? KryptonContextMenuItem.ImageTransparentColor;
 
         #endregion
 
@@ -291,7 +291,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct checked to use from the menu item.
         /// </summary>
-        public bool ResolveChecked => _cachedCommand != null ? _cachedCommand.Checked : KryptonContextMenuItem.Checked;
+        public bool ResolveChecked => _cachedCommand?.Checked ?? KryptonContextMenuItem.Checked;
 
         #endregion
 
@@ -299,7 +299,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct check state to use from the menu item.
         /// </summary>
-        public CheckState ResolveCheckState => _cachedCommand != null ? _cachedCommand.CheckState : KryptonContextMenuItem.CheckState;
+        public CheckState ResolveCheckState => _cachedCommand?.CheckState ?? KryptonContextMenuItem.CheckState;
 
         #endregion
 

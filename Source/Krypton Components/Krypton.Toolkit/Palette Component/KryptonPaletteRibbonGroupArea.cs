@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateTracking { get; }
 
-        public bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
+        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
         #endregion
     }

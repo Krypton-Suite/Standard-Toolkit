@@ -245,7 +245,6 @@ namespace Krypton.Toolkit
             public override void DrawBack(Graphics g, Rectangle rect)
             {
                 Rectangle inset = new(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
-                Rectangle insetB = new(rect.X + 2, rect.Y + 2, rect.Width - 3, rect.Height - 3);
 
                 using LinearGradientBrush insideBrush = new(rect, Back2, Back1, 90f);
                 insideBrush.SetSigmaBellShape(0.5f);

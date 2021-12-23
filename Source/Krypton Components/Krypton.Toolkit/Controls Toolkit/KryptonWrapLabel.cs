@@ -446,10 +446,7 @@ namespace Krypton.Toolkit
             }
 
             // Recover font from state common or as last resort the inherited palette
-            if (font == null)
-            {
-                font = StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
-            }
+            font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
             // Recover text color from state common or as last resort the inherited palette
             if (textColor == Color.Empty)
@@ -619,7 +616,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        private PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
+        private PaletteRedirect CreateRedirector() => new (_palette);
 
         /// <summary>
         /// Update the view elements based on the requested label style.

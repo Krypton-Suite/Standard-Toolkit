@@ -379,6 +379,9 @@ namespace Krypton.Toolkit
 
     #region Class: PaletteOffice2013WhiteBase
 
+    /// <summary>
+    /// Gets the single instance of the ### palette.
+    /// </summary>
     public abstract class PaletteOffice2013WhiteBase : PaletteBase
     {
         #region Static Fields

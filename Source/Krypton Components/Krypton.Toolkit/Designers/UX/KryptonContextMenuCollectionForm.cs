@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
 
             #region Instance Fields
             private DictItemBase _beforeItems;
-            private KryptonContextMenuCollectionEditor _editor;
+            private readonly KryptonContextMenuCollectionEditor _editor;
             private Button _buttonOk;
             private TreeView _treeView;
             private Label _label1;

@@ -352,7 +352,6 @@ namespace Krypton.Toolkit
             Bitmap btm = new(8, 8);
             btm.SetResolution(72, 72);
             Graphics g = Graphics.FromImage(btm);
-            Rectangle rect = new(0, 0, 8, 8);
 
             g.DrawLine(new Pen(gripColours[1]), new Point(0, 0), new Point(8, 0));//dark
             g.DrawLine(new Pen(gripColours[0]), new Point(1, 1), new Point(7, 1));//light

@@ -389,7 +389,10 @@ namespace Krypton.Navigator
 
                             if (!ce.Cancel)
                             {
-                                var changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                if (!shift)
+                                    SelectNextPage(Navigator.SelectedPage, true, true);
+                                else
+                                    SelectPreviousPage(Navigator.SelectedPage, true, true);
                             }
                         }
                         return true;

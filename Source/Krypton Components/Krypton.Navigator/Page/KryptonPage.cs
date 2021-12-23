@@ -75,7 +75,9 @@ namespace Krypton.Navigator
         /// </summary>
         [Category("Page")]
         [Description("Occurs when an appearance specific page property has changed.")]
+#pragma warning disable CA1070 // Do not declare event fields as virtual
         public virtual event PropertyChangedEventHandler AppearancePropertyChanged;
+#pragma warning restore CA1070 // Do not declare event fields as virtual
 
         /// <summary>
         /// Occurs when the flags have changed.

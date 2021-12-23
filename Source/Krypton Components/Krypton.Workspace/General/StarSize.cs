@@ -56,14 +56,14 @@ namespace Krypton.Workspace
         /// </summary>
         public string Value
         {
-            get => StarWidth.ToString() + "," + StarHeight.ToString();
+            get => $"{StarWidth},{StarHeight}";
 
             set
             {
                 // Validate the incoming value
                 if (value == null)
                 {
-                    throw new ArgumentNullException("Cannot be assigned a null value.");
+                    throw new ArgumentNullException(nameof(Value), @"Cannot be assigned a null value.");
                 }
 
                 // Split the string into comma separated parts
@@ -72,7 +72,7 @@ namespace Krypton.Workspace
                 // Must consist of two values
                 if (parts.Length != 2)
                 {
-                    throw new ArgumentNullException("Value must have two values separated by a comma.");
+                    throw new ArgumentNullException(nameof(Value), @"Value must have two values separated by a comma.");
                 }
 
                 // Parse both halfs, exceptions are thrown if a problem occurs

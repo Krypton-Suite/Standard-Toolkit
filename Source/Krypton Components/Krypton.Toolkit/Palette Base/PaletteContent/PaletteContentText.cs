@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextFont != value)
                     {
                         _storage.ContentTextFont = value;
-                        OnPropertyChanged("Font");
+                        OnPropertyChanged(nameof(Font));
                         PerformNeedPaint(true);
                     }
                 }
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextFont = value
                         };
-                        OnPropertyChanged("Font");
+                        OnPropertyChanged(nameof(Font));
                         PerformNeedPaint(true);
                     }
                 }
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextHint != value)
                     {
                         _storage.ContentTextHint = value;
-                        OnPropertyChanged("Hint");
+                        OnPropertyChanged(nameof(Hint));
                         PerformNeedPaint(true);
                     }
                 }
@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextHint = value
                         };
-                        OnPropertyChanged("Hint");
+                        OnPropertyChanged(nameof(Hint));
                         PerformNeedPaint(true);
                     }
                 }
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextTrim != value)
                     {
                         _storage.ContentTextTrim = value;
-                        OnPropertyChanged("Trim");
+                        OnPropertyChanged(nameof(Trim));
                         PerformNeedPaint(true);
                     }
                 }
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextTrim = value
                         };
-                        OnPropertyChanged("Trim");
+                        OnPropertyChanged(nameof(Trim));
                         PerformNeedPaint(true);
                     }
                 }
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextPrefix != value)
                     {
                         _storage.ContentTextPrefix = value;
-                        OnPropertyChanged("Prefix");
+                        OnPropertyChanged(nameof(Prefix));
                         PerformNeedPaint(true);
                     }
                 }
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextPrefix = value
                         };
-                        OnPropertyChanged("Prefix");
+                        OnPropertyChanged(nameof(Prefix));
                         PerformNeedPaint(true);
                     }
                 }
@@ -295,7 +295,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextH != value)
                     {
                         _storage.ContentTextH = value;
-                        OnPropertyChanged("TextH");
+                        OnPropertyChanged(nameof(TextH));
                         PerformNeedPaint(true);
                     }
                 }
@@ -307,7 +307,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextH = value
                         };
-                        OnPropertyChanged("TextH");
+                        OnPropertyChanged(nameof(TextH));
                         PerformNeedPaint(true);
                     }
                 }
@@ -335,7 +335,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextV != value)
                     {
                         _storage.ContentTextV = value;
-                        OnPropertyChanged("TextV");
+                        OnPropertyChanged(nameof(TextV));
                         PerformNeedPaint(true);
                     }
                 }
@@ -347,7 +347,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextV = value
                         };
-                        OnPropertyChanged("TextV");
+                        OnPropertyChanged(nameof(TextV));
                         PerformNeedPaint(true);
                     }
                 }
@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextMultiLineH != value)
                     {
                         _storage.ContentTextMultiLineH = value;
-                        OnPropertyChanged("MultiLineH");
+                        OnPropertyChanged(nameof(MultiLineH));
                         PerformNeedPaint(true);
                     }
                 }
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextMultiLineH = value
                         };
-                        OnPropertyChanged("MultiLineH");
+                        OnPropertyChanged(nameof(MultiLineH));
                         PerformNeedPaint(true);
                     }
                 }
@@ -415,7 +415,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextMultiLine != value)
                     {
                         _storage.ContentTextMultiLine = value;
-                        OnPropertyChanged("MultiLine");
+                        OnPropertyChanged(nameof(MultiLine));
                         PerformNeedPaint(true);
                     }
                 }
@@ -427,7 +427,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextMultiLine = value
                         };
-                        OnPropertyChanged("MultiLine");
+                        OnPropertyChanged(nameof(MultiLine));
                         PerformNeedPaint(true);
                     }
                 }
@@ -455,7 +455,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextColor1 != value)
                     {
                         _storage.ContentTextColor1 = value;
-                        OnPropertyChanged("Color1");
+                        OnPropertyChanged(nameof(Color1));
                         PerformNeedPaint();
                     }
                 }
@@ -467,7 +467,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextColor1 = value
                         };
-                        OnPropertyChanged("Color1");
+                        OnPropertyChanged(nameof(Color1));
                         PerformNeedPaint();
                     }
                 }
@@ -495,7 +495,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextColor2 != value)
                     {
                         _storage.ContentTextColor2 = value;
-                        OnPropertyChanged("Color2");
+                        OnPropertyChanged(nameof(Color2));
                         PerformNeedPaint();
                     }
                 }
@@ -507,7 +507,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextColor2 = value
                         };
-                        OnPropertyChanged("Color2");
+                        OnPropertyChanged(nameof(Color2));
                         PerformNeedPaint();
                     }
                 }
@@ -535,7 +535,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextColorStyle != value)
                     {
                         _storage.ContentTextColorStyle = value;
-                        OnPropertyChanged("ColorStyle");
+                        OnPropertyChanged(nameof(ColorStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -547,7 +547,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextColorStyle = value
                         };
-                        OnPropertyChanged("ColorStyle");
+                        OnPropertyChanged(nameof(ColorStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -575,7 +575,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextColorAlign != value)
                     {
                         _storage.ContentTextColorAlign = value;
-                        OnPropertyChanged("ColorAlign");
+                        OnPropertyChanged(nameof(ColorAlign));
                         PerformNeedPaint();
                     }
                 }
@@ -587,7 +587,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextColorAlign = value
                         };
-                        OnPropertyChanged("ColorAlign");
+                        OnPropertyChanged(nameof(ColorAlign));
                         PerformNeedPaint();
                     }
                 }
@@ -606,7 +606,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public virtual float ColorAngle
         {
-            get => _storage == null ? -1f : _storage.ContentTextColorAngle;
+            get => _storage?.ContentTextColorAngle ?? -1f;
 
             set
             {
@@ -615,7 +615,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextColorAngle != value)
                     {
                         _storage.ContentTextColorAngle = value;
-                        OnPropertyChanged("ColorAngle");
+                        OnPropertyChanged(nameof(ColorAngle));
                         PerformNeedPaint();
                     }
                 }
@@ -627,7 +627,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextColorAngle = value
                         };
-                        OnPropertyChanged("ColorAngle");
+                        OnPropertyChanged(nameof(ColorAngle));
                         PerformNeedPaint();
                     }
                 }
@@ -655,7 +655,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextImage != value)
                     {
                         _storage.ContentTextImage = value;
-                        OnPropertyChanged("Image");
+                        OnPropertyChanged(nameof(Image));
                         PerformNeedPaint();
                     }
                 }
@@ -667,7 +667,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextImage = value
                         };
-                        OnPropertyChanged("Image");
+                        OnPropertyChanged(nameof(Image));
                         PerformNeedPaint();
                     }
                 }
@@ -695,7 +695,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextImageStyle != value)
                     {
                         _storage.ContentTextImageStyle = value;
-                        OnPropertyChanged("ImageStyle");
+                        OnPropertyChanged(nameof(ImageStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -707,7 +707,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextImageStyle = value
                         };
-                        OnPropertyChanged("ImageStyle");
+                        OnPropertyChanged(nameof(ImageStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -735,7 +735,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentTextImageAlign != value)
                     {
                         _storage.ContentTextImageAlign = value;
-                        OnPropertyChanged("ImageAlign");
+                        OnPropertyChanged(nameof(ImageAlign));
                         PerformNeedPaint();
                     }
                 }
@@ -747,7 +747,7 @@ namespace Krypton.Toolkit
                         {
                             ContentTextImageAlign = value
                         };
-                        OnPropertyChanged("ImageAlign");
+                        OnPropertyChanged(nameof(ImageAlign));
                         PerformNeedPaint();
                     }
                 }

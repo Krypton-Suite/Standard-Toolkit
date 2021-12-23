@@ -23,7 +23,6 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
 
-        private bool _mouseOver;
         private bool _dragging;
         private bool _draggingAttempt;
         private DateTime _lastClick;
@@ -107,7 +106,6 @@ namespace Krypton.Navigator
         /// <param name="c">Reference to the source control instance.</param>
         public virtual void MouseEnter(Control c)
         {
-            _mouseOver = true;
         }
 
         /// <summary>
@@ -214,7 +212,6 @@ namespace Krypton.Navigator
             if (!Target.ContainsRecurse(next))
             {
                 // Mouse is no longer over the target
-                _mouseOver = false;
 
                 // Not tracking the mouse means a null value
                 MousePoint = CommonHelper.NullPoint; 
@@ -303,7 +300,7 @@ namespace Krypton.Navigator
                     }
 
                     // Recalculate if the mouse is over the button area
-                    _mouseOver = Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
+                    Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
                 }
             }
             
@@ -351,7 +348,7 @@ namespace Krypton.Navigator
                 }
 
                 // Recalculate if the mouse is over the button area
-                _mouseOver = Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
+                Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
             }
         }
         #endregion

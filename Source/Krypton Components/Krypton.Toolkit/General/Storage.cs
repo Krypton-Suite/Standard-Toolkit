@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the need paint delegate.
         /// </summary>
-        protected NeedPaintHandler NeedPaintDelegate => _needPaintDelegate ?? (_needPaintDelegate = OnNeedPaint);
+        protected NeedPaintHandler NeedPaintDelegate => _needPaintDelegate ??= OnNeedPaint;
 
         #endregion
 

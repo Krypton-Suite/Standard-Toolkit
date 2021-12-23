@@ -339,10 +339,8 @@ namespace Krypton.Ribbon
                         _ribbon.SelectedTab = _target.RibbonTab;
 
                         // Get access to the popup for the group
-                        if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupMinimized)
+                        if (VisualPopupManager.Singleton.CurrentPopup is VisualPopupMinimized popupMinimized)
                         {
-                            // Cast to correct type
-                            VisualPopupMinimized popupMinimized = (VisualPopupMinimized)VisualPopupManager.Singleton.CurrentPopup;
                             popupMinimized.SetFirstFocusItem();
                         }
                     }

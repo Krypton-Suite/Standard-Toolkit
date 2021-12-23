@@ -126,7 +126,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the xml element name to use when saving.
         /// </summary>
-        protected override string XmlElementName => "DED";
+        protected override string XmlElementName => @"DED";
 
         /// <summary>
         /// Perform docking element specific actions for loading a child xml.
@@ -145,7 +145,7 @@ namespace Krypton.Docking
             else
             {
                 Size dockspaceSize = _defaultDockspaceSize;
-                string elementSize = xmlReader.GetAttribute("S");
+                var elementSize = xmlReader.GetAttribute(@"S");
 
                 // Cache the loading size
                 if (!string.IsNullOrEmpty(elementSize))
@@ -154,7 +154,7 @@ namespace Krypton.Docking
                 }
 
                 // Create a new dockspace and then reload it
-                KryptonDockingDockspace dockspace = AppendDockspace(xmlReader.GetAttribute("N"), dockspaceSize);
+                KryptonDockingDockspace dockspace = AppendDockspace(xmlReader.GetAttribute(@"N"), dockspaceSize);
                 dockspace.LoadElementFromXml(xmlReader, pages);
             }
         }
@@ -352,8 +352,8 @@ namespace Krypton.Docking
 
             // How much can we reduce the width/height of the dockspace to reach the minimum
             Size dockspaceMinimum = dockspaceElement.DockspaceControl.MinimumSize;
-            int reduceWidth = Math.Max(dockspaceElement.DockspaceControl.Width - dockspaceMinimum.Width, 0);
-            int reduceHeight = Math.Max(dockspaceElement.DockspaceControl.Height - dockspaceMinimum.Height, 0);
+            var reduceWidth = Math.Max(dockspaceElement.DockspaceControl.Width - dockspaceMinimum.Width, 0);
+            var reduceHeight = Math.Max(dockspaceElement.DockspaceControl.Height - dockspaceMinimum.Height, 0);
 
             // Get the minimum size requested for the inner area of the control
             Size innerMinimum = Size.Empty;
@@ -363,8 +363,8 @@ namespace Krypton.Docking
             }
 
             // How much can we expand the width/height of the dockspace to reach the inner minimum
-            int expandWidth = Math.Max(innerRect.Width - innerMinimum.Width, 0);
-            int expandHeight = Math.Max(innerRect.Height - innerMinimum.Height, 0);
+            var expandWidth = Math.Max(innerRect.Width - innerMinimum.Width, 0);
+            var expandHeight = Math.Max(innerRect.Height - innerMinimum.Height, 0);
 
             // Limit check we are not growing bigger than the maximum allowed
             Size dockspaceMaximum = dockspaceElement.DockspaceControl.MaximumSize;
@@ -406,8 +406,8 @@ namespace Krypton.Docking
         private void InsertAtInnerMost(Control c)
         {
             // Find control that we should always insert ourself before
-            int insertIndex = Control.Controls.Count;
-            for (int i = 0; i < Control.Controls.Count; i++)
+            var insertIndex = Control.Controls.Count;
+            for (var i = 0; i < Control.Controls.Count; i++)
             {
                 Control test = Control.Controls[i];
                 if ((test is KryptonDockspaceSeparator) || (test is KryptonDockspace) ||
@@ -426,8 +426,8 @@ namespace Krypton.Docking
         private void InsertAtOuterMost(Control c)
         {
             // Find control that we should always insert ourself after
-            int insertIndex = Control.Controls.Count;
-            for (int i = 0; i < Control.Controls.Count; i++)
+            var insertIndex = Control.Controls.Count;
+            for (var i = 0; i < Control.Controls.Count; i++)
             {
                 Control test = Control.Controls[i];
                 if (test is KryptonDockspace)
@@ -450,8 +450,8 @@ namespace Krypton.Docking
         private void InsertAfter(Control c, Control after)
         {
             // Find control that we should always insert ourself after
-            int insertIndex = Control.Controls.Count;
-            for (int i = 0; i < Control.Controls.Count; i++)
+            var insertIndex = Control.Controls.Count;
+            for (var i = 0; i < Control.Controls.Count; i++)
             {
                 if (Control.Controls[i] == after)
                 {

@@ -546,7 +546,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorButton Button { get; private set; }
 
-        private bool ShouldSerializeButtons() => !Button.IsDefault;
+        private bool ShouldSerializeButton() => !Button.IsDefault;
 
         /// <summary>
         /// Gets access to the group specific settings.
@@ -556,7 +556,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorGroup Group { get; private set; }
 
-        private bool ShouldSerializeGroups() => !Group.IsDefault;
+        private bool ShouldSerializeGroup() => !Group.IsDefault;
 
         /// <summary>
         /// Gets access to the header specific settings.
@@ -566,7 +566,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorHeader Header { get; private set; }
 
-        private bool ShouldSerializeHeaders() => !Header.IsDefault;
+        private bool ShouldSerializeHeader() => !Header.IsDefault;
 
         /// <summary>
         /// Gets access to the panels specific settings.
@@ -576,7 +576,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorPanel Panel { get; private set; }
 
-        private bool ShouldSerializePanels() => !Panel.IsDefault;
+        private bool ShouldSerializePanel() => !Panel.IsDefault;
 
         /// <summary>
         /// Gets access to the popup page specific settings.
@@ -2093,15 +2093,7 @@ namespace Krypton.Navigator
                 }
 
                 // Create a list of the pages being dragged
-                if (page != null)
-                {
-                    _dragPages = new KryptonPage[] { page };
-                }
-                else
-                {
-                    // Providing 'null' means we want all the pages
-                    _dragPages = (from KryptonPage p in Pages select p).ToArray();
-                }
+                _dragPages = page != null ? new [] { page } : (from KryptonPage p in Pages select p).ToArray();
 
                 // Do any of the dragging pages have a flag set saying they can be dragged?
                 var allowPageDrag = _dragPages.Any(p => p.AreFlagsSet(KryptonPageFlags.AllowPageDrag));
@@ -2498,7 +2490,7 @@ namespace Krypton.Navigator
                 // If the page is the currently selected one...
                 if (SelectedPage == page)
                 {
-                    // And a change in a palette setting has occured...
+                    // And a change in a palette setting has occurred...
                     if (e.PropertyName == @"Palette")
                     {
                         // ...then need to repaint and layout to effect change

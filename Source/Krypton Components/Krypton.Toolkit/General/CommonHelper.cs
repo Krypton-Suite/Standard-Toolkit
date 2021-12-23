@@ -43,10 +43,10 @@ namespace Krypton.Toolkit
         private const int VK_MENU = 0x12;
         
         private static readonly char[] _singleDateFormat = { 'd', 'f', 'F', 'g', 'h', 'H', 'K', 'm', 'M', 's', 't', 'y', 'z' };
-        private static readonly int[] _daysInMonth = new int[12] { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
+        //private static readonly int[] _daysInMonth = new int[12] { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
 
         private static int _nextId = 1000;
-        private static DateTime _baseDate = new(2000, 1, 1);
+        //private static readonly DateTime _baseDate = new(2000, 1, 1);
         private static PropertyInfo _cachedShortcutPI;
         private static PropertyInfo _cachedDesignModePI;
         private static MethodInfo _cachedShortcutMI;
@@ -173,7 +173,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets reference to a null implementation of the IContentValues interface.
         /// </summary>
-        public static IContentValues NullContentValues => _nullContentValues ?? (_nullContentValues = new NullContentValues());
+        public static IContentValues NullContentValues => _nullContentValues ??= new NullContentValues();
 
         /// <summary>
         /// Return the provided size with orientation specific padding applied.
@@ -364,9 +364,7 @@ namespace Krypton.Toolkit
         [DebuggerStepThrough]
         public static void SwapRectangleSizes(ref Rectangle rect)
         {
-            var temp = rect.Width;
-            rect.Width = rect.Height;
-            rect.Height = temp;
+            (rect.Width, rect.Height) = (rect.Height, rect.Width);
         }
 
         /// <summary>
@@ -1548,12 +1546,12 @@ namespace Krypton.Toolkit
             // so convert to actual int values for the negative positions
             if (clientPt.x >= 32767)
             {
-                clientPt.x = clientPt.x - 65536;
+                clientPt.x -= 65536;
             }
 
             if (clientPt.y >= 32767)
             {
-                clientPt.y = clientPt.y - 65536;
+                clientPt.y -= 65536;
             }
 
             // Convert a 0,0 point from client to screen to find offsetting

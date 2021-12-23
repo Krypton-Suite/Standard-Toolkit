@@ -619,9 +619,8 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingMaskedTextBox(int rowIndex) =>
-            (rowIndex == -1) || (DataGridView == null)
-                ? false
-                : (DataGridView.EditingControl is KryptonDataGridViewMaskedTextBoxEditingControl control)
+            rowIndex != -1 && DataGridView != null
+&& (DataGridView.EditingControl is KryptonDataGridViewMaskedTextBoxEditingControl control)
                   && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;

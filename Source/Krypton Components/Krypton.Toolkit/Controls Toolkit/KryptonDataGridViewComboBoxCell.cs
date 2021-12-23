@@ -495,9 +495,8 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingComboBox(int rowIndex) =>
-            (rowIndex == -1) || (DataGridView == null)
-                ? false
-                : (DataGridView.EditingControl is KryptonDataGridViewComboBoxEditingControl control)
+            rowIndex != -1 && DataGridView != null
+&& (DataGridView.EditingControl is KryptonDataGridViewComboBoxEditingControl control)
                   && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;

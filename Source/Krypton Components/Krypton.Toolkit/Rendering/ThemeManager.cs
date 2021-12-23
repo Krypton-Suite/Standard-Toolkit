@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The supported themes
         /// </summary>
-        private static readonly string[] _supportedThemes = new string[]
+        private static readonly string[] _supportedThemes =
         {
             "Professional - System",
 
@@ -272,12 +272,10 @@ namespace Krypton.Toolkit
                 case "Office 365 - Black (Dark Mode)":
                     ApplyTheme(PaletteModeManager.Office365BlackDarkMode, manager);
                     break;
+                default:
+                    throw new ArgumentNullException(nameof(themeName));
             }
 
-            if (string.IsNullOrEmpty(themeName))
-            {
-                throw new ArgumentNullException();
-            }
         }
 
         /// <summary>
@@ -549,24 +547,22 @@ namespace Krypton.Toolkit
         /// </returns>
         public static string[] ReturnThemeArray() => _supportedThemes;
 
-        public static void PropagateSupportedThemeList(List<string> supportedThemeList)
+        /// <summary>
+        /// 
+        /// </summary>
+        public static List<string> PropagateSupportedThemeList()
         {
             try
             {
-                supportedThemeList = new List<string>();
-
-                foreach (string theme in ReturnThemeArray())
-                {
-                    supportedThemeList.Add(theme);
-                }
+                return ReturnThemeArray().ToList();
             }
             catch (Exception e)
             {
                 ExceptionHandler.CaptureException(e);
             }
-        }
 
-        public static string[] ReturnListToArray(List<string> themeList) => themeList.ToArray();
+            return new List<string>();
+        }
 
         #endregion
     }

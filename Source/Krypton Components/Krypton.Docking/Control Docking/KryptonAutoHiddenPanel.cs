@@ -60,8 +60,8 @@ namespace Krypton.Docking
         /// </summary>
         public override Size GetPreferredSize(Size proposedSize)
         {
-            int width = 0;
-            int height = 0;
+            var width = 0;
+            var height = 0;
             foreach (KryptonAutoHiddenGroup group in Controls)
             {
                 // Only interested in the group if it has some visible pages

@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
                     if (_storage.BackDraw != value)
                     {
                         _storage.BackDraw = value;
-                        OnPropertyChanged("Draw");
+                        OnPropertyChanged(nameof(Draw));
                         PerformNeedPaint();
                     }
                 }
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
                         {
                             BackDraw = value
                         };
-                        OnPropertyChanged("Draw");
+                        OnPropertyChanged(nameof(Draw));
                         PerformNeedPaint();
                     }
                 }
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
                     if (_storage.BackGraphicsHint != value)
                     {
                         _storage.BackGraphicsHint = value;
-                        OnPropertyChanged("GraphicsHint");
+                        OnPropertyChanged(nameof(GraphicsHint));
                         PerformNeedPaint();
                     }
                 }
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
                         {
                             BackGraphicsHint = value
                         };
-                        OnPropertyChanged("GraphicsHint");
+                        OnPropertyChanged(nameof(GraphicsHint));
                         PerformNeedPaint();
                     }
                 }
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
                     if (_storage.BackColor1 != value)
                     {
                         _storage.BackColor1 = value;
-                        OnPropertyChanged("Color1");
+                        OnPropertyChanged(nameof(Color1));
                         PerformNeedPaint();
                     }
                 }
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
                         {
                             BackColor1 = value
                         };
-                        OnPropertyChanged("Color1");
+                        OnPropertyChanged(nameof(Color1));
                         PerformNeedPaint();
                     }
                 }
@@ -299,7 +299,7 @@ namespace Krypton.Toolkit
                     if (_storage.BackColor2 != value)
                     {
                         _storage.BackColor2 = value;
-                        OnPropertyChanged("Color2");
+                        OnPropertyChanged(nameof(Color2));
                         PerformNeedPaint();
                     }
                 }
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
                         {
                             BackColor2 = value
                         };
-                        OnPropertyChanged("Color2");
+                        OnPropertyChanged(nameof(Color2));
                         PerformNeedPaint();
                     }
                 }
@@ -346,7 +346,7 @@ namespace Krypton.Toolkit
                     if (_storage.BackColorStyle != value)
                     {
                         _storage.BackColorStyle = value;
-                        OnPropertyChanged("ColorStyle");
+                        OnPropertyChanged(nameof(ColorStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -358,7 +358,7 @@ namespace Krypton.Toolkit
                         {
                             BackColorStyle = value
                         };
-                        OnPropertyChanged("ColorStyle");
+                        OnPropertyChanged(nameof(ColorStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -393,7 +393,7 @@ namespace Krypton.Toolkit
                     if (_storage.BackColorAlign != value)
                     {
                         _storage.BackColorAlign = value;
-                        OnPropertyChanged("ColorAlign");
+                        OnPropertyChanged(nameof(ColorAlign));
                         PerformNeedPaint();
                     }
                 }
@@ -405,7 +405,7 @@ namespace Krypton.Toolkit
                         {
                             BackColorAlign = value
                         };
-                        OnPropertyChanged("ColorAlign");
+                        OnPropertyChanged(nameof(ColorAlign));
                         PerformNeedPaint();
                     }
                 }
@@ -432,7 +432,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public float ColorAngle
         {
-            get => _storage == null ? -1 : _storage.BackColorAngle;
+            get => _storage?.BackColorAngle ?? -1;
 
             set
             {
@@ -441,7 +441,7 @@ namespace Krypton.Toolkit
                     if (_storage.BackColorAngle != value)
                     {
                         _storage.BackColorAngle = value;
-                        OnPropertyChanged("ColorAngle");
+                        OnPropertyChanged(nameof(ColorAngle));
                         PerformNeedPaint();
                     }
                 }
@@ -453,7 +453,7 @@ namespace Krypton.Toolkit
                         {
                             BackColorAngle = value
                         };
-                        OnPropertyChanged("ColorAngle");
+                        OnPropertyChanged(nameof(ColorAngle));
                         PerformNeedPaint();
                     }
                 }
@@ -489,7 +489,7 @@ namespace Krypton.Toolkit
                     if (_storage.BackImage != value)
                     {
                         _storage.BackImage = value;
-                        OnPropertyChanged("Image");
+                        OnPropertyChanged(nameof(Image));
                         PerformNeedPaint();
                     }
                 }
@@ -501,7 +501,7 @@ namespace Krypton.Toolkit
                         {
                             BackImage = value
                         };
-                        OnPropertyChanged("Image");
+                        OnPropertyChanged(nameof(Image));
                         PerformNeedPaint();
                     }
                 }
@@ -536,7 +536,7 @@ namespace Krypton.Toolkit
                     if (_storage.BackImageStyle != value)
                     {
                         _storage.BackImageStyle = value;
-                        OnPropertyChanged("ImageStyle");
+                        OnPropertyChanged(nameof(ImageStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -548,7 +548,7 @@ namespace Krypton.Toolkit
                         {
                             BackImageStyle = value
                         };
-                        OnPropertyChanged("ImageStyle");
+                        OnPropertyChanged(nameof(ImageStyle));
                         PerformNeedPaint();
                     }
                 }
@@ -585,7 +585,7 @@ namespace Krypton.Toolkit
                     if (_storage.BackImageAlign != value)
                     {
                         _storage.BackImageAlign = value;
-                        OnPropertyChanged("ImageAlign");
+                        OnPropertyChanged(nameof(ImageAlign));
                         PerformNeedPaint();
                     }
                 }
@@ -597,7 +597,7 @@ namespace Krypton.Toolkit
                         {
                             BackImageAlign = value
                         };
-                        OnPropertyChanged("ImageAlign");
+                        OnPropertyChanged(nameof(ImageAlign));
                         PerformNeedPaint();
                     }
                 }

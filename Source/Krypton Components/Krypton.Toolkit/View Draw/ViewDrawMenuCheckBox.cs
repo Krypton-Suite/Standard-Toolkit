@@ -172,7 +172,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct enabled state to use from the menu item.
         /// </summary>
-        public bool ResolveEnabled => _cachedCommand != null ? _cachedCommand.Enabled : KryptonContextMenuCheckBox.Enabled;
+        public bool ResolveEnabled => _cachedCommand?.Enabled ?? KryptonContextMenuCheckBox.Enabled;
 
         #endregion
 
@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image transparent color to use from the menu item.
         /// </summary>
-        public Color ResolveImageTransparentColor => _cachedCommand != null ? _cachedCommand.ImageTransparentColor : KryptonContextMenuCheckBox.ImageTransparentColor;
+        public Color ResolveImageTransparentColor => _cachedCommand?.ImageTransparentColor ?? KryptonContextMenuCheckBox.ImageTransparentColor;
 
         #endregion
 
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct check state to use from the menu item.
         /// </summary>
-        public CheckState ResolveCheckState => _cachedCommand != null ? _cachedCommand.CheckState : KryptonContextMenuCheckBox.CheckState;
+        public CheckState ResolveCheckState => _cachedCommand?.CheckState ?? KryptonContextMenuCheckBox.CheckState;
 
         #endregion
 

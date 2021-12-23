@@ -502,7 +502,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Bubble event up to the parent
-                return Parent != null ? Parent.MouseDown(pt, button) : false;
+                return Parent?.MouseDown(pt, button) ?? false;
             }
         }
 
@@ -614,7 +614,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Bubble event up to the parent
-                return Parent != null ? Parent.KeyUp(e) : false;
+                return Parent?.KeyUp(e) ?? false;
             }
         }
         #endregion

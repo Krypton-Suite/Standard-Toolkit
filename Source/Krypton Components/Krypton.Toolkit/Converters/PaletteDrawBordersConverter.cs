@@ -49,54 +49,54 @@ namespace Krypton.Toolkit
                 PaletteDrawBorders borders = (PaletteDrawBorders)value;
 
                 // If the inherit flag is set that that is the only flag of interest
-                if ((borders & PaletteDrawBorders.Inherit) == PaletteDrawBorders.Inherit)
+                if (borders.HasFlag(PaletteDrawBorders.Inherit))
                 {
-                    return "Inherit";
+                    return @"Inherit";
                 }
                 else
                 {
                     // Append the names of each border we want
                     StringBuilder sb = new();
 
-                    if ((borders & PaletteDrawBorders.Top) == PaletteDrawBorders.Top)
+                    if (borders.HasFlag(PaletteDrawBorders.Top))
                     {
-                        sb.Append("Top");
+                        sb.Append(@"Top");
                     }
 
-                    if ((borders & PaletteDrawBorders.Bottom) == PaletteDrawBorders.Bottom)
+                    if (borders.HasFlag(PaletteDrawBorders.Bottom))
                     {
                         if (sb.Length > 0)
                         {
-                            sb.Append(",");
+                            sb.Append(',');
                         }
 
-                        sb.Append("Bottom");
+                        sb.Append(@"Bottom");
                     }
 
-                    if ((borders & PaletteDrawBorders.Left) == PaletteDrawBorders.Left)
+                    if (borders.HasFlag(PaletteDrawBorders.Left))
                     {
                         if (sb.Length > 0)
                         {
-                            sb.Append(",");
+                            sb.Append(',');
                         }
 
-                        sb.Append("Left");
+                        sb.Append(@"Left");
                     }
 
-                    if ((borders & PaletteDrawBorders.Right) == PaletteDrawBorders.Right)
+                    if (borders.HasFlag(PaletteDrawBorders.Right))
                     {
                         if (sb.Length > 0)
                         {
-                            sb.Append(",");
+                            sb.Append(',');
                         }
 
-                        sb.Append("Right");
+                        sb.Append(@"Right");
                     }
 
                     // If no border is wanted then return a fixed string
                     if (sb.Length == 0)
                     {
-                        sb.Append("None");
+                        sb.Append(@"None");
                     }
 
                     return sb.ToString();
@@ -127,32 +127,32 @@ namespace Krypton.Toolkit
                 PaletteDrawBorders ret = PaletteDrawBorders.None;
 
                 // If inherit is in the string, we use only that value
-                if (conv.Contains("Inherit"))
+                if (conv.Contains(@"Inherit"))
                 {
                     ret = PaletteDrawBorders.Inherit;
                 }
                 else
                 {
                     // If the word 'none' is found then no value is needed
-                    if (!conv.Contains("None"))
+                    if (!conv.Contains(@"None"))
                     {
                         // Get the borders actually specified
-                        if (conv.Contains("Top"))
+                        if (conv.Contains(@"Top"))
                         {
                             ret |= PaletteDrawBorders.Top;
                         }
 
-                        if (conv.Contains("Bottom"))
+                        if (conv.Contains(@"Bottom"))
                         {
                             ret |= PaletteDrawBorders.Bottom;
                         }
 
-                        if (conv.Contains("Left"))
+                        if (conv.Contains(@"Left"))
                         {
                             ret |= PaletteDrawBorders.Left;
                         }
 
-                        if (conv.Contains("Right"))
+                        if (conv.Contains(@"Right"))
                         {
                             ret |= PaletteDrawBorders.Right;
                         }

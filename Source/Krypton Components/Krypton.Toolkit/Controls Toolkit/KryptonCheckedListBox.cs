@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
             /// Creates a new instance of the item collection.
             /// </summary>
             /// <returns>A ListBox.ObjectCollection that represents the new item collection.</returns>
-            protected override ObjectCollection CreateItemCollection() => new ObjectCollection(this);
+            protected override ObjectCollection CreateItemCollection() => new (this);
 
             /// <summary>
             /// Raises the KeyPress event.
@@ -1867,7 +1867,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
+        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.

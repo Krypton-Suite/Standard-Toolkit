@@ -35,7 +35,7 @@ namespace Krypton.Workspace
 
         #region Events
         /// <summary>
-        /// Occurs after a change has occured to the workspace.
+        /// Occurs after a change has occurred to the workspace.
         /// </summary>
         [Browsable(false)]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -133,7 +133,7 @@ namespace Krypton.Workspace
                 if (_orientation != value)
                 {
                     _orientation = value;
-                    OnPropertyChanged("Orientation");
+                    OnPropertyChanged(nameof(Orientation));
                 }
             }
         }
@@ -153,7 +153,7 @@ namespace Krypton.Workspace
                 if (_setVisible != value)
                 {
                     _setVisible = value;
-                    OnPropertyChanged("Visible");
+                    OnPropertyChanged(nameof(Visible));
                 }
             }
         }
@@ -181,7 +181,7 @@ namespace Krypton.Workspace
             set
             {
                 WorkspaceStarSize.Value = value;
-                OnPropertyChanged("StarSize");
+                OnPropertyChanged(nameof(StarSize));
             }
         }
 
@@ -259,7 +259,7 @@ namespace Krypton.Workspace
                 foreach (Component component in Children)
                 {
                     // Get can only grab values from the IWorkspaceItem interface
-                    if ((component is IWorkspaceItem item) && item.WorkspaceVisible)
+                    if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
                     {
                         StarSize itemStar = item.WorkspaceStarSize;
                         var preferredWidth = (!itemStar.StarWidth.UsingStar && (itemStar.StarWidth.FixedSize < 0));
@@ -309,7 +309,7 @@ namespace Krypton.Workspace
                 foreach (Component component in Children)
                 {
                     // Get can only grab values from the IWorkspaceItem interface
-                    if ((component is IWorkspaceItem item) && item.WorkspaceVisible)
+                    if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
                     {
                         // Sequence minimum is the largest min value of the children
                         Size itemMin = item.WorkspaceMinSize;
@@ -349,7 +349,7 @@ namespace Krypton.Workspace
                 foreach (Component component in Children)
                 {
                     // Get can only grab values from the IWorkspaceItem interface
-                    if ((component is IWorkspaceItem item) && item.WorkspaceVisible)
+                    if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
                     {
                         // Sequence maximum is the smallest min value of the children
                         Size itemMax = item.WorkspaceMaxSize;
@@ -372,7 +372,7 @@ namespace Krypton.Workspace
                 foreach (Component component in Children)
                 {
                     // Get can only grab values from the IWorkspaceItem interface
-                    if ((component is IWorkspaceItem item) && item.WorkspaceVisible)
+                    if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
                     {
                         // Sequence maximum should be enough to show fixed size items
                         StarSize itemStar = item.WorkspaceStarSize;
@@ -415,7 +415,7 @@ namespace Krypton.Workspace
                 // If any child says no resizing then we cannot be resized
                 foreach (Component component in Children)
                 {
-                    if ((component is IWorkspaceItem item) && item.WorkspaceVisible && !item.WorkspaceAllowResizing)
+                    if ((component is IWorkspaceItem { WorkspaceVisible: true, WorkspaceAllowResizing: false }))
                     {
                         return false;
                     }
@@ -440,7 +440,7 @@ namespace Krypton.Workspace
                     // If we have any visible children then we are visible
                     foreach (Component component in Children)
                     {
-                        if ((component is IWorkspaceItem item) && item.WorkspaceVisible)
+                        if ((component is IWorkspaceItem { WorkspaceVisible: true }))
                         {
                             return true;
                         }

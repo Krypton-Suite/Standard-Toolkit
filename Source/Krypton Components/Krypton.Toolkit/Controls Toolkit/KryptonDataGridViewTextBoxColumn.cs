@@ -103,9 +103,7 @@ namespace Krypton.Toolkit
         public int MaxInputLength
         {
             get =>
-                TextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewTextBoxColumn cell template required")
-                    : TextBoxCellTemplate.MaxInputLength;
+                TextBoxCellTemplate?.MaxInputLength ?? throw new InvalidOperationException("KryptonDataGridViewTextBoxColumn cell template required");
 
             set
             {
@@ -215,9 +213,7 @@ namespace Krypton.Toolkit
         public bool Multiline
         {
             get =>
-                TextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : TextBoxCellTemplate.Multiline;
+                TextBoxCellTemplate?.Multiline ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (TextBoxCellTemplate == null)
@@ -253,9 +249,7 @@ namespace Krypton.Toolkit
         public bool MultilineStringEditor
         {
             get =>
-                TextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : TextBoxCellTemplate.MultilineStringEditor;
+                TextBoxCellTemplate?.MultilineStringEditor ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (TextBoxCellTemplate == null)

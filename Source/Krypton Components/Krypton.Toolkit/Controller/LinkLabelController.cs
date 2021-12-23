@@ -482,7 +482,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A MouseEventArgs containing the event data.</param>
         protected virtual void OnClick(MouseEventArgs e)
         {
-            // Find how long since the last click occured
+            // Find how long since the last click occurred
             TimeSpan clickInterval =  DateTime.Now - _clickTime;
 
             // If less than the double click interval then ignore

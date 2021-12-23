@@ -153,9 +153,7 @@ namespace Krypton.Toolkit
         public bool UseColumnTextForButtonValue
         {
             get =>
-                CellTemplate == null
-                    ? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required")
-                    : ((KryptonDataGridViewButtonCell)CellTemplate).UseColumnTextForButtonValue;
+                ((KryptonDataGridViewButtonCell)CellTemplate)?.UseColumnTextForButtonValue ?? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required");
 
             set
             {
@@ -188,9 +186,7 @@ namespace Krypton.Toolkit
         public ButtonStyle ButtonStyle
         {
             get =>
-                CellTemplate == null
-                    ? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required")
-                    : ((KryptonDataGridViewButtonCell)CellTemplate).ButtonStyle;
+                ((KryptonDataGridViewButtonCell)CellTemplate)?.ButtonStyle ?? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required");
 
             set
             {
@@ -224,14 +220,13 @@ namespace Krypton.Toolkit
             }
 
             DataGridViewCellStyle defaultCellStyle = DefaultCellStyle;
-            return defaultCellStyle.BackColor.IsEmpty && defaultCellStyle.ForeColor.IsEmpty &&
-                  defaultCellStyle.SelectionBackColor.IsEmpty && defaultCellStyle.SelectionForeColor.IsEmpty &&
-                 (defaultCellStyle.Font == null) && defaultCellStyle.IsNullValueDefault &&
-                  defaultCellStyle.IsDataSourceNullValueDefault && string.IsNullOrEmpty(defaultCellStyle.Format) &&
-                defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture) && (defaultCellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter) &&
-                 (defaultCellStyle.WrapMode == DataGridViewTriState.NotSet) && (defaultCellStyle.Tag == null)
-                ? !defaultCellStyle.Padding.Equals(Padding.Empty)
-                : true;
+            return !defaultCellStyle.BackColor.IsEmpty || !defaultCellStyle.ForeColor.IsEmpty ||
+!defaultCellStyle.SelectionBackColor.IsEmpty || !defaultCellStyle.SelectionForeColor.IsEmpty ||
+                 defaultCellStyle.Font != null || !defaultCellStyle.IsNullValueDefault ||
+!defaultCellStyle.IsDataSourceNullValueDefault || !string.IsNullOrEmpty(defaultCellStyle.Format) ||
+!defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture) || defaultCellStyle.Alignment != DataGridViewContentAlignment.MiddleCenter ||
+                 defaultCellStyle.WrapMode != DataGridViewTriState.NotSet || defaultCellStyle.Tag != null
+|| !defaultCellStyle.Padding.Equals(Padding.Empty);
         }
 
         private void ColumnCommonChange(int columnIndex)

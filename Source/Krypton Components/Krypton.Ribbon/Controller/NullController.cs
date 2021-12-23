@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the single instance of the controller.
         /// </summary>
-        public static NullController Singleton => _singleton ?? (_singleton = new NullController());
+        public static NullController Singleton => _singleton ??= new NullController();
 
         #endregion
 

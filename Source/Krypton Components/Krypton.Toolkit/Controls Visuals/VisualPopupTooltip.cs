@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
                     popupLocation = new Point(positionPlacementRectangle.Left, positionPlacementRectangle.Top - popupSize.Height);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(position.PlacementMode));
             }
             // Show it now!
             Show(popupLocation, popupSize);

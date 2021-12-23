@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class KryptonThemeComboBox : KryptonComboBox
     {
         #region Instance Fields
-        private List<string> _supportedThemesList;
+        private readonly List<string> _supportedThemesList;
 
         private int _selectedIndex;
 
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
 
             ThemeSelectedIndex = 22;
 
-            ThemeManager.PropagateSupportedThemeList(_supportedThemesList);
+            _supportedThemesList = ThemeManager.PropagateSupportedThemeList();
         }
         #endregion
 

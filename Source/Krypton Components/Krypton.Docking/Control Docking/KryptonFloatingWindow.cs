@@ -99,7 +99,7 @@ namespace Krypton.Docking
                 case PI.WM_.NCLBUTTONDOWN:
                     {
                         // Perform a hit test to determine which area the mouse press is over at the moment
-                        uint result = PI.SendMessage(Handle, PI.WM_.NCHITTEST, IntPtr.Zero, m.LParam);
+                        var result = PI.SendMessage(Handle, PI.WM_.NCHITTEST, IntPtr.Zero, m.LParam);
 
                         // Only want to override the behaviour of moving the window via the caption bar
                         if (result == PI.HT.CAPTION)
@@ -185,7 +185,7 @@ namespace Krypton.Docking
             e.Cancel = true;
 
             // Generate event so handlers to perform appropriate processing
-            string[] uniqueNames = VisibleCloseableUniqueNames();
+            var uniqueNames = VisibleCloseableUniqueNames();
             if (uniqueNames.Length > 0)
             {
                 OnWindowCloseClicked(new UniqueNamesEventArgs(uniqueNames));
@@ -246,6 +246,7 @@ namespace Krypton.Docking
         private void OnFloatspaceCellAdding(object sender, WorkspaceCellEventArgs e)
         {
             e.Cell.TabVisibleCountChanged += OnTabVisibleCountChanged;
+            e.Cell.MinimumSize = new Size(400, 400);
         }
 
         private void OnFloatspaceCellRemoved(object sender, WorkspaceCellEventArgs e)
@@ -287,7 +288,7 @@ namespace Krypton.Docking
 
         private string[] VisibleCloseableUniqueNames()
         {
-            List<string> uniqueNames = new List<string>();
+            var uniqueNames = new List<string>();
             KryptonWorkspaceCell cell = FloatspaceControl.FirstVisibleCell();
             while (cell != null)
             {

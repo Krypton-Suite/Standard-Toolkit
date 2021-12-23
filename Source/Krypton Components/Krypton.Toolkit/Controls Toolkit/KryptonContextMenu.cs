@@ -439,7 +439,7 @@ namespace Krypton.Toolkit
                                                               KryptonContextMenuCollection items,
                                                               bool enabled,
                                                               bool keyboardActivated) =>
-            new VisualContextMenu(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated);
+            new (kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated);
 
         /// <summary>
         /// Raises the Opening event.

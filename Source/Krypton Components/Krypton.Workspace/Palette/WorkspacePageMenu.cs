@@ -48,7 +48,6 @@ namespace Krypton.Workspace
         /// Initialize a new instance of the WorkspaceMenus class.
         /// </summary>
         public WorkspaceMenus(KryptonWorkspace workspace)
-            : base()
         {
             // Default values
             TextClose = DEFAULT_TEXT_CLOSE;

@@ -909,7 +909,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
+        protected virtual PaletteRedirect CreateRedirector() => new (_palette);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1013,7 +1013,6 @@ namespace Krypton.Toolkit
                         OnWM_GETMINMAXINFO(ref m);
                         /* Setting handled to false enables the application to process it's own Min/Max requirements,
                 * as mentioned by jason.bullard (comment from September 22, 2011) on http://gallery.expression.microsoft.com/ZuneWindowBehavior/ */
-                        processed = false;
                         // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
                         // Still got to call - base - to allow the "application to process it's own Min/Max requirements" !!
                         base.WndProc(ref m);

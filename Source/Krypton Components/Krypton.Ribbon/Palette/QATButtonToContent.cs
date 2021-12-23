@@ -16,7 +16,7 @@ namespace Krypton.Ribbon
     internal class QATButtonToContent : IPaletteContent
     {
         #region Instance Fields
-        private IQuickAccessToolbarButton _qatButton;
+        private readonly IQuickAccessToolbarButton _qatButton;
         #endregion
 
         #region Identity

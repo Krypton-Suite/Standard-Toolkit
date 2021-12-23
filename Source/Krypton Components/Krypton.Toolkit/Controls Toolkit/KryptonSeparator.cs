@@ -87,17 +87,17 @@ namespace Krypton.Toolkit
         public event EventHandler<SplitterMoveRectMenuArgs> SplitterMoveRect;
 
         /// <summary>
-        /// Occurs when the separator move finishes and a move has occured.
+        /// Occurs when the separator move finishes and a move has occurred.
         /// </summary>
         [Category("Behavior")]
-        [Description("Occurs when the separator move finishes and a move has occured.")]
+        [Description("Occurs when the separator move finishes and a move has occurred.")]
         public event SplitterEventHandler SplitterMoved;
 
         /// <summary>
-        /// Occurs when the separator move finishes and a move has not occured.
+        /// Occurs when the separator move finishes and a move has not occurred.
         /// </summary>
         [Category("Behavior")]
-        [Description("Occurs when the separator move finishes and a move has not occured.")]
+        [Description("Occurs when the separator move finishes and a move has not occurred.")]
         public event EventHandler SplitterNotMoved;
 
         /// <summary>

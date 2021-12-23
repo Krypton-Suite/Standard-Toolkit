@@ -530,10 +530,10 @@ namespace Krypton.Ribbon
         protected void UpdateTargetState(Point pt)
         {
             // By default the button is in the normal state
-            PaletteState newState = PaletteState.Normal;
+            PaletteState newState;
 
             // When disabled the button itself is shown as normal, the 
-            // content is expected to draw itself as disbled though
+            // content is expected to draw itself as disabled though
             if (!_target.Enabled)
             {
                 newState = PaletteState.Normal;

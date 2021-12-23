@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private NeedPaintHandler _needPaint;
+        private readonly NeedPaintHandler _needPaint;
         private readonly DesignTextToContent _contentProvider;
         #endregion
 

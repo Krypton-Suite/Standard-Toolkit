@@ -19,7 +19,7 @@ namespace Krypton.Navigator
 	public class NavigatorToolTips : Storage
 	{
 		#region Instance Fields
-		private KryptonNavigator _navigator;
+		private readonly KryptonNavigator _navigator;
 		private MapKryptonPageImage _mapImage;
 		#endregion
 

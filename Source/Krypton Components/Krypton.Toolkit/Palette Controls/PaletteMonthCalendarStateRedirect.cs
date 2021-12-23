@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Day { get; }
 
-        private bool ShouldSerializeContent() => !Day.IsDefault;
+        private bool ShouldSerializeDay() => !Day.IsDefault;
 
         #endregion
     }

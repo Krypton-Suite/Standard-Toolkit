@@ -1204,22 +1204,22 @@ namespace Krypton.Toolkit
         {
             if (start.Ticks > _maxDate.Ticks)
             {
-                throw new ArgumentOutOfRangeException(@"Start date provided is greater than the maximum date.");
+                throw new ArgumentOutOfRangeException(nameof(start), @"Start date provided is greater than the maximum date.");
             }
 
             if (start.Ticks < _minDate.Ticks)
             {
-                throw new ArgumentOutOfRangeException(@"Start date provided is less than the minimum date.");
+                throw new ArgumentOutOfRangeException(nameof(start), @"Start date provided is less than the minimum date.");
             }
 
             if (end.Ticks > _maxDate.Ticks)
             {
-                throw new ArgumentOutOfRangeException(@"End date provided is greater than the maximum date.");
+                throw new ArgumentOutOfRangeException(nameof(end), @"End date provided is greater than the maximum date.");
             }
 
             if (end.Ticks < _minDate.Ticks)
             {
-                throw new ArgumentOutOfRangeException(@"End date provided is less than the minimum date.");
+                throw new ArgumentOutOfRangeException(nameof(end), @"End date provided is less than the minimum date.");
             }
 
             if (start > end)

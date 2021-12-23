@@ -157,14 +157,14 @@ namespace Krypton.Toolkit
             var prevVisible = ViewCenter.Visible;
             ViewCenter.Visible = ButtonSpec.GetVisible(_redirector);
 
-            // Return if a change has occured
+            // Return if a change has occurred
             return prevVisible != ViewCenter.Visible;
         }
 
         /// <summary>
         /// Update view button to reflect new button enabled setting.
         /// </summary>
-        /// <returns>True is a change in state has occured.</returns>
+        /// <returns>True is a change in state has occurred.</returns>
         public bool UpdateEnabled()
         {
             var changed = false;
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Update view button to reflect new button checked setting.
         /// </summary>
-        /// <returns>True is a change in state has occured.</returns>
+        /// <returns>True is a change in state has occurred.</returns>
         public bool UpdateChecked()
         {
             // Remember the initial state

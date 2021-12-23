@@ -867,12 +867,12 @@ namespace Krypton.Toolkit
                 {
                     if (value < EffectiveMinDate(_minDateTime))
                     {
-                        throw new ArgumentOutOfRangeException(@"Date provided is less than the minimum supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
                     }
 
                     if (value > DateTimePicker.MaximumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException(@"Date provided is greater than the maximum supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
                     }
 
                     _maxDateTime = value;
@@ -920,12 +920,12 @@ namespace Krypton.Toolkit
                 {
                     if (value > EffectiveMaxDate(_maxDateTime))
                     {
-                        throw new ArgumentOutOfRangeException(@"Date provided is greater than the maximum supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
                     }
 
                     if (value < DateTimePicker.MinimumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException(@"Date provided is less than the minimum supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
                     }
 
                     _minDateTime = value;
@@ -1372,7 +1372,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive != null ? _fixedActive.Value : DesignMode || AlwaysActive || ContainsFocus || IsMouseOver;
+        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || IsMouseOver;
 
         /// <summary>
         /// Gets a value indicating if the mouse is over the control.

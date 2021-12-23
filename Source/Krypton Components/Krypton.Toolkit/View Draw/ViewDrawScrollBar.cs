@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the current scroll position.
         /// </summary>
-        public int ScrollPosition => _scrollBar != null ? _scrollBar.Value : 0;
+        public int ScrollPosition => _scrollBar?.Value ?? 0;
 
         #endregion
 

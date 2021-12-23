@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteDrawBorders MaxBorderEdges
         {
-            get => _borderForced == null ? PaletteDrawBorders.All : _borderForced.MaxBorderEdges;
+            get => _borderForced?.MaxBorderEdges ?? PaletteDrawBorders.All;
 
             set 
             {
@@ -269,7 +269,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteGraphicsHint ForceGraphicsHint
         {
-            get => _borderForced == null ? PaletteGraphicsHint.Inherit : _borderForced.ForceGraphicsHint;
+            get => _borderForced?.ForceGraphicsHint ?? PaletteGraphicsHint.Inherit;
 
             set 
             {
@@ -472,7 +472,9 @@ namespace Krypton.Toolkit
             }
 
             // Do we need to draw the background?
-            if (DrawCanvas &&(_paletteBack.GetBackDraw(State) == InheritBool.True))
+            if (DrawCanvas 
+                && (_paletteBack.GetBackDraw(State) == InheritBool.True)
+                )
             {
                 GraphicsPath borderPath;
                 Padding borderPadding;
@@ -498,7 +500,9 @@ namespace Krypton.Toolkit
                 borderPath.Dispose();
             }
 
-            if (DrawCanvas && (_paletteBorder != null))
+            if (DrawCanvas 
+                && (_paletteBorder != null)
+                )
             {
                 // Do we draw the border before the children?
                 if (!DrawBorderLast)
@@ -515,21 +519,16 @@ namespace Krypton.Toolkit
                     _clipRegion = context.Graphics.Clip.Clone();
 
                     // Restrict the clipping to the area inside the canvas border
-                    GraphicsPath borderPath = DrawTabBorder ? context.Renderer.RenderTabBorder.GetTabBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State, TabBorderStyle) : context.Renderer.RenderStandardBorder.GetBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State);
-
-                    if (borderPath == null)
-                    {
-                        throw new ArgumentNullException(nameof(borderPath));
-                    }
+                    using GraphicsPath borderPath = DrawTabBorder 
+                        ? context.Renderer.RenderTabBorder.GetTabBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State, TabBorderStyle) 
+                        : context.Renderer.RenderStandardBorder.GetBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State);
 
                     // Create a new region the same as the existing clipping region
-                    Region combineRegion = new(borderPath);
+                    var combineRegion = new Region(borderPath);
 
                     // Reduce clipping region down by our border path
                     combineRegion.Intersect(_clipRegion);
                     context.Graphics.Clip = combineRegion;
-
-                    borderPath.Dispose();
                 }
             }
         }
@@ -549,7 +548,9 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (DrawCanvas && (_paletteBorder != null))
+            if (DrawCanvas 
+                && (_paletteBorder != null)
+                )
             {
                 // Do we draw the border after the children?
                 if (DrawBorderLast)

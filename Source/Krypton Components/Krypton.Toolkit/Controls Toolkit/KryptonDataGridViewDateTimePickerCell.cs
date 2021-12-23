@@ -775,9 +775,8 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingDateTimePicker(int rowIndex) =>
-            (rowIndex == -1) || (DataGridView == null)
-                ? false
-                : (DataGridView.EditingControl is KryptonDataGridViewDateTimePickerEditingControl control)
+            rowIndex != -1 && DataGridView != null
+&& (DataGridView.EditingControl is KryptonDataGridViewDateTimePickerEditingControl control)
                   && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;

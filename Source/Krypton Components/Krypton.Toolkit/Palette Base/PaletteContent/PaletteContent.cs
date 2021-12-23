@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentDraw != value)
                     {
                         _storage.ContentDraw = value;
-                        OnPropertyChanged("Draw");
+                        OnPropertyChanged(nameof(Draw));
                         PerformNeedPaint();
                     }
                 }
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
                         {
                             ContentDraw = value
                         };
-                        OnPropertyChanged("Draw");
+                        OnPropertyChanged(nameof(Draw));
                         PerformNeedPaint();
                     }
                 }
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentDrawFocus != value)
                     {
                         _storage.ContentDrawFocus = value;
-                        OnPropertyChanged("DrawFocus");
+                        OnPropertyChanged(nameof(DrawFocus));
                         PerformNeedPaint();
                     }
                 }
@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
                         {
                             ContentDrawFocus = value
                         };
-                        OnPropertyChanged("DrawFocus");
+                        OnPropertyChanged(nameof(DrawFocus));
                         PerformNeedPaint();
                     }
                 }
@@ -686,7 +686,7 @@ namespace Krypton.Toolkit
                     if (!value.Equals(_storage.ContentPadding))
                     {
                         _storage.ContentPadding = value;
-                        OnPropertyChanged("Padding");
+                        OnPropertyChanged(nameof(Padding));
                         PerformNeedPaint(true);
                     }
                 }
@@ -698,7 +698,7 @@ namespace Krypton.Toolkit
                         {
                             ContentPadding = value
                         };
-                        OnPropertyChanged("Padding");
+                        OnPropertyChanged(nameof(Padding));
                         PerformNeedPaint(true);
                     }
                 }
@@ -760,7 +760,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public virtual int AdjacentGap
         {
-            get => _storage == null ? -1 : _storage.ContentAdjacentGap;
+            get => _storage?.ContentAdjacentGap ?? -1;
 
             set
             {
@@ -769,7 +769,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentAdjacentGap != value)
                     {
                         _storage.ContentAdjacentGap = value;
-                        OnPropertyChanged("AdjacentGap");
+                        OnPropertyChanged(nameof(AdjacentGap));
                         PerformNeedPaint(true);
                     }
                 }
@@ -781,7 +781,7 @@ namespace Krypton.Toolkit
                         {
                             ContentAdjacentGap = value
                         };
-                        OnPropertyChanged("AdjacentGap");
+                        OnPropertyChanged(nameof(AdjacentGap));
                         PerformNeedPaint(true);
                     }
                 }

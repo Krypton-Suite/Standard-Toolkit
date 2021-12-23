@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonAppTab : ViewLayoutDocker
     {
         #region Instance Fields
-        private KryptonRibbon _ribbon;
+        private readonly KryptonRibbon _ribbon;
 
         #endregion
 

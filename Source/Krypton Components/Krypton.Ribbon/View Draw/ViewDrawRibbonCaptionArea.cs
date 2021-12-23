@@ -686,12 +686,12 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private KryptonRibbon _ribbon;
-        private NeedPaintHandler _needPaintDelegate;
-        private NeedPaintHandler _needIntegratedDelegate;
-        private PaletteCaptionRedirect _redirect;
+        private readonly KryptonRibbon _ribbon;
+        private readonly NeedPaintHandler _needPaintDelegate;
+        private readonly NeedPaintHandler _needIntegratedDelegate;
+        private readonly PaletteCaptionRedirect _redirect;
         private PaletteDoubleRedirect _redirectCaption;
-        private ViewDrawRibbonComposition _compositionArea;
+        private readonly ViewDrawRibbonComposition _compositionArea;
         private ViewLayoutRibbonAppButton _captionAppButton;
         private ViewLayoutRibbonAppButton _otherAppButton;
         private ViewLayoutSeparator _spaceInsteadOfAppButton;

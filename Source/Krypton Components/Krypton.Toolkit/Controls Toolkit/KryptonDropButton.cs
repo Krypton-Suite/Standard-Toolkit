@@ -768,7 +768,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Set of button values.</returns>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ButtonValues(needPaint);
+        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new (needPaint);
 
         /// <summary>
         /// Gets access to the view element for the button.

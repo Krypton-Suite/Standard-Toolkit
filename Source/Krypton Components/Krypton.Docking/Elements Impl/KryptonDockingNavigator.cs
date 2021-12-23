@@ -153,8 +153,8 @@ namespace Krypton.Docking
 
             if (pages.Length > 0)
             {
-                string[] uniqueNames = new string[pages.Length];
-                for (int i = 0; i < uniqueNames.Length; i++)
+                var uniqueNames = new string[pages.Length];
+                for (var i = 0; i < uniqueNames.Length; i++)
                 {
                     // Cannot show a null page reference
                     if (pages[i] == null)
@@ -184,7 +184,7 @@ namespace Krypton.Docking
             if (uniqueNames.Length > 0)
             {
                 // Cannot show a null or zero length unique name
-                foreach (string uniqueName in uniqueNames)
+                foreach (var uniqueName in uniqueNames)
                 {
                     if (uniqueName == null)
                     {
@@ -259,8 +259,8 @@ namespace Krypton.Docking
             if (pages.Length > 0)
             {
                 // Cannot hide a null page reference
-                string[] uniqueNames = new string[pages.Length];
-                for (int i = 0; i < uniqueNames.Length; i++)
+                var uniqueNames = new string[pages.Length];
+                for (var i = 0; i < uniqueNames.Length; i++)
                 {
                     // Cannot show a null page reference
                     if (pages[i] == null)
@@ -290,7 +290,7 @@ namespace Krypton.Docking
             if (uniqueNames.Length > 0)
             {
                 // Cannot hide a null or zero length unique name
-                foreach (string uniqueName in uniqueNames)
+                foreach (var uniqueName in uniqueNames)
                 {
                     if (uniqueName == null)
                     {
@@ -355,8 +355,8 @@ namespace Krypton.Docking
             if (pages.Length > 0)
             {
                 // Cannot remove a null page reference
-                string[] uniqueNames = new string[pages.Length];
-                for (int i = 0; i < uniqueNames.Length; i++)
+                var uniqueNames = new string[pages.Length];
+                for (var i = 0; i < uniqueNames.Length; i++)
                 {
                     // Cannot show a null page reference
                     if (pages[i] == null)
@@ -387,7 +387,7 @@ namespace Krypton.Docking
             if (uniqueNames.Length > 0)
             {
                 // Cannot remove a null or zero length unique name
-                foreach (string uniqueName in uniqueNames)
+                foreach (var uniqueName in uniqueNames)
                 {
                     if (uniqueName == null)
                     {
@@ -438,7 +438,7 @@ namespace Krypton.Docking
                     // Ignore some global actions
                     return;
                 case DockingPropogateAction.StorePages:
-                    foreach (string uniqueName in uniqueNames)
+                    foreach (var uniqueName in uniqueNames)
                     {
                         // Swap pages that are not placeholders to become placeholders
                         KryptonPage page = pageCollection[uniqueName];
@@ -453,7 +453,7 @@ namespace Krypton.Docking
                     break;
                 case DockingPropogateAction.StoreAllPages:
                     // Process each page inside the cell
-                    for (int i = pageCollection.Count - 1; i >= 0; i--)
+                    for (var i = pageCollection.Count - 1; i >= 0; i--)
                     {
                         // Swap pages that are not placeholders to become placeholders
                         KryptonPage page = pageCollection[i];
@@ -469,7 +469,7 @@ namespace Krypton.Docking
                     break;
                 case DockingPropogateAction.ClearFillerStoredPages:
                 case DockingPropogateAction.ClearStoredPages:
-                    foreach (string uniqueName in uniqueNames)
+                    foreach (var uniqueName in uniqueNames)
                     {
                         // Only remove a matching unique name if it is a placeholder page
                         KryptonPage removePage = pageCollection[uniqueName];
@@ -482,7 +482,7 @@ namespace Krypton.Docking
                 case DockingPropogateAction.ClearAllStoredPages:
                     {
                         // Process each page inside the cell
-                        for (int i = pageCollection.Count - 1; i >= 0; i--)
+                        for (var i = pageCollection.Count - 1; i >= 0; i--)
                         {
                             // Remove all placeholders
                             KryptonPage page = pageCollection[i];
@@ -593,7 +593,7 @@ namespace Krypton.Docking
                         if ((state == DockingPropogatePageList.All) || (state == DockingPropogatePageList.Filler))
                         {
                             // Process each page inside the navigator
-                            for (int i = DockableNavigatorControl.Pages.Count - 1; i >= 0; i--)
+                            for (var i = DockableNavigatorControl.Pages.Count - 1; i >= 0; i--)
                             {
                                 // Only add real pages and not placeholders
                                 KryptonPage page = DockableNavigatorControl.Pages[i];
@@ -775,8 +775,8 @@ namespace Krypton.Docking
             }
 
             // Grab the element attributes
-            string elementName = xmlReader.GetAttribute(@"N");
-            string elementCount = xmlReader.GetAttribute(@"C");
+            var elementName = xmlReader.GetAttribute(@"N");
+            var elementCount = xmlReader.GetAttribute(@"C");
 
             // Check the name matches up
             if (elementName != Name)
@@ -788,11 +788,11 @@ namespace Krypton.Docking
             DockableNavigatorControl.Pages.Clear();
 
             // If there are children then load them
-            int count = int.Parse(elementCount);
+            var count = int.Parse(elementCount);
             if (count > 0)
             {
                 KryptonDockingManager manager = DockingManager;
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     // Read past this element
                     if (!xmlReader.Read())
@@ -807,9 +807,9 @@ namespace Krypton.Docking
                     }
 
                     // Get the unique name of the page
-                    string uniqueName = XmlHelper.XmlAttributeToText(xmlReader, @"UN");
-                    bool boolStore = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"S"));
-                    bool boolVisible = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"V", @"True"));
+                    var uniqueName = XmlHelper.XmlAttributeToText(xmlReader, @"UN");
+                    var boolStore = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"S"));
+                    var boolVisible = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"V", @"True"));
 
                     // If the entry is for just a placeholder...
                     KryptonPage page;
@@ -858,7 +858,7 @@ namespace Krypton.Docking
                         throw new ArgumentException(@"Expected 'CPD' element was not found");
                     }
 
-                    bool finished = xmlReader.IsEmptyElement;
+                    var finished = xmlReader.IsEmptyElement;
 
                     // Generate event so custom data can be loaded and/or the page to be added can be modified
                     DockPageLoadingEventArgs pageLoading = new(manager, xmlReader, page);
@@ -934,7 +934,7 @@ namespace Krypton.Docking
         private void OnDockableNavigatorBeforePageDrag(object sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the navigator
-            List<KryptonPage> pages = new List<KryptonPage>();
+            var pages = new List<KryptonPage>();
             foreach (KryptonPage page in e.Pages)
             {
                 if (page is not KryptonStorePage && DockableNavigatorControl.Pages.Contains(page))

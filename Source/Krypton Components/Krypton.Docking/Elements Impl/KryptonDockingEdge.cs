@@ -38,8 +38,8 @@ namespace Krypton.Docking
             Edge = edge;
 
             // Auto create elements for handling standard docked content and auto hidden content
-            InternalAdd(new KryptonDockingEdgeAutoHidden("AutoHidden", control, edge));
-            InternalAdd(new KryptonDockingEdgeDocked("Docked", control, edge));
+            InternalAdd(new KryptonDockingEdgeAutoHidden(@"AutoHidden", control, edge));
+            InternalAdd(new KryptonDockingEdgeDocked(@"Docked", control, edge));
         }
         #endregion
 
@@ -60,7 +60,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the xml element name to use when saving.
         /// </summary>
-        protected override string XmlElementName => "DE";
+        protected override string XmlElementName => @"DE";
 
         #endregion
     }

@@ -110,9 +110,7 @@ namespace Krypton.Toolkit
         public char PromptChar
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.PromptChar;
+                MaskedTextBoxCellTemplate?.PromptChar ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -152,9 +150,7 @@ namespace Krypton.Toolkit
         public bool AllowPromptAsInput
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.AllowPromptAsInput;
+                MaskedTextBoxCellTemplate?.AllowPromptAsInput ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -194,9 +190,7 @@ namespace Krypton.Toolkit
         public bool AsciiOnly
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.AsciiOnly;
+                MaskedTextBoxCellTemplate?.AsciiOnly ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -236,9 +230,7 @@ namespace Krypton.Toolkit
         public bool BeepOnError
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.BeepOnError;
+                MaskedTextBoxCellTemplate?.BeepOnError ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -278,9 +270,7 @@ namespace Krypton.Toolkit
         public MaskFormat CutCopyMaskFormat
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.CutCopyMaskFormat;
+                MaskedTextBoxCellTemplate?.CutCopyMaskFormat ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -320,9 +310,7 @@ namespace Krypton.Toolkit
         public bool HidePromptOnLeave
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.HidePromptOnLeave;
+                MaskedTextBoxCellTemplate?.HidePromptOnLeave ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -362,9 +350,7 @@ namespace Krypton.Toolkit
         public bool HideSelection
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.HideSelection;
+                MaskedTextBoxCellTemplate?.HideSelection ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -404,9 +390,7 @@ namespace Krypton.Toolkit
         public InsertKeyMode InsertKeyMode
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.InsertKeyMode;
+                MaskedTextBoxCellTemplate?.InsertKeyMode ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -488,9 +472,7 @@ namespace Krypton.Toolkit
         public char PasswordChar
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.PasswordChar;
+                MaskedTextBoxCellTemplate?.PasswordChar ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -530,9 +512,7 @@ namespace Krypton.Toolkit
         public bool RejectInputOnFirstFailure
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.RejectInputOnFirstFailure;
+                MaskedTextBoxCellTemplate?.RejectInputOnFirstFailure ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -572,9 +552,7 @@ namespace Krypton.Toolkit
         public bool ResetOnPrompt
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.ResetOnPrompt;
+                MaskedTextBoxCellTemplate?.ResetOnPrompt ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -614,9 +592,7 @@ namespace Krypton.Toolkit
         public bool ResetOnSpace
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.ResetOnSpace;
+                MaskedTextBoxCellTemplate?.ResetOnSpace ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -656,9 +632,7 @@ namespace Krypton.Toolkit
         public bool SkipLiterals
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.SkipLiterals;
+                MaskedTextBoxCellTemplate?.SkipLiterals ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -698,9 +672,7 @@ namespace Krypton.Toolkit
         public MaskFormat TextMaskFormat
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.TextMaskFormat;
+                MaskedTextBoxCellTemplate?.TextMaskFormat ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)
@@ -740,9 +712,7 @@ namespace Krypton.Toolkit
         public bool UseSystemPasswordChar
         {
             get =>
-                MaskedTextBoxCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : MaskedTextBoxCellTemplate.UseSystemPasswordChar;
+                MaskedTextBoxCellTemplate?.UseSystemPasswordChar ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (MaskedTextBoxCellTemplate == null)

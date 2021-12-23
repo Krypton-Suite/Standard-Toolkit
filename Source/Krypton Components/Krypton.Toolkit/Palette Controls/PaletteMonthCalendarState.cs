@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Day { get; }
 
-        private bool ShouldSerializeContent() => !Day.IsDefault;
+        private bool ShouldSerializeDay() => !Day.IsDefault;
 
         #endregion
     }

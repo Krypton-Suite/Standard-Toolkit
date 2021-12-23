@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class KryptonPaletteRibbon : Storage
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private readonly PaletteRedirect _redirect;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuOuterInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuInnerInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuDocsInherit;

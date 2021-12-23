@@ -143,7 +143,7 @@ namespace Krypton.Navigator
             }
 
             // Convert childRectF to a 'int' Rectangle
-            Rectangle childRect = new Rectangle((int)childRectF.X, (int)childRectF.Y, (int)childRectF.Width, (int)childRectF.Height);
+            var childRect = new Rectangle((int)childRectF.X, (int)childRectF.Y, (int)childRectF.Width, (int)childRectF.Height);
 
             // Inform each child to layout inside the reduced rectangle
             foreach (ViewBase child in this)
