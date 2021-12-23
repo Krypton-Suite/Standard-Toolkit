@@ -1513,7 +1513,7 @@ namespace Krypton.Workspace
                 NodeToType((MenuTreeNode)node, out isPage, out isCell, out isSequence);
             }
 
-            private void NodeToType(MenuTreeNode node, out bool isPage, out bool isCell, out bool isSequence)
+            private static void NodeToType(MenuTreeNode node, out bool isPage, out bool isCell, out bool isSequence)
             {
                 isPage = node?.PageItem != null;
                 isCell = node?.CellItem != null;
@@ -1675,7 +1675,7 @@ namespace Krypton.Workspace
                 return null;
             }
 
-            private void SeparatorToItems(ViewDrawWorkspaceSeparator separator,
+            private static void SeparatorToItems(ViewDrawWorkspaceSeparator separator,
                                           out IWorkspaceItem after,
                                           out IWorkspaceItem before)
             {
@@ -1689,7 +1689,7 @@ namespace Krypton.Workspace
                 before = null;
                 for (var i = beforeSequence.Children.IndexOf(after) - 1; i >= 0; i--)
                 {
-                    if ((beforeSequence.Children[i] is IWorkspaceItem item) && item.WorkspaceVisible)
+                    if ((beforeSequence.Children[i] is IWorkspaceItem { WorkspaceVisible: true } item))
                     {
                         before = item;
                         break;

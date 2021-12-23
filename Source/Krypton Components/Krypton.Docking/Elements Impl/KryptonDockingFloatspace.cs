@@ -236,7 +236,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the xml element name to use when saving.
         /// </summary>
-        protected override string XmlElementName => "DF";
+        protected override string XmlElementName => @"DF";
 
         /// <summary>
         /// Loads docking configuration information using a provider xml reader.
@@ -289,7 +289,7 @@ namespace Krypton.Docking
         private void OnFloatspaceBeforePageDrag(object sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the floatspace
-            List<KryptonPage> pages = new List<KryptonPage>();
+            var pages = new List<KryptonPage>();
             foreach (KryptonPage page in e.Pages)
             {
                 if (page is not KryptonStorePage && (FloatspaceControl.CellForPage(page) != null))

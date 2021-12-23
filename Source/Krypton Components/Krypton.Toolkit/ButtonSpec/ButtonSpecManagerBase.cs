@@ -675,7 +675,7 @@ namespace Krypton.Toolkit
                                                               IPaletteMetric viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
                                                               ButtonSpec buttonSpec) =>
-            new ButtonSpecView(redirector,
+            new (redirector,
                 viewPaletteMetric,
                 viewMetricPadding,
                 this,

@@ -279,7 +279,7 @@ _hintToTarget.ContainsKey(DragTargetHint.Transfer))
             // Update the solid feedback rectangle with area of the specific target
             if (_solid != null)
             {
-                _solid.SolidRect = (matchTarget != null) ? matchTarget.DrawRect : Rectangle.Empty;
+                _solid.SolidRect = matchTarget?.DrawRect ?? Rectangle.Empty;
             }
 
             return matchTarget;

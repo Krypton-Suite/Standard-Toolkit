@@ -37,6 +37,7 @@ namespace Krypton.Docking
         #endregion
 
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the KryptonDockingDockspace class.
         /// </summary>
@@ -44,7 +45,7 @@ namespace Krypton.Docking
         /// <param name="edge">Docking edge this dockspace is against.</param>
         /// <param name="size">Initial size of the dockspace.</param>
         public KryptonDockingDockspace(string name, DockingEdge edge, Size size)
-            : base(name, "Docked")
+            : base(name, @"Docked")
         {
             // Create a new dockspace that will be a host for docking pages
             SpaceControl = new KryptonDockspace();
@@ -102,8 +103,8 @@ namespace Krypton.Docking
                         if (parent != null)
                         {
                             // Process all sibling controls starting from end to front of collection
-                            int indexInsert = -1;
-                            for (int i = parent.Controls.Count - 1; i >= 0; i--)
+                            var indexInsert = -1;
+                            for (var i = parent.Controls.Count - 1; i >= 0; i--)
                             {
                                 Control c = parent.Controls[i];
 
@@ -130,7 +131,7 @@ namespace Krypton.Docking
                             if (indexInsert >= 0)
                             {
                                 // Our separator should be one before is in the controls collection
-                                int ourIndex = parent.Controls.IndexOf(DockspaceControl);
+                                var ourIndex = parent.Controls.IndexOf(DockspaceControl);
                                 if (ourIndex > 0)
                                 {
                                     Control separator = parent.Controls[ourIndex - 1];
@@ -354,8 +355,8 @@ namespace Krypton.Docking
             {
                 // Count the number of KryptonDockspace that occur after ourself in the collection by scanning
                 // backwards from end of collection to the front.
-                int numDockspace = 0;
-                for (int i = parent.Controls.Count - 1; i >= 0; i--)
+                var numDockspace = 0;
+                for (var i = parent.Controls.Count - 1; i >= 0; i--)
                 {
                     Control child = parent.Controls[i];
                     if (child == DockspaceControl)
@@ -485,7 +486,7 @@ namespace Krypton.Docking
         private void OnDockspaceBeforePageDrag(object sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the dockspace
-            List<KryptonPage> pages = new List<KryptonPage>();
+            var pages = new List<KryptonPage>();
             foreach (KryptonPage page in e.Pages)
             {
                 if (page is not KryptonStorePage && (DockspaceControl.CellForPage(page) != null))

@@ -174,7 +174,6 @@ namespace Krypton.Ribbon
 
             IPaletteBack paletteBack = _ribbon.StateCommon.RibbonQATButton.PaletteBack;
             IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonQATButton.PaletteBorder;
-            IPaletteRibbonGeneral paletteGeneral = _ribbon.StateCommon.RibbonGeneral;
 
             // Do we need to draw the background?
             if (paletteBack.GetBackDraw(State) == InheritBool.True)

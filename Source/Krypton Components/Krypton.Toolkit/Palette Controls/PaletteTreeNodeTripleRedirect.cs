@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Node { get; }
 
-        private bool ShouldSerializeItem() => !Node.IsDefault;
+        private bool ShouldSerializeNode() => !Node.IsDefault;
 
         #endregion
     }

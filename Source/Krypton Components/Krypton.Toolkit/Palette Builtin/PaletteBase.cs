@@ -1162,7 +1162,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual float BaseFontSize
         {
-            get => !_baseFontSize.HasValue ? SystemFonts.MenuFont.SizeInPoints : _baseFontSize.Value;
+            get => _baseFontSize ?? SystemFonts.MenuFont.SizeInPoints;
 
             set
             {

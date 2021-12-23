@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly ViewBase _fixedElement;
-        private Rectangle _fixedScreenRect;
+        private readonly Rectangle _fixedScreenRect;
         #endregion
 
         #region Identity

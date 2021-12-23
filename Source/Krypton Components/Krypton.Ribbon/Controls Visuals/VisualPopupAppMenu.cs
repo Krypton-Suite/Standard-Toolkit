@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         private ViewLayoutDocker _viewButtonSpecDocker;
         private ButtonSpecManagerLayout _buttonManager;
         private readonly Rectangle _rectAppButtonBottomHalf;
-        private Rectangle _rectAppButtonTopHalf;
+        private readonly Rectangle _rectAppButtonTopHalf;
         #endregion
 
         #region Identity

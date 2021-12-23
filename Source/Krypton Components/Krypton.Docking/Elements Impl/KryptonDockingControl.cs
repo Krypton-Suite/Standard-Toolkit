@@ -186,7 +186,7 @@ namespace Krypton.Docking
                                                   DragTargetList targets)
         {
             // Create a list of pages that are allowed to be transferred into a dockspace
-            List<KryptonPage> transferPages = new List<KryptonPage>();
+            var transferPages = new List<KryptonPage>();
             foreach (KryptonPage page in dragData.Pages)
             {
                 if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))
@@ -200,8 +200,8 @@ namespace Krypton.Docking
             {
                 // Generate targets for the four control edges
                 Rectangle screenRect = Control.RectangleToScreen(Control.ClientRectangle);
-                Rectangle[] rectsDraw = SubdivideRectangle(screenRect, 3, int.MaxValue);
-                Rectangle[] rectsHot = SubdivideRectangle(screenRect, 10, 20);
+                var rectsDraw = SubdivideRectangle(screenRect, 3, int.MaxValue);
+                var rectsHot = SubdivideRectangle(screenRect, 10, 20);
 
                 // Must insert at start of target list as they are higher priority than cell targets
                 targets.Add(new DragTargetControlEdge(screenRect, rectsHot[0], rectsDraw[0], DragTargetHint.EdgeLeft | DragTargetHint.ExcludeCluster, this, KryptonPageFlags.DockingAllowDocked, true));
@@ -243,8 +243,8 @@ namespace Krypton.Docking
                     if ((innerRect.Width > 0) && (innerRect.Height > 0))
                     {
                         Rectangle innerScreenRect = Control.RectangleToScreen(innerRect);
-                        Rectangle[] innerRectsDraw = SubdivideRectangle(innerScreenRect, 3, int.MaxValue);
-                        Rectangle[] innerRectsHot = SubdivideRectangle(innerScreenRect, 10, 20);
+                        var innerRectsDraw = SubdivideRectangle(innerScreenRect, 3, int.MaxValue);
+                        var innerRectsHot = SubdivideRectangle(innerScreenRect, 10, 20);
                         targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[0], innerRectsDraw[0], DragTargetHint.EdgeLeft, this, KryptonPageFlags.DockingAllowDocked, false));
                         targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[1], innerRectsDraw[1], DragTargetHint.EdgeRight, this, KryptonPageFlags.DockingAllowDocked, false));
                         targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[2], innerRectsDraw[2], DragTargetHint.EdgeTop, this, KryptonPageFlags.DockingAllowDocked, false));
@@ -258,8 +258,8 @@ namespace Krypton.Docking
                     Rectangle innerScreenRect = dockingNavigator.DockableNavigatorControl.RectangleToScreen(dockingNavigator.DockableNavigatorControl.ClientRectangle);
                     if ((innerScreenRect.Width > 0) && (innerScreenRect.Height > 0))
                     {
-                        Rectangle[] innerRectsDraw = SubdivideRectangle(innerScreenRect, 3, int.MaxValue);
-                        Rectangle[] innerRectsHot = SubdivideRectangle(innerScreenRect, 10, 20);
+                        var innerRectsDraw = SubdivideRectangle(innerScreenRect, 3, int.MaxValue);
+                        var innerRectsHot = SubdivideRectangle(innerScreenRect, 10, 20);
                         targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[0], innerRectsDraw[0], DragTargetHint.EdgeLeft, this, KryptonPageFlags.DockingAllowDocked, false));
                         targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[1], innerRectsDraw[1], DragTargetHint.EdgeRight, this, KryptonPageFlags.DockingAllowDocked, false));
                         targets.Add(new DragTargetControlEdge(innerScreenRect, innerRectsHot[2], innerRectsDraw[2], DragTargetHint.EdgeTop, this, KryptonPageFlags.DockingAllowDocked, false));
@@ -277,7 +277,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the xml element name to use when saving.
         /// </summary>
-        protected override string XmlElementName => "DC";
+        protected override string XmlElementName => @"DC";
 
         /// <summary>
         /// Loads docking configuration information using a provider xml reader.
@@ -290,7 +290,7 @@ namespace Krypton.Docking
             base.LoadElementFromXml(xmlReader, pages);
 
             // Find the largest ordering value for all dockspace controls
-            int largestOrder = -1;
+            var largestOrder = -1;
             PropogateIntState(DockingPropogateIntState.DockspaceOrder, ref largestOrder);
 
             if (largestOrder > 0)
@@ -299,7 +299,7 @@ namespace Krypton.Docking
                 largestOrder = Math.Min(largestOrder, 30);
 
                 // Request each dockspace in ordering sequence reposition itself
-                for (int i = 0; i <= largestOrder; i++)
+                for (var i = 0; i <= largestOrder; i++)
                 {
                     PropogateAction(DockingPropogateAction.RepositionDockspace, i);
                 }
@@ -327,10 +327,10 @@ namespace Krypton.Docking
             Control.Controls.Add(_obscure);
 
             // Create docking elements for managing each of the four control edges
-            Add(new KryptonDockingEdge("Top", control, DockingEdge.Top));
-            Add(new KryptonDockingEdge("Bottom", control, DockingEdge.Bottom));
-            Add(new KryptonDockingEdge("Left", control, DockingEdge.Left));
-            Add(new KryptonDockingEdge("Right", control, DockingEdge.Right));
+            Add(new KryptonDockingEdge(@"Top", control, DockingEdge.Top));
+            Add(new KryptonDockingEdge(@"Bottom", control, DockingEdge.Bottom));
+            Add(new KryptonDockingEdge(@"Left", control, DockingEdge.Left));
+            Add(new KryptonDockingEdge(@"Right", control, DockingEdge.Right));
         }
 
         private void OnControlDisposed(object sender, EventArgs e)
@@ -376,7 +376,7 @@ namespace Krypton.Docking
         {
             // Create a list of all the dockspace controls in our orientation and a matching array 
             // of lengths that will be used in the final phase of updating the control sizes
-            List<KryptonDockspace> controls = new List<KryptonDockspace>();
+            var controls = new List<KryptonDockspace>();
             foreach (Control c in Control.Controls)
             {
                 if ((c is KryptonDockspace dockspace) && c.Visible)
@@ -408,11 +408,11 @@ namespace Krypton.Docking
             while ((remove > 0) && (controls.Count > 0))
             {
                 // How much space to remove from each control
-                int delta = Math.Max(1, remove / controls.Count);
+                var delta = Math.Max(1, remove / controls.Count);
 
                 // Try and remove delta from each control
                 int dockDelta;
-                for (int i = controls.Count - 1; i >= 0; i--)
+                for (var i = controls.Count - 1; i >= 0; i--)
                 {
                     KryptonDockspace dockspace = controls[i];
 
@@ -450,11 +450,11 @@ namespace Krypton.Docking
             }
         }
 
-        private Rectangle[] SubdivideRectangle(Rectangle area,
+        private static Rectangle[] SubdivideRectangle(Rectangle area,
                                                int divisor,
                                                int maxLength)
         {
-            int length = Math.Min(area.Width / divisor, Math.Min(area.Height / divisor, maxLength));
+            var length = Math.Min(area.Width / divisor, Math.Min(area.Height / divisor, maxLength));
 
             // Find the left, right, top, bottom, center rectangles
             return new Rectangle[]{ new(area.X, area.Y, length, area.Height),

@@ -393,7 +393,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Change has occured to the collection of pages.
+        /// Change has occurred to the collection of pages.
         /// </summary>
         public override void PageCollectionChanged()
         {
@@ -716,7 +716,10 @@ namespace Krypton.Navigator
 
                             if (!ce.Cancel)
                             {
-                                var changed = !shift ? SelectNextPage(Navigator.SelectedPage, true, true) : SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                if (!shift)
+                                    SelectNextPage(Navigator.SelectedPage, true, true);
+                                else
+                                    SelectPreviousPage(Navigator.SelectedPage, true, true);
                             }
                         }
                         return true;
@@ -939,7 +942,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the screen coorindates for showing a context action menu.
+        /// Gets the screen coordinates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint() =>
@@ -2376,9 +2379,7 @@ namespace Krypton.Navigator
 
         private void RecreateView()
         {
-            VisualOrientation checkButtonOrient = ResolveStackButtonOrientation();
             Orientation stackOrient = Navigator.Outlook.Orientation;
-            Orientation buttonEdgeOrient = (stackOrient == Orientation.Vertical ? Orientation.Horizontal : Orientation.Vertical);
             ViewDockStyle dockFar = (stackOrient == Orientation.Vertical ? ViewDockStyle.Bottom : ViewDockStyle.Right);
 
             // Remove all existing layout items

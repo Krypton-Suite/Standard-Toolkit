@@ -158,7 +158,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the screen coorindates for showing a context action menu.
+        /// Gets the screen coordinates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
         public Point GetContextShowPoint()

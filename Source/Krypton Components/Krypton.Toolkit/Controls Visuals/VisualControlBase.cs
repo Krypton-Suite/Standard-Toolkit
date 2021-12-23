@@ -359,7 +359,7 @@ namespace Krypton.Toolkit
                         _paletteMode = PaletteMode.Custom;
                     }
 
-                    // If real change has occured
+                    // If real change has occurred
                     if (old != _localPalette)
                     {
                         // Raise the change event
@@ -769,7 +769,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
+        protected virtual PaletteRedirect CreateRedirector() => new (_palette);
 
         /// <summary>
         /// Update global event attachments.

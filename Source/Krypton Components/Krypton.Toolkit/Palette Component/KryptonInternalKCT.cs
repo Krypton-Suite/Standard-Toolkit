@@ -636,7 +636,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the font used to draw text on a status strip.
         /// </summary>
-        public override Font MenuStripFont => InternalMenuStripFont == null ? BaseKCT.MenuStripFont : InternalMenuStripFont;
+        public override Font MenuStripFont => InternalMenuStripFont ?? BaseKCT.MenuStripFont;
 
         /// <summary>
         /// Sets and sets the internal MenuStripFont value.
@@ -999,7 +999,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the font used to draw text on a status strip.
         /// </summary>
-        public override Font StatusStripFont => InternalStatusStripFont == null ? BaseKCT.StatusStripFont : InternalStatusStripFont;
+        public override Font StatusStripFont => InternalStatusStripFont ?? BaseKCT.StatusStripFont;
 
         /// <summary>
         /// Sets and sets the internal StatusStripFont value.
@@ -1071,7 +1071,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the font used to draw text on a tool strip.
         /// </summary>
-        public override Font ToolStripFont => InternalToolStripFont == null ? BaseKCT.ToolStripFont : InternalToolStripFont;
+        public override Font ToolStripFont => InternalToolStripFont ?? BaseKCT.ToolStripFont;
 
         /// <summary>
         /// Sets and sets the internal ToolStripFont value.

@@ -62,12 +62,12 @@ namespace Krypton.Toolkit
 
         private static readonly Color _darken5 = Color.FromArgb(5, Color.Black);
         private static readonly Color _darken8 = Color.FromArgb(8, Color.Black);
-        private static readonly Color _darken12 = Color.FromArgb(12, Color.Black);
+        //private static readonly Color _darken12 = Color.FromArgb(12, Color.Black);
         private static readonly Color _darken16 = Color.FromArgb(16, Color.Black);
         private static readonly Color _darken18 = Color.FromArgb(18, Color.Black);
         private static readonly Color _darken38 = Color.FromArgb(38, Color.Black);
         private static readonly Color _whiten200 = Color.FromArgb(200, Color.White);
-        private static readonly Color _whiten160 = Color.FromArgb(160, Color.White);
+        //private static readonly Color _whiten160 = Color.FromArgb(160, Color.White);
         private static readonly Color _whiten128 = Color.FromArgb(128, Color.White);
         private static readonly Color _whiten120 = Color.FromArgb(120, Color.White);
         private static readonly Color _whiten92 = Color.FromArgb(92, Color.White);
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         private static readonly Color _whiten64 = Color.FromArgb(64, Color.White);
         private static readonly Color _whiten60 = Color.FromArgb(60, Color.White);
         private static readonly Color _whiten50 = Color.FromArgb(50, Color.White);
-        private static readonly Color _whiten45 = Color.FromArgb(45, Color.White);
+        //private static readonly Color _whiten45 = Color.FromArgb(45, Color.White);
         private static readonly Color _whiten32 = Color.FromArgb(32, Color.White);
         private static readonly Color _whiten30 = Color.FromArgb(30, Color.White);
         private static readonly Color _whiten10 = Color.FromArgb(10, Color.White);
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         private static readonly Pen _light1Pen;
         private static readonly Pen _light2Pen;
         private static readonly Pen _whitenMediumPen;
-        private static readonly Pen _buttonShadowPen;
+        //private static readonly Pen _buttonShadowPen;
         private static readonly Pen _compositionPen;
 
         // Brushes
@@ -337,7 +337,7 @@ namespace Krypton.Toolkit
             _light1Pen = new Pen(Color.FromArgb(150, Color.White));
             _light2Pen = new Pen(Color.FromArgb(100, Color.White));
             _whitenMediumPen = new Pen(_whiten128);
-            _buttonShadowPen = new Pen(Color.FromArgb(48, Color.Black));
+            //_buttonShadowPen = new Pen(Color.FromArgb(48, Color.Black));
             _compositionPen = new Pen(Color.FromArgb(96, Color.Black));
 
             _whitenLightBrush = new SolidBrush(_whiten30);
@@ -1190,9 +1190,7 @@ namespace Krypton.Toolkit
                 // orientation, so we adjust the display rect to that orientation
                 // and then at the end adjust the memento produced back to the
                 // required orientation again. 'AdjustForOrientation'
-                var temp = availableRect.Width;
-                availableRect.Width = availableRect.Height;
-                availableRect.Height = temp;
+                (availableRect.Width, availableRect.Height) = (availableRect.Height, availableRect.Width);
             }
 
             // Apply padding to the rectangle
@@ -1207,9 +1205,7 @@ namespace Krypton.Toolkit
                 // This is the display rect we need to use in 'AdjustForOrientation'
                 // and cache it for later. The displayRect itself is modified during
                 // the below process and so cannot be used directly.
-                var temp = cacheDisplayRect.Width;
-                cacheDisplayRect.Width = cacheDisplayRect.Height;
-                cacheDisplayRect.Height = temp;
+                (cacheDisplayRect.Width, cacheDisplayRect.Height) = (cacheDisplayRect.Height, cacheDisplayRect.Width);
             }
 
             // Track the allocated space in each grid position
@@ -3375,8 +3371,6 @@ namespace Krypton.Toolkit
                                                   IPaletteBorder paletteBorder,
                                                   PaletteState state)
         {
-            var rounding = paletteBorder.GetBorderRounding(state);
-
             // If the border takes up some visual space
             if (paletteBorder.GetBorderWidth(state) > 0)
             {
@@ -12139,9 +12133,7 @@ namespace Krypton.Toolkit
 
             private static void SwapRectangleSizes(ref Rectangle rect)
             {
-                var temp = rect.Width;
-                rect.Width = rect.Height;
-                rect.Height = temp;
+                (rect.Width, rect.Height) = (rect.Height, rect.Width);
             }
         }
         #endregion

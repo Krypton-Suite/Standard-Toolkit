@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
                                IContentValues
     {
         #region Static Fields
-        private const string _defaultText = "Label";
+        private const string _defaultText = @"Label";
         private static readonly string _defaultExtraText = string.Empty;
         #endregion
 
@@ -223,8 +223,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void ResetExtraText()
         {
-            // TODO: What is the intention of this
-            ExtraText = ExtraText;
+            ExtraText = _defaultExtraText;
         }
 
         /// <summary>

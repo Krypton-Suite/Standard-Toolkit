@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     public class KryptonNavigatorControlCollection : KryptonControlCollection
     {
         #region Instance Fields
-        private KryptonNavigator _owner;
+        private readonly KryptonNavigator _owner;
         #endregion
 
         #region Identity

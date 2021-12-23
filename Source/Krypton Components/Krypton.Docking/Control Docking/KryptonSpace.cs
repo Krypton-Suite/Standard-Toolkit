@@ -478,7 +478,7 @@ namespace Krypton.Docking
             // If the cell already have pages then raise inserting events for those pages
             if (cell.Pages.Count > 0)
             {
-                for (int i = cell.Pages.Count - 1; i >= 0; i--)
+                for (var i = cell.Pages.Count - 1; i >= 0; i--)
                 {
                     OnCellPageInserting(new KryptonPageEventArgs(cell.Pages[i], i));
                 }
@@ -680,12 +680,12 @@ namespace Krypton.Docking
         {
             if (ApplyDockingVisibility)
             {
-                bool visibleChanged = false;
+                var visibleChanged = false;
                 KryptonWorkspaceCell cell = FirstCell();
                 while (cell != null)
                 {
                     // Cell if only visible if it has at least 1 visible page
-                    bool newVisible = (cell.Pages.VisibleCount > 0);
+                    var newVisible = (cell.Pages.VisibleCount > 0);
                     visibleChanged |= (cell.Visible != newVisible);
                     cell.Visible = newVisible;
 
@@ -787,7 +787,7 @@ namespace Krypton.Docking
             // Should we apply docking specific change of focus when the primary header is clicked?
             if (ApplyDockingAppearance)
             {
-                List<string> uniqueNames = new List<string>();
+                var uniqueNames = new List<string>();
 
                 // Create list of visible pages that are not placeholders
                 KryptonWorkspaceCell cell = (KryptonWorkspaceCell)sender;

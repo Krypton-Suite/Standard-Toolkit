@@ -173,9 +173,7 @@ namespace Krypton.Toolkit
         public LinkBehavior LinkBehavior
         {
             get =>
-                CellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required")
-                    : ((KryptonDataGridViewLinkCell)CellTemplate).LinkBehavior;
+                ((KryptonDataGridViewLinkCell)CellTemplate)?.LinkBehavior ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
             set
             {
                 if (!LinkBehavior.Equals(value))
@@ -208,9 +206,7 @@ namespace Krypton.Toolkit
         public bool TrackVisitedState
         {
             get =>
-                CellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required")
-                    : ((KryptonDataGridViewLinkCell)CellTemplate).TrackVisitedState;
+                ((KryptonDataGridViewLinkCell)CellTemplate)?.TrackVisitedState ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
             set
             {
                 if (TrackVisitedState != value)
@@ -241,9 +237,7 @@ namespace Krypton.Toolkit
         public bool UseColumnTextForLinkValue
         {
             get =>
-                CellTemplate == null
-                    ? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required")
-                    : ((KryptonDataGridViewLinkCell)CellTemplate).UseColumnTextForLinkValue;
+                ((KryptonDataGridViewLinkCell)CellTemplate)?.UseColumnTextForLinkValue ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
 
             set
             {

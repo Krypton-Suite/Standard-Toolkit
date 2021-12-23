@@ -63,7 +63,7 @@ namespace Krypton.Docking
                     break;
                 default:
                     Debug.Assert(false);
-                    throw new ArgumentOutOfRangeException("Hint must be an edge value.");
+                    throw new ArgumentOutOfRangeException(nameof(hint), @"Hint must be an edge value.");
             }
         }
 
@@ -133,8 +133,8 @@ namespace Krypton.Docking
             if (manager != null)
             {
                 // Create a list of pages that are allowed to be transferred into the dockspace
-                List<KryptonPage> transferPages = new List<KryptonPage>();
-                List<string> transferUniqueNames = new List<string>();
+                var transferPages = new List<KryptonPage>();
+                var transferUniqueNames = new List<string>();
                 foreach (KryptonPage page in data.Pages)
                 {
                     if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))

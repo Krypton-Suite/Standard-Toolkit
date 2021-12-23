@@ -1,8 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  
+ */
+#endregion
+
 
 namespace Krypton.Ribbon
 {
@@ -20,7 +27,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private string[] _themeArray = new string[]
+        private readonly string[] _themeArray = new string[]
         {
             "Professional - System",
 
@@ -113,7 +120,7 @@ namespace Krypton.Ribbon
 
         public KryptonRibbonGroupThemeSelector()
         {
-            foreach (string theme in _themeArray)
+            foreach (var theme in _themeArray)
             {
                 Items.Add(theme);
             }

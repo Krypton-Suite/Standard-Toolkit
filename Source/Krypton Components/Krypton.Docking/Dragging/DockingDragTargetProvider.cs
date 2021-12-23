@@ -19,7 +19,7 @@ namespace Krypton.Docking
     {
         #region Instance Fields
         private readonly KryptonDockingManager _manager;
-        private KryptonPageCollection _pages;
+        private readonly KryptonPageCollection _pages;
         private readonly KryptonFloatingWindow _floatingWindow;
         #endregion
 

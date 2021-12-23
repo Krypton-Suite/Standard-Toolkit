@@ -1,4 +1,16 @@
-﻿namespace Krypton.Toolkit
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Toolkit
 {
     /// <summary>
     /// Explicit helpers for XML Data export and import
@@ -9,7 +21,7 @@
         /// Only persist the provided name/value pair as an Xml attribute if the value is not null/empty and not the default.
         /// </summary>
         /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name=(@"Name")>Attribute name.</param>
+        /// <param name="name">Attribute name.</param>
         /// <param name="value">Attribute value.</param>
         /// <param name="defaultValue">Default value.</param>
         public static void TextToXmlAttribute(XmlWriter xmlWriter, string name, string value, string defaultValue = @"")
@@ -24,7 +36,7 @@
         /// Read the named attribute value but if no attribute is found then return the provided default.
         /// </summary>
         /// <param name="xmlReader">Xml reader to load information from.</param>
-        /// <param name=(@"Name")>Attribute name.</param>
+        /// <param name="name">Attribute name.</param>
         /// <param name="defaultValue">Default value.</param>
         /// <returns></returns>
         public static string XmlAttributeToText(XmlReader xmlReader, string name, string defaultValue = @"")
@@ -46,7 +58,7 @@
         /// Convert a Image to a culture invariant string value.
         /// </summary>
         /// <param name="xmlWriter">Xml writer to save information into.</param>
-        /// <param name=(@"Name")>Name of image to save.</param>
+        /// <param name="name">Name of image to save.</param>
         /// <param name="image">Image to persist.</param>
         public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap image)
         {

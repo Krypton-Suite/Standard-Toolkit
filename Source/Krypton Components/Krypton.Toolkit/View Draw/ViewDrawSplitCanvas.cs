@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteDrawBorders MaxBorderEdges
         {
-            get => _borderForced == null ? PaletteDrawBorders.All : _borderForced.MaxBorderEdges;
+            get => _borderForced?.MaxBorderEdges ?? PaletteDrawBorders.All;
 
             set 
             {
@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteGraphicsHint ForceGraphicsHint
         {
-            get => _borderForced == null ? PaletteGraphicsHint.Inherit : _borderForced.ForceGraphicsHint;
+            get => _borderForced?.ForceGraphicsHint ?? PaletteGraphicsHint.Inherit;
 
             set 
             {

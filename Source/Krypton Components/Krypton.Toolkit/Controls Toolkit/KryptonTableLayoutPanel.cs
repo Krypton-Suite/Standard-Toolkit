@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
 
         private void State_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
             // Handle explicit settings to the controls
-            _backGroundPanel_Refreshed();
+            BackGroundPanel_Refreshed();
 
         #endregion
 
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
                 }
 
                 _backGroundPanel.BackColor = value;
-                _backGroundPanel_Refreshed();
+                BackGroundPanel_Refreshed();
             }
         }
 
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
             set
             {
                 _backGroundPanel.PaletteMode = value;
-                _backGroundPanel_Refreshed();
+                BackGroundPanel_Refreshed();
             }
         }
 
@@ -170,7 +170,7 @@ namespace Krypton.Toolkit
             set
             {
                 _backGroundPanel.Palette = value;
-                _backGroundPanel_Refreshed();
+                BackGroundPanel_Refreshed();
             }
         }
 
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
             set
             {
                 _backGroundPanel.PanelBackStyle = value;
-                _backGroundPanel_Refreshed();
+                BackGroundPanel_Refreshed();
             }
         }
 
@@ -239,7 +239,7 @@ namespace Krypton.Toolkit
         {
             base.OnEnabledChanged(e);
             _backGroundPanel.Enabled = Enabled;
-            _backGroundPanel_Refreshed();
+            BackGroundPanel_Refreshed();
         }
 
         /// <inheritdoc />
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         }
 
         private Bitmap _bm;
-        private void _backGroundPanel_Refreshed()
+        private void BackGroundPanel_Refreshed()
         {
             _bm = new Bitmap(_backGroundPanel.Width, _backGroundPanel.Height, PixelFormat.Format32bppRgb);
             _backGroundPanel.DrawToBitmap(_bm,
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
                 var index = Parent.Controls.GetChildIndex(this);
                 Parent.Controls.SetChildIndex(_backGroundPanel, index + 1);
             }
-            _backGroundPanel_Refreshed();
+            BackGroundPanel_Refreshed();
         }
 
         /// <inheritdoc />
@@ -338,7 +338,7 @@ namespace Krypton.Toolkit
                     {
                         var index = Parent.Controls.GetChildIndex(this);
                         Parent.Controls.SetChildIndex(_backGroundPanel, index + 1);
-                        _backGroundPanel_Refreshed();
+                        BackGroundPanel_Refreshed();
                     }
                 }
 

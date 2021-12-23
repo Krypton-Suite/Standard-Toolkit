@@ -1487,7 +1487,7 @@ namespace Krypton.Ribbon
             // Check if a shortcut is triggered on the application button context menu
             if (RibbonAppButton.AppButtonMenuItems.ProcessShortcut(keyData))
             {
-                ActionOccured();
+                Actionoccurred();
                 return true;
             }
 
@@ -2444,7 +2444,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        internal void ActionOccured()
+        internal void Actionoccurred()
         {
             // If showing the popup in minimized mode, then remove it gracefully
             if (_minimizedPopup != null)

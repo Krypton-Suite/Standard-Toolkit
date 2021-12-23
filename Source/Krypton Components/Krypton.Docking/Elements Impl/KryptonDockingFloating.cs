@@ -32,7 +32,7 @@ namespace Krypton.Docking
         /// <param name="ownerForm">Reference to form that will own all the floating windows.</param>
         public KryptonDockingFloating(string name, Form ownerForm)
             : base(name) =>
-            OwnerForm = ownerForm ?? throw new ArgumentNullException("owner");
+            OwnerForm = ownerForm ?? throw new ArgumentNullException(nameof(ownerForm));
 
         #endregion
 
@@ -77,7 +77,7 @@ namespace Krypton.Docking
                 // Only interested in floating window elements
                 if (child is KryptonDockingFloatingWindow floatingWindow)
                 {
-                    bool? ret = floatingWindow.PropogateBoolState(DockingPropogateBoolState.ContainsStorePage, uniqueName);
+                    var ret = floatingWindow.PropogateBoolState(DockingPropogateBoolState.ContainsStorePage, uniqueName);
                     if (ret.HasValue && ret.Value)
                     {
                         return floatingWindow;
@@ -88,6 +88,9 @@ namespace Krypton.Docking
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool UseMinimiseBox { get; set; }
         #endregion
 
@@ -95,7 +98,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the xml element name to use when saving.
         /// </summary>
-        protected override string XmlElementName => "DF";
+        protected override string XmlElementName => @"DF";
 
         /// <summary>
         /// Perform docking element specific actions for loading a child xml.
@@ -114,7 +117,7 @@ namespace Krypton.Docking
             else
             {
                 // Create a new floating window and then reload it
-                KryptonDockingFloatingWindow floatingWindow = AddFloatingWindow(xmlReader.GetAttribute("N"));
+                KryptonDockingFloatingWindow floatingWindow = AddFloatingWindow(xmlReader.GetAttribute(@"N"));
                 floatingWindow.LoadElementFromXml(xmlReader, pages);
             }
         }

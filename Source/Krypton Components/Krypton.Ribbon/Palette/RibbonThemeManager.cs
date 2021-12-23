@@ -142,109 +142,71 @@ namespace Krypton.Ribbon
         /// <exception cref="ArgumentNullException"></exception>
         private static void ApplyTheme(string themeName, KryptonManager manager)
         {
-            if (themeName == "Custom")
+            switch (themeName)
             {
-                ApplyTheme(PaletteModeManager.Custom, manager);
-            }
-
-            if (themeName == "Professional - System")
-            {
-                ApplyTheme(PaletteModeManager.ProfessionalSystem, manager);
-            }
-
-            if (themeName == "Professional - Office 2003")
-            {
-                ApplyTheme(PaletteModeManager.ProfessionalOffice2003, manager);
-            }
-
-            if (themeName == "Office 2007 - Blue")
-            {
-                ApplyTheme(PaletteModeManager.Office2007Blue, manager);
-            }
-
-            if (themeName == "Office 2007 - Silver")
-            {
-                ApplyTheme(PaletteModeManager.Office2007Silver, manager);
-            }
-
-            if (themeName == "Office 2007 - White")
-            {
-                ApplyTheme(PaletteModeManager.Office2007White, manager);
-            }
-
-            if (themeName == "Office 2007 - Black")
-            {
-                ApplyTheme(PaletteModeManager.Office2007Black, manager);
-            }
-
-            if (themeName == "Office 2010 - Blue")
-            {
-                ApplyTheme(PaletteModeManager.Office2010Blue, manager);
-            }
-
-            if (themeName == "Office 2010 - Silver")
-            {
-                ApplyTheme(PaletteModeManager.Office2010Silver, manager);
-            }
-
-            if (themeName == "Office 2010 - White")
-            {
-                ApplyTheme(PaletteModeManager.Office2010White, manager);
-            }
-
-            if (themeName == "Office 2010 - Black")
-            {
-                ApplyTheme(PaletteModeManager.Office2010Black, manager);
-            }
-
-            /*if (themeName == "Office 2013")
+                case "Custom":
+                    ApplyTheme(PaletteModeManager.Custom, manager);
+                    break;
+                case "Professional - System":
+                    ApplyTheme(PaletteModeManager.ProfessionalSystem, manager);
+                    break;
+                case "Professional - Office 2003":
+                    ApplyTheme(PaletteModeManager.ProfessionalOffice2003, manager);
+                    break;
+                case "Office 2007 - Blue":
+                    ApplyTheme(PaletteModeManager.Office2007Blue, manager);
+                    break;
+                case "Office 2007 - Silver":
+                    ApplyTheme(PaletteModeManager.Office2007Silver, manager);
+                    break;
+                case "Office 2007 - White":
+                    ApplyTheme(PaletteModeManager.Office2007White, manager);
+                    break;
+                case "Office 2007 - Black":
+                    ApplyTheme(PaletteModeManager.Office2007Black, manager);
+                    break;
+                case "Office 2010 - Blue":
+                    ApplyTheme(PaletteModeManager.Office2010Blue, manager);
+                    break;
+                case "Office 2010 - Silver":
+                    ApplyTheme(PaletteModeManager.Office2010Silver, manager);
+                    break;
+                case "Office 2010 - White":
+                    ApplyTheme(PaletteModeManager.Office2010White, manager);
+                    break;
+                case "Office 2010 - Black":
+                    ApplyTheme(PaletteModeManager.Office2010Black, manager);
+                    break;
+                /*if (themeName == "Office 2013")
             {
                 ApplyTheme(PaletteModeManager.Office2013, manager);
             }*/
-
-            if (themeName == "Office 2013 - White")
-            {
-                ApplyTheme(PaletteModeManager.Office2013White, manager);
-            }
-
-            if (themeName == "Sparkle - Blue")
-            {
-                ApplyTheme(PaletteModeManager.SparkleBlue, manager);
-            }
-
-            if (themeName == "Sparkle - Orange")
-            {
-                ApplyTheme(PaletteModeManager.SparkleOrange, manager);
-            }
-
-            if (themeName == "Sparkle - Purple")
-            {
-                ApplyTheme(PaletteModeManager.SparklePurple, manager);
-            }
-
-            if (themeName == "Office 365 - Black")
-            {
-                ApplyTheme(PaletteModeManager.Office365Black, manager);
-            }
-
-            if (themeName == "Office 365 - Blue")
-            {
-                ApplyTheme(PaletteModeManager.Office365Blue, manager);
-            }
-
-            if (themeName == "Office 365 - Silver")
-            {
-                ApplyTheme(PaletteModeManager.Office365Silver, manager);
-            }
-
-            if (themeName == "Office 365 - White")
-            {
-                ApplyTheme(PaletteModeManager.Office365White, manager);
-            }
-
-            if (string.IsNullOrEmpty(themeName))
-            {
-                throw new ArgumentNullException();
+                case "Office 2013 - White":
+                    ApplyTheme(PaletteModeManager.Office2013White, manager);
+                    break;
+                case "Sparkle - Blue":
+                    ApplyTheme(PaletteModeManager.SparkleBlue, manager);
+                    break;
+                case "Sparkle - Orange":
+                    ApplyTheme(PaletteModeManager.SparkleOrange, manager);
+                    break;
+                case "Sparkle - Purple":
+                    ApplyTheme(PaletteModeManager.SparklePurple, manager);
+                    break;
+                case "Office 365 - Black":
+                    ApplyTheme(PaletteModeManager.Office365Black, manager);
+                    break;
+                case "Office 365 - Blue":
+                    ApplyTheme(PaletteModeManager.Office365Blue, manager);
+                    break;
+                case "Office 365 - Silver":
+                    ApplyTheme(PaletteModeManager.Office365Silver, manager);
+                    break;
+                case "Office 365 - White":
+                    ApplyTheme(PaletteModeManager.Office365White, manager);
+                    break;
+                default:
+                    throw new ArgumentNullException(nameof(themeName));
             }
         }
 

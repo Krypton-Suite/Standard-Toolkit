@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteNavigatorStateBar Bar { get; }
 
-        private bool ShouldSerializeStateCommon() => !Bar.IsDefault;
+        private bool ShouldSerializeBar() => !Bar.IsDefault;
 
         #endregion
     }

@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteTriple Node => _paletteNode;
 
-        private bool ShouldSerializeItem() => !_paletteNode.IsDefault;
+        private bool ShouldSerializeNode() => !_paletteNode.IsDefault;
 
         #endregion
     }

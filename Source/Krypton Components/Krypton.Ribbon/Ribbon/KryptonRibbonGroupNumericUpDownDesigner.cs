@@ -150,14 +150,13 @@ namespace Krypton.Ribbon
             base.PreFilterProperties(properties);
 
             // Setup the array of properties we override
-            var attributes = new Attribute[0];
+            var attributes = Array.Empty<Attribute>();
             string[] strArray = { "Visible", "Enabled" };
 
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
             {
-                PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
-                if (descrip != null)
+                if (properties[strArray[i]] is PropertyDescriptor descrip)
                 {
                     properties[strArray[i]] = TypeDescriptor.CreateProperty(typeof(KryptonRibbonGroupNumericUpDownDesigner), descrip, attributes);
                 }

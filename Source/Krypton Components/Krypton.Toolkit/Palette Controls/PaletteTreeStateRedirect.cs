@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
                                             
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private readonly PaletteRedirect _redirect;
 
         #endregion
 
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Node { get; }
 
-        private bool ShouldSerializeItem() => !Node.IsDefault;
+        private bool ShouldSerializeNode() => !Node.IsDefault;
 
         #endregion
     }

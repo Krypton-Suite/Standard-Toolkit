@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         private readonly MessageBoxIcon _messageBoxIcon;
 
         private readonly MessageBoxDefaultButton _defaultButton;
-        private MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
+        private readonly MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
         // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
         private readonly IWin32Window _showOwner;
         private readonly HelpInfo _helpInfo;

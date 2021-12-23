@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect ItemSplit { get; }
 
-        private bool ShouldSerializeItemItemSplit() => !ItemSplit.IsDefault;
+        private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
 
         #endregion
 

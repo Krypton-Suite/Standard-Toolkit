@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     public class NavigatorOutlookFull : Storage
     {
         #region Instance Fields
-        private KryptonNavigator _navigator;
+        private readonly KryptonNavigator _navigator;
         private MapKryptonPageText _overflowMapText;
         private MapKryptonPageText _overflowMapExtraText;
         private MapKryptonPageImage _overflowMapImage;

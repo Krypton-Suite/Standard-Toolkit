@@ -36,7 +36,7 @@ namespace Krypton.Workspace
 
         #region Events
         /// <summary>
-        /// Occurs after a change has occured to the collection.
+        /// Occurs after a change has occurred to the collection.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -232,7 +232,7 @@ namespace Krypton.Workspace
                 }
                 else
                 {
-                    return GetPreferredSize(Size.Empty);
+                    return GetPreferredSize(WorkspaceMinSize);
                 }
             }
         }
@@ -270,7 +270,7 @@ namespace Krypton.Workspace
                 if (!base.MinimumSize.Equals(value))
                 {
                     base.MinimumSize = value;
-                    OnPropertyChanged("MinimumSize");
+                    OnPropertyChanged(nameof(MinimumSize));
                 }
             }
         }
@@ -287,7 +287,7 @@ namespace Krypton.Workspace
                 if (!base.MaximumSize.Equals(value))
                 {
                     base.MaximumSize = value;
-                    OnPropertyChanged("MaximumSize");
+                    OnPropertyChanged(nameof(MaximumSize));
                 }
             }
         }
@@ -334,7 +334,7 @@ namespace Krypton.Workspace
                 if (WorkspaceAllowResizing != value)
                 {
                     WorkspaceAllowResizing = value;
-                    OnPropertyChanged("AllowResizing");
+                    OnPropertyChanged(nameof(AllowResizing));
                 }
             }
         }
@@ -353,7 +353,7 @@ namespace Krypton.Workspace
             set
             {
                 _allowDroppingPages = value;
-                OnPropertyChanged("DroppingPages");
+                OnPropertyChanged(nameof(AllowDroppingPages));
             }
         }
         //end seb
@@ -371,7 +371,7 @@ namespace Krypton.Workspace
             set
             {
                 WorkspaceStarSize.Value = value;
-                OnPropertyChanged("StarSize");
+                OnPropertyChanged(nameof(StarSize));
             }
         }
 
@@ -573,12 +573,12 @@ namespace Krypton.Workspace
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void DebugOutput(int indent)
         {
-            Console.WriteLine("{0}Cell Count:{1} Visible:{2}", new string(' ', indent++ * 2), Pages.Count, LastVisibleSet);
+            Console.WriteLine(@"{0}Cell Count:{1} Visible:{2}", new string(' ', indent++ * 2), Pages.Count, LastVisibleSet);
 
             var prefix = new string(' ', indent * 2);
             foreach (KryptonPage page in Pages)
             {
-                Console.WriteLine("{0}Page Text:{1} Visible:{2} Type:{3}", prefix, page.Text, page.LastVisibleSet, page.GetType().Name);
+                Console.WriteLine(@"{0}Page Text:{1} Visible:{2} Type:{3}", prefix, page.Text, page.LastVisibleSet, page.GetType().Name);
             }
         }
         #endregion
@@ -598,7 +598,7 @@ namespace Krypton.Workspace
             if (WorkspaceVisible != value)
             {
                 WorkspaceVisible = value;
-                OnPropertyChanged("Visible");
+                OnPropertyChanged(nameof(Visible));
             }
 
             base.SetVisibleCore(value);
@@ -653,7 +653,7 @@ namespace Krypton.Workspace
             // a change in pages might cause compacting to perform extra actions.
             if (_events)
             {
-                OnPropertyChanged("Pages");
+                OnPropertyChanged(@"Pages");
             }
         }
 

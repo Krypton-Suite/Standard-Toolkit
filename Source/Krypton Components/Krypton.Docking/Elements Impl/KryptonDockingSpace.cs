@@ -251,7 +251,7 @@ namespace Krypton.Docking
                 case DockingPropogateAction.ShowPages:
                 case DockingPropogateAction.HidePages:
                     {
-                        bool newVisible = (action == DockingPropogateAction.ShowPages);
+                        var newVisible = (action == DockingPropogateAction.ShowPages);
                         // Update visible state of pages that are not placeholders
                         foreach (KryptonPage page in uniqueNames
                             .Select(uniqueName => SpaceControl.PageForUniqueName(uniqueName))
@@ -269,7 +269,7 @@ namespace Krypton.Docking
                     break;
                 case DockingPropogateAction.RemovePages:
                 case DockingPropogateAction.RemoveAndDisposePages:
-                    foreach (string uniqueName in uniqueNames)
+                    foreach (var uniqueName in uniqueNames)
                     {
                         // If the named page exists and is not placeholder then remove it
                         KryptonPage removePage = SpaceControl.PageForUniqueName(uniqueName);
@@ -298,7 +298,7 @@ namespace Krypton.Docking
                         while (cell != null)
                         {
                             // Process each page inside the cell
-                            for (int i = cell.Pages.Count - 1; i >= 0; i--)
+                            for (var i = cell.Pages.Count - 1; i >= 0; i--)
                             {
                                 // Only remove the actual page and not placeholders
                                 KryptonPage page = cell.Pages[i];
@@ -321,7 +321,7 @@ namespace Krypton.Docking
                     }
                     break;
                 case DockingPropogateAction.StorePages:
-                    foreach (string uniqueName in uniqueNames)
+                    foreach (var uniqueName in uniqueNames)
                     {
                         // Swap pages that are not placeholders to become placeholders
                         KryptonPage page = SpaceControl.PageForUniqueName(uniqueName);
@@ -342,7 +342,7 @@ namespace Krypton.Docking
                         while (cell != null)
                         {
                             // Process each page inside the cell
-                            for (int i = cell.Pages.Count - 1; i >= 0; i--)
+                            for (var i = cell.Pages.Count - 1; i >= 0; i--)
                             {
                                 // Swap pages that are not placeholders to become placeholders
                                 KryptonPage page = cell.Pages[i];
@@ -366,7 +366,7 @@ namespace Krypton.Docking
                     // Only process an attempt to clear all pages or those related to this docking location
                     if ((action == DockingPropogateAction.ClearStoredPages) || (action == ClearStoreAction))
                     {
-                        foreach (string uniqueName in uniqueNames)
+                        foreach (var uniqueName in uniqueNames)
                         {
                             // Only remove a matching unique name if it is a placeholder page
                             KryptonPage removePage = SpaceControl.PageForUniqueName(uniqueName);
@@ -390,7 +390,7 @@ namespace Krypton.Docking
                         while (cell != null)
                         {
                             // Process each page inside the cell
-                            for (int i = cell.Pages.Count - 1; i >= 0; i--)
+                            for (var i = cell.Pages.Count - 1; i >= 0; i--)
                             {
                                 // Remove all placeholders
                                 KryptonPage page = cell.Pages[i];
@@ -541,7 +541,7 @@ namespace Krypton.Docking
                             while (cell != null)
                             {
                                 // Process each page inside the cell
-                                for (int i = cell.Pages.Count - 1; i >= 0; i--)
+                                for (var i = cell.Pages.Count - 1; i >= 0; i--)
                                 {
                                     // Only add real pages and not placeholders
                                     KryptonPage page = cell.Pages[i];
@@ -610,7 +610,7 @@ namespace Krypton.Docking
         /// <returns>Array of page references.</returns>
         public KryptonPage[] CellVisiblePages(string uniqueName)
         {
-            List<KryptonPage> pages = new List<KryptonPage>();
+            var pages = new List<KryptonPage>();
 
             // Grab the cell that contains the provided unique name
             KryptonWorkspaceCell cell = SpaceControl.CellForUniqueName(uniqueName);
@@ -704,9 +704,9 @@ namespace Krypton.Docking
             }
 
             // Grab the element attributes
-            string elementName = xmlReader.GetAttribute("N");
-            string elementOrder = xmlReader.GetAttribute("O");
-            string elementSize = xmlReader.GetAttribute("S");
+            var elementName = xmlReader.GetAttribute(@"N");
+            var elementOrder = xmlReader.GetAttribute(@"O");
+            var elementSize = xmlReader.GetAttribute(@"S");
 
             // Check the name matches up
             if (elementName != Name)
@@ -885,8 +885,40 @@ namespace Krypton.Docking
             RaiseRemoved();
         }
 
+        private Size GetMinSize(Control.ControlCollection controls)
+        {
+            var minWidth = int.MinValue;
+            var minHeight = int.MinValue;
+            foreach (var kryptonPage in controls.OfType<Control>())
+            {
+                var childMinSize = GetMinSize(kryptonPage.Controls);
+                if (minWidth < childMinSize.Width)
+                {
+                    minWidth = childMinSize.Width;
+                }
+                if (minHeight < childMinSize.Height)
+                {
+                    minHeight = childMinSize.Height;
+                }
+                if (minWidth < kryptonPage.MinimumSize.Width)
+                {
+                    minWidth = kryptonPage.MinimumSize.Width;
+                }
+                if (minHeight < kryptonPage.MinimumSize.Height)
+                {
+                    minHeight = kryptonPage.MinimumSize.Height;
+                }
+            }
+
+            return new Size(minWidth, minHeight);
+        }
+
         private void OnSpaceCellAdding(object sender, WorkspaceCellEventArgs e)
         {
+            var childMinSize = GetMinSize(e.Cell.Controls);
+            SpaceControl.MinimumSize = new Size(Math.Max(SpaceControl.MinimumSize.Width, childMinSize.Width),
+                Math.Max(SpaceControl.MinimumSize.Height,childMinSize.Height));
+
             RaiseCellAdding(e.Cell);
 
             // Need to generate the removed event to match this adding event

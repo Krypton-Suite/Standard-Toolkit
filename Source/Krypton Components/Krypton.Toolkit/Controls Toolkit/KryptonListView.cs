@@ -531,7 +531,9 @@ namespace Krypton.Toolkit
                     View.LargeIcon => _layoutDockerCheckLarge,
                     View.SmallIcon => _layoutDockerSmall,
                     View.Tile => _layoutDockerTile,
-                    _ => throw new ArgumentOutOfRangeException()
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
+                    _ => throw new ArgumentOutOfRangeException(nameof(View))
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
                 };
 
                 using (ViewLayoutContext context = new(this, Renderer))

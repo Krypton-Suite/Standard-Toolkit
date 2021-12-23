@@ -600,11 +600,10 @@ namespace Krypton.Ribbon
             context.DisplayRectangle = ClientRectangle;
 
             // If we are the scroller for the tab headers
-            if (_ribbon.InKeyboardMode && (_viewFiller is ViewLayoutRibbonTabs))
+            if (_ribbon.InKeyboardMode 
+                && (_viewFiller is ViewLayoutRibbonTabs layoutTabs)
+                )
             {
-                // Cast to correct type
-                ViewLayoutRibbonTabs layoutTabs = (ViewLayoutRibbonTabs)_viewFiller;
-
                 // If we have a selected tab, then ensure it is visible
                 if (_ribbon.SelectedTab != null)
                 {

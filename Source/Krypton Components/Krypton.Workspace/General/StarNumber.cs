@@ -62,11 +62,11 @@ namespace Krypton.Workspace
                 // Validate the incoming value
                 if (value == null)
                 {
-                    throw new ArgumentNullException("Cannot be assigned a null value.");
+                    throw new ArgumentNullException(nameof(value), @"Cannot be assigned a null value.");
                 }
 
                 // If it ends with an asterisk...
-                if (value.EndsWith("*"))
+                if (value.EndsWith(@"*"))
                 {
                     // If there is only an asterisk in the string
                     StarSize = value.Length == 1 ? 1 : double.Parse(value.Substring(0, value.Length - 1));

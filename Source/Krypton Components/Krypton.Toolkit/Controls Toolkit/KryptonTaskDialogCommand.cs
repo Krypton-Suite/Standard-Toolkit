@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the item with the provided name.
         /// </summary>
-        /// <param name=(@"Name")>Name to find.</param>
+        /// <param name="name">Name to find.</param>
         /// <returns>Item with matching name.</returns>
         public override KryptonTaskDialogCommand this[string name]
         {

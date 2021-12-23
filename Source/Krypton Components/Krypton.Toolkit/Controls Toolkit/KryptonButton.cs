@@ -572,10 +572,10 @@ namespace Krypton.Toolkit
 
             if (_useAsUACElevationButton)
             {
-                Bitmap rawUACShield = SystemIcons.Shield.ToBitmap();
+                var rawUACShield = SystemIcons.Shield.ToBitmap();
 
                 // Resize rawUACShield down to 16 x 16 to make it fit
-                Bitmap resizedUACShield = new Bitmap(rawUACShield, new Size(16, 16));
+                var resizedUACShield = new Bitmap(rawUACShield, new Size(16, 16));
 
                 if (Values.Image == null)
                 {
@@ -678,7 +678,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Set of button values.</returns>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ButtonValues(needPaint);
+        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new (needPaint);
 
         /// <summary>
         /// Raises the KryptonCommandChanged event.

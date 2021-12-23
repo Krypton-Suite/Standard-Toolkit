@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentImageH != value)
                     {
                         _storage.ContentImageH = value;
-                        OnPropertyChanged("ImageH");
+                        OnPropertyChanged(nameof(ImageH));
                         PerformNeedPaint(true);
                     }
                 }
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
                         {
                             ContentImageH = value
                         };
-                        OnPropertyChanged("ImageH");
+                        OnPropertyChanged(nameof(ImageH));
                         PerformNeedPaint(true);
                     }
                 }
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentImageV != value)
                     {
                         _storage.ContentImageV = value;
-                        OnPropertyChanged("ImageV");
+                        OnPropertyChanged(nameof(ImageV));
                         PerformNeedPaint(true);
                     }
                 }
@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
                         {
                             ContentImageV = value
                         };
-                        OnPropertyChanged("ImageV");
+                        OnPropertyChanged(nameof(ImageV));
                         PerformNeedPaint(true);
                     }
                 }
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentEffect != value)
                     {
                         _storage.ContentEffect = value;
-                        OnPropertyChanged("Effect");
+                        OnPropertyChanged(nameof(Effect));
                         PerformNeedPaint();
                     }
                 }
@@ -196,7 +196,7 @@ namespace Krypton.Toolkit
                         {
                             ContentEffect = value
                         };
-                        OnPropertyChanged("Effect");
+                        OnPropertyChanged(nameof(Effect));
                         PerformNeedPaint();
                     }
                 }
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentImageColorMap != value)
                     {
                         _storage.ContentImageColorMap = value;
-                        OnPropertyChanged("ImageColorMap");
+                        OnPropertyChanged(nameof(ImageColorMap));
                         PerformNeedPaint();
                     }
                 }
@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
                         {
                             ContentImageColorMap = value
                         };
-                        OnPropertyChanged("ImageColorMap");
+                        OnPropertyChanged(nameof(ImageColorMap));
                         PerformNeedPaint();
                     }
                 }
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
                     if (_storage.ContentImageColorTo != value)
                     {
                         _storage.ContentImageColorTo = value;
-                        OnPropertyChanged("ImageColorTo");
+                        OnPropertyChanged(nameof(ImageColorTo));
                         PerformNeedPaint();
                     }
                 }
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
                         {
                             ContentImageColorTo = value
                         };
-                        OnPropertyChanged("ImageColorTo");
+                        OnPropertyChanged(nameof(ImageColorTo));
                         PerformNeedPaint();
                     }
                 }

@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
             {
                 if (value is < 0 or > 99)
                 {
-                    throw new ArgumentOutOfRangeException(@"The DecimalPlaces property cannot be smaller than 0 or larger than 99.");
+                    throw new ArgumentOutOfRangeException(nameof(DecimalPlaces), @"The DecimalPlaces property cannot be smaller than 0 or larger than 99.");
                 }
 
                 if (_decimalPlaces != value)
@@ -170,7 +170,7 @@ namespace Krypton.Toolkit
             {
                 if (value < (decimal)0.0)
                 {
-                    throw new ArgumentOutOfRangeException(@"The Increment property cannot be smaller than 0.");
+                    throw new ArgumentOutOfRangeException(nameof(Increment), @"The Increment property cannot be smaller than 0.");
                 }
 
                 SetIncrement(RowIndex, value);
@@ -518,9 +518,8 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingNumericUpDown(int rowIndex) =>
-            (rowIndex == -1) || (DataGridView == null)
-                ? false
-                : (DataGridView.EditingControl is KryptonDataGridViewNumericUpDownEditingControl control)
+            rowIndex != -1 && DataGridView != null
+&& (DataGridView.EditingControl is KryptonDataGridViewNumericUpDownEditingControl control)
                   && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;

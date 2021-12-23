@@ -175,14 +175,12 @@ namespace Krypton.Toolkit
                             }
 
                             // Switch around so the begin is before the end
-                            DateTime temp = selectEnd;
-                            selectEnd = selectStart;
-                            selectStart = temp;
+                            (selectEnd, selectStart) = (selectStart, selectEnd);
 
                             _months.FocusDay = selectStart;
                         }
 
-                        // Use the new seletion range
+                        // Use the new selection range
                         _months.Calendar.SetSelectionRange(selectStart, selectEnd);
                         _needPaint(_months, new NeedLayoutEventArgs(false));
                     }

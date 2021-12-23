@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         #region Variables
         private IPalette _palette;
 
-        private PaletteRedirect _paletteRedirect;
+        private readonly PaletteRedirect _paletteRedirect;
 
         private Color _gradientMiddleColour = Color.Gray;
         #endregion

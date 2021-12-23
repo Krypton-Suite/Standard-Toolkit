@@ -420,7 +420,7 @@ namespace Krypton.Toolkit
         /// <returns>True to become current; otherwise false.</returns>
         public bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt) =>
             // Do we have a current target we can ask?
-            _target != null ? _target.DoesStackedClientMouseDownBecomeCurrent(pt) : true;
+            _target?.DoesStackedClientMouseDownBecomeCurrent(pt) ?? true;
 
         #endregion
 

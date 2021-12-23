@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
     #endregion
 
     /// <summary>
-    ///Process mouse events for a separator style element.
+    /// Process mouse events for a separator style element.
     /// </summary>
     public class SeparatorController : ButtonController,
                                        IDisposable
@@ -84,6 +84,9 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Indentity
+            /// <summary>
+            /// Process mouse events for a separator style element.
+            /// </summary>
             public SeparatorIndicator()
             {
                 FormBorderStyle = FormBorderStyle.None;
@@ -278,7 +281,7 @@ namespace Krypton.Toolkit
             // Let base class process the mouse down
             var ret = base.MouseDown(c, pt, button);
 
-            // If a change in capturing state has occured
+            // If a change in capturing state has occurred
             if (ret != _moving)
             {
                 // If we are now capturing input

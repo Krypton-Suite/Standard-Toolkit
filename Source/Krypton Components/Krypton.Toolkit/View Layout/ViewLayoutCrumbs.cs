@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
                     // Cast to correct type
 
                     // That are associated with crumb items
-                    if (_buttonToCrumb.TryGetValue(crumbButton, out KryptonBreadCrumbItem crumbItem))
+                    if (_buttonToCrumb.TryGetValue(crumbButton, out KryptonBreadCrumbItem _))
                     {
                         // If the button is pressed then point button downwards, 
                         // otherwise we point in the direction the buttons layed out.

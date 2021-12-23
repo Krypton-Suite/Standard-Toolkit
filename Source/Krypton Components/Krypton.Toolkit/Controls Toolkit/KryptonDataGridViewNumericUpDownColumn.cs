@@ -110,9 +110,7 @@ namespace Krypton.Toolkit
         public bool AllowDecimals
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.AllowDecimals;
+                NumericUpDownCellTemplate?.AllowDecimals ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -153,9 +151,7 @@ namespace Krypton.Toolkit
         public bool TrailingZeroes
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.TrailingZeroes;
+                NumericUpDownCellTemplate?.TrailingZeroes ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -195,9 +191,7 @@ namespace Krypton.Toolkit
         public int DecimalPlaces
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.DecimalPlaces;
+                NumericUpDownCellTemplate?.DecimalPlaces ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -237,9 +231,7 @@ namespace Krypton.Toolkit
         public bool Hexadecimal
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.Hexadecimal;
+                NumericUpDownCellTemplate?.Hexadecimal ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -278,9 +270,7 @@ namespace Krypton.Toolkit
         public decimal Increment
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.Increment;
+                NumericUpDownCellTemplate?.Increment ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -317,9 +307,7 @@ namespace Krypton.Toolkit
         public decimal Maximum
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.Maximum;
+                NumericUpDownCellTemplate?.Maximum ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -358,9 +346,7 @@ namespace Krypton.Toolkit
         public decimal Minimum
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.Minimum;
+                NumericUpDownCellTemplate?.Minimum ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)
@@ -399,9 +385,7 @@ namespace Krypton.Toolkit
         public bool ThousandsSeparator
         {
             get =>
-                NumericUpDownCellTemplate == null
-                    ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
-                    : NumericUpDownCellTemplate.ThousandsSeparator;
+                NumericUpDownCellTemplate?.ThousandsSeparator ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             set
             {
                 if (NumericUpDownCellTemplate == null)

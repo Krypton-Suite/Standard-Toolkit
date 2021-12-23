@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                             
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private readonly PaletteRedirect _redirect;
 
         #endregion
 

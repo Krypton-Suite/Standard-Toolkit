@@ -5060,7 +5060,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the color table instance.
         /// </summary>
-        public override KryptonColorTable ColorTable => _table ?? (_table = new KryptonColorTable2007(_ribbonColors, InheritBool.True, this));
+        public override KryptonColorTable ColorTable => _table ??= new KryptonColorTable2007(_ribbonColors, InheritBool.True, this);
 
         #endregion
 

@@ -101,7 +101,7 @@ namespace Krypton.Ribbon
                         // quick access toolbar. So we reject anything bigger than 16x16.
                         if ((value.Width > 16) || (value.Height > 16))
                         {
-                            throw new ArgumentOutOfRangeException("Image must be 16x16 or smaller.");
+                            throw new ArgumentOutOfRangeException(nameof(Image), @"Image must be 16x16 or smaller.");
                         }
                     }
 
@@ -491,7 +491,7 @@ namespace Krypton.Ribbon
         {
             // Perform processing that is common to any action that would dismiss
             // any popup controls such as the showing minimized group popup
-            Ribbon?.ActionOccured();
+            Ribbon?.Actionoccurred();
 
             Click?.Invoke(this, e);
 

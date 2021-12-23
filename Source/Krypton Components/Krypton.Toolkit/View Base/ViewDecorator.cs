@@ -318,7 +318,7 @@ namespace Krypton.Toolkit
         /// <returns>True if capturing input; otherwise false.</returns>
         public override bool MouseDown(Point pt, MouseButtons button) =>
             // Bubble event up to the parent
-            Parent != null ? Parent.MouseDown(pt, button) : false;
+            Parent?.MouseDown(pt, button) ?? false;
 
         /// <summary>
         /// Mouse button has been released in the view.
@@ -363,7 +363,7 @@ namespace Krypton.Toolkit
         /// <returns>True if capturing input; otherwise false.</returns>
         public override bool KeyUp(KeyEventArgs e) =>
             // Bubble event up to the parent
-            Parent != null ? Parent.KeyUp(e) : false;
+            Parent?.KeyUp(e) ?? false;
 
         #endregion
 

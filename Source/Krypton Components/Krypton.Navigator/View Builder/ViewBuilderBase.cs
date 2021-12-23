@@ -125,7 +125,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Change has occured to the collection of pages.
+        /// Change has occurred to the collection of pages.
         /// </summary>
         public virtual void PageCollectionChanged()
         {
@@ -187,7 +187,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the screen coorindates for showing a context action menu.
+        /// Gets the screen coordinates for showing a context action menu.
         /// </summary>
         /// <returns>Point in screen coordinates.</returns>
         public virtual Point GetContextShowPoint()
@@ -664,7 +664,7 @@ namespace Krypton.Navigator
             [DebuggerStepThrough]
             get =>
                 // Only create the delegate when it is first needed
-                _needPaintDelegate ?? (_needPaintDelegate = OnNeedPaint);
+                _needPaintDelegate ??= OnNeedPaint;
         }
 
         /// <summary>

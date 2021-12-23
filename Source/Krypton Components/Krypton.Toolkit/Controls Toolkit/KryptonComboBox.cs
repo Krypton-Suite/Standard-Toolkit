@@ -1999,14 +1999,12 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsActive =>
-            _fixedActive != null
-                ? _fixedActive.Value
-                : DesignMode
-                  || AlwaysActive
-                  || ContainsFocus
-                  || _mouseOver
-                  || _comboBox.MouseOver
-                  || _subclassEdit is { MouseOver: true };
+            _fixedActive ?? DesignMode
+            || AlwaysActive
+            || ContainsFocus
+            || _mouseOver
+            || _comboBox.MouseOver
+            || _subclassEdit is { MouseOver: true };
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.

@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         [AccessedThroughProperty("HScrollBar1")]
         private KryptonScrollBar _hScrollBar1;
 
-        private IContainer components;
+        private readonly IContainer components;
 
         public WIN32ScrollBars.ScrollInfo si;
 
@@ -646,7 +646,7 @@ namespace Krypton.Toolkit
             var listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
             //listStyle |= WIN32ScrollBars.WS_VSCROLL | WIN32ScrollBars.WS_HSCROLL;
             listStyle |= PI.WS_.VSCROLL;
-            listStyle = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
+            _ = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
 
             VScrollBar1.Value = VSB.Value;
             VScrollBar1.Visible = true;
@@ -679,7 +679,7 @@ namespace Krypton.Toolkit
             var listStyle = PI.GetWindowLong(dgv.Handle, PI.GWL_.STYLE);
             //listStyle |= WIN32ScrollBars.WS_VSCROLL | WIN32ScrollBars.WS_HSCROLL;
             listStyle |= PI.WS_.HSCROLL;
-            listStyle = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
+            _ = PI.SetWindowLong(dgv.Handle, PI.GWL_.STYLE, listStyle);
 
             HScrollBar1.Value = HSB.Value;
             HScrollBar1.Visible = true;

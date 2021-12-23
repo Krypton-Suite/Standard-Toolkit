@@ -206,18 +206,18 @@ namespace Krypton.Docking
     public interface IFloatingMessages
     {
         /// <summary>
-        /// The WM_KEYDOWN message has occured.
+        /// The WM_KEYDOWN message has occurred.
         /// </summary>
         /// <returns>True to eat message; otherwise false.</returns>
         bool OnKEYDOWN(ref Message m);
 
         /// <summary>
-        /// The WM_MOUSEMOVE message has occured.
+        /// The WM_MOUSEMOVE message has occurred.
         /// </summary>
         void OnMOUSEMOVE();
 
         /// <summary>
-        /// The WM_LBUTTONUP message has occured.
+        /// The WM_LBUTTONUP message has occurred.
         /// </summary>
         void OnLBUTTONUP();
     }

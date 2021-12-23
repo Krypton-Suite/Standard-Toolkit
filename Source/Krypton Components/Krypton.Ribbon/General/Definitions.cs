@@ -159,6 +159,9 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase derived instance.</returns>
         ViewBase CreateView(KryptonRibbon ribbon, NeedPaintHandler needPaint);
 
+        /// <summary>
+        /// Return base objects tooltip
+        /// </summary>
         ToolTipValues ToolTipValues 
         { 
             // Return base objects tooltip

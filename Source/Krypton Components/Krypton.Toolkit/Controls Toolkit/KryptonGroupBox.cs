@@ -499,7 +499,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CaptionValues Values { get; }
 
-        private bool ShouldSerializeValuesPrimary() => !Values.IsDefault;
+        private bool ShouldSerializeValues() => !Values.IsDefault;
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.

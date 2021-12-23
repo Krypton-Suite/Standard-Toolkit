@@ -522,7 +522,7 @@ namespace Krypton.Toolkit
                         _paletteMode = PaletteMode.Custom;
                     }
 
-                    // If real change has occured
+                    // If real change has occurred
                     if (old != _localPalette)
                     {
                         // Raise the change event

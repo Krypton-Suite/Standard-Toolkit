@@ -611,71 +611,107 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the single instance of the professional system palette.
         /// </summary>
-        public static PaletteProfessionalSystem PaletteProfessionalSystem => _paletteProfessionalSystem ?? (_paletteProfessionalSystem = new PaletteProfessionalSystem());
+        public static PaletteProfessionalSystem PaletteProfessionalSystem => _paletteProfessionalSystem ??= new PaletteProfessionalSystem();
 
         /// <summary>
         /// Gets the single instance of the professional office palette.
         /// </summary>
-        public static PaletteProfessionalOffice2003 PaletteProfessionalOffice2003 => _paletteProfessionalOffice2003 ?? (_paletteProfessionalOffice2003 = new PaletteProfessionalOffice2003());
+        public static PaletteProfessionalOffice2003 PaletteProfessionalOffice2003 => _paletteProfessionalOffice2003 ??= new PaletteProfessionalOffice2003();
 
         /// <summary>
         /// Gets the single instance of the Blue variant Office 2007 palette.
         /// </summary>
-        public static PaletteOffice2007Blue PaletteOffice2007Blue => _paletteOffice2007Blue ?? (_paletteOffice2007Blue = new PaletteOffice2007Blue());
+        public static PaletteOffice2007Blue PaletteOffice2007Blue => _paletteOffice2007Blue ??= new PaletteOffice2007Blue();
 
-        public static PaletteOffice2007BlueDarkMode PaletteOffice2007BlueDarkMode => _paletteOffice2007BlueDarkMode ?? (_paletteOffice2007BlueDarkMode = new PaletteOffice2007BlueDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2007BlueDarkMode PaletteOffice2007BlueDarkMode => _paletteOffice2007BlueDarkMode ??= new PaletteOffice2007BlueDarkMode();
 
-        public static PaletteOffice2007BlueLightMode PaletteOffice2007BlueLightMode => _paletteOffice2007BlueLightMode ?? (_paletteOffice2007BlueLightMode = new PaletteOffice2007BlueLightMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2007BlueLightMode PaletteOffice2007BlueLightMode => _paletteOffice2007BlueLightMode ??= new PaletteOffice2007BlueLightMode();
 
         /// <summary>
         /// Gets the single instance of the Silver variant Office 2007 palette.
         /// </summary>
-        public static PaletteOffice2007Silver PaletteOffice2007Silver => _paletteOffice2007Silver ?? (_paletteOffice2007Silver = new PaletteOffice2007Silver());
+        public static PaletteOffice2007Silver PaletteOffice2007Silver => _paletteOffice2007Silver ??= new PaletteOffice2007Silver();
 
-        public static PaletteOffice2007SilverDarkMode PaletteOffice2007SilverDarkMode => _paletteOffice2007SilverDarkMode ?? (_paletteOffice2007SilverDarkMode = new PaletteOffice2007SilverDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2007SilverDarkMode PaletteOffice2007SilverDarkMode => _paletteOffice2007SilverDarkMode ??= new PaletteOffice2007SilverDarkMode();
 
-        public static PaletteOffice2007SilverLightMode PaletteOffice2007SilverLightMode => _paletteOffice2007SilverLightMode ?? (_paletteOffice2007SilverLightMode = new PaletteOffice2007SilverLightMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2007SilverLightMode PaletteOffice2007SilverLightMode => _paletteOffice2007SilverLightMode ??= new PaletteOffice2007SilverLightMode();
 
-        public static PaletteOffice2007White PaletteOffice2007White => _paletteOffice2007White ?? (_paletteOffice2007White = new PaletteOffice2007White());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2007White PaletteOffice2007White => _paletteOffice2007White ??= new PaletteOffice2007White();
 
         /// <summary>
         /// Gets the single instance of the Black variant Office 2007 palette.
         /// </summary>
-        public static PaletteOffice2007Black PaletteOffice2007Black => _paletteOffice2007Black ?? (_paletteOffice2007Black = new PaletteOffice2007Black());
+        public static PaletteOffice2007Black PaletteOffice2007Black => _paletteOffice2007Black ??= new PaletteOffice2007Black();
 
-        public static PaletteOffice2007BlackDarkMode PaletteOffice2007BlackDarkMode => _paletteOffice2007BlackDarkMode ?? (_paletteOffice2007BlackDarkMode = new PaletteOffice2007BlackDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2007BlackDarkMode PaletteOffice2007BlackDarkMode => _paletteOffice2007BlackDarkMode ??= new PaletteOffice2007BlackDarkMode();
 
         /// <summary>
         /// Gets the single instance of the Blue variant Office 2010 palette.
         /// </summary>
-        public static PaletteOffice2010Blue PaletteOffice2010Blue => _paletteOffice2010Blue ?? (_paletteOffice2010Blue = new PaletteOffice2010Blue());
+        public static PaletteOffice2010Blue PaletteOffice2010Blue => _paletteOffice2010Blue ??= new PaletteOffice2010Blue();
 
-        public static PaletteOffice2010BlueDarkMode PaletteOffice2010BlueDarkMode => _paletteOffice2010BlueDarkMode ?? (_paletteOffice2010BlueDarkMode = new PaletteOffice2010BlueDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2010BlueDarkMode PaletteOffice2010BlueDarkMode => _paletteOffice2010BlueDarkMode ??= new PaletteOffice2010BlueDarkMode();
 
-        public static PaletteOffice2010BlueLightMode PaletteOffice2010BlueLightMode => _paletteOffice2010BlueLightMode ?? (_paletteOffice2010BlueLightMode = new PaletteOffice2010BlueLightMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2010BlueLightMode PaletteOffice2010BlueLightMode => _paletteOffice2010BlueLightMode ??= new PaletteOffice2010BlueLightMode();
 
         /// <summary>
         /// Gets the single instance of the Silver variant Office 2010 palette.
         /// </summary>
-        public static PaletteOffice2010Silver PaletteOffice2010Silver => _paletteOffice2010Silver ?? (_paletteOffice2010Silver = new PaletteOffice2010Silver());
+        public static PaletteOffice2010Silver PaletteOffice2010Silver => _paletteOffice2010Silver ??= new PaletteOffice2010Silver();
 
-        public static PaletteOffice2010SilverDarkMode PaletteOffice2010SilverDarkMode => _paletteOffice2010SilverDarkMode ?? (_paletteOffice2010SilverDarkMode = new PaletteOffice2010SilverDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2010SilverDarkMode PaletteOffice2010SilverDarkMode => _paletteOffice2010SilverDarkMode ??= new PaletteOffice2010SilverDarkMode();
 
-        public static PaletteOffice2010SilverLightMode PaletteOffice2010SilverLightMode => _paletteOffice2010SilverLightMode ?? (_paletteOffice2010SilverLightMode = new PaletteOffice2010SilverLightMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2010SilverLightMode PaletteOffice2010SilverLightMode => _paletteOffice2010SilverLightMode ??= new PaletteOffice2010SilverLightMode();
 
         /// <summary>
         /// Gets the single instance of the Black variant Office 2010 palette.
         /// </summary>
-        public static PaletteOffice2010Black PaletteOffice2010Black => _paletteOffice2010Black ?? (_paletteOffice2010Black = new PaletteOffice2010Black());
+        public static PaletteOffice2010Black PaletteOffice2010Black => _paletteOffice2010Black ??= new PaletteOffice2010Black();
 
-        public static PaletteOffice2010BlackDarkMode PaletteOffice2010BlackDarkMode => _paletteOffice2010BlackDarkMode ?? (_paletteOffice2010BlackDarkMode = new PaletteOffice2010BlackDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2010BlackDarkMode PaletteOffice2010BlackDarkMode => _paletteOffice2010BlackDarkMode ??= new PaletteOffice2010BlackDarkMode();
 
-        public static PaletteOffice2010White PaletteOffice2010White => _paletteOffice2010White ?? (_paletteOffice2010White = new PaletteOffice2010White());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice2010White PaletteOffice2010White => _paletteOffice2010White ??= new PaletteOffice2010White();
         
         /// <summary>
         /// Gets the single instance of the Office 2013 palette.
         /// </summary>
-        public static PaletteOffice2013White PaletteOffice2013White => _paletteOffice2013White ?? (_paletteOffice2013White = new PaletteOffice2013White());
+        public static PaletteOffice2013White PaletteOffice2013White => _paletteOffice2013White ??= new PaletteOffice2013White();
 
         /// <summary>
         /// Gets the palette office365 black.
@@ -683,9 +719,12 @@ namespace Krypton.Toolkit
         /// <value>
         /// The palette office365 black.
         /// </value>
-        public static PaletteOffice365Black PaletteOffice365Black => _paletteOffice365Black ?? (_paletteOffice365Black = new PaletteOffice365Black());
+        public static PaletteOffice365Black PaletteOffice365Black => _paletteOffice365Black ??= new PaletteOffice365Black();
 
-        public static PaletteOffice365BlackDarkMode PaletteOffice365BlackDarkMode => _paletteOffice365BlackDarkMode ?? (_paletteOffice365BlackDarkMode = new PaletteOffice365BlackDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice365BlackDarkMode PaletteOffice365BlackDarkMode => _paletteOffice365BlackDarkMode ??= new PaletteOffice365BlackDarkMode();
 
         /// <summary>
         /// Gets the palette office365 blue.
@@ -693,11 +732,17 @@ namespace Krypton.Toolkit
         /// <value>
         /// The palette office365 blue.
         /// </value>
-        public static PaletteOffice365Blue PaletteOffice365Blue => _paletteOffice365Blue ?? (_paletteOffice365Blue = new PaletteOffice365Blue());
+        public static PaletteOffice365Blue PaletteOffice365Blue => _paletteOffice365Blue ??= new PaletteOffice365Blue();
 
-        public static PaletteOffice365BlueDarkMode PaletteOffice365BlueDarkMode => _paletteOffice365BlueDarkMode ?? (_paletteOffice365BlueDarkMode = new PaletteOffice365BlueDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice365BlueDarkMode PaletteOffice365BlueDarkMode => _paletteOffice365BlueDarkMode ??= new PaletteOffice365BlueDarkMode();
 
-        public static PaletteOffice365BlueLightMode PaletteOffice365BlueLightMode => _paletteOffice365BlueLightMode ?? (_paletteOffice365BlueLightMode = new PaletteOffice365BlueLightMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice365BlueLightMode PaletteOffice365BlueLightMode => _paletteOffice365BlueLightMode ??= new PaletteOffice365BlueLightMode();
 
         /// <summary>
         /// Gets the palette office365 silver.
@@ -705,45 +750,67 @@ namespace Krypton.Toolkit
         /// <value>
         /// The palette office365 silver.
         /// </value>
-        public static PaletteOffice365Silver PaletteOffice365Silver => _paletteOffice365Silver ?? (_paletteOffice365Silver = new PaletteOffice365Silver());
+        public static PaletteOffice365Silver PaletteOffice365Silver => _paletteOffice365Silver ??= new PaletteOffice365Silver();
 
-        public static PaletteOffice365SilverDarkMode PaletteOffice365SilverDarkMode => _paletteOffice365SilverDarkMode ?? (_paletteOffice365SilverDarkMode = new PaletteOffice365SilverDarkMode());
-
-        public static PaletteOffice365SilverLightMode PaletteOffice365SilverLightMode => _paletteOffice365SilverLightMode ?? (_paletteOffice365SilverLightMode = new PaletteOffice365SilverLightMode());
         /// <summary>
-        /// Gets the palette office365 white.
+        /// Gets the single instance of the ### palette.
         /// </summary>
-        /// <value>
-        /// The palette office365 white.
-        /// </value>
-        public static PaletteOffice365White PaletteOffice365White => _paletteOffice365White ?? (_paletteOffice365White = new PaletteOffice365White());
+        public static PaletteOffice365SilverDarkMode PaletteOffice365SilverDarkMode => _paletteOffice365SilverDarkMode ??= new PaletteOffice365SilverDarkMode();
+
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice365SilverLightMode PaletteOffice365SilverLightMode => _paletteOffice365SilverLightMode ??= new PaletteOffice365SilverLightMode();
+
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteOffice365White PaletteOffice365White => _paletteOffice365White ??= new PaletteOffice365White();
 
         /// <summary>
         /// Gets the single instance of the Blue variant sparkle palette.
         /// </summary>
-        public static PaletteSparkleBlue PaletteSparkleBlue => _paletteSparkleBlue ?? (_paletteSparkleBlue = new PaletteSparkleBlue());
+        public static PaletteSparkleBlue PaletteSparkleBlue => _paletteSparkleBlue ??= new PaletteSparkleBlue();
 
-        public static PaletteSparkleBlueDarkMode PaletteSparkleBlueDarkMode => _paletteSparkleBlueDarkMode ?? (_paletteSparkleBlueDarkMode = new PaletteSparkleBlueDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteSparkleBlueDarkMode PaletteSparkleBlueDarkMode => _paletteSparkleBlueDarkMode ??= new PaletteSparkleBlueDarkMode();
 
-        public static PaletteSparkleBlueLightMode PaletteSparkleBlueLightMode => _paletteSparkleBlueLightMode ?? (_paletteSparkleBlueLightMode = new PaletteSparkleBlueLightMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteSparkleBlueLightMode PaletteSparkleBlueLightMode => _paletteSparkleBlueLightMode ??= new PaletteSparkleBlueLightMode();
 
         /// <summary>
         /// Gets the single instance of the Orange variant sparkle palette.
         /// </summary>
-        public static PaletteSparkleOrange PaletteSparkleOrange => _paletteSparkleOrange ?? (_paletteSparkleOrange = new PaletteSparkleOrange());
+        public static PaletteSparkleOrange PaletteSparkleOrange => _paletteSparkleOrange ??= new PaletteSparkleOrange();
 
-        public static PaletteSparkleOrangeDarkMode PaletteSparkleOrangeDarkMode => _paletteSparkleOrangeDarkMode ?? (_paletteSparkleOrangeDarkMode = new PaletteSparkleOrangeDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteSparkleOrangeDarkMode PaletteSparkleOrangeDarkMode => _paletteSparkleOrangeDarkMode ??= new PaletteSparkleOrangeDarkMode();
 
-        public static PaletteSparkleOrangeLightMode PaletteSparkleOrangeLightMode => _paletteSparkleOrangeLightMode ?? (_paletteSparkleOrangeLightMode = new PaletteSparkleOrangeLightMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteSparkleOrangeLightMode PaletteSparkleOrangeLightMode => _paletteSparkleOrangeLightMode ??= new PaletteSparkleOrangeLightMode();
 
         /// <summary>
         /// Gets the single instance of the Purple variant sparkle palette.
         /// </summary>
-        public static PaletteSparklePurple PaletteSparklePurple => _paletteSparklePurple ?? (_paletteSparklePurple = new PaletteSparklePurple());
+        public static PaletteSparklePurple PaletteSparklePurple => _paletteSparklePurple ??= new PaletteSparklePurple();
 
-        public static PaletteSparklePurpleDarkMode PaletteSparklePurpleDarkMode => _paletteSparklePurpleDarkMode ?? (_paletteSparklePurpleDarkMode = new PaletteSparklePurpleDarkMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteSparklePurpleDarkMode PaletteSparklePurpleDarkMode => _paletteSparklePurpleDarkMode ??= new PaletteSparklePurpleDarkMode();
 
-        public static PaletteSparklePurpleLightMode PaletteSparklePurpleLightMode => _paletteSparklePurpleLightMode ?? (_paletteSparklePurpleLightMode = new PaletteSparklePurpleLightMode());
+        /// <summary>
+        /// Gets the single instance of the ### palette.
+        /// </summary>
+        public static PaletteSparklePurpleLightMode PaletteSparklePurpleLightMode => _paletteSparklePurpleLightMode ??= new PaletteSparklePurpleLightMode();
 
 
         /// <summary>
@@ -781,37 +848,37 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the single instance of the Sparkle renderer.
         /// </summary>
-        public static RenderSparkle RenderSparkle => _renderSparkle ?? (_renderSparkle = new RenderSparkle());
+        public static RenderSparkle RenderSparkle => _renderSparkle ??= new RenderSparkle();
 
         /// <summary>
         /// Gets the single instance of the Office 2007 renderer.
         /// </summary>
-        public static RenderOffice2007 RenderOffice2007 => _renderOffice2007 ?? (_renderOffice2007 = new RenderOffice2007());
+        public static RenderOffice2007 RenderOffice2007 => _renderOffice2007 ??= new RenderOffice2007();
 
         /// <summary>
         /// Gets the single instance of the Office 2010 renderer.
         /// </summary>
-        public static RenderOffice2010 RenderOffice2010 => _renderOffice2010 ?? (_renderOffice2010 = new RenderOffice2010());
+        public static RenderOffice2010 RenderOffice2010 => _renderOffice2010 ??= new RenderOffice2010();
 
         /// <summary>
         /// Gets the single instance of the Office 2013 renderer.
         /// </summary>
-        public static RenderOffice2013 RenderOffice2013 => _renderOffice2013 ?? (_renderOffice2013 = new RenderOffice2013());
+        public static RenderOffice2013 RenderOffice2013 => _renderOffice2013 ??= new RenderOffice2013();
 
         /// <summary>
         /// Gets the single instance of the 365 2013 renderer.
         /// </summary>
-        public static RenderOffice365 RenderOffice365 => _renderOffice365 ?? (_renderOffice365 = new RenderOffice365());
+        public static RenderOffice365 RenderOffice365 => _renderOffice365 ??= new RenderOffice365();
 
         /// <summary>
         /// Gets the single instance of the professional renderer.
         /// </summary>
-        public static RenderProfessional RenderProfessional => _renderProfessional ?? (_renderProfessional = new RenderProfessional());
+        public static RenderProfessional RenderProfessional => _renderProfessional ??= new RenderProfessional();
 
         /// <summary>
         /// Gets the single instance of the standard renderer.
         /// </summary>
-        public static RenderStandard RenderStandard => _renderStandard ?? (_renderStandard = new RenderStandard());
+        public static RenderStandard RenderStandard => _renderStandard ??= new RenderStandard();
 
         #endregion
 

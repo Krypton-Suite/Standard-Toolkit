@@ -89,12 +89,12 @@ namespace Krypton.Docking
             // Path names cannot be zero length
             if (path.Length == 0)
             {
-                throw new ArgumentException("path");
+                throw new ArgumentException(@"Needs Comma separated list of names to resolve.", nameof(path));
             }
 
             // Extract the first name in the path
-            int comma = path.IndexOf(',');
-            string firstName = (comma == -1 ? path : path.Substring(0, comma));
+            var comma = path.IndexOf(',');
+            var firstName = (comma == -1 ? path : path.Substring(0, comma));
 
             // If the first name matches ourself...
             if (firstName == Name)
@@ -107,7 +107,7 @@ namespace Krypton.Docking
                 else
                 {
                     // Extract the remainder of the path
-                    string remainder = path.Substring(comma, path.Length - comma);
+                    var remainder = path.Substring(comma, path.Length - comma);
 
                     // Give each child a chance to resolve the remainder of the path
                     foreach (IDockingElement child in this)
@@ -138,7 +138,7 @@ namespace Krypton.Docking
                 // We do not allow the same name to occur twice in a collection (so check new parent collection)
                 if (value?[Name] != null)
                 {
-                    throw new ArgumentNullException(@"Parent provided already has our Name in its collection.");
+                    throw new ArgumentNullException(nameof(Parent), @"Parent provided already has our Name in its collection.");
                 }
 
                 _parent = value;
@@ -154,7 +154,7 @@ namespace Krypton.Docking
         {
             // Propagate the action request to all the child elements
             // (use reverse order so if element removes itself we still have a valid loop)
-            for (int i = Count - 1; i >= 0; i--)
+            for (var i = Count - 1; i >= 0; i--)
             {
                 this[i].PropogateAction(action, uniqueNames);
             }
@@ -169,7 +169,7 @@ namespace Krypton.Docking
         {
             // Propagate the action request to all the child elements
             // (use reverse order so if element removes itself we still have a valid loop)
-            for (int i = Count - 1; i >= 0; i--)
+            for (var i = Count - 1; i >= 0; i--)
             {
                 this[i].PropogateAction(action, pages);
             }
@@ -184,7 +184,7 @@ namespace Krypton.Docking
         {
             // Propagate the action request to all the child elements
             // (use reverse order so if element removes itself we still have a valid loop)
-            for (int i = Count - 1; i >= 0; i--)
+            for (var i = Count - 1; i >= 0; i--)
             {
                 this[i].PropogateAction(action, value);
             }
@@ -199,10 +199,10 @@ namespace Krypton.Docking
         public virtual bool? PropogateBoolState(DockingPropogateBoolState state, string uniqueName)
         {
             // Search all child docking elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 // If the child knows the exact answer then return it now
-                bool? ret = this[i].PropogateBoolState(state, uniqueName);
+                var ret = this[i].PropogateBoolState(state, uniqueName);
                 if (ret.HasValue)
                 {
                     return ret;
@@ -220,7 +220,7 @@ namespace Krypton.Docking
         public virtual void PropogateIntState(DockingPropogateIntState state, ref int value)
         {
             // Propagate the request to all the child elements
-            for (int i = Count - 1; i >= 0; i--)
+            for (var i = Count - 1; i >= 0; i--)
             {
                 this[i].PropogateIntState(state, ref value);
             }
@@ -235,7 +235,7 @@ namespace Krypton.Docking
         public virtual KryptonPage PropogatePageState(DockingPropogatePageState state, string uniqueName)
         {
             // Search all child docking elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 // If the child knows the answer then return it now
                 KryptonPage page = this[i].PropogatePageState(state, uniqueName);
@@ -257,7 +257,7 @@ namespace Krypton.Docking
         {
             // Propagate the action request to all the child elements
             // (use reverse order so if element removes itself we still have a valid loop)
-            for (int i = Count - 1; i >= 0; i--)
+            for (var i = Count - 1; i >= 0; i--)
             {
                 this[i].PropogatePageList(state, pages);
             }
@@ -272,7 +272,7 @@ namespace Krypton.Docking
         {
             // Propagate the action request to all the child elements
             // (use reverse order so if element removes itself we still have a valid loop)
-            for (int i = Count - 1; i >= 0; i--)
+            for (var i = Count - 1; i >= 0; i--)
             {
                 this[i].PropogateCellList(state, cells);
             }
@@ -306,7 +306,7 @@ namespace Krypton.Docking
             DockingLocation location = DockingLocation.None;
 
             // Search all child docking elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 location = this[i].FindPageLocation(uniqueName);
                 if (location != DockingLocation.None)
@@ -329,7 +329,7 @@ namespace Krypton.Docking
             IDockingElement dockingElement = null;
 
             // Search all child docking elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 dockingElement = this[i].FindPageElement(uniqueName);
                 if (dockingElement != null)
@@ -353,7 +353,7 @@ namespace Krypton.Docking
             IDockingElement dockingElement = null;
 
             // Search all child docking elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 dockingElement = this[i].FindStorePageElement(location, uniqueName);
                 if (dockingElement != null)
@@ -376,7 +376,7 @@ namespace Krypton.Docking
             KryptonDockingFloating floatingElement = null;
 
             // Search all child docking elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 floatingElement = this[i].FindDockingFloating(uniqueName);
                 if (floatingElement != null)
@@ -399,7 +399,7 @@ namespace Krypton.Docking
             KryptonDockingEdgeDocked edgeDockedElement = null;
 
             // Search all child docking elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 edgeDockedElement = this[i].FindDockingEdgeDocked(uniqueName);
                 if (edgeDockedElement != null)
@@ -422,7 +422,7 @@ namespace Krypton.Docking
             KryptonDockingEdgeAutoHidden edgeAutoHiddenElement = null;
 
             // Search all child docking elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 edgeAutoHiddenElement = this[i].FindDockingEdgeAutoHidden(uniqueName);
                 if (edgeAutoHiddenElement != null)
@@ -445,7 +445,7 @@ namespace Krypton.Docking
             KryptonDockingWorkspace workspaceElement = null;
 
             // Search all child docking elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 workspaceElement = this[i].FindDockingWorkspace(uniqueName);
                 if (workspaceElement != null)
@@ -468,7 +468,7 @@ namespace Krypton.Docking
             KryptonDockingNavigator navigatorElement = null;
 
             // Search all child docking elements
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 navigatorElement = this[i].FindDockingNavigator(uniqueName);
                 if (navigatorElement != null)
@@ -515,8 +515,8 @@ namespace Krypton.Docking
             }
 
             // Grab the element attributes
-            string elementName = xmlReader.GetAttribute(@"N");
-            string elementCount = xmlReader.GetAttribute(@"C");
+            var elementName = xmlReader.GetAttribute(@"N");
+            var elementCount = xmlReader.GetAttribute(@"C");
 
             // Check the name matches up
             if (elementName != Name)
@@ -528,10 +528,10 @@ namespace Krypton.Docking
             LoadDockingElement(xmlReader, pages);
 
             // If there are children then move over them
-            int count = int.Parse(elementCount);
+            var count = int.Parse(elementCount);
             if (count > 0)
             {
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     // Read to the next element
                     if (!xmlReader.Read())
@@ -708,7 +708,7 @@ namespace Krypton.Docking
             }
             else
             {
-                string nodeName = xmlReader.Name;
+                var nodeName = xmlReader.Name;
 
                 do
                 {

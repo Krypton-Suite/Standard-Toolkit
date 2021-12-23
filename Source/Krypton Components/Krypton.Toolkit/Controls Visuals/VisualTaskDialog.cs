@@ -916,7 +916,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void _linkLabelFooter_LinkClicked(object sender, EventArgs e) => _taskDialog?.RaiseFooterHyperlinkClicked();
+        private void LinkLabelFooter_LinkClicked(object sender, EventArgs e) => _taskDialog?.RaiseFooterHyperlinkClicked();
 
         private void _buttonClose_Click(object sender, EventArgs e) => Close();
 
@@ -1283,7 +1283,7 @@ namespace Krypton.Toolkit
             _linkLabelFooter.Size = new Size(110, 20);
             _linkLabelFooter.TabIndex = 0;
             _linkLabelFooter.Values.Text = "kryptonLinkLabel1";
-            _linkLabelFooter.LinkClicked += _linkLabelFooter_LinkClicked;
+            _linkLabelFooter.LinkClicked += LinkLabelFooter_LinkClicked;
             // 
             // _iconFooter
             // 

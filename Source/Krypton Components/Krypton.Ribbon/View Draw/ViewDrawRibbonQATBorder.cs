@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private NeedPaintHandler _needPaintDelegate;
+        private readonly NeedPaintHandler _needPaintDelegate;
         private IDisposable _memento;
         private readonly bool _minibar;
 
@@ -227,7 +227,7 @@ namespace Krypton.Ribbon
             }
 
             // Decide if we need to draw onto a composition area
-            var composition = (OwnerForm != null) ? OwnerForm.ApplyComposition && OwnerForm.ApplyCustomChrome : false;
+            var composition = (OwnerForm != null) && OwnerForm.ApplyComposition && OwnerForm.ApplyCustomChrome;
 
             // Perform actual drawing
             _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, palette, VisualOrientation.Top, composition, _memento);

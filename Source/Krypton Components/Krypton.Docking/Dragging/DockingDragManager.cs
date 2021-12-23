@@ -147,7 +147,7 @@ namespace Krypton.Docking
         public override bool DragEnd(Point screenPt)
         {
             RemoveFilter();
-            bool ret = base.DragEnd(screenPt);
+            var ret = base.DragEnd(screenPt);
             _manager?.RaiseDoDragDropEnd(EventArgs.Empty);
             return ret;
         }
@@ -221,7 +221,7 @@ namespace Krypton.Docking
                 case PI.WM_.KEYDOWN:
                     {
                         // Extract the keys being pressed
-                        Keys keys = ((Keys)((int)m.WParam.ToInt64()));
+                        Keys keys = (Keys)(int)m.WParam.ToInt64();
 
                         // Pressing escape ends dragging
                         if (keys == Keys.Escape)
@@ -233,19 +233,15 @@ namespace Krypton.Docking
                         return true;
                     }
                 case PI.WM_.SYSKEYDOWN:
+                    // Pressing ALT+TAB ends dragging because user is moving to another app
+                    if (PI.IsKeyDown(Keys.Tab) 
+                        && ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
+                        )
                     {
-                        // Extract the keys being pressed
-                        Keys keys = ((Keys)((int)m.WParam.ToInt64()));
-
-                        // Pressing ALT+TAB ends dragging because user is moving to another app
-                        if (PI.IsKeyDown(Keys.Tab) && ((Control.ModifierKeys & Keys.Alt) == Keys.Alt))
-                        {
-                            DragQuit();
-                            Dispose();
-                        }
-
-                        break;
+                        DragQuit();
+                        Dispose();
                     }
+                    break;
                 case PI.WM_.MOUSEMOVE:
                     if (_monitorMouse)
                     {

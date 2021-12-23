@@ -70,8 +70,8 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecPinHorizontal = ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
         private static readonly Image _buttonSpecWorkspaceMaximize = GenericProfessionalImageResources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
-        private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
-        private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
+        //private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
+        //private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
         private static readonly Image _systemCloseNormal = ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
         private static readonly Image _systemCloseDisabled = ProfessionalControlBoxResources.ProfessionalButtonCloseDisabled;
         private static readonly Image _systemMaximiseNormal = ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         private static readonly Image _treeCollapseMinus = TreeItemImageResources.TreeCollapseMinus;
 
         private static readonly Color _contextTextColor = Color.White;
-        private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
+        //private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
         private static readonly Color _contextCheckedTabBorder1 = Color.FromArgb(223, 119, 0);
         private static readonly Color _contextCheckedTabBorder2 = Color.FromArgb(230, 190, 129);
         private static readonly Color _contextCheckedTabBorder3 = Color.FromArgb(220, 202, 171);
@@ -125,28 +125,28 @@ namespace Krypton.Toolkit
         private Font _italicFont;
         private Image _disabledDropDownImage;
         private Image _normalDropDownImage;
-        private Color _disabledDropDownColor;
-        private Color _normalDropDownColor;
+        //private Color _disabledDropDownColor;
+        //private Color _normalDropDownColor;
         private Color[] _ribbonColors;
         private Color _disabledText;
         private Color _disabledGlyphDark;
         private Color _disabledGlyphLight;
-        private Color _contextCheckedTabBorder;
-        private Color _contextCheckedTabFill;
+        //private Color _contextCheckedTabBorder;
+        //private Color _contextCheckedTabFill;
         private Color _contextGroupAreaBorder;
-        private Color _contextGroupAreaInside;
-        private Color _contextGroupFrameTop;
-        private Color _contextGroupFrameBottom;
+        //private Color _contextGroupAreaInside;
+        //private Color _contextGroupFrameTop;
+        //private Color _contextGroupFrameBottom;
         private Color _contextTabSeparator;
-        private Color _focusTabFill;
+        //private Color _focusTabFill;
         private Color _toolTipBack1;
         private Color _toolTipBack2;
         private Color _toolTipBorder;
         private Color _toolTipText;
-        private Color[] _ribbonGroupCollapsedBackContext;
-        private Color[] _ribbonGroupCollapsedBackContextTracking;
-        private Color[] _ribbonGroupCollapsedBorderContext;
-        private Color[] _ribbonGroupCollapsedBorderContextTracking;
+        //private Color[] _ribbonGroupCollapsedBackContext;
+        //private Color[] _ribbonGroupCollapsedBackContextTracking;
+        //private Color[] _ribbonGroupCollapsedBorderContext;
+        //private Color[] _ribbonGroupCollapsedBorderContextTracking;
         private Color[] _appButtonNormal;
         private Color[] _appButtonTrack;
         private Color[] _appButtonPressed;
@@ -2692,7 +2692,7 @@ namespace Krypton.Toolkit
                 if (_normalDropDownImage == null)
                 {
                     _normalDropDownImage = CreateDropDownImage(SystemColors.ControlText);
-                    _normalDropDownColor = SystemColors.ControlText;
+                    //_normalDropDownColor = SystemColors.ControlText;
                 }
 
                 return _normalDropDownImage;
@@ -2702,7 +2702,7 @@ namespace Krypton.Toolkit
                 if (_disabledDropDownImage == null)
                 {
                     _disabledDropDownImage = CreateDropDownImage(SystemColors.ControlDark);
-                    _disabledDropDownColor = SystemColors.ControlDark;
+                    //_disabledDropDownColor = SystemColors.ControlDark;
                 }
 
                 return _disabledDropDownImage;
@@ -2737,10 +2737,9 @@ namespace Krypton.Toolkit
         {
             return button switch
             {
-                PaletteRibbonGalleryButton.Down => _galleryImageDown ?? (_galleryImageDown = CreateGalleryDownImage(SystemColors.ControlText)),
-                PaletteRibbonGalleryButton.DropDown => _galleryImageDropDown ??
-(_galleryImageDropDown = CreateGalleryDropDownImage(SystemColors.ControlText)),
-                _ => _galleryImageUp ?? (_galleryImageUp = CreateGalleryUpImage(SystemColors.ControlText))
+                PaletteRibbonGalleryButton.Down => _galleryImageDown ??= CreateGalleryDownImage(SystemColors.ControlText),
+                PaletteRibbonGalleryButton.DropDown => _galleryImageDropDown ??= CreateGalleryDropDownImage(SystemColors.ControlText),
+                _ => _galleryImageUp ??= CreateGalleryUpImage(SystemColors.ControlText)
             };
         }
         #endregion
@@ -4191,7 +4190,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override KryptonColorTable ColorTable => Table;
 
-        internal KryptonProfessionalKCT Table => _table ?? (_table = GenerateColorTable(false));
+        internal KryptonProfessionalKCT Table => _table ??= GenerateColorTable(false);
 
         /// <summary>
         /// Generate an appropriate color table.
@@ -4327,7 +4326,7 @@ namespace Krypton.Toolkit
         private void DefineRibbonColors()
         {
             // Main values
-            Color groupLight = ColorTable.MenuStripGradientEnd;
+            //Color groupLight = ColorTable.MenuStripGradientEnd;
             Color groupStart = ColorTable.RaftingContainerGradientBegin;
             Color groupEnd = ColorTable.MenuBorder;
 
@@ -4338,13 +4337,13 @@ namespace Krypton.Toolkit
                 case -986896:   // Vista Aero/Basic
                 case -1250856:  // XP Themes - Blue & Olive
                 case -2039837:  // XP Themes - Silver
-                    groupLight = MergeColors(groupLight, 0.93f, Color.Black, 0.07f);
+                    //groupLight = MergeColors(groupLight, 0.93f, Color.Black, 0.07f);
                     groupStart = MergeColors(groupStart, 0.93f, Color.Black, 0.07f);
                     groupEnd = MergeColors(groupEnd, 0.93f, Color.Black, 0.07f);
                     break;
                 case -2830136:  // Windows Standard
                 case -4144960:  // Windows Classic
-                    groupLight = MergeColors(groupLight, 0.95f, Color.Black, 0.05f);
+                    //groupLight = MergeColors(groupLight, 0.95f, Color.Black, 0.05f);
                     groupStart = MergeColors(groupStart, 0.95f, Color.Black, 0.05f);
                     groupEnd = MergeColors(groupEnd, 0.95f, Color.Black, 0.05f);
                     break;
@@ -4355,7 +4354,7 @@ namespace Krypton.Toolkit
             Color ribbonGroupsArea2 = MergeColors(groupStart, 0.20f, groupEnd, 0.80f);
             Color ribbonGroupsArea3 = MergeColors(groupStart, 0.10f, Color.White, 0.90f);
             Color ribbonGroupsArea4 = MergeColors(groupStart, 0.70f, Color.White, 0.30f);
-            Color ribbonGroupsArea5 = MergeColors(groupStart, 0.90f, groupEnd, 0.10f);
+            //Color ribbonGroupsArea5 = MergeColors(groupStart, 0.90f, groupEnd, 0.10f);
             Color ribbonGroupBorder1 = Color.FromArgb(128, Color.White);
             Color ribbonGroupBorder2 = Color.FromArgb(196, Color.White);
             Color ribbonGroupBorder3 = MergeColors(groupStart, 0.20f, groupEnd, 0.80f);
@@ -4377,9 +4376,9 @@ namespace Krypton.Toolkit
             Color ribbonTabTracking2 = MergeColors(groupStart, 0.20f, Color.White, 0.80f);
             Color ribbonTabTracking3 = MergeColors(groupStart, 0.50f, Color.White, 0.50f);
             Color ribbonTabTracking4 = MergeColors(groupStart, 0.75f, Color.White, 0.25f);
-            Color ribbonQATOverflowInside = MergeColors(ColorTable.MenuStripGradientEnd, 0.75f, groupStart, 0.25f);
-            Color ribbonQATOverflowInside2 = MergeColors(ColorTable.MenuStripGradientEnd, 0.65f, groupStart, 0.35f);
-            Color ribbonQATMini1 = MergeColors(groupStart, 0.70f, groupEnd, 0.30f);
+            //Color ribbonQATOverflowInside = MergeColors(ColorTable.MenuStripGradientEnd, 0.75f, groupStart, 0.25f);
+            //Color ribbonQATOverflowInside2 = MergeColors(ColorTable.MenuStripGradientEnd, 0.65f, groupStart, 0.35f);
+            //Color ribbonQATMini1 = MergeColors(groupStart, 0.70f, groupEnd, 0.30f);
             Color ribbonQATMini3 = MergeColors(groupStart, 0.90f, groupEnd, 0.10f);
 
             // Generate first set of ribbon colors
@@ -4529,29 +4528,29 @@ namespace Krypton.Toolkit
             _disabledText = SystemColors.ControlDark;
             _disabledGlyphDark = Color.FromArgb(183, 183, 183);
             _disabledGlyphLight = Color.FromArgb(237, 237, 237);
-            _contextCheckedTabBorder = ribbonGroupsArea1;
-            _contextCheckedTabFill = ColorTable.CheckBackground;
+            //_contextCheckedTabBorder = ribbonGroupsArea1;
+            //_contextCheckedTabFill = ColorTable.CheckBackground;
             _contextGroupAreaBorder = ribbonGroupsArea1;
-            _contextGroupAreaInside = ribbonGroupsArea2;
-            _contextGroupFrameTop = Color.FromArgb(250, 250, 250);
-            _contextGroupFrameBottom = _contextGroupFrameTop;
+            //_contextGroupAreaInside = ribbonGroupsArea2;
+            //_contextGroupFrameTop = Color.FromArgb(250, 250, 250);
+            //_contextGroupFrameBottom = _contextGroupFrameTop;
             _contextTabSeparator = ColorTable.MenuBorder;
-            _focusTabFill = ColorTable.CheckBackground;
+            //_focusTabFill = ColorTable.CheckBackground;
             _toolTipBack1 = SystemColors.Info;
             _toolTipBack2 = SystemColors.Info;
             _toolTipBorder = SystemColors.WindowFrame;
             _toolTipText = SystemColors.InfoText;
-            _disabledDropDownColor = Color.Empty;
-            _normalDropDownColor = Color.Empty;
-            _ribbonGroupCollapsedBackContext = new Color[] { Color.FromArgb(48, 235, 235, 235), Color.FromArgb(235, 235, 235) };
-            _ribbonGroupCollapsedBackContextTracking = _ribbonGroupCollapsedBackContext;
-            _ribbonGroupCollapsedBorderContext = new Color[] { Color.FromArgb(160, ribbonGroupBorder1), ribbonGroupBorder1, Color.FromArgb(48, ribbonGroupsArea4), ribbonGroupsArea4 };
-            _ribbonGroupCollapsedBorderContextTracking = new Color[] { Color.FromArgb(200, ribbonGroupBorder1), ribbonGroupBorder1, Color.FromArgb(48, ribbonGroupBorder1), Color.FromArgb(196, ribbonGroupBorder1) };
+            //_disabledDropDownColor = Color.Empty;
+            //_normalDropDownColor = Color.Empty;
+            //_ribbonGroupCollapsedBackContext = new Color[] { Color.FromArgb(48, 235, 235, 235), Color.FromArgb(235, 235, 235) };
+            //_ribbonGroupCollapsedBackContextTracking = _ribbonGroupCollapsedBackContext;
+            //_ribbonGroupCollapsedBorderContext = new Color[] { Color.FromArgb(160, ribbonGroupBorder1), ribbonGroupBorder1, Color.FromArgb(48, ribbonGroupsArea4), ribbonGroupsArea4 };
+            //_ribbonGroupCollapsedBorderContextTracking = new Color[] { Color.FromArgb(200, ribbonGroupBorder1), ribbonGroupBorder1, Color.FromArgb(48, ribbonGroupBorder1), Color.FromArgb(196, ribbonGroupBorder1) };
             Color highlight1 = MergeColors(Color.White, 0.50f, ColorTable.ButtonSelectedGradientEnd, 0.50f);
             Color highlight2 = MergeColors(Color.White, 0.25f, ColorTable.ButtonSelectedGradientEnd, 0.75f);
             Color highlight3 = MergeColors(Color.White, 0.60f, ColorTable.ButtonPressedGradientMiddle, 0.40f);
             Color highlight4 = MergeColors(Color.White, 0.25f, ColorTable.ButtonPressedGradientMiddle, 0.75f);
-            Color pressed3 = MergeColors(Color.White, 0.50f, ColorTable.CheckBackground, 0.50f);
+            //Color pressed3 = MergeColors(Color.White, 0.50f, ColorTable.CheckBackground, 0.50f);
             Color pressed4 = MergeColors(Color.White, 0.25f, ColorTable.CheckPressedBackground, 0.75f);
             _appButtonNormal = new Color[] { ColorTable.SeparatorLight, ColorTable.ImageMarginGradientBegin, ColorTable.ImageMarginGradientMiddle, ColorTable.GripLight, ColorTable.ImageMarginGradientBegin };
             _appButtonTrack = new Color[] { highlight1, highlight2, ColorTable.ButtonSelectedGradientEnd, highlight3, highlight4 };
