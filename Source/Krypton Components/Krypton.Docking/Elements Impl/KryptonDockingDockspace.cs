@@ -79,7 +79,7 @@ namespace Krypton.Docking
                 if (GetParentType(typeof(KryptonDockingEdge)) is KryptonDockingEdge dockingEdge)
                 {
                     // Extract the expected fixed name of the auto hidden edge element
-                    return dockingEdge["AutoHidden"] as KryptonDockingEdgeAutoHidden;
+                    return dockingEdge[@"AutoHidden"] as KryptonDockingEdgeAutoHidden;
                 }
 
                 return null;
@@ -199,7 +199,8 @@ namespace Krypton.Docking
         public override DockingLocation FindPageLocation(string uniqueName)
         {
             KryptonPage page = DockspaceControl.PageForUniqueName(uniqueName);
-            if ((page != null) && page is not KryptonStorePage)
+            if ((page != null) 
+                && page is not KryptonStorePage)
             {
                 return DockingLocation.Docked;
             }
@@ -217,7 +218,8 @@ namespace Krypton.Docking
         public override IDockingElement FindPageElement(string uniqueName)
         {
             KryptonPage page = DockspaceControl.PageForUniqueName(uniqueName);
-            if ((page != null) && page is not KryptonStorePage)
+            if ((page != null) 
+                && page is not KryptonStorePage)
             {
                 return this;
             }
@@ -456,7 +458,7 @@ namespace Krypton.Docking
         {
             // Generate event so that the close action is handled for the named page
             KryptonDockingManager dockingManager = DockingManager;
-            dockingManager?.CloseRequest(new string[] { e.UniqueName });
+            dockingManager?.CloseRequest(new[] { e.UniqueName });
         }
 
         private void OnDockspacePageAutoHiddenClicked(object sender, UniqueNameEventArgs e)

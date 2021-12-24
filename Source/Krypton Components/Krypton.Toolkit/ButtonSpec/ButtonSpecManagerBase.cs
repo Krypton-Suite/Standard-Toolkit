@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ButtonSpecManagerBase(Control control,
+        protected ButtonSpecManagerBase(Control control,
                                      PaletteRedirect redirector,
                                      ButtonSpecCollectionBase variableSpecs,
                                      ButtonSpecCollectionBase fixedSpecs,
@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
                     AddSpacersToDocker(i, spacerL1, spacerR1);
 
                     // Remember the spacers for future reference
-                    _viewSpacers[i].AddRange(new ViewLayoutMetricSpacer[] { spacerL1, spacerR1 });
+                    _viewSpacers[i].AddRange(new[] { spacerL1, spacerR1 });
 
                     if (UseInsideSpacers)
                     {
@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
                         AddSpacersToDocker(i, spacerL2, spacerR2);
 
                         // Remember the spacers for future reference
-                        _viewSpacers[i].AddRange(new ViewLayoutMetricSpacer[] { spacerL2, spacerR2 });
+                        _viewSpacers[i].AddRange(new[] { spacerL2, spacerR2 });
                     }
                 }
             }
@@ -858,10 +858,10 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case "Edge":
-                case "Location":
-                case "Orientation":
-                case "Type":
+                case @"Edge":
+                case @"Location":
+                case @"Orientation":
+                case @"Type":
                     RecreateAll();
                     PerformNeedPaint(true);
                     break;

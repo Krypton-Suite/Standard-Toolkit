@@ -116,7 +116,7 @@ namespace Krypton.Navigator
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint()
         {
-            // Get the display rectange of the context button
+            // Get the display rectangle of the context button
             Rectangle rect = _buttonManager.GetButtonRectangle(Navigator.Button.ContextButton);
 
             // We want the context menu to show just below the button
@@ -144,7 +144,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the next button action requested.
+        /// Perform the next button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -178,7 +178,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the previous button action requested.
+        /// Perform the previous button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -422,41 +422,41 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "HeaderStylePrimary":
+                case @"HeaderStylePrimary":
                     SetHeaderStyle(_viewHeadingPrimary, Navigator.StateCommon.HeaderGroup.HeaderPrimary, Navigator.Header.HeaderStylePrimary);
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "HeaderStyleSecondary":
+                case @"HeaderStyleSecondary":
                     SetHeaderStyle(_viewHeadingSecondary, Navigator.StateCommon.HeaderGroup.HeaderSecondary, Navigator.Header.HeaderStyleSecondary);
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "HeaderPositionPrimary":
+                case @"HeaderPositionPrimary":
                     SetHeaderPosition(_viewHeadingPrimary, _viewContentPrimary, Navigator.Header.HeaderPositionPrimary);
                     _buttonManager.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "HeaderPositionSecondary":
+                case @"HeaderPositionSecondary":
                     SetHeaderPosition(_viewHeadingSecondary, _viewContentSecondary, Navigator.Header.HeaderPositionSecondary);
                     _buttonManager.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "HeaderVisiblePrimary":
+                case @"HeaderVisiblePrimary":
                     _viewHeadingPrimary.Visible = Navigator.Header.HeaderVisiblePrimary;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "HeaderVisibleSecondary":
+                case @"HeaderVisibleSecondary":
                     _viewHeadingSecondary.Visible = Navigator.Header.HeaderVisibleSecondary;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "PreviousButtonDisplay":
-                case "PreviousButtonAction":
-                case "NextButtonDisplay":
-                case "NextButtonAction":
-                case "ContextButtonDisplay":
-                case "CloseButtonDisplay":
-                case "ButtonDisplayLogic":
+                case @"PreviousButtonDisplay":
+                case @"PreviousButtonAction":
+                case @"NextButtonDisplay":
+                case @"NextButtonAction":
+                case @"ContextButtonDisplay":
+                case @"CloseButtonDisplay":
+                case @"ButtonDisplayLogic":
                     _buttonManager.RecreateButtons();
                     break;
             }
@@ -488,10 +488,10 @@ namespace Krypton.Navigator
         {
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
-                                                       new ViewDrawDocker[] { _viewHeadingPrimary, _viewHeadingSecondary },
+                                                       new[] { _viewHeadingPrimary, _viewHeadingSecondary },
                                                        new IPaletteMetric[] { Navigator.StateCommon.HeaderGroup.HeaderPrimary, Navigator.StateCommon.HeaderGroup.HeaderSecondary },
-                                                       new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary, PaletteMetricInt.HeaderButtonEdgeInsetSecondary },
-                                                       new PaletteMetricPadding[] { PaletteMetricPadding.HeaderButtonPaddingPrimary, PaletteMetricPadding.HeaderButtonPaddingSecondary },
+                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary, PaletteMetricInt.HeaderButtonEdgeInsetSecondary },
+                                                       new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary, PaletteMetricPadding.HeaderButtonPaddingSecondary },
                                                        Navigator.CreateToolStripRenderer,
                                                        NeedPaintDelegate)
             {

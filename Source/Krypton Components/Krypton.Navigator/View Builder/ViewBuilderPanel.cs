@@ -145,7 +145,7 @@ namespace Krypton.Navigator
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         public override bool ProcessMnemonic(char charCode) =>
             // No mnemonic processing for a panel view
             false;
@@ -182,12 +182,12 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "PanelBackStyle":
+                case @"PanelBackStyle":
                     Navigator.ChildPanel.PanelBackStyle = Navigator.Panel.PanelBackStyle;
                     Navigator.StateCommon.BackStyle = Navigator.Panel.PanelBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "GroupBackStyle":
+                case @"GroupBackStyle":
                     Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;

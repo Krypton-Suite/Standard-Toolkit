@@ -56,7 +56,7 @@ namespace Krypton.Docking
             RemoveFilter();
 
             // Remove any temporary pages created during the dragging process that are used to prevent cells being removed 
-            _manager.PropogateAction(DockingPropogateAction.ClearStoredPages, new string[] { "TemporaryPage" });
+            _manager.PropogateAction(DockingPropogateAction.ClearStoredPages, new[] { "TemporaryPage" });
 
             // Remember to unhook event and dispose timer to prevent resource leak
             _moveTimer.Tick -= OnFloatingWindowMove;

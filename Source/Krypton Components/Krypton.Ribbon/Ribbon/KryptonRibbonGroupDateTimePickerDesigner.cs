@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move DateTimePicker Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move DateTimePicker Last", OnMoveLast);
                 _deleteDateTimePickerVerb = new DesignerVerb("Delete DateTimePicker", OnDeleteDateTimePicker);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteDateTimePickerVerb });
             }
 

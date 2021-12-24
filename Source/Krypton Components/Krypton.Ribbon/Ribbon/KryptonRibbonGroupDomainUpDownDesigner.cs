@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move DomainUpDown Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move DomainUpDown Last", OnMoveLast);
                 _deleteDomainUpDownVerb = new DesignerVerb("Delete DomainUpDown", OnDeleteDomainUpDown);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteDomainUpDownVerb });
             }
 

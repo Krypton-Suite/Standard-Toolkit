@@ -2939,7 +2939,7 @@ namespace Krypton.Toolkit
             // Check the target file actually exists
             if (!File.Exists(filename))
             {
-                throw new ArgumentException("Provided file does not exist.");
+                throw new ArgumentException(@"Provided file does not exist.", nameof(parameter));
             }
 
             // Create a new xml document for storing the palette settings

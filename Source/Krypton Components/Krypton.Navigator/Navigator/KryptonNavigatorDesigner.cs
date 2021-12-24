@@ -137,7 +137,7 @@ namespace Krypton.Navigator
                     _verbAddPage = new DesignerVerb("Add Page", OnAddPage);
                     _verbRemovePage = new DesignerVerb("Remove Page", OnRemovePage);
                     _verbClearPages = new DesignerVerb("Clear Pages", OnClearPages);
-                    _verbs = new DesignerVerbCollection(new DesignerVerb[] { _verbAddPage, _verbRemovePage, _verbClearPages });
+                    _verbs = new DesignerVerbCollection(new[] { _verbAddPage, _verbRemovePage, _verbClearPages });
 
                     // Set correct initial state of the verbs
                     UpdateVerbStatus();

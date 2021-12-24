@@ -17,16 +17,12 @@ namespace Krypton.Docking
     /// </summary>
     public class UniqueNamesEventArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the UniqueNamesEventArgs class.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names.</param>
-        public UniqueNamesEventArgs(string[] uniqueNames) => UniqueNames = uniqueNames;
+        public UniqueNamesEventArgs(IReadOnlyList<string> uniqueNames) => UniqueNames = uniqueNames;
 
         #endregion
 
@@ -34,7 +30,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the array of unique names associated with the event.
         /// </summary>
-        public string[] UniqueNames { get; }
+        public IReadOnlyList<string> UniqueNames { get; }
 
         #endregion
     }

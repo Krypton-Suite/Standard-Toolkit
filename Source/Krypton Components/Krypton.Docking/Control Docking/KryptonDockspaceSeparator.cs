@@ -38,7 +38,7 @@ namespace Krypton.Docking
         /// Gets a string representation of the class.
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => "KryptonDockspaceSeparator " + Dock.ToString() + " " + Orientation.ToString();
+        public override string ToString() => $@"KryptonDockspaceSeparator {Dock} {Orientation}";
 
         #endregion
     }

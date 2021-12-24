@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
                 _addColorButtonVerb = new DesignerVerb("Add Color Button", OnAddColorButton);
                 _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
                 _deleteClusterVerb = new DesignerVerb("Delete Cluster", OnDeleteCluster);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
                                                      _addButtonVerb, _addColorButtonVerb, _clearItemsVerb, _deleteClusterVerb });
             }
 

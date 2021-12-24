@@ -291,10 +291,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
-                                                       new ViewDrawDocker[] { _drawDockerOuter },
+                                                       new[] { _drawDockerOuter },
                                                        new IPaletteMetric[] { StateCommon },
-                                                       new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                       new PaletteMetricPadding[] { PaletteMetricPadding.HeaderButtonPaddingPrimary },
+                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
+                                                       new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary },
                                                        CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
@@ -648,7 +648,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    throw new ArgumentException("Value can only accept 'null', 'DBNull' or 'DateTime' values.");
+                    throw new ArgumentException(@"Value can only accept 'null', 'DBNull' or 'DateTime' values.");
                 }
             }
         }
@@ -1432,7 +1432,7 @@ namespace Krypton.Toolkit
             // Do we have a manager to ask for a preferred size?
             if (ViewManager != null)
             {
-                // Ask the view to peform a layout
+                // Ask the view to Perform a layout
                 Size retSize = ViewManager.GetPreferredSize(Renderer, proposedSize);
 
                 // Apply the maximum sizing
@@ -1649,7 +1649,7 @@ namespace Krypton.Toolkit
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         protected override bool ProcessMnemonic(char charCode)
         {
             // If the button manager wants to process mnemonic characters and

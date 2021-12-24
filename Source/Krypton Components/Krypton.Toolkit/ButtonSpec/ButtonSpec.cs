@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the ButtonSpec class.
         /// </summary>
-        public ButtonSpec()
+        protected ButtonSpec()
         {
             _image = null;
             _toolTipImage = null;

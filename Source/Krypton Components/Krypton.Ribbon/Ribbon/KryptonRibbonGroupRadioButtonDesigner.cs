@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move RadioButton Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move RadioButton Last", OnMoveLast);
                 _deleteRadioButtonVerb = new DesignerVerb("Delete RadioButton", OnDeleteRadioButton);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteRadioButtonVerb });
             }
 

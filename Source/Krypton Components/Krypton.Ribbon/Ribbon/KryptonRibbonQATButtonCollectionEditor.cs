@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// <returns>An array of data types that this collection can contain.</returns>
         protected override Type[] CreateNewItemTypes()
         {
-            return new Type[] { typeof(KryptonRibbonQATButton) };
+            return new[] { typeof(KryptonRibbonQATButton) };
         }
 
         /// <summary>

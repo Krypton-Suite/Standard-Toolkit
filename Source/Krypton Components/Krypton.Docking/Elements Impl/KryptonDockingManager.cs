@@ -13,6 +13,7 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBeProtected.Global
 
+// ReSharper disable EventNeverSubscribedTo.Global
 namespace Krypton.Docking
 {
     /// <summary>
@@ -324,7 +325,7 @@ namespace Krypton.Docking
         /// Initialize a new instance of the KryptonDockingManager class.
         /// </summary>
         public KryptonDockingManager()
-            : this("DockingManager")
+            : this(@"DockingManager")
         {
         }
 
@@ -508,16 +509,7 @@ namespace Krypton.Docking
             }
 
             // Give each child a chance to resolve the entire path
-            foreach (IDockingElement child in this)
-            {
-                IDockingElement ret = child.ResolvePath(path);
-                if (ret != null)
-                {
-                    return ret;
-                }
-            }
-
-            return null;
+            return this.Select(child => child.ResolvePath(path)).FirstOrDefault(static ret => ret != null);
         }
 
         /// <summary>
@@ -532,7 +524,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(page));
             }
 
-            ShowPages(new string[] { page.UniqueName });
+            ShowPages(new[] { page.UniqueName });
         }
 
         /// <summary>
@@ -547,7 +539,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(uniqueName));
             }
 
-            ShowPages(new string[] { uniqueName });
+            ShowPages(new[] { uniqueName });
         }
 
         /// <summary>
@@ -634,7 +626,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(page));
             }
 
-            HidePages(new string[] { page.UniqueName });
+            HidePages(new[] { page.UniqueName });
         }
 
         /// <summary>
@@ -651,7 +643,7 @@ namespace Krypton.Docking
 
             if (uniqueName.Length > 0)
             {
-                HidePages(new string[] { uniqueName });
+                HidePages(new[] { uniqueName });
             }
         }
 
@@ -783,7 +775,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(page));
             }
 
-            RemovePages(new string[] { page.UniqueName }, disposePage);
+            RemovePages(new[] { page.UniqueName }, disposePage);
         }
 
         /// <summary>
@@ -805,7 +797,7 @@ namespace Krypton.Docking
                 throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
             }
 
-            RemovePages(new string[] { uniqueName }, disposePage);
+            RemovePages(new[] { uniqueName }, disposePage);
         }
 
         /// <summary>
@@ -963,7 +955,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(page));
             }
 
-            StorePages(new string[] { page.UniqueName });
+            StorePages(new[] { page.UniqueName });
         }
 
         /// <summary>
@@ -984,7 +976,7 @@ namespace Krypton.Docking
                 throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
             }
 
-            StorePages(new string[] { uniqueName });
+            StorePages(new[] { uniqueName });
         }
 
         /// <summary>
@@ -1080,7 +1072,7 @@ namespace Krypton.Docking
                     // Cannot show a null page reference
                     if (pages[i] == null)
                     {
-                        throw new ArgumentException("pages array contains a null page reference");
+                        throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
                     }
 
                     uniqueNames[i] = pages[i].UniqueName;
@@ -1296,7 +1288,7 @@ namespace Krypton.Docking
                 if (element.GetParentType(typeof(KryptonDockingEdgeAutoHidden)) is KryptonDockingEdgeAutoHidden edge)
                 {
                     // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
-                    if (edge["Docked"] is KryptonDockingEdgeDocked edgeDocked)
+                    if (edge[@"Docked"] is KryptonDockingEdgeDocked edgeDocked)
                     {
                         return edgeDocked;
                     }
@@ -1320,7 +1312,7 @@ namespace Krypton.Docking
                 if (group.GetParentType(typeof(KryptonDockingEdge)) is KryptonDockingEdge edge)
                 {
                     // Finally we grab the docked edge that is expected to be a sibling of the auto hidden edge
-                    if (edge["Docked"] is KryptonDockingEdgeDocked edgeDocked)
+                    if (edge[@"Docked"] is KryptonDockingEdgeDocked edgeDocked)
                     {
                         return edgeDocked;
                     }
@@ -1347,7 +1339,7 @@ namespace Krypton.Docking
                 if (element.GetParentType(typeof(KryptonDockingEdge)) is KryptonDockingEdge edge)
                 {
                     // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
-                    if (edge["AutoHidden"] is KryptonDockingEdgeAutoHidden edgeAutoHidden)
+                    if (edge[@"AutoHidden"] is KryptonDockingEdgeAutoHidden edgeAutoHidden)
                     {
                         return edgeAutoHidden;
                     }
@@ -1381,7 +1373,7 @@ namespace Krypton.Docking
                 if (dockspace.GetParentType(typeof(KryptonDockingEdge)) is KryptonDockingEdge edge)
                 {
                     // Finally we grab the auto hidden edge that is expected to be a sibling of the docked edge
-                    if (edge["AutoHidden"] is KryptonDockingEdgeAutoHidden edgeAutoHidden)
+                    if (edge[@"AutoHidden"] is KryptonDockingEdgeAutoHidden edgeAutoHidden)
                     {
                         return edgeAutoHidden;
                     }
@@ -1419,7 +1411,7 @@ namespace Krypton.Docking
         /// Perform the close request for a set of named pages.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names that need action performed.</param>
-        public virtual void CloseRequest(string[] uniqueNames)
+        public virtual void CloseRequest(IReadOnlyList<string> uniqueNames)
         {
             // Cannot action a null reference
             if (uniqueNames == null)
@@ -1428,7 +1420,7 @@ namespace Krypton.Docking
             }
 
             // Cannot action an empty array
-            if (uniqueNames.Length == 0)
+            if (uniqueNames.Count == 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
             }
@@ -1464,10 +1456,10 @@ namespace Krypton.Docking
                         PropogateAction(e.CloseRequest == DockingCloseRequest.RemovePageAndDispose ?
                                 DockingPropogateAction.RemoveAndDisposePages :
                                 DockingPropogateAction.RemovePages,
-                            new string[] { uniqueName });
+                            new[] { uniqueName });
                         break;
                     case DockingCloseRequest.HidePage:
-                        PropogateAction(DockingPropogateAction.HidePages, new string[] { uniqueName });
+                        PropogateAction(DockingPropogateAction.HidePages, new[] { uniqueName });
                         break;
                 }
             }
@@ -1514,7 +1506,7 @@ namespace Krypton.Docking
 
                         using DockingMultiUpdate update = new(this);
                         // Convert the page to a placeholder so it can be returned to the same location
-                        PropogateAction(DockingPropogateAction.StorePages, new string[] { uniqueName });
+                        PropogateAction(DockingPropogateAction.StorePages, new[] { uniqueName });
 
                         // Is there a auto hidden group with a restore page for the named page?
                         if (autoHidden.FindStorePageElement(DockingLocation.AutoHidden, uniqueName) is KryptonDockingAutoHiddenGroup restoreElement)
@@ -1530,7 +1522,7 @@ namespace Krypton.Docking
                         {
                             // No existing store page so add as a new group
                             restoreElement = autoHidden.AppendAutoHiddenGroup();
-                            restoreElement.Append(new KryptonPage[] { page });
+                            restoreElement.Append(new[] { page });
                         }
                     }
                 }
@@ -1578,7 +1570,7 @@ namespace Krypton.Docking
 
                         using DockingMultiUpdate update = new(this);
                         // Convert the page to a placeholder so it can be returned to the same location
-                        PropogateAction(DockingPropogateAction.StorePages, new string[] { uniqueName });
+                        PropogateAction(DockingPropogateAction.StorePages, new[] { uniqueName });
 
                         // Is there a dockspace with a restore page for the named page?
                         if (docked.FindStorePageElement(DockingLocation.Docked, uniqueName) is KryptonDockingDockspace restoreElement)
@@ -1588,7 +1580,7 @@ namespace Krypton.Docking
                             var pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]);
 
                             // Insert the page at the same index as the restore page
-                            restoreElement.CellInsert(cell, pageIndex, new KryptonPage[] { page });
+                            restoreElement.CellInsert(cell, pageIndex, new[] { page });
                             restoreElement.SelectPage(uniqueName);
                             restoreElement.DockspaceControl.Select();
                         }
@@ -1597,7 +1589,7 @@ namespace Krypton.Docking
 
                             // No existing store page so add as a new dockspace
                             KryptonDockingDockspace dockspaceElement = docked.AppendDockspace();
-                            dockspaceElement.Append(new KryptonPage[] { page });
+                            dockspaceElement.Append(new[] { page });
                             dockspaceElement.SelectPage(page.UniqueName);
                             dockspaceElement.DockspaceControl.Select();
                         }
@@ -1625,7 +1617,9 @@ namespace Krypton.Docking
             }
 
             // If the named page exists and is not already floating
-            if (ContainsPage(uniqueName) && (FindPageLocation(uniqueName) != DockingLocation.Floating))
+            if (ContainsPage(uniqueName) 
+                && (FindPageLocation(uniqueName) != DockingLocation.Floating)
+                )
             {
                 // If we can find a floating element appropriate for the named page
                 KryptonDockingFloating floating = FindDockingFloating(uniqueName);
@@ -1647,7 +1641,7 @@ namespace Krypton.Docking
 
                         using DockingMultiUpdate update = new(this);
                         // Convert the page to a placeholder so it can be returned to the same location
-                        PropogateAction(DockingPropogateAction.StorePages, new string[] { uniqueName });
+                        PropogateAction(DockingPropogateAction.StorePages, new[] { uniqueName });
 
                         // Is there a floating window with a restore page for the named page?
                         KryptonDockingFloatingWindow restoreElement = floating.FloatingWindowForStorePage(uniqueName);
@@ -1658,7 +1652,7 @@ namespace Krypton.Docking
                             var pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]);
 
                             // Insert the page at the same index as the restore page
-                            restoreElement.FloatspaceElement.CellInsert(cell, pageIndex, new KryptonPage[] { page });
+                            restoreElement.FloatspaceElement.CellInsert(cell, pageIndex, new[] { page });
                             restoreElement.SelectPage(uniqueName);
                             restoreElement.FloatingWindow.Select();
                         }
@@ -1666,7 +1660,7 @@ namespace Krypton.Docking
                         {
                             // No floating window found to restore into, so create a new window
                             KryptonDockingFloatingWindow floatingElement = floating.AddFloatingWindow();
-                            floatingElement.FloatspaceElement.Append(new KryptonPage[] { page });
+                            floatingElement.FloatspaceElement.Append(new[] { page });
                             floatingElement.SelectPage(uniqueName);
                             floatingElement.FloatingWindow.Show();
                         }
@@ -1694,7 +1688,9 @@ namespace Krypton.Docking
             }
 
             // If the named page exists and is not already workspace tabbed
-            if (ContainsPage(uniqueName) && (FindPageLocation(uniqueName) != DockingLocation.Workspace))
+            if (ContainsPage(uniqueName) 
+                && (FindPageLocation(uniqueName) != DockingLocation.Workspace)
+                )
             {
                 // If we can find a workspace element appropriate for the named page
                 KryptonDockingWorkspace workspaceElement = FindDockingWorkspace(uniqueName);
@@ -1716,7 +1712,7 @@ namespace Krypton.Docking
 
                         using DockingMultiUpdate update = new(this);
                         // Convert the page to a placeholder so it can be returned to the same location
-                        PropogateAction(DockingPropogateAction.StorePages, new string[] { uniqueName });
+                        PropogateAction(DockingPropogateAction.StorePages, new[] { uniqueName });
 
                         // Find the target cell, if there is one, that contains a store page
                         KryptonWorkspaceCell cell = workspaceElement.CellForPage(uniqueName);
@@ -1725,14 +1721,14 @@ namespace Krypton.Docking
                         {
                             // Insert the page at the same index as the restore page
                             var pageIndex = cell.Pages.IndexOf(cell.Pages[uniqueName]);
-                            workspaceElement.CellInsert(cell, pageIndex, new KryptonPage[] { page });
+                            workspaceElement.CellInsert(cell, pageIndex, new[] { page });
                             workspaceElement.SelectPage(uniqueName);
                             workspaceElement.DockableWorkspaceControl.Select();
                         }
                         else
                         {
                             // No existing store page so just append to the workspace
-                            workspaceElement.Append(new KryptonPage[] { page });
+                            workspaceElement.Append(new[] { page });
                             workspaceElement.SelectPage(uniqueName);
                             workspaceElement.DockableWorkspaceControl.Select();
                         }
@@ -1760,7 +1756,9 @@ namespace Krypton.Docking
             }
 
             // If the named page exists and is not already navigator tabbed
-            if (ContainsPage(uniqueName) && (FindPageLocation(uniqueName) != DockingLocation.Navigator))
+            if (ContainsPage(uniqueName) 
+                && (FindPageLocation(uniqueName) != DockingLocation.Navigator)
+                )
             {
                 // If we can find a navigator element appropriate for the named page
                 KryptonDockingNavigator navigatorElement = FindDockingNavigator(uniqueName);
@@ -1782,7 +1780,7 @@ namespace Krypton.Docking
 
                         using DockingMultiUpdate update = new(this);
                         // Convert the page to a placeholder so it can be returned to the same location
-                        PropogateAction(DockingPropogateAction.StorePages, new string[] { uniqueName });
+                        PropogateAction(DockingPropogateAction.StorePages, new[] { uniqueName });
 
                         // If we can find an existing page in the target navigator with the name we are inserting
                         KryptonDockableNavigator navigatorControl = navigatorElement.DockableNavigatorControl;
@@ -1995,8 +1993,8 @@ namespace Krypton.Docking
                                 dockspace.PropogateAction(DockingPropogateAction.StorePages, uniqueNames);
 
                                 // Create a new auto hidden group and add the switch pages into it
-                                KryptonDockingAutoHiddenGroup group = edgeAutoHidden.AppendAutoHiddenGroup();
-                                @group.Append(switchPages.ToArray());
+                                KryptonDockingAutoHiddenGroup hiddenGroup = edgeAutoHidden.AppendAutoHiddenGroup();
+                                hiddenGroup.Append(switchPages.ToArray());
 
                                 // If we had the focus at the start of the process and the dockspace no longer has it...
                                 if (hadFocus && !dockspace.DockspaceControl.ContainsFocus)
@@ -2007,7 +2005,7 @@ namespace Krypton.Docking
                                     {
                                         // ...then shift focus to the auto hidden group placeholder, to ensure the form still has the 
                                         // focus and so hovering the mouse over the auto hidden tabs will correctly get them to slide out
-                                        if (@group.GetParentType(typeof(KryptonDockingEdgeAutoHidden)) is KryptonDockingEdgeAutoHidden)
+                                        if (hiddenGroup.GetParentType(typeof(KryptonDockingEdgeAutoHidden)) is KryptonDockingEdgeAutoHidden)
                                         {
                                             topForm.Focus();
                                         }
@@ -2015,7 +2013,7 @@ namespace Krypton.Docking
                                 }
                                 dockspace.DockspaceControl.UpdateVisible(false);
 
-                                return @group;
+                                return hiddenGroup;
                             }
                         }
                     }
@@ -2030,7 +2028,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueNames">Unique name of pages inside a docked cell that needs switching.</param>
         /// <returns>KryptonDockingFloatingWindow reference on success; otherwise null.</returns>
-        public virtual KryptonDockingFloatingWindow SwitchDockedToFloatingWindowRequest(string[] uniqueNames)
+        public virtual KryptonDockingFloatingWindow SwitchDockedToFloatingWindowRequest(IReadOnlyList<string> uniqueNames)
         {
             // Cannot action a null reference
             if (uniqueNames == null)
@@ -2039,7 +2037,7 @@ namespace Krypton.Docking
             }
 
             // Cannot action an empty array
-            if (uniqueNames.Length == 0)
+            if (uniqueNames.Count == 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
             }
@@ -2291,7 +2289,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueNames">Unique name of floating pages that need switching.</param>
         /// <returns>KryptonDockingFloatingWindow reference on success; otherwise false.</returns>
-        public virtual KryptonDockingFloatingWindow SwitchFloatingToFloatingWindowRequest(string[] uniqueNames)
+        public virtual KryptonDockingFloatingWindow SwitchFloatingToFloatingWindowRequest(IReadOnlyList<string> uniqueNames)
         {
             // Cannot action a null reference
             if (uniqueNames == null)
@@ -2300,7 +2298,7 @@ namespace Krypton.Docking
             }
 
             // Cannot action an empty array
-            if (uniqueNames.Length == 0)
+            if (uniqueNames.Count == 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
             }
@@ -2451,7 +2449,7 @@ namespace Krypton.Docking
                                 if (canRestore.HasValue && canRestore.Value)
                                 {
                                     // Restore page back into a dockspace
-                                    edgeDocked.PropogateAction(DockingPropogateAction.RestorePages, new KryptonPage[] { switchPages[i] });
+                                    edgeDocked.PropogateAction(DockingPropogateAction.RestorePages, new[] { switchPages[i] });
 
                                     // Should this page become the selected and focused page?
                                     if (uniqueName == uniqueNames[i])
@@ -2525,11 +2523,11 @@ namespace Krypton.Docking
             // Array must contain some values
             if (pages.Length == 0)
             {
-                throw new ArgumentException(@"pages cannot be zero length");
+                throw new ArgumentException(@"pages cannot be zero length", nameof(pages));
             }
 
             // Cannot action a null page reference
-            if (pages.Any(page => page == null))
+            if (pages.Any(static page => page == null))
             {
                 throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
             }
@@ -2537,26 +2535,46 @@ namespace Krypton.Docking
             // Resolve the given path to the expected docking control element
             if (ResolvePath(path) is not KryptonDockingControl dockControl)
             {
-                throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl");
+                throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
             }
 
             // Find the requested target edge
             if (dockControl[edge.ToString()] is not KryptonDockingEdge edgeElement)
             {
-                throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.");
+                throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
             }
 
             // Find the docked edge
             if (edgeElement[@"Docked"] is not KryptonDockingEdgeDocked edgeDocked)
             {
-                throw new ArgumentException(@"KryptonDockingControl edge does not have a docked element.");
+                throw new ArgumentException(@"KryptonDockingControl edge does not have a docked element.", nameof(edge));
             }
 
             using DockingMultiUpdate update = new(this);
             // Create a new dockspace and add the provided array of pages
             var dockspace = edgeDocked.AppendDockspace();
             dockspace.Append(pages);
+            //switch (dockspace.DockspaceControl.Dock)
+            //{
+            //    case DockStyle.Left:
+            //    case DockStyle.Right:
+            //        if (orientation == Orientation.Horizontal)
+            //        {
+            //            controls.Add(dockspace);
+            //        }
 
+            //        break;
+            //    case DockStyle.Top:
+            //    case DockStyle.Bottom:
+            //        if (orientation == Orientation.Vertical)
+            //        {
+            //            controls.Add(dockspace);
+            //        }
+
+            //        break;
+            //}
+            //dockspace.DockspaceControl.MinimumSize = new Size(dockspace.DockspaceControl.MinimumSize.Width+40,
+            //    dockspace.DockspaceControl.MinimumSize.Height+40);
             // If we have extra pages then we need to add a stack of tabbed cells
             if (stackPages is { Length: > 0 })
             {
@@ -2617,7 +2635,7 @@ namespace Krypton.Docking
             }
 
             // Cannot action a null page reference
-            if (pages.Any(page => page == null))
+            if (pages.Any(static page => page == null))
             {
                 throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
             }
@@ -2625,25 +2643,24 @@ namespace Krypton.Docking
             // Resolve the given path to the expected docking control element
             if (ResolvePath(path) is not KryptonDockingControl control)
             {
-                throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl");
+                throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
             }
 
             // Find the requested target edge
             if (control[edge.ToString()] is not KryptonDockingEdge edgeElement)
             {
-                throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.");
+                throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
             }
 
             // Find the auto hidden edge
-            if (edgeElement["AutoHidden"] is not KryptonDockingEdgeAutoHidden edgeAutoHidden)
+            if (edgeElement[@"AutoHidden"] is not KryptonDockingEdgeAutoHidden edgeAutoHidden)
             {
-                throw new ArgumentException(@"KryptonDockingControl edge does not have an auto hidden element.");
+                throw new ArgumentException(@"KryptonDockingControl edge does not have an auto hidden element.", nameof(edge));
             }
 
-            KryptonDockingAutoHiddenGroup autoHiddenGroup;
             using DockingMultiUpdate update = new(this);
             // Create a new auto hidden group and add the provided array of pages
-            autoHiddenGroup = edgeAutoHidden.AppendAutoHiddenGroup();
+            KryptonDockingAutoHiddenGroup autoHiddenGroup = edgeAutoHidden.AppendAutoHiddenGroup();
             autoHiddenGroup.Append(pages);
 
             // If we have extra pages then we need to add extra auto hidden groups
@@ -2722,7 +2739,7 @@ namespace Krypton.Docking
             }
 
             // Cannot action a null page reference
-            if (pages.Any(page => page == null))
+            if (pages.Any(static page => page == null))
             {
                 throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
             }
@@ -2730,7 +2747,7 @@ namespace Krypton.Docking
             // Resolve the given path to the expected docking floating element
             if (ResolvePath(path) is not KryptonDockingFloating floating)
             {
-                throw new ArgumentException("Path does not resolve to a KryptonDockingFloating");
+                throw new ArgumentException(@"Path does not resolve to a KryptonDockingFloating", nameof(path));
             }
 
             // Create a new floating window and add the provided array of pages
@@ -2779,7 +2796,7 @@ namespace Krypton.Docking
             }
 
             // Cannot action a null page reference
-            if (pages.Any(page => page == null))
+            if (pages.Any(static page => page == null))
             {
                 throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
             }
@@ -2787,7 +2804,7 @@ namespace Krypton.Docking
             // Resolve the given path to the expected docking workspace element
             if (ResolvePath(path) is not KryptonDockingWorkspace workspace)
             {
-                throw new ArgumentException("Path does not resolve to a KryptonDockingWorkspace");
+                throw new ArgumentException(@"Path does not resolve to a KryptonDockingWorkspace", nameof(path));
             }
 
             // Append pages to the workspace
@@ -2816,7 +2833,7 @@ namespace Krypton.Docking
             }
 
             // Cannot action a null page reference
-            if (pages.Any(page => page == null))
+            if (pages.Any(static page => page == null))
             {
                 throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
             }
@@ -2824,7 +2841,7 @@ namespace Krypton.Docking
             // Resolve the given path to the expected docking navigator element
             if (ResolvePath(path) is not KryptonDockingNavigator navigator)
             {
-                throw new ArgumentException("Path does not resolve to a KryptonDockingNavigator");
+                throw new ArgumentException(@"Path does not resolve to a KryptonDockingNavigator", nameof(path));
             }
 
             // Append pages to the navigator
@@ -2860,7 +2877,7 @@ namespace Krypton.Docking
             }
 
             // Cannot action a null page reference
-            if (pages.Any(page => page == null))
+            if (pages.Any(static page => page == null))
             {
                 throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
             }
@@ -2868,25 +2885,24 @@ namespace Krypton.Docking
             // Resolve the given path to the expected docking control element
             if (ResolvePath(path) is not KryptonDockingControl control)
             {
-                throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl");
+                throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
             }
 
             // Find the requested target edge
             if (control[edge.ToString()] is not KryptonDockingEdge edgeElement)
             {
-                throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.");
+                throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
             }
 
             // Find the docked edge
             if (edgeElement["Docked"] is not KryptonDockingEdgeDocked edgeDocked)
             {
-                throw new ArgumentException(@"KryptonDockingControl edge does not have a docked element.");
+                throw new ArgumentException(@"KryptonDockingControl edge does not have a docked element.", nameof(edge));
             }
 
-            KryptonDockingDockspace dockspace;
             using DockingMultiUpdate update = new(this);
             // Create a new dockspace and insert the provided array of pages
-            dockspace = edgeDocked.InsertDockspace(index);
+            KryptonDockingDockspace dockspace = edgeDocked.InsertDockspace(index);
             dockspace.Append(pages);
 
             // If we have extra pages then we need to add a stack of tabbed cells
@@ -2951,7 +2967,7 @@ namespace Krypton.Docking
             }
 
             // Cannot action a null page reference
-            if (pages.Any(page => page == null))
+            if (pages.Any(static page => page == null))
             {
                 throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
             }
@@ -2959,25 +2975,24 @@ namespace Krypton.Docking
             // Resolve the given path to the expected docking control element
             if (ResolvePath(path) is not KryptonDockingControl control)
             {
-                throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl");
+                throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
             }
 
             // Find the requested target edge
             if (control[edge.ToString()] is not KryptonDockingEdge edgeElement)
             {
-                throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.");
+                throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
             }
 
             // Find the auto hidden edge
-            if (edgeElement["AutoHidden"] is not KryptonDockingEdgeAutoHidden edgeAutoHidden)
+            if (edgeElement[@"AutoHidden"] is not KryptonDockingEdgeAutoHidden edgeAutoHidden)
             {
-                throw new ArgumentException(@"KryptonDockingControl edge does not have an auto hidden element.");
+                throw new ArgumentException(@"KryptonDockingControl edge does not have an auto hidden element.", nameof(edge));
             }
 
-            KryptonDockingAutoHiddenGroup autoHiddenGroup;
             using DockingMultiUpdate update = new(this);
             // Create a new auto hidden group and add the provided array of pages
-            autoHiddenGroup = edgeAutoHidden.InsertAutoHiddenGroup(index);
+            KryptonDockingAutoHiddenGroup autoHiddenGroup = edgeAutoHidden.InsertAutoHiddenGroup(index);
             autoHiddenGroup.Append(pages);
 
             // If we have extra pages then we need to add extra auto hidden groups
@@ -3027,29 +3042,25 @@ namespace Krypton.Docking
 
             var atLeastOneFloating = false;
             KryptonPage firstFloatingPage = null;
-            foreach (KryptonPage page in pages)
+            foreach (KryptonPage page in pages.Where(static page => page is not KryptonStorePage))
             {
-                // You cannot drag a store page
-                if (page is not KryptonStorePage)
+                // Cannot drag a null page reference
+                if (page == null)
                 {
-                    // Cannot drag a null page reference
-                    if (page == null)
-                    {
-                        throw new ArgumentNullException(nameof(pages), @"pages collection contains a null page reference");
-                    }
+                    throw new ArgumentNullException(nameof(pages), @"pages collection contains a null page reference");
+                }
 
-                    // Remember the first page that is allowed to be made floating
-                    if (!atLeastOneFloating && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
-                    {
-                        // Use event to indicate the page is becoming floating and allow it to be cancelled
-                        CancelUniqueNameEventArgs args = new(page.UniqueName, false);
-                        OnPageFloatingRequest(args);
+                // Remember the first page that is allowed to be made floating
+                if (!atLeastOneFloating && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
+                {
+                    // Use event to indicate the page is becoming floating and allow it to be cancelled
+                    CancelUniqueNameEventArgs args = new(page.UniqueName, false);
+                    OnPageFloatingRequest(args);
 
-                        if (!args.Cancel)
-                        {
-                            firstFloatingPage = page;
-                            atLeastOneFloating = true;
-                        }
+                    if (!args.Cancel)
+                    {
+                        firstFloatingPage = page;
+                        atLeastOneFloating = true;
                     }
                 }
             }
@@ -3080,13 +3091,14 @@ namespace Krypton.Docking
                             // Make a list of all pages that should be appended to the floating window
                             var appendUniqueNames = new List<string>();
                             var appendPages = new List<KryptonPage>();
-                            foreach (KryptonPage page in pages)
+                            foreach (KryptonPage page in pages.Where(page => 
+                                         page is not KryptonStorePage 
+                                         && (page != firstFloatingPage) 
+                                         && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
+                                     )
                             {
-                                if (page is not KryptonStorePage && (page != firstFloatingPage) && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
-                                {
-                                    appendUniqueNames.Add(page.UniqueName);
-                                    appendPages.Add(page);
-                                }
+                                appendUniqueNames.Add(page.UniqueName);
+                                appendPages.Add(page);
                             }
 
                             // Set the window location before it is shown otherwise we see a brief flash as it appears at the 
@@ -3116,13 +3128,12 @@ namespace Krypton.Docking
                         // Make a list of all pages that should be appended to the floating window
                         var appendUniqueNames = new List<string>();
                         var appendPages = new List<KryptonPage>();
-                        foreach (KryptonPage page in pages)
+                        foreach (KryptonPage page in pages.Where(static page => page is not KryptonStorePage 
+                                     && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
+                                 )
                         {
-                            if (page is not KryptonStorePage && page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating))
-                            {
-                                appendUniqueNames.Add(page.UniqueName);
-                                appendPages.Add(page);
-                            }
+                            appendUniqueNames.Add(page.UniqueName);
+                            appendPages.Add(page);
                         }
 
                         // Set the window location before it is shown otherwise we see a brief flash as it appears at the 
@@ -3165,12 +3176,9 @@ namespace Krypton.Docking
             KryptonWorkspaceCell cell = window.FloatspaceElement.FloatspaceControl.FirstVisibleCell();
             while (cell != null)
             {
-                foreach (KryptonPage page in cell.Pages)
+                foreach (KryptonPage page in cell.Pages.Where(static page => page is not KryptonStorePage && page.LastVisibleSet))
                 {
-                    if (page is not KryptonStorePage && page.LastVisibleSet)
-                    {
-                        pages.Add(page);
-                    }
+                    pages.Add(page);
                 }
 
                 cell = window.FloatspaceElement.FloatspaceControl.NextVisibleCell(cell);
@@ -3284,7 +3292,7 @@ namespace Krypton.Docking
                 xmlWriter.WriteAttributeString(@"V", @"1");
 
                 // Give event handlers chance to embed custom data
-                xmlWriter.WriteStartElement("DGD");
+                xmlWriter.WriteStartElement(@"DGD");
                 OnGlobalSaving(new DockGlobalSavingEventArgs(this, xmlWriter));
                 xmlWriter.WriteEndElement();
 
@@ -3385,7 +3393,7 @@ namespace Krypton.Docking
                 // Double check this has the correct element name
                 if (xmlReader.Name != @"KD")
                 {
-                    throw new ArgumentException(@"Root element must be named 'KD'");
+                    throw new ArgumentException(@"Root element must be named 'KD'", nameof(xmlReader));
                 }
 
                 // Load the format version number
@@ -3408,106 +3416,99 @@ namespace Krypton.Docking
                 // Reset docking hierarchy ready for the reload
                 PropogateAction(DockingPropogateAction.Loading, (string[])null);
 
-                try
+                // Read to custom data element
+                if (!xmlReader.Read())
                 {
-                    // Read to custom data element
-                    if (!xmlReader.Read())
-                    {
-                        throw new ArgumentException(@"An element was expected but could not be read in.");
-                    }
+                    throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                }
 
-                    if (xmlReader.Name != @"DGD")
-                    {
-                        throw new ArgumentException(@"Expected 'DGD' element was not found.");
-                    }
+                if (xmlReader.Name != @"DGD")
+                {
+                    throw new ArgumentException(@"Expected 'DGD' element was not found.", nameof(xmlReader));
+                }
 
-                    var finished = xmlReader.IsEmptyElement;
+                var finished = xmlReader.IsEmptyElement;
 
-                    // Give handlers chance to reload custom saved data
-                    OnGlobalLoading(new DockGlobalLoadingEventArgs(this, xmlReader));
+                // Give handlers chance to reload custom saved data
+                OnGlobalLoading(new DockGlobalLoadingEventArgs(this, xmlReader));
 
-                    // Read everything until we get the end of custom data marker
-                    while (!finished)
-                    {
-                        // Check it has the expected name
-                        if (xmlReader.NodeType == XmlNodeType.EndElement)
-                        {
-                            finished = (xmlReader.Name == @"DGD");
-                        }
-
-                        if (!finished)
-                        {
-                            if (!xmlReader.Read())
-                            {
-                                throw new ArgumentException(@"An element was expected but could not be read in.");
-                            }
-                        }
-                    }
-
-                    // Read the next well known element
-                    if (!xmlReader.Read())
-                    {
-                        throw new ArgumentException(@"An element was expected but could not be read in.");
-                    }
-
-                    // Is it the expected element?
-                    if (xmlReader.Name != @"DM")
-                    {
-                        throw new ArgumentException(@"Element 'DM' was expected but not found.");
-                    }
-
-                    // Reload the root sequence
-                    LoadElementFromXml(xmlReader, currentPages);
-
-                    // Move past the end element
-                    if (!xmlReader.Read())
-                    {
-                        throw new ArgumentException(@"Could not read in next expected node.");
-                    }
-
+                // Read everything until we get the end of custom data marker
+                while (!finished)
+                {
                     // Check it has the expected name
-                    if (xmlReader.NodeType != XmlNodeType.EndElement)
+                    if (xmlReader.NodeType == XmlNodeType.EndElement)
                     {
-                        throw new ArgumentException(@"EndElement expected but not found.");
+                        finished = (xmlReader.Name == @"DGD");
                     }
 
-                    // Did we have any starting pages?
-                    if (currentPages.Count > 0)
+                    if (!finished)
                     {
-                        // Create a list of all the pages present after loading
-                        KryptonPageCollection loadedPages = new();
-                        PropogatePageList(DockingPropogatePageList.All, loadedPages);
-
-                        // Remove the loaded pages from the current page list
-                        foreach (KryptonPage loadedPage in loadedPages)
+                        if (!xmlReader.Read())
                         {
-                            currentPages.Remove(loadedPage);
-                        }
-
-                        // Did we any orphan pages? Those that existed at start of loading but
-                        // are not present in the docking hierarchy after loading. So they are
-                        // orphaned and we allow developers a chance to do something with them.
-                        if (currentPages.Count > 0)
-                        {
-                            // Generate event so the pages can be processed manually
-                            PagesEventArgs args = new(currentPages);
-                            OnOrphanedPages(args);
-
-                            // If there are pages not processed by the event
-                            if (args.Pages.Count > 0)
-                            {
-                                // Cleanup the no longer needed pages by disposing them
-                                foreach (KryptonPage page in args.Pages)
-                                {
-                                    page.Dispose();
-                                }
-                            }
+                            throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                         }
                     }
                 }
-                finally
+
+                // Read the next well known element
+                if (!xmlReader.Read())
                 {
-                    // ?
+                    throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                }
+
+                // Is it the expected element?
+                if (xmlReader.Name != @"DM")
+                {
+                    throw new ArgumentException(@"Element 'DM' was expected but not found.", nameof(xmlReader));
+                }
+
+                // Reload the root sequence
+                LoadElementFromXml(xmlReader, currentPages);
+
+                // Move past the end element
+                if (!xmlReader.Read())
+                {
+                    throw new ArgumentException(@"Could not read in next expected node.", nameof(xmlReader));
+                }
+
+                // Check it has the expected name
+                if (xmlReader.NodeType != XmlNodeType.EndElement)
+                {
+                    throw new ArgumentException(@"EndElement expected but not found.", nameof(xmlReader));
+                }
+
+                // Did we have any starting pages?
+                if (currentPages.Count > 0)
+                {
+                    // Create a list of all the pages present after loading
+                    KryptonPageCollection loadedPages = new();
+                    PropogatePageList(DockingPropogatePageList.All, loadedPages);
+
+                    // Remove the loaded pages from the current page list
+                    foreach (KryptonPage loadedPage in loadedPages)
+                    {
+                        currentPages.Remove(loadedPage);
+                    }
+
+                    // Did we any orphan pages? Those that existed at start of loading but
+                    // are not present in the docking hierarchy after loading. So they are
+                    // orphaned and we allow developers a chance to do something with them.
+                    if (currentPages.Count > 0)
+                    {
+                        // Generate event so the pages can be processed manually
+                        PagesEventArgs args = new(currentPages);
+                        OnOrphanedPages(args);
+
+                        // If there are pages not processed by the event
+                        if (args.Pages.Count > 0)
+                        {
+                            // Cleanup the no longer needed pages by disposing them
+                            foreach (KryptonPage page in args.Pages)
+                            {
+                                page.Dispose();
+                            }
+                        }
+                    }
                 }
             }
             finally
@@ -3682,370 +3683,247 @@ namespace Krypton.Docking
         /// Raises the AutoHiddenSeparatorResize event.
         /// </summary>
         /// <param name="e">An AutoHiddenSeparatorResizeEventArgs containing the event args.</param>
-        protected virtual void OnAutoHiddenSeparatorResize(AutoHiddenSeparatorResizeEventArgs e)
-        {
-            AutoHiddenSeparatorResize?.Invoke(this, e);
-        }
+        protected virtual void OnAutoHiddenSeparatorResize(AutoHiddenSeparatorResizeEventArgs e) => AutoHiddenSeparatorResize?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageCloseRequest event.
         /// </summary>
         /// <param name="e">An CloseActionEventArgs containing the event args.</param>
-        protected virtual void OnPageCloseRequest(CloseRequestEventArgs e)
-        {
-            PageCloseRequest?.Invoke(this, e);
-        }
+        protected virtual void OnPageCloseRequest(CloseRequestEventArgs e) => PageCloseRequest?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageDockedRequest event.
         /// </summary>
         /// <param name="e">An CancelUniqueNameEventArgs containing the event args.</param>
-        protected virtual void OnPageDockedRequest(CancelUniqueNameEventArgs e)
-        {
-            PageDockedRequest?.Invoke(this, e);
-        }
+        protected virtual void OnPageDockedRequest(CancelUniqueNameEventArgs e) => PageDockedRequest?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageAutoHiddenRequest event.
         /// </summary>
         /// <param name="e">An CancelUniqueNameEventArgs containing the event args.</param>
-        protected virtual void OnPageAutoHiddenRequest(CancelUniqueNameEventArgs e)
-        {
-            PageAutoHiddenRequest?.Invoke(this, e);
-        }
+        protected virtual void OnPageAutoHiddenRequest(CancelUniqueNameEventArgs e) => PageAutoHiddenRequest?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageFloatingRequest event.
         /// </summary>
         /// <param name="e">An CancelUniqueNameEventArgs containing the event args.</param>
-        protected virtual void OnPageFloatingRequest(CancelUniqueNameEventArgs e)
-        {
-            PageFloatingRequest?.Invoke(this, e);
-        }
+        protected virtual void OnPageFloatingRequest(CancelUniqueNameEventArgs e) => PageFloatingRequest?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageWorkspaceRequest event.
         /// </summary>
         /// <param name="e">An CancelUniqueNameEventArgs containing the event args.</param>
-        protected virtual void OnPageWorkspaceRequest(CancelUniqueNameEventArgs e)
-        {
-            PageWorkspaceRequest?.Invoke(this, e);
-        }
+        protected virtual void OnPageWorkspaceRequest(CancelUniqueNameEventArgs e) => PageWorkspaceRequest?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageNavigatorRequest event.
         /// </summary>
         /// <param name="e">An CancelUniqueNameEventArgs containing the event args.</param>
-        protected virtual void OnPageNavigatorRequest(CancelUniqueNameEventArgs e)
-        {
-            PageNavigatorRequest?.Invoke(this, e);
-        }
+        protected virtual void OnPageNavigatorRequest(CancelUniqueNameEventArgs e) => PageNavigatorRequest?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockspaceSeparatorResize event.
         /// </summary>
         /// <param name="e">An DockspaceSeparatorResizeEventArgs containing the event args.</param>
-        protected virtual void OnDockspaceSeparatorResize(DockspaceSeparatorResizeEventArgs e)
-        {
-            DockspaceSeparatorResize?.Invoke(this, e);
-        }
+        protected virtual void OnDockspaceSeparatorResize(DockspaceSeparatorResizeEventArgs e) => DockspaceSeparatorResize?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ShowPageContextMenu event.
         /// </summary>
         /// <param name="e">An ContextPageEventArgs containing the event args.</param>
-        protected virtual void OnShowPageContextMenu(ContextPageEventArgs e)
-        {
-            ShowPageContextMenu?.Invoke(this, e);
-        }
+        protected virtual void OnShowPageContextMenu(ContextPageEventArgs e) => ShowPageContextMenu?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ShowWorkspacePageContextMenu event.
         /// </summary>
         /// <param name="e">An ContextPageEventArgs containing the event args.</param>
-        protected virtual void OnShowWorkspacePageContextMenu(ContextPageEventArgs e)
-        {
-            ShowWorkspacePageContextMenu?.Invoke(this, e);
-        }
+        protected virtual void OnShowWorkspacePageContextMenu(ContextPageEventArgs e) => ShowWorkspacePageContextMenu?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GlobalSaving event.
         /// </summary>
         /// <param name="e">An DockGlobalSavingEventArgs containing event data.</param>
-        protected virtual void OnGlobalSaving(DockGlobalSavingEventArgs e)
-        {
-            GlobalSaving?.Invoke(this, e);
-        }
+        protected virtual void OnGlobalSaving(DockGlobalSavingEventArgs e) => GlobalSaving?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GlobalLoading event.
         /// </summary>
         /// <param name="e">An DockGlobalLoadingEventArgs containing event data.</param>
-        protected virtual void OnGlobalLoading(DockGlobalLoadingEventArgs e)
-        {
-            GlobalLoading?.Invoke(this, e);
-        }
+        protected virtual void OnGlobalLoading(DockGlobalLoadingEventArgs e) => GlobalLoading?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageSaving event.
         /// </summary>
         /// <param name="e">An DockPageSavingEventArgs containing event data.</param>
-        protected virtual void OnPageSaving(DockPageSavingEventArgs e)
-        {
-            PageSaving?.Invoke(this, e);
-        }
+        protected virtual void OnPageSaving(DockPageSavingEventArgs e) => PageSaving?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageLoading event.
         /// </summary>
         /// <param name="e">An DockPageLoadingEventArgs containing event data.</param>
-        protected virtual void OnPageLoading(DockPageLoadingEventArgs e)
-        {
-            PageLoading?.Invoke(this, e);
-        }
+        protected virtual void OnPageLoading(DockPageLoadingEventArgs e) => PageLoading?.Invoke(this, e);
 
         /// <summary>
         /// Raises the OrphanedPages event.
         /// </summary>
         /// <param name="e">An PagesEventArgs containing event data.</param>
-        protected virtual void OnOrphanedPages(PagesEventArgs e)
-        {
-            OrphanedPages?.Invoke(this, e);
-        }
+        protected virtual void OnOrphanedPages(PagesEventArgs e) => OrphanedPages?.Invoke(this, e);
 
         /// <summary>
         /// Raises the RecreateLoadingPage event.
         /// </summary>
         /// <param name="e">An RecreateLoadingPageEventArgs containing event data.</param>
-        protected virtual void OnRecreateLoadingPage(RecreateLoadingPageEventArgs e)
-        {
-            RecreateLoadingPage?.Invoke(this, e);
-        }
+        protected virtual void OnRecreateLoadingPage(RecreateLoadingPageEventArgs e) => RecreateLoadingPage?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AutoHiddenGroupAdding event.
         /// </summary>
         /// <param name="e">An AutoHiddenGroupEventArgs containing the event args.</param>
-        protected virtual void OnAutoHiddenGroupAdding(AutoHiddenGroupEventArgs e)
-        {
-            AutoHiddenGroupAdding?.Invoke(this, e);
-        }
+        protected virtual void OnAutoHiddenGroupAdding(AutoHiddenGroupEventArgs e) => AutoHiddenGroupAdding?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AutoHiddenGroupRemoved event.
         /// </summary>
         /// <param name="e">An AutoHiddenGroupEventArgs containing the event args.</param>
-        protected virtual void OnAutoHiddenGroupRemoved(AutoHiddenGroupEventArgs e)
-        {
-            AutoHiddenGroupRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnAutoHiddenGroupRemoved(AutoHiddenGroupEventArgs e) => AutoHiddenGroupRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AutoHiddenGroupPanelAdding event.
         /// </summary>
         /// <param name="e">An AutoHiddenGroupPanelEventArgs containing the event args.</param>
-        protected virtual void OnAutoHiddenGroupPanelAdding(AutoHiddenGroupPanelEventArgs e)
-        {
-            AutoHiddenGroupPanelAdding?.Invoke(this, e);
-        }
+        protected virtual void OnAutoHiddenGroupPanelAdding(AutoHiddenGroupPanelEventArgs e) => AutoHiddenGroupPanelAdding?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AutoHiddenGroupPanelRemoved event.
         /// </summary>
         /// <param name="e">An AutoHiddenGroupPanelEventArgs containing the event args.</param>
-        protected virtual void OnAutoHiddenGroupPanelRemoved(AutoHiddenGroupPanelEventArgs e)
-        {
-            AutoHiddenGroupPanelRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnAutoHiddenGroupPanelRemoved(AutoHiddenGroupPanelEventArgs e) => AutoHiddenGroupPanelRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockableWorkspaceAdded event.
         /// </summary>
         /// <param name="e">An DockableWorkspaceEventArgs containing the event args.</param>
-        protected virtual void OnDockableWorkspaceAdded(DockableWorkspaceEventArgs e)
-        {
-            DockableWorkspaceAdded?.Invoke(this, e);
-        }
+        protected virtual void OnDockableWorkspaceAdded(DockableWorkspaceEventArgs e) => DockableWorkspaceAdded?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockableWorkspaceRemoved event.
         /// </summary>
         /// <param name="e">An DockableWorkspaceEventArgs containing the event args.</param>
-        protected virtual void OnDockableWorkspaceRemoved(DockableWorkspaceEventArgs e)
-        {
-            DockableWorkspaceRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnDockableWorkspaceRemoved(DockableWorkspaceEventArgs e) => DockableWorkspaceRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockableNavigatorAdded event.
         /// </summary>
         /// <param name="e">An DockableNavigatorEventArgs containing the event args.</param>
-        protected virtual void OnDockableNavigatorAdded(DockableNavigatorEventArgs e)
-        {
-            DockableNavigatorAdded?.Invoke(this, e);
-        }
+        protected virtual void OnDockableNavigatorAdded(DockableNavigatorEventArgs e) => DockableNavigatorAdded?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockableNavigatorRemoved event.
         /// </summary>
         /// <param name="e">An DockableNavigatorEventArgs containing the event args.</param>
-        protected virtual void OnDockableNavigatorRemoved(DockableNavigatorEventArgs e)
-        {
-            DockableNavigatorRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnDockableNavigatorRemoved(DockableNavigatorEventArgs e) => DockableNavigatorRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockableWorkspaceCellAdding event.
         /// </summary>
         /// <param name="e">An DockableWorkspaceCellEventArgs containing the event args.</param>
-        protected virtual void OnDockableWorkspaceCellAdding(DockableWorkspaceCellEventArgs e)
-        {
-            DockableWorkspaceCellAdding?.Invoke(this, e);
-        }
+        protected virtual void OnDockableWorkspaceCellAdding(DockableWorkspaceCellEventArgs e) => DockableWorkspaceCellAdding?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockableWorkspaceCellRemoved event.
         /// </summary>
         /// <param name="e">An DockableWorkspaceCellEventArgs containing the event args.</param>
-        protected virtual void OnDockableWorkspaceCellRemoved(DockableWorkspaceCellEventArgs e)
-        {
-            DockableWorkspaceCellRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnDockableWorkspaceCellRemoved(DockableWorkspaceCellEventArgs e) => DockableWorkspaceCellRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockspaceAdding event.
         /// </summary>
         /// <param name="e">An DockspaceAddingEventArgs containing the event args.</param>
-        protected virtual void OnDockspaceAdding(DockspaceEventArgs e)
-        {
-            DockspaceAdding?.Invoke(this, e);
-        }
+        protected virtual void OnDockspaceAdding(DockspaceEventArgs e) => DockspaceAdding?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockspaceRemoved event.
         /// </summary>
         /// <param name="e">An DockspaceAddingEventArgs containing the event args.</param>
-        protected virtual void OnDockspaceRemoved(DockspaceEventArgs e)
-        {
-            DockspaceRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnDockspaceRemoved(DockspaceEventArgs e) => DockspaceRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockspaceCellAdding event.
         /// </summary>
         /// <param name="e">An DockspaceCellEventArgs containing the event args.</param>
-        protected virtual void OnDockspaceCellAdding(DockspaceCellEventArgs e)
-        {
-            DockspaceCellAdding?.Invoke(this, e);
-        }
+        protected virtual void OnDockspaceCellAdding(DockspaceCellEventArgs e) => DockspaceCellAdding?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockspaceCellRemoved event.
         /// </summary>
         /// <param name="e">An DockspaceCellEventArgs containing the event args.</param>
-        protected virtual void OnDockspaceCellRemoved(DockspaceCellEventArgs e)
-        {
-            DockspaceCellRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnDockspaceCellRemoved(DockspaceCellEventArgs e) => DockspaceCellRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockspaceSeparatorAdding event.
         /// </summary>
         /// <param name="e">An DockspaceSeparatorEventArgs containing the event args.</param>
-        protected virtual void OnDockspaceSeparatorAdding(DockspaceSeparatorEventArgs e)
-        {
-            DockspaceSeparatorAdding?.Invoke(this, e);
-        }
+        protected virtual void OnDockspaceSeparatorAdding(DockspaceSeparatorEventArgs e) => DockspaceSeparatorAdding?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DockspaceSeparatorRemoved event.
         /// </summary>
         /// <param name="e">An DockspaceSeparatorEventArgs containing the event args.</param>
-        protected virtual void OnDockspaceSeparatorRemoved(DockspaceSeparatorEventArgs e)
-        {
-            DockspaceSeparatorRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnDockspaceSeparatorRemoved(DockspaceSeparatorEventArgs e) => DockspaceSeparatorRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FloatspaceAdding event.
         /// </summary>
         /// <param name="e">An FloatspaceEventArgs containing the event args.</param>
-        protected virtual void OnFloatspaceAdding(FloatspaceEventArgs e)
-        {
-            FloatspaceAdding?.Invoke(this, e);
-        }
+        protected virtual void OnFloatspaceAdding(FloatspaceEventArgs e) => FloatspaceAdding?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FloatspaceRemoved event.
         /// </summary>
         /// <param name="e">An FloatspaceEventArgs containing the event args.</param>
-        protected virtual void OnFloatspaceRemoved(FloatspaceEventArgs e)
-        {
-            FloatspaceRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnFloatspaceRemoved(FloatspaceEventArgs e) => FloatspaceRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FloatspaceCellAdding event.
         /// </summary>
         /// <param name="e">An FloatspaceCellEventArgs containing the event args.</param>
-        protected virtual void OnFloatspaceCellAdding(FloatspaceCellEventArgs e)
-        {
-            FloatspaceCellAdding?.Invoke(this, e);
-        }
+        protected virtual void OnFloatspaceCellAdding(FloatspaceCellEventArgs e) => FloatspaceCellAdding?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FloatspaceCellRemoved event.
         /// </summary>
         /// <param name="e">An FloatspaceCellEventArgs containing the event args.</param>
-        protected virtual void OnFloatspaceCellRemoved(FloatspaceCellEventArgs e)
-        {
-            FloatspaceCellRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnFloatspaceCellRemoved(FloatspaceCellEventArgs e) => FloatspaceCellRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FloatingWindowAdding event.
         /// </summary>
         /// <param name="e">An FloatingWindowEventArgs containing the event args.</param>
-        protected virtual void OnFloatingWindowAdding(FloatingWindowEventArgs e)
-        {
-            FloatingWindowAdding?.Invoke(this, e);
-        }
+        protected virtual void OnFloatingWindowAdding(FloatingWindowEventArgs e) => FloatingWindowAdding?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FloatingWindowRemoved event.
         /// </summary>
         /// <param name="e">An FloatingWindowEventArgs containing the event args.</param>
-        protected virtual void OnFloatingWindowRemoved(FloatingWindowEventArgs e)
-        {
-            FloatingWindowRemoved?.Invoke(this, e);
-        }
+        protected virtual void OnFloatingWindowRemoved(FloatingWindowEventArgs e) => FloatingWindowRemoved?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AutoHiddenShowingStateChanged event.
         /// </summary>
         /// <param name="e">An AutoHiddenShowingStateEventArgs containing the event args.</param>
-        protected virtual void OnAutoHiddenShowingStateChanged(AutoHiddenShowingStateEventArgs e)
-        {
-            AutoHiddenShowingStateChanged?.Invoke(this, e);
-        }
+        protected virtual void OnAutoHiddenShowingStateChanged(AutoHiddenShowingStateEventArgs e) => AutoHiddenShowingStateChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DoDragDropEnd event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected virtual void OnDoDragDropEnd(EventArgs e)
-        {
-            DoDragDropEnd?.Invoke(this, e);
-        }
+        protected virtual void OnDoDragDropEnd(EventArgs e) => DoDragDropEnd?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DoDragDropQuit event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event args.</param>
-        protected virtual void OnDoDragDropQuit(EventArgs e)
-        {
-            DoDragDropQuit?.Invoke(this, e);
-        }
+        protected virtual void OnDoDragDropQuit(EventArgs e) => DoDragDropQuit?.Invoke(this, e);
 
         /// <summary>
         /// Gets the xml element name to use when saving.
@@ -4055,175 +3933,74 @@ namespace Krypton.Docking
         #endregion
 
         #region Internal
-        internal void RaisePageDockedRequest(CancelUniqueNameEventArgs e)
-        {
-            OnPageDockedRequest(e);
-        }
+        internal void RaisePageDockedRequest(CancelUniqueNameEventArgs e) => OnPageDockedRequest(e);
 
-        internal void RaisePageFloatingRequest(CancelUniqueNameEventArgs e)
-        {
-            OnPageFloatingRequest(e);
-        }
+        internal void RaisePageFloatingRequest(CancelUniqueNameEventArgs e) => OnPageFloatingRequest(e);
 
-        internal void RaisePageNavigatorRequest(CancelUniqueNameEventArgs e)
-        {
-            OnPageNavigatorRequest(e);
-        }
+        internal void RaisePageNavigatorRequest(CancelUniqueNameEventArgs e) => OnPageNavigatorRequest(e);
 
-        internal void RaisePageWorkspaceRequest(CancelUniqueNameEventArgs e)
-        {
-            OnPageWorkspaceRequest(e);
-        }
+        internal void RaisePageWorkspaceRequest(CancelUniqueNameEventArgs e) => OnPageWorkspaceRequest(e);
 
-        internal void RaisePageLoading(DockPageLoadingEventArgs e)
-        {
-            OnPageLoading(e);
-        }
+        internal void RaisePageLoading(DockPageLoadingEventArgs e) => OnPageLoading(e);
 
-        internal void RaisePageSaving(DockPageSavingEventArgs e)
-        {
-            OnPageSaving(e);
-        }
+        internal void RaisePageSaving(DockPageSavingEventArgs e) => OnPageSaving(e);
 
-        internal void RaiseAutoHiddenSeparatorResize(AutoHiddenSeparatorResizeEventArgs e)
-        {
-            OnAutoHiddenSeparatorResize(e);
-        }
+        internal void RaiseAutoHiddenSeparatorResize(AutoHiddenSeparatorResizeEventArgs e) => OnAutoHiddenSeparatorResize(e);
 
-        internal void RaiseDockspaceSeparatorResize(DockspaceSeparatorResizeEventArgs e)
-        {
-            OnDockspaceSeparatorResize(e);
-        }
+        internal void RaiseDockspaceSeparatorResize(DockspaceSeparatorResizeEventArgs e) => OnDockspaceSeparatorResize(e);
 
-        internal void RaiseRecreateLoadingPage(RecreateLoadingPageEventArgs e)
-        {
-            OnRecreateLoadingPage(e);
-        }
+        internal void RaiseRecreateLoadingPage(RecreateLoadingPageEventArgs e) => OnRecreateLoadingPage(e);
 
-        internal void RaiseAutoHiddenGroupAdding(AutoHiddenGroupEventArgs e)
-        {
-            OnAutoHiddenGroupAdding(e);
-        }
+        internal void RaiseAutoHiddenGroupAdding(AutoHiddenGroupEventArgs e) => OnAutoHiddenGroupAdding(e);
 
-        internal void RaiseAutoHiddenGroupRemoved(AutoHiddenGroupEventArgs e)
-        {
-            OnAutoHiddenGroupRemoved(e);
-        }
+        internal void RaiseAutoHiddenGroupRemoved(AutoHiddenGroupEventArgs e) => OnAutoHiddenGroupRemoved(e);
 
-        internal void RaiseAutoHiddenGroupPanelAdding(AutoHiddenGroupPanelEventArgs e)
-        {
-            OnAutoHiddenGroupPanelAdding(e);
-        }
+        internal void RaiseAutoHiddenGroupPanelAdding(AutoHiddenGroupPanelEventArgs e) => OnAutoHiddenGroupPanelAdding(e);
 
-        internal void RaiseAutoHiddenGroupPanelRemoved(AutoHiddenGroupPanelEventArgs e)
-        {
-            OnAutoHiddenGroupPanelRemoved(e);
-        }
+        internal void RaiseAutoHiddenGroupPanelRemoved(AutoHiddenGroupPanelEventArgs e) => OnAutoHiddenGroupPanelRemoved(e);
 
-        internal void RaiseDockableWorkspaceAdded(DockableWorkspaceEventArgs e)
-        {
-            OnDockableWorkspaceAdded(e);
-        }
+        internal void RaiseDockableWorkspaceAdded(DockableWorkspaceEventArgs e) => OnDockableWorkspaceAdded(e);
 
-        internal void RaiseDockableWorkspaceRemoved(DockableWorkspaceEventArgs e)
-        {
-            OnDockableWorkspaceRemoved(e);
-        }
+        internal void RaiseDockableWorkspaceRemoved(DockableWorkspaceEventArgs e) => OnDockableWorkspaceRemoved(e);
 
-        internal void RaiseDockableNavigatorAdded(DockableNavigatorEventArgs e)
-        {
-            OnDockableNavigatorAdded(e);
-        }
+        internal void RaiseDockableNavigatorAdded(DockableNavigatorEventArgs e) => OnDockableNavigatorAdded(e);
 
-        internal void RaiseDockableNavigatorRemoved(DockableNavigatorEventArgs e)
-        {
-            OnDockableNavigatorRemoved(e);
-        }
+        internal void RaiseDockableNavigatorRemoved(DockableNavigatorEventArgs e) => OnDockableNavigatorRemoved(e);
 
-        internal void RaiseDockableWorkspaceCellAdding(DockableWorkspaceCellEventArgs e)
-        {
-            OnDockableWorkspaceCellAdding(e);
-        }
+        internal void RaiseDockableWorkspaceCellAdding(DockableWorkspaceCellEventArgs e) => OnDockableWorkspaceCellAdding(e);
 
-        internal void RaiseDockableWorkspaceCellRemoved(DockableWorkspaceCellEventArgs e)
-        {
-            OnDockableWorkspaceCellRemoved(e);
-        }
+        internal void RaiseDockableWorkspaceCellRemoved(DockableWorkspaceCellEventArgs e) => OnDockableWorkspaceCellRemoved(e);
 
-        internal void RaiseDockspaceAdding(DockspaceEventArgs e)
-        {
-            OnDockspaceAdding(e);
-        }
+        internal void RaiseDockspaceAdding(DockspaceEventArgs e) => OnDockspaceAdding(e);
 
-        internal void RaiseDockspaceRemoved(DockspaceEventArgs e)
-        {
-            OnDockspaceRemoved(e);
-        }
+        internal void RaiseDockspaceRemoved(DockspaceEventArgs e) => OnDockspaceRemoved(e);
 
-        internal void RaiseDockspaceCellAdding(DockspaceCellEventArgs e)
-        {
-            OnDockspaceCellAdding(e);
-        }
+        internal void RaiseDockspaceCellAdding(DockspaceCellEventArgs e) => OnDockspaceCellAdding(e);
 
-        internal void RaiseDockspaceCellRemoved(DockspaceCellEventArgs e)
-        {
-            OnDockspaceCellRemoved(e);
-        }
+        internal void RaiseDockspaceCellRemoved(DockspaceCellEventArgs e) => OnDockspaceCellRemoved(e);
 
-        internal void RaiseDockspaceSeparatorAdding(DockspaceSeparatorEventArgs e)
-        {
-            OnDockspaceSeparatorAdding(e);
-        }
+        internal void RaiseDockspaceSeparatorAdding(DockspaceSeparatorEventArgs e) => OnDockspaceSeparatorAdding(e);
 
-        internal void RaiseDockspaceSeparatorRemoved(DockspaceSeparatorEventArgs e)
-        {
-            OnDockspaceSeparatorRemoved(e);
-        }
+        internal void RaiseDockspaceSeparatorRemoved(DockspaceSeparatorEventArgs e) => OnDockspaceSeparatorRemoved(e);
 
-        internal void RaiseFloatspaceAdding(FloatspaceEventArgs e)
-        {
-            OnFloatspaceAdding(e);
-        }
+        internal void RaiseFloatspaceAdding(FloatspaceEventArgs e) => OnFloatspaceAdding(e);
 
-        internal void RaiseFloatspaceRemoved(FloatspaceEventArgs e)
-        {
-            OnFloatspaceRemoved(e);
-        }
+        internal void RaiseFloatspaceRemoved(FloatspaceEventArgs e) => OnFloatspaceRemoved(e);
 
-        internal void RaiseFloatspaceCellAdding(FloatspaceCellEventArgs e)
-        {
-            OnFloatspaceCellAdding(e);
-        }
+        internal void RaiseFloatspaceCellAdding(FloatspaceCellEventArgs e) => OnFloatspaceCellAdding(e);
 
-        internal void RaiseFloatspaceCellRemoved(FloatspaceCellEventArgs e)
-        {
-            OnFloatspaceCellRemoved(e);
-        }
+        internal void RaiseFloatspaceCellRemoved(FloatspaceCellEventArgs e) => OnFloatspaceCellRemoved(e);
 
-        internal void RaiseFloatingWindowAdding(FloatingWindowEventArgs e)
-        {
-            OnFloatingWindowAdding(e);
-        }
+        internal void RaiseFloatingWindowAdding(FloatingWindowEventArgs e) => OnFloatingWindowAdding(e);
 
-        internal void RaiseFloatingWindowRemoved(FloatingWindowEventArgs e)
-        {
-            OnFloatingWindowRemoved(e);
-        }
+        internal void RaiseFloatingWindowRemoved(FloatingWindowEventArgs e) => OnFloatingWindowRemoved(e);
 
-        internal void RaiseAutoHiddenShowingStateChanged(AutoHiddenShowingStateEventArgs e)
-        {
-            OnAutoHiddenShowingStateChanged(e);
-        }
+        internal void RaiseAutoHiddenShowingStateChanged(AutoHiddenShowingStateEventArgs e) => OnAutoHiddenShowingStateChanged(e);
 
-        internal void RaiseDoDragDropEnd(EventArgs e)
-        {
-            OnDoDragDropEnd(e);
-        }
+        internal void RaiseDoDragDropEnd(EventArgs e) => OnDoDragDropEnd(e);
 
-        internal void RaiseDoDragDropQuit(EventArgs e)
-        {
-            OnDoDragDropQuit(e);
-        }
+        internal void RaiseDoDragDropQuit(EventArgs e) => OnDoDragDropQuit(e);
+
         #endregion
 
         #region Implementation
@@ -4273,7 +4050,7 @@ namespace Krypton.Docking
                         // Do we need to clear auto hidden elements?
                         if (autoHidden)
                         {
-                            if (edge["AutoHidden"] is KryptonDockingEdgeAutoHidden autoHiddenEdge)
+                            if (edge[@"AutoHidden"] is KryptonDockingEdgeAutoHidden autoHiddenEdge)
                             {
                                 autoHiddenEdge.PropogateAction(DockingPropogateAction.ClearStoredPages, uniqueNames);
                             }
@@ -4282,7 +4059,7 @@ namespace Krypton.Docking
                         // Do we need to clear docked elements?
                         if (docked)
                         {
-                            if (edge["Docked"] is KryptonDockingEdgeDocked dockedEdge)
+                            if (edge[@"Docked"] is KryptonDockingEdgeDocked dockedEdge)
                             {
                                 dockedEdge.PropogateAction(DockingPropogateAction.ClearStoredPages, uniqueNames);
                             }
@@ -4295,7 +4072,7 @@ namespace Krypton.Docking
         private void OnStringPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Piggy back the name of the changed property in the unique name parameter
-            PropogateAction(DockingPropogateAction.StringChanged, new string[] { e.PropertyName });
+            PropogateAction(DockingPropogateAction.StringChanged, new[] { e.PropertyName });
         }
 
         private void OnDropDownWorkspaceClicked(object sender, EventArgs e)
@@ -4407,7 +4184,7 @@ namespace Krypton.Docking
         private void OnDropDownCloseClicked(object sender, EventArgs e)
         {
             KryptonContextMenuItem closeItem = (KryptonContextMenuItem)sender;
-            CloseRequest(new string[] { (string)closeItem.Tag });
+            CloseRequest(new[] { (string)closeItem.Tag });
         }
 
         private static KryptonPage[] ArrayFromCollection(KryptonPageCollection pages)

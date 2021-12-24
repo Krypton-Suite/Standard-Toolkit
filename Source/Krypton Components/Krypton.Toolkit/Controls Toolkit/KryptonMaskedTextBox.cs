@@ -503,10 +503,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new ViewLayoutDocker[] { _drawDockerInner },
+                                                         new[] { _drawDockerInner },
                                                          new IPaletteMetric[] { StateCommon },
-                                                         new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new PaletteMetricPadding[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
+                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -1288,7 +1288,7 @@ namespace Krypton.Toolkit
             // Do we have a manager to ask for a preferred size?
             if (ViewManager != null)
             {
-                // Ask the view to peform a layout
+                // Ask the view to Perform a layout
                 Size retSize = ViewManager.GetPreferredSize(Renderer, proposedSize);
 
                 // Apply the maximum sizing

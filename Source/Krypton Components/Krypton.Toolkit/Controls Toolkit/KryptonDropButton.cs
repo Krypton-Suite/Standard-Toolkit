@@ -740,13 +740,13 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case "Enabled":
+                case @"Enabled":
                     Enabled = KryptonCommand.Enabled;
                     break;
-                case "Text":
-                case "ExtraText":
-                case "ImageSmall":
-                case "ImageTransparentColor":
+                case @"Text":
+                case @"ExtraText":
+                case @"ImageSmall":
+                case @"ImageTransparentColor":
                     PerformNeedPaint(true);
                     break;
             }

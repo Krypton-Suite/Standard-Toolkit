@@ -145,7 +145,9 @@ namespace Krypton.Docking
                     break;
                 case DockingPropogateAction.EndUpdate:
                     // Only final matching 'EndUpdate' needs to reverse start action
-                    if ((_updateCount > 0) && (_updateCount-- == 1))
+                    if ((_updateCount > 0) 
+                        && (_updateCount-- == 1)
+                        )
                     {
                         // Multi operation might have caused a change in the inner minimum
                         EnforceInnerMinimum();
@@ -161,11 +163,7 @@ namespace Krypton.Docking
                     base.PropogateAction(action, uniqueNames);
 
                     // Ensure that showing extra pages does not trespass on the inner minimum
-                    if ((action == DockingPropogateAction.ShowPages) ||
-                        (action == DockingPropogateAction.ShowAllPages))
-                    {
-                        EnforceInnerMinimum();
-                    }
+                    EnforceInnerMinimum();
 
                     break;
                 default:
@@ -216,25 +214,22 @@ namespace Krypton.Docking
                     // Find the inner rectangle after taking docked controls into account 
                     Size tl = Size.Empty;
                     Size br = Control.ClientSize;
-                    foreach (Control c in Control.Controls)
+                    foreach (Control c in Control.Controls.Cast<Control>().Where(c => c.Visible))
                     {
-                        if (c.Visible)
+                        switch (c.Dock)
                         {
-                            switch (c.Dock)
-                            {
-                                case DockStyle.Left:
-                                    tl.Width = Math.Max(tl.Width, c.Right);
-                                    break;
-                                case DockStyle.Right:
-                                    br.Width = Math.Min(br.Width, c.Left);
-                                    break;
-                                case DockStyle.Top:
-                                    tl.Height = Math.Max(tl.Height, c.Bottom);
-                                    break;
-                                case DockStyle.Bottom:
-                                    br.Height = Math.Min(br.Height, c.Top);
-                                    break;
-                            }
+                            case DockStyle.Left:
+                                tl.Width = Math.Max(tl.Width, c.Right);
+                                break;
+                            case DockStyle.Right:
+                                br.Width = Math.Min(br.Width, c.Left);
+                                break;
+                            case DockStyle.Top:
+                                tl.Height = Math.Max(tl.Height, c.Bottom);
+                                break;
+                            case DockStyle.Bottom:
+                                br.Height = Math.Min(br.Height, c.Top);
+                                break;
                         }
                     }
 
@@ -377,35 +372,36 @@ namespace Krypton.Docking
             // Create a list of all the dockspace controls in our orientation and a matching array 
             // of lengths that will be used in the final phase of updating the control sizes
             var controls = new List<KryptonDockspace>();
-            foreach (Control c in Control.Controls)
+            foreach (KryptonDockspace dockspace in Control.Controls.OfType<KryptonDockspace>()
+                         .Where(static dockspace => dockspace.Visible)
+                     )
             {
-                if ((c is KryptonDockspace dockspace) && c.Visible)
+                switch (dockspace.Dock)
                 {
-                    switch (c.Dock)
-                    {
-                        case DockStyle.Left:
-                        case DockStyle.Right:
-                            if (orientation == Orientation.Horizontal)
-                            {
-                                controls.Add(dockspace);
-                            }
+                    case DockStyle.Left:
+                    case DockStyle.Right:
+                        if (orientation == Orientation.Horizontal)
+                        {
+                            controls.Add(dockspace);
+                        }
 
-                            break;
-                        case DockStyle.Top:
-                        case DockStyle.Bottom:
-                            if (orientation == Orientation.Vertical)
-                            {
-                                controls.Add(dockspace);
-                            }
+                        break;
+                    case DockStyle.Top:
+                    case DockStyle.Bottom:
+                        if (orientation == Orientation.Vertical)
+                        {
+                            controls.Add(dockspace);
+                        }
 
-                            break;
-                    }
+                        break;
                 }
             }
 
             // Keep trying to remove size from controls until we have removed all 
             // needed space or have no more controls that can be reduced in size
-            while ((remove > 0) && (controls.Count > 0))
+            while ((remove > 0) 
+                   && (controls.Count > 0)
+                   )
             {
                 // How much space to remove from each control
                 var delta = Math.Max(1, remove / controls.Count);

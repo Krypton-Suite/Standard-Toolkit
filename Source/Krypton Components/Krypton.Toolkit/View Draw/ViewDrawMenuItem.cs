@@ -577,20 +577,20 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case "Text":
-                case "ExtraText":
-                case "Enabled":
-                case "Image":
-                case "ImageTransparentColor":
-                case "Checked":
-                case "CheckState":
-                case "ShortcutKeys":
-                case "ShowShortcutKeys":
-                case "LargeKryptonCommandImage":
+                case @"Text":
+                case @"ExtraText":
+                case @"Enabled":
+                case @"Image":
+                case @"ImageTransparentColor":
+                case @"Checked":
+                case @"CheckState":
+                case @"ShortcutKeys":
+                case @"ShowShortcutKeys":
+                case @"LargeKryptonCommandImage":
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;
-                case "KryptonCommand":
+                case @"KryptonCommand":
                     // Unhook from any existing command
                     if (_cachedCommand != null)
                     {
@@ -614,14 +614,14 @@ namespace Krypton.Toolkit
         {
             switch(e.PropertyName)
             {
-                case "Text":
-                case "ExtraText":
-                case "ImageSmall":
-                case "ImageLarge":
-                case "ImageTransparentColor":
-                case "Enabled":
-                case "Checked":
-                case "CheckState":
+                case @"Text":
+                case @"ExtraText":
+                case @"ImageSmall":
+                case @"ImageLarge":
+                case @"ImageTransparentColor":
+                case @"Enabled":
+                case @"Checked":
+                case @"CheckState":
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;

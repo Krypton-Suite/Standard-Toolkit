@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ButtonSpecMdiChildFixed class.
         /// </summary>
         /// <param name="fixedStyle">Fixed style to use.</param>
-        public ButtonSpecMdiChildFixed(PaletteButtonSpecStyle fixedStyle) =>
+        protected ButtonSpecMdiChildFixed(PaletteButtonSpecStyle fixedStyle) =>
             // Fix the type
             ProtectedType = fixedStyle;
 

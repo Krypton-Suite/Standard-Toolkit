@@ -123,7 +123,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move Label Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move Label Last", OnMoveLast);
                 _deleteLabelVerb = new DesignerVerb("Delete Label", OnDeleteLabel);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                          _moveNextVerb, _moveLastVerb, _deleteLabelVerb });
             }
 

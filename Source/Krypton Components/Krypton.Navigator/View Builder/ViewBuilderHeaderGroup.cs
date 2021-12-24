@@ -172,12 +172,12 @@ namespace Krypton.Navigator
             {
                 switch (property)
                 {
-                    case "Text":
-                    case "TextTitle":
-                    case "TextDescription":
-                    case "ImageSmall":
-                    case "ImageMedium":
-                    case "ImageLarge":
+                    case @"Text":
+                    case @"TextTitle":
+                    case @"TextDescription":
+                    case @"ImageSmall":
+                    case @"ImageMedium":
+                    case @"ImageLarge":
                         // Need to layout and paint to effect change
                         PerformNeedPagePaint(true);
                         break;
@@ -232,7 +232,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the next button action requested.
+        /// Perform the next button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -260,7 +260,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Peform the previous button action requested.
+        /// Perform the previous button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
@@ -321,7 +321,7 @@ namespace Krypton.Navigator
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         public override bool ProcessMnemonic(char charCode) =>
             // No mnemonic processing for a header group view
             false;

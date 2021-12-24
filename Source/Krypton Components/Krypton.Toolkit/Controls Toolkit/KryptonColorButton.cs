@@ -952,7 +952,7 @@ namespace Krypton.Toolkit
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         protected override bool ProcessMnemonic(char charCode)
         {
             // Are we allowed to process mnemonics?
@@ -1050,16 +1050,16 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case "Enabled":
+                case @"Enabled":
                     Enabled = KryptonCommand.Enabled;
                     break;
-                case "ImageSmall":
+                case @"ImageSmall":
                     Values.Image = KryptonCommand.ImageSmall;
                     PerformNeedPaint(true);
                     break;
-                case "Text":
-                case "ExtraText":
-                case "ImageTransparentColor":
+                case @"Text":
+                case @"ExtraText":
+                case @"ImageTransparentColor":
                     PerformNeedPaint(true);
                     break;
             }
@@ -1359,7 +1359,7 @@ namespace Krypton.Toolkit
                 // Each column is just a single color
                 for (var i = 0; i < _recentColors.Count; i++)
                 {
-                    colors[i] = new Color[] { _recentColors[i] };
+                    colors[i] = new[] { _recentColors[i] };
                 }
 
                 _colorsRecent.SetCustomColors(colors);

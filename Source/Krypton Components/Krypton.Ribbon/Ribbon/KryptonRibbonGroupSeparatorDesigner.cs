@@ -122,7 +122,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move Separator Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move Separator Last", OnMoveLast);
                 _deleteSeparatorVerb = new DesignerVerb("Delete Separator", OnDeleteSeparator);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteSeparatorVerb });
             }
 

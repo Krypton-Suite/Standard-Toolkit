@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ButtonSpecCollectionBase class.
         /// </summary>
         /// <param name="owner">Reference to owning object instance.</param>
-        public ButtonSpecCollectionBase(object owner)
+        protected ButtonSpecCollectionBase(object owner)
         {
             Debug.Assert(owner != null);
             Owner = owner;
@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
         public bool IsFixedSize => false;
 
         /// <summary>
-        /// Removes first occurance of specified object.
+        /// Removes first occurrence of specified object.
         /// </summary>
         /// <param name="value">Object reference.</param>
         public void Remove(object value) =>
@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
         public bool IsReadOnly => false;
 
         /// <summary>
-        /// Removes first occurance of specified spec.
+        /// Removes first occurrence of specified spec.
         /// </summary>
         /// <param name="item">T reference.</param>
         /// <returns>True if removed; otherwise false.</returns>

@@ -51,17 +51,17 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "BarOrientation":
+                case @"BarOrientation":
                     UpdateOrientation();
                     UpdateItemOrientation();
                     _buttonManager.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "BarFirstItemInset":
+                case @"BarFirstItemInset":
                     UpdateFirstItemInset();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "BarLastItemInset":
+                case @"BarLastItemInset":
                     UpdateLastItemInset();
                     Navigator.PerformNeedPaint(true);
                     break;

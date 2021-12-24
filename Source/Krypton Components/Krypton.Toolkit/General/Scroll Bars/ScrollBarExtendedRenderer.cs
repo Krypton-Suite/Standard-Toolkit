@@ -329,7 +329,8 @@ namespace Krypton.Toolkit
             // adjust alpha channel of grip image
             using ImageAttributes attr = new();
             attr.SetColorMatrix(
-                new ColorMatrix(new float[][] {
+                new ColorMatrix(new[]
+                {
                     new[] { 1F, 0, 0, 0, 0 },
                     new[] { 0, 1F, 0, 0, 0 },
                     new[] { 0, 0, 1F, 0, 0 },

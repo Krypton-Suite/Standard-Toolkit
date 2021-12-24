@@ -100,7 +100,7 @@ namespace Krypton.Docking
         public void Append(KryptonPage page)
         {
             // Use existing array adding method to prevent duplication of code
-            Append(new KryptonPage[] { page });
+            Append(new[] { page });
         }
 
         /// <summary>
@@ -522,9 +522,9 @@ namespace Krypton.Docking
             KryptonDockingManager manager = DockingManager;
 
             // Is it the expected xml element name?
-            if (xmlReader.Name != "KP")
+            if (xmlReader.Name != @"KP")
             {
-                throw new ArgumentException("Element name 'KP' was expected but found '" + xmlReader.Name + "' instead.");
+                throw new ArgumentException($@"Element name 'KP' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
             }
 
             // Get the unique name of the page
@@ -538,7 +538,7 @@ namespace Krypton.Docking
             if (CommonHelper.StringToBool(boolStore))
             {
                 // Recreate the requested store page and append
-                page = new KryptonStorePage(uniqueName, "AutoHiddenGroup");
+                page = new KryptonStorePage(uniqueName, @"AutoHiddenGroup");
                 AutoHiddenGroupControl.Pages.Add(page);
             }
             else
@@ -575,12 +575,12 @@ namespace Krypton.Docking
 
             if (!xmlReader.Read())
             {
-                throw new ArgumentException("An element was expected but could not be read in.");
+                throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
             }
 
-            if (xmlReader.Name != "CPD")
+            if (xmlReader.Name != @"CPD")
             {
-                throw new ArgumentException("Expected 'CPD' element was not found");
+                throw new ArgumentException(@"Expected 'CPD' element was not found", nameof(xmlReader));
             }
 
             var finished = xmlReader.IsEmptyElement;
@@ -595,21 +595,21 @@ namespace Krypton.Docking
                 // Check it has the expected name
                 if (xmlReader.NodeType == XmlNodeType.EndElement)
                 {
-                    finished = (xmlReader.Name == "CPD");
+                    finished = (xmlReader.Name == @"CPD");
                 }
 
                 if (!finished)
                 {
                     if (!xmlReader.Read())
                     {
-                        throw new ArgumentException("An element was expected but could not be read in.");
+                        throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                     }
                 }
             }
 
             if (!xmlReader.Read())
             {
-                throw new ArgumentException("An element was expected but could not be read in.");
+                throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
             }
         }
         #endregion
@@ -618,14 +618,7 @@ namespace Krypton.Docking
         private void AppendPagesToControl(KryptonPage[] pages)
         {
             // Make a list of all the 'store' pages being added
-            var uniqueNames = new List<string>();
-            foreach (KryptonPage page in pages)
-            {
-                if (page is KryptonStorePage)
-                {
-                    uniqueNames.Add(page.UniqueName);
-                }
-            }
+            var uniqueNames = pages.OfType<KryptonStorePage>().Select(static page => page.UniqueName).ToList();
 
             // We only allow a single 'store' page in this docking location at a time
             if (uniqueNames.Count > 0)
@@ -649,7 +642,7 @@ namespace Krypton.Docking
         private void OnAutoHiddenGroupStoringPage(object sender, UniqueNameEventArgs e)
         {
             // We only allow a single 'store' page in this docking location at a time
-            DockingManager.PropogateAction(DockingPropogateAction.ClearAutoHiddenStoredPages, new string[] { e.UniqueName });
+            DockingManager.PropogateAction(DockingPropogateAction.ClearAutoHiddenStoredPages, new[] { e.UniqueName });
         }
 
         private void OnAutoHiddenGroupTabClicked(object sender, KryptonPageEventArgs e)

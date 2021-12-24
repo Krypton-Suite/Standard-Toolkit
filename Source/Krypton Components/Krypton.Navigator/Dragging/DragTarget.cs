@@ -53,7 +53,7 @@ namespace Krypton.Navigator
         /// <param name="drawRect">Rectangle representing targets drawing area.</param>
         /// <param name="hint">Hint about the targets operation.</param>
         /// <param name="allowFlags">Only drop pages that have one of these flags defined.</param>
-        public DragTarget(Rectangle screenRect,
+        protected DragTarget(Rectangle screenRect,
                           Rectangle hotRect,
                           Rectangle drawRect,
                           DragTargetHint hint,

@@ -414,25 +414,25 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case "Image":
-                case "Text":
-                case "ExtraText":
-                case "ColorMap":
+                case @"Image":
+                case @"Text":
+                case @"ExtraText":
+                case @"ColorMap":
                     PerformNeedPaint(true);
                     break;
-                case "Style":
+                case @"Style":
                     UpdateButtonStyle();
                     PerformNeedPaint(true);
                     break;
-                case "Visible":
+                case @"Visible":
                     UpdateVisible();
                     PerformNeedPaint(true);
                     break;
-                case "Enabled":
+                case @"Enabled":
                     UpdateEnabled();
                     PerformNeedPaint(true);
                     break;
-                case "Checked":
+                case @"Checked":
                     UpdateChecked();
                     PerformNeedPaint(true);
                     break;

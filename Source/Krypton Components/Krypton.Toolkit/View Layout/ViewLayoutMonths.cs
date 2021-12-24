@@ -100,10 +100,10 @@ namespace Krypton.Toolkit
             // Using a button spec manager to add the buttons to the header
             ButtonSpecs = new MonthCalendarButtonSpecCollection(this);
             ButtonManager = new ButtonSpecManagerDraw(Calendar.CalendarControl, redirector, ButtonSpecs, null,
-                                                       new ViewDrawDocker[] { _drawHeader },
+                                                       new[] { _drawHeader },
                                                        new IPaletteMetric[] { Calendar.StateCommon },
-                                                       new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetCalendar },
-                                                       new PaletteMetricPadding[] { PaletteMetricPadding.None },
+                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetCalendar },
+                                                       new[] { PaletteMetricPadding.None },
                                                        Calendar.GetToolStripDelegate, _needPaintDelegate);
 
             // Create the manager for handling tooltips

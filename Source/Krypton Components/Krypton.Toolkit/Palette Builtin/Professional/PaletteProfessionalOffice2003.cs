@@ -60,13 +60,13 @@ namespace Krypton.Toolkit
                     // Is a predefined scheme being used?
                     switch (VisualStyleInformation.ColorScheme)
                     {
-                        case "NormalColor":
+                        case @"NormalColor":
                             _usingOffice2003 = true;
                             return new KryptonProfessionalKCT(_colorsB, false, this);
-                        case "HomeStead":
+                        case @"HomeStead":
                             _usingOffice2003 = true;
                             return new KryptonProfessionalKCT(_colorsG, false, this);
-                        case "Metallic":
+                        case @"Metallic":
                             _usingOffice2003 = true;
                             return new KryptonProfessionalKCT(_colorsS, false, this);
                     }

@@ -30,7 +30,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="fixedStyle">Fixed style to use.</param>
-        public ButtonSpecNavFixed(KryptonNavigator navigator,
+        protected ButtonSpecNavFixed(KryptonNavigator navigator,
                                   PaletteButtonSpecStyle fixedStyle)
         {
             Debug.Assert(navigator != null);

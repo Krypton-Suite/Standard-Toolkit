@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move TrackBar Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move TrackBar Last", OnMoveLast);
                 _deleteTrackBarVerb = new DesignerVerb("Delete TrackBar", OnDeleteTrackBar);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteTrackBarVerb });
             }
 

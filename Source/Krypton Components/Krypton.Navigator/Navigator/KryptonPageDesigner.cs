@@ -110,7 +110,7 @@ namespace Krypton.Navigator
                 {
                     // Cache verb instances so enabled state can be updated in future
                     _verbEditFlags = new DesignerVerb("Edit Flags", OnEditFlags);
-                    _verbs = new DesignerVerbCollection(new DesignerVerb[] { _verbEditFlags });
+                    _verbs = new DesignerVerbCollection(new[] { _verbEditFlags });
                 }
 
                 return _verbs;

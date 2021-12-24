@@ -49,8 +49,8 @@ namespace Krypton.Ribbon
 
             _compBlend = new Blend
             {
-                Positions = new float[] { 0.0f, 0.25f, 1.0f },
-                Factors = new float[] { 0.0f, 0.0f, 0.40f }
+                Positions = new[] { 0.0f, 0.25f, 1.0f },
+                Factors = new[] { 0.0f, 0.0f, 0.40f }
             };
         }
 

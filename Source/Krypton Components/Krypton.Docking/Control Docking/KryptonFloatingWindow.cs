@@ -69,14 +69,6 @@ namespace Krypton.Docking
             Controls.Add(FloatspaceControl);
         }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
         #endregion
 
         #region Public
@@ -186,7 +178,7 @@ namespace Krypton.Docking
 
             // Generate event so handlers to perform appropriate processing
             var uniqueNames = VisibleCloseableUniqueNames();
-            if (uniqueNames.Length > 0)
+            if (uniqueNames.Any())
             {
                 OnWindowCloseClicked(new UniqueNamesEventArgs(uniqueNames));
             }
@@ -246,7 +238,10 @@ namespace Krypton.Docking
         private void OnFloatspaceCellAdding(object sender, WorkspaceCellEventArgs e)
         {
             e.Cell.TabVisibleCountChanged += OnTabVisibleCountChanged;
-            e.Cell.MinimumSize = new Size(400, 400);
+            var childMinSize = e.Cell.GetMinSize();
+            MinimumSize = new Size(Math.Max(MinimumSize.Width, childMinSize.Width)+20,
+                Math.Max(MinimumSize.Height, childMinSize.Height)+20);
+            ClientSize = MinimumSize;
         }
 
         private void OnFloatspaceCellRemoved(object sender, WorkspaceCellEventArgs e)
@@ -286,25 +281,22 @@ namespace Krypton.Docking
             Visible = (FloatspaceControl.CellVisibleCount > 0);
         }
 
-        private string[] VisibleCloseableUniqueNames()
+        private IReadOnlyList<string> VisibleCloseableUniqueNames()
         {
             var uniqueNames = new List<string>();
             KryptonWorkspaceCell cell = FloatspaceControl.FirstVisibleCell();
             while (cell != null)
             {
                 // Create a list of all the visible page names in the floatspace that are allowed to be closed
-                foreach (KryptonPage page in cell.Pages)
-                {
-                    if (page.LastVisibleSet && page.AreFlagsSet(KryptonPageFlags.DockingAllowClose))
-                    {
-                        uniqueNames.Add(page.UniqueName);
-                    }
-                }
+                uniqueNames.AddRange(from page in cell.Pages 
+                    where page.LastVisibleSet 
+                    && page.AreFlagsSet(KryptonPageFlags.DockingAllowClose) 
+                    select page.UniqueName);
 
                 cell = FloatspaceControl.NextVisibleCell(cell);
             }
 
-            return uniqueNames.ToArray();
+            return uniqueNames;
         }
         #endregion
     }

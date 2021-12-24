@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <returns>An array of data types that this collection can contain.</returns>
         protected override Type[] CreateNewItemTypes()
         {
-            return new Type[] { typeof(KryptonContextMenuItem),
+            return new[] { typeof(KryptonContextMenuItem),
                                 typeof(KryptonContextMenuSeparator),
                                 typeof(KryptonContextMenuHeading) };
         }

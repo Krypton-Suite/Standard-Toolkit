@@ -26,7 +26,7 @@ namespace Krypton.Docking
         /// Initialize a new instance of the DockingElementClosedCollection class.
         /// </summary>
         /// <param name="name">Initial name of the element.</param>
-        public DockingElementClosedCollection(string name)
+        protected DockingElementClosedCollection(string name)
             : base(name) =>
             _elements = new List<IDockingElement>();
 
@@ -92,7 +92,7 @@ namespace Krypton.Docking
         /// <param name="item">IDockingElement reference.</param>
         protected virtual void InternalAdd(IDockingElement item)
         {
-            // Hook up the parent relationship, it is the responsability of the 'item' 
+            // Hook up the parent relationship, it is the responsibility of the 'item' 
             // to check that its name does not already exist in our collection.
             item.Parent = this;
 
@@ -106,7 +106,7 @@ namespace Krypton.Docking
         /// <param name="item">IDockingElement reference.</param>
         protected virtual void InternalInsert(int index, IDockingElement item)
         {
-            // Hook up the parent relationship, it is the responsability of the 'item' 
+            // Hook up the parent relationship, it is the responsibility of the 'item' 
             // to check that its name does not already exist in our collection.
             item.Parent = this;
 
@@ -114,7 +114,7 @@ namespace Krypton.Docking
         }
 
         /// <summary>
-        /// Removes first occurance of specified docking element.
+        /// Removes first occurrence of specified docking element.
         /// </summary>
         /// <param name="item">IDockingElement reference.</param>
         /// <returns>True if removed; otherwise false.</returns>

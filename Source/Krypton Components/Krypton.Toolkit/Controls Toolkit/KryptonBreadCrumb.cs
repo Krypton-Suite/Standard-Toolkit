@@ -126,10 +126,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
-                                                       new ViewDrawDocker[] { _drawDocker },
+                                                       new[] { _drawDocker },
                                                        new IPaletteMetric[] { StateCommon },
-                                                       new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                       new PaletteMetricPadding[] { PaletteMetricPadding.None },
+                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
+                                                       new[] { PaletteMetricPadding.None },
                                                        CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
@@ -549,7 +549,7 @@ namespace Krypton.Toolkit
         /// Processes a mnemonic character.
         /// </summary>
         /// <param name="charCode">The mnemonic character entered.</param>
-        /// <returns>true if the mnemonic was processsed; otherwise, false.</returns>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
         protected override bool ProcessMnemonic(char charCode)
         {
             // If the button manager wants to process mnemonic characters and

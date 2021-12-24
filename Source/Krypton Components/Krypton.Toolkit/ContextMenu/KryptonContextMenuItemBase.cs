@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuItem class.
         /// </summary>
-        public KryptonContextMenuItemBase() => _visible = true;
+        protected KryptonContextMenuItemBase() => _visible = true;
 
         #endregion
 

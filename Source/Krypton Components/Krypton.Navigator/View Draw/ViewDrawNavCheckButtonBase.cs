@@ -150,11 +150,11 @@ namespace Krypton.Navigator
             {
                 // Create button specification collection manager
                 ButtonSpecManager = new ButtonSpecNavManagerLayoutBar(Navigator, Navigator.InternalRedirector, Page.ButtonSpecs, null,
-                                                                   new ViewLayoutDocker[] { LayoutDocker },
+                                                                   new[] { LayoutDocker },
                                                                    new IPaletteMetric[] { Navigator.StateCommon },
-                                                                   new PaletteMetricInt[] { PaletteMetricInt.PageButtonInset },
-                                                                   new PaletteMetricInt[] { PaletteMetricInt.PageButtonInset },
-                                                                   new PaletteMetricPadding[] { PaletteMetricPadding.PageButtonPadding },
+                                                                   new[] { PaletteMetricInt.PageButtonInset },
+                                                                   new[] { PaletteMetricInt.PageButtonInset },
+                                                                   new[] { PaletteMetricPadding.PageButtonPadding },
                                                                    Navigator.CreateToolStripRenderer,
                                                                    null)
                 {

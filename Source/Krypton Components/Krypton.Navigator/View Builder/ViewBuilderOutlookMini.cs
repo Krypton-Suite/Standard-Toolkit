@@ -303,7 +303,7 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "OrientationOutlook":
+                case @"OrientationOutlook":
                     _selectedButton.Orientation = (Navigator.Outlook.Orientation == Orientation.Vertical ?
                                                    VisualOrientation.Left : VisualOrientation.Top);
                     break;
