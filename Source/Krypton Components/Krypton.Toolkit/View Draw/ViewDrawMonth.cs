@@ -98,10 +98,10 @@ namespace Krypton.Toolkit
 
             // Using a button spec manager to add the buttons to the header
             _buttonManager = new ButtonSpecManagerDraw(_calendar.CalendarControl, redirector, null, _buttonSpecs,
-                                                       new ViewDrawDocker[] { _drawHeader },
+                                                       new[] { _drawHeader },
                                                        new IPaletteMetric[] { _calendar.StateCommon },
-                                                       new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetCalendar },
-                                                       new PaletteMetricPadding[] { PaletteMetricPadding.None },
+                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetCalendar },
+                                                       new[] { PaletteMetricPadding.None },
                                                        _calendar.GetToolStripDelegate, needPaintDelegate);
 
             // Create stacks for holding display items

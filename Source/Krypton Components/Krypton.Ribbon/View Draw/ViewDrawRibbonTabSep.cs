@@ -35,8 +35,8 @@ namespace Krypton.Ribbon
         {
             _fadeBlend = new Blend
             {
-                Factors = new float[] { 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.33f, 1.0f }
+                Factors = new[] { 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.33f, 1.0f }
             };
         }
 

@@ -47,7 +47,7 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "HeaderSecondaryVisibleOutlook":
+                case @"HeaderSecondaryVisibleOutlook":
                     // Call base class but update the standard visible property
                     e = new PropertyChangedEventArgs("HeaderVisibleSecondary");
                     break;

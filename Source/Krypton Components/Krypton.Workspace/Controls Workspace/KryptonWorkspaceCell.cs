@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Linq;
+
 namespace Krypton.Workspace
 {
     /// <summary>
@@ -51,7 +53,7 @@ namespace Krypton.Workspace
         /// Initialise a new instance of the KryptonWorkspaceCell class.
         /// </summary>
         public KryptonWorkspaceCell()
-            : this("50*,50*")
+            : this(@"50*,50*")
         {
         }
 
@@ -113,7 +115,10 @@ namespace Krypton.Workspace
 
                 base.Dispose(disposing);
             }
-            catch { }
+            catch 
+            { 
+                //
+            }
         }
         #endregion
 
@@ -222,20 +227,7 @@ namespace Krypton.Workspace
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public Size WorkspacePreferredSize
-        {
-            get
-            {
-                if (IsDisposed)
-                {
-                    return Size.Empty;
-                }
-                else
-                {
-                    return GetPreferredSize(WorkspaceMinSize);
-                }
-            }
-        }
+        public Size WorkspacePreferredSize => IsDisposed ? Size.Empty : GetPreferredSize(WorkspaceMinSize);
 
         /// <summary>
         /// Get the required size in star notation.
@@ -417,26 +409,22 @@ namespace Krypton.Workspace
         public void SaveToXml(KryptonWorkspace workspace, XmlWriter xmlWriter)
         {
             // Output cell values but not the actual customization of appearance
-            xmlWriter.WriteStartElement("WC");
+            xmlWriter.WriteStartElement(@"WC");
             workspace.WriteCellElement(xmlWriter, this);
 
             // Persist each child page in turn
-            foreach (KryptonPage page in Pages)
+            foreach (KryptonPage page in Pages.Where(static page => page.AreFlagsSet(KryptonPageFlags.AllowConfigSave)))
             {
-                // Are we allowed to save the page?
-                if (page.AreFlagsSet(KryptonPageFlags.AllowConfigSave))
-                {
-                    xmlWriter.WriteStartElement("KP");
-                    workspace.WritePageElement(xmlWriter, page);
+                xmlWriter.WriteStartElement(@"KP");
+                workspace.WritePageElement(xmlWriter, page);
 
-                    // Give event handlers a chance to save custom data with the page
-                    xmlWriter.WriteStartElement("CPD");
-                    workspace.OnPageSaving(new PageSavingEventArgs(workspace, page, xmlWriter));
-                    xmlWriter.WriteEndElement();
+                // Give event handlers a chance to save custom data with the page
+                xmlWriter.WriteStartElement(@"CPD");
+                workspace.OnPageSaving(new PageSavingEventArgs(workspace, page, xmlWriter));
+                xmlWriter.WriteEndElement();
 
-                    // Terminate the page element        
-                    xmlWriter.WriteEndElement();
-                }
+                // Terminate the page element        
+                xmlWriter.WriteEndElement();
             }
 
             // Terminate the cell element        
@@ -465,7 +453,7 @@ namespace Krypton.Workspace
                     // Read the next Element
                     if (!xmlReader.Read())
                     {
-                        throw new ArgumentException("An element was expected but could not be read in.");
+                        throw new ArgumentException(@"An element was expected but could not be read in.");
                     }
 
                     // Is this the end of the cell
@@ -474,15 +462,15 @@ namespace Krypton.Workspace
                         break;
                     }
 
-                    if (xmlReader.Name == "KP")
+                    if (xmlReader.Name == @"KP")
                     {
                         // Load the page details and optionally recreate the page
-                        var uniqueName = XmlHelper.XmlAttributeToText(xmlReader, "UN");
+                        var uniqueName = XmlHelper.XmlAttributeToText(xmlReader, @"UN");
                         KryptonPage page = workspace.ReadPageElement(xmlReader, uniqueName, existingPages);
 
-                        if (xmlReader.Name != "CPD")
+                        if (xmlReader.Name != @"CPD")
                         {
-                            throw new ArgumentException("Expected 'CPD' element was not found");
+                            throw new ArgumentException(@"Expected 'CPD' element was not found");
                         }
 
                         var finished = xmlReader.IsEmptyElement;
@@ -498,14 +486,14 @@ namespace Krypton.Workspace
                             // Check it has the expected name
                             if (xmlReader.NodeType == XmlNodeType.EndElement)
                             {
-                                finished = (xmlReader.Name == "CPD");
+                                finished = (xmlReader.Name == @"CPD");
                             }
 
                             if (!finished)
                             {
                                 if (!xmlReader.Read())
                                 {
-                                    throw new ArgumentException("An element was expected but could not be read in.");
+                                    throw new ArgumentException(@"An element was expected but could not be read in.");
                                 }
                             }
                         }
@@ -513,13 +501,13 @@ namespace Krypton.Workspace
                         // Read past the end of page element                    
                         if (!xmlReader.Read())
                         {
-                            throw new ArgumentException("An element was expected but could not be read in.");
+                            throw new ArgumentException(@"An element was expected but could not be read in.");
                         }
 
                         // Check it has the expected name
                         if (xmlReader.NodeType != XmlNodeType.EndElement)
                         {
-                            throw new ArgumentException("End of 'KP' element expected but missing.");
+                            throw new ArgumentException(@"End of 'KP' element expected but missing.");
                         }
 
                         // PageLoading event might have nulled the page value to prevent it being added
@@ -540,7 +528,7 @@ namespace Krypton.Workspace
                     }
                     else
                     {
-                        throw new ArgumentException("Unknown element was encountered.");
+                        throw new ArgumentException(@"Unknown element was encountered.");
                     }
                 }
                 while (true);
@@ -659,6 +647,63 @@ namespace Krypton.Workspace
 
         private void OnMaximizeRestoreButtonClicked(object sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(this, EventArgs.Empty);
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Size GetMinSize()
+        {
+            var sizeBefore = Size;
+            var childSizeBefore = ChildPanel.Size;
+            var minSize = GetMinSize(Controls);
+            ChildPanel.MinimumSize = minSize;
+
+            // Now determine the size of the Secondary header and bottoms buttons for this theme
+            switch (Header.HeaderPositionBar)
+            {
+                case VisualOrientation.Top:
+                case VisualOrientation.Bottom:
+                    minSize.Height += (sizeBefore.Height - childSizeBefore.Height) + 10 /*Padding.Vertical*/;
+                    break;
+                case VisualOrientation.Left:
+                case VisualOrientation.Right:
+                    minSize.Width += (sizeBefore.Width - childSizeBefore.Width) + 10 /*Padding.Horizontal*/;
+                    break;
+            }
+
+            MinimumSize = minSize;
+            return minSize;
+        }
+
+        private static Size GetMinSize(ControlCollection controls)
+        {
+            var minWidth = int.MinValue;
+            var minHeight = int.MinValue;
+            foreach (var kryptonPage in controls.OfType<Control>())
+            {
+                var childMinSize = GetMinSize(kryptonPage.Controls);
+                if (minWidth < childMinSize.Width)
+                {
+                    minWidth = childMinSize.Width;
+                }
+                if (minHeight < childMinSize.Height)
+                {
+                    minHeight = childMinSize.Height;
+                }
+                if (minWidth < kryptonPage.MinimumSize.Width)
+                {
+                    minWidth = kryptonPage.MinimumSize.Width;
+                }
+                if (minHeight < kryptonPage.MinimumSize.Height)
+                {
+                    minHeight = kryptonPage.MinimumSize.Height;
+                }
+            }
+
+            return new Size(minWidth, minHeight);
+        }
+
     }
 
     /// <summary>

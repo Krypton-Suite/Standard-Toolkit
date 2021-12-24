@@ -30,7 +30,7 @@ namespace Krypton.Docking
         /// Initialize a new instance of the DockingElement class.
         /// </summary>
         /// <param name="name">Initial name of the element.</param>
-        public DockingElement(string name) =>
+        protected DockingElement(string name) =>
             // Do not allow null, use empty string instead
             Name = name ?? string.Empty;
 
@@ -110,14 +110,7 @@ namespace Krypton.Docking
                     var remainder = path.Substring(comma, path.Length - comma);
 
                     // Give each child a chance to resolve the remainder of the path
-                    foreach (IDockingElement child in this)
-                    {
-                        IDockingElement ret = child.ResolvePath(remainder);
-                        if (ret != null)
-                        {
-                            return ret;
-                        }
-                    }
+                    return this.Select(child => child.ResolvePath(remainder)).FirstOrDefault(static ret => ret != null);
                 }
             }
 
@@ -511,7 +504,7 @@ namespace Krypton.Docking
             // Is it the expected xml element name?
             if (xmlReader.Name != XmlElementName)
             {
-                throw new ArgumentException($@"Element name '{XmlElementName}' was expected but found '{xmlReader.Name}' instead.");
+                throw new ArgumentException($@"Element name '{XmlElementName}' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
             }
 
             // Grab the element attributes
@@ -521,7 +514,7 @@ namespace Krypton.Docking
             // Check the name matches up
             if (elementName != Name)
             {
-                throw new ArgumentException($@"Attribute 'N' value '{Name}' was expected but found '{elementName}' instead.");
+                throw new ArgumentException($@"Attribute 'N' value '{Name}' was expected but found '{elementName}' instead.", nameof(xmlReader));
             }
 
             // Let derived class perform element specific persistence
@@ -536,7 +529,7 @@ namespace Krypton.Docking
                     // Read to the next element
                     if (!xmlReader.Read())
                     {
-                        throw new ArgumentException(@"An element was expected but could not be read in.");
+                        throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                     }
 
                     // Find a child docking element with the matching name
@@ -550,7 +543,7 @@ namespace Krypton.Docking
             // Read past this element to the end element
             if (!xmlReader.Read())
             {
-                throw new ArgumentException(@"An element was expected but could not be read in.");
+                throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
             }
         }
 
@@ -715,7 +708,7 @@ namespace Krypton.Docking
                     // Read past this element
                     if (!xmlReader.Read())
                     {
-                        throw new ArgumentException(@"An element was expected but could not be read in.");
+                        throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                     }
 
                     // Finished when we hit the end element matching the incoming one

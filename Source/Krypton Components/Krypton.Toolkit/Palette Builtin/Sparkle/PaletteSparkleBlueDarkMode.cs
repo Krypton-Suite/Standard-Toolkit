@@ -505,7 +505,7 @@ namespace Krypton.Toolkit
         /// <param name="ribbonGroupCollapsedBorderContextTracking">Colors for tracking a collapsed group border.</param>
         /// <param name="checkBoxList">Images for check box controls.</param>
         /// <param name="radioButtonArray">Images for radio button controls.</param>
-        public PaletteSparkleBlueDarkModeBase(Color[] ribbonColors,
+        protected PaletteSparkleBlueDarkModeBase(Color[] ribbonColors,
                                   Color[] sparkleColors,
                                   Color[] appButtonNormal,
                                   Color[] appButtonTrack,

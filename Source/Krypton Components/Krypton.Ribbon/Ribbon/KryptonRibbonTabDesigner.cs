@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
                 _addGroupVerb = new DesignerVerb("Add Group", OnAddGroup);
                 _clearGroupsVerb = new DesignerVerb("Clear Groups", OnClearGroups);
                 _deleteTabVerb = new DesignerVerb("Delete Tab", OnDeleteTab);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb, _addGroupVerb, _clearGroupsVerb, _deleteTabVerb });
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb, _addGroupVerb, _clearGroupsVerb, _deleteTabVerb });
             }
 
             var moveFirst = false;

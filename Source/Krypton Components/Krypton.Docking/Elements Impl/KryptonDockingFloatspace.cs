@@ -162,7 +162,7 @@ namespace Krypton.Docking
                     }
                 }
 
-                dockingManager.PropogateAction(ClearStoreAction, new string[] { e.Item.UniqueName });
+                dockingManager.PropogateAction(ClearStoreAction, new[] { e.Item.UniqueName });
                 IgnoreStorePage = null;
             }
         }
@@ -261,7 +261,7 @@ namespace Krypton.Docking
         {
             // Generate event so that the close action is handled for the named page
             KryptonDockingManager dockingManager = DockingManager;
-            dockingManager?.CloseRequest(new string[]{ e.UniqueName });
+            dockingManager?.CloseRequest(new[]{ e.UniqueName });
         }
 
         private void OnFloatspacePagesDoubleClicked(object sender, UniqueNamesEventArgs e)
@@ -269,7 +269,7 @@ namespace Krypton.Docking
             // If the number of pages to be converted into a separate floating window is less than the
             // total number of visible pages then we allow the change to occur. Otherwise it would cause
             // all pages to be removed into another window which would be pointless.
-            if (e.UniqueNames.Length < FloatspaceControl.PageVisibleCount)
+            if (e.UniqueNames.Count < FloatspaceControl.PageVisibleCount)
             {
                 KryptonDockingManager dockingManager = DockingManager;
                 dockingManager?.SwitchFloatingToFloatingWindowRequest(e.UniqueNames);
@@ -289,14 +289,7 @@ namespace Krypton.Docking
         private void OnFloatspaceBeforePageDrag(object sender, PageDragCancelEventArgs e)
         {
             // Validate the list of names to those that are still present in the floatspace
-            var pages = new List<KryptonPage>();
-            foreach (KryptonPage page in e.Pages)
-            {
-                if (page is not KryptonStorePage && (FloatspaceControl.CellForPage(page) != null))
-                {
-                    pages.Add(page);
-                }
-            }
+            var pages = e.Pages.Where(page => page is not KryptonStorePage && (FloatspaceControl.CellForPage(page) != null)).ToList();
 
             // Only need to start docking dragging if we have some valid pages
             if (pages.Count != 0)

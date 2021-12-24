@@ -80,7 +80,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the visual orientation of the check butttons content.
+        /// Gets the visual orientation of the check buttons content.
         /// </summary>
         /// <returns>Visual orientation.</returns>
         protected override VisualOrientation ConvertButtonContentOrientation() => ResolveButtonContentOrientation(Navigator.Bar.BarOrientation);

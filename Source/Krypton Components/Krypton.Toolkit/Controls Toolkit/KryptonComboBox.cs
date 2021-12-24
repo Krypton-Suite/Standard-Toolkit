@@ -1122,10 +1122,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new ViewLayoutDocker[] { _drawDockerInner },
+                                                         new[] { _drawDockerInner },
                                                          new IPaletteMetric[] { StateCommon.ComboBox },
-                                                         new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new PaletteMetricPadding[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
+                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 

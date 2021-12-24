@@ -525,10 +525,10 @@ namespace Krypton.Ribbon
             // Create button specification collection manager
             PaletteRedirect aeroOverrideText = new PaletteRedirectRibbonAeroOverride(_ribbon, redirect);
             ButtonSpecManager = new ButtonSpecManagerLayoutRibbon(_ribbon, aeroOverrideText, _ribbon.ButtonSpecs, _buttonSpecsFixed,
-                                                               new ViewLayoutDocker[] { tabsDocker },
+                                                               new[] { tabsDocker },
                                                                new IPaletteMetric[] { _ribbon.StateCommon },
-                                                               new PaletteMetricInt[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                               new PaletteMetricPadding[] { PaletteMetricPadding.RibbonButtonPadding },
+                                                               new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
+                                                               new[] { PaletteMetricPadding.RibbonButtonPadding },
                                                                _ribbon.CreateToolStripRenderer,
                                                                NeedPaintDelegate);
 

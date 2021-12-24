@@ -4382,7 +4382,7 @@ namespace Krypton.Toolkit
             Color ribbonQATMini3 = MergeColors(groupStart, 0.90f, groupEnd, 0.10f);
 
             // Generate first set of ribbon colors
-            _ribbonColors = new Color[] { // Non ribbon colors
+            _ribbonColors = new[] { // Non ribbon colors
                                           Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,
                                           Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,
                                           Color.Red, Color.Red, Color.Red, Color.Red, Color.Red,
@@ -4552,9 +4552,9 @@ namespace Krypton.Toolkit
             Color highlight4 = MergeColors(Color.White, 0.25f, ColorTable.ButtonPressedGradientMiddle, 0.75f);
             //Color pressed3 = MergeColors(Color.White, 0.50f, ColorTable.CheckBackground, 0.50f);
             Color pressed4 = MergeColors(Color.White, 0.25f, ColorTable.CheckPressedBackground, 0.75f);
-            _appButtonNormal = new Color[] { ColorTable.SeparatorLight, ColorTable.ImageMarginGradientBegin, ColorTable.ImageMarginGradientMiddle, ColorTable.GripLight, ColorTable.ImageMarginGradientBegin };
-            _appButtonTrack = new Color[] { highlight1, highlight2, ColorTable.ButtonSelectedGradientEnd, highlight3, highlight4 };
-            _appButtonPressed = new Color[] { highlight1, pressed4, ColorTable.CheckPressedBackground, highlight2, pressed4 };
+            _appButtonNormal = new[] { ColorTable.SeparatorLight, ColorTable.ImageMarginGradientBegin, ColorTable.ImageMarginGradientMiddle, ColorTable.GripLight, ColorTable.ImageMarginGradientBegin };
+            _appButtonTrack = new[] { highlight1, highlight2, ColorTable.ButtonSelectedGradientEnd, highlight3, highlight4 };
+            _appButtonPressed = new[] { highlight1, pressed4, ColorTable.CheckPressedBackground, highlight2, pressed4 };
         }
 
         private Image CreateDropDownImage(Color color)

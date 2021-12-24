@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Initialise a new instance of the KryptonRibbonGroupContainer class.
         /// </summary>
-        public KryptonRibbonGroupContainer()
+        protected KryptonRibbonGroupContainer()
         {
         }
         #endregion

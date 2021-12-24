@@ -127,8 +127,8 @@ namespace Krypton.Docking
         private KryptonDockingFloatingWindow CreateFloatingWindow(string name)
         {
             // Create a floatspace and floating window for hosting the floatspace
-            KryptonDockingFloatspace floatSpaceElement = new("Floatspace");
-            KryptonDockingFloatingWindow floatingWindowElement = new(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
+            var floatSpaceElement = new KryptonDockingFloatspace(@"Floatspace");
+            var floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
             floatingWindowElement.Disposed += OnDockingFloatingWindowDisposed;
             InternalAdd(floatingWindowElement);
 
@@ -137,8 +137,8 @@ namespace Krypton.Docking
             if (dockingManager != null)
             {
                 // Generate events so the floating window/dockspace appearance can be customized
-                FloatingWindowEventArgs floatingWindowArgs = new(floatingWindowElement.FloatingWindow, floatingWindowElement);
-                FloatspaceEventArgs floatSpaceArgs = new(floatSpaceElement.FloatspaceControl, floatSpaceElement);
+                var floatingWindowArgs = new FloatingWindowEventArgs(floatingWindowElement.FloatingWindow, floatingWindowElement);
+                var floatSpaceArgs = new FloatspaceEventArgs(floatSpaceElement.FloatspaceControl, floatSpaceElement);
                 dockingManager.RaiseFloatingWindowAdding(floatingWindowArgs);
                 dockingManager.RaiseFloatspaceAdding(floatSpaceArgs);
             }
@@ -152,7 +152,7 @@ namespace Krypton.Docking
             KryptonDockingFloatingWindow floatingWindowElement = (KryptonDockingFloatingWindow)sender;
             floatingWindowElement.Disposed -= OnDockingFloatingWindowDisposed;
 
-            // Remove the elemenet from our child collection as it is no longer valid
+            // Remove the element from our child collection as it is no longer valid
             InternalRemove(floatingWindowElement);
         }
         #endregion

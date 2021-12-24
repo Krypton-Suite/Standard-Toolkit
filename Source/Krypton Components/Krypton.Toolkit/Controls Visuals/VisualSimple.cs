@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
             // Do we have a manager to ask for a preferred size?
             if (ViewManager != null)
             {
-                // Ask the view to peform a layout
+                // Ask the view to Perform a layout
                 Size retSize = ViewManager.GetPreferredSize(Renderer, proposedSize);
 
                 // Apply the maximum sizing

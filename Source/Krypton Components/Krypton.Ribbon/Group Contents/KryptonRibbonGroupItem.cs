@@ -39,11 +39,10 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Initialise a new instance of the KryptonRibbonGroupItem class.
         /// </summary>
-        protected KryptonRibbonGroupItem()
-        {
+        protected KryptonRibbonGroupItem() =>
             // Do the Tooltip Magic
             _toolTipValues = new ToolTipValues(null/*NeedPaintDelegate*/); // Must be replaced by appropriate call
-        }
+
         #endregion Identity
 
         #region Public

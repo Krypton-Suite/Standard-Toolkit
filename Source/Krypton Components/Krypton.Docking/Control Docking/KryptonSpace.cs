@@ -133,7 +133,7 @@ namespace Krypton.Docking
         /// Initialize a new instance of the KryptonSpace class.
         /// </summary>
         /// <param name="storeName">Name to associate with store pages.</param>
-        public KryptonSpace(string storeName)
+        protected KryptonSpace(string storeName)
         {
             // We do not want there to always be at least one cell present
             CompactFlags &= ~CompactFlags.AtLeastOneVisibleCell;
@@ -268,9 +268,9 @@ namespace Krypton.Docking
         /// <param name="page">Reference to page.</param>
         public override void WritePageElement(XmlWriter xmlWriter, KryptonPage page)
         {
-            XmlHelper.TextToXmlAttribute(xmlWriter, "UN", page.UniqueName);
-            XmlHelper.TextToXmlAttribute(xmlWriter, "S", CommonHelper.BoolToString(page is KryptonStorePage));
-            XmlHelper.TextToXmlAttribute(xmlWriter, "V", CommonHelper.BoolToString(page.LastVisibleSet), "True");
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"UN", page.UniqueName);
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"S", CommonHelper.BoolToString(page is KryptonStorePage));
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"V", CommonHelper.BoolToString(page.LastVisibleSet), @"True");
         }
 
         /// <summary>
@@ -300,7 +300,8 @@ namespace Krypton.Docking
                     page = args.Page;
 
                     // Add recreated page to the looking dictionary
-                    if ((page != null) && !existingPages.ContainsKey(page.UniqueName))
+                    if ((page != null) 
+                        && !existingPages.ContainsKey(page.UniqueName))
                     {
                         existingPages.Add(page.UniqueName, page);
                     }
@@ -310,22 +311,22 @@ namespace Krypton.Docking
             if (page != null)
             {
                 // If this is a store page then recreate as a store page type
-                if (CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, "S")))
+                if (CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"S")))
                 {
                     page = new KryptonStorePage(page.UniqueName, _storeName);
                 }
                 else
                 {
                     // Only some values if the actual page and not if it is a store page
-                    page.UniqueName = XmlHelper.XmlAttributeToText(xmlReader, "UN");
-                    page.Visible = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, "V", "True"));
+                    page.UniqueName = XmlHelper.XmlAttributeToText(xmlReader, @"UN");
+                    page.Visible = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"V", @"True"));
                 }
             }
 
             // Read past the page start element                 
             if (!xmlReader.Read())
             {
-                throw new ArgumentException("An element was expected but could not be read in.");
+                throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
             }
 
             return page;
@@ -732,10 +733,7 @@ namespace Krypton.Docking
         private void OnCellShowContextMenu(object sender, ShowContextMenuArgs e)
         {
             // Make sure we have a menu for displaying
-            if (e.KryptonContextMenu == null)
-            {
-                e.KryptonContextMenu = new KryptonContextMenu();
-            }
+            e.KryptonContextMenu ??= new KryptonContextMenu();
 
             // Use event to allow customization of the context menu
             CancelDropDownEventArgs args = new(e.KryptonContextMenu, e.Item)
@@ -808,7 +806,7 @@ namespace Krypton.Docking
 
         private void OnCellTabDoubleClicked(object sender, KryptonPageEventArgs e)
         {
-            OnPagesDoubleClicked(new UniqueNamesEventArgs(new string[] { e.Item.UniqueName }));
+            OnPagesDoubleClicked(new UniqueNamesEventArgs(new[] { e.Item.UniqueName }));
         }
 
         private void OnCellTabVisibleCountChanged(object sender, EventArgs e)
@@ -887,17 +885,14 @@ namespace Krypton.Docking
             {
                 // Find the page associated with the cell that fired this button spec
                 ButtonSpec buttonSpec = (ButtonSpec)sender;
-                foreach (CachedCellState cellState in _lookupCellState.Values)
+                foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => cellState.CloseButtonSpec == buttonSpec))
                 {
-                    if (cellState.CloseButtonSpec == buttonSpec)
+                    if (cellState.Cell.SelectedPage != null)
                     {
-                        if (cellState.Cell.SelectedPage != null)
-                        {
-                            OnPageCloseClicked(new UniqueNameEventArgs(cellState.Cell.SelectedPage.UniqueName));
-                        }
-
-                        break;
+                        OnPageCloseClicked(new UniqueNameEventArgs(cellState.Cell.SelectedPage.UniqueName));
                     }
+
+                    break;
                 }
             }
         }
@@ -908,17 +903,14 @@ namespace Krypton.Docking
             {
                 // Find the page associated with the cell that fired this button spec
                 ButtonSpec buttonSpec = (ButtonSpec)sender;
-                foreach (CachedCellState cellState in _lookupCellState.Values)
+                foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => cellState.PinButtonSpec == buttonSpec))
                 {
-                    if (cellState.PinButtonSpec == buttonSpec)
+                    if (cellState.Cell.SelectedPage != null)
                     {
-                        if (cellState.Cell.SelectedPage != null)
-                        {
-                            OnPageAutoHiddenClicked(new UniqueNameEventArgs(cellState.Cell.SelectedPage.UniqueName));
-                        }
-
-                        break;
+                        OnPageAutoHiddenClicked(new UniqueNameEventArgs(cellState.Cell.SelectedPage.UniqueName));
                     }
+
+                    break;
                 }
             }
         }
@@ -929,17 +921,16 @@ namespace Krypton.Docking
             {
                 // Search for the cell that contains the button spec that has this context menu
                 KryptonContextMenu kcm = (KryptonContextMenu)sender;
-                foreach (CachedCellState cellState in _lookupCellState.Values)
+                foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => (cellState.DropDownButtonSpec != null) 
+                                        && (cellState.DropDownButtonSpec.KryptonContextMenu == kcm))
+                         )
                 {
-                    if ((cellState.DropDownButtonSpec != null) && (cellState.DropDownButtonSpec.KryptonContextMenu == kcm))
+                    if (cellState.Cell.SelectedPage != null)
                     {
-                        if (cellState.Cell.SelectedPage != null)
-                        {
-                            OnPageDropDownClicked(new CancelDropDownEventArgs(cellState.DropDownButtonSpec.KryptonContextMenu, cellState.Cell.SelectedPage));
-                        }
-
-                        break;
+                        OnPageDropDownClicked(new CancelDropDownEventArgs(cellState.DropDownButtonSpec.KryptonContextMenu, cellState.Cell.SelectedPage));
                     }
+
+                    break;
                 }
             }
         }

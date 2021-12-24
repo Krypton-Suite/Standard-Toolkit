@@ -126,7 +126,7 @@ namespace Krypton.Navigator
                     // Get the check button used to represent the selected page
                     ViewDrawNavCheckButtonBase selected = _pageLookup[Navigator.SelectedPage];
 
-                    // Make sure the layout is uptodate
+                    // Make sure the layout is upto date
                     Navigator.CheckPerformLayout();
 
                     // Get the client rectangle of the check button
@@ -210,12 +210,12 @@ namespace Krypton.Navigator
             {
                 switch (property)
                 {
-                    case "Text":
-                    case "TextTitle":
-                    case "TextDescription":
-                    case "ImageSmall":
-                    case "ImageMedium":
-                    case "ImageLarge":
+                    case @"Text":
+                    case @"TextTitle":
+                    case @"TextDescription":
+                    case @"ImageSmall":
+                    case @"ImageMedium":
+                    case @"ImageLarge":
                         // Need to layout and paint to effect change
                         PerformNeedPagePaint(true);
                         break;
@@ -560,32 +560,32 @@ namespace Krypton.Navigator
         {
             switch (e.PropertyName)
             {
-                case "BorderEdgeStyleStack":
+                case @"BorderEdgeStyleStack":
                     Navigator.StateCommon.BorderEdgeStyle = Navigator.Stack.BorderEdgeStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "CheckButtonStyleStack":
+                case @"CheckButtonStyleStack":
                     UpdateCheckButtonStyle();
                     ReorderCheckButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "StackAnimation":
+                case @"StackAnimation":
                     _viewScrollViewport.AnimateChange = Navigator.Stack.StackAnimation;
                     break;
-                case "StackOrientation":
+                case @"StackOrientation":
                     // We only use minimum values if not calculating based on auto sizing
                     _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
                     _viewScrollViewport.VerticalViewport = (Navigator.Stack.StackOrientation == Orientation.Vertical);
                     ReorderCheckButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "StackAlignment":
-                case "ItemOrientationStack":
+                case @"StackAlignment":
+                case @"ItemOrientationStack":
                     ReorderCheckButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
-                case "PageButtonSpecInset":
-                case "PageButtonSpecPadding":
+                case @"PageButtonSpecInset":
+                case @"PageButtonSpecPadding":
                     Navigator.PerformNeedPaint(true);
                     break;
                 default:

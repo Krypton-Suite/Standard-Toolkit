@@ -419,7 +419,7 @@ namespace Krypton.Docking
         {
             // Generate event so that the close action is handled for the named page
             KryptonDockingManager dockingManager = DockingManager;
-            dockingManager?.CloseRequest(new string[] { e.UniqueName });
+            dockingManager?.CloseRequest(new[] { e.UniqueName });
         }
 
         private void OnSlidePanelPageAutoHiddenClicked(object sender, UniqueNameEventArgs e)
@@ -454,21 +454,21 @@ namespace Krypton.Docking
             innerSize.Height -= CLIENT_MINIMUM;
 
             // Adjust for any showing auto hidden panels at the edges
-            foreach (Control child in Control.Controls)
+            foreach (Control child in Control.Controls.Cast<Control>()
+                         .Where(static child => child.Visible 
+                                     && child is KryptonAutoHiddenPanel)
+                     )
             {
-                if (child.Visible && child is KryptonAutoHiddenPanel)
+                switch (child.Dock)
                 {
-                    switch (child.Dock)
-                    {
-                        case DockStyle.Left:
-                        case DockStyle.Right:
-                            innerSize.Width -= child.Width;
-                            break;
-                        case DockStyle.Top:
-                        case DockStyle.Bottom:
-                            innerSize.Height -= child.Height;
-                            break;
-                    }
+                    case DockStyle.Left:
+                    case DockStyle.Right:
+                        innerSize.Width -= child.Width;
+                        break;
+                    case DockStyle.Top:
+                    case DockStyle.Bottom:
+                        innerSize.Height -= child.Height;
+                        break;
                 }
             }
 

@@ -271,7 +271,7 @@ namespace Krypton.Toolkit
             _views?.CopyTo(array, arrayIndex);
 
         /// <summary>
-        /// Removes first occurence of specified view.
+        /// Removes first occurrence of specified view.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>

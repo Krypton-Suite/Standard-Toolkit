@@ -219,7 +219,7 @@ namespace Krypton.Ribbon
                 _addTrackBarVerb = new DesignerVerb("Add TrackBar", OnAddTrackBar);
                 _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
                 _deleteTripleVerb = new DesignerVerb("Delete Triple", OnDeleteTriple);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
                                                      _addButtonVerb, 
                                                      _addCheckBoxVerb,
                                                      _addColorButtonVerb, 

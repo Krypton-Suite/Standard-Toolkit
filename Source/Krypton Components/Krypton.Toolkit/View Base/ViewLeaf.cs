@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Removes first occurance of specified view.
+        /// Removes first occurrence of specified view.
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>

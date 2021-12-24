@@ -76,10 +76,8 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonDouble RibbonTab => _ribbonTab;
 
-        private bool ShouldSerializeRibbonTab()
-        {
-            return !_ribbonTab.IsDefault;
-        }
+        private bool ShouldSerializeRibbonTab() => !_ribbonTab.IsDefault;
+
         #endregion
 
         #region Protected

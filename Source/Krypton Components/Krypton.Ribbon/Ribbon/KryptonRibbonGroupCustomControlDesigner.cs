@@ -196,7 +196,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move Custom Control Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move Custom Control Last", OnMoveLast);
                 _deleteCustomControlVerb = new DesignerVerb("Delete Custom Control", OnDeleteCustomControl);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteCustomControlVerb });
             }
 

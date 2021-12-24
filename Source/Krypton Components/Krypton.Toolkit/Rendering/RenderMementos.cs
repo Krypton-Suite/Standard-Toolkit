@@ -475,7 +475,7 @@ namespace Krypton.Toolkit
             highlightBrush = new PathGradientBrush(highlightPath)
             {
                 CenterPoint = new PointF(highlightRect.Left + (highlightRect.Width / 2), highlightRect.Top + (highlightRect.Height / 2)),
-                SurroundColors = new Color[] { Color.Transparent }
+                SurroundColors = new[] { Color.Transparent }
             };
 
             // Reduce rectangle to the inside fill area

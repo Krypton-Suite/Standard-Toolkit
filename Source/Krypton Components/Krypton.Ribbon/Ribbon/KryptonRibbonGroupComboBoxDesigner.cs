@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move ComboBox Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move ComboBox Last", OnMoveLast);
                 _deleteComboBoxVerb = new DesignerVerb("Delete ComboBox", OnDeleteTextBox);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteComboBoxVerb });
             }
 

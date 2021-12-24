@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
                 _moveNextVerb = new DesignerVerb("Move Cluster Button Next", OnMoveNext);
                 _moveLastVerb = new DesignerVerb("Move Cluster Button Last", OnMoveLast);
                 _deleteButtonVerb = new DesignerVerb("Delete Cluster Button", OnDeleteButton);
-                _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
+                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                          _moveNextVerb, _moveLastVerb, _deleteButtonVerb });
             }
 

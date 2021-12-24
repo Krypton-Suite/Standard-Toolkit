@@ -127,206 +127,206 @@ namespace Krypton.Toolkit
         {
             _linear25Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.25f, 0.25f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.25f, 0.25f, 1.0f }
             };
 
             _linear33Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.33f, 0.33f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.33f, 0.33f, 1.0f }
             };
 
             _linear40Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.40f, 0.40f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.40f, 0.40f, 1.0f }
             };
 
             _linear50Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.50f, 0.50f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.50f, 0.50f, 1.0f }
             };
 
             _linearShadowBlend = new Blend
             {
-                Factors = new float[] { 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.30f, 1.0f }
+                Factors = new[] { 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.30f, 1.0f }
             };
 
             _switch25Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.25f, 0.25f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.25f, 0.25f, 1.0f }
             };
 
             _switch33Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.33f, 0.33f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.33f, 0.33f, 1.0f }
             };
 
             _switch50Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.5f, 0.5f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.5f, 0.5f, 1.0f }
             };
 
             _switch90Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.90f, 0.90f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.90f, 0.90f, 1.0f }
             };
 
             _halfCutBlend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.50f, 1.0f, 0.05f },
-                Positions = new float[] { 0.0f, 0.45f, 0.45f, 1.0f }
+                Factors = new[] { 0.0f, 0.50f, 1.0f, 0.05f },
+                Positions = new[] { 0.0f, 0.45f, 0.45f, 1.0f }
             };
 
             _quarterPhaseBlend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 0.25f, 0.70f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.10f, 0.20f, 0.30f, 0.5f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 0.25f, 0.70f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.10f, 0.20f, 0.30f, 0.5f, 1.0f }
             };
 
             _oneNoteBlend = new Blend
             {
-                Factors = new float[] { 0.15f, 0.75f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.45f, 0.45f, 1.0f }
+                Factors = new[] { 0.15f, 0.75f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.45f, 0.45f, 1.0f }
             };
 
             _rounding2Blend = new Blend
             {
-                Factors = new float[] { 0.8f, 0.2f, 0f, 0.07f, 1.0f },
-                Positions = new float[] { 0.0f, 0.33f, 0.33f, 0.43f, 1.0f }
+                Factors = new[] { 0.8f, 0.2f, 0f, 0.07f, 1.0f },
+                Positions = new[] { 0.0f, 0.33f, 0.33f, 0.43f, 1.0f }
             };
 
             _rounding3Blend = new Blend
             {
-                Factors = new float[] { 1.0f, 0.7f, 0.7f, 0f, 0.1f, 0.55f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.16f, 0.33f, 0.35f, 0.51f, 0.85f, 0.85f, 1.0f }
+                Factors = new[] { 1.0f, 0.7f, 0.7f, 0f, 0.1f, 0.55f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.16f, 0.33f, 0.35f, 0.51f, 0.85f, 0.85f, 1.0f }
             };
 
             _rounding4Blend = new Blend
             {
-                Factors = new float[] { 1.0f, 0.78f, 0.48f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.33f, 0.33f, 0.90f, 1.0f }
+                Factors = new[] { 1.0f, 0.78f, 0.48f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.33f, 0.33f, 0.90f, 1.0f }
             };
 
             _rounding5Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.20f, 0.84f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.20f, 0.84f, 1.0f }
             };
 
             _ribbonInBlend = new Blend
             {
-                Factors = new float[] { 0.66f, 1.0f, 0.0f },
-                Positions = new float[] { 0.0f, 0.50f, 1.0f }
+                Factors = new[] { 0.66f, 1.0f, 0.0f },
+                Positions = new[] { 0.0f, 0.50f, 1.0f }
             };
 
             _ribbonOutBlend = new Blend
             {
-                Factors = new float[] { 0.2f, 1.0f, 0.0f },
-                Positions = new float[] { 0.0f, 0.50f, 1.0f }
+                Factors = new[] { 0.2f, 1.0f, 0.0f },
+                Positions = new[] { 0.0f, 0.50f, 1.0f }
             };
 
             _ribbonTopBlend = new Blend
             {
-                Factors = new float[] { 0.0f, 1.0f, 1.0f, 0.0f },
-                Positions = new float[] { 0.0f, 0.2f, 0.8f, 1.0f }
+                Factors = new[] { 0.0f, 1.0f, 1.0f, 0.0f },
+                Positions = new[] { 0.0f, 0.2f, 0.8f, 1.0f }
             };
 
             _ribbonGroup1Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 0.6f, 1.0f },
-                Positions = new float[] { 0.0f, 0.18f, 0.75f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 0.6f, 1.0f },
+                Positions = new[] { 0.0f, 0.18f, 0.75f, 1.0f }
             };
 
             _ribbonGroup2Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.5f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.18f, 0.2f, 1.0f }
+                Factors = new[] { 0.0f, 0.5f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.18f, 0.2f, 1.0f }
             };
 
             _ribbonGroup3Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 1.0f, 0.0f, 0.0f },
-                Positions = new float[] { 0.0f, 0.90f, 0.97f, 0.97f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 1.0f, 0.0f, 0.0f },
+                Positions = new[] { 0.0f, 0.90f, 0.97f, 0.97f, 1.0f }
             };
 
             _ribbonGroup4Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.4f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.045f, 0.33f, 1.0f }
+                Factors = new[] { 0.0f, 0.4f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.045f, 0.33f, 1.0f }
             };
 
             _ribbonGroup5Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.5f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.5f, 1.0f }
             };
 
             _ribbonGroup6Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.4f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.4f, 1.0f }
             };
 
             _ribbonGroup7Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 1.0f, 1.0f, 0.0f },
-                Positions = new float[] { 0.0f, 0.15f, 0.85f, 1.0f }
+                Factors = new[] { 0.0f, 1.0f, 1.0f, 0.0f },
+                Positions = new[] { 0.0f, 0.15f, 0.85f, 1.0f }
             };
 
             _ribbonGroup8Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.85f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.85f, 1.0f }
             };
 
             _ribbonGroup9Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.5f, 0.75f, 0.9f, 1.0f },
-                Positions = new float[] { 0.0f, 0.25f, 0.50f, 0.75f, 1.0f }
+                Factors = new[] { 0.0f, 0.5f, 0.75f, 0.9f, 1.0f },
+                Positions = new[] { 0.0f, 0.25f, 0.50f, 0.75f, 1.0f }
             };
 
             _ribbonGroupArea3 = new Blend
             {
-                Factors = new float[] { 1.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.1f, 0.85f, 1.0f }
+                Factors = new[] { 1.0f, 0.0f, 0.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.1f, 0.85f, 1.0f }
             };
 
             _ribbonTabSelected1Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.50f, 0.50f, 0.9f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.50f, 0.50f, 0.9f, 1.0f }
             };
 
             _ribbonTabSelected2Blend = new Blend
             {
-                Factors = new float[] { 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.75f, 1.0f }
+                Factors = new[] { 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.75f, 1.0f }
             };
 
             _ribbonTabTopBlend = new Blend
             {
-                Factors = new float[] { 0.0f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.2f, 1.0f }
+                Factors = new[] { 0.0f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.2f, 1.0f }
             };
 
             _ribbonAppButtonBlend = new Blend
             {
-                Factors = new float[] { 0.0f, 0.0f, 0.5f, 1.0f, 1.0f },
-                Positions = new float[] { 0.0f, 0.1f, 0.5f, 0.5f, 1.0f }
+                Factors = new[] { 0.0f, 0.0f, 0.5f, 1.0f, 1.0f },
+                Positions = new[] { 0.0f, 0.1f, 0.5f, 0.5f, 1.0f }
             };
 
             _dragRoundedInsideBlend = new Blend
             {
-                Factors = new float[] { 0.05f, 0.2f, 0.5f, 1.0f },
-                Positions = new float[] { 0.0f, 0.5f, 0.5f, 1.0f }
+                Factors = new[] { 0.05f, 0.2f, 0.5f, 1.0f },
+                Positions = new[] { 0.0f, 0.5f, 0.5f, 1.0f }
             };
 
             _paleShadowPen = new Pen(Color.FromArgb(6, Color.Black));
@@ -3098,7 +3098,7 @@ namespace Krypton.Toolkit
                         OldColor = Color.Black,
                         NewColor = CommonHelper.MergeColors(imageColor, 0.75f, Color.Transparent, 0.25f)
                     };
-                    attribs.SetRemapTable(new ColorMap[] { cm }, ColorAdjustType.Bitmap);
+                    attribs.SetRemapTable(new[] { cm }, ColorAdjustType.Bitmap);
 
                     context.Graphics.DrawImage(sortImage,
                                                new Rectangle(x, y, sortImage.Width, sortImage.Height),
@@ -3178,7 +3178,7 @@ namespace Krypton.Toolkit
                         OldColor = Color.Black,
                         NewColor = CommonHelper.MergeColors(imageColor, 0.75f, Color.Transparent, 0.25f)
                     };
-                    attribs.SetRemapTable(new ColorMap[] { cm }, ColorAdjustType.Bitmap);
+                    attribs.SetRemapTable(new[] { cm }, ColorAdjustType.Bitmap);
 
                     context.Graphics.DrawImage(rowImage,
                                                new Rectangle(x, y, rowImage.Width, rowImage.Height),
@@ -5673,7 +5673,7 @@ namespace Krypton.Toolkit
                 {
                     borderBrush.Blend = _linearShadowBlend;
                     borderBrush.CenterColor = backColor1;
-                    borderBrush.SurroundColors = new Color[] { backColor2 };
+                    borderBrush.SurroundColors = new[] { backColor2 };
                     context.Graphics.FillPath(borderBrush, path);
                 }
             }
@@ -7681,7 +7681,7 @@ namespace Krypton.Toolkit
                 };
                 PointF centerPoint = new(cache.ellipseRect.Left + (cache.ellipseRect.Width / 2), cache.ellipseRect.Top + (cache.ellipseRect.Height / 2));
                 cache.ellipseBrush.CenterPoint = centerPoint;
-                cache.ellipseBrush.SurroundColors = new Color[] { Color.Transparent };
+                cache.ellipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
             RectangleF vertRectF = new(rect.Left - 1, rect.Top + 2, rect.Width + 2, rect.Height - 2);
@@ -7775,7 +7775,7 @@ namespace Krypton.Toolkit
                 };
                 PointF centerPoint = new(cache.ellipseRect.Left + (cache.ellipseRect.Width / 2), cache.ellipseRect.Top + (cache.ellipseRect.Height / 2));
                 cache.ellipseBrush.CenterPoint = centerPoint;
-                cache.ellipseBrush.SurroundColors = new Color[] { Color.Transparent };
+                cache.ellipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
             RectangleF vertRectF = new(rect.Left + 2, rect.Top - 1, rect.Width - 2, rect.Height + 2);
@@ -7869,7 +7869,7 @@ namespace Krypton.Toolkit
                 };
                 PointF centerPoint = new(cache.ellipseRect.Left + (cache.ellipseRect.Width / 2), cache.ellipseRect.Top + (cache.ellipseRect.Height / 2));
                 cache.ellipseBrush.CenterPoint = centerPoint;
-                cache.ellipseBrush.SurroundColors = new Color[] { Color.Transparent };
+                cache.ellipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
             RectangleF vertRectF = new(rect.Left, rect.Top - 1, rect.Width - 2, rect.Height + 2);
@@ -7963,7 +7963,7 @@ namespace Krypton.Toolkit
                 };
                 PointF centerPoint = new(cache.ellipseRect.Left + (cache.ellipseRect.Width / 2), cache.ellipseRect.Bottom - (cache.ellipseRect.Height / 2));
                 cache.ellipseBrush.CenterPoint = centerPoint;
-                cache.ellipseBrush.SurroundColors = new Color[] { Color.Transparent };
+                cache.ellipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
             RectangleF vertRectF = new(rect.Left - 1, rect.Top, rect.Width + 2, rect.Height - 2);
@@ -8708,7 +8708,7 @@ namespace Krypton.Toolkit
                 };
                 PointF centerPoint = new(cache.ellipseRect.Left + (cache.ellipseRect.Width / 2), cache.ellipseRect.Top + (cache.ellipseRect.Height / 2));
                 cache.ellipseBrush.CenterPoint = centerPoint;
-                cache.ellipseBrush.SurroundColors = new Color[] { Color.Transparent };
+                cache.ellipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
             cache.insideBrush = new SolidBrush(insideColor);
@@ -8765,7 +8765,7 @@ namespace Krypton.Toolkit
                 };
                 PointF centerPoint = new(cache.ellipseRect.Left + (cache.ellipseRect.Width / 2), cache.ellipseRect.Top + (cache.ellipseRect.Height / 2));
                 cache.ellipseBrush.CenterPoint = centerPoint;
-                cache.ellipseBrush.SurroundColors = new Color[] { Color.Transparent };
+                cache.ellipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
             cache.insideBrush = new SolidBrush(insideColor);
@@ -8822,7 +8822,7 @@ namespace Krypton.Toolkit
                 };
                 PointF centerPoint = new(cache.ellipseRect.Left + (cache.ellipseRect.Width / 2), cache.ellipseRect.Top + (cache.ellipseRect.Height / 2));
                 cache.ellipseBrush.CenterPoint = centerPoint;
-                cache.ellipseBrush.SurroundColors = new Color[] { Color.Transparent };
+                cache.ellipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
             cache.insideBrush = new SolidBrush(insideColor);
@@ -8879,7 +8879,7 @@ namespace Krypton.Toolkit
                 };
                 PointF centerPoint = new(cache.ellipseRect.Left + (cache.ellipseRect.Width / 2), cache.ellipseRect.Bottom - 1 - (cache.ellipseRect.Height / 2));
                 cache.ellipseBrush.CenterPoint = centerPoint;
-                cache.ellipseBrush.SurroundColors = new Color[] { Color.Transparent };
+                cache.ellipseBrush.SurroundColors = new[] { Color.Transparent };
             }
 
             cache.insideBrush = new SolidBrush(insideColor);
@@ -10403,8 +10403,8 @@ namespace Krypton.Toolkit
             Color[] colorsLowerHalf = { bottomDark, bottomMedium, bottomLight, bottomLight, bottomMedium, bottomDark };
 
             var posLowerHalf = state == PaletteState.Pressed
-                ? new float[] { 0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f }
-                : new float[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
+                ? new[] { 0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f }
+                : new[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
 
             ColorBlend blendLowerHalf = new()
             {
@@ -10449,7 +10449,7 @@ namespace Krypton.Toolkit
                         using (PathGradientBrush pathGradient = new(path))
                         {
                             pathGradient.CenterColor = topLight;
-                            pathGradient.SurroundColors = new Color[] { Color.FromArgb(100, bottomLight) };
+                            pathGradient.SurroundColors = new[] { Color.FromArgb(100, bottomLight) };
                             g.FillEllipse(pathGradient, rectBottomGlow);
                         }
                     }
@@ -10730,7 +10730,7 @@ namespace Krypton.Toolkit
                     trackingPath.AddEllipse(new Rectangle(rect.X, rect.Y + (rect.Height / 2), rect.Width - 3, rect.Height));
                     cache.trackHighlightBrush = new PathGradientBrush(trackingPath)
                     {
-                        SurroundColors = new Color[] { Color.Transparent },
+                        SurroundColors = new[] { Color.Transparent },
                         CenterColor = cache.c3,//(dark ? (rect.Width > 50 ? _whiten60 : _whiten45) : _whiten160),
                         CenterPoint = new PointF(rect.X + ((rect.Width - 3) / 2), rect.Height)
                     };

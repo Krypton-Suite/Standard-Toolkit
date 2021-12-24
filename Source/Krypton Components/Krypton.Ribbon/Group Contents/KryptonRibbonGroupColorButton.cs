@@ -1244,7 +1244,7 @@ namespace Krypton.Ribbon
                 // Each column is just a single color
                 for (var i = 0; i < _recentColors.Count; i++)
                 {
-                    colors[i] = new Color[] { _recentColors[i] };
+                    colors[i] = new[] { _recentColors[i] };
                 }
 
                 _colorsRecent.SetCustomColors(colors);

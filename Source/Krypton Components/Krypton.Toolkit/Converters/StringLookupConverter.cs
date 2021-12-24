@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the StringLookupConverter class.
         /// </summary>
-        public StringLookupConverter(Type enumType)
+        protected StringLookupConverter(Type enumType)
             : base(enumType)
         {
         }

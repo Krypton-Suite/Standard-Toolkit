@@ -22,7 +22,7 @@ namespace Krypton.Docking
         /// Initialize a new instance of the DockingElementOpenCollection class.
         /// </summary>
         /// <param name="name">Initial name of the element.</param>
-        public DockingElementOpenCollection(string name)
+        protected DockingElementOpenCollection(string name)
             : base(name)
         {
         }
@@ -49,7 +49,7 @@ namespace Krypton.Docking
         }
 
         /// <summary>
-        /// Removes first occurance of specified docking element.
+        /// Removes first occurrence of specified docking element.
         /// </summary>
         /// <param name="item">IDockingElement reference.</param>
         /// <returns>True if removed; otherwise false.</returns>

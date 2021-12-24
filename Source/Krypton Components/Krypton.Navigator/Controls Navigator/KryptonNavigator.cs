@@ -11,6 +11,8 @@
 #endregion
 
 
+// ReSharper disable EventNeverSubscribedTo.Global
+// ReSharper disable MemberCanBeProtected.Global
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -259,9 +261,7 @@ namespace Krypton.Navigator
         #region Identity
         static KryptonNavigator() =>
             // Cache access to the internal 'Select' method of the ContainerControl
-            _containerSelect = typeof(ContainerControl).GetMethod("Select",
-                BindingFlags.Instance |
-                BindingFlags.NonPublic);
+            _containerSelect = typeof(ContainerControl).GetMethod(@"Select", BindingFlags.Instance | BindingFlags.NonPublic);
 
         /// <summary>
         /// Initialize a new instance of the KryptonNavigator class.
@@ -332,7 +332,7 @@ namespace Krypton.Navigator
             set
             {
                 base.Name = value;
-                ChildPanel.Name = value + ".Panel";
+                ChildPanel.Name = $@"{value}.Panel";
             }
         }
 

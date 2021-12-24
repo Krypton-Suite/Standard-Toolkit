@@ -412,21 +412,21 @@ namespace Krypton.Navigator
                     // None of the minimum values can be less than 1
                     if (value.Width < 1)
                     {
-                        throw new ArgumentException("Width cannot be less than 1", "ItemMinimumSize");
+                        throw new ArgumentException(@"Width cannot be less than 1", nameof(ItemMinimumSize));
                     }
                     if (value.Height < 1)
                     {
-                        throw new ArgumentException("Height cannot be less than 1", "ItemMinimumSize");
+                        throw new ArgumentException(@"Height cannot be less than 1", nameof(ItemMinimumSize));
                     }
 
                     // Minimum value must be less than or equal to the maximum
                     if (value.Width > ItemMaximumSize.Width)
                     {
-                        throw new ArgumentException("Width cannot be greater than the ItemMaximumSize.Width", "ItemMinimumSize");
+                        throw new ArgumentException(@"Width cannot be greater than the ItemMaximumSize.Width", nameof(ItemMinimumSize));
                     }
                     if (value.Height > ItemMaximumSize.Height)
                     {
-                        throw new ArgumentException("Height cannot be greater than the ItemMaximumSize.Height", "ItemMinimumSize");
+                        throw new ArgumentException(@"Height cannot be greater than the ItemMaximumSize.Height", nameof(ItemMinimumSize));
                     }
 
                     _itemMinimumSize = value;
@@ -463,21 +463,21 @@ namespace Krypton.Navigator
                     // None of the maximum values can be less than 1
                     if (value.Width < 1)
                     {
-                        throw new ArgumentException("Width cannot be less than 1", "ItemMaximumSize");
+                        throw new ArgumentException(@"Width cannot be less than 1", nameof(ItemMaximumSize));
                     }
                     if (value.Height < 1)
                     {
-                        throw new ArgumentException("Height cannot be less than 1", "ItemMaximumSize");
+                        throw new ArgumentException(@"Height cannot be less than 1", nameof(ItemMaximumSize));
                     }
 
                     // Maximum value must be greater than or equal to the minimum
                     if (value.Width < ItemMinimumSize.Width)
                     {
-                        throw new ArgumentException("Width cannot be less than the ItemMinimumSize.Width", "ItemMaximumSize");
+                        throw new ArgumentException(@"Width cannot be less than the ItemMinimumSize.Width", nameof(ItemMaximumSize));
                     }
                     if (value.Height < ItemMinimumSize.Height)
                     {
-                        throw new ArgumentException("Height cannot be less than the ItemMinimumSize.Width", "ItemMaximumSize");
+                        throw new ArgumentException(@"Height cannot be less than the ItemMinimumSize.Width", nameof(ItemMaximumSize));
                     }
 
                     _itemMaximumSize = value;

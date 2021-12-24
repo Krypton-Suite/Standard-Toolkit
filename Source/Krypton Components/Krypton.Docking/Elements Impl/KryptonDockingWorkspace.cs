@@ -88,7 +88,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(page));
             }
 
-            ShowPages(new string[] { page.UniqueName });
+            ShowPages(new[] { page.UniqueName });
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(uniqueName));
             }
 
-            ShowPages(new string[] { uniqueName });
+            ShowPages(new[] { uniqueName });
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(page));
             }
 
-            HidePages(new string[] { page.UniqueName });
+            HidePages(new[] { page.UniqueName });
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Krypton.Docking
 
             if (uniqueName.Length > 0)
             {
-                HidePages(new string[] { uniqueName });
+                HidePages(new[] { uniqueName });
             }
         }
 
@@ -303,7 +303,7 @@ namespace Krypton.Docking
                 throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
             }
 
-            RemovePages(new string[] { uniqueName }, disposePage);
+            RemovePages(new[] { uniqueName }, disposePage);
         }
 
         /// <summary>

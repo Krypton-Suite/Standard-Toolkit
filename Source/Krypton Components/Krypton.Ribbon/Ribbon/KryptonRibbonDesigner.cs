@@ -141,7 +141,7 @@ namespace Krypton.Ribbon
                     _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
                     _addTabVerb = new DesignerVerb("Add Tab", OnAddTab);
                     _clearTabsVerb = new DesignerVerb("Clear Tabs", OnClearTabs);
-                    _verbs.AddRange(new DesignerVerb[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb });
+                    _verbs.AddRange(new[] { _toggleHelpersVerb, _addTabVerb, _clearTabsVerb });
                 }
 
                 UpdateVerbStatus();

@@ -29,53 +29,61 @@ namespace Krypton.Toolkit
         #region Static Fields
         private static readonly object _threadLock = new();
 
-        private static readonly ColorMatrix _matrixGrayScale = new(new float[][]{new float[]{0.3f,0.3f,0.3f,0,0},
-                                                                                             new float[]{0.59f,0.59f,0.59f,0,0},
-                                                                                             new float[]{0.11f,0.11f,0.11f,0,0},
+        private static readonly ColorMatrix _matrixGrayScale = new(new[]
+        {new[]{0.3f,0.3f,0.3f,0,0},
+                                                                                             new[]{0.59f,0.59f,0.59f,0,0},
+                                                                                             new[]{0.11f,0.11f,0.11f,0,0},
                                                                                              new float[]{0,0,0,1,0},
                                                                                              new float[]{0,0,0,0,1}});
 
-        private static readonly ColorMatrix _matrixGrayScaleRed = new(new float[][]{new float[]{1,0,0,0,0},
-                                                                                                new float[]{0,0.59f,0.59f,0,0},
-                                                                                                new float[]{0,0.11f,0.11f,0,0},
+        private static readonly ColorMatrix _matrixGrayScaleRed = new(new[]
+        {new float[]{1,0,0,0,0},
+                                                                                                new[]{0,0.59f,0.59f,0,0},
+                                                                                                new[]{0,0.11f,0.11f,0,0},
                                                                                                 new float[]{0,0,0,1,0},
                                                                                                 new float[]{0,0,0,0,1}});
 
-        private static readonly ColorMatrix _matrixGrayScaleGreen = new(new float[][]{new float[]{0.3f,0,0.3f,0,0},
+        private static readonly ColorMatrix _matrixGrayScaleGreen = new(new[]
+        {new[]{0.3f,0,0.3f,0,0},
                                                                                                   new float[]{0,1,0,0,0},
-                                                                                                  new float[]{0.11f,0,0.11f,0,0},
+                                                                                                  new[]{0.11f,0,0.11f,0,0},
                                                                                                   new float[]{0,0,0,1,0},
                                                                                                   new float[]{0,0,0,0,1}});
 
-        private static readonly ColorMatrix _matrixGrayScaleBlue = new(new float[][]{new float[]{0.3f,0.3f,0,0,0},
-                                                                                                 new float[]{0.59f,0.59f,0,0,0},
+        private static readonly ColorMatrix _matrixGrayScaleBlue = new(new[]
+        {new[]{0.3f,0.3f,0,0,0},
+                                                                                                 new[]{0.59f,0.59f,0,0,0},
                                                                                                  new float[]{0,0,1,0,0},
                                                                                                  new float[]{0,0,0,1,0},
                                                                                                  new float[]{0,0,0,0,1}});
 
-        private static readonly ColorMatrix _matrixLight = new(new float[][]{new float[]{1,0,0,0,0},
+        private static readonly ColorMatrix _matrixLight = new(new[]
+        {new float[]{1,0,0,0,0},
                                                                                          new float[]{0,1,0,0,0},
                                                                                          new float[]{0,0,1,0,0},
                                                                                          new float[]{0,0,0,1,0},
-                                                                                         new float[]{0.1f,0.1f,0.1f,0,1}});
+                                                                                         new[]{0.1f,0.1f,0.1f,0,1}});
 
-        private static readonly ColorMatrix _matrixLightLight = new(new float[][]{new float[]{1,0,0,0,0},
+        private static readonly ColorMatrix _matrixLightLight = new(new[]
+        {new float[]{1,0,0,0,0},
                                                                                               new float[]{0,1,0,0,0},
                                                                                               new float[]{0,0,1,0,0},
                                                                                               new float[]{0,0,0,1,0},
-                                                                                              new float[]{0.2f,0.2f,0.2f,0,1}});
+                                                                                              new[]{0.2f,0.2f,0.2f,0,1}});
 
-        private static readonly ColorMatrix _matrixDark = new(new float[][]{new float[]{1,0,0,0,0},
+        private static readonly ColorMatrix _matrixDark = new(new[]
+        {new float[]{1,0,0,0,0},
                                                                                         new float[]{0,1,0,0,0},
                                                                                         new float[]{0,0,1,0,0},
                                                                                         new float[]{0,0,0,1,0},
-                                                                                        new float[]{-0.1f,-0.1f,-0.1f,0,1}});
+                                                                                        new[]{-0.1f,-0.1f,-0.1f,0,1}});
 
-        private static readonly ColorMatrix _matrixDarkDark = new(new float[][]{new float[]{1,0,0,0,0},
+        private static readonly ColorMatrix _matrixDarkDark = new(new[]
+        {new float[]{1,0,0,0,0},
                                                                                             new float[]{0,1,0,0,0},
                                                                                             new float[]{0,0,1,0,0},
                                                                                             new float[]{0,0,0,1,0},
-                                                                                            new float[]{-0.25f,-0.25f,-0.25f,0,1}});
+                                                                                            new[]{-0.25f,-0.25f,-0.25f,0,1}});
         #endregion
 
         #region IRenderer

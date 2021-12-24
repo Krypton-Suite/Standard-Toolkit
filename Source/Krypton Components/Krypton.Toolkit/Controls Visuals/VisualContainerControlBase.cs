@@ -1133,7 +1133,7 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod("PaintTransparentBackground",
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new Type[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
                                                        null);
                 }
 

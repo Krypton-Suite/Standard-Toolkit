@@ -586,7 +586,7 @@ namespace Krypton.Toolkit
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        public PaletteOffice365SilverThemeLightModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
+        protected PaletteOffice365SilverThemeLightModeBase(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);
