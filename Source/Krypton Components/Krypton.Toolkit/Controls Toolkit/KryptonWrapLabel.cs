@@ -38,6 +38,7 @@ namespace Krypton.Toolkit
         private PaletteContentStyle _labelContentStyle;
         private KryptonContextMenu _kryptonContextMenu;
         private bool _globalEvents;
+
         #endregion
 
         #region Events
@@ -115,6 +116,14 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+        /// <summary>
+        /// Gets access to the target for mnemonic and click actions.
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Target control for mnemonic and click actions.")]
+        [DefaultValue(null)]
+        public Control Target { get; set; }
+
         /// <summary>
         /// Gets or sets the tab order of the KryptonSplitterPanel within its KryptonSplitContainer.
         /// </summary>
@@ -547,10 +556,7 @@ namespace Krypton.Toolkit
             }
 
             // Recover font from state common or as last resort the inherited palette
-            if (font == null)
-            {
-                font = StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
-            }
+            font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
             // Recover text color from state common or as last resort the inherited palette
             if (textColor == Color.Empty)
@@ -663,6 +669,32 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
+        /// Processes a mnemonic character.
+        /// </summary>
+        /// <param name="charCode">The mnemonic character entered.</param>
+        /// <returns>true if the mnemonic was processed; otherwise, false.</returns>
+        protected override bool ProcessMnemonic(char charCode)
+        {
+            // Are we allowed to process mnemonic?
+            if (UseMnemonic && CanProcessMnemonic())
+            {
+                // Does the button primary text contain the mnemonic?
+                if (IsMnemonic(charCode, Text))
+                {
+                    // Do we have a target that can take the focus
+                    if (Target is { CanFocus: true })
+                    {
+                        Target.Focus();
+                        return true;
+                    }
+                }
+            }
+
+            // No match found, let base class do standard processing
+            return base.ProcessMnemonic(charCode);
+        }
+
+        /// <summary>
         /// Process Windows-based messages.
         /// </summary>
         /// <param name="m">A Windows-based message.</param>
@@ -716,6 +748,31 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+        /// <summary>
+        /// Gets a value indicating is processing of mnemonics should be allowed.
+        /// </summary>
+        /// <returns>True to allow; otherwise false.</returns>
+        private bool CanProcessMnemonic()
+        {
+            Control c = this;
+
+            // Test each control in parent chain
+            while (c != null)
+            {
+                // Control must be visible and enabled
+                if (!c.Visible || !c.Enabled)
+                {
+                    return false;
+                }
+
+                // Move up one level
+                c = c.Parent;
+            }
+
+            // Every control in chain is visible and enabled, so allow mnemonics
+            return true;
+        }
+
         private void SetPalette(IPalette palette)
         {
             if (palette != _palette)
