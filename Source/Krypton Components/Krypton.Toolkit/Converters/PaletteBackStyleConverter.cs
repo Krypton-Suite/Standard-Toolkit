@@ -99,6 +99,8 @@ namespace Krypton.Toolkit
             new(PaletteBackStyle.GridDataCellCustom2,         "Grid - DataCell - Custom2"),
             new(PaletteBackStyle.GridDataCellCustom3,         "Grid - DataCell - Custom3"),
             new(PaletteBackStyle.GridBackgroundCustom1,       "Grid - Background - Custom1"),
+            new(PaletteBackStyle.GridBackgroundCustom2,       "Grid - Background - Custom2"),
+            new(PaletteBackStyle.GridBackgroundCustom3,       "Grid - Background - Custom3"),
             new(PaletteBackStyle.HeaderPrimary,               "Header - Primary"),
             new(PaletteBackStyle.HeaderSecondary,             "Header - Secondary"),
             new(PaletteBackStyle.HeaderDockActive,            "Header - Dock - Active"),

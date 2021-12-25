@@ -859,6 +859,8 @@ namespace Krypton.Toolkit
                         case PaletteBackStyle.GridBackgroundList:
                         case PaletteBackStyle.GridBackgroundSheet:
                         case PaletteBackStyle.GridBackgroundCustom1:
+                        case PaletteBackStyle.GridBackgroundCustom2:
+                        case PaletteBackStyle.GridBackgroundCustom3:
                             return _grid.StateDisabled.Background;
                         case PaletteBackStyle.GridDataCellList:
                         case PaletteBackStyle.GridDataCellSheet:
@@ -886,6 +888,8 @@ namespace Krypton.Toolkit
                         case PaletteBackStyle.GridBackgroundList:
                         case PaletteBackStyle.GridBackgroundSheet:
                         case PaletteBackStyle.GridBackgroundCustom1:
+                        case PaletteBackStyle.GridBackgroundCustom2:
+                        case PaletteBackStyle.GridBackgroundCustom3:
                             return _grid.StateNormal.Background;
                         case PaletteBackStyle.GridDataCellList:
                         case PaletteBackStyle.GridDataCellSheet:

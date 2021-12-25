@@ -1,6 +1,7 @@
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png"> Standard Toolkit - ChangeLog
 
 ## 2022-02-01 - Build 2202 - February 2022
+* Fixed [#310](https://github.com/Krypton-Suite/Standard-Toolkit/issues/310), Unsupported PaletteBackStyles are showing in the designer and causing it to crash
 * Fixed [#545](https://github.com/Krypton-Suite/Standard-Toolkit/issues/545), KWrapLabel does not have a Target to use when the mnemonic is triggered.
 * Fixed [#452](https://github.com/Krypton-Suite/Standard-Toolkit/issues/452), KryptonDockingManager - KryptonPage - MinimumSize not working
 * Fixed [#533](https://github.com/Krypton-Suite/Standard-Toolkit/issues/533), KDataGridView: can column high lighting be turned of.
