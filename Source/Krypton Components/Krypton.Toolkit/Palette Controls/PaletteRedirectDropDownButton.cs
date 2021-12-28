@@ -57,18 +57,31 @@ namespace Krypton.Toolkit
         {
             // Grab state specific image
             Image retImage = state switch
-            {
-                PaletteState.Disabled => _images.Disabled,
-                PaletteState.Normal => _images.Normal,
-                PaletteState.Tracking => _images.Tracking,
-                PaletteState.Pressed => _images.Pressed,
-                _ => null
-            };
-
+             {
+                 PaletteState.Disabled => _images.Disabled,
+                 PaletteState.Normal   => _images.Normal,
+                 PaletteState.Tracking => _images.Tracking,
+                 PaletteState.Pressed  => _images.Pressed,
+                 _                     => null
+             }; 
+            
             // Not found, then get the common image
             if (retImage == null)
             {
                 retImage = _images.Common;
+                if ((state == PaletteState.Disabled)
+                    && (retImage != null)
+                    )
+                {
+                    // Convert the image into the disabled equivalent
+                    var disabledImage = new Bitmap(retImage.Width, retImage.Height);
+                    using Graphics g = Graphics.FromImage(disabledImage);
+                    using var ia = new ImageAttributes();
+                    ia.SetColorMatrix(CommonHelper.MatrixDisabled);
+                    var rect = new Rectangle(0, 0, retImage.Width, retImage.Height);
+                    g.DrawImage(retImage, rect, rect.X, rect.Y, rect.Width, rect.Height, GraphicsUnit.Pixel, ia);
+                    retImage = disabledImage;
+                }
             }
 
             // Not found, then inherit from target
