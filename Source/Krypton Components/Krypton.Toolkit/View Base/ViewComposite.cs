@@ -145,13 +145,9 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ask each child to layout in turn
-            foreach (ViewBase child in this)
+            foreach (ViewBase child in this.Where(static child => child.Visible))
             {
-                // Only layout visible children
-                if (child.Visible)
-                {
-                    child.Layout(context);
-                }
+                child.Layout(context);
             }
         }
         #endregion

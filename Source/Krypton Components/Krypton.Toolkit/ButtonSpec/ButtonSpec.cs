@@ -883,21 +883,15 @@ namespace Krypton.Toolkit
             // Try and recover a state specific image
             image = state switch
             {
-                PaletteState.Disabled => ImageStates.ImageDisabled,
-                PaletteState.Normal => ImageStates.ImageNormal,
-                PaletteState.Pressed => ImageStates.ImagePressed,
-                PaletteState.Tracking => ImageStates.ImageTracking,
-                PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
-                PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
+                PaletteState.Disabled        => ImageStates.ImageDisabled,
+                PaletteState.Normal          => ImageStates.ImageNormal,
+                PaletteState.Pressed         => ImageStates.ImagePressed,
+                PaletteState.Tracking        => ImageStates.ImageTracking,
+                PaletteState.CheckedNormal   => ImageStates.ImageCheckedNormal,
+                PaletteState.CheckedPressed  => ImageStates.ImageCheckedPressed,
                 PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
-                _ => image
-            };
-
-            // Default to the image if no state specific image is found
-            if (image == null)
-            {
-                image = Image;
-            }
+                _                            => image
+            } ?? Image; // Default to the image if no state specific image is found
 
             return (image != null) || !AllowInheritImage ? image : palette.GetButtonSpecImage(ProtectedType, state);
         }
@@ -913,10 +907,8 @@ namespace Krypton.Toolkit
             {
                 return KryptonCommand.ImageTransparentColor;
             }
-            else
-            {
-                return ImageTransparentColor != Color.Empty ? ImageTransparentColor : palette.GetButtonSpecImageTransparentColor(ProtectedType);
-            }
+
+            return ImageTransparentColor != Color.Empty ? ImageTransparentColor : palette.GetButtonSpecImageTransparentColor(ProtectedType);
         }
 
         /// <summary>
@@ -930,10 +922,8 @@ namespace Krypton.Toolkit
             {
                 return KryptonCommand.Text;
             }
-            else
-            {
-                return (Text.Length > 0) || !AllowInheritText ? Text : palette.GetButtonSpecShortText(ProtectedType);
-            }
+
+            return (Text.Length > 0) || !AllowInheritText ? Text : palette.GetButtonSpecShortText(ProtectedType);
         }
 
         /// <summary>
