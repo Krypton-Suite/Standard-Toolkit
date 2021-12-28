@@ -109,7 +109,8 @@ namespace Krypton.Ribbon
                                            (AppButtonToolTipImage == null) &&
                                            (AppButtonToolTipImageTransparentColor == Color.Empty) &&
                                            (AppButtonToolTipStyle == LabelStyle.SuperTip) &&
-                                           AppButtonVisible;
+                                           AppButtonVisible
+                                           && !IgnoreDoubleClickClose;
 
         #endregion
 
@@ -297,7 +298,7 @@ namespace Krypton.Ribbon
 
         #region AppButtonShowRecentDocs
         /// <summary>
-        /// GGets and sets if the recent documents area should be shown in the application button.
+        /// Gets and sets if the recent documents area should be shown in the application button.
         /// </summary>
         [Category("Visuals")]
         [Description("Determine if the recent documents area should be shown in the application button.")]
@@ -374,7 +375,7 @@ namespace Krypton.Ribbon
 
         #region AppButtonVisible
         /// <summary>
-        /// GGets and sets if the application button is shown.
+        /// Gets and sets if the application button is shown.
         /// </summary>
         [Category("Visuals")]
         [Description("Determine if the application button is shown.")]
@@ -399,5 +400,17 @@ namespace Krypton.Ribbon
             }
         }
         #endregion
+
+        /// <summary>
+        /// Does the application button perform "default theme Close" on double Click
+        /// </summary>
+        [Category("Visuals")]
+        [Description("Does the application button perform 'default theme Close' on double Click.")]
+        [DefaultValue(false)]
+        public bool IgnoreDoubleClickClose
+        {
+            get => _ribbon.IgnoreDoubleClickClose;
+            set => _ribbon.IgnoreDoubleClickClose = value;
+        }
     }
 }

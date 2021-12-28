@@ -105,10 +105,10 @@ namespace Krypton.Ribbon
         {
             // Default fields
             _image = _defaultGroupImage;
-            _textLine1 = "Group";
+            _textLine1 = @"Group";
             _textLine2 = string.Empty;
-            _keyTipGroup = "G";
-            _keyTipDialogLauncher = "D";
+            _keyTipGroup = @"G";
+            _keyTipDialogLauncher = @"D";
             _visible = true;
             _allowCollapsed = true;
             _dialogBoxLauncher = true;
@@ -208,7 +208,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Group";
+                    value = @"Group";
                 }
 
                 if (value != _textLine1)
@@ -258,7 +258,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "G";
+                    value = @"G";
                 }
 
                 _keyTipGroup = value.ToUpper();
@@ -272,7 +272,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category("Appearance")]
         [Description("Ribbon group key tip used for dialog box launcher.")]
-        [DefaultValue("D")]
+        [DefaultValue(@"D")]
         public string KeyTipDialogLauncher
         {
             get => _keyTipDialogLauncher;
@@ -281,7 +281,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "D";
+                    value = @"D";
                 }
 
                 _keyTipDialogLauncher = value.ToUpper();
@@ -486,7 +486,7 @@ namespace Krypton.Ribbon
         /// Raises the DialogBoxLauncherClick event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        internal protected virtual void OnDialogBoxLauncherClick(EventArgs e)
+        protected internal virtual void OnDialogBoxLauncherClick(EventArgs e)
         {
             // Perform processing that is common to any action that would dismiss
             // any popup controls such as the showing minimized group popup
@@ -499,10 +499,8 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         #endregion
 
         #region Internal
@@ -510,30 +508,15 @@ namespace Krypton.Ribbon
 
         internal bool ShowingAsPopup { get; set; }
 
-        internal void OnDesignTimeAddTriple()
-        {
-            DesignTimeAddTriple?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddTriple() => DesignTimeAddTriple?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddLines()
-        {
-            DesignTimeAddLines?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddLines() => DesignTimeAddLines?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddSeparator()
-        {
-            DesignTimeAddSeparator?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddSeparator() => DesignTimeAddSeparator?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddGallery()
-        {
-            DesignTimeAddGallery?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddGallery() => DesignTimeAddGallery?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -565,7 +548,10 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsCleared(object sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
-            if ((_ribbon != null) && (_ribbonTab != null) && (_ribbon.SelectedTab == _ribbonTab))
+            if ((_ribbon != null) 
+                && (_ribbonTab != null) 
+                && (_ribbon.SelectedTab == _ribbonTab)
+                )
             {
                 _ribbon.PerformNeedPaint(true);
             }
@@ -579,7 +565,10 @@ namespace Krypton.Ribbon
             e.Item.RibbonGroup = this;
 
             // Only need to update display if this tab is selected and the group is visible
-            if ((_ribbon != null) && (_ribbonTab != null) && (_ribbon.SelectedTab == _ribbonTab))
+            if ((_ribbon != null) 
+                && (_ribbonTab != null) 
+                && (_ribbon.SelectedTab == _ribbonTab)
+                )
             {
                 _ribbon.PerformNeedPaint(true);
             }
@@ -593,7 +582,10 @@ namespace Krypton.Ribbon
             e.Item.RibbonGroup = null;
 
             // Only need to update display if this tab is selected and the group was visible
-            if ((_ribbon != null) && (_ribbonTab != null) && (_ribbon.SelectedTab == _ribbonTab))
+            if ((_ribbon != null) 
+                && (_ribbonTab != null) 
+                && (_ribbon.SelectedTab == _ribbonTab)
+                )
             {
                 _ribbon.PerformNeedPaint(true);
             }

@@ -11,6 +11,8 @@
 #endregion
 
 
+using System.Linq;
+
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -1386,20 +1388,18 @@ namespace Krypton.Ribbon
             else
             {
                 // Not in keyboard mode but user pressing the tab key
-                switch (keyData)
+                if (keyData.HasFlag(Keys.Tab))
                 {
-                    case Keys.Tab | Keys.Shift:
-                    case Keys.Tab:
-                        // If one of our child controls has the focus
-                        if (ContainsFocus)
-                        {
-                            // Move focus forward/background until out of the ribbon
-                            SelectNonRibbonControl(keyData == Keys.Tab);
-                            return true;
-                        }
-                        break;
-                    default:
-                        break;
+                    // If one of our child controls has the focus
+                    if (ContainsFocus)
+                    {
+                        // Move focus forward/background until out of the ribbon
+                        SelectNonRibbonControl(!keyData.HasFlag(Keys.Shift));
+                        return true;
+                    }
+                }
+                else
+                {
                 }
             }
 
@@ -1504,20 +1504,15 @@ namespace Krypton.Ribbon
             }
 
             // Check each quick access toolbar button
-            foreach (IQuickAccessToolbarButton qatButton in QATButtons)
+            foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons 
+                     where qatButton.GetVisible() && qatButton.GetEnabled() 
+                     let shortcut = qatButton.GetShortcutKeys() 
+                     where (shortcut != Keys.None) && (shortcut == keyData) 
+                     select qatButton)
             {
-                // Only interested in visible and enabled buttons
-                if (qatButton.GetVisible() && qatButton.GetEnabled())
-                {
-                    // Does the key combination match the shortcut?
-                    Keys shortcut = qatButton.GetShortcutKeys();
-                    if ((shortcut != Keys.None) && (shortcut == keyData))
-                    {
-                        // Click the button and finish processing
-                        qatButton.PerformClick();
-                        return true;
-                    }
-                }
+                // Click the button and finish processing
+                qatButton.PerformClick();
+                return true;
             }
 
             // If we want to intercept key pressed for use with key tips
@@ -1777,52 +1772,37 @@ namespace Krypton.Ribbon
         /// Raises the SelectedContextChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnSelectedContextChanged(EventArgs e)
-        {
-            SelectedContextChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedContextChanged(EventArgs e) => SelectedContextChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ShowRibbonContextMenu event.
         /// </summary>
         /// <param name="e">A ContextMenuArgs containing event data.</param>
-        protected virtual void OnShowRibbonContextMenu(ContextMenuArgs e)
-        {
-            ShowRibbonContextMenu?.Invoke(this, e);
-        }
+        protected virtual void OnShowRibbonContextMenu(ContextMenuArgs e) => ShowRibbonContextMenu?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ShowQATCustomizeMenu event.
         /// </summary>
         /// <param name="e">A ContextMenuArgs containing event data.</param>
-        protected virtual void OnShowQATCustomizeMenu(ContextMenuArgs e)
-        {
-            ShowQATCustomizeMenu?.Invoke(this, e);
-        }
+        protected virtual void OnShowQATCustomizeMenu(ContextMenuArgs e) => ShowQATCustomizeMenu?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AppButtonMenuOpening event.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        internal protected virtual void OnAppButtonMenuOpening(CancelEventArgs e)
-        {
-            AppButtonMenuOpening?.Invoke(this, e);
-        }
+        protected internal virtual void OnAppButtonMenuOpening(CancelEventArgs e) => AppButtonMenuOpening?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AppButtonMenuOpened event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        internal protected virtual void OnAppButtonMenuOpened(EventArgs e)
-        {
-            AppButtonMenuOpened?.Invoke(this, e);
-        }
+        protected internal virtual void OnAppButtonMenuOpened(EventArgs e) => AppButtonMenuOpened?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AppButtonMenuClosing event.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        internal protected virtual void OnAppButtonMenuClosing(CancelEventArgs e)
+        protected internal virtual void OnAppButtonMenuClosing(CancelEventArgs e)
         {
             AppButtonMenuClosing?.Invoke(this, e);
         }
@@ -1831,22 +1811,19 @@ namespace Krypton.Ribbon
         /// Raises the AppButtonMenuClosed event.
         /// </summary>
         /// <param name="e">An ToolStripDropDownClosedEventArgs containing the event data.</param>
-        internal protected virtual void OnAppButtonMenuClosed(ToolStripDropDownClosedEventArgs e)
-        {
-            AppButtonMenuClosed?.Invoke(this, e);
-        }
+        protected internal virtual void OnAppButtonMenuClosed(ToolStripDropDownClosedEventArgs e) => AppButtonMenuClosed?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MinimizedModeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnMinimizedModeChanged(EventArgs e)
-        {
-            MinimizedModeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMinimizedModeChanged(EventArgs e) => MinimizedModeChanged?.Invoke(this, e);
+
         #endregion
 
         #region Internal
+        internal bool IgnoreDoubleClickClose { get; set; }
+
         internal void OnDesignTimeAddTab()
         {
             DesignTimeAddTab?.Invoke(this, EventArgs.Empty);

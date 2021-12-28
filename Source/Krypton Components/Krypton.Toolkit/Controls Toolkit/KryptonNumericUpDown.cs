@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets or sets a value indicating whether a value has been entered by the user.
             /// </summary>
-            internal protected bool InternalUserEdit
+            protected internal bool InternalUserEdit
             {
                 get => UserEdit;
                 set => UserEdit = value;

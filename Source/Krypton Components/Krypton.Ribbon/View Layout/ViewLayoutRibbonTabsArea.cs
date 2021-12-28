@@ -11,6 +11,8 @@
 #endregion
 
 
+using System.Linq;
+
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -268,7 +270,7 @@ namespace Krypton.Ribbon
 
         #region LayoutAppButton
         /// <summary>
-        /// Gets access to the view layout used for the appplication button.
+        /// Gets access to the view layout used for the application button.
         /// </summary>
         public ViewLayoutRibbonAppButton LayoutAppButton { get; private set; }
 
@@ -276,7 +278,7 @@ namespace Krypton.Ribbon
 
         #region LayoutAppTab
         /// <summary>
-        /// Gets access to the view layout used for the appplication tab.
+        /// Gets access to the view layout used for the application tab.
         /// </summary>
         public ViewLayoutRibbonAppTab LayoutAppTab { get; private set; }
 
@@ -340,12 +342,9 @@ namespace Krypton.Ribbon
 
             // Remove all those that do not intercept the scroll port the tabs are inside
             Rectangle scrollRect = new(Point.Empty, _tabsViewport.ClientSize);
-            for (var i = 0; i < keyTips.Count; i++)
+            foreach (KeyTipInfo ti in keyTips.Where(ti => !scrollRect.Contains(ti.ClientRect)))
             {
-                if (!scrollRect.Contains(keyTips[i].ClientRect))
-                {
-                    keyTips[i].Visible = false;
-                }
+                ti.Visible = false;
             }
 
             return keyTips.ToArray();
@@ -385,6 +384,14 @@ namespace Krypton.Ribbon
         /// <returns>True if a double click was detected and pressed.</returns>
         public void TestForAppButtonDoubleClick()
         {
+            // Office 2010 does not close on a double click
+            if (_ribbon.IgnoreDoubleClickClose
+                || _ribbon.RibbonShape == PaletteRibbonShape.Office2010
+                )
+            {
+                return;
+            }
+
             DateTime nowClick = DateTime.Now;
             TimeSpan elapsed = nowClick - _lastAppButtonClick;
             _lastAppButtonClick = nowClick;
@@ -392,13 +399,9 @@ namespace Krypton.Ribbon
             // If this is the second click within the double click time...
             if (elapsed.TotalMilliseconds < SystemInformation.DoubleClickTime)
             {
-                // Office 2010 does not close on a double click
-                if (_ribbon.RibbonShape != PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365)
-                {
-                    // Close down the associated application window
-                    Form ownerForm = _ribbon.FindForm();
-                    ownerForm?.Close();
-                }
+                // Close down the associated application window
+                Form ownerForm = _ribbon.FindForm();
+                ownerForm?.Close();
             }
         }
 
@@ -415,10 +418,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Recreate the button specifications.
         /// </summary>
-        public void RecreateButtons()
-        {
-            ButtonSpecManager?.RecreateButtons();
-        }
+        public void RecreateButtons() => ButtonSpecManager?.RecreateButtons();
+
         #endregion
 
         #region Protected
@@ -435,10 +436,8 @@ namespace Krypton.Ribbon
         /// Fires a request to have painting/layout performed.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected void PerformNeedPaint(bool needLayout)
-        {
-            NeedPaintDelegate(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected void PerformNeedPaint(bool needLayout) => NeedPaintDelegate(this, new NeedLayoutEventArgs(needLayout));
+
         #endregion
 
         #region Implementation
@@ -590,10 +589,7 @@ namespace Krypton.Ribbon
             _ribbon.UpdateBackStyle();
         }
 
-        private void OnRibbonFormSizeChanged(object sender, EventArgs e)
-        {
-            CheckRibbonSize();
-        }
+        private void OnRibbonFormSizeChanged(object sender, EventArgs e) => CheckRibbonSize();
 
         private void OnRibbonMdiChildActivate(object sender, EventArgs e)
         {
@@ -911,11 +907,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnCancelToolTip(object sender, EventArgs e)
-        {
+        private void OnCancelToolTip(object sender, EventArgs e) =>
             // Remove any currently showing tooltip
             _visualPopupToolTip?.Dispose();
-        }
 
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
@@ -927,10 +921,8 @@ namespace Krypton.Ribbon
             _visualPopupToolTip = null;
         }
 
-        private void OnTabsPaintBackground(object sender, PaintEventArgs e)
-        {
-            PaintBackground?.Invoke(sender, e);
-        }
+        private void OnTabsPaintBackground(object sender, PaintEventArgs e) => PaintBackground?.Invoke(sender, e);
+
         #endregion
     }
 }
