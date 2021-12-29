@@ -95,8 +95,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the common image that other gallery button images inherit from.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Common image that other gallery button images inherit from.")]
+        [Category(@"Visuals")]
+        [Description(@"Common image that other gallery button images inherit from.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Common
@@ -127,8 +127,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the gallery button is disabled.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the gallery button is disabled.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the gallery button is disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Disabled
@@ -159,8 +159,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the gallery button is normal.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the gallery button is normal.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the gallery button is normal.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Normal
@@ -191,8 +191,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the gallery button is hot tracking.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the gallery button is hot tracking.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the gallery button is hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Tracking
@@ -223,8 +223,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the gallery button is pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the gallery button is pressed.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the gallery button is pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Pressed

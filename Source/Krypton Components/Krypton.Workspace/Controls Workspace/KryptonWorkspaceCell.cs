@@ -20,7 +20,7 @@ namespace Krypton.Workspace
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonWorkspaceCell), "ToolboxBitmaps.KryptonWorkspaceCell.bmp")]
     [Designer("Krypton.Workspace.KryptonWorkspaceCellDesigner, Krypton.Workspace")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Pages")]
     public class KryptonWorkspaceCell : KryptonNavigator,
@@ -314,8 +314,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets if the user can a separator to resize this workspace cell.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the user can a separator to resize this workspace cell.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the user can a separator to resize this workspace cell.")]
         [DefaultValue(true)]
         public bool AllowResizing
         {
@@ -335,8 +335,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Determines if the user can can drop pages in this workspace cell.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the user can can drop pages in this workspace cell.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the user can can drop pages in this workspace cell.")]
         [DefaultValue(true)]
         public bool AllowDroppingPages
         {
@@ -353,8 +353,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Star notation the describes the sizing of the workspace item.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Star notation for specifying the size of the item.")]
+        [Category(@"Workspace")]
+        [Description(@"Star notation for specifying the size of the item.")]
         [DefaultValue("50*,50*")]
         public string StarSize
         {
@@ -370,8 +370,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Should the item be disposed when it is removed from the workspace.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Should the KryptonNavigator be Disposed when removed from KryptonWorkspace.")]
+        [Category(@"Workspace")]
+        [Description(@"Should the KryptonNavigator be Disposed when removed from KryptonWorkspace.")]
         [DefaultValue(true)]
         public virtual bool DisposeOnRemove
         {
@@ -382,8 +382,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the unique name of the workspace cell.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The unique name of the workspace cell.")]
+        [Category(@"Appearance")]
+        [Description(@"The unique name of the workspace cell.")]
         public string UniqueName
         {
             [DebuggerStepThrough]

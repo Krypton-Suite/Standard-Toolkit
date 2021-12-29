@@ -170,7 +170,7 @@ namespace Krypton.Navigator
             Color mapColor = OverrideImageColor(state);
 
             // If mapping occuring then return the target remap color
-            return mapColor != Color.Empty ? GetRemapTarget(style, state) : base.GetContentImageColorTo(style, state);
+            return mapColor != Color.Empty ? GetRemapTarget(state) : base.GetContentImageColorTo(style, state);
         }
         #endregion
 
@@ -184,7 +184,7 @@ namespace Krypton.Navigator
         public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state) =>
             // Do we need to override the text color
             OverrideTextColor(state)
-                ? GetRemapTarget(style, state)
+                ? GetRemapTarget(state)
                 : base.GetContentShortTextColor1(style, state);
 
         #endregion
@@ -199,7 +199,7 @@ namespace Krypton.Navigator
         public override Color GetContentLongTextColor1(PaletteContentStyle style, PaletteState state) =>
             // Do we need to override the text color
             OverrideTextColor(state)
-                ? GetRemapTarget(style, state)
+                ? GetRemapTarget(state)
                 : base.GetContentLongTextColor1(style, state);
 
         #endregion
@@ -256,7 +256,7 @@ namespace Krypton.Navigator
             return false;
         }
 
-        private Color GetRemapTarget(PaletteContentStyle style, PaletteState state)
+        private Color GetRemapTarget(PaletteState state)
         {
             // Choose appropriate remapping target for color to use
             switch (_remapTarget)

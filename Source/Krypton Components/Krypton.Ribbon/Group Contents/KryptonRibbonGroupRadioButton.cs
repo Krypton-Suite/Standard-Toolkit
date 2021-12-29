@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupRadioButton), "ToolboxBitmaps.KryptonRibbonGroupRadioButton.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupRadioButtonDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("CheckedChanged")]
     [DefaultProperty("Checked")]
@@ -42,29 +42,29 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the radio button is clicked.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the radio button is clicked.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the radio button is clicked.")]
         public event EventHandler Click;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs whenever the Checked property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs whenever the Checked property has changed.")]
         public event EventHandler CheckedChanged;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
-        [Category("Design Time")]
-        [Description("Occurs when the design time context menu is requested.")]
+        [Category(@"Design Time")]
+        [Description(@"Occurs when the design time context menu is requested.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event MouseEventHandler DesignTimeContextMenu;
@@ -97,8 +97,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Radio button display text line 1.")]
+        [Category(@"Appearance")]
+        [Description(@"Radio button display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("RadioButton")]
         public string TextLine1
@@ -126,8 +126,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Radio button display text line 2.")]
+        [Category(@"Appearance")]
+        [Description(@"Radio button display text line 2.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
@@ -149,8 +149,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group radio button key tip.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group radio button key tip.")]
         [DefaultValue(@"R")]
         public string KeyTip
         {
@@ -171,8 +171,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the radio button.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the radio button is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the radio button is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -211,8 +211,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the group radio button entry.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group radio button is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group radio button is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -231,8 +231,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating if the radio button is in the checked state.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the radio button is in the checked state.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the radio button is in the checked state.")]
         [DefaultValue(false)]
         public bool Checked
         {
@@ -260,8 +260,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating if checking this radio button should unheck others in the same group.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if checking this radio button should uncheck others in the same group.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if checking this radio button should uncheck others in the same group.")]
         [DefaultValue(true)]
         public bool AutoCheck
         {
@@ -285,8 +285,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the shortcut key combination.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Shortcut key combination to fire click event of the radio button.")]
+        [Category(@"Behavior")]
+        [Description(@"Shortcut key combination to fire click event of the radio button.")]
         public Keys ShortcutKeys { get; set; }
 
         private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;

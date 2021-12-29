@@ -89,8 +89,8 @@ namespace Krypton.Toolkit
         /// Gets the horizontal relative alignment of the image.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Relative horizontal alignment of content image.")]
+        [Category(@"Visuals")]
+        [Description(@"Relative horizontal alignment of content image.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageH
@@ -129,8 +129,8 @@ namespace Krypton.Toolkit
         /// Gets the vertical relative alignment of the image.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Relative vertical alignment of content image.")]
+        [Category(@"Visuals")]
+        [Description(@"Relative vertical alignment of content image.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageV
@@ -169,8 +169,8 @@ namespace Krypton.Toolkit
         /// Gets the effect applied to drawing the image.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Effect applied to drawing the image.")]
+        [Category(@"Visuals")]
+        [Description(@"Effect applied to drawing the image.")]
         [DefaultValue(typeof(PaletteImageEffect), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteImageEffect Effect
@@ -209,8 +209,8 @@ namespace Krypton.Toolkit
         /// Gets and set the image color to remap into another color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Color to remap in the image.")]
+        [Category(@"Visuals")]
+        [Description(@"Color to remap in the image.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorMap
@@ -249,8 +249,8 @@ namespace Krypton.Toolkit
         /// Gets and set the color to use in place of the image map color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Color to use in place of the image map.")]
+        [Category(@"Visuals")]
+        [Description(@"Color to use in place of the image map.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color ImageColorTo

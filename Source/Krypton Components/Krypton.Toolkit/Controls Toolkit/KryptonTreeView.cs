@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("AfterSelect")]
     [DefaultProperty("Nodes")]
     [Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Displays a hierarchical collection of labeled items, each represented by a TreeNode")]
+    [DesignerCategory(@"code")]
+    [Description(@"Displays a hierarchical collection of labeled items, each represented by a TreeNode")]
     [Docking(DockingBehavior.Ask)]
     public class KryptonTreeView : VisualControlBase,
                                    IContainedInputControl
@@ -331,106 +331,106 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a checkbox has been checked or unchecked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when a checkbox has been checked or unchecked.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when a checkbox has been checked or unchecked.")]
         public event TreeViewEventHandler AfterCheck;
 
         /// <summary>
         /// Occurs when a node has been collapsed.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when a node has been collapsed.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when a node has been collapsed.")]
         public event TreeViewEventHandler AfterCollapse;
 
         /// <summary>
         /// Occurs when a node has been expanded.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when a node has been expanded.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when a node has been expanded.")]
         public event TreeViewEventHandler AfterExpand;
 
         /// <summary>
         /// Occurs when the text of node has been edited by the user.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the text of node has been edited by the user.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the text of node has been edited by the user.")]
         public event NodeLabelEditEventHandler AfterLabelEdit;
 
         /// <summary>
         /// Occurs when the selected has been changed.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the selection has been changed.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the selection has been changed.")]
         public event TreeViewEventHandler AfterSelect;
 
         /// <summary>
         /// Occurs when a checkbox is about to be checked or unchecked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when a checkbox is about to be checked or unchecked.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when a checkbox is about to be checked or unchecked.")]
         public event TreeViewCancelEventHandler BeforeCheck;
 
         /// <summary>
         /// Occurs when a node is about to be collapsed.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when a node is about to be collapsed.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when a node is about to be collapsed.")]
         public event TreeViewCancelEventHandler BeforeCollapse;
 
         /// <summary>
         /// Occurs when a node is about to be expanded.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when a node is about to be expanded.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when a node is about to be expanded.")]
         public event TreeViewCancelEventHandler BeforeExpand;
 
         /// <summary>
         /// Occurs when the text of node is about to be edited by the user.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the text of node is about to be edited by the user.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the text of node is about to be edited by the user.")]
         public event NodeLabelEditEventHandler BeforeLabelEdit;
 
         /// <summary>
         /// Occurs when the selection is about to be changed.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the selection is about to be changed.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the selection is about to be changed.")]
         public event TreeViewCancelEventHandler BeforeSelect;
 
         /// <summary>
         /// Occurs when the user begins dragging an item.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the user begins dragging an item.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the user begins dragging an item.")]
         public event ItemDragEventHandler ItemDrag;
 
         /// <summary>
         /// Occurs when a node is clicked with the mouse.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when a node is clicked with the mouse.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when a node is clicked with the mouse.")]
         public event TreeNodeMouseClickEventHandler NodeMouseClick;
 
         /// <summary>
         /// Occurs when a node is double clicked with the mouse.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when a node is double clicked with the mouse.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when a node is double clicked with the mouse.")]
         public event TreeNodeMouseClickEventHandler NodeMouseDoubleClick;
 
         /// <summary>
         /// Occurs when the mouse hovers over a node.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the mouse hovers over a node.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the mouse hovers over a node.")]
         public event TreeNodeMouseHoverEventHandler NodeMouseHover;
 
         /// <summary>
         /// Occurs when the value of the RightToLeftLayout property changes.
         /// </summary>
-        [Category("PropertyChanged")]
-        [Description("Occurs when the value of the RightToLeftLayout property changes.")]
+        [Category(@"PropertyChanged")]
+        [Description(@"Occurs when the value of the RightToLeftLayout property changes.")]
         public event EventHandler RightToLeftLayoutChanged;
 
         /// <summary>
@@ -485,16 +485,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the mouse enters the control.
         /// </summary>
-        [Description("Raises the TrackMouseEnter event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
         /// </summary>
-        [Description("Raises the TrackMouseLeave event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseLeave;
         #endregion
@@ -762,8 +762,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the height of each tree node in the tree view control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The height of every node in the control.")]
+        [Category(@"Appearance")]
+        [Description(@"The height of every node in the control.")]
         public int ItemHeight
         {
             get => _treeView.ItemHeight;
@@ -789,8 +789,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether check boxes are displayed next to the tree nodes in the tree view control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates whether check boxes are displayed next to nodes")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates whether check boxes are displayed next to nodes")]
         [DefaultValue(false)]
         public bool CheckBoxes
         {
@@ -801,8 +801,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the selection highlight spans the width of the tree view control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the selection highlight spans the width of the control.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the selection highlight spans the width of the control.")]
         [DefaultValue(false)]
         public bool FullRowSelect
         {
@@ -813,8 +813,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the selected tree node remains highlighted even when the tree view has lost the focus.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Removes highlight from the control when it no longer has focus.")]
+        [Category(@"Behavior")]
+        [Description(@"Removes highlight from the control when it no longer has focus.")]
         [DefaultValue(true)]
         public bool HideSelection
         {
@@ -825,8 +825,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether a tree node label takes on the appearance of a hyperlink as the mouse pointer passes over it.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the node gives feedback as the mouse moves over them.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the node gives feedback as the mouse moves over them.")]
         [DefaultValue(false)]
         public bool HotTracking
         {
@@ -837,8 +837,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the image-list index value of the default image that is displayed by the tree nodes.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The default image index for nodes.")]
+        [Category(@"Behavior")]
+        [Description(@"The default image index for nodes.")]
         [Localizable(true)]
         [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Toolkit")]
         [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
@@ -854,8 +854,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the key of the default image for each node in the TreeView control when it is in an unselected state.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The default image key for the nodes.")]
+        [Category(@"Behavior")]
+        [Description(@"The default image key for the nodes.")]
         [Localizable(true)]
         [TypeConverter(typeof(ImageKeyConverter))]
         [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
@@ -871,8 +871,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the ImageList that contains the Image objects that are used by the tree nodes.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The ImageList control from which nodes images are taken.")]
+        [Category(@"Behavior")]
+        [Description(@"The ImageList control from which nodes images are taken.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
         public ImageList ImageList
@@ -884,8 +884,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the label text of the tree nodes can be edited.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the user can edit the label of nodes.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the user can edit the label of nodes.")]
         [DefaultValue(false)]
         public bool LabelEdit
         {
@@ -896,8 +896,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the delimiter string that the tree node path uses.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The delimitor used for separating nodes with the FullPath property.")]
+        [Category(@"Behavior")]
+        [Description(@"The delimitor used for separating nodes with the FullPath property.")]
         [DefaultValue(@"\")]
         public string PathSeparator
         {
@@ -908,8 +908,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the tree view control displays scroll bars when they are needed.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the control displays scroll bars when they are needed.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the control displays scroll bars when they are needed.")]
         [DefaultValue(true)]
         public bool Scrollable
         {
@@ -920,8 +920,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the image list index value of the image that is displayed when a tree node is selected.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The default image index for selected nodes.")]
+        [Category(@"Behavior")]
+        [Description(@"The default image index for selected nodes.")]
         [Localizable(true)]
         [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Toolkit")]
         [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
@@ -936,8 +936,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the key of the default image shown when a TreeNode is in a selected state.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The default image for selected nodes.")]
+        [Category(@"Behavior")]
+        [Description(@"The default image for selected nodes.")]
         [Localizable(true)]
         [TypeConverter(typeof(ImageKeyConverter))]
         [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
@@ -953,8 +953,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the tree node that is currently selected in the tree view control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Note that is currently selected.")]
+        [Category(@"Appearance")]
+        [Description(@"Note that is currently selected.")]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TreeNode SelectedNode
@@ -966,8 +966,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether lines are drawn between tree nodes in the tree view control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates whether lines are drawn between sibling and parent/child nodes.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates whether lines are drawn between sibling and parent/child nodes.")]
         [DefaultValue(true)]
         public bool ShowLines
         {
@@ -978,8 +978,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating ToolTips are shown when the mouse pointer hovers over a TreeNode.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether ToolTips are displayed for the nodes.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether ToolTips are displayed for the nodes.")]
         [DefaultValue(false)]
         public bool ShowNodeToolTips
         {
@@ -990,8 +990,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether plus-sign (+) and minus-sign (-) buttons are displayed next to tree nodes that contain child tree nodes.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether plus/minus nodes are drawn next to parent nodes.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether plus/minus nodes are drawn next to parent nodes.")]
         [DefaultValue(true)]
         public bool ShowPlusMinus
         {
@@ -1002,8 +1002,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether lines are drawn between the tree nodes that are at the root of the tree view.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether lines are shown between root nodes.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether lines are shown between root nodes.")]
         [DefaultValue(true)]
         public bool ShowRootLines
         {
@@ -1014,8 +1014,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the image list that is used to indicate the state of the TreeView and its nodes.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The ImageList used by the control for custom states.")]
+        [Category(@"Behavior")]
+        [Description(@"The ImageList used by the control for custom states.")]
         [DefaultValue(null)]
         public ImageList StateImageList
         {
@@ -1026,8 +1026,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the first fully-visible tree node in the tree view control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("First fully-visible node.")]
+        [Category(@"Appearance")]
+        [Description(@"First fully-visible node.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
         public TreeNode TopNode
@@ -1039,8 +1039,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the implementation of IComparer to perform a custom sort of the TreeView nodes.
         /// </summary>
-        [Category("Behavior")]
-        [Description("IComparer used to perform custom sorting.")]
+        [Category(@"Behavior")]
+        [Description(@"IComparer used to perform custom sorting.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
         public IComparer TreeViewNodeSorter
@@ -1052,8 +1052,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the number of tree nodes that can be fully visible in the tree view control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Returns number of visible nodes in the control.")]
+        [Category(@"Behavior")]
+        [Description(@"Returns number of visible nodes in the control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
         public int VisibleCount => _treeView.VisibleCount;
@@ -1061,8 +1061,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates whether the control layout is right-to-left when the RightToLeft property is True.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates whether the control layout is right-to-left when the RightToLeft property is True.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates whether the control layout is right-to-left when the RightToLeft property is True.")]
         [DefaultValue(false)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public bool RightToLeftLayout
@@ -1074,8 +1074,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of tree nodes that are assigned to the tree view control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The root nodes in the KryptonTreeView control.")]
+        [Category(@"Behavior")]
+        [Description(@"The root nodes in the KryptonTreeView control.")]
         [Editor("System.Windows.Forms.Design.TreeNodeCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
@@ -1085,8 +1085,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the item style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Item style.")]
+        [Category(@"Visuals")]
+        [Description(@"Item style.")]
         public ButtonStyle ItemStyle
         {
             get => _style;
@@ -1111,8 +1111,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the items in the KryptonTreeView are sorted alphabetically.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Controls whether the list is sorted.")]
+        [Category(@"Behavior")]
+        [Description(@"Controls whether the list is sorted.")]
         [DefaultValue(false)]
         public bool Sorted
         {
@@ -1123,8 +1123,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Style used to draw the background.")]
+        [Category(@"Visuals")]
+        [Description(@"Style used to draw the background.")]
         public PaletteBackStyle BackStyle
         {
             get => StateCommon.BackStyle;
@@ -1147,8 +1147,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the border style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Style used to draw the border.")]
+        [Category(@"Visuals")]
+        [Description(@"Style used to draw the border.")]
         public PaletteBorderStyle BorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -1171,8 +1171,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the plus/minus image value overrides.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Plus/minus image value overrides.")]
+        [Category(@"Visuals")]
+        [Description(@"Plus/minus image value overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public TreeViewImages PlusMinusImages { get; }
 
@@ -1181,8 +1181,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the check box image value overrides.
         /// </summary>
-        [Category("Visuals")]
-        [Description("CheckBox image value overrides.")]
+        [Category(@"Visuals")]
+        [Description(@"CheckBox image value overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages CheckBoxImages { get; }
 
@@ -1191,8 +1191,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item appearance when it has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining item appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTreeNodeTripleRedirect OverrideFocus { get; }
 
@@ -1201,8 +1201,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTreeStateRedirect StateCommon { get; }
 
@@ -1211,8 +1211,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTreeState StateDisabled { get; }
 
@@ -1221,8 +1221,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTreeState StateNormal { get; }
 
@@ -1231,8 +1231,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble StateActive { get; }
 
@@ -1241,8 +1241,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTreeNodeTriple StateTracking { get; }
 
@@ -1251,8 +1251,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTreeNodeTriple StatePressed { get; }
 
@@ -1261,8 +1261,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal checked item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal checked item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTreeNodeTriple StateCheckedNormal { get; }
 
@@ -1271,8 +1271,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking checked item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking checked item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTreeNodeTriple StateCheckedTracking { get; }
 
@@ -1281,8 +1281,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed checked item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed checked item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTreeNodeTriple StateCheckedPressed { get; }
 
@@ -1291,8 +1291,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {

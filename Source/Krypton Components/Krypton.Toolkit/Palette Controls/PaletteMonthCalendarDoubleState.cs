@@ -63,8 +63,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the month/year header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining month/year header appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining month/year header appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Header { get; }
 
@@ -76,8 +76,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the day appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining day appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining day appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Day { get; }
 
@@ -89,8 +89,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the day of week appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining day of week appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining day of week appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple DayOfWeek { get; }
 

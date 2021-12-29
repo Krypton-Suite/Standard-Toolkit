@@ -111,8 +111,8 @@ namespace Krypton.Toolkit
         /// Gets access to the position appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining position appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining position appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteElementColorInheritOverride Position { get; }
 

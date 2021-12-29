@@ -195,8 +195,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Common { get; }
 
@@ -209,8 +209,8 @@ namespace Krypton.Toolkit
         /// Gets access to the generic button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining generic button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining generic button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Generic { get; }
 
@@ -223,8 +223,8 @@ namespace Krypton.Toolkit
         /// Gets access to the close button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining close button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining close button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Close { get; }
 
@@ -237,8 +237,8 @@ namespace Krypton.Toolkit
         /// Gets access to the context button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining context button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Context { get; }
 
@@ -251,8 +251,8 @@ namespace Krypton.Toolkit
         /// Gets access to the next button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining next button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining next button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Next { get; }
 
@@ -265,8 +265,8 @@ namespace Krypton.Toolkit
         /// Gets access to the previous button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining previous button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining previous button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped Previous { get; }
 
@@ -279,8 +279,8 @@ namespace Krypton.Toolkit
         /// Gets access to the left arrow button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining left arrow button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining left arrow button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped ArrowLeft { get; }
 
@@ -293,8 +293,8 @@ namespace Krypton.Toolkit
         /// Gets access to the right arrow button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining right arrow button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining right arrow button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped ArrowRight { get; }
 
@@ -307,8 +307,8 @@ namespace Krypton.Toolkit
         /// Gets access to the right up button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining up arrow button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining up arrow button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped ArrowUp { get; }
 
@@ -321,8 +321,8 @@ namespace Krypton.Toolkit
         /// Gets access to the right up button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining up arrow button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining up arrow button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped ArrowDown { get; }
 
@@ -335,8 +335,8 @@ namespace Krypton.Toolkit
         /// Gets access to the drop down button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining drop down button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining drop down button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped DropDown { get; }
 
@@ -349,8 +349,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pin vertical button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pin vertical button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pin vertical button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped PinVertical { get; }
 
@@ -363,8 +363,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pin horizontal button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pin horizontal button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pin horizontal button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped PinHorizontal { get; }
 
@@ -377,8 +377,8 @@ namespace Krypton.Toolkit
         /// Gets access to the form close button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining form close button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining form close button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped FormClose { get; }
 
@@ -391,8 +391,8 @@ namespace Krypton.Toolkit
         /// Gets access to the form minimize button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining form minimize button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining form minimize button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped FormMin { get; }
 
@@ -405,8 +405,8 @@ namespace Krypton.Toolkit
         /// Gets access to the form maximize button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining form maximize button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining form maximize button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped FormMax { get; }
 
@@ -419,8 +419,8 @@ namespace Krypton.Toolkit
         /// Gets access to the form restore button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining form restore button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining form restore button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped FormRestore { get; }
 
@@ -433,8 +433,8 @@ namespace Krypton.Toolkit
         /// Gets access to the form "Help" button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining form \"Help\" button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining form 'Help' button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped FormHelp { get; }
 
@@ -447,8 +447,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pendant close button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pendant close button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pendant close button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped PendantClose { get; }
 
@@ -461,8 +461,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pendant minimize button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pendant minimize button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pendant minimize button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped PendantMin { get; }
 
@@ -475,8 +475,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pendant restore button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pendant restore button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pendant restore button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped PendantRestore { get; }
 
@@ -489,8 +489,8 @@ namespace Krypton.Toolkit
         /// Gets access to the workspace maximize button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining workspace maximize button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining workspace maximize button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped WorkspaceMaximize { get; }
 
@@ -503,8 +503,8 @@ namespace Krypton.Toolkit
         /// Gets access to the workspace restore button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining workspace restore button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining workspace restore button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped WorkspaceRestore { get; }
 
@@ -517,8 +517,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ribbon minimize button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon minimize button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon minimize button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped RibbonMinimize { get; }
 
@@ -531,8 +531,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ribbon expand button specification.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon expand button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon expand button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteButtonSpecTyped RibbonExpand { get; }
 

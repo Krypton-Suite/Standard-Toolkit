@@ -120,8 +120,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabCommon { get; }
 
@@ -134,8 +134,8 @@ namespace Krypton.Toolkit
         /// Gets access to the High Profile appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining High Profile appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining High Profile appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabHighProfile { get; }
 
@@ -148,8 +148,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Standard Profile appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Standard Profile appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Standard Profile appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabStandardProfile { get; }
 
@@ -162,8 +162,8 @@ namespace Krypton.Toolkit
         /// Gets access to the LowProfile appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining LowProfile appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining LowProfile appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabLowProfile { get; }
 
@@ -176,8 +176,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Dock appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Dock appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Dock appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabDock { get; }
 
@@ -190,8 +190,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Dock AutoHidden appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Dock AutoHidden appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Dock AutoHidden appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabDockAutoHidden { get; }
 
@@ -204,8 +204,8 @@ namespace Krypton.Toolkit
         /// Gets access to the OneNote appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining OneNote appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining OneNote appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabOneNote { get; }
 
@@ -218,8 +218,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Custom1 appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Custom1 appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Custom1 appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabCustom1 { get; }
 
@@ -232,8 +232,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Custom2 appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Custom2 appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Custom2 appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabCustom2 { get; }
 
@@ -246,8 +246,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Custom3 appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Custom3 appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Custom3 appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteTabButton TabCustom3 { get; }
 

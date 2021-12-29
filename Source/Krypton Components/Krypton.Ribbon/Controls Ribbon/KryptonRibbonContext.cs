@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonContext), "ToolboxBitmaps.KryptonRibbonContext.bmp")]
     [DefaultProperty("ContextName")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonContext : Component
     {
@@ -54,8 +54,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the unique name of the context.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Unique name of the context.")]
+        [Category(@"Appearance")]
+        [Description(@"Unique name of the context.")]
         [DefaultValue("Context")]
         public string ContextName
         {
@@ -82,8 +82,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Display title for associated contextual tabs.")]
+        [Category(@"Appearance")]
+        [Description(@"Display title for associated contextual tabs.")]
         [DefaultValue("Context")]
         public string ContextTitle
         {
@@ -110,8 +110,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Display color for associated contextual tabs.")]
+        [Category(@"Appearance")]
+        [Description(@"Display color for associated contextual tabs.")]
         [DefaultValue(typeof(Color), "Red")]
         public Color ContextColor
         {
@@ -136,8 +136,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
         public object Tag

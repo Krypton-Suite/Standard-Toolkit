@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// Base class used for implementation of actual container controls.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public abstract class VisualContainerControlBase : ContainerControl,
                                                        IKryptonDebug
     {
@@ -43,15 +43,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the Palette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the Palette property is changed.")]
         public event EventHandler PaletteChanged;
 
         /// <summary>
         /// Occurs when the Global palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the GlobalPalette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
         public event EventHandler GlobalPaletteChanged;
         #endregion
 
@@ -195,8 +195,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the KryptonContextMenu to show when right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut menu to show when the user right-clicks the page.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut menu to show when the user right-clicks the page.")]
         [DefaultValue(null)]
         public virtual KryptonContextMenu KryptonContextMenu
         {
@@ -266,8 +266,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
@@ -316,8 +316,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette Palette
         {

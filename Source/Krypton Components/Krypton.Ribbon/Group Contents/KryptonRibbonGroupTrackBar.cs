@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTrackBar), "ToolboxBitmaps.KryptonRibbonGroupTrackBar.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupTrackBarDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("ValueChanged")]
     [DefaultProperty("Value")]
@@ -51,15 +51,15 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the value of the Value property changes.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the value of the Value property changes.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the value of the Value property changes.")]
         public event EventHandler ValueChanged;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Access to the actual embedded KryptonTrackBar instance.
         /// </summary>
-        [Description("Access to the actual embedded KryptonTrackBar instance.")]
+        [Description(@"Access to the actual embedded KryptonTrackBar instance.")]
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -168,8 +168,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group track bar key tip.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group track bar key tip.")]
         [DefaultValue("T")]
         public string KeyTip
         {
@@ -190,8 +190,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the track bar.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the track bar is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the track bar is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -230,8 +230,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the group track bar.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group track bar is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group track bar is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -250,8 +250,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the minimum length of the control.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies the minimum length of the control.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies the minimum length of the control.")]
         [DefaultValue("55")]
         public int MinimumLength
         {
@@ -269,8 +269,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the maximum length of the control.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies the maximum length of the control.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies the maximum length of the control.")]
         [DefaultValue("50")]
         public int MaximumLength
         {
@@ -288,8 +288,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut to display when the user right-clicks the control.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
         public ContextMenuStrip ContextMenuStrip
         {
@@ -300,8 +300,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the KryptonContextMenu for showing when the text box is right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("KryptonContextMenu to be shown when the text box is right clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"KryptonContextMenu to be shown when the text box is right clicked.")]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu
         {
@@ -312,8 +312,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the size of the track bar elements.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines size of the track bar elements.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines size of the track bar elements.")]
         [DefaultValue(typeof(PaletteTrackBarSize), "Medium")]
         public PaletteTrackBarSize TrackBarSize
         {
@@ -324,8 +324,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating how to display the tick marks on the track bar.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines where tick marks are displayed.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines where tick marks are displayed.")]
         [DefaultValue(typeof(TickStyle), "None")]
         [RefreshProperties(RefreshProperties.All)]
         public TickStyle TickStyle
@@ -337,8 +337,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value that specifies the delta between ticks drawn on the control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines the frequency of tick marks.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines the frequency of tick marks.")]
         [DefaultValue(1)]
         public int TickFrequency
         {
@@ -349,8 +349,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the control displays like a volume control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines if the control display like a volume control.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines if the control display like a volume control.")]
         [DefaultValue(false)]
         public bool VolumeControl
         {
@@ -361,8 +361,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating the horizontal or vertical orientation of the track bar.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Background style.")]
+        [Category(@"Appearance")]
+        [Description(@"Background style.")]
         [DefaultValue(typeof(Orientation), "Horizontal")]
         [RefreshProperties(RefreshProperties.All)]
         public Orientation Orientation
@@ -392,8 +392,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the upper limit of the range this trackbar is working with.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Upper limit of the trackbar range.")]
+        [Category(@"Behavior")]
+        [Description(@"Upper limit of the trackbar range.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(10)]
         public int Maximum
@@ -405,8 +405,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the lower limit of the range this trackbar is working with.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Lower limit of the trackbar range.")]
+        [Category(@"Behavior")]
+        [Description(@"Lower limit of the trackbar range.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(0)]
         public int Minimum
@@ -418,8 +418,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a numeric value that represents the current position of the scroll box on the track bar.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Current position of the indicator within the trackbar.")]
+        [Category(@"Behavior")]
+        [Description(@"Current position of the indicator within the trackbar.")]
         [DefaultValue(0)]
         public int Value
         {
@@ -430,8 +430,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the value added to or subtracted from the Value property when the scroll box is moved a small distance.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Change to apply when a small change occurs.")]
+        [Category(@"Behavior")]
+        [Description(@"Change to apply when a small change occurs.")]
         [DefaultValue(1)]
         public int SmallChange
         {
@@ -442,8 +442,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value to be added to or subtracted from the Value property when the scroll box is moved a large distance.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Change to apply when a large change occurs.")]
+        [Category(@"Behavior")]
+        [Description(@"Change to apply when a large change occurs.")]
         [DefaultValue(5)]
         public int LargeChange
         {

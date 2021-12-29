@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupClusterButton), "ToolboxBitmaps.KryptonRibbonGroupClusterButton.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupClusterButtonDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("Click")]
     [DefaultProperty("ButtonType")]
@@ -51,22 +51,22 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the button is clicked.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the button is clicked.")]
         public event EventHandler Click;
 
         /// <summary>
         /// Occurs when the drop down button type is pressed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the drop down button type is pressed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the drop down button type is pressed.")]
         public event EventHandler<ContextMenuArgs> DropDown;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -106,8 +106,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Button display text line.")]
+        [Category(@"Appearance")]
+        [Description(@"Button display text line.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine
@@ -129,8 +129,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group cluster button key tip.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group cluster button key tip.")]
         [DefaultValue("B")]
         public string KeyTip
         {
@@ -152,8 +152,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Small button image.")]
+        [Category(@"Appearance")]
+        [Description(@"Small button image.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image ImageSmall
         {
@@ -175,8 +175,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the cluster button.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the cluster button is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the cluster button is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -215,8 +215,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the group entry.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group button is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group button is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -236,8 +236,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the checked state of the group entry.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group button is checked.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group button is checked.")]
         [DefaultValue(false)]
         public bool Checked
         {
@@ -257,8 +257,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the operation of the group button.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines how the group button operation.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines how the group button operation.")]
         [DefaultValue(typeof(GroupButtonType), "Push")]
         public GroupButtonType ButtonType
         {
@@ -278,8 +278,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the shortcut key combination.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Shortcut key combination to fire click event of the cluster button.")]
+        [Category(@"Behavior")]
+        [Description(@"Shortcut key combination to fire click event of the cluster button.")]
         public Keys ShortcutKeys { get; set; }
 
         private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
@@ -301,8 +301,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the context strip for showing when the button is pressed.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Context menu strip to be shown when the button is pressed.")]
+        [Category(@"Behavior")]
+        [Description(@"Context menu strip to be shown when the button is pressed.")]
         [DefaultValue(null)]
         public ContextMenuStrip ContextMenuStrip
         {
@@ -321,8 +321,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the KryptonContextMenu for showing when the button is pressed.
         /// </summary>
-        [Category("Behavior")]
-        [Description("KryptonContextMenu to be shown when the button is pressed.")]
+        [Category(@"Behavior")]
+        [Description(@"KryptonContextMenu to be shown when the button is pressed.")]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu
         {
@@ -341,8 +341,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the cluster button.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the cluster button.")]
         [DefaultValue(null)]
         public KryptonCommand KryptonCommand
         {

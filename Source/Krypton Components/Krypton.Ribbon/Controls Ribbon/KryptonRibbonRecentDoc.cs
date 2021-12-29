@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonRecentDoc), "ToolboxBitmaps.KryptonRibbonRecentDoc.png")]
     [DefaultProperty("Text")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonRecentDoc : Component
     {
@@ -34,8 +34,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the recent document item is clicked.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the recent document item is clicked.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the recent document item is clicked.")]
         public event EventHandler Click;
         #endregion
 
@@ -58,8 +58,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Main text for the recent document entry.")]
+        [Category(@"Appearance")]
+        [Description(@"Main text for the recent document entry.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Recent Document")]
         public string Text
@@ -86,8 +86,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Extra text for the recent document entry.")]
+        [Category(@"Appearance")]
+        [Description(@"Extra text for the recent document entry.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string ExtraText
@@ -108,8 +108,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Image for the recent document entry.")]
+        [Category(@"Appearance")]
+        [Description(@"Image for the recent document entry.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
         public Image Image
@@ -128,8 +128,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the image color to make transparent.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Image color to make transparent.")]
+        [Category(@"Appearance")]
+        [Description(@"Image color to make transparent.")]
         [DefaultValue(typeof(Color), "")]
         [Localizable(true)]
         [Bindable(true)]
@@ -149,8 +149,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
         public object Tag

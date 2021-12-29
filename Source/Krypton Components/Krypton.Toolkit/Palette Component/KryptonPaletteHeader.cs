@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common header appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common header appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common header appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderRedirect StateCommon { get; }
 
@@ -93,8 +93,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleMetric StateDisabled { get; }
 
@@ -107,8 +107,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleMetric StateNormal { get; }
 

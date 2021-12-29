@@ -88,8 +88,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common grid appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common grid appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common grid appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewRedirect StateCommon { get; }
 
@@ -102,8 +102,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewAll StateDisabled { get; }
 
@@ -116,8 +116,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewAll StateNormal { get; }
 
@@ -130,8 +130,8 @@ namespace Krypton.Toolkit
         /// Gets access to the hot tracking grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewHeaders StateTracking { get; }
 
@@ -144,8 +144,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewHeaders StatePressed { get; }
 
@@ -158,8 +158,8 @@ namespace Krypton.Toolkit
         /// Gets access to the selected grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining selected grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining selected grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewCells StateSelected { get; }
 

@@ -22,8 +22,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonLabelDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Displays descriptive information.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Displays descriptive information.")]
     public class KryptonLabel : VisualSimpleBase, IContentValues
     {
         #region Instance Fields
@@ -41,8 +41,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the KryptonCommand property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the KryptonCommand property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the KryptonCommand property changes.")]
         public event EventHandler KryptonCommandChanged;
         #endregion
 
@@ -158,8 +158,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the visual orientation of the control.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Visual orientation of the control.")]
+        [Category(@"Visuals")]
+        [Description(@"Visual orientation of the control.")]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
@@ -190,8 +190,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the label style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Label style.")]
+        [Category(@"Visuals")]
+        [Description(@"Label style.")]
         [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
@@ -214,8 +214,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the label content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Label values")]
+        [Category(@"Visuals")]
+        [Description(@"Label values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public LabelValues Values { get; }
 
@@ -224,8 +224,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common label appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common label appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common label appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
@@ -234,8 +234,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled label appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
@@ -244,8 +244,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal label appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
@@ -254,8 +254,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
         /// </summary>
-        [Category("Appearance")]
-        [Description("When true the first character after an ampersand will be used as a mnemonic.")]
+        [Category(@"Appearance")]
+        [Description(@"When true the first character after an ampersand will be used as a mnemonic.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -275,8 +275,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the target for mnemonic and click actions.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Target control for mnemonic and click actions.")]
+        [Category(@"Visuals")]
+        [Description(@"Target control for mnemonic and click actions.")]
         [DefaultValue(null)]
         public virtual Control Target
         {
@@ -287,8 +287,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the label.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the label.")]
         [DefaultValue(null)]
         public virtual KryptonCommand KryptonCommand
         {

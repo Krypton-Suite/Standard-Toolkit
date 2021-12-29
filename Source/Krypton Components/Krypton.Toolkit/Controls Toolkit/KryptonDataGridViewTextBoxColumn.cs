@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the maximum number of characters that can be entered into the text box.
         /// </summary>
-        [Category("Behavior")]
+        [Category(@"Behavior")]
         [DefaultValue(typeof(int), "32767")]
         public int MaxInputLength
         {
@@ -160,8 +160,8 @@ namespace Krypton.Toolkit
         /// Make sure that when the style is set that the datagrid respects the values
         /// </summary>
         [Browsable(true)]
-        [Category("Appearance")]
-        [Description("DataGridView Column DefaultCell Style\r\nIf you set wrap mode, then this will ensure the DataRows are set to display the wrapped text!")]
+        [Category(@"Appearance")]
+        [Description(@"DataGridView Column DefaultCell Style\r\nIf you set wrap mode, then this will ensure the DataRows are set to display the wrapped text!")]
         public override DataGridViewCellStyle DefaultCellStyle
         {
             get => base.DefaultCellStyle;
@@ -198,8 +198,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of the button specifications.
         /// </summary>
-        [Category("Data")]
-        [Description("Set of extra button specs to appear with control.")]
+        [Category(@"Data")]
+        [Description(@"Set of extra button specs to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DataGridViewColumnSpecCollection ButtonSpecs { get; }
 
@@ -207,9 +207,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the Multiline property of the KryptonDataGridViewTextBoxCell cell type.
         /// </summary>
-        [Category("Behavior")]
+        [Category(@"Behavior")]
         [DefaultValue(false)]
-        [Description("Indicates whether the text in the editing control can span more than one line.")]
+        [Description(@"Indicates whether the text in the editing control can span more than one line.")]
         public bool Multiline
         {
             get =>
@@ -243,9 +243,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replicates the MultilineStringEditor property of the KryptonDataGridViewTextBoxCell cell type.
         /// </summary>
-        [Category("Behavior")]
+        [Category(@"Behavior")]
         [DefaultValue(false)]
-        [Description("Indicates whether the editing control uses the multiline string editor widget.")]
+        [Description(@"Indicates whether the editing control uses the multiline string editor widget.")]
         public bool MultilineStringEditor
         {
             get =>

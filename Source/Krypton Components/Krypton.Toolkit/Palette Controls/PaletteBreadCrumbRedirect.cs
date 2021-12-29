@@ -52,8 +52,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the bread crumb appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining bread crumb appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining bread crumb appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect BreadCrumb { get; }
 

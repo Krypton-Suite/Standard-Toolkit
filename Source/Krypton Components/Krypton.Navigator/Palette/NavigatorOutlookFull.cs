@@ -74,8 +74,8 @@ namespace Krypton.Navigator
         /// Gets and sets the mapping used for the overflow item image.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Mapping used for the overflow item image.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the overflow item image.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageImage), "Small")]
         public virtual MapKryptonPageImage OverflowMapImage
@@ -105,8 +105,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the overflow item text.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Mapping used for the overflow item text.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the overflow item text.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
         public MapKryptonPageText OverflowMapText
@@ -136,8 +136,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the overflow item description.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Mapping used for the overflow item description.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the overflow item description.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
         public MapKryptonPageText OverflowMapExtraText
@@ -168,8 +168,8 @@ namespace Krypton.Navigator
         /// Gets and sets the mapping used for the stack item image.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Mapping used for the stack item image.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the stack item image.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageImage), "MediumSmall")]
         public virtual MapKryptonPageImage StackMapImage
@@ -199,8 +199,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the stack item text.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Mapping used for the stack item text.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the stack item text.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
         public MapKryptonPageText StackMapText
@@ -230,8 +230,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the stack item description.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Mapping used for the stack item description.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the stack item description.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
         public MapKryptonPageText StackMapExtraText

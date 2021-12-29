@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     public abstract class ButtonSpecManagerBase : GlobalId
     {
         #region Type Definitions
-        internal class ButtonSpecLookup : Dictionary<ButtonSpec, ButtonSpecView> { };
-        internal class ListSpacers : List<ViewLayoutMetricSpacer> { };
+        internal class ButtonSpecLookup : Dictionary<ButtonSpec, ButtonSpecView> { }
+        internal class ListSpacers : List<ViewLayoutMetricSpacer> { }
         #endregion
 
         #region Instance Fields

@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonWrapLabelDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Displays descriptive information.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Displays descriptive information.")]
     public sealed class KryptonWrapLabel : Label
     {
         #region Static Field
@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the Palette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the Palette property is changed.")]
         public event EventHandler PaletteChanged;
         #endregion
 
@@ -119,8 +119,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the target for mnemonic and click actions.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Target control for mnemonic and click actions.")]
+        [Category(@"Visuals")]
+        [Description(@"Target control for mnemonic and click actions.")]
         [DefaultValue(null)]
         public Control Target { get; set; }
 
@@ -216,8 +216,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common wrap label appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common wrap label appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common wrap label appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteWrapLabel StateCommon { get; }
 
@@ -226,8 +226,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled wrap label appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled wrap label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled wrap label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteWrapLabel StateDisabled { get; }
 
@@ -236,8 +236,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal wrap label appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal wrap label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal wrap label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteWrapLabel StateNormal { get; }
 
@@ -247,8 +247,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the label style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Label style.")]
+        [Category(@"Visuals")]
+        [Description(@"Label style.")]
         [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
@@ -272,8 +272,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
@@ -317,8 +317,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette Palette
         {
@@ -372,8 +372,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the KryptonContextMenu to show when right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut menu to show when the user right-clicks the page.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut menu to show when the user right-clicks the page.")]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu
         {

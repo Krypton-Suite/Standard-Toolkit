@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonManager), "ToolboxBitmaps.KryptonManager.bmp")]
     [Designer("Krypton.Toolkit.KryptonManagerDesigner, Krypton.Toolkit")]
     [DefaultProperty("GlobalPaletteMode")]
-    [Description("Access \"Global\" Krypton settings.")]
+    [Description(@"Access 'Global' Krypton settings.")]
     public sealed class KryptonManager : Component
     {
         #region Static Fields
@@ -85,15 +85,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the GlobalPalette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
         public static event EventHandler GlobalPaletteChanged;
 
         /// <summary>
         /// Occurs when the AllowFormChrome property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the GlobalAllowFormChrome property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the GlobalAllowFormChrome property is changed.")]
         public static event EventHandler GlobalAllowFormChromeChanged;
         #endregion
 
@@ -176,8 +176,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the global palette used for drawing.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Global palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Global palette applied to drawing.")]
         //[DefaultValue(typeof(PaletteModeManager), "Office365Blue")]
         public PaletteModeManager GlobalPaletteMode
         {
@@ -239,8 +239,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the global custom applied to drawing.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Global custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Global custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette GlobalPalette
         {
@@ -303,8 +303,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the palette colors are applied to the tool-strips.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should the palette colors be applied to the toolstrips.")]
+        [Category(@"Visuals")]
+        [Description(@"Should the palette colors be applied to the toolstrips.")]
         [DefaultValue(true)]
         public bool GlobalApplyToolstrips
         {
@@ -319,8 +319,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if KryptonForm instances are allowed to show custom chrome.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should KryptonForm instances be allowed to show custom chrome.")]
+        [Category(@"Visuals")]
+        [Description(@"Should KryptonForm instances be allowed to show custom chrome.")]
         [DefaultValue(true)]
         public bool GlobalAllowFormChrome
         {
@@ -335,8 +335,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a set of global strings used by Krypton that can be localized.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of global strings.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of global strings.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]

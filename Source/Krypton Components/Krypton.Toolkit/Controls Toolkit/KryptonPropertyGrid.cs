@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         #region Properties
         /// <summary>Gets or sets the gradient middle colour.</summary>
         /// <value>The gradient middle colour.</value>
-        [Browsable(true), Category("Appearance-Extended"), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue("Color.Gray")]
+        [Browsable(true), Category(@"Appearance-Extended"), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue("Color.Gray")]
         public Color GradientMiddleColour { get => _gradientMiddleColour; set { _gradientMiddleColour = value; Invalidate(); } }
         #endregion
 

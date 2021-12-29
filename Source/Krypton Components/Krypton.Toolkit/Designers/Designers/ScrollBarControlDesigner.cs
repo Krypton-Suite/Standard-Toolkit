@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
             {
                 // gets the property descriptor for the property "Orientation"
                 PropertyDescriptor propDescriptor =
-                   TypeDescriptor.GetProperties(Component)["Orientation"];
+                   TypeDescriptor.GetProperties(Component)[@"Orientation"];
 
                 // if not null - we can read the current orientation of the scroll bar
                 if (propDescriptor != null)

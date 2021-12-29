@@ -102,8 +102,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button image.")]
+        [Category(@"Visuals")]
+        [Description(@"Button image.")]
         [DefaultValue(null)]
         public Image Image
         {
@@ -133,8 +133,8 @@ namespace Krypton.Toolkit
         /// Gets access to the state specific images for the button.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("State specific images for the button.")]
+        [Category(@"Visuals")]
+        [Description(@"State specific images for the button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckButtonImageStates ImageStates { get; }
 
@@ -148,8 +148,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button text.")]
+        [Category(@"Visuals")]
+        [Description(@"Button text.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string Text
@@ -181,8 +181,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button extra text.")]
+        [Category(@"Visuals")]
+        [Description(@"Button extra text.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ExtraText
@@ -214,8 +214,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button tooltip title text.")]
+        [Category(@"Visuals")]
+        [Description(@"Button tooltip title text.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ToolTipTitle
@@ -247,8 +247,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Image color to remap to container foreground.")]
+        [Category(@"Visuals")]
+        [Description(@"Image color to remap to container foreground.")]
         [KryptonDefaultColor()]
         public Color ColorMap
         {
@@ -279,8 +279,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Should button image be inherited if defined as null.")]
+        [Category(@"Visuals")]
+        [Description(@"Should button image be inherited if defined as null.")]
         [DefaultValue(true)]
         public bool AllowInheritImage
         {
@@ -309,8 +309,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Should button text be inherited if defined as empty.")]
+        [Category(@"Visuals")]
+        [Description(@"Should button text be inherited if defined as empty.")]
         [DefaultValue(true)]
         public bool AllowInheritText
         {
@@ -339,8 +339,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Should button extra text be inherited if defined as empty.")]
+        [Category(@"Visuals")]
+        [Description(@"Should button extra text be inherited if defined as empty.")]
         [DefaultValue(true)]
         public bool AllowInheritExtraText
         {
@@ -369,8 +369,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Should button tooltip title text be inherited if defined as empty.")]
+        [Category(@"Visuals")]
+        [Description(@"Should button tooltip title text be inherited if defined as empty.")]
         [DefaultValue(true)]
         public bool AllowInheritToolTipTitle
         {

@@ -57,8 +57,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border width.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Border width.")]
+        [Category(@"Visuals")]
+        [Description(@"Border width.")]
         [DefaultValue(-1)]
         [RefreshProperties(RefreshProperties.All)]
         public int Width

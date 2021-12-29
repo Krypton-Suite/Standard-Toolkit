@@ -104,8 +104,8 @@ namespace Krypton.Toolkit
         /// Gets access to the header column cell palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining header column cell appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining header column cell appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteDataGridViewTripleStates HeaderColumn => _headerColumn;
 
@@ -118,8 +118,8 @@ namespace Krypton.Toolkit
         /// Gets access to the header row cell palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining header row cell appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining header row cell appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteDataGridViewTripleStates HeaderRow => _headerRow;
 

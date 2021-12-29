@@ -12,7 +12,7 @@
 
 namespace Krypton.Toolkit
 {
-    [ToolboxBitmap(typeof(StatusStrip)), Description("A Krypton based status strip."), ToolboxItem(true)]
+    [ToolboxBitmap(typeof(StatusStrip)), Description(@"A Krypton based status strip."), ToolboxItem(true)]
     public class KryptonStatusStrip : StatusStrip
     {
         #region Properties

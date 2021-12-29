@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuCheckBox), "ToolboxBitmaps.KryptonCheckBox.bmp")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Text")]
     [DefaultEvent("CheckedChanged")]
@@ -44,22 +44,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the check box item is clicked.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the check box item is clicked.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the check box item is clicked.")]
         public event EventHandler Click;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
-        [Category("Misc")]
-        [Description("Occurs whenever the Checked property has changed.")]
+        [Category(@"Misc")]
+        [Description(@"Occurs whenever the Checked property has changed.")]
         public event EventHandler CheckedChanged;
 
         /// <summary>
         /// Occurs when the value of the CheckState property has changed.
         /// </summary>
-        [Category("Misc")]
-        [Description("Occurs whenever the CheckState property has changed.")]
+        [Category(@"Misc")]
+        [Description(@"Occurs whenever the CheckState property has changed.")]
         public event EventHandler CheckStateChanged;
         #endregion
 
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
         /// </summary>
-        /// <param name="keyData">Key data to check against shorcut definitions.</param>
+        /// <param name="keyData">Key data to check against shortcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
         public override bool ProcessShortcut(Keys keyData) => false;
 
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
         /// <param name="columns">Containing columns.</param>
         /// <param name="standardStyle">Draw items with standard or alternate style.</param>
         /// <param name="imageColumn">Draw an image background for the item images.</param>
-        /// <returns>ViewBase that is the root of the view hierachy being added.</returns>
+        /// <returns>ViewBase that is the root of the view hierarchy being added.</returns>
         public override ViewBase GenerateView(IContextMenuProvider provider,
                                               object parent,
                                               ViewLayoutStack columns,
@@ -157,8 +157,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if clicking the check box automatically closes the context menu.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates if clicking the check box automatically closes the context menu.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if clicking the check box automatically closes the context menu.")]
         [DefaultValue(false)]
         public bool AutoClose
         {
@@ -178,8 +178,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the check box text.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Main check box text.")]
+        [Category(@"Appearance")]
+        [Description(@"Main check box text.")]
         [DefaultValue("CheckBox")]
         [Localizable(true)]
         public string Text
@@ -200,8 +200,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the check box extra text.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Check box extra text.")]
+        [Category(@"Appearance")]
+        [Description(@"Check box extra text.")]
         [DefaultValue(null)]
         [Localizable(true)]
         public string ExtraText
@@ -222,8 +222,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the check box image.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Check box image.")]
+        [Category(@"Appearance")]
+        [Description(@"Check box image.")]
         [DefaultValue(null)]
         [Localizable(true)]
         public Image Image
@@ -244,8 +244,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the check box image color to make transparent.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Check box image color to make transparent.")]
+        [Category(@"Appearance")]
+        [Description(@"Check box image color to make transparent.")]
         [Localizable(true)]
         public Color ImageTransparentColor
         {
@@ -267,8 +267,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the check box label style.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Check box label style.")]
+        [Category(@"Visuals")]
+        [Description(@"Check box label style.")]
         [DefaultValue(typeof(LabelStyle), "NormalPanel")]
         public LabelStyle LabelStyle
         {
@@ -292,8 +292,8 @@ namespace Krypton.Toolkit
         /// Gets access to the image value overrides.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Image value overrides.")]
+        [Category(@"Visuals")]
+        [Description(@"Image value overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
@@ -303,8 +303,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if the check box is enabled.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates whether the check box is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the check box is enabled.")]
         [DefaultValue(true)]
         [Bindable(true)]
         public bool Enabled
@@ -325,8 +325,8 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating if the component is in the checked state.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Indicates if the component is in the checked state.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates if the component is in the checked state.")]
         [DefaultValue(false)]
         [Bindable(true)]
         public bool Checked
@@ -353,8 +353,8 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating the checked state of the component.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Indicates the checked state of the component.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates the checked state of the component.")]
         [DefaultValue(typeof(CheckState), "Unchecked")]
         [Bindable(true)]
         public CheckState CheckState
@@ -387,8 +387,8 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating if the check box is automatically changed state when clicked. 
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Causes the check box to automatically change state when clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"Causes the check box to automatically change state when clicked.")]
         [DefaultValue(true)]
         public bool AutoCheck
         {
@@ -408,8 +408,8 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating if the component allows three states instead of two.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates if the component allows three states instead of two.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the component allows three states instead of two.")]
         [DefaultValue(false)]
         public bool ThreeState
         {
@@ -429,8 +429,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common check box appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common check box appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common check box appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
@@ -440,8 +440,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled check box appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled check box appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled check box appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
@@ -451,8 +451,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal check box appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal check box appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal check box appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
@@ -462,8 +462,8 @@ namespace Krypton.Toolkit
         /// Gets access to the check box appearance when it has focus.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining check box appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining check box appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
@@ -473,8 +473,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Command associated with the menu check box.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the menu check box.")]
         [DefaultValue(null)]
         public virtual KryptonCommand KryptonCommand
         {

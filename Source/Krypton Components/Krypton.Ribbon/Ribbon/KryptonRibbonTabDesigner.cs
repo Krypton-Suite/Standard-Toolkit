@@ -144,14 +144,14 @@ namespace Krypton.Ribbon
             if (_verbs == null)
             {
                 _verbs = new DesignerVerbCollection();
-                _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                _moveFirstVerb = new DesignerVerb("Move First", OnMoveFirst);
-                _movePrevVerb = new DesignerVerb("Move Previous", OnMovePrevious);
-                _moveNextVerb = new DesignerVerb("Move Next", OnMoveNext);
-                _moveLastVerb = new DesignerVerb("Move Last", OnMoveLast);
-                _addGroupVerb = new DesignerVerb("Add Group", OnAddGroup);
-                _clearGroupsVerb = new DesignerVerb("Clear Groups", OnClearGroups);
-                _deleteTabVerb = new DesignerVerb("Delete Tab", OnDeleteTab);
+                _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                _moveFirstVerb = new DesignerVerb(@"Move First", OnMoveFirst);
+                _movePrevVerb = new DesignerVerb(@"Move Previous", OnMovePrevious);
+                _moveNextVerb = new DesignerVerb(@"Move Next", OnMoveNext);
+                _moveLastVerb = new DesignerVerb(@"Move Last", OnMoveLast);
+                _addGroupVerb = new DesignerVerb(@"Add Group", OnAddGroup);
+                _clearGroupsVerb = new DesignerVerb(@"Clear Groups", OnClearGroups);
+                _deleteTabVerb = new DesignerVerb(@"Delete Tab", OnDeleteTab);
                 _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb, _addGroupVerb, _clearGroupsVerb, _deleteTabVerb });
             }
 
@@ -191,12 +191,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonTab MoveFirst");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab MoveFirst");
 
                 try
                 {
                     // Get access to the RibbonTabs property
-                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)["RibbonTabs"];
+                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
 
                     RaiseComponentChanging(propertyTabs);
 
@@ -222,12 +222,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonTab MoveNext");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab MoveNext");
 
                 try
                 {
                     // Get access to the RibbonTabs property
-                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)["RibbonTabs"];
+                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
 
                     RaiseComponentChanging(propertyTabs);
 
@@ -255,12 +255,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonTab MovePrevious");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab MovePrevious");
 
                 try
                 {
                     // Get access to the RibbonTabs property
-                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)["RibbonTabs"];
+                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
 
                     RaiseComponentChanging(propertyTabs);
 
@@ -288,12 +288,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonTab MoveLast");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab MoveLast");
 
                 try
                 {
                     // Get access to the RibbonTabs property
-                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)["RibbonTabs"];
+                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
 
                     RaiseComponentChanging(propertyTabs);
 
@@ -319,12 +319,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonTab AddGroup");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab AddGroup");
 
                 try
                 {
                     // Get access to the Groups property
-                    MemberDescriptor propertyGroups = TypeDescriptor.GetProperties(_ribbonTab)["Groups"];
+                    MemberDescriptor propertyGroups = TypeDescriptor.GetProperties(_ribbonTab)[@"Groups"];
 
                     RaiseComponentChanging(propertyGroups);
 
@@ -347,12 +347,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonTab ClearGroups");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab ClearGroups");
 
                 try
                 {
                     // Get access to the Groups property
-                    MemberDescriptor propertyGroups = TypeDescriptor.GetProperties(_ribbonTab)["Groups"];
+                    MemberDescriptor propertyGroups = TypeDescriptor.GetProperties(_ribbonTab)[@"Groups"];
 
                     RaiseComponentChanging(propertyGroups);
 
@@ -382,12 +382,12 @@ namespace Krypton.Ribbon
             if ((_ribbonTab?.Ribbon != null) && _ribbonTab.Ribbon.RibbonTabs.Contains(_ribbonTab))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonTab DeleteTab");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonTab DeleteTab");
 
                 try
                 {
                     // Get access to the RibbonTabs property
-                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)["RibbonTabs"];
+                    MemberDescriptor propertyTabs = TypeDescriptor.GetProperties(_ribbonTab.Ribbon)[@"RibbonTabs"];
 
                     // Remove the ribbon tab from the ribbon
                     RaiseComponentChanging(null);

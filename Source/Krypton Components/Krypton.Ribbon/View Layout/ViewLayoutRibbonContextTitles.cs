@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonContextTitles : ViewLayoutDocker
     {
         #region Classes
-        private class ViewDrawRibbonContextTitleList : List<ViewDrawRibbonContextTitle> { };
+        private class ViewDrawRibbonContextTitleList : List<ViewDrawRibbonContextTitle> { }
         #endregion
 
         #region Instance Fields

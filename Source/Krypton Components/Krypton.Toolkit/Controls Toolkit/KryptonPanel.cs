@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("Paint")]
     [DefaultProperty("PanelStyle")]
     [Designer("Krypton.Toolkit.KryptonPanelDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Enables you to group collections of controls.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Ask)]
     public class KryptonPanel : VisualPanel
     {
@@ -78,8 +78,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the panel style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Panel style.")]
+        [Category(@"Visuals")]
+        [Description(@"Panel style.")]
         public PaletteBackStyle PanelBackStyle
         {
             get => _stateCommon.BackStyle;
@@ -104,8 +104,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common panel appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common panel appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common panel appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateCommon => _stateCommon.Back;
 
@@ -114,8 +114,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled panel appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateDisabled => _stateDisabled.Back;
 
@@ -124,8 +124,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal panel appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal panel appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack StateNormal => _stateNormal.Back;
 

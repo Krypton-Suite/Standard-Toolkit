@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupComboBox), "ToolboxBitmaps.KryptonRibbonGroupComboBox.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupComboBoxDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedTextChanged")]
     [DefaultProperty("Text")]
@@ -49,134 +49,134 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when a key is pressed while the control has focus. 
         /// </summary>
-        [Description("Occurs when a key is pressed while the control has focus.")]
-        [Category("Key")]
+        [Description(@"Occurs when a key is pressed while the control has focus.")]
+        [Category(@"Key")]
         public event KeyPressEventHandler KeyPress;
 
         /// <summary>
         /// Occurs when a key is released while the control has focus. 
         /// </summary>
-        [Description("Occurs when a key is released while the control has focus.")]
-        [Category("Key")]
+        [Description(@"Occurs when a key is released while the control has focus.")]
+        [Category(@"Key")]
         public event KeyEventHandler KeyUp;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
-        [Description("Occurs when a key is pressed while the control has focus.")]
-        [Category("Key")]
+        [Description(@"Occurs when a key is pressed while the control has focus.")]
+        [Category(@"Key")]
         public event KeyEventHandler KeyDown;
 
         /// <summary>
         /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
         /// </summary>
-        [Description("Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
-        [Category("Key")]
+        [Description(@"Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
+        [Category(@"Key")]
         public event PreviewKeyDownEventHandler PreviewKeyDown;
 
         /// <summary>
         /// Occurs when the drop-down portion of the KryptonComboBox is shown.
         /// </summary>
-        [Description("Occurs when the drop-down portion of the KryptonComboBox is shown.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the drop-down portion of the KryptonComboBox is shown.")]
+        [Category(@"Behavior")]
         public event EventHandler DropDown;
 
         /// <summary>
         /// Indicates that the drop-down portion of the KryptonComboBox has closed.
         /// </summary>
-        [Description("Indicates that the drop-down portion of the KryptonComboBox has closed.")]
-        [Category("Behavior")]
+        [Description(@"Indicates that the drop-down portion of the KryptonComboBox has closed.")]
+        [Category(@"Behavior")]
         public event EventHandler DropDownClosed;
 
         /// <summary>
         /// Occurs when the value of the DropDownStyle property changed.
         /// </summary>
-        [Description("Occurs when the value of the DropDownStyle property changed.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the value of the DropDownStyle property changed.")]
+        [Category(@"Behavior")]
         public event EventHandler DropDownStyleChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
-        [Description("Occurs when the value of the SelectedIndex property changes.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the value of the SelectedIndex property changes.")]
+        [Category(@"Behavior")]
         public event EventHandler SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when an item is chosen from the drop-down list and the drop-down list is closed.
         /// </summary>
-        [Description("Occurs when an item is chosen from the drop-down list and the drop-down list is closed.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when an item is chosen from the drop-down list and the drop-down list is closed.")]
+        [Category(@"Behavior")]
         public event EventHandler SelectionChangeCommitted;
 
         /// <summary>
         /// Occurs when the value of the DataSource property changed.
         /// </summary>
-        [Description("Occurs when the value of the DataSource property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the DataSource property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler DataSourceChanged;
 
         /// <summary>
         /// Occurs when the value of the DisplayMember property changed.
         /// </summary>
-        [Description("Occurs when the value of the DisplayMember property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the DisplayMember property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler DisplayMemberChanged;
 
         /// <summary>
         /// Occurs when the list format has changed.
         /// </summary>
-        [Description("Occurs when the list format has changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the list format has changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler Format;
 
         /// <summary>
         /// Occurs when the value of the FormatInfo property changed.
         /// </summary>
-        [Description("Occurs when the value of the FormatInfo property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the FormatInfo property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler FormatInfoChanged;
 
         /// <summary>
         /// Occurs when the value of the FormatString property changed.
         /// </summary>
-        [Description("Occurs when the value of the FormatString property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the FormatString property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler FormatStringChanged;
 
         /// <summary>
         /// Occurs when the value of the FormattingEnabled property changed.
         /// </summary>
-        [Description("Occurs when the value of the FormattingEnabled property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the FormattingEnabled property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler FormattingEnabledChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedValue property changed.
         /// </summary>
-        [Description("Occurs when the value of the SelectedValue property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the SelectedValue property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler SelectedValueChanged;
 
         /// <summary>
         /// Occurs when the value of the ValueMember property changed.
         /// </summary>
-        [Description("Occurs when the value of the ValueMember property changed.")]
-        [Category("PropertyChanged")]
+        [Description(@"Occurs when the value of the ValueMember property changed.")]
+        [Category(@"PropertyChanged")]
         public event EventHandler ValueMemberChanged;
 
         /// <summary>
         /// Occurs when the KryptonComboBox text has changed.
         /// </summary>
-        [Description("Occurs when the KryptonComboBox text has changed.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the KryptonComboBox text has changed.")]
+        [Category(@"Behavior")]
         public event EventHandler TextUpdate;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -285,8 +285,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the shortcut key combination.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Shortcut key combination to set focus to the combo box.")]
+        [Category(@"Behavior")]
+        [Description(@"Shortcut key combination to set focus to the combo box.")]
         public Keys ShortcutKeys { get; set; }
 
         private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
@@ -302,7 +302,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Access to the actual embedded KryptonComboBox instance.
         /// </summary>
-        [Description("Access to the actual embedded KryptonComboBox instance.")]
+        [Description(@"Access to the actual embedded KryptonComboBox instance.")]
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -313,8 +313,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group text box key tip.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group text box key tip.")]
         [DefaultValue("X")]
         public string KeyTip
         {
@@ -335,8 +335,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the rich text.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the text box is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the text box is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -375,8 +375,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the group combo box.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group combo box is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group combo box is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -395,8 +395,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the minimum size of the control.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies the minimum size of the control.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies the minimum size of the control.")]
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
@@ -407,8 +407,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the maximum size of the control.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies the maximum size of the control.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies the maximum size of the control.")]
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
@@ -419,8 +419,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the text associated with the control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Text associated with the control.")]
+        [Category(@"Appearance")]
+        [Description(@"Text associated with the control.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
@@ -431,8 +431,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut to display when the user right-clicks the control.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
         public ContextMenuStrip ContextMenuStrip
         {
@@ -443,8 +443,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the KryptonContextMenu for showing when the combobox is right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("KryptonContextMenu to be shown when the combobox is right clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"KryptonContextMenu to be shown when the combobox is right clicked.")]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu
         {
@@ -455,8 +455,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the value member.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the property to use as the actual value of the items in the control.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the property to use as the actual value of the items in the control.")]
         [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ValueMember
@@ -468,8 +468,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the list that this control will use to gets its items.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the list that this control will use to gets its items.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the list that this control will use to gets its items.")]
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
@@ -482,8 +482,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the property to display for the items in this control.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the property to display for the items in this control.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the property to display for the items in this control.")]
         [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
         [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DefaultValue("")]
@@ -496,8 +496,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the appearance and functionality of the KryptonComboBox.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Controls the appearance and functionality of the KryptonComboBox.")]
+        [Category(@"Appearance")]
+        [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
         [DefaultValue(typeof(ComboBoxStyle), "DropDown")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
@@ -509,8 +509,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the height, in pixels, of the drop down box in a KryptonComboBox.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The height, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Category(@"Behavior")]
+        [Description(@"The height, in pixels, of the drop down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DefaultValue(200)]
         [Browsable(true)]
@@ -523,8 +523,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the width, in pixels, of the drop down box in a KryptonComboBox.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The width, in pixels, of the drop down box in a KryptonComboBox.")]
+        [Category(@"Behavior")]
+        [Description(@"The width, in pixels, of the drop down box in a KryptonComboBox.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DefaultValue(143)]
         [Browsable(true)]
@@ -537,8 +537,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the height, in pixels, of items in an owner-draw KryptomComboBox.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The height, in pixels, of items in an owner-draw KryptomComboBox.")]
+        [Category(@"Behavior")]
+        [Description(@"The height, in pixels, of items in an owner-draw KryptomComboBox.")]
         [Localizable(true)]
         public int ItemHeight
         {
@@ -549,8 +549,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the maximum number of entries to display in the drop-down list.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The maximum number of entries to display in the drop-down list.")]
+        [Category(@"Behavior")]
+        [Description(@"The maximum number of entries to display in the drop-down list.")]
         [Localizable(true)]
         [DefaultValue(8)]
         public int MaxDropDownItems
@@ -562,8 +562,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the maximum number of characters that can be entered into the edit control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Specifies the maximum number of characters that can be entered into the edit control.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies the maximum number of characters that can be entered into the edit control.")]
         [DefaultValue(0)]
         [Localizable(true)]
         public int MaxLength
@@ -575,8 +575,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets whether the items in the list portion of the KryptonComboBox are sorted.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Specifies whether the items in the list portion of the KryptonComboBox are sorted.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies whether the items in the list portion of the KryptonComboBox are sorted.")]
         [DefaultValue(false)]
         public bool Sorted
         {
@@ -593,8 +593,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the items in the KryptonComboBox.
         /// </summary>
-        [Category("Data")]
-        [Description("The items in the KryptonComboBox.")]
+        [Category(@"Data")]
+        [Description(@"The items in the KryptonComboBox.")]
         [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
@@ -604,8 +604,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
@@ -616,8 +616,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority
         {
@@ -628,15 +628,15 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonComboBox.ComboBoxButtonSpecCollection ButtonSpecs => ComboBox.ButtonSpecs;
 
         /// <summary>
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
-        [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
+        [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
         [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -651,7 +651,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the text completion behavior of the combobox.
         /// </summary>
-        [Description("Indicates the text completion behavior of the combobox.")]
+        [Description(@"Indicates the text completion behavior of the combobox.")]
         [DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -664,7 +664,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
-        [Description("The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
+        [Description(@"The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
         [DefaultValue(typeof(AutoCompleteSource), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -677,7 +677,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the format specifier characters that indicate how a value is to be displayed.
         /// </summary>
-        [Description("The format specifier characters that indicate how a value is to be displayed.")]
+        [Description(@"The format specifier characters that indicate how a value is to be displayed.")]
         [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
@@ -690,7 +690,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets if this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.
         /// </summary>
-        [Description("If this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.")]
+        [Description(@"If this property is true, the value of FormatString is used to convert the value of DisplayMember into a value that can be displayed.")]
         [DefaultValue(true)]
         public bool FormattingEnabled
         {

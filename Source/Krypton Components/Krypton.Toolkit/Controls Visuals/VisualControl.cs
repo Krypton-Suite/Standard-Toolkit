@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// Extend the visual control base class with the ISupportInitializeNotification interface.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public abstract class VisualControl : VisualControlBase, 
                                           ISupportInitializeNotification
     {
@@ -29,8 +29,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the control is initialized.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the control has been fully initialized.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the control has been fully initialized.")]
         public event EventHandler Initialized;
         #endregion
 

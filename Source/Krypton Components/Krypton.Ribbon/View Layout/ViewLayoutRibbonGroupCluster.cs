@@ -21,9 +21,9 @@ namespace Krypton.Ribbon
 
     {
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { };
-        private class ViewToEdge : Dictionary<ViewBase, ViewDrawRibbonGroupClusterEdge> { };
-        private class ViewToSize : Dictionary<ViewBase, Size> { };
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
+        private class ViewToEdge : Dictionary<ViewBase, ViewDrawRibbonGroupClusterEdge> { }
+        private class ViewToSize : Dictionary<ViewBase, Size> { }
         #endregion
 
         #region Instance Fields

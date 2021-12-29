@@ -58,8 +58,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the panel back style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Panel back style.")]
+        [Category(@"Visuals")]
+        [Description(@"Panel back style.")]
         [DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
         public PaletteBackStyle PanelBackStyle
         {

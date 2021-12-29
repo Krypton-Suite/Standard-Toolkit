@@ -73,8 +73,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group area palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group area appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group area appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupArea => _ribbonGroupArea;
 

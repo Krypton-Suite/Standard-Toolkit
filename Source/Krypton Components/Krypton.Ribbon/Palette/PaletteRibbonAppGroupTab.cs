@@ -114,8 +114,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the application button palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining application button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining application button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonAppButton => _ribbonAppButton;
 
@@ -127,8 +127,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group area palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group area appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group area appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupArea => _ribbonGroupBackArea;
 
@@ -140,8 +140,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group normal border palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group normal border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group normal border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupNormalBorder => _ribbonGroupNormalBorder;
 
@@ -153,8 +153,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group normal title palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group normal title appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group normal title appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonDouble RibbonGroupNormalTitle => _ribbonGroupNormalTitle;
 
@@ -166,8 +166,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group collapsed border palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group collapsed border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group collapsed border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedBorder => _ribbonGroupCollapsedBorder;
 
@@ -179,8 +179,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group collapsed background palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group collapsed background appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group collapsed background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedBack => _ribbonGroupCollapsedBack;
 
@@ -192,8 +192,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group collapsed frame border palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group collapsed frame border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group collapsed frame border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBorder => _ribbonGroupCollapsedFrameBorder;
 
@@ -205,8 +205,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group collapsed frame background palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group collapsed frame background appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group collapsed frame background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonBack RibbonGroupCollapsedFrameBack => _ribbonGroupCollapsedFrameBack;
 
@@ -218,8 +218,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group collapsed text palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group collapsed text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group collapsed text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCollapsedText => _ribbonGroupCollapsedText;
 

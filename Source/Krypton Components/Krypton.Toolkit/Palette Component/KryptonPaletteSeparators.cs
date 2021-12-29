@@ -97,8 +97,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorCommon { get; }
 
@@ -111,8 +111,8 @@ namespace Krypton.Toolkit
         /// Gets access to the low profile separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining low profile separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining low profile separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorLowProfile { get; }
 
@@ -125,8 +125,8 @@ namespace Krypton.Toolkit
         /// Gets access to the high profile separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining high profile separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining high profile separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorHighProfile { get; }
 
@@ -139,8 +139,8 @@ namespace Krypton.Toolkit
         /// Gets access to the high profile for internal separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining high profile for internal separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining high profile for internal separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorHighInternalProfile { get; }
 
@@ -153,8 +153,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining first custom separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining first custom separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorCustom1 { get; }
 
@@ -167,8 +167,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining first custom separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining first custom separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorCustom2 { get; }
 
@@ -181,8 +181,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining third custom separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining third custom separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteSeparator SeparatorCustom3 { get; }
 

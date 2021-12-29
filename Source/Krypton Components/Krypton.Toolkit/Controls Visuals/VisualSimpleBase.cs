@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// Extends the control base with some common changes relevant to krypton simple controls.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public abstract class VisualSimpleBase : VisualControlBase
     {
         #region Identity
@@ -33,8 +33,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the auto size mode.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies if the control grows and shrinks to fit the contents exactly.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
         [DefaultValue(typeof(AutoSizeMode), "GrowOnly")]
         public virtual AutoSizeMode AutoSizeMode
         {

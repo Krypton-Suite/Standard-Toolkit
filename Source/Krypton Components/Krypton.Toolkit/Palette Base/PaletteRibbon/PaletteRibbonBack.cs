@@ -105,8 +105,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the first background color for the ribbon item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("First background color for the ribbon item.")]
+        [Category(@"Visuals")]
+        [Description(@"First background color for the ribbon item.")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor1
         {
@@ -140,8 +140,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the second background color for the ribbon item.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Second background color for the ribbon item.")]
+        [Category(@"Visuals")]
+        [Description(@"Second background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor2
@@ -176,8 +176,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the third background color for the ribbon item.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Third background color for the ribbon item.")]
+        [Category(@"Visuals")]
+        [Description(@"Third background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor3
@@ -212,8 +212,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the fourth background color for the ribbon item.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Fourth background color for the ribbon item.")]
+        [Category(@"Visuals")]
+        [Description(@"Fourth background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor4
@@ -247,8 +247,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the fifth background color for the ribbon item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Fifth background color for the ribbon item.")]
+        [Category(@"Visuals")]
+        [Description(@"Fifth background color for the ribbon item.")]
         [DefaultValue(typeof(Color), "")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor5

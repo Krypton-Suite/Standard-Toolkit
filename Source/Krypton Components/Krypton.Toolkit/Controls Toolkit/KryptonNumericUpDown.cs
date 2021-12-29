@@ -25,8 +25,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Value")]
     [DefaultBindingProperty("Value")]
     [Designer("Krypton.Toolkit.KryptonNumericUpDownDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Represents a Windows spin box (also known as an up-down control) that displays numeric values.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Represents a Windows spin box (also known as an up-down control) that displays numeric values.")]
     public class KryptonNumericUpDown : VisualControlBase,
                                         IContainedInputControl
     {
@@ -772,8 +772,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the Value property changes.
         /// </summary>
-        [Description("Occurs when the value of the Value property changes.")]
-        [Category("Action")]
+        [Description(@"Occurs when the value of the Value property changes.")]
+        [Category(@"Action")]
         public event EventHandler ValueChanged;
 
         /// <summary>
@@ -786,16 +786,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the mouse enters the control.
         /// </summary>
-        [Description("Raises the TrackMouseEnter event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
         /// </summary>
-        [Description("Raises the TrackMouseLeave event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseLeave;
 
@@ -1060,8 +1060,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the number of decimal places to display.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the number of decimal places to display.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the number of decimal places to display.")]
         [DefaultValue(0)]
         [Browsable(true)]
         public int DecimalPlaces
@@ -1073,8 +1073,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets whether the control accepts decimal values.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the control can accept decimal values, rather than integer values only.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the control can accept decimal values, rather than integer values only.")]
         [DefaultValue(false)] // because the default _numericUpDown.DecimalPlaces is zero.
         public bool AllowDecimals
         {
@@ -1098,8 +1098,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets whether the control displays trailing zeroes.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the control will display traling zeroes, when decimals are in play")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the control will display traling zeroes, when decimals are in play")]
         [DefaultValue(true)]
         public bool TrailingZeroes
         {
@@ -1110,8 +1110,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Defines if mnemonic characters generate click events for button specs.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines if mnemonic characters generate click events for button specs.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -1130,8 +1130,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the amount to increment or decrement one each button click.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the amount to increment or decrement one each button click.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the amount to increment or decrement one each button click.")]
         [DefaultValue(typeof(decimal), "1")]
         public decimal Increment
         {
@@ -1142,8 +1142,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the maximum value for the numeric up-down control.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the maximum value for the numeric up-down control.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the maximum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(decimal), "100")]
         public decimal Maximum
@@ -1155,8 +1155,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the minimum value for the numeric up-down control.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates the minimum value for the numeric up-down control.")]
+        [Category(@"Data")]
+        [Description(@"Indicates the minimum value for the numeric up-down control.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(decimal), "0")]
         public decimal Minimum
@@ -1168,8 +1168,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets whether the thousands separator wil be inserted between each three decimal digits.
         /// </summary>
-        [Category("Data")]
-        [Description("Indicates whether the thousands separator wil be inserted between each three decimal digits.")]
+        [Category(@"Data")]
+        [Description(@"Indicates whether the thousands separator wil be inserted between each three decimal digits.")]
         [DefaultValue(false)]
         [Localizable(true)]
         public bool ThousandsSeparator
@@ -1181,8 +1181,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the current value of the numeric up-down control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The current value of the numeric up-down control.")]
+        [Category(@"Appearance")]
+        [Description(@"The current value of the numeric up-down control.")]
         [DefaultValue(typeof(decimal), "0")]
         [Bindable(true)]
         public decimal Value
@@ -1194,8 +1194,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets how the text should be aligned for edit controls.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates how the text should be aligned for edit controls.\rDo not use this property, it is provided for backwards compatability only.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates how the text should be aligned for edit controls.\rDo not use this property, it is provided for backwards compatability only.")]
         [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -1229,8 +1229,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets weather the numeric up-down should display its value in hexadecimal.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates whether the numeric up-down should display its value in hexadecimal.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates whether the numeric up-down should display its value in hexadecimal.")]
         [DefaultValue(false)]
         public bool Hexadecimal
         {
@@ -1241,8 +1241,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets how the up-down control will position the up down buttons relative to its text box.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates how the up-down control will position the up down buttons relative to its text box.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates how the up-down control will position the up down buttons relative to its text box.")]
         [DefaultValue(typeof(LeftRightAlignment), "Right")]
         [Localizable(true)]
         public LeftRightAlignment UpDownAlign
@@ -1254,8 +1254,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets whether the up-down control will increment and decrement the value when the UP ARROW and DOWN ARROW are used.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the up-down control will increment and decrement the value when the UP ARROW and DOWN ARROW are used.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the up-down control will increment and decrement the value when the UP ARROW and DOWN ARROW are used.")]
         [DefaultValue(true)]
         public bool InterceptArrowKeys
         {
@@ -1266,8 +1266,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the text in the edit control can be changed or not.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Controls whether the text in the edit control can be changed or not.")]
+        [Category(@"Behavior")]
+        [Description(@"Controls whether the text in the edit control can be changed or not.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(false)]
         public bool ReadOnly
@@ -1279,8 +1279,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {
@@ -1299,8 +1299,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the input control style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Input control style.")]
+        [Category(@"Visuals")]
+        [Description(@"Input control style.")]
         public InputControlStyle InputControlStyle
         {
             get => _inputControlStyle;
@@ -1323,8 +1323,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the up and down buttons style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Up and down buttons style.")]
+        [Category(@"Visuals")]
+        [Description(@"Up and down buttons style.")]
         public ButtonStyle UpDownButtonStyle
         {
             get => _upDownButtonStyle;
@@ -1346,32 +1346,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NumericUpDownButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common textbox appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common textbox appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect StateCommon { get; }
 
@@ -1380,8 +1380,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateDisabled { get; }
 
@@ -1390,8 +1390,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateNormal { get; }
 
@@ -1400,8 +1400,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateActive { get; }
 

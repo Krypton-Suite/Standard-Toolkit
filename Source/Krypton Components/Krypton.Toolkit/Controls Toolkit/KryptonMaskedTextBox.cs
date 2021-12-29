@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Mask")]
     [DefaultBindingProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonMaskedTextBoxDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Uses a mask to distinguish between proper and improper user input.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Uses a mask to distinguish between proper and improper user input.")]
     public class KryptonMaskedTextBox : VisualControlBase,
                                         IContainedInputControl
     {
@@ -331,72 +331,72 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
-        [Description("Occurs when the value of the HideSelection property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the HideSelection property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the TextAlign property changes.
         /// </summary>
-        [Description("Occurs when the value of the TextAlign property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the TextAlign property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler TextAlignChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
-        [Description("Occurs when the value of the Modified property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the Modified property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
-        [Description("Occurs when the value of the ReadOnly property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the ReadOnly property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler ReadOnlyChanged;
 
         /// <summary>
         /// Occurs when the value of the Mask property changes.
         /// </summary>
-        [Description("Occurs when the value of the Mask property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the Mask property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler MaskChanged;
 
         /// <summary>
         /// Occurs when the value of the IsOverwriteMode property changes.
         /// </summary>
-        [Description("Occurs when the value of the IsOverwriteMode property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the IsOverwriteMode property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler IsOverwriteModeChanged;
 
         /// <summary>
         /// Occurs when the input character or text does not comply with the mask specification.
         /// </summary>
-        [Description("Occurs when the input character or text does not comply with the mask specification.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the input character or text does not comply with the mask specification.")]
+        [Category(@"Behavior")]
         public event MaskInputRejectedEventHandler MaskInputRejected;
 
         /// <summary>
         /// Occurs when the validating type object has completed parsing the input text.
         /// </summary>
-        [Description("Occurs when the validating type object has completed parsing the input text.")]
-        [Category("Focus")]
+        [Description(@"Occurs when the validating type object has completed parsing the input text.")]
+        [Category(@"Focus")]
         public event TypeValidationEventHandler TypeValidationCompleted;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
         /// </summary>
-        [Description("Raises the TrackMouseEnter event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
         /// </summary>
-        [Description("Raises the TrackMouseLeave event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseLeave;
 
@@ -789,8 +789,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Defines if mnemonic characters generate click events for button specs.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines if mnemonic characters generate click events for button specs.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -809,8 +809,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {
@@ -829,8 +829,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets how the text should be aligned for edit controls.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates how the text should be aligned for edit controls.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates how the text should be aligned for edit controls.")]
         [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
@@ -842,8 +842,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates the character used as the placeholder.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates the character used as the placeholder.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates the character used as the placeholder.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue('_')]
         [Localizable(true)]
@@ -856,8 +856,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether PromptChar can be entered as valid data by the user.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the prompt character is valid as input.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the prompt character is valid as input.")]
         [DefaultValue(true)]
         public bool AllowPromptAsInput
         {
@@ -868,8 +868,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the MaskedTextBox control accepts characters outside of the ASCII character set.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether only Ascii characters are valid as input.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether only Ascii characters are valid as input.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(false)]
         public bool AsciiOnly
@@ -881,8 +881,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the masked text box control raises the system beep for each user key stroke that it rejects.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the control will beep when an invalid character is typed.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the control will beep when an invalid character is typed.")]
         [DefaultValue(false)]
         public bool BeepOnError
         {
@@ -893,8 +893,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the culture information associated with the masked text box.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The culture that determines the value of the locaizable mask language separators and placeholders.")]
+        [Category(@"Behavior")]
+        [Description(@"The culture that determines the value of the locaizable mask language separators and placeholders.")]
         [RefreshProperties(RefreshProperties.All)]
         public CultureInfo Culture
         {
@@ -907,8 +907,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value that determines whether literals and prompt characters are copied to the clipboard.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the text to be copied to the clipboard includes literals and/or prompt characters.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the text to be copied to the clipboard includes literals and/or prompt characters.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
         public MaskFormat CutCopyMaskFormat
@@ -920,8 +920,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the prompt characters in the input mask are hidden when the masked text box loses focus.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether prompt characters are displayed when the control does not have focus.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether prompt characters are displayed when the control does not have focus.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(false)]
         public bool HidePromptOnLeave
@@ -933,8 +933,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text insertion mode of the masked text box control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates the masked text box input character typing mode.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates the masked text box input character typing mode.")]
         [DefaultValue(typeof(InsertKeyMode), "Default")]
         public InsertKeyMode InsertKeyMode
         {
@@ -945,8 +945,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the input mask to use at run time. 
         /// </summary>
-        [Category("Behavior")]
-        [Description("Sets the string governing the input allowed for the control.")]
+        [Category(@"Behavior")]
+        [Description(@"Sets the string governing the input allowed for the control.")]
         [RefreshProperties(RefreshProperties.All)]
         [MergableProperty(false)]
         [DefaultValue("")]
@@ -960,8 +960,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating that the selection should be hidden when the edit control loses focus.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates that the selection should be hidden when the edit control loses focus.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates that the selection should be hidden when the edit control loses focus.")]
         [DefaultValue(true)]
         public bool HideSelection
         {
@@ -972,8 +972,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the text in the edit control can be changed or not.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Controls whether the text in the edit control can be changed or not.")]
+        [Category(@"Behavior")]
+        [Description(@"Controls whether the text in the edit control can be changed or not.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(false)]
         public bool ReadOnly
@@ -985,8 +985,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the parsing of user input should stop after the first invalid character is reached.
         /// </summary>
-        [Category("Behavior")]
-        [Description("If true, the input is rejected whenever a character fails to comply with the mask; otherwise, characters in the text area are processed one by one as individual inputs.")]
+        [Category(@"Behavior")]
+        [Description(@"If true, the input is rejected whenever a character fails to comply with the mask; otherwise, characters in the text area are processed one by one as individual inputs.")]
         [DefaultValue(false)]
         public bool RejectInputOnFirstFailure
         {
@@ -997,8 +997,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value that determines how an input character that matches the prompt character should be handled.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Specifies whether to reset and skip the current position if editable, when the input characters has the same value as the prompt.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies whether to reset and skip the current position if editable, when the input characters has the same value as the prompt.")]
         [DefaultValue(true)]
         public bool ResetOnPrompt
         {
@@ -1009,8 +1009,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value that determines how a space input character should be handled.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Specifies whether to reset and skip the current position if editable, when the input is the space character.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies whether to reset and skip the current position if editable, when the input is the space character.")]
         [DefaultValue(true)]
         public bool ResetOnSpace
         {
@@ -1021,8 +1021,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the user is allowed to reenter literal values.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Specifies whether to skip the current position if non-editable and the input character has the same value as the literal at that position.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies whether to skip the current position if non-editable and the input character has the same value as the literal at that position.")]
         [DefaultValue(true)]
         public bool SkipLiterals
         {
@@ -1033,8 +1033,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value that determines whether literals and prompt characters are included in the formatted string.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether the string returned from the Text property includes literal and/or prompt characters.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether the string returned from the Text property includes literal and/or prompt characters.")]
         [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public MaskFormat TextMaskFormat
@@ -1046,8 +1046,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether shortcuts defined for the control are enabled.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether shortcuts defined for the control are enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether shortcuts defined for the control are enabled.")]
         [DefaultValue(true)]
         public bool ShortcutsEnabled
         {
@@ -1058,8 +1058,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a the character to display for password input for single-line edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates the character to display for password input for single-line edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates the character to display for password input for single-line edit controls.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue('\0')]
         [Localizable(true)]
@@ -1072,8 +1072,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the text in the edit control should appear as the default password character.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the text in the edit control should appear as the default password character.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the text in the edit control should appear as the default password character.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(false)]
         public bool UseSystemPasswordChar
@@ -1085,8 +1085,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the input control style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Input control style.")]
+        [Category(@"Visuals")]
+        [Description(@"Input control style.")]
         public InputControlStyle InputControlStyle
         {
             get => _inputControlStyle;
@@ -1112,32 +1112,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public MaskedTextBoxButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common textbox appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common textbox appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect StateCommon { get; }
 
@@ -1146,8 +1146,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateDisabled { get; }
 
@@ -1156,8 +1156,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateNormal { get; }
 
@@ -1166,8 +1166,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateActive { get; }
 

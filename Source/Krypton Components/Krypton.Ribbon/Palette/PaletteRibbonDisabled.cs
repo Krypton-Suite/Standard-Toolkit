@@ -85,8 +85,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group check box label palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group check box label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group check box label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupCheckBoxText => _ribbonGroupCheckBoxText;
 
@@ -98,8 +98,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group button text palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group button text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group button text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupButtonText => _ribbonGroupButtonText;
 
@@ -111,8 +111,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group label label palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group label label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group label label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupLabelText => _ribbonGroupLabelText;
 
@@ -124,8 +124,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon group radio button label palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon group radio button label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon group radio button label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText RibbonGroupRadioButtonText => _ribbonGroupRadioButtonText;
 

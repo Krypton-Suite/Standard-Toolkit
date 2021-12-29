@@ -114,8 +114,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets if animation should be used on the bar.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should animation effects be used on the bar.")]
+        [Category(@"Visuals")]
+        [Description(@"Should animation effects be used on the bar.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool BarAnimation
@@ -145,8 +145,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the orientation for positioning the bar.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Orientation for positioning of the bar.")]
+        [Category(@"Visuals")]
+        [Description(@"Orientation for positioning of the bar.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation BarOrientation
@@ -176,8 +176,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the distance to inset the first bar item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Distance to inset the first bar item.")]
+        [Category(@"Visuals")]
+        [Description(@"Distance to inset the first bar item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(0)]
         public int BarFirstItemInset
@@ -207,8 +207,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the distance to inset the last bar item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Distance to inset the last bar item.")]
+        [Category(@"Visuals")]
+        [Description(@"Distance to inset the last bar item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(0)]
         public int BarLastItemInset
@@ -238,8 +238,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the minimum height of the bar.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Minimum height of the bar.")]
+        [Category(@"Visuals")]
+        [Description(@"Minimum height of the bar.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(21)]
         public int BarMinimumHeight
@@ -269,8 +269,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the showing of multilines of items in the bar.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Multiline items in the bar.")]
+        [Category(@"Visuals")]
+        [Description(@"Multiline items in the bar.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(BarMultiline), "Singleline")]
         public BarMultiline BarMultiline
@@ -300,8 +300,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the check button style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Check button style.")]
+        [Category(@"Visuals")]
+        [Description(@"Check button style.")]
         [DefaultValue(typeof(ButtonStyle), "Standalone")]
         public ButtonStyle CheckButtonStyle
         {
@@ -322,8 +322,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the tab style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Tab style.")]
+        [Category(@"Visuals")]
+        [Description(@"Tab style.")]
         [DefaultValue(typeof(TabStyle), "HighProfile")]
         public TabStyle TabStyle
         {
@@ -344,8 +344,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the tab border style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Tab border style.")]
+        [Category(@"Visuals")]
+        [Description(@"Tab border style.")]
         [DefaultValue(typeof(TabBorderStyle), "RoundedOutsizeMedium")]
         public TabBorderStyle TabBorderStyle
         {
@@ -366,8 +366,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the alignment of items within the bar.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Alignment of items within the bar.")]
+        [Category(@"Visuals")]
+        [Description(@"Alignment of items within the bar.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(RelativePositionAlign), "Near")]
         public RelativePositionAlign ItemAlignment
@@ -397,8 +397,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the sets the minimum size of each bar item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Minimum size of each bar item.")]
+        [Category(@"Visuals")]
+        [Description(@"Minimum size of each bar item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(Size), "20,20")]
         public Size ItemMinimumSize
@@ -448,8 +448,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the sets the minimum size of each bar item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Minimum size of each bar item.")]
+        [Category(@"Visuals")]
+        [Description(@"Minimum size of each bar item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(Size), "200,200")]
         public Size ItemMaximumSize
@@ -499,8 +499,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the orientation for positioning items on the bar.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Orientation for positioning items on the bar.")]
+        [Category(@"Visuals")]
+        [Description(@"Orientation for positioning items on the bar.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonOrientation), "Auto")]
         public ButtonOrientation ItemOrientation
@@ -530,8 +530,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the sets how to calculate the size of each bar item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("How to calculate the size of each bar item.")]
+        [Category(@"Visuals")]
+        [Description(@"How to calculate the size of each bar item.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(BarItemSizing), "All Same Height")]
         public BarItemSizing ItemSizing
@@ -562,8 +562,8 @@ namespace Krypton.Navigator
         /// Gets and sets the mapping used for the bar item image.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Mapping used for the bar item image.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the bar item image.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageImage), "Small")]
         public virtual MapKryptonPageImage BarMapImage
@@ -593,8 +593,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the bar item text.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Mapping used for the bar item text.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the bar item text.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
         public MapKryptonPageText BarMapText
@@ -624,8 +624,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the mapping used for the bar item description.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Mapping used for the bar item description.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used for the bar item description.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
         public MapKryptonPageText BarMapExtraText

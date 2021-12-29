@@ -39,8 +39,8 @@ namespace Krypton.Toolkit
         /// Gets access to the content palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining content appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining content appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent Content { get; }
 

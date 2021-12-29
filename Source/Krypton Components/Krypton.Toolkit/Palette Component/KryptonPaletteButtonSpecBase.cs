@@ -100,8 +100,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Button style.")]
+        [Category(@"Visuals")]
+        [Description(@"Button style.")]
         [DefaultValue(typeof(PaletteButtonStyle), "Inherit")]
         public PaletteButtonStyle Style
         {
@@ -129,8 +129,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Defines the button orientation.")]
+        [Category(@"Visuals")]
+        [Description(@"Defines the button orientation.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(PaletteButtonOrientation), "Inherit")]
         public PaletteButtonOrientation Orientation
@@ -160,8 +160,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [KryptonPersist(false)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("The header edge to display the button against.")]
+        [Category(@"Visuals")]
+        [Description(@"The header edge to display the button against.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(PaletteRelativeEdgeAlign), "Inherit")]
         public PaletteRelativeEdgeAlign Edge

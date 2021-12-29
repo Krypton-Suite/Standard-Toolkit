@@ -19,9 +19,9 @@ namespace Krypton.Toolkit
     public class ViewLayoutCrumbs : ViewComposite, IContentValues
     {
         #region Type Definitions
-        private class CrumbToButton : Dictionary<KryptonBreadCrumbItem, ViewDrawButton> { };
-        private class ButtonToCrumb : Dictionary<ViewDrawButton, KryptonBreadCrumbItem> { };
-        private class MenuItemToCrumb : Dictionary<KryptonContextMenuItem, KryptonBreadCrumbItem> { };
+        private class CrumbToButton : Dictionary<KryptonBreadCrumbItem, ViewDrawButton> { }
+        private class ButtonToCrumb : Dictionary<ViewDrawButton, KryptonBreadCrumbItem> { }
+        private class MenuItemToCrumb : Dictionary<KryptonContextMenuItem, KryptonBreadCrumbItem> { }
         #endregion
 
         #region Instance Fields

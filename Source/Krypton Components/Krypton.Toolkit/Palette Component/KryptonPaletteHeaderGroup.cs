@@ -59,8 +59,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common header group appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common header group appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common header group appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeaderGroupState StateCommon { get; }
 

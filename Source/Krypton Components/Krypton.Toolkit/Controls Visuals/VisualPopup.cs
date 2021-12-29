@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// Base class used for implementation of popup controls.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public class VisualPopup : ContainerControl
     {
         #region Instance Fields

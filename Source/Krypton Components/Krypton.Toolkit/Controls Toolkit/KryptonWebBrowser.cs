@@ -15,8 +15,8 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(WebBrowser), "ToolboxBitmaps.WebBrowser.bmp")]
     [Designer("Krypton.Toolkit.KryptonWebBrowserDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Enables the user to browse web page, inside your form. Mainly to be used as a Rich Text Editor")]
+    [DesignerCategory(@"code")]
+    [Description(@"Enables the user to browse web page, inside your form. Mainly to be used as a Rich Text Editor")]
     public class KryptonWebBrowser : WebBrowser
     {
         #region Instance Fields
@@ -66,8 +66,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the <see cref="T:System.Windows.Forms.ContextMenuStrip" /> associated with this control.</summary>
         /// <returns>The <see cref="T:System.Windows.Forms.ContextMenuStrip" /> for this control, or <see langword="null" /> if there is no <see cref="T:System.Windows.Forms.ContextMenuStrip" />. The default is <see langword="null" />.</returns>
-        [Category("Behavior")]
-        [Description("Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
+        [Category(@"Behavior")]
+        [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
         public override ContextMenuStrip ContextMenuStrip
         {
@@ -96,8 +96,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the KryptonContextMenu to show when right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut menu to show when the user right-clicks the page.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut menu to show when the user right-clicks the page.")]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu
         {

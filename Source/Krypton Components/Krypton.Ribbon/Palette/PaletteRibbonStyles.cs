@@ -58,8 +58,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the ribbon background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Ribbon background style.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon background style.")]
         [DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
         public PaletteBackStyle BackStyle
         {
@@ -72,8 +72,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the ribbon background style when owning window is inactive.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Ribbon background style when owning window is inactive.")]
+        [Category(@"Visuals")]
+        [Description(@"Ribbon background style when owning window is inactive.")]
         [DefaultValue(typeof(PaletteBackStyle), "PanelRibbonInactive")]
         public PaletteBackStyle BackInactiveStyle
         {
@@ -86,8 +86,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the style for buttons insides groups.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Syle for buttons inside groups.")]
+        [Category(@"Visuals")]
+        [Description(@"Syle for buttons inside groups.")]
         [DefaultValue(typeof(ButtonStyle), "ButtonSpec")]
         public ButtonStyle GroupButtonStyle
         {
@@ -100,8 +100,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the style for cluster buttons insides groups.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Syle for cluster buttons inside groups.")]
+        [Category(@"Visuals")]
+        [Description(@"Syle for cluster buttons inside groups.")]
         [DefaultValue(typeof(ButtonStyle), "Cluster")]
         public ButtonStyle GroupClusterButtonStyle
         {
@@ -114,8 +114,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the collapsed group button style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collapsed group button style.")]
+        [Category(@"Visuals")]
+        [Description(@"Collapsed group button style.")]
         [DefaultValue(typeof(ButtonStyle), "Alternate")]
         public ButtonStyle GroupCollapsedButtonStyle
         {
@@ -128,8 +128,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the dialog box launcher button style inside groups.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Dialog box launcher button style inside groups.")]
+        [Category(@"Visuals")]
+        [Description(@"Dialog box launcher button style inside groups.")]
         [DefaultValue(typeof(ButtonStyle), "ButtonSpec")]
         public ButtonStyle GroupDialogButtonStyle
         {
@@ -142,8 +142,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the quick access toolbar button style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Quick access toolbar button style.")]
+        [Category(@"Visuals")]
+        [Description(@"Quick access toolbar button style.")]
         [DefaultValue(typeof(ButtonStyle), "ButtonSpec")]
         public ButtonStyle QATButtonStyle
         {
@@ -156,8 +156,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the scroller style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Panel style.")]
+        [Category(@"Visuals")]
+        [Description(@"Panel style.")]
         [DefaultValue(typeof(ButtonStyle), "Standalone")]
         public ButtonStyle ScrollerStyle
         {

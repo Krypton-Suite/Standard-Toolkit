@@ -120,12 +120,12 @@ namespace Krypton.Ribbon
             if (_verbs == null)
             {
                 _verbs = new DesignerVerbCollection();
-                _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                _moveFirstVerb = new DesignerVerb("Move CheckBox First", OnMoveFirst);
-                _movePrevVerb = new DesignerVerb("Move CheckBox Previous", OnMovePrevious);
-                _moveNextVerb = new DesignerVerb("Move CheckBox Next", OnMoveNext);
-                _moveLastVerb = new DesignerVerb("Move CheckBox Last", OnMoveLast);
-                _deleteCheckBoxVerb = new DesignerVerb("Delete CheckBox", OnDeleteCheckBox);
+                _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                _moveFirstVerb = new DesignerVerb(@"Move CheckBox First", OnMoveFirst);
+                _movePrevVerb = new DesignerVerb(@"Move CheckBox Previous", OnMovePrevious);
+                _moveNextVerb = new DesignerVerb(@"Move CheckBox Next", OnMoveNext);
+                _moveLastVerb = new DesignerVerb(@"Move CheckBox Last", OnMoveLast);
+                _deleteCheckBoxVerb = new DesignerVerb(@"Delete CheckBox", OnDeleteCheckBox);
                 _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteCheckBoxVerb });
             }
@@ -167,12 +167,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCheckBox MoveFirst");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveFirst");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -199,12 +199,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCheckBox MovePrevious");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MovePrevious");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -233,12 +233,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCheckBox MoveNext");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveNext");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -267,12 +267,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCheckBox MoveLast");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveLast");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -299,12 +299,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupCheckBox DeleteCheckBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox DeleteCheckBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCheckBox.RibbonContainer)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);

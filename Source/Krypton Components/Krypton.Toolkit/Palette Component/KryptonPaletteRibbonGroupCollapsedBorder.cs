@@ -83,8 +83,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common ribbon group collapsed border appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common ribbon group collapsed border appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common ribbon group collapsed border appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateCommon { get; }
 
@@ -97,8 +97,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal ribbon group collapsed border appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal ribbon group collapsed border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal ribbon group collapsed border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateNormal { get; }
 
@@ -111,8 +111,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tracking ribbon group collapsed border appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking ribbon group collapsed border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking ribbon group collapsed border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateTracking { get; }
 
@@ -125,8 +125,8 @@ namespace Krypton.Toolkit
         /// Gets access to the context normal ribbon group collapsed border appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining context normal ribbon group collapsed border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context normal ribbon group collapsed border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateContextNormal { get; }
 
@@ -139,8 +139,8 @@ namespace Krypton.Toolkit
         /// Gets access to the context tracking ribbon group collapsed border appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining context tracking ribbon group collapsed border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context tracking ribbon group collapsed border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateContextTracking { get; }
 

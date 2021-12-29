@@ -82,8 +82,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridCommon { get; }
 
@@ -96,8 +96,8 @@ namespace Krypton.Toolkit
         /// Gets access to the list grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining list grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining list grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridList { get; }
 
@@ -110,8 +110,8 @@ namespace Krypton.Toolkit
         /// Gets access to the sheet grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining sheet grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining sheet grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridSheet { get; }
 
@@ -124,8 +124,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the first custom grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the first custom grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridCustom1 { get; }
 
@@ -138,8 +138,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the first custom grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the first custom grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridCustom2 { get; }
 
@@ -152,8 +152,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom grid appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the third custom grid appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the third custom grid appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteGrid GridCustom3 { get; }
 

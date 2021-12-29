@@ -20,9 +20,9 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonSeparator), "ToolboxBitmaps.KryptonSeparator.bmp")]
     [DefaultEvent("SplitterMoved")]
     [DefaultProperty("Orientation")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [Designer("Krypton.Toolkit.KryptonSeparatorDesigner, Krypton.Toolkit")]
-    [Description("Display a separator generated events to operation.")]
+    [Description(@"Display a separator generated events to operation.")]
     public class KryptonSeparator : VisualControl,
                                     ISeparatorSource
     {
@@ -82,29 +82,29 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the separator is about to be moved and requests the rectangle of allowed movement.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the separator is about to be moved and requests the rectangle of allowed movement.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the separator is about to be moved and requests the rectangle of allowed movement.")]
         public event EventHandler<SplitterMoveRectMenuArgs> SplitterMoveRect;
 
         /// <summary>
         /// Occurs when the separator move finishes and a move has occurred.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the separator move finishes and a move has occurred.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the separator move finishes and a move has occurred.")]
         public event SplitterEventHandler SplitterMoved;
 
         /// <summary>
         /// Occurs when the separator move finishes and a move has not occurred.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the separator move finishes and a move has not occurred.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the separator move finishes and a move has not occurred.")]
         public event EventHandler SplitterNotMoved;
 
         /// <summary>
         /// Occurs when the separator is currently in the process of moving.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the separator is currently in the process of moving.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the separator is currently in the process of moving.")]
         public event SplitterCancelEventHandler SplitterMoving;
         #endregion
 
@@ -243,8 +243,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the separator background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Separator background style.")]
+        [Category(@"Visuals")]
+        [Description(@"Separator background style.")]
         public PaletteBackStyle ContainerBackStyle
         {
             get => StateCommon.BackStyle;
@@ -269,8 +269,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the separator style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Separator style.")]
+        [Category(@"Visuals")]
+        [Description(@"Separator style.")]
         public SeparatorStyle SeparatorStyle
         {
             get => _style;
@@ -297,8 +297,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common separator appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common separator appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common separator appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainerRedirect StateCommon { get; }
 
@@ -307,8 +307,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled separator appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainer StateDisabled { get; }
 
@@ -317,8 +317,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal separator appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainer StateNormal { get; }
 
@@ -327,8 +327,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking separator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StateTracking { get; }
 
@@ -337,8 +337,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed separator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StatePressed { get; }
 
@@ -347,8 +347,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the thickness of the splitter.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines the thickness of the splitter.")]
+        [Category(@"Layout")]
+        [Description(@"Determines the thickness of the splitter.")]
         [Localizable(true)]
         [DefaultValue(typeof(int), "5")]
         public int SplitterWidth
@@ -378,16 +378,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the increment used for moving.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines the increment used for moving.")]
+        [Category(@"Layout")]
+        [Description(@"Determines the increment used for moving.")]
         [DefaultValue(typeof(int), "1")]
         public int SplitterIncrements { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating the horizontal or vertical orientation of the separator.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines if the separator is vertical or horizontal.")]
+        [Category(@"Layout")]
+        [Description(@"Determines if the separator is vertical or horizontal.")]
         [Localizable(true)]
         [DefaultValue(typeof(Orientation), "Vertical")]
         public Orientation Orientation
@@ -414,16 +414,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the separator is allowed to notify a move.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determines if the separator is allowed to notify a move.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if the separator is allowed to notify a move.")]
         [DefaultValue(true)]
         public bool AllowMove { get; set; }
 
         /// <summary>
         /// Gets and sets the drawing of the movement indicator.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines if the move indicator is drawn when moving the separator.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines if the move indicator is drawn when moving the separator.")]
         [DefaultValue(true)]
         public bool DrawMoveIndicator
         {

@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderButtonRedirect Header { get; }
 
@@ -92,8 +92,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if headers should overlay the border.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should headers overlay the border.")]
+        [Category(@"Visuals")]
+        [Description(@"Should headers overlay the border.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool OverlayHeaders

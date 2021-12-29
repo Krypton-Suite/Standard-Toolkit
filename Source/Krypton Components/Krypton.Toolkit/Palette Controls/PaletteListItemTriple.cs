@@ -71,8 +71,8 @@ namespace Krypton.Toolkit
         /// Gets access to the item palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteTriple Item => _paletteItem;
 

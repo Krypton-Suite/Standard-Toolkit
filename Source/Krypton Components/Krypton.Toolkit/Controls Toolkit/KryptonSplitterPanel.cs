@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// Special panel used in the KryptonSplitContainer.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [ToolboxBitmap(typeof(KryptonSplitterPanel), "ToolboxBitmaps.KryptonGroupPanel.bmp")]
     [Designer("Krypton.Toolkit.KryptonSplitterPanelDesigner, Krypton.Toolkit")]
-    [Description("Enables you to group collections of controls.")]
+    [Description(@"Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Never)]
     public sealed class KryptonSplitterPanel : KryptonPanel
     {

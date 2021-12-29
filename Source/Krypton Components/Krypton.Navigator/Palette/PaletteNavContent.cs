@@ -137,8 +137,8 @@ namespace Krypton.Navigator
         /// Gets a value indicating if content should be drawn.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Should content be drawn.")]
+        [Category(@"Visuals")]
+        [Description(@"Should content be drawn.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
@@ -183,8 +183,8 @@ namespace Krypton.Navigator
         /// Gets a value indicating if content should be drawn with focus indication.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Should content be drawn with focus indication..")]
+        [Category(@"Visuals")]
+        [Description(@"Should content be drawn with focus indication..")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool DrawFocus
@@ -229,8 +229,8 @@ namespace Krypton.Navigator
         /// Gets access to the image palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining image appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining image appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContentImage Image { get; }
 
@@ -287,8 +287,8 @@ namespace Krypton.Navigator
         /// Gets access to the short text palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining short text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining short text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavContentText ShortText { get; }
 
@@ -456,8 +456,8 @@ namespace Krypton.Navigator
         /// Gets access to the long text palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining long text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining long text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavContentText LongText { get; }
 
@@ -624,8 +624,8 @@ namespace Krypton.Navigator
         /// Gets the padding between the border and content drawing.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Padding between the border and content drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Padding between the border and content drawing.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding Padding
@@ -702,8 +702,8 @@ namespace Krypton.Navigator
         /// Gets the padding between adjacent content items.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Spacing gap between adjacent content items.")]
+        [Category(@"Visuals")]
+        [Description(@"Spacing gap between adjacent content items.")]
         [DefaultValue(-1)]
         [RefreshProperties(RefreshProperties.All)]
         public int AdjacentGap

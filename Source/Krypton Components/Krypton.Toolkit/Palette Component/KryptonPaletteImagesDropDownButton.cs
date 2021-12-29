@@ -93,8 +93,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the common image that other drop down button images inherit from.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Common image that other drop down button images inherit from.")]
+        [Category(@"Visuals")]
+        [Description(@"Common image that other drop down button images inherit from.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Common
@@ -125,8 +125,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the drop down button is disabled.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the drop down button is disabled.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the drop down button is disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Disabled
@@ -157,8 +157,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the drop down button is not disabled.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the drop down button is not disabled.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the drop down button is not disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Normal
@@ -189,8 +189,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the drop down button is tracking.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the drop down button is tracking.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the drop down button is tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Tracking
@@ -221,8 +221,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the drop down button is pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the drop down button is pressed.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the drop down button is pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Pressed

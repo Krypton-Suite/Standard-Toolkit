@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     internal abstract class ViewLayoutRibbonQATContents : ViewComposite
     {
         #region Classes
-        private class QATButtonToView : Dictionary<IQuickAccessToolbarButton, ViewDrawRibbonQATButton> { };
+        private class QATButtonToView : Dictionary<IQuickAccessToolbarButton, ViewDrawRibbonQATButton> { }
         #endregion
 
         #region Instance Fields

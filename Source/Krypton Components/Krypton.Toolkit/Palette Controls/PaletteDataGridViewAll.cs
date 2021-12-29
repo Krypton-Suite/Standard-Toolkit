@@ -84,8 +84,8 @@ namespace Krypton.Toolkit
         /// Gets access to the data grid view background palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining data grid view background appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining data grid view background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteBack Background => _background.Back;
 

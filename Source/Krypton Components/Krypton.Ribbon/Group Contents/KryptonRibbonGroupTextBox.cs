@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTextBox), "ToolboxBitmaps.KryptonRibbonGroupTextBox.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupTextBoxDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("TextChanged")]
     [DefaultProperty("Text")]
@@ -37,8 +37,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the value of the Text property changes.
         /// </summary>
-        [Description("Occurs when the value of the Text property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the Text property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler TextChanged;
 
         /// <summary>
@@ -56,78 +56,78 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when a key is pressed while the control has focus. 
         /// </summary>
-        [Description("Occurs when a key is pressed while the control has focus.")]
-        [Category("Key")]
+        [Description(@"Occurs when a key is pressed while the control has focus.")]
+        [Category(@"Key")]
         public event KeyPressEventHandler KeyPress;
 
         /// <summary>
         /// Occurs when a key is released while the control has focus. 
         /// </summary>
-        [Description("Occurs when a key is released while the control has focus.")]
-        [Category("Key")]
+        [Description(@"Occurs when a key is released while the control has focus.")]
+        [Category(@"Key")]
         public event KeyEventHandler KeyUp;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
-        [Description("Occurs when a key is pressed while the control has focus.")]
-        [Category("Key")]
+        [Description(@"Occurs when a key is pressed while the control has focus.")]
+        [Category(@"Key")]
         public event KeyEventHandler KeyDown;
 
         /// <summary>
         /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
         /// </summary>
-        [Description("Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
-        [Category("Key")]
+        [Description(@"Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
+        [Category(@"Key")]
         public event PreviewKeyDownEventHandler PreviewKeyDown;
 
         /// <summary>
         /// Occurs when the value of the AcceptsTab property changes.
         /// </summary>
-        [Description("Occurs when the value of the AcceptsTab property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the AcceptsTab property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler AcceptsTabChanged;
 
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
-        [Description("Occurs when the value of the HideSelection property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the HideSelection property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the TextAlign property changes.
         /// </summary>
-        [Description("Occurs when the value of the TextAlign property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the TextAlign property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler TextAlignChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
-        [Description("Occurs when the value of the Modified property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the Modified property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the Multiline property changes.
         /// </summary>
-        [Description("Occurs when the value of the Multiline property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the Multiline property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler MultilineChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
-        [Description("Occurs when the value of the ReadOnly property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the ReadOnly property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler ReadOnlyChanged;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -230,8 +230,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the shortcut key combination.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Shortcut key combination to set focus to the text box.")]
+        [Category(@"Behavior")]
+        [Description(@"Shortcut key combination to set focus to the text box.")]
         public Keys ShortcutKeys { get; set; }
 
         private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
@@ -247,7 +247,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Access to the actual embedded KryptonTextBox instance.
         /// </summary>
-        [Description("Access to the actual embedded KryptonTextBox instance.")]
+        [Description(@"Access to the actual embedded KryptonTextBox instance.")]
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -258,8 +258,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group text box key tip.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group text box key tip.")]
         [DefaultValue("X")]
         public string KeyTip
         {
@@ -280,8 +280,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the text box.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the text box is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the text box is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -320,8 +320,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the group text box.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group text box is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group text box is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -340,8 +340,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the minimum size of the control.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies the minimum size of the control.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies the minimum size of the control.")]
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
@@ -352,8 +352,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the maximum size of the control.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies the maximum size of the control.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies the maximum size of the control.")]
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
@@ -364,8 +364,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the text associated with the control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Text associated with the control.")]
+        [Category(@"Appearance")]
+        [Description(@"Text associated with the control.")]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
         {
@@ -376,8 +376,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the lines of text in a multiline edit, as an array of String values.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The lines of text in a multiline edit, as an array of String values.")]
+        [Category(@"Appearance")]
+        [Description(@"The lines of text in a multiline edit, as an array of String values.")]
         [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
@@ -391,8 +391,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets, for multiline edit controls, which scroll bars will be shown for this control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
         [DefaultValue(typeof(ScrollBars), "None")]
         [Localizable(true)]
         public ScrollBars ScrollBars
@@ -404,8 +404,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets how the text should be aligned for edit controls.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates how the text should be aligned for edit controls.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates how the text should be aligned for edit controls.")]
         [DefaultValue(typeof(HorizontalAlignment), "Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
@@ -417,8 +417,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The shortcut to display when the user right-clicks the control.")]
+        [Category(@"Behavior")]
+        [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
         public ContextMenuStrip ContextMenuStrip
         {
@@ -429,8 +429,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the KryptonContextMenu for showing when the text box is right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("KryptonContextMenu to be shown when the text box is right clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"KryptonContextMenu to be shown when the text box is right clicked.")]
         [DefaultValue(null)]
         public KryptonContextMenu KryptonContextMenu
         {
@@ -441,8 +441,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Indicates if lines are automatically word-wrapped for multiline edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if lines are automatically word-wrapped for multiline edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if lines are automatically word-wrapped for multiline edit controls.")]
         [DefaultValue(true)]
         [Localizable(true)]
         public bool WordWrap
@@ -454,8 +454,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets whether the text in the control can span more than one line.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Control whether the text in the control can span more than one line.")]
+        [Category(@"Behavior")]
+        [Description(@"Control whether the text in the control can span more than one line.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(false)]
         [Localizable(true)]
@@ -468,8 +468,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating if return characters are accepted as input for multiline edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if return characters are accepted as input for multiline edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if return characters are accepted as input for multiline edit controls.")]
         [DefaultValue(false)]
         public bool AcceptsReturn
         {
@@ -480,8 +480,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating if tab characters are accepted as input for multiline edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if tab characters are accepted as input for multiline edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if tab characters are accepted as input for multiline edit controls.")]
         [DefaultValue(false)]
         public bool AcceptsTab
         {
@@ -492,8 +492,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating if all the characters should be left alone or converted to uppercase or lowercase.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if all the characters should be left alone or converted to uppercase or lowercase.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if all the characters should be left alone or converted to uppercase or lowercase.")]
         [DefaultValue(typeof(CharacterCasing), "Normal")]
         public CharacterCasing CharacterCasing
         {
@@ -504,8 +504,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating that the selection should be hidden when the edit control loses focus.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates that the selection should be hidden when the edit control loses focus.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates that the selection should be hidden when the edit control loses focus.")]
         [DefaultValue(true)]
         public bool HideSelection
         {
@@ -516,8 +516,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the maximum number of characters that can be entered into the edit control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Specifies the maximum number of characters that can be entered into the edit control.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies the maximum number of characters that can be entered into the edit control.")]
         [DefaultValue(32767)]
         [Localizable(true)]
         public int MaxLength
@@ -529,8 +529,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating whether the text in the edit control can be changed or not.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Controls whether the text in the edit control can be changed or not.")]
+        [Category(@"Behavior")]
+        [Description(@"Controls whether the text in the edit control can be changed or not.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(false)]
         public bool ReadOnly
@@ -542,8 +542,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating whether shortcuts defined for the control are enabled.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether shortcuts defined for the control are enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether shortcuts defined for the control are enabled.")]
         [DefaultValue(true)]
         public bool ShortcutsEnabled
         {
@@ -554,8 +554,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a the character to display for password input for single-line edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates the character to display for password input for single-line edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates the character to display for password input for single-line edit controls.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue('\0')]
         [Localizable(true)]
@@ -568,8 +568,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating if the text in the edit control should appear as the default password character.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the text in the edit control should appear as the default password character.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the text in the edit control should appear as the default password character.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(false)]
         public bool UseSystemPasswordChar
@@ -581,7 +581,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
-        [Description("The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
+        [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
         [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -596,7 +596,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the text completion behavior of the textbox.
         /// </summary>
-        [Description("Indicates the text completion behavior of the textbox.")]
+        [Description(@"Indicates the text completion behavior of the textbox.")]
         [DefaultValue(typeof(AutoCompleteMode), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -609,7 +609,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
-        [Description("The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
+        [Description(@"The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
         [DefaultValue(typeof(AutoCompleteSource), "None")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
@@ -627,8 +627,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
@@ -639,8 +639,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority
         {
@@ -651,8 +651,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonTextBox.TextBoxButtonSpecCollection ButtonSpecs => TextBox.ButtonSpecs;
 

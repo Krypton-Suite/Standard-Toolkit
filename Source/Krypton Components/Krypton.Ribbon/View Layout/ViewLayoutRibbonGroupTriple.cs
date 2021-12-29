@@ -20,8 +20,8 @@ namespace Krypton.Ribbon
                                                  IRibbonViewGroupContainerView
     {
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { };
-        private class ViewToSize : Dictionary<ViewBase, Size> { };
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
+        private class ViewToSize : Dictionary<ViewBase, Size> { }
         #endregion
 
         #region Instance Fields

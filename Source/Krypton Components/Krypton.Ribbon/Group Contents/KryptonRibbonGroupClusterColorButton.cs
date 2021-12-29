@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupClusterColorButton), "ToolboxBitmaps.KryptonRibbonGroupClusterColorButton.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupClusterColorButtonDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedColorChanged")]
     [DefaultProperty("SelectedColor")]
@@ -79,43 +79,43 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the color button is clicked.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the color button is clicked.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the color button is clicked.")]
         public event EventHandler Click;
 
         /// <summary>
         /// Occurs when the drop down color button type is pressed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the drop down color button type is pressed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the drop down color button type is pressed.")]
         public event EventHandler<ContextMenuArgs> DropDown;
 
         /// <summary>
         /// Occurs when the SelectedColor property changes value.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the SelectedColor property changes value.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the SelectedColor property changes value.")]
         public event EventHandler<ColorEventArgs> SelectedColorChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when user is tracking over a color.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when user is tracking over a color.")]
         public event EventHandler<ColorEventArgs> TrackingColor;
 
         /// <summary>
         /// Occurs when the user selects the more colors option.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when user selects the more colors option.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when user selects the more colors option.")]
         public event CancelEventHandler MoreColors;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -190,8 +190,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the selected color.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Selected color.")]
+        [Category(@"Appearance")]
+        [Description(@"Selected color.")]
         [DefaultValue(typeof(Color), "Red")]
         public Color SelectedColor
         {
@@ -213,8 +213,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the selected color block when selected color is empty.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Border color of selected block when selected color is empty.")]
+        [Category(@"Appearance")]
+        [Description(@"Border color of selected block when selected color is empty.")]
         [DefaultValue(typeof(Color), "DarkGray")]
         public Color EmptyBorderColor
         {
@@ -234,8 +234,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the selected color drawing rectangle.
         /// </summary>
         [Bindable(true)]
-        [Category("Appearance")]
-        [Description("Selected color drawing rectangle.")]
+        [Category(@"Appearance")]
+        [Description(@"Selected color drawing rectangle.")]
         [DefaultValue(typeof(Rectangle), "0,12,16,4")]
         public Rectangle SelectedRect
         {
@@ -253,8 +253,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Color button display text line.")]
+        [Category(@"Appearance")]
+        [Description(@"Color button display text line.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine
@@ -299,8 +299,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Small color button image.")]
+        [Category(@"Appearance")]
+        [Description(@"Small color button image.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image ImageSmall
         {
@@ -321,8 +321,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the maximum number of recent colors to store and display.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determine the maximum number of recent colors to store and display.")]
+        [Category(@"Behavior")]
+        [Description(@"Determine the maximum number of recent colors to store and display.")]
         [DefaultValue(10)]
         public int MaxRecentColors
         {
@@ -341,8 +341,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the visible state of the themes color set.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determine the visible state of the themes color set.")]
+        [Category(@"Behavior")]
+        [Description(@"Determine the visible state of the themes color set.")]
         [DefaultValue(true)]
         public bool VisibleThemes
         {
@@ -361,8 +361,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the visible state of the standard color set.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determine the visible state of the standard color set.")]
+        [Category(@"Behavior")]
+        [Description(@"Determine the visible state of the standard color set.")]
         [DefaultValue(true)]
         public bool VisibleStandard
         {
@@ -381,8 +381,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the visible state of the recent color set.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determine the visible state of the recent color set.")]
+        [Category(@"Behavior")]
+        [Description(@"Determine the visible state of the recent color set.")]
         [DefaultValue(true)]
         public bool VisibleRecent
         {
@@ -401,8 +401,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the visible state of the no color menu item.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determine if the 'No Color' menu item is used.")]
+        [Category(@"Behavior")]
+        [Description(@"Determine if the 'No Color' menu item is used.")]
         [DefaultValue(true)]
         public bool VisibleNoColor
         {
@@ -421,8 +421,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the visible state of the more colors menu item.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determine if the 'More Colors...' menu item is used.")]
+        [Category(@"Behavior")]
+        [Description(@"Determine if the 'More Colors...' menu item is used.")]
         [DefaultValue(true)]
         public bool VisibleMoreColors
         {
@@ -441,8 +441,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if the recent colors should be automatically updated.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Should recent colors be automatically updated.")]
+        [Category(@"Behavior")]
+        [Description(@"Should recent colors be automatically updated.")]
         [DefaultValue(true)]
         public bool AutoRecentColors
         {
@@ -461,8 +461,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the color scheme for the themes color set.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Color scheme to use for the themes color set.")]
+        [Category(@"Behavior")]
+        [Description(@"Color scheme to use for the themes color set.")]
         [DefaultValue(typeof(ColorScheme), "OfficeThemes")]
         public ColorScheme SchemeThemes
         {
@@ -481,8 +481,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the color scheme for the standard color set.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Color scheme to use for the standard color set.")]
+        [Category(@"Behavior")]
+        [Description(@"Color scheme to use for the standard color set.")]
         [DefaultValue(typeof(ColorScheme), "OfficeStandard")]
         public ColorScheme SchemeStandard
         {
@@ -502,8 +502,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the cluster color button.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the cluster color button is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the cluster color button is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -542,8 +542,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the group color button.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group color button is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group color button is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -563,8 +563,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the checked state of the group color button.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group color button is checked.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group color button is checked.")]
         [DefaultValue(false)]
         public bool Checked
         {
@@ -584,8 +584,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the operation of the group color button.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines how the group color button operation.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines how the group color button operation.")]
         [DefaultValue(typeof(GroupButtonType), "Split")]
         public GroupButtonType ButtonType
         {
@@ -605,8 +605,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the shortcut key combination.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Shortcut key combination to fire click event of the cluster color button.")]
+        [Category(@"Behavior")]
+        [Description(@"Shortcut key combination to fire click event of the cluster color button.")]
         public Keys ShortcutKeys { get; set; }
 
         private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
@@ -627,8 +627,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the set of recent colors.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Collection of recent colors.")]
+        [Category(@"Appearance")]
+        [Description(@"Collection of recent colors.")]
         public Color[] RecentColors
         {
             get => _recentColors.ToArray();
@@ -656,8 +656,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the color button.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the color button.")]
         [DefaultValue(null)]
         public KryptonCommand KryptonCommand
         {

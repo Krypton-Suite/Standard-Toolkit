@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonGalleryRange), "ToolboxBitmaps.KryptonGalleryRange.bmp")]
     [DefaultProperty("Heading")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonGalleryRange : Component
     {
@@ -33,8 +33,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Gallery")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Gallery")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
@@ -57,8 +57,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Gallery range heading text.")]
+        [Category(@"Appearance")]
+        [Description(@"Gallery range heading text.")]
         [DefaultValue("Heading")]
         public string Heading
         {
@@ -77,8 +77,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the index of first image in the gallery ImageList for display.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Index of first image in the gallery ImageList for display.")]
+        [Category(@"Behavior")]
+        [Description(@"Index of first image in the gallery ImageList for display.")]
         [DefaultValue(-1)]
         public int ImageIndexStart
         {
@@ -97,8 +97,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the index of last image in the gallery ImageList for display.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Index of last image in the gallery ImageList for display.")]
+        [Category(@"Behavior")]
+        [Description(@"Index of last image in the gallery ImageList for display.")]
         [DefaultValue(-1)]
         public int ImageIndexEnd
         {

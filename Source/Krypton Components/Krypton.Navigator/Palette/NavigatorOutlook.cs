@@ -96,8 +96,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets settings appropriate for the Outlook - Full mode.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Settings for the Outlook - Full mode.")]
+        [Category(@"Visuals")]
+        [Description(@"Settings for the Outlook - Full mode.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorOutlookFull Full { get; }
 
@@ -109,8 +109,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets settings appropriate for the Outlook - Mini mode.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Settings for the Outlook - Mini mode.")]
+        [Category(@"Visuals")]
+        [Description(@"Settings for the Outlook - Mini mode.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorOutlookMini Mini { get; }
 
@@ -122,8 +122,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the check button style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Check button style.")]
+        [Category(@"Visuals")]
+        [Description(@"Check button style.")]
         [DefaultValue(typeof(ButtonStyle), "NavigatorStack")]
         public ButtonStyle CheckButtonStyle
         {
@@ -144,8 +144,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the outlook overflow button style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Outlook overflow button style.")]
+        [Category(@"Visuals")]
+        [Description(@"Outlook overflow button style.")]
         [DefaultValue(typeof(ButtonStyle), "NavigatorOverflow")]
         public ButtonStyle OverflowButtonStyle
         {
@@ -166,8 +166,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the border edge style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Check button style.")]
+        [Category(@"Visuals")]
+        [Description(@"Check button style.")]
         [DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
         public PaletteBorderStyle BorderEdgeStyle
         {
@@ -188,8 +188,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the orientation for positioning stack and overflow items.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Orientation for positioning stack and overflow items.")]
+        [Category(@"Visuals")]
+        [Description(@"Orientation for positioning stack and overflow items.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(Orientation), "Vertical")]
         public Orientation Orientation
@@ -219,8 +219,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the orientation for positioning items in the stack.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Orientation for positioning items in the stack.")]
+        [Category(@"Visuals")]
+        [Description(@"Orientation for positioning items in the stack.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(ButtonOrientation), "Auto")]
         public ButtonOrientation ItemOrientation
@@ -250,8 +250,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the secondary header visiblity when in Outlook mode.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Secondary header visiblity when in Outlook mode.")]
+        [Category(@"Visuals")]
+        [Description(@"Secondary header visiblity when in Outlook mode.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(typeof(InheritBool), "False")]
         public InheritBool HeaderSecondaryVisible
@@ -281,8 +281,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the text to use when asking if more buttons should be shown in Outlook mode.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use when asking if more buttons should be shown in Outlook mode.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use when asking if more buttons should be shown in Outlook mode.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Show &More Buttons")]
         [Localizable(true)]
@@ -301,8 +301,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the text to use when asking if fewer buttons should be shown in Outlook mode.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use when asking if fewer buttons should be shown in Outlook mode.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use when asking if fewer buttons should be shown in Outlook mode.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Show Fe&wer Buttons")]
         [Localizable(true)]
@@ -321,8 +321,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the text to use when asking if buttons should be shown/hidden in Outlook mode.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Text to use when asking if buttons should be shown/hidden in Outlook mode.")]
+        [Category(@"Visuals")]
+        [Description(@"Text to use when asking if buttons should be shown/hidden in Outlook mode.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("&Add or Remove Buttons")]
         [Localizable(true)]
@@ -341,8 +341,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the visibility of the drop down button on the Outlook overflow bar.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Visibility of the drop down button on the Outlook overflow bar.")]
+        [Category(@"Visuals")]
+        [Description(@"Visibility of the drop down button on the Outlook overflow bar.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         public bool ShowDropDownButton

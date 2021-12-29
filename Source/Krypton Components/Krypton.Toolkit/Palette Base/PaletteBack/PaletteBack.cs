@@ -142,8 +142,8 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if background should be drawn.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Should background be drawn.")]
+        [Category(@"Visuals")]
+        [Description(@"Should background be drawn.")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
@@ -189,8 +189,8 @@ namespace Krypton.Toolkit
         /// Gets the graphics hint for drawing the background.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Hint for drawing graphics.")]
+        [Category(@"Visuals")]
+        [Description(@"Hint for drawing graphics.")]
         [DefaultValue(typeof(PaletteGraphicsHint), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteGraphicsHint GraphicsHint
@@ -237,8 +237,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the first background color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Main background color.")]
+        [Category(@"Visuals")]
+        [Description(@"Main background color.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color1
@@ -284,8 +284,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the second background color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Secondary background color.")]
+        [Category(@"Visuals")]
+        [Description(@"Secondary background color.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color2
@@ -331,8 +331,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color drawing style.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Background color drawing style.")]
+        [Category(@"Visuals")]
+        [Description(@"Background color drawing style.")]
         [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteColorStyle ColorStyle
@@ -378,8 +378,8 @@ namespace Krypton.Toolkit
         /// Gets and set the color alignment.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Background color alignment style.")]
+        [Category(@"Visuals")]
+        [Description(@"Background color alignment style.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ColorAlign
@@ -426,8 +426,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color angle.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Background color angle.")]
+        [Category(@"Visuals")]
+        [Description(@"Background color angle.")]
         [DefaultValue(-1f)]
         [RefreshProperties(RefreshProperties.All)]
         public float ColorAngle
@@ -474,8 +474,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the background image.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Background image.")]
+        [Category(@"Visuals")]
+        [Description(@"Background image.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Image
@@ -521,8 +521,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the background image style.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Background image style.")]
+        [Category(@"Visuals")]
+        [Description(@"Background image style.")]
         [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteImageStyle ImageStyle
@@ -570,8 +570,8 @@ namespace Krypton.Toolkit
         /// Gets and set the image alignment.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Background image alignment style.")]
+        [Category(@"Visuals")]
+        [Description(@"Background image alignment style.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ImageAlign

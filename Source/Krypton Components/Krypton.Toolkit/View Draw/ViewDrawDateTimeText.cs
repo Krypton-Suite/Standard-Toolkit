@@ -1260,7 +1260,7 @@ namespace Krypton.Toolkit
             #endregion
         }
 
-        private class FormatFragmentList : List<FormatFragment> { };
+        private class FormatFragmentList : List<FormatFragment> { }
         #endregion
 
         #region Static Fields

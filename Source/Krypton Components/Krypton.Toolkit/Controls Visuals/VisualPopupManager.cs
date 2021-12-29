@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class VisualPopupManager : IMessageFilter
     {
         #region Type Declarations
-        private class PopupStack : Stack<VisualPopup> {};
+        private class PopupStack : Stack<VisualPopup> {}
         #endregion
 
         #region Static Fields

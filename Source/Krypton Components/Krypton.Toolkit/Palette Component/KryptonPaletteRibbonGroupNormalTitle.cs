@@ -83,8 +83,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common ribbon group normal title appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common ribbon group normal title appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common ribbon group normal title appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateCommon { get; }
 
@@ -97,8 +97,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal ribbon group normal title appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal ribbon group normal title appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal ribbon group normal title appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateNormal { get; }
 
@@ -111,8 +111,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tracking ribbon group normal title appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking ribbon group normal title appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking ribbon group normal title appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateTracking { get; }
 
@@ -125,8 +125,8 @@ namespace Krypton.Toolkit
         /// Gets access to the context normal ribbon group normal title appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining context normal ribbon group normal title appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context normal ribbon group normal title appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateContextNormal { get; }
 
@@ -139,8 +139,8 @@ namespace Krypton.Toolkit
         /// Gets access to the context tracking ribbon group normal title appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining context tracking ribbon group normal title appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context tracking ribbon group normal title appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateContextTracking { get; }
 

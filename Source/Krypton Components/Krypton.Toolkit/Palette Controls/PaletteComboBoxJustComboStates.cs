@@ -73,8 +73,8 @@ namespace Krypton.Toolkit
         /// Gets access to the combo box appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining combo box appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining combo box appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates ComboBox { get; }
 

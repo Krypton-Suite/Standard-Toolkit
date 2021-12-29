@@ -72,8 +72,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleMetric Header { get; }
 

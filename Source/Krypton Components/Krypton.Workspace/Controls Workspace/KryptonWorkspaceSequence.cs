@@ -21,7 +21,7 @@ namespace Krypton.Workspace
     [TypeConverter(typeof(KryptonWorkspaceSequenceConverter))]
     [Designer("Krypton.Workspace.KryptonWorkspaceSequenceDesigner, Krypton.Workspace")]
     [DesignTimeVisible(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DefaultProperty("Children")]
     public class KryptonWorkspaceSequence : Component,
                                             IWorkspaceItem
@@ -111,8 +111,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets access to the collection of child workspace items.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Collection of child workspace items.")]
+        [Category(@"Workspace")]
+        [Description(@"Collection of child workspace items.")]
         [MergableProperty(false)]
         [Editor(@"Krypton.Workspace.KryptonWorkspaceCollectionEditor, Krypton.Workspace", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -121,8 +121,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the orientation for laying out the child entries.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Orientation to layout the child entries.")]
+        [Category(@"Workspace")]
+        [Description(@"Orientation to layout the child entries.")]
         [DefaultValue(typeof(Orientation), "Horizontal")]
         public Orientation Orientation
         {
@@ -141,8 +141,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets or sets a value indicating whether the sequence is displayed.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should the sequence be visible.")]
+        [Category(@"Visuals")]
+        [Description(@"Should the sequence be visible.")]
         [DefaultValue(true)]
         public bool Visible
         {
@@ -171,8 +171,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Star notation the describes the sizing of the workspace item.
         /// </summary>
-        [Category("Workspace")]
-        [Description("Star notation for specifying the size of the item.")]
+        [Category(@"Workspace")]
+        [Description(@"Star notation for specifying the size of the item.")]
         [DefaultValue("50*,50*")]
         public string StarSize
         {
@@ -188,8 +188,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the unique name of the workspace sequence.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The unique name of the workspace sequence.")]
+        [Category(@"Appearance")]
+        [Description(@"The unique name of the workspace sequence.")]
         public string UniqueName
         {
             [DebuggerStepThrough]

@@ -18,8 +18,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("AfterSelect")]
     [DefaultProperty("Nodes")]
     [Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("A Kryptonised listview. Does not support the `List or Details View` types")]
+    [DesignerCategory(@"code")]
+    [Description(@"A Kryptonised listview. Does not support the `List or Details View` types")]
     public class KryptonListView : ListView
     {
         #region Variables
@@ -244,8 +244,8 @@ namespace Krypton.Toolkit
         #region public
 
         /// <summary>Gets and sets the custom palette implementation.</summary>
-        [Category("Visuals")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette Palette
         {
@@ -279,8 +279,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {
@@ -318,8 +318,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the <see cref="T:System.Windows.Forms.ContextMenuStrip" /> associated with this control.</summary>
         /// <returns>The <see cref="T:System.Windows.Forms.ContextMenuStrip" /> for this control, or <see langword="null" /> if there is no <see cref="T:System.Windows.Forms.ContextMenuStrip" />. The default is <see langword="null" />.</returns>
-        [Category("Behavior")]
-        [Description("Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
+        [Category(@"Behavior")]
+        [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
         public override ContextMenuStrip ContextMenuStrip
         {
@@ -351,8 +351,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the KryptonContextMenu to show when right clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The KryptonContextMenu to show when the user right-clicks the Control.")]
+        [Category(@"Behavior")]
+        [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
         [DefaultValue(null)]
         public virtual KryptonContextMenu KryptonContextMenu
         {
@@ -791,8 +791,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Style used to draw the background.")]
+        [Category(@"Visuals")]
+        [Description(@"Style used to draw the background.")]
         public PaletteBackStyle BackStyle
         {
             get => StateCommon.BackStyle;
@@ -817,8 +817,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the border style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Style used to draw the border.")]
+        [Category(@"Visuals")]
+        [Description(@"Style used to draw the border.")]
         public new PaletteBorderStyle BorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -843,8 +843,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item appearance when it has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining item appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTripleRedirect OverrideFocus { get; }
 
@@ -853,14 +853,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the check box image value overrides.
         /// </summary>
-        [Category("Visuals")]
-        [Description("CheckBox image value overrides.")]
+        [Category(@"Visuals")]
+        [Description(@"CheckBox image value overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
-        [Category("Appearance")]
+        [Category(@"Appearance")]
         [DefaultValue(View.LargeIcon)]
-        [Description("Selects a subset of the view types that can be shown.")]
+        [Description(@"Selects a subset of the view types that can be shown.")]
         public new View View
         {
             get => base.View;
@@ -899,8 +899,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListStateRedirect StateCommon { get; }
 
@@ -909,8 +909,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListState StateDisabled { get; }
 
@@ -919,8 +919,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListState StateNormal { get; }
 
@@ -929,8 +929,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble StateActive { get; }
 
@@ -939,8 +939,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateTracking { get; }
 
@@ -949,8 +949,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StatePressed { get; }
 
@@ -959,8 +959,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal checked item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal checked item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateCheckedNormal { get; }
 
@@ -969,8 +969,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking checked item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking checked item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateCheckedTracking { get; }
 
@@ -979,8 +979,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed checked item appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed checked item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListItemTriple StateCheckedPressed { get; }
 
@@ -1002,8 +1002,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
@@ -1170,8 +1170,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the button style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Item style.")]
+        [Category(@"Visuals")]
+        [Description(@"Item style.")]
         public ButtonStyle ItemStyle
         {
             get => _style;

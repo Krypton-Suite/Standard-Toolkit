@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     /// 
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public class PopupPositionValues : Storage
     {
         #region Identity
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        [Description("Describes the placement of where a Popup control appears on the screen.")]
+        [Description(@"Describes the placement of where a Popup control appears on the screen.")]
         [DefaultValue(typeof(PlacementMode), "Bottom")]
         public PlacementMode PlacementMode { get; set; }
 
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        [Description("The element relative to which the Popup is positioned when it opens.")]
+        [Description(@"The element relative to which the Popup is positioned when it opens.")]
         public ViewBase PlacementTarget { get; set; }
 
         private bool ShouldSerializePlacementTarget() => PlacementTarget != null;
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        [Description("The rectangle relative to which the Popup control is positioned when it opens.")]
+        [Description(@"The rectangle relative to which the Popup control is positioned when it opens.")]
         public Rectangle PlacementRectangle { get; set; }
 
         private bool ShouldSerializePlacementRectangle() => !PlacementRectangle.IsEmpty;

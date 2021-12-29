@@ -81,8 +81,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuRedirect StateCommon { get; }
 
@@ -95,8 +95,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateDisabled { get; }
 
@@ -109,8 +109,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemState StateNormal { get; }
 
@@ -123,8 +123,8 @@ namespace Krypton.Toolkit
         /// Gets access to the highlight appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining highlight appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining highlight appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateHighlight StateHighlight { get; }
 
@@ -137,8 +137,8 @@ namespace Krypton.Toolkit
         /// Gets access to the checked appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining checked appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContextMenuItemStateChecked StateChecked { get; }
 

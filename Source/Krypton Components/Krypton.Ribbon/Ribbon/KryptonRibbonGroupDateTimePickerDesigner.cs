@@ -193,12 +193,12 @@ namespace Krypton.Ribbon
             if (_verbs == null)
             {
                 _verbs = new DesignerVerbCollection();
-                _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                _moveFirstVerb = new DesignerVerb("Move DateTimePicker First", OnMoveFirst);
-                _movePrevVerb = new DesignerVerb("Move DateTimePicker Previous", OnMovePrevious);
-                _moveNextVerb = new DesignerVerb("Move DateTimePicker Next", OnMoveNext);
-                _moveLastVerb = new DesignerVerb("Move DateTimePicker Last", OnMoveLast);
-                _deleteDateTimePickerVerb = new DesignerVerb("Delete DateTimePicker", OnDeleteDateTimePicker);
+                _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                _moveFirstVerb = new DesignerVerb(@"Move DateTimePicker First", OnMoveFirst);
+                _movePrevVerb = new DesignerVerb(@"Move DateTimePicker Previous", OnMovePrevious);
+                _moveNextVerb = new DesignerVerb(@"Move DateTimePicker Next", OnMoveNext);
+                _moveLastVerb = new DesignerVerb(@"Move DateTimePicker Last", OnMoveLast);
+                _deleteDateTimePickerVerb = new DesignerVerb(@"Delete DateTimePicker", OnDeleteDateTimePicker);
                 _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb,
                                                      _moveNextVerb, _moveLastVerb, _deleteDateTimePickerVerb });
             }
@@ -240,12 +240,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDateTimePicker MoveFirst");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDateTimePicker MoveFirst");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDateTimePicker.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDateTimePicker.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -272,12 +272,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDateTimePicker MovePrevious");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDateTimePicker MovePrevious");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDateTimePicker.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDateTimePicker.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -306,12 +306,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDateTimePicker MoveNext");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDateTimePicker MoveNext");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDateTimePicker.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDateTimePicker.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -340,12 +340,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDateTimePicker MoveLast");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDateTimePicker MoveLast");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDateTimePicker.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDateTimePicker.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -372,12 +372,12 @@ namespace Krypton.Ribbon
                 var items = ParentItems;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupDateTimePicker DeleteDateTimePicker");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupDateTimePicker DeleteDateTimePicker");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDateTimePicker.RibbonContainer)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonDateTimePicker.RibbonContainer)[@"Items"];
 
                     RaiseComponentChanging(null);
                     RaiseComponentChanging(propertyItems);
@@ -403,7 +403,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonDateTimePicker)["Enabled"];
+                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonDateTimePicker)[@"Enabled"];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonDateTimePicker);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonDateTimePicker, null, oldValue, newValue);
@@ -415,7 +415,7 @@ namespace Krypton.Ribbon
         {
             if (_ribbonDateTimePicker?.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonDateTimePicker)["Visible"];
+                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonDateTimePicker)[@"Visible"];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonDateTimePicker);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonDateTimePicker, null, oldValue, newValue);

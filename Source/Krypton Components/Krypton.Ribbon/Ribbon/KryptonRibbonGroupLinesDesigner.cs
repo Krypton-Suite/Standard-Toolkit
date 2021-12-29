@@ -202,28 +202,28 @@ namespace Krypton.Ribbon
             if (_verbs == null)
             {
                 _verbs = new DesignerVerbCollection();
-                _toggleHelpersVerb = new DesignerVerb("Toggle Helpers", OnToggleHelpers);
-                _moveFirstVerb = new DesignerVerb("Move Lines First", OnMoveFirst);
-                _movePrevVerb = new DesignerVerb("Move Lines Previous", OnMovePrevious);
-                _moveNextVerb = new DesignerVerb("Move Lines Next", OnMoveNext);
-                _moveLastVerb = new DesignerVerb("Move Lines Last", OnMoveLast);
-                _addButtonVerb = new DesignerVerb("Add Button", OnAddButton);
-                _addColorButtonVerb = new DesignerVerb("Add Color Button", OnAddColorButton);
-                _addCheckBoxVerb = new DesignerVerb("Add CheckBox", OnAddCheckBox);
-                _addRadioButtonVerb = new DesignerVerb("Add RadioButton", OnAddRadioButton);
-                _addLabelVerb = new DesignerVerb("Add Label", OnAddLabel);
-                _addCustomControlVerb = new DesignerVerb("Add Custom Control", OnAddCustomControl);
-                _addClusterVerb = new DesignerVerb("Add Cluster", OnAddCluster);
-                _addRichTextBoxVerb = new DesignerVerb("Add RichTextBox", OnAddRichTextBox);
-                _addTextBoxVerb = new DesignerVerb("Add TextBox", OnAddTextBox);
-                _addMaskedTextBoxVerb = new DesignerVerb("Add MaskedTextBox", OnAddMaskedTextBox);
-                _addComboBoxVerb = new DesignerVerb("Add ComboBox", OnAddComboBox);
-                _addNumericUpDownVerb = new DesignerVerb("Add NumericUpDown", OnAddNumericUpDown);
-                _addDomainUpDownVerb = new DesignerVerb("Add DomainUpDown", OnAddDomainUpDown);
-                _addDateTimePickerVerb = new DesignerVerb("Add DateTimePicker", OnAddDateTimePicker);
-                _addTrackBarVerb = new DesignerVerb("Add TrackBar", OnAddTrackBar);
-                _clearItemsVerb = new DesignerVerb("Clear Items", OnClearItems);
-                _deleteLinesVerb = new DesignerVerb("Delete Lines", OnDeleteLines);
+                _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
+                _moveFirstVerb = new DesignerVerb(@"Move Lines First", OnMoveFirst);
+                _movePrevVerb = new DesignerVerb(@"Move Lines Previous", OnMovePrevious);
+                _moveNextVerb = new DesignerVerb(@"Move Lines Next", OnMoveNext);
+                _moveLastVerb = new DesignerVerb(@"Move Lines Last", OnMoveLast);
+                _addButtonVerb = new DesignerVerb(@"Add Button", OnAddButton);
+                _addColorButtonVerb = new DesignerVerb(@"Add Color Button", OnAddColorButton);
+                _addCheckBoxVerb = new DesignerVerb(@"Add CheckBox", OnAddCheckBox);
+                _addRadioButtonVerb = new DesignerVerb(@"Add RadioButton", OnAddRadioButton);
+                _addLabelVerb = new DesignerVerb(@"Add Label", OnAddLabel);
+                _addCustomControlVerb = new DesignerVerb(@"Add Custom Control", OnAddCustomControl);
+                _addClusterVerb = new DesignerVerb(@"Add Cluster", OnAddCluster);
+                _addRichTextBoxVerb = new DesignerVerb(@"Add RichTextBox", OnAddRichTextBox);
+                _addTextBoxVerb = new DesignerVerb(@"Add TextBox", OnAddTextBox);
+                _addMaskedTextBoxVerb = new DesignerVerb(@"Add MaskedTextBox", OnAddMaskedTextBox);
+                _addComboBoxVerb = new DesignerVerb(@"Add ComboBox", OnAddComboBox);
+                _addNumericUpDownVerb = new DesignerVerb(@"Add NumericUpDown", OnAddNumericUpDown);
+                _addDomainUpDownVerb = new DesignerVerb(@"Add DomainUpDown", OnAddDomainUpDown);
+                _addDateTimePickerVerb = new DesignerVerb(@"Add DateTimePicker", OnAddDateTimePicker);
+                _addTrackBarVerb = new DesignerVerb(@"Add TrackBar", OnAddTrackBar);
+                _clearItemsVerb = new DesignerVerb(@"Clear Items", OnClearItems);
+                _deleteLinesVerb = new DesignerVerb(@"Delete Lines", OnDeleteLines);
                 _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
                                                      _addButtonVerb, 
                                                      _addCheckBoxVerb, 
@@ -279,12 +279,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines MoveFirst");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MoveFirst");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -309,12 +309,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines MovePrevious");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MovePrevious");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -341,12 +341,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines MoveNext");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MoveNext");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -373,12 +373,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines MoveLast");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MoveLast");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -403,12 +403,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddButton");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddButton");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -431,12 +431,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddColorButton");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddColorButton");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -459,12 +459,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddCheckBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddCheckBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -487,12 +487,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddRadioButton");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddRadioButton");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -515,12 +515,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddLabel");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddLabel");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -543,12 +543,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddCustomControl");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddCustomControl");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -571,12 +571,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddTextBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddTextBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -599,12 +599,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddMaskedTextBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddMaskedTextBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -627,12 +627,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddRichTextBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddRichTextBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -655,12 +655,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddComboBox");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddComboBox");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -683,12 +683,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddNumericUpDown");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddNumericUpDown");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -711,12 +711,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddDomainUpDown");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddDomainUpDown");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -739,12 +739,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddDateTimePicker");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddDateTimePicker");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -767,12 +767,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddTrackBar");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddTrackBar");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -795,12 +795,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddCluster");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines AddCluster");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -809,7 +809,7 @@ namespace Krypton.Ribbon
                     _ribbonLines.Items.Add(cluster);
 
                     // Get access to the Cluster.Items property
-                    MemberDescriptor propertyClusterItems = TypeDescriptor.GetProperties(cluster)["Items"];
+                    MemberDescriptor propertyClusterItems = TypeDescriptor.GetProperties(cluster)[@"Items"];
 
                     RaiseComponentChanging(propertyClusterItems);
 
@@ -835,12 +835,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines ClearItems");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines ClearItems");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
@@ -870,12 +870,12 @@ namespace Krypton.Ribbon
             if ((_ribbonLines?.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines DeleteLines");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines DeleteLines");
 
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)["Items"];
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);
@@ -1139,13 +1139,13 @@ namespace Krypton.Ribbon
                 KryptonRibbonGroup destination = (KryptonRibbonGroup)groupMenuItem.Tag;
 
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines MoveLinesToGroup");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MoveLinesToGroup");
 
                 try
                 {
                     // Get access to the Groups property
-                    MemberDescriptor oldItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)["Items"];
-                    MemberDescriptor newItems = TypeDescriptor.GetProperties(destination)["Items"];
+                    MemberDescriptor oldItems = TypeDescriptor.GetProperties(_ribbonLines.RibbonGroup)[@"Items"];
+                    MemberDescriptor newItems = TypeDescriptor.GetProperties(destination)[@"Items"];
 
                     // Remove the ribbon tab from the ribbon
                     RaiseComponentChanging(null);

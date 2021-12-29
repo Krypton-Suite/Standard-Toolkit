@@ -76,8 +76,8 @@ namespace Krypton.Toolkit
         /// Gets access to the check box set of images.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining check box images.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining check box images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesCheckBox CheckBox { get; }
 
@@ -90,8 +90,8 @@ namespace Krypton.Toolkit
         /// Gets access to the context menu set of images.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining context menu images.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context menu images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesContextMenu ContextMenu { get; }
 
@@ -104,8 +104,8 @@ namespace Krypton.Toolkit
         /// Gets access to the drop down button set of images.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining drop down button images.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining drop down button images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesDropDownButton DropDownButton { get; }
 
@@ -118,8 +118,8 @@ namespace Krypton.Toolkit
         /// Gets access to the gallery button images.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining gallery button images.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining gallery button images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesGalleryButtons GalleryButtons { get; }
 
@@ -132,8 +132,8 @@ namespace Krypton.Toolkit
         /// Gets access to the radio button set of images.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining radio button images.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining radio button images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesRadioButton RadioButton { get; }
 
@@ -146,8 +146,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tree view set of images.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tree view images.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tree view images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteImagesTreeView TreeView { get; }
 

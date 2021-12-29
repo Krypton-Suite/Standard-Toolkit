@@ -127,8 +127,8 @@ namespace Krypton.Toolkit
         /// Gets access to the combo box appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining combo box appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining combo box appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect ComboBox { get; }
 
@@ -141,8 +141,8 @@ namespace Krypton.Toolkit
         /// Gets access to the item appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect Item { get; }
 
@@ -155,8 +155,8 @@ namespace Krypton.Toolkit
         /// Gets access to the dropdown background appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining dropdown background appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining dropdown background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack DropBack => _dropBackRedirect.Back;
 

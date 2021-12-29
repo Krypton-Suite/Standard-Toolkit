@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("Paint")]
     [DefaultProperty("ValuesPrimary")]
     [Designer("Krypton.Toolkit.KryptonHeaderGroupDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Group a collection of controls with a descriptive caption.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Group a collection of controls with a descriptive caption.")]
     [Docking(DockingBehavior.Ask)]
     public class KryptonHeaderGroup : VisualControlContainment
     {
@@ -73,8 +73,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the collapsed property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the Collapsed property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the Collapsed property is changed.")]
         public event EventHandler CollapsedChanged;
         #endregion
 
@@ -278,8 +278,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the auto size mode.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies if the control grows and shrinks to fit the contents exactly.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
         [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public AutoSizeMode AutoSizeMode
         {
@@ -328,8 +328,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Defines if mnemonic characters generate click events for button specs.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines if mnemonic characters generate click events for button specs.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -349,24 +349,24 @@ namespace Krypton.Toolkit
         /// Gets access to the internal panel that contains group content.
         /// </summary>
         [Localizable(false)]
-        [Category("Appearance")]
-        [Description("The internal panel that contains group content.")]
+        [Category(@"Appearance")]
+        [Description(@"The internal panel that contains group content.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonGroupPanel Panel { get; }
 
         /// <summary>
         /// Gets or sets a value indicating if collapsed mode is auto toggled by arrow button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Clicking an arrow button spec should toggle collapse state.")]
+        [Category(@"Visuals")]
+        [Description(@"Clicking an arrow button spec should toggle collapse state.")]
         [DefaultValue(true)]
         public bool AutoCollapseArrow { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating if the appearance is collapsed.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Specifies if the appearance is collapsed.")]
+        [Category(@"Visuals")]
+        [Description(@"Specifies if the appearance is collapsed.")]
         [DefaultValue(false)]
         public bool Collapsed
         {
@@ -399,8 +399,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating how to collapsed the appearance when entering collapse mode.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Specifies how to collapsed the appearance when entering collapse mode.")]
+        [Category(@"Visuals")]
+        [Description(@"Specifies how to collapsed the appearance when entering collapse mode.")]
         public HeaderGroupCollapsedTarget CollapseTarget
         {
             get => _collapsedTarget;
@@ -424,32 +424,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public HeaderGroupButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets and sets the border style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Border style.")]
+        [Category(@"Visuals")]
+        [Description(@"Border style.")]
         public PaletteBorderStyle GroupBorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -471,8 +471,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Background style.")]
+        [Category(@"Visuals")]
+        [Description(@"Background style.")]
         public PaletteBackStyle GroupBackStyle
         {
             get => StateCommon.BackStyle;
@@ -495,8 +495,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the primary header style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Primary header style.")]
+        [Category(@"Visuals")]
+        [Description(@"Primary header style.")]
         public HeaderStyle HeaderStylePrimary
         {
             get => _style1;
@@ -519,8 +519,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the secondary header style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Secondary header style.")]
+        [Category(@"Visuals")]
+        [Description(@"Secondary header style.")]
         public HeaderStyle HeaderStyleSecondary
         {
             get => _style2;
@@ -543,8 +543,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the position of the primary header.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Edge position of the primary header.")]
+        [Category(@"Visuals")]
+        [Description(@"Edge position of the primary header.")]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation HeaderPositionPrimary
         {
@@ -565,8 +565,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the position of the secondary header.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Edge position of the secondary header.")]
+        [Category(@"Visuals")]
+        [Description(@"Edge position of the secondary header.")]
         [DefaultValue(typeof(VisualOrientation), "Bottom")]
         public VisualOrientation HeaderPositionSecondary
         {
@@ -587,8 +587,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the primary header visibility.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Primary header visibility.")]
+        [Category(@"Visuals")]
+        [Description(@"Primary header visibility.")]
         [DefaultValue(true)]
         public bool HeaderVisiblePrimary
         {
@@ -608,8 +608,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the secondary header visibility.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Secondary header visibility.")]
+        [Category(@"Visuals")]
+        [Description(@"Secondary header visibility.")]
         [DefaultValue(true)]
         public bool HeaderVisibleSecondary
         {
@@ -629,8 +629,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common header group appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common header group appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common header group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderGroupRedirect StateCommon { get; }
 
@@ -639,8 +639,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled header group appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled header group appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled header group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderGroup StateDisabled { get; }
 
@@ -649,8 +649,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal header group appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal header group appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal header group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderGroup StateNormal { get; }
 
@@ -659,8 +659,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the primary header content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Primary header values")]
+        [Category(@"Visuals")]
+        [Description(@"Primary header values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public HeaderGroupValuesPrimary ValuesPrimary { get; }
 
@@ -669,8 +669,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the secondary header content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Secondary header values")]
+        [Category(@"Visuals")]
+        [Description(@"Secondary header values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public HeaderGroupValuesSecondary ValuesSecondary { get; }
 

@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// Represents the base class for all ribbon group items.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public abstract class KryptonRibbonGroupItem : Component,
                                                    IRibbonGroupItem,
@@ -124,8 +124,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
-        [Category("Data")]
-        [Description("User-defined data associated with the object.")]
+        [Category(@"Data")]
+        [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
         public object Tag
@@ -151,8 +151,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
-        [Category("ToolTip")]
-        [Description("Control ToolTip Text")]
+        [Category(@"ToolTip")]
+        [Description(@"Control ToolTip Text")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public abstract ToolTipValues ToolTipValues 
         { 

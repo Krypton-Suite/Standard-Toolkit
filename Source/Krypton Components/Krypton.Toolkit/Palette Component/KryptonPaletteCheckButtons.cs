@@ -192,8 +192,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common inherited button appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common inherited button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common inherited button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCommon { get; }
 
@@ -206,8 +206,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Standalone appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Standalone appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Standalone appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonStandalone { get; }
 
@@ -220,8 +220,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Alternate appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Alternate appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Alternate appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonAlternate { get; }
 
@@ -234,8 +234,8 @@ namespace Krypton.Toolkit
         /// Gets access to the LowProfile appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining LowProfile appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining LowProfile appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonLowProfile { get; }
 
@@ -248,8 +248,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonSpec appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonSpec appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonSpec appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonButtonSpec { get; }
 
@@ -262,8 +262,8 @@ namespace Krypton.Toolkit
         /// Gets access to the BreadCrumb appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining BreadCrumb appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining BreadCrumb appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonBreadCrumb { get; }
 
@@ -276,8 +276,8 @@ namespace Krypton.Toolkit
         /// Gets access to the CalendarDay appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining CalendarDay appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining CalendarDay appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCalendarDay { get; }
 
@@ -290,8 +290,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonCluster appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonCluster appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonCluster appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCluster { get; }
 
@@ -304,8 +304,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonGallery appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonGallery appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonGallery appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonGallery { get; }
 
@@ -318,8 +318,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonNavigatorStack appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonNavigatorStack appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonNavigatorStack appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonNavigatorStack { get; }
 
@@ -332,8 +332,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonNavigatorOverflow appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonNavigatorOverflow appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonNavigatorOverflow appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonNavigatorOverflow { get; }
 
@@ -346,8 +346,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonNavigatorMini appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonNavigatorMini appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonNavigatorMini appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonNavigatorMini { get; }
 
@@ -360,8 +360,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonInputControl appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonInputControl appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonInputControl appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonInputControl { get; }
 
@@ -374,8 +374,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonListItem appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonListItem appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonListItem appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonListItem { get; }
 
@@ -388,8 +388,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonForm appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonForm appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonForm appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonForm { get; }
 
@@ -402,8 +402,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonFormClose appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonFormClose appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonFormClose appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonFormClose { get; }
 
@@ -416,8 +416,8 @@ namespace Krypton.Toolkit
         /// Gets access to the ButtonCommand appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining ButtonCommand appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ButtonCommand appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCommand { get; }
 
@@ -430,8 +430,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Custom1 appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Custom1 appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Custom1 appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCustom1 { get; }
 
@@ -444,8 +444,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Custom2 appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Custom2 appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Custom2 appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCustom2 { get; }
 
@@ -458,8 +458,8 @@ namespace Krypton.Toolkit
         /// Gets access to the Custom3 appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining Custom3 appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining Custom3 appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteCheckButton ButtonCustom3 { get; }
 

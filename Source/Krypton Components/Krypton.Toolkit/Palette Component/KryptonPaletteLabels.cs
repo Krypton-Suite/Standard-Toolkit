@@ -136,8 +136,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelCommon { get; }
 
@@ -150,8 +150,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal label used for control style backgrounds.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal label appearance for use on control style backgrounds.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal label appearance for use on control style backgrounds.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelNormalControl { get; }
 
@@ -164,8 +164,8 @@ namespace Krypton.Toolkit
         /// Gets access to the bold label used for control style backgrounds.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining bold label appearance for use on control style backgrounds.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining bold label appearance for use on control style backgrounds.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelBoldControl { get; }
 
@@ -178,8 +178,8 @@ namespace Krypton.Toolkit
         /// Gets access to the italic label used for control style backgrounds.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining italic label appearance for use on control style backgrounds.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining italic label appearance for use on control style backgrounds.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelItalicControl { get; }
 
@@ -192,8 +192,8 @@ namespace Krypton.Toolkit
         /// Gets access to the title label used for control style backgrounds.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining title label appearance for use on control style backgrounds.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining title label appearance for use on control style backgrounds.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelTitleControl { get; }
 
@@ -206,8 +206,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal label used for panel style backgrounds.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal label appearance for use on panel style backgrounds.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal label appearance for use on panel style backgrounds.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelNormalPanel { get; }
 
@@ -220,8 +220,8 @@ namespace Krypton.Toolkit
         /// Gets access to the bold label used for panel style backgrounds.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining bold label appearance for use on panel style backgrounds.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining bold label appearance for use on panel style backgrounds.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelBoldPanel { get; }
 
@@ -234,8 +234,8 @@ namespace Krypton.Toolkit
         /// Gets access to the italic label used for panel style backgrounds.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining italic label appearance for use on panel style backgrounds.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining italic label appearance for use on panel style backgrounds.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelItalicPanel { get; }
 
@@ -248,8 +248,8 @@ namespace Krypton.Toolkit
         /// Gets access to the title label used for panel style backgrounds.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining title label appearance for use on panel style backgrounds.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining title label appearance for use on panel style backgrounds.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelTitlePanel { get; }
 
@@ -262,8 +262,8 @@ namespace Krypton.Toolkit
         /// Gets access to the caption label used for group box style backgrounds.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining caption label appearance for use on group box style backgrounds.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining caption label appearance for use on group box style backgrounds.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelCaptionPanel { get; }
 
@@ -276,8 +276,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tooltip label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the tooltip label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the tooltip label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelToolTip { get; }
 
@@ -290,8 +290,8 @@ namespace Krypton.Toolkit
         /// Gets access to the super tooltip label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the super tooltip label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the super tooltip label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelSuperTip { get; }
 
@@ -304,8 +304,8 @@ namespace Krypton.Toolkit
         /// Gets access to the keytip label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the keytip label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the keytip label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelKeyTip { get; }
 
@@ -318,8 +318,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the first custom label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the first custom label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelCustom1 { get; }
 
@@ -332,8 +332,8 @@ namespace Krypton.Toolkit
         /// Gets access to the second custom label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the first second label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the first second label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelCustom2 { get; }
 
@@ -346,8 +346,8 @@ namespace Krypton.Toolkit
         /// Gets access to the third custom label appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the third second label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the third second label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteLabel LabelCustom3 { get; }
 

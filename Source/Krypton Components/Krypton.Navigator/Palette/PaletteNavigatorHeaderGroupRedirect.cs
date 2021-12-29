@@ -76,8 +76,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the bar header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining bar header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining bar header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderPaddingRedirect HeaderBar { get; }
 
@@ -89,8 +89,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the overlow header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining overflow header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining overflow header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderPaddingRedirect HeaderOverflow { get; }
 

@@ -87,8 +87,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the tab drawing appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tab drawing appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tab drawing appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonDouble TabDraw => _paletteTabDraw;
 
@@ -100,8 +100,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the tab content appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tab content appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tab content appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteNavContent Content => _paletteContent;
 

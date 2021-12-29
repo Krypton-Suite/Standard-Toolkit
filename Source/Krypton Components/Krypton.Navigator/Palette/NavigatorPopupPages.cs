@@ -76,8 +76,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets if popup pages are displayed.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if popup pages are displayed.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if popup pages are displayed.")]
         [DefaultValue(typeof(PopupPageAllow), "Only Outlook Mini Mode")]
         public PopupPageAllow AllowPopupPages { get; set; }
 
@@ -87,8 +87,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the border pixel width around the popup page.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Pixel border width around the popup page.")]
+        [Category(@"Visuals")]
+        [Description(@"Pixel border width around the popup page.")]
         [DefaultValue(3)]
         public int Border { get; set; }
 
@@ -98,8 +98,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the relative element to use when calculating size and position of the popup page.
         /// </summary>
-        [Category("Visuals")]
-        [Description("The relative element to use when calculating size and position of the popup page.")]
+        [Category(@"Visuals")]
+        [Description(@"The relative element to use when calculating size and position of the popup page.")]
         [DefaultValue(typeof(PopupPageElement), "Item")]
         public PopupPageElement Element { get; set; }
 
@@ -109,8 +109,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the pixel gap between the source element and the popup page.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Pixel gap between the source element and the popup page.")]
+        [Category(@"Visuals")]
+        [Description(@"Pixel gap between the source element and the popup page.")]
         [DefaultValue(3)]
         public int Gap { get; set; }
 
@@ -120,8 +120,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets how to calculate the size and position of the popup page relative to element.
         /// </summary>
-        [Category("Visuals")]
-        [Description("How to calculate the size and position of the popup page.")]
+        [Category(@"Visuals")]
+        [Description(@"How to calculate the size and position of the popup page.")]
         [DefaultValue(typeof(PopupPagePosition), "ModeAppropriate")]
         public PopupPagePosition Position { get; set; }
 

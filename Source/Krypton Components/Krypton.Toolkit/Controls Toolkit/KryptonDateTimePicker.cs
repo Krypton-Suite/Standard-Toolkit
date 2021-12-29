@@ -22,8 +22,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Value")]
     [DefaultBindingProperty("Value")]
     [Designer("Krypton.Toolkit.KryptonDateTimePickerDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Enables the user to select a date and time, and to display that date and time in a specified format.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Enables the user to select a date and time, and to display that date and time in a specified format.")]
     public class KryptonDateTimePicker : VisualControlBase,
                                          IContentValues
     {
@@ -97,71 +97,71 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the Value property has changed value.
         /// </summary>
-        [Category("Action")]
-        [Description("Event raised when the value of the Value property is changed on KryptonDateTimePicker.")]
+        [Category(@"Action")]
+        [Description(@"Event raised when the value of the Value property is changed on KryptonDateTimePicker.")]
         public event EventHandler ValueChanged;
 
         /// <summary>
         /// Occurs when the ValueNullable property has changed value.
         /// </summary>
-        [Category("Action")]
-        [Description("Event raised when the value of the ValueNullable property is changed on KryptonDateTimePicker.")]
+        [Category(@"Action")]
+        [Description(@"Event raised when the value of the ValueNullable property is changed on KryptonDateTimePicker.")]
         public event EventHandler ValueNullableChanged;
 
         /// <summary>
         /// Occurs when the Value property has changed value.
         /// </summary>
-        [Category("Action")]
-        [Description("Event raised when the value of the ActiveFragment property is changed on KryptonDateTimePicker.")]
+        [Category(@"Action")]
+        [Description(@"Event raised when the value of the ActiveFragment property is changed on KryptonDateTimePicker.")]
         public event EventHandler ActiveFragmentChanged;
 
         /// <summary>
         /// Occurs when the drop down is shown.
         /// </summary>
-        [Category("Action")]
-        [Description("Event raised when the drop down is shown.")]
+        [Category(@"Action")]
+        [Description(@"Event raised when the drop down is shown.")]
         public event EventHandler<DateTimePickerDropArgs> DropDown;
 
         /// <summary>
         /// Occurs when the drop down has been closed.
         /// </summary>
-        [Category("Action")]
-        [Description("Event raised when the drop down has been closed.")]
+        [Category(@"Action")]
+        [Description(@"Event raised when the drop down has been closed.")]
         public event EventHandler<DateTimePickerCloseArgs> CloseUp;
 
         /// <summary>
         /// Occurs when the month calendar date changed whilst dropped down.
         /// </summary>
-        [Category("Action")]
-        [Description("Event raised to indicate the month calendar date changed whilst dropped down.")]
+        [Category(@"Action")]
+        [Description(@"Event raised to indicate the month calendar date changed whilst dropped down.")]
         public event EventHandler CloseUpMonthCalendarChanged;
 
         /// <summary>
         /// Occurs when auto shifting to the next field but overflowing the end.
         /// </summary>
-        [Category("Action")]
-        [Description("Event raised when auto shifting to the next field but overflowing the end.")]
+        [Category(@"Action")]
+        [Description(@"Event raised when auto shifting to the next field but overflowing the end.")]
         public event CancelEventHandler AutoShiftOverflow;
 
         /// <summary>
         /// Occurs when the Checked property has changed value.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Event raised when the value of the Checked property is changed on KryptonDateTimePicker.")]
+        [Category(@"Property Changed")]
+        [Description(@"Event raised when the value of the Checked property is changed on KryptonDateTimePicker.")]
         public event EventHandler CheckedChanged;
 
         /// <summary>
         /// Occurs when the Format property has changed value.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Event raised when the value of the Format property is changed on KryptonDateTimePicker.")]
+        [Category(@"Property Changed")]
+        [Description(@"Event raised when the value of the Format property is changed on KryptonDateTimePicker.")]
         public event EventHandler FormatChanged;
 
         /// <summary>
         /// Occurs when the RightToLeftLayout property has changed value.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Event raised when the value of the RightToLeftLayout property is changed on KryptonDateTimePicker.")]
+        [Category(@"Property Changed")]
+        [Description(@"Event raised when the value of the RightToLeftLayout property is changed on KryptonDateTimePicker.")]
         public event EventHandler RightToLeftLayoutChanged;
         #endregion
 
@@ -392,8 +392,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the number of columns and rows of months displayed. 
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Specifies the number of rows and columns of months displayed.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Specifies the number of rows and columns of months displayed.")]
         [DefaultValue(typeof(Size), "1,1")]
         [Localizable(true)]
         public Size CalendarDimensions { get; set; }
@@ -401,8 +401,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the label text for todays text. 
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Text used as label for todays date.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Text used as label for todays date.")]
         [DefaultValue("Today:")]
         [Localizable(true)]
         public string CalendarTodayText
@@ -431,8 +431,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// First day of the week.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("First day of the week.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"First day of the week.")]
         [DefaultValue(typeof(Day), "Default")]
         [Localizable(true)]
         public Day CalendarFirstDayOfWeek { get; set; }
@@ -440,40 +440,40 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the control will display todays date.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates whether this month calendar will display todays date.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates whether this month calendar will display todays date.")]
         [DefaultValue(true)]
         public bool CalendarShowToday { get; set; }
 
         /// <summary>
         /// Gets and sets if clicking the Today button closes the drop down menu.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates if clicking the Today button closes the drop down menu.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates if clicking the Today button closes the drop down menu.")]
         [DefaultValue(false)]
         public bool CalendarCloseOnTodayClick { get; set; }
 
         /// <summary>
         /// Gets and sets if the control will circle the today date.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates whether this month calendar will circle the today date.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates whether this month calendar will circle the today date.")]
         [DefaultValue(true)]
         public bool CalendarShowTodayCircle { get; set; }
 
         /// <summary>
         /// Gets and sets if week numbers to the left of each row.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates whether this month calendar will display week numbers to the left of each row.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates whether this month calendar will display week numbers to the left of each row.")]
         [DefaultValue(false)]
         public bool CalendarShowWeekNumbers { get; set; }
 
         /// <summary>
         /// Gets or sets today's date.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Today's date.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Today's date.")]
         public DateTime CalendarTodayDate
         {
             get => _todayDate;
@@ -499,8 +499,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which annual days are displayed in bold.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates which annual dates should be boldface.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
         public DateTime[] CalendarAnnuallyBoldedDates
         {
@@ -532,8 +532,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the array of DateTime objects that determine which monthly days to bold. 
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates which monthly dates should be boldface.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
         public DateTime[] CalendarMonthlyBoldedDates
         {
@@ -565,8 +565,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are displayed in bold.
         /// </summary>
-        [Category("MonthCalendar")]
-        [Description("Indicates which dates should be boldface.")]
+        [Category(@"MonthCalendar")]
+        [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
         public DateTime[] CalendarBoldedDates
         {
@@ -595,8 +595,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the alignment of the drop-down calendar on the DateTimePicker control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Alignment of the drop-down calendar on the KryptonDateTimePicker control.")]
+        [Category(@"Appearance")]
+        [Description(@"Alignment of the drop-down calendar on the KryptonDateTimePicker control.")]
         [DefaultValue(typeof(LeftRightAlignment), "Left")]
         [Localizable(true)]
         public LeftRightAlignment DropDownAlign { get; set; }
@@ -604,8 +604,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the date/time value assigned to the control that can be null.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Property for the date/time that can be null.")]
+        [Category(@"Appearance")]
+        [Description(@"Property for the date/time that can be null.")]
         [TypeConverter(typeof(DateTimeNullableConverter))]
         [RefreshProperties(RefreshProperties.All)]
         [Bindable(true)]
@@ -681,8 +681,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the date/time value assigned to the control..
         /// </summary>
-        [Category("Appearance")]
-        [Description("Property for the date/time.")]
+        [Category(@"Appearance")]
+        [Description(@"Property for the date/time.")]
         [RefreshProperties(RefreshProperties.All)]
         [Bindable(true)]
         public DateTime Value
@@ -739,8 +739,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the format of the date and time displayed in the control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines whether dates and times are displayed using standard or custom formatting.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines whether dates and times are displayed using standard or custom formatting.")]
         [DefaultValue(typeof(DateTimePickerFormat), "Long")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
@@ -761,8 +761,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the format of the date and time displayed in the control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates whether the control layout is right-to-left when the RightToLeft property is True.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates whether the control layout is right-to-left when the RightToLeft property is True.")]
         [DefaultValue(false)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public bool RightToLeftLayout
@@ -784,16 +784,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value determining if keyboard input will automatically shift to the next input field.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determines if keyboard input will automatically shift to the next input field.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if keyboard input will automatically shift to the next input field.")]
         [DefaultValue(false)]
         public bool AutoShift { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether a spin button control (also known as an up-down control) is used to adjust the date/time value.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates whether a spin box rather than a drop-down calendar is displayed for modifying the control value.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates whether a spin box rather than a drop-down calendar is displayed for modifying the control value.")]
         [DefaultValue(false)]
         public bool ShowUpDown
         {
@@ -814,8 +814,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies whether to show the check box in the exception message box.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines whether a check box is displayed in the control. When the box is unchecked, no value is selected.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines whether a check box is displayed in the control. When the box is unchecked, no value is selected.")]
         [DefaultValue(false)]
         public bool ShowCheckBox
         {
@@ -835,8 +835,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Defines if mnemonic characters generate click events for button specs.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines if mnemonic characters generate click events for button specs.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -855,8 +855,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the maximum date and time that can be selected in the control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Maximum allowable date.")]
+        [Category(@"Behavior")]
+        [Description(@"Maximum allowable date.")]
         public DateTime MaxDate
         {
             get => EffectiveMaxDate(_maxDateTime);
@@ -908,8 +908,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the minimum date and time that can be selected in the control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Minimum allowable date.")]
+        [Category(@"Behavior")]
+        [Description(@"Minimum allowable date.")]
         public DateTime MinDate
         {
             get => EffectiveMinDate(_minDateTime);
@@ -961,8 +961,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the check box is checked and if the ValueNullable is DBNull or a DateTime value.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determines if the check box is checked and if the ValueNullable is DBNull or a DateTime value.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if the check box is checked and if the ValueNullable is DBNull or a DateTime value.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         [Bindable(true)]
@@ -996,8 +996,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the custom date/time format string.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The custom format string used to format the date and/or time displayed in the control.")]
+        [Category(@"Behavior")]
+        [Description(@"The custom format string used to format the date and/or time displayed in the control.")]
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
@@ -1018,8 +1018,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the custom text to show when control is not checked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The custom text to draw when the control is not checked. Provide an empty string for default action of showing the defined date.")]
+        [Category(@"Behavior")]
+        [Description(@"The custom text to draw when the control is not checked. Provide an empty string for default action of showing the defined date.")]
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
@@ -1040,8 +1040,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the today date format string.
         /// </summary>
-        [Category("Visuals - MonthCalendar")]
-        [Description("The today format string used to format the date displayed in the today button.")]
+        [Category(@"Visuals - MonthCalendar")]
+        [Description(@"The today format string used to format the date displayed in the today button.")]
         [DefaultValue("d")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
@@ -1050,8 +1050,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the header style for the month calendar.
         /// </summary>
-        [Category("Visuals - MonthCalendar")]
-        [Description("Header style for the month calendar.")]
+        [Category(@"Visuals - MonthCalendar")]
+        [Description(@"Header style for the month calendar.")]
         public HeaderStyle CalendarHeaderStyle { get; set; }
 
         private void ResetCalendarHeaderStyle()
@@ -1064,8 +1064,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the content style for the day entries.
         /// </summary>
-        [Category("Visuals - MonthCalendar")]
-        [Description("Content style for the day entries.")]
+        [Category(@"Visuals - MonthCalendar")]
+        [Description(@"Content style for the day entries.")]
         public ButtonStyle CalendarDayStyle { get; set; }
 
         private void ResetCalendarDayStyle()
@@ -1078,8 +1078,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the content style for the day of week labels.
         /// </summary>
-        [Category("Visuals - MonthCalendar")]
-        [Description("Content style for the day of week labels.")]
+        [Category(@"Visuals - MonthCalendar")]
+        [Description(@"Content style for the day of week labels.")]
         public ButtonStyle CalendarDayOfWeekStyle { get; set; }
 
         private void ResetCalendarDayOfWeekStyle()
@@ -1092,8 +1092,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Palette applied to drawing.")]
         [DefaultValue(typeof(PaletteMode), "Global")]
         public new PaletteMode PaletteMode
         {
@@ -1104,8 +1104,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public new IPalette Palette
         {
@@ -1116,8 +1116,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {
@@ -1136,8 +1136,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the checkbox value overrides.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("CheckBox image overrides.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"CheckBox image overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
@@ -1146,8 +1146,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the input control style.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Input control style.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Input control style.")]
         public InputControlStyle InputControlStyle
         {
             get => _inputControlStyle;
@@ -1173,8 +1173,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the up and down buttons style.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Up and down buttons style.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Up and down buttons style.")]
         public ButtonStyle UpDownButtonStyle
         {
             get => _upDownButtonStyle;
@@ -1200,8 +1200,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the drop button style.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("DropButton style.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"DropButton style.")]
         public ButtonStyle DropButtonStyle
         {
             get => _dropButtonStyle;
@@ -1227,32 +1227,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DateTimePickerButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets access to the common date time picker appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Overrides for defining common date time picker appearance that other states can override.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Overrides for defining common date time picker appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect StateCommon { get; }
 
@@ -1261,8 +1261,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled date time picker appearance entries.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Overrides for defining disabled date time picker appearance.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Overrides for defining disabled date time picker appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateDisabled { get; }
 
@@ -1271,8 +1271,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal date time picker appearance entries.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Overrides for defining normal date time picker appearance.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Overrides for defining normal date time picker appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateNormal { get; }
 
@@ -1281,8 +1281,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active date time picker appearance entries.
         /// </summary>
-        [Category("Visuals - DateTimePicker")]
-        [Description("Overrides for defining active date time picker appearance.")]
+        [Category(@"Visuals - DateTimePicker")]
+        [Description(@"Overrides for defining active date time picker appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateActive { get; }
 
@@ -2323,7 +2323,7 @@ namespace Krypton.Toolkit
     /// Specialized implementation of the KryptonContextMenu for use with the KryptonDateTimePicker.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public class DTPContextMenu : KryptonContextMenu
     {
         #region Instance Fields

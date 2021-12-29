@@ -137,8 +137,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the scrollbar scrolled.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Is raised, when the scrollbar was scrolled.")]
+        [Category(@"Behavior")]
+        [Description(@"Is raised, when the scrollbar was scrolled.")]
         public event ScrollEventHandler Scroll;
         #endregion
 
@@ -147,8 +147,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the orientation.
         /// </summary>
-        [Category("Layout")]
-        [Description("Gets or sets the orientation.")]
+        [Category(@"Layout")]
+        [Description(@"Gets or sets the orientation.")]
         [DefaultValue(ScrollBarOrientation.Vertical)]
         public ScrollBarOrientation Orientation
         {
@@ -185,8 +185,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the minimum value.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Gets or sets the minimum value.")]
+        [Category(@"Behavior")]
+        [Description(@"Gets or sets the minimum value.")]
         [DefaultValue(0)]
         public int Minimum
         {
@@ -234,8 +234,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the maximum value.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Gets or sets the maximum value.")]
+        [Category(@"Behavior")]
+        [Description(@"Gets or sets the maximum value.")]
         [DefaultValue(100)]
         public int Maximum
         {
@@ -277,8 +277,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the small change amount.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Gets or sets the small change value.")]
+        [Category(@"Behavior")]
+        [Description(@"Gets or sets the small change value.")]
         [DefaultValue(1)]
         public int SmallChange
         {
@@ -301,8 +301,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the large change amount.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Gets or sets the large change value.")]
+        [Category(@"Behavior")]
+        [Description(@"Gets or sets the large change value.")]
         [DefaultValue(10)]
         public int LargeChange
         {
@@ -334,8 +334,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Gets or sets the current value.")]
+        [Category(@"Behavior")]
+        [Description(@"Gets or sets the current value.")]
         [DefaultValue(0)]
         public int Value
         {
@@ -364,8 +364,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the border color.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Gets or sets the border color.")]
+        [Category(@"Appearance")]
+        [Description(@"Gets or sets the border color.")]
         [DefaultValue(typeof(Color), "Color.FromARGB(93, 140, 201)")]
         public Color BorderColor
         {
@@ -382,8 +382,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the border color in disabled state.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Gets or sets the border color in disabled state.")]
+        [Category(@"Appearance")]
+        [Description(@"Gets or sets the border color in disabled state.")]
         [DefaultValue(typeof(Color), "Color.Gray")]
         public Color DisabledBorderColor
         {
@@ -400,8 +400,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the opacity of the context menu (from 0 - 1).
         /// </summary>
-        [Category("Appearance")]
-        [Description("Gets or sets the opacity of the context menu (from 0 - 1).")]
+        [Category(@"Appearance")]
+        [Description(@"Gets or sets the opacity of the context menu (from 0 - 1).")]
         [DefaultValue(1)]
         public double Opacity
         {

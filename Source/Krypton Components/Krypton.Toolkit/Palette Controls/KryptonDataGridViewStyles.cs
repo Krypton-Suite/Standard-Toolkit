@@ -55,8 +55,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the overall grid style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overall grid style.")]
+        [Category(@"Visuals")]
+        [Description(@"Overall grid style.")]
         [RefreshProperties(RefreshProperties.All)]
         public DataGridViewStyle Style
         {
@@ -120,8 +120,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the header column grid style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Style of the header columns.")]
+        [Category(@"Visuals")]
+        [Description(@"Style of the header columns.")]
         [RefreshProperties(RefreshProperties.All)]
         public GridStyle StyleColumn
         {
@@ -201,8 +201,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the header row grid style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Style of the header rows.")]
+        [Category(@"Visuals")]
+        [Description(@"Style of the header rows.")]
         [RefreshProperties(RefreshProperties.All)]
         public GridStyle StyleRow
         {
@@ -282,8 +282,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the data cell grid style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Style of the data cells.")]
+        [Category(@"Visuals")]
+        [Description(@"Style of the data cells.")]
         [RefreshProperties(RefreshProperties.All)]
         public GridStyle StyleDataCells
         {
@@ -363,8 +363,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the data cell grid style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Style of the data cells.")]
+        [Category(@"Visuals")]
+        [Description(@"Style of the data cells.")]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteBackStyle StyleBackground
         {
