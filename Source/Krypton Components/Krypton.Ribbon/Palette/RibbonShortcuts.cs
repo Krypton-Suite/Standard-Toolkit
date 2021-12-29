@@ -60,8 +60,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Shortcut to toggle the ribbon minimized mode.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut to toggle the ribbon minimized mode.")]
         [DefaultValue(typeof(Keys), "F1, Control")]
         public Keys ToggleMinimizeMode { get; set; }
 
@@ -82,8 +82,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Shortcut to toggle keyboard access to the ribbon.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut to toggle keyboard access to the ribbon.")]
         [DefaultValue(typeof(Keys), "Menu, Alt")]
         public Keys ToggleKeyboardAccess1 { get; set; }
 
@@ -104,8 +104,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Shortcut to toggle keyboard access to the ribbon.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut to toggle keyboard access to the ribbon.")]
         [DefaultValue(typeof(Keys), "F10")]
         public Keys ToggleKeyboardAccess2 { get; set; }
 

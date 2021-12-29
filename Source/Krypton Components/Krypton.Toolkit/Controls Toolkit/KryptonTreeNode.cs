@@ -30,8 +30,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of property has changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
@@ -103,8 +103,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the long text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Supplementary text.")]
+        [Category(@"Appearance")]
+        [Description(@"Supplementary text.")]
         [Localizable(true)]
         public string LongText
         {
@@ -128,8 +128,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the foreground color of the long text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Foreground color of the long text")]
+        [Category(@"Appearance")]
+        [Description(@"Foreground color of the long text")]
         public Color LongForeColor
         {
             get => _longForeColor;
@@ -152,8 +152,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the font of the long text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Font of the long text")]
+        [Category(@"Appearance")]
+        [Description(@"Font of the long text")]
         public Font LongNodeFont
         {
             get => _longNodeFont;
@@ -176,8 +176,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the long text.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Is the CheckBox Visible on this node when the TreeView has Checkboxes")]
+        [Category(@"Appearance")]
+        [Description(@"Is the CheckBox Visible on this node when the TreeView has Checkboxes")]
         [DefaultValue(true)]
         public bool IsCheckBoxVisible
         {

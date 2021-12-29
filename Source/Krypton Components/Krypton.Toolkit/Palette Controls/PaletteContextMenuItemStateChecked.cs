@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
         /// Gets access to the item image appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining item image appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item image appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleJustImage ItemImage { get; }
 

@@ -80,8 +80,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the primary header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining primary header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining primary header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleMetric HeaderPrimary { get; }
 
@@ -93,8 +93,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the secondary header appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining secondary header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining secondary header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleMetric HeaderSecondary { get; }
 

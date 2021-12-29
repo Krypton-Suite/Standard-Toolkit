@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
                                                   IRibbonViewGroupSize
     {
         #region Type Definitions
-        private class ContainerToView : Dictionary<IRibbonGroupContainer, ViewBase> { };
+        private class ContainerToView : Dictionary<IRibbonGroupContainer, ViewBase> { }
         #endregion
 
         #region Static Fields

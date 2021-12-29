@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("Paint")]
     [DefaultProperty("GroupBackStyle")]
     [Designer("Krypton.Toolkit.KryptonGroupDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Enables you to group collections of controls.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Ask)]
     public class KryptonGroup : VisualControlContainment
     {
@@ -119,8 +119,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the auto size mode.
         /// </summary>
-        [Category("Layout")]
-        [Description("Specifies if the control grows and shrinks to fit the contents exactly.")]
+        [Category(@"Layout")]
+        [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
         [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
         public AutoSizeMode AutoSizeMode
         {
@@ -150,16 +150,16 @@ namespace Krypton.Toolkit
         /// Gets access to the internal panel that contains group content.
         /// </summary>
         [Localizable(false)]
-        [Category("Appearance")]
-        [Description("The internal panel that contains group content.")]
+        [Category(@"Appearance")]
+        [Description(@"The internal panel that contains group content.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonGroupPanel Panel { get; }
 
         /// <summary>
         /// Gets and sets the border style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Border style.")]
+        [Category(@"Visuals")]
+        [Description(@"Border style.")]
         public PaletteBorderStyle GroupBorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -181,8 +181,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Background style.")]
+        [Category(@"Visuals")]
+        [Description(@"Background style.")]
         public PaletteBackStyle GroupBackStyle
         {
             get => StateCommon.BackStyle;
@@ -205,8 +205,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common group appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common group appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect StateCommon { get; }
 
@@ -215,8 +215,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled group appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled group appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble StateDisabled { get; }
 
@@ -225,8 +225,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal group appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal group appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble StateNormal { get; }
 

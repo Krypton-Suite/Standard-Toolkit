@@ -101,8 +101,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the first background color.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Main background color.")]
+        [Category(@"Visuals")]
+        [Description(@"Main background color.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color1

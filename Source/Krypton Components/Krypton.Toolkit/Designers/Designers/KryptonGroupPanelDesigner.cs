@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             // If inside a Krypton group container then always lock the component from user size/location change
             if (_panel != null)
             {
-                PropertyDescriptor descriptor = TypeDescriptor.GetProperties(component)["Locked"];
+                PropertyDescriptor descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
                 if ((descriptor != null) && (_panel.Parent is KryptonGroup or KryptonHeaderGroup))
                 {
                     descriptor.SetValue(component, true);

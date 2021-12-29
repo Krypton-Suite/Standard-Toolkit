@@ -61,8 +61,8 @@ namespace Krypton.Toolkit
         /// Gets and sets a user supplied color value.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("User supplied color value.")]
+        [Category(@"Visuals")]
+        [Description(@"User supplied color value.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color1 { get; set; }
@@ -81,8 +81,8 @@ namespace Krypton.Toolkit
         /// Gets and sets a user supplied color value.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("User supplied color value.")]
+        [Category(@"Visuals")]
+        [Description(@"User supplied color value.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color2 { get; set; }
@@ -101,8 +101,8 @@ namespace Krypton.Toolkit
         /// Gets and sets a user supplied color value.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("User supplied color value.")]
+        [Category(@"Visuals")]
+        [Description(@"User supplied color value.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color3 { get; set; }
@@ -121,8 +121,8 @@ namespace Krypton.Toolkit
         /// Gets and sets a user supplied color value.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("User supplied color value.")]
+        [Category(@"Visuals")]
+        [Description(@"User supplied color value.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color4 { get; set; }
@@ -141,8 +141,8 @@ namespace Krypton.Toolkit
         /// Gets and sets a user supplied color value.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("User supplied color value.")]
+        [Category(@"Visuals")]
+        [Description(@"User supplied color value.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public Color Color5 { get; set; }
@@ -161,8 +161,8 @@ namespace Krypton.Toolkit
         /// Gets and sets a user supplied font value.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("User supplied font value.")]
+        [Category(@"Visuals")]
+        [Description(@"User supplied font value.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Font Font1 { get; set; }
@@ -181,8 +181,8 @@ namespace Krypton.Toolkit
         /// Gets and sets a user supplied font value.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("User supplied font value.")]
+        [Category(@"Visuals")]
+        [Description(@"User supplied font value.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Font Font2 { get; set; }

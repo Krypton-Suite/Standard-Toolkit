@@ -22,8 +22,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Text")]
     [DefaultBindingProperty("CheckState")]
     [Designer("Krypton.Toolkit.KryptonCheckBoxDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Allow user to set or clear the associated option.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Allow user to set or clear the associated option.")]
     public class KryptonCheckBox : VisualSimpleBase, IContentValues
     {
         #region Instance Fields
@@ -75,22 +75,22 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
-        [Category("Misc")]
-        [Description("Occurs whenever the Checked property has changed.")]
+        [Category(@"Misc")]
+        [Description(@"Occurs whenever the Checked property has changed.")]
         public event EventHandler CheckedChanged;
 
         /// <summary>
         /// Occurs when the value of the CheckState property has changed.
         /// </summary>
-        [Category("Misc")]
-        [Description("Occurs whenever the CheckState property has changed.")]
+        [Category(@"Misc")]
+        [Description(@"Occurs whenever the CheckState property has changed.")]
         public event EventHandler CheckStateChanged;
 
         /// <summary>
         /// Occurs when the value of the KryptonCommand property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the KryptonCommand property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the KryptonCommand property changes.")]
         public event EventHandler KryptonCommandChanged;
         #endregion
 
@@ -245,8 +245,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the visual orientation of the control.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Visual orientation of the control.")]
+        [Category(@"Visuals")]
+        [Description(@"Visual orientation of the control.")]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
@@ -272,8 +272,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the position of the check box.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Visual position of the check box.")]
+        [Category(@"Visuals")]
+        [Description(@"Visual position of the check box.")]
         [DefaultValue(typeof(VisualOrientation), "Left")]
         [Localizable(true)]
         public virtual VisualOrientation CheckPosition
@@ -297,8 +297,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the label style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Label style.")]
+        [Category(@"Visuals")]
+        [Description(@"Label style.")]
         public LabelStyle LabelStyle
         {
             get => _style;
@@ -321,8 +321,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the label content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Label values")]
+        [Category(@"Visuals")]
+        [Description(@"Label values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public LabelValues Values { get; }
 
@@ -331,8 +331,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the image value overrides.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Image value overrides.")]
+        [Category(@"Visuals")]
+        [Description(@"Image value overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
@@ -341,8 +341,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common label appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common label appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common label appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
@@ -351,8 +351,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled label appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
@@ -361,8 +361,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal label appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
@@ -371,8 +371,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the label appearance when it has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining label appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining label appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
@@ -381,8 +381,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
         /// </summary>
-        [Category("Appearance")]
-        [Description("When true the first character after an ampersand will be used as a mnemonic.")]
+        [Category(@"Appearance")]
+        [Description(@"When true the first character after an ampersand will be used as a mnemonic.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -402,8 +402,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the component is in the checked state.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates if the component is in the checked state.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates if the component is in the checked state.")]
         [DefaultValue(false)]
         [Bindable(true)]
         public bool Checked
@@ -431,16 +431,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the check box is automatically changed state when clicked. 
         /// </summary>
-        [Category("Behavior")]
-        [Description("Causes the check box to automatically change state when clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"Causes the check box to automatically change state when clicked.")]
         [DefaultValue(true)]
         public bool AutoCheck { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating if the component allows three states instead of two.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the component allows three states instead of two.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the component allows three states instead of two.")]
         [DefaultValue(false)]
         public bool ThreeState
         {
@@ -459,8 +459,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating the checked state of the component.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates the checked state of the component.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates the checked state of the component.")]
         [DefaultValue(typeof(CheckState), "Unchecked")]
         [Bindable(true)]
         public CheckState CheckState
@@ -493,8 +493,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the check button.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the check button.")]
         [DefaultValue(null)]
         public virtual KryptonCommand KryptonCommand
         {

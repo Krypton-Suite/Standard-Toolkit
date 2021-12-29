@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// 
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public class ShadowValues : Storage
     {
         #region statics
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description("Use this enahanced shadow feature")]
+        [Description(@"Use this enahanced shadow feature")]
         [DefaultValue(false)]
         public bool EnableShadows
         {
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description("Relative location of the top-left of the shadow, to the form. +ve means shadow out the bottom right")]
+        [Description(@"Relative location of the top-left of the shadow, to the form. +ve means shadow out the bottom right")]
         public Point Offset
         {
             get => _offset;
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description("Extra width to be applied to all edges.")]
+        [Description(@"Extra width to be applied to all edges.")]
         public byte ExtraWidth
         {
             get => _extraWidth;
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description("% of 'Extra Width' to start blur +ve")]
+        [Description(@"% of 'Extra Width' to start blur +ve")]
         [DefaultValue(50.0)]
         public double BlurDistance
         {
@@ -178,7 +178,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description("What Colour will be used for the Blur Solid")]
+        [Description(@"What Colour will be used for the Blur Solid")]
         public Color Colour
         {
             get => _colour;
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
 
         /// <summary>
         /// </summary>
-        [Description("Opacity Percentage")]
+        [Description(@"Opacity Percentage")]
         [DefaultValue(95.0)]
         public double Opacity
         {

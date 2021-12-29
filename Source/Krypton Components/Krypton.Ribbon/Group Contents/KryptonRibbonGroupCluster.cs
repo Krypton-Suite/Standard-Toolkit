@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupCluster), "ToolboxBitmaps.KryptonRibbonGroupCluster.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupClusterDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
     public class KryptonRibbonGroupCluster : KryptonRibbonGroupContainer
@@ -36,8 +36,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -134,8 +134,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the button cluster container.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the button cluster is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the button cluster is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -298,8 +298,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of ribbon group button cluster items.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of ribbon group button cluster items.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of ribbon group button cluster items.")]
         [MergableProperty(false)]
         [Editor(@"Krypton.Ribbon.KryptonRibbonGroupClusterCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]

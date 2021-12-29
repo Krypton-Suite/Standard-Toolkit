@@ -20,9 +20,9 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonSplitContainer), "ToolboxBitmaps.KryptonSplitContainer.bmp")]
     [DefaultEvent("SplitterMoved")]
     [DefaultProperty("Orientation")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [Designer("Krypton.Toolkit.KryptonSplitContainerDesigner, Krypton.Toolkit")]
-    [Description("Divide the container inside two resizable panels.")]
+    [Description(@"Divide the container inside two resizable panels.")]
     [Docking(DockingBehavior.AutoDock)]
     public class KryptonSplitContainer : VisualControlContainment,
                                          ISeparatorSource
@@ -91,15 +91,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the splitter control is moved.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the splitter is done being moved.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the splitter is done being moved.")]
         public event SplitterEventHandler SplitterMoved;
 
         /// <summary>
         /// Occurs when the splitter control is in the process of moving.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when the splitter is being moved.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when the splitter is being moved.")]
         public event SplitterCancelEventHandler SplitterMoving;
         #endregion
 
@@ -197,8 +197,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the container background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Container background style.")]
+        [Category(@"Visuals")]
+        [Description(@"Container background style.")]
         public PaletteBackStyle ContainerBackStyle
         {
             get => StateCommon.BackStyle;
@@ -223,8 +223,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the separator style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Separator style.")]
+        [Category(@"Visuals")]
+        [Description(@"Separator style.")]
         public SeparatorStyle SeparatorStyle
         {
             get => _style;
@@ -251,8 +251,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common split container appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common split container appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common split container appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainerRedirect StateCommon { get; }
 
@@ -261,8 +261,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled split container appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled split container appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled split container appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainer StateDisabled { get; }
 
@@ -271,8 +271,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal split container appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal split container appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal split container appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainer StateNormal { get; }
 
@@ -281,8 +281,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking separator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StateTracking { get; }
 
@@ -291,8 +291,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed separator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StatePressed { get; }
 
@@ -302,16 +302,16 @@ namespace Krypton.Toolkit
         /// Gets access to the first krypton splitter panel.
         /// </summary>
         [Localizable(false)]
-        [Category("Appearance")]
-        [Description("The Left or Top panel in the KryptonSplitContainer.")]
+        [Category(@"Appearance")]
+        [Description(@"The Left or Top panel in the KryptonSplitContainer.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonSplitterPanel Panel1 { get; }
 
         /// <summary>
         /// Gets and sets the minium size of panel1.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines the minimum distance of pixels of the splitter from the left or top edge of Panel1.")]
+        [Category(@"Layout")]
+        [Description(@"Determines the minimum distance of pixels of the splitter from the left or top edge of Panel1.")]
         [Localizable(true)]
         [DefaultValue(typeof(int), "25")]
         public int Panel1MinSize
@@ -350,8 +350,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets collapsed state of Panel1.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines if Panel1 is collapsed.")]
+        [Category(@"Layout")]
+        [Description(@"Determines if Panel1 is collapsed.")]
         [DefaultValue(false)]
         public bool Panel1Collapsed
         {
@@ -406,16 +406,16 @@ namespace Krypton.Toolkit
         /// Gets access to the second krypton splitter panel.
         /// </summary>
         [Localizable(false)]
-        [Category("Appearance")]
-        [Description("The Right or Bottom panel in the KryptonSplitContainer.")]
+        [Category(@"Appearance")]
+        [Description(@"The Right or Bottom panel in the KryptonSplitContainer.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonSplitterPanel Panel2 { get; }
 
         /// <summary>
         /// Gets and sets the minium size of panel2.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines the minimum distance of pixels of the splitter from the right or bottom edge of Panel2.")]
+        [Category(@"Layout")]
+        [Description(@"Determines the minimum distance of pixels of the splitter from the right or bottom edge of Panel2.")]
         [Localizable(true)]
         [DefaultValue(typeof(int), "25")]
         public int Panel2MinSize
@@ -454,8 +454,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets collapsed state of Panel2.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines if Panel2 is collapsed.")]
+        [Category(@"Layout")]
+        [Description(@"Determines if Panel2 is collapsed.")]
         [DefaultValue(false)]
         public bool Panel2Collapsed
         {
@@ -509,8 +509,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if the splitter can be moved.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines if the splitter is fixed.")]
+        [Category(@"Layout")]
+        [Description(@"Determines if the splitter is fixed.")]
         [Localizable(true)]
         [DefaultValue(false)]
         public bool IsSplitterFixed { get; set; }
@@ -518,8 +518,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the panel to keep the same size when resizing.
         /// </summary>
-        [Category("Layout")]
-        [Description("Indicates the panel to keep the same size when resizing.")]
+        [Category(@"Layout")]
+        [Description(@"Indicates the panel to keep the same size when resizing.")]
         [DefaultValue(typeof(FixedPanel), "None")]
         [Localizable(true)]
         public FixedPanel FixedPanel
@@ -564,8 +564,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the distance of the splitter.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines pixel distance of the splitter from the left or top edge.")]
+        [Category(@"Layout")]
+        [Description(@"Determines pixel distance of the splitter from the left or top edge.")]
         [Localizable(true)]
         [SettingsBindable(true)]
         [DefaultValue(typeof(int), "50")]
@@ -658,8 +658,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the thickness of the splitter.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines the thickness of the splitter.")]
+        [Category(@"Layout")]
+        [Description(@"Determines the thickness of the splitter.")]
         [Localizable(true)]
         [DefaultValue(typeof(int), "5")]
         public int SplitterWidth
@@ -698,8 +698,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the number of pixels the splitter moves in increments.
         /// </summary>
-        [Category("Layout")]
-        [Description("Determines the number of pixels the splitter moves in increments.")]
+        [Category(@"Layout")]
+        [Description(@"Determines the number of pixels the splitter moves in increments.")]
         [Localizable(true)]
         [DefaultValue(typeof(int), "1")]
         public int SplitterIncrement
@@ -726,8 +726,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating the horizontal or vertical orientation of the KryptonSplitContainer panels.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determines if the splitter is vertical or horizontal.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if the splitter is vertical or horizontal.")]
         [Localizable(true)]
         [DefaultValue(typeof(Orientation), "Vertical")]
         public Orientation Orientation

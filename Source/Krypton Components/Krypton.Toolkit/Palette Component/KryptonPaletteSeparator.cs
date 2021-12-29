@@ -86,8 +86,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common separator appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common separator appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common separator appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPaddingRedirect StateCommon { get; }
 
@@ -100,8 +100,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StateDisabled { get; }
 
@@ -114,8 +114,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StateNormal { get; }
 
@@ -128,8 +128,8 @@ namespace Krypton.Toolkit
         /// Gets access to the hot tracking separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StateTracking { get; }
 
@@ -142,8 +142,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed separator appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding StatePressed { get; }
 

@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common form appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common form appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCommon { get; }
 
@@ -93,8 +93,8 @@ namespace Krypton.Toolkit
         /// Gets access to the main form appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining main form appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining main form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormMain { get; }
 
@@ -107,8 +107,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom form appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the first custom form appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the first custom form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCustom1 { get; }
 
@@ -121,8 +121,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom form appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the first custom form appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the first custom form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCustom2 { get; }
 
@@ -135,8 +135,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom form appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the thrid custom form appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the thrid custom form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteForm FormCustom3 { get; }
 

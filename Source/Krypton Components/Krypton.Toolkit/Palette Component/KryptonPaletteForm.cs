@@ -39,8 +39,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common control appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common control appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common control appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect StateCommon => _stateCommon;
 
@@ -53,8 +53,8 @@ namespace Krypton.Toolkit
         /// Gets access to the inactive form appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining inactive form appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining inactive form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble StateInactive => _stateDisabled;
 
@@ -67,8 +67,8 @@ namespace Krypton.Toolkit
         /// Gets access to the active form appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining active form appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active form appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble StateActive => _stateNormal;
 

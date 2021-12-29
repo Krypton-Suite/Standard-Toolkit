@@ -87,8 +87,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the primary header style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Primary header style.")]
+        [Category(@"Visuals")]
+        [Description(@"Primary header style.")]
         [DefaultValue(typeof(HeaderStyle), "Primary")]
         public HeaderStyle HeaderStylePrimary
         {
@@ -109,8 +109,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the secondary header style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Secondary header style.")]
+        [Category(@"Visuals")]
+        [Description(@"Secondary header style.")]
         [DefaultValue(typeof(HeaderStyle), "Secondary")]
         public HeaderStyle HeaderStyleSecondary
         {
@@ -131,8 +131,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the bar header style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Bar header style.")]
+        [Category(@"Visuals")]
+        [Description(@"Bar header style.")]
         [DefaultValue(typeof(HeaderStyle), "Secondary")]
         public HeaderStyle HeaderStyleBar
         {
@@ -153,8 +153,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the position of the primary header.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Edge position of the primary header.")]
+        [Category(@"Visuals")]
+        [Description(@"Edge position of the primary header.")]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation HeaderPositionPrimary
         {
@@ -175,8 +175,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the position of the secondary header.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Edge position of the secondary header.")]
+        [Category(@"Visuals")]
+        [Description(@"Edge position of the secondary header.")]
         [DefaultValue(typeof(VisualOrientation), "Bottom")]
         public VisualOrientation HeaderPositionSecondary
         {
@@ -197,8 +197,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the position of the bar header.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Edge position of the bar header.")]
+        [Category(@"Visuals")]
+        [Description(@"Edge position of the bar header.")]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation HeaderPositionBar
         {
@@ -219,8 +219,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the primary header visibility.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Primary header visibility.")]
+        [Category(@"Visuals")]
+        [Description(@"Primary header visibility.")]
         [DefaultValue(true)]
         public bool HeaderVisiblePrimary
         {
@@ -241,8 +241,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the secondary header visibility.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Secondary header visibility.")]
+        [Category(@"Visuals")]
+        [Description(@"Secondary header visibility.")]
         [DefaultValue(true)]
         public bool HeaderVisibleSecondary
         {
@@ -263,8 +263,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the bar header visibility.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Bar header visibility.")]
+        [Category(@"Visuals")]
+        [Description(@"Bar header visibility.")]
         [DefaultValue(true)]
         public bool HeaderVisibleBar
         {
@@ -285,8 +285,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the primary header content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Primary header values")]
+        [Category(@"Visuals")]
+        [Description(@"Primary header values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public HeaderGroupMappingPrimary HeaderValuesPrimary { get; }
 
@@ -298,8 +298,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the secondary header content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Secondary header values")]
+        [Category(@"Visuals")]
+        [Description(@"Secondary header values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public HeaderGroupMappingSecondary HeaderValuesSecondary { get; }
 

@@ -19,8 +19,8 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonGroups : ViewComposite
     {
         #region Classes
-        private class GroupToView : Dictionary<KryptonRibbonGroup, ViewDrawRibbonGroup> {};
-        private class ViewDrawRibbonGroupSepList : List<ViewLayoutRibbonSeparator> { };
+        private class GroupToView : Dictionary<KryptonRibbonGroup, ViewDrawRibbonGroup> {}
+        private class ViewDrawRibbonGroupSepList : List<ViewLayoutRibbonSeparator> { }
         #endregion
 
         #region Statis Fields

@@ -19,8 +19,8 @@ namespace Krypton.Navigator
     internal abstract class ViewBuilderBase
     {
         #region Type Definitons
-        protected class PageToNavCheckItem : Dictionary<KryptonPage, INavCheckItem> { };
-        protected class PageToNavCheckButton : Dictionary<KryptonPage, ViewDrawNavCheckButtonBase> { };
+        protected class PageToNavCheckItem : Dictionary<KryptonPage, INavCheckItem> { }
+        protected class PageToNavCheckButton : Dictionary<KryptonPage, ViewDrawNavCheckButtonBase> { }
         #endregion
 
         #region Instance Fields

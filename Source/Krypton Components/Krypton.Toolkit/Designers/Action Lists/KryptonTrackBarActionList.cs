@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             if (_trackBar != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_trackBar)["Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_trackBar)[@"Orientation"];
 
                 // If we succeeded in getting the property
                 if (orientationProp != null)
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal orientation" : "Vertical orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_trackBar)["Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_trackBar)[@"Orientation"];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

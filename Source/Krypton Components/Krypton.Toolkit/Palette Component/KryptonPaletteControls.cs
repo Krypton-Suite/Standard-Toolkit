@@ -109,8 +109,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlCommon { get; }
 
@@ -123,8 +123,8 @@ namespace Krypton.Toolkit
         /// Gets access to the client control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining client control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining client control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlClient { get; }
 
@@ -137,8 +137,8 @@ namespace Krypton.Toolkit
         /// Gets access to the alternate control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining alternate control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining alternate control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlAlternate { get; }
 
@@ -151,8 +151,8 @@ namespace Krypton.Toolkit
         /// Gets access to the group box control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining group box control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining group box control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlGroupBox { get; }
 
@@ -165,8 +165,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tooltip control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tooltip control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tooltip control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlToolTip { get; }
 
@@ -179,8 +179,8 @@ namespace Krypton.Toolkit
         /// Gets access to the control ribbon style appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining control ribbon style appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining control ribbon style appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlRibbon { get; }
 
@@ -193,8 +193,8 @@ namespace Krypton.Toolkit
         /// Gets access to the control ribbon application menu style appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining control ribbon application menu style appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining control ribbon application menu style appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlRibbonAppMenu { get; }
 
@@ -207,8 +207,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the first custom control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the first custom control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlCustom1 { get; }
 
@@ -221,8 +221,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the first custom control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the first custom control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlCustom2 { get; }
 
@@ -235,8 +235,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom control appearance.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the third custom control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the third custom control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteControl ControlCustom3 { get; }
 

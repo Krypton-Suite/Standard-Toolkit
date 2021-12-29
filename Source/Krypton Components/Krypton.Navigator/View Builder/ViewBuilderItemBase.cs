@@ -509,7 +509,7 @@ namespace Krypton.Navigator
             // If there is a selected page
             if (Navigator.SelectedPage != null)
             {
-                BringPageIntoView(Navigator.SelectedPage);
+                BringPageIntoView();
             }
         }
 
@@ -1073,7 +1073,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void BringPageIntoView(KryptonPage page)
+        private void BringPageIntoView()
         {
             // Remember the view for the requested page
             ViewBase viewPage = null;

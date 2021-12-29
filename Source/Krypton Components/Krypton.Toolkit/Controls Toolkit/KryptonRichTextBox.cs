@@ -22,8 +22,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonRichTextBoxDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Enables the user to enter text, and provides multi-line editing and password character masking.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Enables the user to enter text, and provides multi-line editing and password character masking.")]
     public class KryptonRichTextBox : VisualControlBase,
                                       IContainedInputControl
     {
@@ -317,86 +317,86 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the AcceptsTab property changes.
         /// </summary>
-        [Description("Occurs when the value of the AcceptsTab property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the AcceptsTab property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler AcceptsTabChanged;
 
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
-        [Description("Occurs when the value of the HideSelection property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the HideSelection property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
-        [Description("Occurs when the value of the Modified property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the Modified property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the Multiline property changes.
         /// </summary>
-        [Description("Occurs when the value of the Multiline property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the Multiline property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler MultilineChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
-        [Description("Occurs when the value of the ReadOnly property changes.")]
-        [Category("Property Changed")]
+        [Description(@"Occurs when the value of the ReadOnly property changes.")]
+        [Category(@"Property Changed")]
         public event EventHandler ReadOnlyChanged;
 
         /// <summary>
         /// Occurs when the current selection has changed.
         /// </summary>
-        [Description("Occurs when the current selection has changed.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the current selection has changed.")]
+        [Category(@"Behavior")]
         public event EventHandler SelectionChanged;
 
         /// <summary>
         /// Occurs when the user takes an action that would change a protected range of text.
         /// </summary>
-        [Description("Occurs when the user takes an action that would change a protected range of text.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the user takes an action that would change a protected range of text.")]
+        [Category(@"Behavior")]
         public event EventHandler Protected;
 
         /// <summary>
         /// Occurs when a hyperlink in the text is clicked.
         /// </summary>
-        [Description("Occurs when a hyperlink in the text is clicked.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when a hyperlink in the text is clicked.")]
+        [Category(@"Behavior")]
         public event LinkClickedEventHandler LinkClicked;
 
         /// <summary>
         /// Occurs when the horizontal scroll bar is clicked.
         /// </summary>
-        [Description("Occurs when the horizontal scroll bar is clicked.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the horizontal scroll bar is clicked.")]
+        [Category(@"Behavior")]
         public event EventHandler HScroll;
 
         /// <summary>
         /// Occurs when the vertical scroll bar is clicked.
         /// </summary>
-        [Description("Occurs when the vertical scroll bar is clicked.")]
-        [Category("Behavior")]
+        [Description(@"Occurs when the vertical scroll bar is clicked.")]
+        [Category(@"Behavior")]
         public event EventHandler VScroll;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
         /// </summary>
-        [Description("Raises the TrackMouseEnter event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
         /// </summary>
-        [Description("Raises the TrackMouseLeave event in the wrapped control.")]
-        [Category("Mouse")]
+        [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
+        [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public event EventHandler TrackMouseLeave;
 
@@ -551,8 +551,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        [Category("Visuals")]
-        [Description("Set a watermark/prompt message for the user.")]
+        [Category(@"Visuals")]
+        [Description(@"Set a watermark/prompt message for the user.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteCueHintText CueHint { get; }
 
@@ -1030,8 +1030,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Defines if mnemonic characters generate click events for button specs.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines if mnemonic characters generate click events for button specs.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -1050,8 +1050,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {
@@ -1070,8 +1070,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the lines of text in a multiline edit, as an array of String values.
         /// </summary>
-        [Category("Appearance")]
-        [Description("The lines of text in a multiline edit, as an array of String values.")]
+        [Category(@"Appearance")]
+        [Description(@"The lines of text in a multiline edit, as an array of String values.")]
         [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
@@ -1085,8 +1085,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets, for multiline edit controls, which scroll bars will be shown for this control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
         [DefaultValue(typeof(RichTextBoxScrollBars), "Both")]
         [Localizable(true)]
         public RichTextBoxScrollBars ScrollBars
@@ -1098,8 +1098,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates if lines are automatically word-wrapped for multiline edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if lines are automatically word-wrapped for multiline edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if lines are automatically word-wrapped for multiline edit controls.")]
         [DefaultValue(true)]
         [Localizable(true)]
         public bool WordWrap
@@ -1111,8 +1111,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Defines the right margin dimensions.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Defines the right margin dimensions.")]
+        [Category(@"Behavior")]
+        [Description(@"Defines the right margin dimensions.")]
         [DefaultValue(0)]
         [Localizable(true)]
         public int RightMargin
@@ -1124,8 +1124,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Turns on/off the selection margin.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Turns on/off the selection margin.")]
+        [Category(@"Behavior")]
+        [Description(@"Turns on/off the selection margin.")]
         [DefaultValue(false)]
         public bool ShowSelectionMargin
         {
@@ -1136,8 +1136,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Defines the current scaling factor of the KryptonRichTextBox display; 1.0 is normal viewing.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Defines the current scaling factor of the KryptonRichTextBox display; 1.0 is normal viewing.")]
+        [Category(@"Behavior")]
+        [Description(@"Defines the current scaling factor of the KryptonRichTextBox display; 1.0 is normal viewing.")]
         [DefaultValue(1.0f)]
         [Localizable(true)]
         public float ZoomFactor
@@ -1149,8 +1149,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets whether the text in the control can span more than one line.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Control whether the text in the control can span more than one line.")]
+        [Category(@"Behavior")]
+        [Description(@"Control whether the text in the control can span more than one line.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(true)]
         [Localizable(true)]
@@ -1163,8 +1163,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if tab characters are accepted as input for multiline edit controls.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if tab characters are accepted as input for multiline edit controls.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if tab characters are accepted as input for multiline edit controls.")]
         [DefaultValue(false)]
         public bool AcceptsTab
         {
@@ -1175,8 +1175,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating that the selection should be hidden when the edit control loses focus.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates that the selection should be hidden when the edit control loses focus.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates that the selection should be hidden when the edit control loses focus.")]
         [DefaultValue(true)]
         public bool HideSelection
         {
@@ -1187,8 +1187,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the maximum number of characters that can be entered into the edit control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Specifies the maximum number of characters that can be entered into the edit control.")]
+        [Category(@"Behavior")]
+        [Description(@"Specifies the maximum number of characters that can be entered into the edit control.")]
         [DefaultValue(0x7fffffff)]
         [Localizable(true)]
         public int MaxLength
@@ -1200,8 +1200,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Turns on/off automatic word selection.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Turns on/off automatic word selection.")]
+        [Category(@"Behavior")]
+        [Description(@"Turns on/off automatic word selection.")]
         [DefaultValue(false)]
         public bool AutoWordSelection
         {
@@ -1212,8 +1212,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Defines the indent for bullets in the control.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Defines the indent for bullets in the control.")]
+        [Category(@"Behavior")]
+        [Description(@"Defines the indent for bullets in the control.")]
         [DefaultValue(0)]
         [Localizable(true)]
         public int BulletIndent
@@ -1225,8 +1225,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Indicates whether URLs are automatically formatted as links.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether URLs are automatically formatted as links.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether URLs are automatically formatted as links.")]
         [DefaultValue(true)]
         public bool DetectUrls
         {
@@ -1237,8 +1237,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Enable drag/drop of text, pictures and other data.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Enable drag/drop of text, pictures and other data.")]
+        [Category(@"Behavior")]
+        [Description(@"Enable drag/drop of text, pictures and other data.")]
         [DefaultValue(false)]
         public bool EnableAutoDragDrop
         {
@@ -1249,8 +1249,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether the text in the edit control can be changed or not.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Controls whether the text in the edit control can be changed or not.")]
+        [Category(@"Behavior")]
+        [Description(@"Controls whether the text in the edit control can be changed or not.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(false)]
         public bool ReadOnly
@@ -1262,8 +1262,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether shortcuts defined for the control are enabled.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates whether shortcuts defined for the control are enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates whether shortcuts defined for the control are enabled.")]
         [DefaultValue(true)]
         public bool ShortcutsEnabled
         {
@@ -1274,8 +1274,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the input control style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Input control style.")]
+        [Category(@"Visuals")]
+        [Description(@"Input control style.")]
         public InputControlStyle InputControlStyle
         {
             get => _inputControlStyle;
@@ -1301,32 +1301,32 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be displayed for button specs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should tooltips be displayed for button specs.")]
+        [Category(@"Visuals")]
+        [Description(@"Should tooltips be displayed for button specs.")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips { get; set; }
 
         /// <summary>
         /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Should button spec tooltips should remove the parent tooltip")]
+        [Category(@"Visuals")]
+        [Description(@"Should button spec tooltips should remove the parent tooltip")]
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority { get; set; }
 
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public RichTextBoxButtonSpecCollection ButtonSpecs { get; }
 
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common textbox appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common textbox appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleRedirect StateCommon { get; }
 
@@ -1335,8 +1335,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateDisabled { get; }
 
@@ -1345,8 +1345,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateNormal { get; }
 
@@ -1355,8 +1355,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the active textbox appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active textbox appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active textbox appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteInputControlTripleStates StateActive { get; }
 

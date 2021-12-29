@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("Click")]
     [DefaultProperty("Text")]
     [Designer("Krypton.Toolkit.KryptonDropButtonDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Raises an event when the user clicks it.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Raises an event when the user clicks it.")]
     public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValues
     {
         #region Instance Fields
@@ -44,15 +44,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the drop down portion of the button is pressed.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the drop down portion of the button is pressed.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the drop down portion of the button is pressed.")]
         public event EventHandler<ContextPositionMenuArgs> DropDown;
 
         /// <summary>
         /// Occurs when the value of the KryptonCommand property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the KryptonCommand property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the KryptonCommand property changes.")]
         public event EventHandler KryptonCommandChanged;
         #endregion
 
@@ -186,8 +186,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the visual orientation of the control.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Visual orientation of the control.")]
+        [Category(@"Visuals")]
+        [Description(@"Visual orientation of the control.")]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public VisualOrientation ButtonOrientation
         {
@@ -206,8 +206,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the position of the drop arrow within the button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Position of the drop arrow within the button.")]
+        [Category(@"Visuals")]
+        [Description(@"Position of the drop arrow within the button.")]
         [DefaultValue(typeof(VisualOrientation), "Right")]
         public VisualOrientation DropDownPosition
         {
@@ -226,8 +226,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the orientation of the drop arrow within the button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Orientation of the drop arrow within the button.")]
+        [Category(@"Visuals")]
+        [Description(@"Orientation of the drop arrow within the button.")]
         [DefaultValue(typeof(VisualOrientation), "Bottom")]
         public VisualOrientation DropDownOrientation
         {
@@ -262,8 +262,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the button works as a splitter or as a drop down.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determine if button acts as a splitter or just a drop down.")]
+        [Category(@"Visuals")]
+        [Description(@"Determine if button acts as a splitter or just a drop down.")]
         [DefaultValue(true)]
         public bool Splitter
         {
@@ -282,8 +282,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the button style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Button style.")]
+        [Category(@"Visuals")]
+        [Description(@"Button style.")]
         public ButtonStyle ButtonStyle
         {
             get => _style;
@@ -309,8 +309,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the button content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Button values")]
+        [Category(@"Visuals")]
+        [Description(@"Button values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonValues Values { get; }
 
@@ -319,8 +319,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the image value overrides.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Image value overrides.")]
+        [Category(@"Visuals")]
+        [Description(@"Image value overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public DropDownButtonImages Images { get; }
 
@@ -329,8 +329,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common button appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common button appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common button appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon { get; }
 
@@ -339,8 +339,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateDisabled { get; }
 
@@ -349,8 +349,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateNormal { get; }
 
@@ -359,8 +359,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the hot tracking button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateTracking { get; }
 
@@ -369,8 +369,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StatePressed { get; }
 
@@ -379,8 +379,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal button appearance when default.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal button appearance when default.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal button appearance when default.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideDefault { get; }
 
@@ -389,8 +389,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the button appearance when it has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining button appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining button appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideFocus { get; }
 
@@ -399,16 +399,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the value returned to the parent form when the button is clicked.
         /// </summary>
-        [Category("Behavior")]
-        [Description("The dialog-box result produced in a modal form by clicking the button.")]
+        [Category(@"Behavior")]
+        [Description(@"The dialog-box result produced in a modal form by clicking the button.")]
         [DefaultValue(typeof(DialogResult), "None")]
         public DialogResult DialogResult { get; set; }
 
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the drop button.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the drop button.")]
         [DefaultValue(null)]
         public virtual KryptonCommand KryptonCommand
         {
@@ -486,8 +486,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
         /// </summary>
-        [Category("Appearance")]
-        [Description("When true the first character after an ampersand will be used as a mnemonic.")]
+        [Category(@"Appearance")]
+        [Description(@"When true the first character after an ampersand will be used as a mnemonic.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {

@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTriple), "ToolboxBitmaps.KryptonRibbonGroupTriple.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupTripleDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
     public class KryptonRibbonGroupTriple : KryptonRibbonGroupContainer
@@ -37,8 +37,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -237,8 +237,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets how to align items in the medium and small item sizes.
         /// </summary>
-        [Category("Visuals")]
-        [Description("How to align items in medium and small item sizes.")]
+        [Category(@"Visuals")]
+        [Description(@"How to align items in medium and small item sizes.")]
         [DefaultValue(typeof(RibbonItemAlignment), "Near")]
         public RibbonItemAlignment ItemAlignment
         {
@@ -258,8 +258,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the triple group container.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the triple group container is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the triple group container is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -297,8 +297,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the maximum allowed size of the container.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Maximum size of items placed in the triple container.")]
+        [Category(@"Visuals")]
+        [Description(@"Maximum size of items placed in the triple container.")]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -313,8 +313,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the minimum allowed size of the container.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Minimum size of items placed in the triple container.")]
+        [Category(@"Visuals")]
+        [Description(@"Minimum size of items placed in the triple container.")]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -463,8 +463,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of ribbon group triple items.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of ribbon group triple items.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of ribbon group triple items.")]
         [MergableProperty(false)]
         [Editor(@"Krypton.Ribbon.KryptonRibbonGroupTripleCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]

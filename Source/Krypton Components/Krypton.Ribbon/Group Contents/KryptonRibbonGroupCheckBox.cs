@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupCheckBox), "ToolboxBitmaps.KryptonRibbonGroupCheckBox.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupCheckBoxDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("CheckedChanged")]
     [DefaultProperty("Checked")]
@@ -46,29 +46,29 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the check box is clicked.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs when the check box is clicked.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs when the check box is clicked.")]
         public event EventHandler Click;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs whenever the Checked property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs whenever the Checked property has changed.")]
         public event EventHandler CheckedChanged;
 
         /// <summary>
         /// Occurs when the value of the CheckState property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs whenever the CheckState property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs whenever the CheckState property has changed.")]
         public event EventHandler CheckStateChanged;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -108,8 +108,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Check box display text line 1.")]
+        [Category(@"Appearance")]
+        [Description(@"Check box display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("CheckBox")]
         public string TextLine1
@@ -137,8 +137,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Check box display text line 2.")]
+        [Category(@"Appearance")]
+        [Description(@"Check box display text line 2.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
@@ -160,8 +160,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group check box key tip.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group check box key tip.")]
         [DefaultValue("C")]
         public string KeyTip
         {
@@ -182,8 +182,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the check box.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the check box is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the check box is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -222,8 +222,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the group check box entry.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group check box is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group check box is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -243,8 +243,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the checked state of the group entry.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group check box is checked.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group check box is checked.")]
         [DefaultValue(typeof(CheckState), "Unchecked")]
         public CheckState CheckState
         {
@@ -274,8 +274,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating if the check box is in the checked state.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the check box is in the checked state.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the check box is in the checked state.")]
         [DefaultValue(false)]
         [Bindable(true)]
         public bool Checked
@@ -301,8 +301,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating if the check box is automatically changed state when clicked. 
         /// </summary>
-        [Category("Behavior")]
-        [Description("Causes the check box to automatically change state when clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"Causes the check box to automatically change state when clicked.")]
         [DefaultValue(true)]
         public bool AutoCheck
         {
@@ -321,8 +321,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets or sets a value indicating if the check box allows three states instead of two.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Indicates if the check bix allows three states instead of two.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if the check bix allows three states instead of two.")]
         [DefaultValue(false)]
         public bool ThreeState
         {
@@ -342,8 +342,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the shortcut key combination.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Shortcut key combination to fire click event of the check box.")]
+        [Category(@"Behavior")]
+        [Description(@"Shortcut key combination to fire click event of the check box.")]
         public Keys ShortcutKeys { get; set; }
 
         private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
@@ -365,8 +365,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the check box.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the check box.")]
         [DefaultValue(null)]
         public KryptonCommand KryptonCommand
         {

@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             if (_splitContainer != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)["Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[@"Orientation"];
 
                 // If we succeeded in getting the property
                 if (orientationProp != null)
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal splitter orientation" : "Vertical splitter orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)["Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[@"Orientation"];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

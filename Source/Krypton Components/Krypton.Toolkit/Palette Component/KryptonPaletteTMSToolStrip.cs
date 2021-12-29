@@ -75,8 +75,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color to draw text on the tool strip.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Color to draw text on the ToolStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Color to draw text on the ToolStrip.")]
         [KryptonDefaultColor()]
         public Color ToolStripText
         {
@@ -103,8 +103,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the font to draw text on the tool strip.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Font to draw text on the ToolStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Font to draw text on the ToolStrip.")]
         [DefaultValue(null)]
         public Font ToolStripFont
         {
@@ -131,8 +131,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the border color to use on the bottom edge of the ToolStrip.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Border color to use on the bottom edge of the ToolStrip.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Border color to use on the bottom edge of the ToolStrip.")]
         [KryptonDefaultColor()]
         public Color ToolStripBorder
         {
@@ -159,8 +159,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used in the ToolStripContentPanel..
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used in the ToolStripContentPanel..")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used in the ToolStripContentPanel..")]
         [KryptonDefaultColor()]
         public Color ToolStripContentPanelGradientBegin
         {
@@ -187,8 +187,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used in the ToolStripContentPanel.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used in the ToolStripContentPanel.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used in the ToolStripContentPanel.")]
         [KryptonDefaultColor()]
         public Color ToolStripContentPanelGradientEnd
         {
@@ -215,8 +215,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the solid background color of the ToolStripDropDown..
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Solid background color solid background color of the ToolStripDropDown..")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Solid background color solid background color of the ToolStripDropDown..")]
         [KryptonDefaultColor()]
         public Color ToolStripDropDownBackground
         {
@@ -243,8 +243,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used in the ToolStrip background..
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used in the ToolStrip background..")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used in the ToolStrip background..")]
         [KryptonDefaultColor()]
         public Color ToolStripGradientBegin
         {
@@ -271,8 +271,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used in the ToolStrip background..
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used in the ToolStrip background..")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used in the ToolStrip background..")]
         [KryptonDefaultColor()]
         public Color ToolStripGradientEnd
         {
@@ -299,8 +299,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used in the ToolStrip background..
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used in the ToolStrip background..")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used in the ToolStrip background..")]
         [KryptonDefaultColor()]
         public Color ToolStripGradientMiddle
         {
@@ -327,8 +327,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the starting color of the gradient used in the ToolStripPanel..
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Starting color of the gradient used in the ToolStripPanel..")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Starting color of the gradient used in the ToolStripPanel..")]
         [KryptonDefaultColor()]
         public Color ToolStripPanelGradientBegin
         {
@@ -355,8 +355,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the ending color of the gradient used in the ToolStripPanel..
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Ending color of the gradient used in the ToolStripPanel..")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Ending color of the gradient used in the ToolStripPanel..")]
         [KryptonDefaultColor()]
         public Color ToolStripPanelGradientEnd
         {

@@ -120,8 +120,8 @@ namespace Krypton.Toolkit
         /// Gets the font for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Font for drawing the content text.")]
+        [Category(@"Visuals")]
+        [Description(@"Font for drawing the content text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Font Font
@@ -160,8 +160,8 @@ namespace Krypton.Toolkit
         /// Gets the text rendering hint for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Text rendering hint for the content text.")]
+        [Category(@"Visuals")]
+        [Description(@"Text rendering hint for the content text.")]
         [DefaultValue(typeof(PaletteTextHint), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextHint Hint
@@ -200,8 +200,8 @@ namespace Krypton.Toolkit
         /// Gets the text trimming for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Text trimming style for the content text.")]
+        [Category(@"Visuals")]
+        [Description(@"Text trimming style for the content text.")]
         [DefaultValue(typeof(PaletteTextTrim), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextTrim Trim
@@ -240,8 +240,8 @@ namespace Krypton.Toolkit
         /// Gets the drawing used for prefix characters.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("How to draw prefix characters for the content text.")]
+        [Category(@"Visuals")]
+        [Description(@"How to draw prefix characters for the content text.")]
         [DefaultValue(typeof(PaletteTextHotkeyPrefix), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextHotkeyPrefix Prefix
@@ -280,8 +280,8 @@ namespace Krypton.Toolkit
         /// Gets the horizontal relative alignment of the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Relative horizontal alignment of content text.")]
+        [Category(@"Visuals")]
+        [Description(@"Relative horizontal alignment of content text.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextH
@@ -320,8 +320,8 @@ namespace Krypton.Toolkit
         /// Gets the vertical relative alignment of the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Relative vertical alignment of content text.")]
+        [Category(@"Visuals")]
+        [Description(@"Relative vertical alignment of content text.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextV
@@ -360,8 +360,8 @@ namespace Krypton.Toolkit
         /// Gets the relative horizontal alignment of multiline content text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Relative horizontal alignment of multiline content text.")]
+        [Category(@"Visuals")]
+        [Description(@"Relative horizontal alignment of multiline content text.")]
         [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign MultiLineH
@@ -400,8 +400,8 @@ namespace Krypton.Toolkit
         /// Gets the flag indicating if multiline text is allowed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Flag indicating if multiline text is allowed..")]
+        [Category(@"Visuals")]
+        [Description(@"Flag indicating if multiline text is allowed..")]
         [DefaultValue(typeof(InheritBool), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual InheritBool MultiLine
@@ -440,8 +440,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the first color for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Main color for the text.")]
+        [Category(@"Visuals")]
+        [Description(@"Main color for the text.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color1
@@ -480,8 +480,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the second color for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Secondary color for the text.")]
+        [Category(@"Visuals")]
+        [Description(@"Secondary color for the text.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color2
@@ -520,8 +520,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color drawing style for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Color drawing style for the text.")]
+        [Category(@"Visuals")]
+        [Description(@"Color drawing style for the text.")]
         [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteColorStyle ColorStyle
@@ -560,8 +560,8 @@ namespace Krypton.Toolkit
         /// Gets and set the color alignment for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Color alignment style for the text.")]
+        [Category(@"Visuals")]
+        [Description(@"Color alignment style for the text.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRectangleAlign ColorAlign
@@ -600,8 +600,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color angle for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Color angle for the text.")]
+        [Category(@"Visuals")]
+        [Description(@"Color angle for the text.")]
         [DefaultValue(-1f)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual float ColorAngle
@@ -640,8 +640,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for the text.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for the text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Image Image
@@ -680,8 +680,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image style for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image style for the text.")]
+        [Category(@"Visuals")]
+        [Description(@"Image style for the text.")]
         [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteImageStyle ImageStyle
@@ -720,8 +720,8 @@ namespace Krypton.Toolkit
         /// Gets and set the image alignment for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image alignment style for the text.")]
+        [Category(@"Visuals")]
+        [Description(@"Image alignment style for the text.")]
         [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRectangleAlign ImageAlign

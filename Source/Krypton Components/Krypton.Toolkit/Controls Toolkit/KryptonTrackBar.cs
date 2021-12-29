@@ -21,8 +21,8 @@ namespace Krypton.Toolkit
     [DefaultEvent("ValueChanged")]
     [DefaultProperty("Value")]
     [Designer("Krypton.Toolkit.KryptonTrackBarDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Allow user to scroll between a range of values.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Allow user to scroll between a range of values.")]
     public class KryptonTrackBar : VisualSimpleBase
     {
         #region Instance Fields
@@ -38,15 +38,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the Value property changes.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the value of the Value property changes.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the value of the Value property changes.")]
         public event EventHandler ValueChanged;
 
         /// <summary>
         /// Occurs when either a mouse or keyboard action moves the scroll box.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Occurs when either a mouse or keyboard action moves the scroll box.")]
+        [Category(@"Behavior")]
+        [Description(@"Occurs when either a mouse or keyboard action moves the scroll box.")]
         public event EventHandler Scroll;
         #endregion
 
@@ -168,8 +168,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Background style.")]
+        [Category(@"Visuals")]
+        [Description(@"Background style.")]
         public PaletteBackStyle BackStyle
         {
             get => OverrideFocus.BackStyle;
@@ -194,8 +194,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the track bar appearance when it has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining track bar appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining track bar appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarRedirect OverrideFocus { get; }
 
@@ -204,8 +204,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common TrackBar appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common TrackBar appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common TrackBar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarRedirect StateCommon { get; }
 
@@ -214,8 +214,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled TrackBar appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled TrackBar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled TrackBar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarStates StateDisabled { get; }
 
@@ -224,8 +224,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal TrackBar appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal TrackBar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal TrackBar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarStates StateNormal { get; }
 
@@ -234,8 +234,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the tracking TrackBar appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking TrackBar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking TrackBar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarPositionStates StateTracking { get; }
 
@@ -244,8 +244,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the pressed TrackBar appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed TrackBar appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed TrackBar appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTrackBarPositionStates StatePressed { get; }
 
@@ -254,8 +254,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the control displays like a volume control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines if the control display like a volume control.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines if the control display like a volume control.")]
         [DefaultValue(false)]
         public bool VolumeControl
         {
@@ -274,8 +274,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the size of the track bar elements.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines size of the track bar elements.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines size of the track bar elements.")]
         [DefaultValue(typeof(PaletteTrackBarSize), "Medium")]
         public PaletteTrackBarSize TrackBarSize
         {
@@ -295,8 +295,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating how to display the tick marks on the track bar.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines where tick marks are displayed.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines where tick marks are displayed.")]
         [DefaultValue(typeof(TickStyle), "BottomRight")]
         [RefreshProperties(RefreshProperties.All)]
         public TickStyle TickStyle
@@ -317,8 +317,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value that specifies the delta between ticks drawn on the control.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Determines the frequency of tick marks.")]
+        [Category(@"Appearance")]
+        [Description(@"Determines the frequency of tick marks.")]
         [DefaultValue(1)]
         public int TickFrequency
         {
@@ -337,8 +337,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating the horizontal or vertical orientation of the track bar.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Background style.")]
+        [Category(@"Appearance")]
+        [Description(@"Background style.")]
         [DefaultValue(typeof(Orientation), "Horizontal")]
         public Orientation Orientation
         {
@@ -376,8 +376,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the upper limit of the range this TrackBar is working with.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Upper limit of the trackbar range.")]
+        [Category(@"Behavior")]
+        [Description(@"Upper limit of the trackbar range.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(10)]
         public int Maximum
@@ -397,8 +397,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the lower limit of the range this TrackBar is working with.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Lower limit of the trackbar range.")]
+        [Category(@"Behavior")]
+        [Description(@"Lower limit of the trackbar range.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(0)]
         public int Minimum
@@ -418,8 +418,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a numeric value that represents the current position of the scroll box on the track bar.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Current position of the indicator within the trackbar.")]
+        [Category(@"Behavior")]
+        [Description(@"Current position of the indicator within the trackbar.")]
         [DefaultValue(0)]
         public int Value
         {
@@ -437,8 +437,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the value added to or subtracted from the Value property when the scroll box is moved a small distance.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Change to apply when a small change occurs.")]
+        [Category(@"Behavior")]
+        [Description(@"Change to apply when a small change occurs.")]
         [DefaultValue(1)]
         public int SmallChange
         {
@@ -449,8 +449,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value to be added to or subtracted from the Value property when the scroll box is moved a large distance.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Change to apply when a large change occurs.")]
+        [Category(@"Behavior")]
+        [Description(@"Change to apply when a large change occurs.")]
         [DefaultValue(5)]
         public int LargeChange
         {
@@ -481,8 +481,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets if the control should draw the background.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Draw Background (Default = true);\r\nNote: Does not draw correctly in designer if false.")]
+        [Category(@"Visuals")]
+        [Description(@"Draw Background (Default = true);\r\nNote: Does not draw correctly in designer if false.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         public bool DrawBackground
         {

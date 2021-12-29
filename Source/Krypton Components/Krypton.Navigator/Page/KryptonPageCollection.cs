@@ -16,7 +16,7 @@ namespace Krypton.Navigator
     /// <summary>
     /// Dictionary lookup from unique name to the KryptonPage.
     /// </summary>
-    public class UniqueNameToPage : Dictionary<string, KryptonPage> { };
+    public class UniqueNameToPage : Dictionary<string, KryptonPage> { }
 
     /// <summary>
     /// Specialise the generic collection event args with specific type.

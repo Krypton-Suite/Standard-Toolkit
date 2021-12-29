@@ -58,7 +58,7 @@ namespace Krypton.Navigator
             _changeService.ComponentRemoving += OnComponentRemoving;
 
             // Lock the component from user size/location change
-            PropertyDescriptor descriptor = TypeDescriptor.GetProperties(component)["Locked"];
+            PropertyDescriptor descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
             if ((descriptor != null) && (ParentNavigator != null))
             {
                 descriptor.SetValue(component, true);
@@ -109,7 +109,7 @@ namespace Krypton.Navigator
                 if (_verbs == null)
                 {
                     // Cache verb instances so enabled state can be updated in future
-                    _verbEditFlags = new DesignerVerb("Edit Flags", OnEditFlags);
+                    _verbEditFlags = new DesignerVerb(@"Edit Flags", OnEditFlags);
                     _verbs = new DesignerVerbCollection(new[] { _verbEditFlags });
                 }
 
@@ -217,7 +217,7 @@ namespace Krypton.Navigator
         private void OnPageFlagsChanged(object sender, KryptonPageFlagsEventArgs e)
         {
             // Get access to the Flags property
-            MemberDescriptor propertyFlags = TypeDescriptor.GetProperties(_page)["Flags"];
+            MemberDescriptor propertyFlags = TypeDescriptor.GetProperties(_page)[@"Flags"];
 
             // Notify that the flags property has been updated
             RaiseComponentChanging(propertyFlags);

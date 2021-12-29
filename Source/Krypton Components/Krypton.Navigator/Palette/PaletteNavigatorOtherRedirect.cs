@@ -85,8 +85,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the check button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining check button appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining check button appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect CheckButton { get; }
 
@@ -98,8 +98,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the outlook overflow button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining outlook overflow button appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining outlook overflow button appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverflowButton { get; }
 
@@ -111,8 +111,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the outlook mini button appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining outlook mini button appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining outlook mini button appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect MiniButton { get; }
 
@@ -124,8 +124,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the tab appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tab appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tab appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTabTripleRedirect Tab { get; }
 
@@ -137,8 +137,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the ribbon tab appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon tab appearance entries.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon tab appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonTabContentRedirect RibbonTab { get; }
 

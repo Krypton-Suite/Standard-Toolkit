@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     /// Displays a message box that can contain text, buttons, and symbols that inform and instruct the user.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public static class KryptonMessageBox
     {
 

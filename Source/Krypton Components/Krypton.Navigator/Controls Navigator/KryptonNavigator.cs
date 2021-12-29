@@ -23,8 +23,8 @@ namespace Krypton.Navigator
     [DefaultEvent("SelectedIndexChanged")]
     [DefaultProperty("Pages")]
     [Designer("Krypton.Navigator.KryptonNavigatorDesigner, Krypton.Navigator")]
-    [DesignerCategory("code")]
-    [Description("Allows navigation between pages.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Allows navigation between pages.")]
     [Docking(DockingBehavior.Ask)]
     public class KryptonNavigator : VisualSimple,
                                     IDragTargetProvider
@@ -62,197 +62,197 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs after the selected page changes.
         /// </summary>
-        [Category("Navigator Selection")]
-        [Description("Occurs when the SelectedPage property is changed.")]
+        [Category(@"Navigator Selection")]
+        [Description(@"Occurs when the SelectedPage property is changed.")]
         public event EventHandler SelectedPageChanged;
 
         /// <summary>
         /// Occurs before a page is selected.
         /// </summary>
-        [Category("Navigator Selection")]
-        [Description("Occurs before a page is selected.")]
+        [Category(@"Navigator Selection")]
+        [Description(@"Occurs before a page is selected.")]
         public event EventHandler<KryptonPageCancelEventArgs> Selecting;
 
         /// <summary>
         /// Occurs after a page is selected.
         /// </summary>
-        [Category("Navigator Selection")]
-        [Description("Occurs after a page is selected.")]
+        [Category(@"Navigator Selection")]
+        [Description(@"Occurs after a page is selected.")]
         public event EventHandler<KryptonPageEventArgs> Selected;
 
         /// <summary>
         /// Occurs before a page is deselected.
         /// </summary>
-        [Category("Navigator Selection")]
-        [Description("Occurs before a page is deselected.")]
+        [Category(@"Navigator Selection")]
+        [Description(@"Occurs before a page is deselected.")]
         public event EventHandler<KryptonPageCancelEventArgs> Deselecting;
 
         /// <summary>
         /// Occurs after a page is deselected.
         /// </summary>
-        [Category("Navigator Selection")]
-        [Description("Occurs after a page is deselected.")]
+        [Category(@"Navigator Selection")]
+        [Description(@"Occurs after a page is deselected.")]
         public event EventHandler<KryptonPageEventArgs> Deselected;
 
         /// <summary>
         /// Occurs when the previous action occurs.
         /// </summary>
-        [Category("Navigator Actions")]
-        [Description("Occurs when the previous action occurs.")]
+        [Category(@"Navigator Actions")]
+        [Description(@"Occurs when the previous action occurs.")]
         public event EventHandler<DirectionActionEventArgs> PreviousAction;
 
         /// <summary>
         /// Occurs when the next action occurs.
         /// </summary>
-        [Category("Navigator Actions")]
-        [Description("Occurs when the next action occurs.")]
+        [Category(@"Navigator Actions")]
+        [Description(@"Occurs when the next action occurs.")]
         public event EventHandler<DirectionActionEventArgs> NextAction;
 
         /// <summary>
         /// Occurs when the context action occurs.
         /// </summary>
-        [Category("Navigator Actions")]
-        [Description("Occurs when the context action occurs.")]
+        [Category(@"Navigator Actions")]
+        [Description(@"Occurs when the context action occurs.")]
         public event EventHandler<ContextActionEventArgs> ContextAction;
 
         /// <summary>
         /// Occurs when the close action occurs.
         /// </summary>
-        [Category("Navigator Actions")]
-        [Description("Occurs when the close action occurs.")]
+        [Category(@"Navigator Actions")]
+        [Description(@"Occurs when the close action occurs.")]
         public event EventHandler<CloseActionEventArgs> CloseAction;
 
         /// <summary>
         /// Occurs when the context action occurs.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when the drop down button is clicked in Outlook mode.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when the drop down button is clicked in Outlook mode.")]
         public event EventHandler<KryptonContextMenuEventArgs> OutlookDropDown;
 
         /// <summary>
         /// Occurs when a page is about to be shown as a popup.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when a page is about to be shown as a popup.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when a page is about to be shown as a popup.")]
         public event EventHandler<PopupPageEventArgs> DisplayPopupPage;
 
         /// <summary>
         /// Occurs when a page is about to be shown as a popup.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when you right click a page header and requests a context menu for display.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when you right click a page header and requests a context menu for display.")]
         public event EventHandler<ShowContextMenuArgs> ShowContextMenu;
 
         /// <summary>
         /// Occurs after the number of pages has changed.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs after the number of pages has changed.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs after the number of pages has changed.")]
         public event EventHandler TabCountChanged;
 
         /// <summary>
         /// Occurs after the number of visible pages has changed.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs after the number of visible pages has changed.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs after the number of visible pages has changed.")]
         public event EventHandler TabVisibleCountChanged;
 
         /// <summary>
         /// Occurs when the mouse clicks a page tab.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when the mouse clicks a page tab.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when the mouse clicks a page tab.")]
         public event EventHandler<KryptonPageEventArgs> TabClicked;
 
         /// <summary>
         /// Occurs when the mouse double clicks a page tab.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when the mouse double clicks a page tab.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when the mouse double clicks a page tab.")]
         public event EventHandler<KryptonPageEventArgs> TabDoubleClicked;
 
         /// <summary>
         /// Occurs when the left mouse clicks the primary header.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when the left mouse clicks the primary header.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when the left mouse clicks the primary header.")]
         public event EventHandler PrimaryHeaderLeftClicked;
 
         /// <summary>
         /// Occurs when the right mouse clicks the primary header.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when the right mouse clicks the primary header.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when the right mouse clicks the primary header.")]
         public event EventHandler PrimaryHeaderRightClicked;
 
         /// <summary>
         /// Occurs when the mouse double clicks the primary header.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when the mouse double clicks the primary header.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when the mouse double clicks the primary header.")]
         public event EventHandler PrimaryHeaderDoubleClicked;
 
         /// <summary>
         /// Occurs just before a page is reordered.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs just before a page is reordered.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs just before a page is reordered.")]
         public event EventHandler<PageReorderEventArgs> BeforePageReorder;
 
         /// <summary>
         /// Occurs just before a page drag operation is started.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs just before a page drag operation is started.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs just before a page drag operation is started.")]
         public event EventHandler<PageDragCancelEventArgs> BeforePageDrag;
 
         /// <summary>
         /// Occurs after a page drag operation has finished/aborted.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs after a page drag operation has finished/aborted.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs after a page drag operation has finished/aborted.")]
         public event EventHandler<PageDragEndEventArgs> AfterPageDrag;
 
         /// <summary>
         /// Occurs when a page is being dropped.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when a page is being dropped.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when a page is being dropped.")]
         public event EventHandler<PageDropEventArgs> PageDrop;
 
         /// <summary>
         /// Occurs when control tabbing is starting.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when control tabbing is starting.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when control tabbing is starting.")]
         public event EventHandler<CtrlTabCancelEventArgs> CtrlTabStart;
 
         /// <summary>
         /// Occurs when control tabbing is about to wrap around pages.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when control tabbing is about to wrap around pages.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when control tabbing is about to wrap around pages.")]
         public event EventHandler<CtrlTabCancelEventArgs> CtrlTabWrap;
 
         /// <summary>
         /// Occurs when the mouse starts hovering over a tab.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when the mouse starts hovering over a tab.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when the mouse starts hovering over a tab.")]
         public event EventHandler<KryptonPageEventArgs> TabMouseHoverStart;
 
         /// <summary>
         /// Occurs when mouse hovering over a tab ends.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when mouse hovering over a tab ends.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when mouse hovering over a tab ends.")]
         public event EventHandler TabMouseHoverEnd;
 
         /// <summary>
         /// Occurs when the user moves a tab to a new indexed position.
         /// </summary>
-        [Category("Navigator")]
-        [Description("Occurs when the user moves a tab to a new indexed position.")]
+        [Category(@"Navigator")]
+        [Description(@"Occurs when the user moves a tab to a new indexed position.")]
         public event EventHandler<TabMovedEventArgs> TabMoved;
 
         internal event PropertyChangedEventHandler ViewBuilderPropertyChanged;
@@ -353,8 +353,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the collection of pages in this navigator control.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of pages in the navigator control.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of pages in the navigator control.")]
         [MergableProperty(false)]
         [Editor(@"Krypton.Navigator.NavigatorPageCollectionEditor, Krypton.Navigator", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -372,8 +372,8 @@ namespace Krypton.Navigator
         /// Gets or sets the index of the currently-selected page.
         /// </summary>
         [Browsable(false)]
-        [Category("Behavior")]
-        [Description("Index of the currently-selected page.")]
+        [Category(@"Behavior")]
+        [Description(@"Index of the currently-selected page.")]
         [DefaultValue(-1)]
         public int SelectedIndex
         {
@@ -422,8 +422,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets or sets the currently-selected page.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Reference to the currently-selected page.")]
+        [Category(@"Behavior")]
+        [Description(@"Reference to the currently-selected page.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public KryptonPage SelectedPage
         {
@@ -511,8 +511,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the bar specific settings.
         /// </summary>
-        [Category("Visuals (Modes)")]
-        [Description("Overrides for defining bar settings.")]
+        [Category(@"Visuals (Modes)")]
+        [Description(@"Overrides for defining bar settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorBar Bar { get; private set; }
 
@@ -521,8 +521,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the stack specific settings.
         /// </summary>
-        [Category("Visuals (Modes)")]
-        [Description("Overrides for defining stack settings.")]
+        [Category(@"Visuals (Modes)")]
+        [Description(@"Overrides for defining stack settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorStack Stack { get; private set; }
 
@@ -531,8 +531,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the outlook mode specific settings.
         /// </summary>
-        [Category("Visuals (Modes)")]
-        [Description("Overrides for defining outlook mode settings.")]
+        [Category(@"Visuals (Modes)")]
+        [Description(@"Overrides for defining outlook mode settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorOutlook Outlook { get; private set; }
 
@@ -541,8 +541,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to button specifications and fixed button logic.
         /// </summary>
-        [Category("Visuals (Modes)")]
-        [Description("Button specifications and fixed button logic.")]
+        [Category(@"Visuals (Modes)")]
+        [Description(@"Button specifications and fixed button logic.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorButton Button { get; private set; }
 
@@ -551,8 +551,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the group specific settings.
         /// </summary>
-        [Category("Visuals (Modes)")]
-        [Description("Overrides for defining group settings.")]
+        [Category(@"Visuals (Modes)")]
+        [Description(@"Overrides for defining group settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorGroup Group { get; private set; }
 
@@ -561,8 +561,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the header specific settings.
         /// </summary>
-        [Category("Visuals (Modes)")]
-        [Description("Overrides for defining header settings.")]
+        [Category(@"Visuals (Modes)")]
+        [Description(@"Overrides for defining header settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorHeader Header { get; private set; }
 
@@ -571,8 +571,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the panels specific settings.
         /// </summary>
-        [Category("Visuals (Modes)")]
-        [Description("Overrides for defining panel settings.")]
+        [Category(@"Visuals (Modes)")]
+        [Description(@"Overrides for defining panel settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorPanel Panel { get; private set; }
 
@@ -581,8 +581,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the popup page specific settings.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining popup page settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining popup page settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorPopupPages PopupPages { get; private set; }
 
@@ -591,8 +591,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the tooltip specific settings.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tooltip settings.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tooltip settings.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorToolTips ToolTips { get; private set; }
 
@@ -601,8 +601,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the common navigator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common navigator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorRedirect StateCommon { get; private set; }
 
@@ -611,8 +611,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the disabled navigator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled navigator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigator StateDisabled { get; private set; }
 
@@ -621,8 +621,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the normal navigator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal navigator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigator StateNormal { get; private set; }
 
@@ -631,8 +631,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the tracking navigator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking navigator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorOtherEx StateTracking { get; private set; }
 
@@ -641,8 +641,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the pressed navigator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed navigator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorOtherEx StatePressed { get; private set; }
 
@@ -651,8 +651,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the selected navigator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining selected navigator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining selected navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorOther StateSelected { get; private set; }
 
@@ -661,8 +661,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the focus navigator appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining focus navigator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining focus navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorOtherRedirect OverrideFocus { get; private set; }
 
@@ -671,8 +671,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the display mode.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Display mode of the control instance.")]
+        [Category(@"Visuals")]
+        [Description(@"Display mode of the control instance.")]
         [DefaultValue(typeof(NavigatorMode), "Bar - Tab - Group")]
         public NavigatorMode NavigatorMode
         {
@@ -715,8 +715,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the page background style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Page back style.")]
+        [Category(@"Visuals")]
+        [Description(@"Page back style.")]
         [DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
         public PaletteBackStyle PageBackStyle
         {
@@ -735,24 +735,24 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets or sets the default setting for allowing the page dragging from of the navigator.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Defines the default setting for allowing page dragging from the navigator.")]
+        [Category(@"Behavior")]
+        [Description(@"Defines the default setting for allowing page dragging from the navigator.")]
         [DefaultValue(false)]
         public bool AllowPageDrag { get; set; }
 
         /// <summary>
         /// Gets or sets the default setting for allowing the page reordering using the mouse.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Defines the default setting for allowing page reordering using the mouse.")]
+        [Category(@"Behavior")]
+        [Description(@"Defines the default setting for allowing page reordering using the mouse.")]
         [DefaultValue(true)]
         public bool AllowPageReorder { get; set; }
 
         /// <summary>
         /// Gets or sets if the tab headers are allowed to take the focus.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determines if the tab headers are allowed to take the focus.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if the tab headers are allowed to take the focus.")]
         [DefaultValue(true)]
         public bool AllowTabFocus
         {
@@ -776,8 +776,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets or sets if the tab headers can be selected by the users.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Determines if the tab headers can be selected by the users.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines if the tab headers can be selected by the users.")]
         [DefaultValue(true)]
         public bool AllowTabSelect
         {
@@ -821,8 +821,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics select pages and button specs.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Defines if mnemonic characters select pages and button specs.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines if mnemonic characters select pages and button specs.")]
         [DefaultValue(true)]
         public bool UseMnemonic { get; set; }
 

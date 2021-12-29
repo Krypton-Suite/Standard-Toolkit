@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     internal abstract class ViewBuilderStackCheckButtonBase : ViewBuilderBase
     {
         #region Type Definitons
-        protected class PageToButtonEdge : Dictionary<KryptonPage, ViewDrawBorderEdge> { };
+        protected class PageToButtonEdge : Dictionary<KryptonPage, ViewDrawBorderEdge> { }
         #endregion
         
         #region Instance Fields

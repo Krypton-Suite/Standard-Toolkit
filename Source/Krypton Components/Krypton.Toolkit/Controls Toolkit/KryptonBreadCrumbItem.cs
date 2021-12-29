@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
                 _owner.OnPropertyChanged(new PropertyChangedEventArgs("Items"));
             }
             #endregion
-        };
+        }
         #endregion
 
         #region Instance Fields
@@ -217,8 +217,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the colletion of child items.
         /// </summary>
-        [Category("Data")]
-        [Description("Collection of child items.")]
+        [Category(@"Data")]
+        [Description(@"Collection of child items.")]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [RefreshProperties(RefreshProperties.All)]

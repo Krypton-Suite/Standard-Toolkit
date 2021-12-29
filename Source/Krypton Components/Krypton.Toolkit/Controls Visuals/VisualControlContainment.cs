@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// Base class used for implementation of container controls using a Control as the base.
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [Designer(@"System.Windows.Forms.Design.ParentControlDesigner, " + AssemblyRef.SystemDrawingDesign)]
     public abstract class VisualControlContainment : VisualControl
     {

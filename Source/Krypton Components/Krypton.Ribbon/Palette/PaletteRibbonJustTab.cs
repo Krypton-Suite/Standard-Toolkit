@@ -75,8 +75,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon tab palette details.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining ribbon tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining ribbon tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonDouble RibbonTab => _ribbonTab;
 

@@ -2109,7 +2109,7 @@ namespace Krypton.Toolkit
             // A top-level window is being replaced. The window exists when the system calls this hook.
             // </summary>
             HSHELL_WINDOWREPLACED = 13;
-        };
+        }
 
         /// <summary>
         /// CS_*
@@ -2182,7 +2182,7 @@ namespace Krypton.Toolkit
             /// popup windows, the retrieved handle is that of the specified window.
             /// </summary>
             GW_ENABLEDPOPUP = 6
-        };
+        }
 
         /// <summary>
         /// Window Styles.
@@ -3795,7 +3795,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             /// <summary>
             /// </summary>            
             public int dwFlags = 0;
-        };
+        }
 
 
         [StructLayout(LayoutKind.Sequential)]

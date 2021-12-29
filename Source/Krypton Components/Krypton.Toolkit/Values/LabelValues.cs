@@ -73,8 +73,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the label image.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Label image.")]
+        [Category(@"Visuals")]
+        [Description(@"Label image.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image Image
         {
@@ -114,8 +114,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the label image transparent color.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Label image transparent color.")]
+        [Category(@"Visuals")]
+        [Description(@"Label image transparent color.")]
         [RefreshProperties(RefreshProperties.All)]
         [KryptonDefaultColor()]
         public Color ImageTransparentColor
@@ -156,8 +156,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the label text.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Label text.")]
+        [Category(@"Visuals")]
+        [Description(@"Label text.")]
         [RefreshProperties(RefreshProperties.All)]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         public string Text
@@ -197,8 +197,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the label extra text.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Label extra text.")]
+        [Category(@"Visuals")]
+        [Description(@"Label extra text.")]
         [RefreshProperties(RefreshProperties.All)]
         [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
         [DefaultValue("")]

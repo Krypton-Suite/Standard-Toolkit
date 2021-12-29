@@ -86,8 +86,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use with a checked menu item.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use with a checked menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use with a checked menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Checked
@@ -118,8 +118,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use with an indeterminate menu item.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use with an indeterminate menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use with an indeterminate menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Indeterminate
@@ -150,8 +150,8 @@ namespace Krypton.Toolkit
         /// Gets and sets an image indicating a sub-menu on a context menu item.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image indicating a sub-menu on a context menu item.")]
+        [Category(@"Visuals")]
+        [Description(@"Image indicating a sub-menu on a context menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image SubMenu

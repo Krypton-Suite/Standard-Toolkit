@@ -84,8 +84,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the padding used around the bar when displaying tabs.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Padding used around the bar when displaying tabs.")]
+        [Category(@"Visuals")]
+        [Description(@"Padding used around the bar when displaying tabs.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingTabs
@@ -115,8 +115,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the padding used around the bar when placed inside the group.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Padding used around the bar when placed inside the group.")]
+        [Category(@"Visuals")]
+        [Description(@"Padding used around the bar when placed inside the group.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingInside
@@ -146,8 +146,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the padding used around the bar when placed outside the group.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Padding used around the bar when placed outside the group.")]
+        [Category(@"Visuals")]
+        [Description(@"Padding used around the bar when placed outside the group.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingOutside
@@ -177,8 +177,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the padding used around the bar when placed on its own.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Padding used around the bar when placed on its own.")]
+        [Category(@"Visuals")]
+        [Description(@"Padding used around the bar when placed on its own.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding BarPaddingOnly
@@ -208,8 +208,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the padding used around each button on the button bar.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Padding used around each button on the button bar.")]
+        [Category(@"Visuals")]
+        [Description(@"Padding used around each button on the button bar.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding ButtonPadding
@@ -239,8 +239,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the sets how far to inset buttons from the control edge.
         /// </summary>
-        [Category("Visuals")]
-        [Description("How far to inset buttons from the control edge.")]
+        [Category(@"Visuals")]
+        [Description(@"How far to inset buttons from the control edge.")]
         [DefaultValue(-1)]
         [RefreshProperties(RefreshProperties.All)]
         public int ButtonEdgeOutside
@@ -270,8 +270,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the sets how far to inset buttons from the button bar.
         /// </summary>
-        [Category("Visuals")]
-        [Description("How far to inset buttons from the button bar.")]
+        [Category(@"Visuals")]
+        [Description(@"How far to inset buttons from the button bar.")]
         [DefaultValue(-1)]
         [RefreshProperties(RefreshProperties.All)]
         public int ButtonEdgeInside
@@ -301,8 +301,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the sets the spacing gap between each check button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Spacing gap between each check button.")]
+        [Category(@"Visuals")]
+        [Description(@"Spacing gap between each check button.")]
         [DefaultValue(-1)]
         [RefreshProperties(RefreshProperties.All)]
         public int CheckButtonGap
@@ -332,8 +332,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the sets the spacing gap between each ribbon tab.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Spacing gap between each ribbon tab.")]
+        [Category(@"Visuals")]
+        [Description(@"Spacing gap between each ribbon tab.")]
         [DefaultValue(-1)]
         [RefreshProperties(RefreshProperties.All)]
         public int RibbonTabGap

@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// What will be displayed in the designer
     /// </summary>
     [ToolboxItem(false)]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     public class ToolTipValues : HeaderValues
     {
         private LabelStyle _toolTipStyle;
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the EnableToolTips
         /// </summary>
-        [Description("The orientation of the ToolTip control when it opens, and specifies how the ToolTip control behaves when it overlaps screen boundaries.")]
+        [Description(@"The orientation of the ToolTip control when it opens, and specifies how the ToolTip control behaves when it overlaps screen boundaries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PopupPositionValues ToolTipPosition { get; set; }
 
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the tooltip label style.
         /// </summary>
-        [Description("Button tooltip label style.")]
+        [Description(@"Button tooltip label style.")]
         [DefaultValue(typeof(LabelStyle), "SuperTip")]
         public LabelStyle ToolTipStyle
         {

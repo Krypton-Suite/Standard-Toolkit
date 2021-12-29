@@ -57,8 +57,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color to use for shadow effects on the grip (move handle).
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Color to use for shadow effects on the grip (move handle).")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Color to use for shadow effects on the grip (move handle).")]
         [KryptonDefaultColor()]
         public Color GripDark
         {
@@ -85,8 +85,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color to use for highlight effects on the grip (move handle).
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Color to use for highlight effects on the grip (move handle).")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Color to use for highlight effects on the grip (move handle).")]
         [KryptonDefaultColor()]
         public Color GripLight
         {

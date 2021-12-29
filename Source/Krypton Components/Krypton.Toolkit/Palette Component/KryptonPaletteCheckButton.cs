@@ -106,8 +106,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common button appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common button appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common button appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon { get; }
 
@@ -120,8 +120,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateDisabled { get; }
 
@@ -134,8 +134,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateNormal { get; }
 
@@ -148,8 +148,8 @@ namespace Krypton.Toolkit
         /// Gets access to the hot tracking button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateTracking { get; }
 
@@ -162,8 +162,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StatePressed { get; }
 
@@ -176,8 +176,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal checked button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal checked button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedNormal { get; }
 
@@ -190,8 +190,8 @@ namespace Krypton.Toolkit
         /// Gets access to the hot tracking checked button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining hot tracking checked button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining hot tracking checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedTracking { get; }
 
@@ -204,8 +204,8 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed checked button appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining pressed checked button appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateCheckedPressed { get; }
 
@@ -218,8 +218,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal button appearance when default.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal button appearance when default.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal button appearance when default.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideDefault { get; }
 
@@ -232,8 +232,8 @@ namespace Krypton.Toolkit
         /// Gets access to the button appearance when it has focus.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining button appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining button appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect OverrideFocus { get; }
 

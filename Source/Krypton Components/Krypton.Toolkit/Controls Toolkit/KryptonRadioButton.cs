@@ -22,8 +22,8 @@ namespace Krypton.Toolkit
     [DefaultProperty("Text")]
     [DefaultBindingProperty("Checked")]
     [Designer("Krypton.Toolkit.KryptonRadioButtonDesigner, Krypton.Toolkit")]
-    [DesignerCategory("code")]
-    [Description("Allow user to set or clear the associated option.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Allow user to set or clear the associated option.")]
     public class KryptonRadioButton : VisualSimpleBase
     {
         #region Instance Fields
@@ -71,8 +71,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
-        [Category("Misc")]
-        [Description("Occurs whenever the Checked property has changed.")]
+        [Category(@"Misc")]
+        [Description(@"Occurs whenever the Checked property has changed.")]
         public event EventHandler CheckedChanged;
         #endregion
 
@@ -225,8 +225,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the visual orientation of the control.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Visual orientation of the control.")]
+        [Category(@"Visuals")]
+        [Description(@"Visual orientation of the control.")]
         [DefaultValue(typeof(VisualOrientation), "Top")]
         public virtual VisualOrientation Orientation
         {
@@ -252,8 +252,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the position of the radio button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Visual position of the radio button.")]
+        [Category(@"Visuals")]
+        [Description(@"Visual position of the radio button.")]
         [DefaultValue(typeof(VisualOrientation), "Left")]
         [Localizable(true)]
         public virtual VisualOrientation CheckPosition
@@ -277,8 +277,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the label style.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Label style.")]
+        [Category(@"Visuals")]
+        [Description(@"Label style.")]
         public LabelStyle LabelStyle
         {
             get => _style;
@@ -304,8 +304,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the label content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Label values")]
+        [Category(@"Visuals")]
+        [Description(@"Label values")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public LabelValues Values { get; }
 
@@ -314,8 +314,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the image value overrides.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Image value overrides.")]
+        [Category(@"Visuals")]
+        [Description(@"Image value overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public RadioButtonImages Images { get; }
 
@@ -324,8 +324,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the common label appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common label appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common label appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateCommon { get; }
 
@@ -334,8 +334,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the disabled label appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateDisabled { get; }
 
@@ -344,8 +344,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the normal label appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal label appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal label appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent StateNormal { get; }
 
@@ -354,8 +354,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the label appearance when it has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining label appearance when it has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining label appearance when it has focus.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteContent OverrideFocus { get; }
 
@@ -364,8 +364,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating whether an ampersand is included in the text of the control. 
         /// </summary>
-        [Category("Appearance")]
-        [Description("When true the first character after an ampersand will be used as a mnemonic.")]
+        [Category(@"Appearance")]
+        [Description(@"When true the first character after an ampersand will be used as a mnemonic.")]
         [DefaultValue(true)]
         public bool UseMnemonic
         {
@@ -385,8 +385,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the component is in the checked state.
         /// </summary>
-        [Category("Appearance")]
-        [Description("Indicates if the component is in the checked state.")]
+        [Category(@"Appearance")]
+        [Description(@"Indicates if the component is in the checked state.")]
         [DefaultValue(false)]
         [Bindable(true)]
         public bool Checked
@@ -414,8 +414,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets a value indicating if the radio button is automatically changed state when clicked. 
         /// </summary>
-        [Category("Behavior")]
-        [Description("Causes the radio button to automatically change state when clicked.")]
+        [Category(@"Behavior")]
+        [Description(@"Causes the radio button to automatically change state when clicked.")]
         [DefaultValue(true)]
         public bool AutoCheck
         {

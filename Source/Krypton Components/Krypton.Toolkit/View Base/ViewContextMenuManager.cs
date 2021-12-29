@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class ViewContextMenuManager : ViewManager
     {
         #region Type Definitions
-        private class TargetList : List<IContextMenuTarget> { };
+        private class TargetList : List<IContextMenuTarget> { }
         #endregion
 
         #region Instance Fields

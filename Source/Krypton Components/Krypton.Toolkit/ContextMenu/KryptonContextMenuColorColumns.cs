@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuColorColumns), "ToolboxBitmaps.KryptonContextMenuColorColumns.bmp")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("ColorScheme")]
     [DefaultEvent("SelectedColorChanged")]
@@ -84,15 +84,15 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the SelectedColor property changes value.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when the SelectedColor property changes value.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when the SelectedColor property changes value.")]
         public event EventHandler<ColorEventArgs> SelectedColorChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when user is tracking over a color.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when user is tracking over a color.")]
         public event EventHandler<ColorEventArgs> TrackingColor;
         #endregion
 
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
         /// </summary>
-        /// <param name="keyData">Key data to check against shorcut definitions.</param>
+        /// <param name="keyData">Key data to check against shortcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
         public override bool ProcessShortcut(Keys keyData) => false;
 
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
         /// <param name="columns">Containing columns.</param>
         /// <param name="standardStyle">Draw items with standard or alternate style.</param>
         /// <param name="imageColumn">Draw an image background for the item images.</param>
-        /// <returns>ViewBase that is the root of the view hierachy being added.</returns>
+        /// <returns>ViewBase that is the root of the view hierarchy being added.</returns>
         public override ViewBase GenerateView(IContextMenuProvider provider,
                                               object parent,
                                               ViewLayoutStack columns,
@@ -169,8 +169,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if clicking a color entry automatically closes the context menu.
         /// </summary>
         [KryptonPersist]
-        [Category("Behavior")]
-        [Description("Indicates if clicking a color entry automatically closes the context menu.")]
+        [Category(@"Behavior")]
+        [Description(@"Indicates if clicking a color entry automatically closes the context menu.")]
         [DefaultValue(true)]
         public bool AutoClose
         {
@@ -190,8 +190,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the required color scheme.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Defines the set of colors to use for display.")]
+        [Category(@"Appearance")]
+        [Description(@"Defines the set of colors to use for display.")]
         [DefaultValue(typeof(ColorScheme), "OfficeThemes")]
         public ColorScheme ColorScheme
         {
@@ -211,8 +211,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the user selected color.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Color that has been selected by the user.")]
+        [Category(@"Appearance")]
+        [Description(@"Color that has been selected by the user.")]
         [DefaultValue(typeof(Color), "")]
         public Color SelectedColor
         {
@@ -233,8 +233,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the size of each color block.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Size of each color block.")]
+        [Category(@"Appearance")]
+        [Description(@"Size of each color block.")]
         [DefaultValue(typeof(Size), "13,13")]
         public Size BlockSize
         {
@@ -254,8 +254,8 @@ namespace Krypton.Toolkit
         /// Gets and sets if all but the first row should be group together.
         /// </summary>
         [KryptonPersist]
-        [Category("Appearance")]
-        [Description("Should all but the first row be grouped together.")]
+        [Category(@"Appearance")]
+        [Description(@"Should all but the first row be grouped together.")]
         [DefaultValue(true)]
         public bool GroupNonFirstRows
         {

@@ -57,8 +57,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color to use for shadow effects on the ToolStripSeparator.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Color to use for shadow effects on the ToolStripSeparator.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Color to use for shadow effects on the ToolStripSeparator.")]
         [KryptonDefaultColor()]
         public Color SeparatorDark
         {
@@ -85,8 +85,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color to use for highlight effects on the ToolStripSeparator.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("ToolMenuStatus")]
-        [Description("Color to use for highlight effects on the ToolStripSeparator.")]
+        [Category(@"ToolMenuStatus")]
+        [Description(@"Color to use for highlight effects on the ToolStripSeparator.")]
         [KryptonDefaultColor()]
         public Color SeparatorLight
         {

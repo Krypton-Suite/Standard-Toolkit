@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupCustomControl), "ToolboxBitmaps.KryptonRibbonGroupCustomControl.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupCustomControlDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Visible")]
     public class KryptonRibbonGroupCustomControl : KryptonRibbonGroupItem
@@ -37,8 +37,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -91,8 +91,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the shortcut key combination.
         /// </summary>
         [Localizable(true)]
-        [Category("Behavior")]
-        [Description("Shortcut key combination to set focus to the custom control.")]
+        [Category(@"Behavior")]
+        [Description(@"Shortcut key combination to set focus to the custom control.")]
         public Keys ShortcutKeys { get; set; }
 
         private bool ShouldSerializeShortcutKeys() => ShortcutKeys != Keys.None;
@@ -110,8 +110,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Ribbon group custom control key tip.")]
+        [Category(@"Appearance")]
+        [Description(@"Ribbon group custom control key tip.")]
         [DefaultValue("X")]
         public string KeyTip
         {
@@ -147,7 +147,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the custom control for display inside ribbon element.
         /// </summary>
-        [Description("Associated custom control for display inside ribbon element.")]
+        [Description(@"Associated custom control for display inside ribbon element.")]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -181,8 +181,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the custom control.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the custom control is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the custom control is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -202,8 +202,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the custom control.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the custom control is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the custom control is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]

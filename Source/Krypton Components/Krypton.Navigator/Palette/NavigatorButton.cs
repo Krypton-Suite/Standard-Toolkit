@@ -122,8 +122,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the collection of button specifications.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of button specifications.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of button specifications.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public NavigatorButtonSpecCollection ButtonSpecs { get; }
@@ -134,8 +134,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the previous button specification.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Previous button specification.")]
+        [Category(@"Visuals")]
+        [Description(@"Previous button specification.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonSpecNavPrevious PreviousButton { get; }
 
@@ -147,8 +147,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the action to take when the previous button is clicked.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Action to take when the previous button is clicked.")]
+        [Category(@"Visuals")]
+        [Description(@"Action to take when the previous button is clicked.")]
         [DefaultValue(typeof(DirectionButtonAction), "Mode Appropriate Action")]
         public DirectionButtonAction PreviousButtonAction
         {
@@ -169,8 +169,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and set the logic used to decide how to show the previous button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Logic used to decide if previous button is displayed.")]
+        [Category(@"Visuals")]
+        [Description(@"Logic used to decide if previous button is displayed.")]
         [DefaultValue(typeof(ButtonDisplay), "Logic")]
         public ButtonDisplay PreviousButtonDisplay
         {
@@ -192,8 +192,8 @@ namespace Krypton.Navigator
         /// Gets access to the shortcut for invoking the previous action.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Shortcut for invoking the previous action.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for invoking the previous action.")]
         [DefaultValue(typeof(Keys), "F6, Shift, Control")]
         public Keys PreviousButtonShortcut { get; set; }
 
@@ -212,8 +212,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the next button specification.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Next button specification.")]
+        [Category(@"Visuals")]
+        [Description(@"Next button specification.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonSpecNavNext NextButton { get; }
 
@@ -225,8 +225,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the action to take when the next button is clicked.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Action to take when the next button is clicked.")]
+        [Category(@"Visuals")]
+        [Description(@"Action to take when the next button is clicked.")]
         [DefaultValue(typeof(DirectionButtonAction), "Mode Appropriate Action")]
         public DirectionButtonAction NextButtonAction
         {
@@ -247,8 +247,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and set the logic used to decide how to show the next button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Logic used to decide if next button is displayed.")]
+        [Category(@"Visuals")]
+        [Description(@"Logic used to decide if next button is displayed.")]
         [DefaultValue(typeof(ButtonDisplay), "Logic")]
         public ButtonDisplay NextButtonDisplay
         {
@@ -270,8 +270,8 @@ namespace Krypton.Navigator
         /// Gets access to the shortcut for invoking the next action.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Shortcut for invoking the next action.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for invoking the next action.")]
         [DefaultValue(typeof(Keys), "F6, Control")]
         public Keys NextButtonShortcut { get; set; }
 
@@ -290,8 +290,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the context button specification.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Context button specification.")]
+        [Category(@"Visuals")]
+        [Description(@"Context button specification.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonSpecNavContext ContextButton { get; }
 
@@ -303,8 +303,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the action to take when the context button is clicked.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Action to take when the context button is clicked.")]
+        [Category(@"Visuals")]
+        [Description(@"Action to take when the context button is clicked.")]
         [DefaultValue(typeof(ContextButtonAction), "Select Page")]
         public ContextButtonAction ContextButtonAction
         {
@@ -325,8 +325,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and set the logic used to decide how to show the context button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Logic used to decide if context button is displayed.")]
+        [Category(@"Visuals")]
+        [Description(@"Logic used to decide if context button is displayed.")]
         [DefaultValue(typeof(ButtonDisplay), "Logic")]
         public ButtonDisplay ContextButtonDisplay
         {
@@ -348,8 +348,8 @@ namespace Krypton.Navigator
         /// Gets access to the shortcut for invoking the context action.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Shortcut for invoking the context action.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for invoking the context action.")]
         [DefaultValue(typeof(Keys), "Down, Alt, Control")]
         public Keys ContextButtonShortcut { get; set; }
 
@@ -368,8 +368,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and set the mapping used to generate context menu item image.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Mapping used to generate context menu item image.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used to generate context menu item image.")]
         [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
         public MapKryptonPageText ContextMenuMapText { get; set; }
 
@@ -379,8 +379,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and set the mapping used to generate context menu item text.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Mapping used to generate context menu item text.")]
+        [Category(@"Visuals")]
+        [Description(@"Mapping used to generate context menu item text.")]
         [DefaultValue(typeof(MapKryptonPageImage), "Small")]
         public MapKryptonPageImage ContextMenuMapImage { get; set; }
 
@@ -390,8 +390,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the close button specification.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Close button specification.")]
+        [Category(@"Visuals")]
+        [Description(@"Close button specification.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ButtonSpecNavClose CloseButton { get; }
 
@@ -403,8 +403,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the action to take when the close button is clicked.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Action to take when the close button is clicked.")]
+        [Category(@"Visuals")]
+        [Description(@"Action to take when the close button is clicked.")]
         [DefaultValue(typeof(CloseButtonAction), "RemovePage & Dispose")]
         public CloseButtonAction CloseButtonAction
         {
@@ -425,8 +425,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and set the logic used to decide how to show the close button.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Logic used to decide if close button is displayed.")]
+        [Category(@"Visuals")]
+        [Description(@"Logic used to decide if close button is displayed.")]
         [DefaultValue(typeof(ButtonDisplay), "Logic")]
         public ButtonDisplay CloseButtonDisplay
         {
@@ -448,8 +448,8 @@ namespace Krypton.Navigator
         /// Gets access to the shortcut for invoking the close action.
         /// </summary>
         [Localizable(true)]
-        [Category("Visuals")]
-        [Description("Shortcut for invoking the close action.")]
+        [Category(@"Visuals")]
+        [Description(@"Shortcut for invoking the close action.")]
         [DefaultValue(typeof(Keys), "F4, Control")]
         public Keys CloseButtonShortcut { get; set; }
 
@@ -468,8 +468,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the logic used to control button display.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Define the logic used to control button display.")]
+        [Category(@"Visuals")]
+        [Description(@"Define the logic used to control button display.")]
         [DefaultValue(typeof(ButtonDisplayLogic), "Context")]
         public ButtonDisplayLogic ButtonDisplayLogic
         {

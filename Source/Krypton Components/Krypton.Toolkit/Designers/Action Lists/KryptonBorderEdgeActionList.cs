@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             if (_borderEdge != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_borderEdge)["Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_borderEdge)[@"Orientation"];
 
                 // If we succeeded in getting the property
                 if (orientationProp != null)
@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal border orientation" : "Vertical border orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_borderEdge)["Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_borderEdge)[@"Orientation"];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

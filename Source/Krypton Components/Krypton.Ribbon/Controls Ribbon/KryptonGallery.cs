@@ -21,8 +21,8 @@ namespace Krypton.Ribbon
     [DefaultEvent("SelectedIndexChanged")]
     [DefaultProperty("SelectedIndex")]
     [Designer("Krypton.Ribbon.KryptonGalleryDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
-    [Description("Select from a group of possible images.")]
+    [DesignerCategory(@"code")]
+    [Description(@"Select from a group of possible images.")]
     public class KryptonGallery : VisualSimpleBase
     {
         #region Instance Fields
@@ -55,29 +55,29 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the value of the ImageList property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the ImageList property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the ImageList property changes.")]
         public event EventHandler ImageListChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the SelectedIndex property changes.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the SelectedIndex property changes.")]
         public event EventHandler SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when user is tracking over an image.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when user is tracking over an image.")]
         public event EventHandler<ImageSelectEventArgs> TrackingImage;
 
         /// <summary>
         /// Occurs when the user invokes the drop down menu.
         /// </summary>
-        [Category("Action")]
-        [Description("Occurs when user invokes the drop down menu.")]
+        [Category(@"Action")]
+        [Description(@"Occurs when user invokes the drop down menu.")]
         public event EventHandler<GalleryDropMenuEventArgs> GalleryDropMenu;
         #endregion
 
@@ -199,8 +199,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the collection of drop down ranges.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of drop down ranges")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of drop down ranges")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonGalleryRangeCollection DropButtonRanges { get; }
@@ -208,8 +208,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the preferred size based on the number of items per line and number of lines.
         /// </summary>
-        [Category("Layout")]
-        [Description("Preferred size measured in items per line and number of display lines.")]
+        [Category(@"Layout")]
+        [Description(@"Preferred size measured in items per line and number of display lines.")]
         [DefaultValue(typeof(Size), "5,1")]
         public Size PreferredItemSize
         {
@@ -233,8 +233,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the maximum number of lines items for the drop down menu.
         /// </summary>
-        [Category("Layout")]
-        [Description("Maximum number of line items for the drop down menu.")]
+        [Category(@"Layout")]
+        [Description(@"Maximum number of line items for the drop down menu.")]
         [DefaultValue(128)]
         public int DropMaxItemWidth
         {
@@ -253,8 +253,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the minimum number of lines items for the drop down menu.
         /// </summary>
-        [Category("Layout")]
-        [Description("Minimum number of line items for the drop down menu.")]
+        [Category(@"Layout")]
+        [Description(@"Minimum number of line items for the drop down menu.")]
         [DefaultValue(3)]
         public int DropMinItemWidth
         {
@@ -273,8 +273,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the button style used for each image item.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Button style used for each image item.")]
+        [Category(@"Visuals")]
+        [Description(@"Button style used for each image item.")]
         [DefaultValue(typeof(ButtonStyle), "LowProfile")]
         public ButtonStyle ButtonStyle
         {
@@ -285,8 +285,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets if scrolling is animated or a jump straight to target..
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if scrolling is animated or a jump straight to target.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if scrolling is animated or a jump straight to target.")]
         [DefaultValue(true)]
         public bool SmoothScrolling
         {
@@ -297,8 +297,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Determines if the control is always active or only when the mouse is over the control or has focus.")]
+        [Category(@"Visuals")]
+        [Description(@"Determines if the control is always active or only when the mouse is over the control or has focus.")]
         [DefaultValue(true)]
         public bool AlwaysActive
         {
@@ -317,8 +317,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the collection of images for display and selection.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Collection of images for display and selection.")]
+        [Category(@"Visuals")]
+        [Description(@"Collection of images for display and selection.")]
         public ImageList ImageList
         {
             get => _imageList;
@@ -334,8 +334,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the collection of images for display and selection.
         /// </summary>
-        [Category("Visuals")]
-        [Description("The index of the selected image.")]
+        [Category(@"Visuals")]
+        [Description(@"The index of the selected image.")]
         [DefaultValue(-1)]
         public int SelectedIndex
         {
@@ -356,8 +356,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the button image overrides.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Gallery button image overrides.")]
+        [Category(@"Visuals")]
+        [Description(@"Gallery button image overrides.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public GalleryImages Images { get; }
 
@@ -366,8 +366,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the common gallery appearance that other states can override.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining common gallery appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common gallery appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGalleryRedirect StateCommon { get; }
 
@@ -376,8 +376,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the disabled gallery appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled gallery appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled gallery appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGalleryState StateDisabled { get; }
 
@@ -386,8 +386,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the normal gallery appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining normal gallery appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal gallery appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGalleryState StateNormal { get; }
 
@@ -396,8 +396,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the active gallery appearance entries.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining active gallery appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active gallery appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGalleryState StateActive { get; }
 

@@ -33,7 +33,7 @@ namespace Krypton.Navigator
             }
         }
         #endregion
-    };
+    }
 
     /// <summary>
     /// Base class for dragging target implementations.

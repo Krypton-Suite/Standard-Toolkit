@@ -95,8 +95,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common ribbon tab appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common ribbon tab appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common ribbon tab appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateCommon { get; }
 
@@ -109,8 +109,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal ribbon tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal ribbon tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal ribbon tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateNormal { get; }
 
@@ -123,8 +123,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tracking ribbon tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking ribbon tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking ribbon tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateTracking { get; }
 
@@ -137,8 +137,8 @@ namespace Krypton.Toolkit
         /// Gets access to the checked normal ribbon tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining checked normal ribbon tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked normal ribbon tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateCheckedNormal { get; }
 
@@ -151,8 +151,8 @@ namespace Krypton.Toolkit
         /// Gets access to the checked tracking ribbon tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining checked tracking ribbon tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked tracking ribbon tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateCheckedTracking { get; }
 
@@ -165,8 +165,8 @@ namespace Krypton.Toolkit
         /// Gets access to the context tracking ribbon tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining context tracking ribbon tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context tracking ribbon tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateContextTracking { get; }
 
@@ -179,8 +179,8 @@ namespace Krypton.Toolkit
         /// Gets access to the checked normal ribbon tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining checked normal ribbon tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining checked normal ribbon tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateContextCheckedNormal { get; }
 
@@ -193,8 +193,8 @@ namespace Krypton.Toolkit
         /// Gets access to the context checked tracking ribbon tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining context checked tracking ribbon tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context checked tracking ribbon tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble StateContextCheckedTracking { get; }
 
@@ -207,8 +207,8 @@ namespace Krypton.Toolkit
         /// Gets access to the focus overrides for ribbon tab appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining focus ribbon tab appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining focus ribbon tab appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonDouble OverrideFocus { get; }
 

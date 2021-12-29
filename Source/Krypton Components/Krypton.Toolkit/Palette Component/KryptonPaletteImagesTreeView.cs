@@ -83,8 +83,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use  when a node is collapsed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when a node is collapsed.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when a node is collapsed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Plus
@@ -115,8 +115,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use  when a node is expanded.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when a node is expanded.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when a node is expanded.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Minus

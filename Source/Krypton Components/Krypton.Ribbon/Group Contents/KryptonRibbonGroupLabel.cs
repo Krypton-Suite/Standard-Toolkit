@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupLabel), "ToolboxBitmaps.KryptonRibbonGroupLabel.bmp")]
     [Designer("Krypton.Ribbon.KryptonRibbonGroupLabelDesigner, Krypton.Ribbon")]
-    [DesignerCategory("code")]
+    [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Text")]
     public class KryptonRibbonGroupLabel : KryptonRibbonGroupItem
@@ -43,15 +43,15 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        [Category("Ribbon")]
-        [Description("Occurs after the value of a property has changed.")]
+        [Category(@"Ribbon")]
+        [Description(@"Occurs after the value of a property has changed.")]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
-        [Category("Design Time")]
-        [Description("Occurs when the design time context menu is requested.")]
+        [Category(@"Design Time")]
+        [Description(@"Occurs when the design time context menu is requested.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
         public event MouseEventHandler DesignTimeContextMenu;
@@ -87,8 +87,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Small label image.")]
+        [Category(@"Appearance")]
+        [Description(@"Small label image.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image ImageSmall
         {
@@ -111,8 +111,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Large label image.")]
+        [Category(@"Appearance")]
+        [Description(@"Large label image.")]
         [RefreshProperties(RefreshProperties.All)]
         public Image ImageLarge
         {
@@ -135,8 +135,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Label display text line 1.")]
+        [Category(@"Appearance")]
+        [Description(@"Label display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("Label")]
         public string TextLine1
@@ -164,8 +164,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Bindable(true)]
         [Localizable(true)]
-        [Category("Appearance")]
-        [Description("Label display text line 2.")]
+        [Category(@"Appearance")]
+        [Description(@"Label display text line 2.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue("")]
         public string TextLine2
@@ -187,8 +187,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the visible state of the label.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the label is visible or hidden.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the label is visible or hidden.")]
         [DefaultValue(true)]
         [Browsable(true)]
         [EditorBrowsable(EditorBrowsableState.Always)]
@@ -227,8 +227,8 @@ namespace Krypton.Ribbon
         /// Gets and sets the enabled state of the group label.
         /// </summary>
         [Bindable(true)]
-        [Category("Behavior")]
-        [Description("Determines whether the group label is enabled.")]
+        [Category(@"Behavior")]
+        [Description(@"Determines whether the group label is enabled.")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -247,8 +247,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the label text normal appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining label text normal appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining label text normal appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText StateNormal => _stateNormal;
 
@@ -257,8 +257,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the label text disabled appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining label text disabled appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining label text disabled appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteRibbonText StateDisabled => _stateDisabled;
 
@@ -273,8 +273,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
         /// </summary>
-        [Category("Behavior")]
-        [Description("Command associated with the group label.")]
+        [Category(@"Behavior")]
+        [Description(@"Command associated with the group label.")]
         [DefaultValue(null)]
         public KryptonCommand KryptonCommand
         {

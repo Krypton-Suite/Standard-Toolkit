@@ -62,8 +62,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Get access to the overrides for defining separator appearance.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Overrides for defining separator appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding Separator { get; }
 

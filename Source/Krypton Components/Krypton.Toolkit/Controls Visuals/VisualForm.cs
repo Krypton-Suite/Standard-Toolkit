@@ -52,8 +52,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the Palette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the Palette property is changed.")]
         public event EventHandler PaletteChanged;
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the Global palette changes.
         /// </summary>
-        [Category("Property Changed")]
-        [Description("Occurs when the value of the GlobalPalette property is changed.")]
+        [Category(@"Property Changed")]
+        [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
         public event EventHandler GlobalPaletteChanged;
         #endregion
 
@@ -308,8 +308,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the palette to be applied.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Palette applied to drawing.")]
         public PaletteMode PaletteMode
         {
             [DebuggerStepThrough]
@@ -358,8 +358,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the button content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Form Shadowing")]
+        [Category(@"Visuals")]
+        [Description(@"Form Shadowing")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ShadowValues ShadowValues
         {
@@ -382,8 +382,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the button content.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Form Blurring")]
+        [Category(@"Visuals")]
+        [Description(@"Form Blurring")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public BlurValues BlurValues
         {
@@ -406,8 +406,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        [Category("Visuals")]
-        [Description("Custom palette applied to drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
         public IPalette Palette
         {
@@ -556,7 +556,7 @@ namespace Krypton.Toolkit
         /// Please use a ButtonSpec, as this gives greater flexibility!
         /// </summary>
         [Browsable(false)]
-        [Category("Window Style")]
+        [Category(@"Window Style")]
         [DefaultValue(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool HelpButton

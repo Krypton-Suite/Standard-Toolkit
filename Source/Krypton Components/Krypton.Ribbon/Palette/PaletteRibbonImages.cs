@@ -55,8 +55,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the ribbon check box images.
         /// </summary>
-        [Category("Values")]
-        [Description("Ribbon check box images.")]
+        [Category(@"Values")]
+        [Description(@"Ribbon check box images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages CheckBox { get; }
 
@@ -68,8 +68,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the ribbon radio button images.
         /// </summary>
-        [Category("Values")]
-        [Description("Ribbon radio button images.")]
+        [Category(@"Values")]
+        [Description(@"Ribbon radio button images.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public RadioButtonImages RadioButton { get; }
 

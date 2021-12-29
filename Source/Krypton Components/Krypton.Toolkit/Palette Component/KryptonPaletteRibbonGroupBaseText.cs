@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common ribbon group text appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common ribbon group text appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common ribbon group text appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonText StateCommon { get; }
 
@@ -93,8 +93,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal ribbon group text appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal ribbon group text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal ribbon group text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonText StateNormal { get; }
 
@@ -107,8 +107,8 @@ namespace Krypton.Toolkit
         /// Gets access to the tracking ribbon group text appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining tracking ribbon group text appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining tracking ribbon group text appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonText StateDisabled { get; }
 

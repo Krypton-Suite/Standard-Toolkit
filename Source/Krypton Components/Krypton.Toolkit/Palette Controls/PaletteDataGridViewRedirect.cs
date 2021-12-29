@@ -161,8 +161,8 @@ namespace Krypton.Toolkit
         /// Gets access to the data grid view background palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining data grid view background appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining data grid view background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteBack Background => _background.Back;
 
@@ -177,8 +177,8 @@ namespace Krypton.Toolkit
         /// Gets access to the data cell palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining data cell appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining data cell appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteDataGridViewTripleRedirect DataCell => _dataCell;
 
@@ -191,8 +191,8 @@ namespace Krypton.Toolkit
         /// Gets access to the header column cell palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining header column cell appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining header column cell appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteDataGridViewTripleRedirect HeaderColumn => _headerColumn;
 
@@ -205,8 +205,8 @@ namespace Krypton.Toolkit
         /// Gets access to the header row cell palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining header row cell appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining header row cell appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public virtual PaletteDataGridViewTripleRedirect HeaderRow => _headerRow;
 

@@ -97,7 +97,7 @@ namespace Krypton.Navigator
             _ignoreOnAddPage = false;
 
             // Get access to the Pages property
-            MemberDescriptor propertyPages = TypeDescriptor.GetProperties(Navigator)["Pages"];
+            MemberDescriptor propertyPages = TypeDescriptor.GetProperties(Navigator)[@"Pages"];
 
             // Notify that the pages collection has been updated
             RaiseComponentChanging(propertyPages);
@@ -134,9 +134,9 @@ namespace Krypton.Navigator
                 if (_verbs == null)
                 {
                     // Cache verb instances so enabled state can be updated in future
-                    _verbAddPage = new DesignerVerb("Add Page", OnAddPage);
-                    _verbRemovePage = new DesignerVerb("Remove Page", OnRemovePage);
-                    _verbClearPages = new DesignerVerb("Clear Pages", OnClearPages);
+                    _verbAddPage = new DesignerVerb(@"Add Page", OnAddPage);
+                    _verbRemovePage = new DesignerVerb(@"Remove Page", OnRemovePage);
+                    _verbClearPages = new DesignerVerb(@"Clear Pages", OnClearPages);
                     _verbs = new DesignerVerbCollection(new[] { _verbAddPage, _verbRemovePage, _verbClearPages });
 
                     // Set correct initial state of the verbs
@@ -358,12 +358,12 @@ namespace Krypton.Navigator
         private void OnAddPage(object sender, EventArgs e)
         {
             // Use a transaction to support undo/redo actions
-            DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonNavigator AddPage");
+            DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonNavigator AddPage");
 
             try
             {
                 // Get access to the Pages property
-                MemberDescriptor propertyPages = TypeDescriptor.GetProperties(Navigator)["Pages"];
+                MemberDescriptor propertyPages = TypeDescriptor.GetProperties(Navigator)[@"Pages"];
 
                 // Do we need to raise the changing notification?
                 if (!_ignoreOnAddPage)
@@ -375,8 +375,8 @@ namespace Krypton.Navigator
                 KryptonPage page = (KryptonPage)_designerHost.CreateComponent(typeof(KryptonPage));
 
                 // Get access to the Name and Text propertues of the new page
-                PropertyDescriptor propertyName = TypeDescriptor.GetProperties(page)["Name"];
-                PropertyDescriptor propertyText = TypeDescriptor.GetProperties(page)["Text"];
+                PropertyDescriptor propertyName = TypeDescriptor.GetProperties(page)[@"Name"];
+                PropertyDescriptor propertyText = TypeDescriptor.GetProperties(page)[@"Text"];
 
                 // If we managed to get the property and it is the string we are expecting
                 if ((propertyName != null) && (propertyName.PropertyType == typeof(string)) &&
@@ -412,12 +412,12 @@ namespace Krypton.Navigator
         private void OnRemovePage(object sender, EventArgs e)
         {
             // Use a transaction to support undo/redo actions
-            DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonNavigator RemovePage");
+            DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonNavigator RemovePage");
 
             try
             {
                 // Get access to the Pages property
-                MemberDescriptor propertyPages = TypeDescriptor.GetProperties(Navigator)["Pages"];
+                MemberDescriptor propertyPages = TypeDescriptor.GetProperties(Navigator)[@"Pages"];
 
                 // Remove the selected page from the navigator
                 RaiseComponentChanging(propertyPages);
@@ -445,12 +445,12 @@ namespace Krypton.Navigator
                                 MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 // Use a transaction to support undo/redo actions
-                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonNavigator RemovePage");
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonNavigator RemovePage");
 
                 try
                 {
                     // Get access to the Pages property
-                    MemberDescriptor propertyPages = TypeDescriptor.GetProperties(Navigator)["Pages"];
+                    MemberDescriptor propertyPages = TypeDescriptor.GetProperties(Navigator)[@"Pages"];
 
                     // Remove all pages from the navigator
                     RaiseComponentChanging(propertyPages);
@@ -545,7 +545,7 @@ namespace Krypton.Navigator
         private void MarkSelectionAsChanged()
         {
             // Get access to the SelectedPage property
-            MemberDescriptor propertyPage = TypeDescriptor.GetProperties(Navigator)["SelectedPage"];
+            MemberDescriptor propertyPage = TypeDescriptor.GetProperties(Navigator)[@"SelectedPage"];
 
             // Notify that the selected page has been updated
             RaiseComponentChanging(propertyPage);

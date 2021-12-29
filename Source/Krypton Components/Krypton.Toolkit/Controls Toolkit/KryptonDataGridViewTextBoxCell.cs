@@ -340,8 +340,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the collection of the icon specifications.
         /// </summary>
-        [Category("Data")]
-        [Description("Set of extra icons to appear with control.")]
+        [Category(@"Data")]
+        [Description(@"Set of extra icons to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public List<IconSpec> IconSpecs { get; } = new List<IconSpec>();
     }

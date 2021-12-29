@@ -87,8 +87,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common input control appearance that other states can override.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common input control appearance that other states can override.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common input control appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon => _stateCommon;
 
@@ -101,8 +101,8 @@ namespace Krypton.Toolkit
         /// Gets access to the disabled input control appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining disabled input control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining disabled input control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateDisabled => _stateDisabled;
 
@@ -115,8 +115,8 @@ namespace Krypton.Toolkit
         /// Gets access to the normal input control appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining normal input control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining normal input control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateNormal => _stateNormal;
 
@@ -129,8 +129,8 @@ namespace Krypton.Toolkit
         /// Gets access to the active input control appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining active input control appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active input control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple StateActive => _stateActive;
 

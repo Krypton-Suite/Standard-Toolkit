@@ -281,8 +281,8 @@ namespace Krypton.Toolkit
         /// Gets access to the background palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining background appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining background appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBack Back { get; }
 
@@ -314,8 +314,8 @@ namespace Krypton.Toolkit
         /// Gets access to the border palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining border appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining border appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBorder Border { get; }
 
@@ -347,8 +347,8 @@ namespace Krypton.Toolkit
         /// Gets access to the content palette details.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining content appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining content appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDataGridViewContentCommon Content { get; }
 

@@ -61,8 +61,8 @@ namespace Krypton.Toolkit
         /// Gets the item appearance overrides.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining item appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTriple Item { get; }
 

@@ -118,8 +118,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderCommon { get; }
 
@@ -132,8 +132,8 @@ namespace Krypton.Toolkit
         /// Gets access to the primary header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining primary header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining primary header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderPrimary { get; }
 
@@ -146,8 +146,8 @@ namespace Krypton.Toolkit
         /// Gets access to the secondary header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining secondary header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining secondary header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderSecondary { get; }
 
@@ -160,8 +160,8 @@ namespace Krypton.Toolkit
         /// Gets access to the inactive dock header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining inactive dock header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining inactive dock header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderDockInactive { get; }
 
@@ -174,8 +174,8 @@ namespace Krypton.Toolkit
         /// Gets access to the active dock header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining active dock header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active dock header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderDockActive { get; }
 
@@ -188,8 +188,8 @@ namespace Krypton.Toolkit
         /// Gets access to the calendar header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining calendar header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining calendar header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderCalendar { get; }
 
@@ -202,8 +202,8 @@ namespace Krypton.Toolkit
         /// Gets access to the main form header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining main form header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining main form header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderForm { get; }
 
@@ -216,8 +216,8 @@ namespace Krypton.Toolkit
         /// Gets access to the first custom header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the first custom header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the first custom header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderCustom1 { get; }
 
@@ -230,8 +230,8 @@ namespace Krypton.Toolkit
         /// Gets access to the second custom header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the second custom header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the second custom header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderCustom2 { get; }
 
@@ -244,8 +244,8 @@ namespace Krypton.Toolkit
         /// Gets access to the second custom header appearance entries.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining the third custom header appearance.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining the third custom header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonPaletteHeader HeaderCustom3 { get; }
 

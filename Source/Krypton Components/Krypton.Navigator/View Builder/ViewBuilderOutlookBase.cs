@@ -20,7 +20,7 @@ namespace Krypton.Navigator
                                                      ISeparatorSource
     {
         #region Type Definitons
-        protected class PageToButtonEdge : Dictionary<KryptonPage, ViewDrawBorderEdge> { };
+        protected class PageToButtonEdge : Dictionary<KryptonPage, ViewDrawBorderEdge> { }
 
         /// <summary>
         /// Collection for managing ButtonSpecMdiChildFixed instances.

@@ -77,8 +77,8 @@ namespace Krypton.Toolkit
         /// Gets access to the common ribbon quick access toolbar minibar values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining common ribbon quick access minibar values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining common ribbon quick access minibar values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateCommon { get; }
 
@@ -91,8 +91,8 @@ namespace Krypton.Toolkit
         /// Gets access to the active ribbon quick access toolbar minibar values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining active ribbon quick access minibar values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining active ribbon quick access minibar values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateActive { get; }
 
@@ -105,8 +105,8 @@ namespace Krypton.Toolkit
         /// Gets access to the inactive ribbon quick access toolbar minibar values.
         /// </summary>
         [KryptonPersist]
-        [Category("Visuals")]
-        [Description("Overrides for defining inactive ribbon quick access minibar values.")]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining inactive ribbon quick access minibar values.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteRibbonBack StateInactive { get; }
 

@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Simple class to reduce the length of declarations!
             /// </summary>
-            protected class DictItemBase : Dictionary<KryptonBreadCrumbItem, KryptonBreadCrumbItem> { };
+            protected class DictItemBase : Dictionary<KryptonBreadCrumbItem, KryptonBreadCrumbItem> { }
 
             /// <summary>
             /// Act as proxy for a crumb item to control the exposed properties to the property grid.

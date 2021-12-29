@@ -152,8 +152,8 @@ namespace Krypton.Toolkit
         /// Gets the font for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Font for drawing the content text.")]
+        [Category(@"Visuals")]
+        [Description(@"Font for drawing the content text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Font Font
@@ -209,8 +209,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the horizontal Content text alignment for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Relative horizontal Content text alignment\nIn order to get this into the designer.cs you must also modify another value in this area!")]
+        [Category(@"Visuals")]
+        [Description(@"Relative horizontal Content text alignment\nIn order to get this into the designer.cs you must also modify another value in this area!")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(PaletteRelativeAlign.Inherit)]
         public virtual PaletteRelativeAlign TextH
@@ -263,8 +263,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the color for the text.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Main color for the text.")]
+        [Category(@"Visuals")]
+        [Description(@"Main color for the text.")]
         [KryptonDefaultColor()]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color Color1
@@ -466,8 +466,8 @@ namespace Krypton.Toolkit
         /// Gets the padding between the border and content drawing.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Padding between the border and content drawing.")]
+        [Category(@"Visuals")]
+        [Description(@"Padding between the border and content drawing.")]
         [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
         [RefreshProperties(RefreshProperties.All)]
         public Padding Padding

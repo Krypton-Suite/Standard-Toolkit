@@ -70,7 +70,6 @@ namespace Krypton.Toolkit
                 // Create a collection of action lists
                 DesignerActionListCollection actionLists = new()
                 {
-
                     // Add the palette specific list
                     new KryptonContextMenuActionList(this)
                 };

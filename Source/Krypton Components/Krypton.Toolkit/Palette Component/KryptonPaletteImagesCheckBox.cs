@@ -125,8 +125,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the common image that other check box images inherit from.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Common image that other check box images inherit from.")]
+        [Category(@"Visuals")]
+        [Description(@"Common image that other check box images inherit from.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image Common
@@ -157,8 +157,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is not checked and disabled.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is not checked and disabled.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is not checked and disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image UncheckedDisabled
@@ -189,8 +189,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is unchecked.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is unchecked.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is unchecked.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image UncheckedNormal
@@ -221,8 +221,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is unchecked and hot tracking.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is unchecked and hot tracking.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is unchecked and hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image UncheckedTracking
@@ -253,8 +253,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is unchecked and pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is unchecked and pressed.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is unchecked and pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image UncheckedPressed
@@ -285,8 +285,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is checked but disabled.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is checked but disabled.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is checked but disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image CheckedDisabled
@@ -317,8 +317,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is checked.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is checked.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is checked.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image CheckedNormal
@@ -349,8 +349,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is checked and hot tracking.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is checked and hot tracking.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is checked and hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image CheckedTracking
@@ -381,8 +381,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is checked and pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is checked and pressed.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is checked and pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image CheckedPressed
@@ -413,8 +413,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is indeterminate but disabled.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is indeterminate but disabled.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is indeterminate but disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image IndeterminateDisabled
@@ -445,8 +445,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is indeterminate.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is indeterminate.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is indeterminate.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image IndeterminateNormal
@@ -477,8 +477,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is indeterminate and hot tracking.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is indeterminate and hot tracking.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is indeterminate and hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image IndeterminateTracking
@@ -509,8 +509,8 @@ namespace Krypton.Toolkit
         /// Gets and sets the image for use when the check box is indeterminate and pressed.
         /// </summary>
         [KryptonPersist(false)]
-        [Category("Visuals")]
-        [Description("Image for use when the check box is indeterminate and pressed.")]
+        [Category(@"Visuals")]
+        [Description(@"Image for use when the check box is indeterminate and pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
         public Image IndeterminatePressed

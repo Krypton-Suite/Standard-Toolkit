@@ -442,7 +442,7 @@ namespace Krypton.Ribbon
                 switch (Ribbon.RibbonShape)
                 {
                     case PaletteRibbonShape.Office2010:
-                        RenderAfter2010ContextTab(context, cts);
+                        RenderAfter2010ContextTab();
                         break;
                 }
             }
@@ -565,7 +565,7 @@ namespace Krypton.Ribbon
             context.Graphics.FillRectangle(fillBrush, fillRect);
         }
 
-        private void RenderAfter2010ContextTab(RenderContext context, ContextTabSet cts)
+        private void RenderAfter2010ContextTab()
         {
             switch (State)
             {
