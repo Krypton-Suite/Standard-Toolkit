@@ -7,7 +7,7 @@
 * Fixed [#545](https://github.com/Krypton-Suite/Standard-Toolkit/issues/545), KWrapLabel does not have a Target to use when the mnemonic is triggered.
 * Fixed [#452](https://github.com/Krypton-Suite/Standard-Toolkit/issues/452), KryptonDockingManager - KryptonPage - MinimumSize not working
 * Fixed [#533](https://github.com/Krypton-Suite/Standard-Toolkit/issues/533), KDataGridView: can column high lighting be turned of.
-* Fixed ActionLists for `KryptonListBox` and `KryptonListView`
+* Fixed [#538](https://github.com/Krypton-Suite/Standard-Toolkit/issues/538), `KryptonListBox` error inside the IDE/ActionLists for `KryptonListBox` and `KryptonListView`
 * Fixed [#530](https://github.com/Krypton-Suite/Standard-Toolkit/issues/530), "Ctrl+C" in Error KMessageBoxes no longer works
 * Fixed [#525](https://github.com/Krypton-Suite/Standard-Toolkit/issues/525), Undesired behaviour in KryptonGroupBox
 * Fixed [#520](https://github.com/Krypton-Suite/Standard-Toolkit/issues/520), KTooltips default to using the KryptonIcon when nothing is set by the developer
